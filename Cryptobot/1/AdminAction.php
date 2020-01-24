@@ -1,0 +1,101 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<?php require('includes/config.php');?>
+<html>
+<style>
+<?php include 'style/style.css';
+include '../../../NewSQLData.php';
+?>
+</style>
+<body>
+<?php
+
+
+//if not logged in redirect to login page
+if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
+?>
+<div class"row">
+    <div class="header">
+      <table><TH>CryptoBot: Logged in as:</th><th>  <i class="glyphicon glyphicon-user"></i> <?php echo $_SESSION['username'] ?></th></Table><br>
+    </div>
+    <div class="topnav">
+      <a href="Dashboard.php">Dashboard</a>
+      <a href="Transactions.php">Transactions</a>
+      <a href="Stats.php">Stats</a>
+      <a href="BuyCoins.php">Buy Coins</a>
+      <a href="SellCoins.php">Sell Coins</a>
+      <a href="Profit.php">Profit</a>
+      <a href="Settings.php">User Settings</a>
+      <a href="BuySettings.php" class="active">Buy Settings</a>
+      <a href="SellSettings.php">Sell Settings</a>
+  </div>
+<?php
+echo "OMG!! ".$_POST['New_Amount'];
+if(!empty($_GET['id'])){
+  processSubscription($_GET['length'],$_GET['UserID']);
+  closeSubscription($_GET['id'],$_GET['username']);
+}
+if ($_GET['promote'] == 'Yes'){
+   PromoteAdmin($_POST['User_Name']);
+}
+if (isset($_GET['fixTransaction'])){
+  //echo "<BR>".$_POST['New_Amount']." : ".$_POST['Trans_ID'];
+   fixTransaction($_POST['New_Amount'],$_POST['Trans_ID']);
+}
+
+function fixTransaction($amount, $transactionID){
+  $conn = getSQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call CompleteBittrexBuyUpdateAmount($transactionID, $amount);";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function PromoteAdmin($user_name){
+  $conn = getSQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `User` SET `AccountType`= 1 WHERE `UserName` =  $user_name";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function closeSubscription($id,$userID){
+  $conn = getSQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `Subscription` SET `Status`= 'Closed' WHERE `ID` = $id ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function processSubscription($length,$userID){
+  $conn = getSQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `User` SET `Active`= 'Yes', `ExpiryDate`= if(`ExpiryDate` < CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL $length MONTH),DATE_ADD(`ExpiryDate`, INTERVAL $length MONTH) ) WHERE `ID` = $userID";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+
+
+header('Location: AdminSettings.php');
+?>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<?php require('includes/config.php');?>
+<html>
+<style>
+<?php include 'style/style.css';
+include '../../../NewSQLData.php';
+?>
+</style>
+<body>
+<?php
+
+
+//if not logged in redirect to login page
+if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
+?>
+<div class"row">
+    <div class="header">
+      <table><TH>CryptoBot: Logged in as:</th><th>  <i class="glyphicon glyphicon-user"></i> <?php echo $_SESSION['username'] ?></th></Table><br>
+    </div>
+    <div class="topnav">
+      <a href="Dashboard.php">Dashboard</a>
+      <a href="Transactions.php">Transactions</a>
+      <a href="Stats.php">Stats</a>
+      <a href="BuyCoins.php">Buy Coins</a>
+      <a href="SellCoins.php">Sell Coins</a>
+      <a href="Profit.php">Profit</a>
+      <a href="bittrexOrders.php" class="active">Bittrex Orders</a>
+      <a href="Settings.php">Settings</a><?php
+      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
+      ?>
+    </div>
+<?php
+echo "UUID ".$_GET['uuid'];
+echo "<BR> EMPTY ".empty($_GET['uuid']);
+if(!empty($_GET['uuid'])){
+  $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+  echo "CANCEL ".$_GET['uuid'];
+  if ($resultOrd == 1){
+    $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
+    if ($orderQty == $orderQtyRemaining) {
+      if ($_GET['type'] == 'Sell'){
+        echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
+        bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+      }else{
+        echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
+        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+      }
+    }else{
+      if ($_GET['type'] == 'Sell'){
+        //bittrexCopyTransNewAmount($_GET['transactionID'],$orderQtyRemaining);
+        //Update QTY
+        //bittrexUpdateSellQty($_GET['transactionID'],$orderQty-$orderQtyRemaining);
+        //bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
+        //New Transaction
+        //$result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        if ($result == 1){
+          $newOrderNo = "ORD".$coin.date("YmdHis", time())."0";
+          //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
+          bittrexCopyTransNewAmount($_GET['transactionID'],$orderQtyRemaining,$newOrderNo);
+          //Update QTY
+          bittrexUpdateSellQty($_GET['transactionID'],$qtySold);
+          bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
+
+          if ($sendEmail){
+            $subject = "Coin Sale: ".$coin." RuleID:"."0"." Qty: ".$orderQty." : ".$orderQtyRemaining;
+            $from = 'Coin Sale <sale@investment-tracker.net>';
+            //sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
+          }
+          //break;
+        }
+      }else {
+        bittrexUpdateBuyQty($_GET['transactionID'], $orderQty-$orderQtyRemaining);
+        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+      }
+    }
+  }
+  //header('Location: bittrexOrders.php');
+}
+
+function getNewSQL($number){
+  $servername = "localhost";
+  $dbname = "NewCryptoBotDb";
+
+  switch ($number) {
+    case 1:
+        $username = "jenkinss";
+        $password = "Butt3rcup23";
+        break;
+    case 2:
+        $username = "cryptoBotWeb1";
+        $password = "UnYpH7HkgK[N";
+        break;
+    case 3:
+        $username = "cryptoBotWeb2";
+        $password = "U0I^=bBc0jkf";
+        break;
+    case 4:
+        $username = "autoCryptoBot";
+        $password = "@c5WmgTgjtR+";
+        break;
+    default:
+        $username = "cryptoBotWeb3";
+        $password = "XcE)n7GJ-Twr";
+    }
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    return $conn;
+}
+
+function bittrexBuyCancel($bittrexRef, $transactionID){
+  $conn = getNewSQL(rand(1,4));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call CancelBittrexBuy('$bittrexRef', $transactionID);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function bittrexUpdateBuyQty($transactionID, $quantity){
+  $conn = getNewSQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call CompleteBittrexBuyUpdateAmount($transactionID,$quantity);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function bittrexUpdateSellQty($transactionID, $quantity){
+  $conn = getNewSQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call CompleteBittrexSellUpdateAmount($transactionID,$quantity);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function bittrexCopyTransNewAmount($transactionID, $quantity){
+  $conn = getNewSQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call CopyTransNewAmount($transactionID,$quantity);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+
+function bittrexSellCancel($bittrexRef, $transactionID){
+  $conn = getNewSQL(rand(1,4));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call CancelBittrexSell('$bittrexRef', $transactionID);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function bittrexCancel($apikey, $apisecret, $uuid){
+    $nonce=time();
+    $uri='https://bittrex.com/api/v1.1/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    $sign=hash_hmac('sha512',$uri,$apisecret);
+    $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $execResult = curl_exec($ch);
+    $obj = json_decode($execResult, true);
+    $balance = $obj["success"];
+    return $balance;
+}
+
+function changeTransStatus($orderNo, $transactionID){
+  $conn = getNewSQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $userID = $_SESSION['ID'];
+  $sql = "UPDATE `Transaction` SET `Status`= 'Open' WHERE `OrderNo` = '$orderNo' and `Status`= 'Pending' and `ID` = $transactionID";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+  $conn->close();
+
+}
+
+function deleteItem($id){
+  $conn = getNewSQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $userID = $_SESSION['ID'];
+  $sql = "DELETE FROM `BittrexAction` WHERE `bittrexRef` = '$id'";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+  $conn->close();
+  //header('Location: bittrexOrders.php');
+}
+
+
+
+?>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+</head>
+<?php require('includes/config.php');?>
+<style>
+<?php include 'style/style.css'; ?>
+</style> <?php
+
+//if not logged in redirect to login page
+if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
+
+//define page title
+$title = 'CryptoBot';
+$current_url = $_SERVER[ 'REQUEST_URI' ];
+header( "Refresh: 120; URL=$current_url" );
+//include header template
+require('layout/header.php');
+include '../../../NewSQLData.php';
+//$coin = trim($_GET['coin']);
+//$AreYouSure = trim($_GET['AreYouSure']);
+
+//if(!empty($coin) && !empty($AreYouSure)){
+
+//}
+if(empty($sql_option)){
+  $sql_option = "`Status` = '1'";
+  unset($dropArray);
+  $dropArray[] = Array("Open","Closed","All");
+}
+if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
+  //Print_r("I'm HERE!!!");
+  changeSelection();
+}}
+
+function changeSelection(){
+  global $sql_option;
+  global $dropArray;
+  unset($dropArray);
+  if ($_POST['transSelect']=='Closed'){
+     $sql_option = "`Status` = 'Closed'";
+     $dropArray[] = Array("Closed","Open","All");
+  }elseif ($_POST['transSelect']=='Open'){
+    $sql_option = "`Status` = '1'";
+    $dropArray[] = Array("All","Closed","Open");
+  }else{
+    $sql_option = "1";
+    $dropArray[] = Array("All","Closed","Open");
+  }
+  //print_r($globals['sql_Option']);
+}
+
+function getNewSQL($number){
+  $servername = "localhost";
+  $dbname = "NewCryptoBotDb";
+
+  switch ($number) {
+    case 1:
+        $username = "jenkinss";
+        $password = "Butt3rcup23";
+        break;
+    case 2:
+        $username = "cryptoBotWeb1";
+        $password = "UnYpH7HkgK[N";
+        break;
+    case 3:
+        $username = "cryptoBotWeb2";
+        $password = "U0I^=bBc0jkf";
+        break;
+    case 4:
+        $username = "autoCryptoBot";
+        $password = "@c5WmgTgjtR+";
+        break;
+    default:
+        $username = "cryptoBotWeb3";
+        $password = "XcE)n7GJ-Twr";
+    }
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    return $conn;
+}
+
+function getBTTrackingCoins($userID){
+  $tempAry = [];
+  global $sql_option;
+  $conn = getNewSQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
+  `TransactionID`,`BaseCurrency`,`LiveCoinPrice` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sql_option order by `ActionDate` desc limit 50";
+  //echo "$sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],
+      $row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getNumberColour($ColourText, $target){
+  if ($ColourText >= $target){
+    $colour = "green";
+  }else{
+    $colour = "red";
+  }
+  //echo $colour;
+  return $colour;
+}
+
+function getConfig($userID){
+  $conn = getNewSQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `MarketCapBuyPct`,`VolumeBuyPct`,`BuyOrdersPct`,`MinPctGain`  FROM `Config` WHERE `UserID` =  $userID";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['MarketCapBuyPct'],$row['VolumeBuyPct'],$row['BuyOrdersPct'],$row['MinPctGain']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function sendEmail($to, $symbol, $amount, $cost){
+
+    //$to = $row['Email'];
+    //echo $row['Email'];
+    $subject = "Coin Sale: ".$symbol;
+    $body = "Dear Steven, <BR/>";
+    $body .= "Congratulations you have sold the following Coin: "."<BR/>";
+    $body .= "Coin: ".$symbol." Amount: ".$amount." Price: ".$cost."<BR/>";
+    $body .= "Kind Regards\nCryptoBot.";
+    $headers = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= 'From: Alerts <Alerts@Investment-Tracker.net>' . "\r\n";
+    $headers .= "To:".$to."\r\n";
+    mail($to, $subject, wordwrap($body,70),$headers);
+
+}
+
+function bittrexbalance($apikey, $apisecret){
+    $nonce=time();
+    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
+    $sign=hash_hmac('sha512',$uri,$apisecret);
+    $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $execResult = curl_exec($ch);
+    $obj = json_decode($execResult, true);
+    $balance = $obj["result"]["Available"];
+    return $balance;
+}
+
+function getLiveCoinPrice($symbol){
+    $limit = 500;
+    $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
+    $fgc = json_decode(file_get_contents($cnmkt), true);
+
+  for($i=0;$i<$limit;$i++){
+    //print_r($i);
+
+    if ($fgc[$i]["symbol"] == $symbol){
+      //print_r($fgc[$i]["symbol"]);
+      $tmpCoinPrice = $fgc[$i]["price_btc"];
+
+    }
+  }
+  return $tmpCoinPrice;
+}
+
+function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
+      $nonce=time();
+      $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+      $sign=hash_hmac('sha512',$uri,$apisecret);
+      $ch = curl_init($uri);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $execResult = curl_exec($ch);
+      $obj = json_decode($execResult, true);
+      $balance = $obj["result"]["Last"];
+      return $balance;
+  }
+
+function getUserIDs($userID){
+  $conn = getNewSQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = " SELECT `ID`, `Username`, `email`, `api_key`, `api_secret` FROM `User` where `ID` = $userID";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['Username'],$row['email'],$row['api_key'],$row['api_secret']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+
+
+?>
+
+<!--<div class="container">-->
+
+	<!--<div class="row">-->
+
+	   <!-- <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
+     <div class="header">
+       <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
+           <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
+
+        </div>
+        <div class="topnav">
+          <a href="Dashboard.php">Dashboard</a>
+          <a href="Transactions.php">Transactions</a>
+          <a href="Stats.php">Stats</a>
+          <a href="BuyCoins.php">Buy Coins</a>
+          <a href="SellCoins.php">Sell Coins</a>
+          <a href="Profit.php">Profit</a>
+          <a href="bittrexOrders.php" class="active">Bittrex Orders</a>
+          <a href="Settings.php">Settings</a><?php
+          if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
+          ?>
+        </div>
+<div class="row">
+      <div class="settingCol1">
+
+  				<?php
+				$tracking = getBTTrackingCoins($_SESSION['ID']);
+				$newArrLength = count($tracking);
+        //$userConfig = getConfig($_SESSION['ID']);
+        //$user = getUserIDs($_SESSION['ID']);
+				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
+				print_r("<h2>Bittrex Orders</h2>");
+        echo "<form action='bittrexOrders.php?dropdown=Yes' method='post'>";
+            echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
+           <option value='".$dropArray[0][0]."'>".$dropArray[0][0]."</option>
+            <option value='".$dropArray[0][1]."'>".$dropArray[0][1]."</option>
+            <option value='".$dropArray[0][2]."'>".$dropArray[0][2]."</option></select>
+            <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
+            </form>";
+        echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH><TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>&nbspCancel&nbsp</TH><TR>";
+				for($x = 0; $x < $newArrLength; $x++) {
+          $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
+          $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
+          $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
+          $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15];
+          echo "<td>&nbsp$type</td>";
+          echo "<td>&nbsp$coin</td>"; echo "<td>&nbsp$userID</td>";
+          //echo "<td>$totalScore</td>";
+          echo "<td>&nbsp$actionDate</td>"; echo "<td>&nbsp$baseCurrency</td>";
+          //echo "<td>$sendEmail</td>";
+          //echo "<td>$sellCoin</td>";
+          //echo "<td>$ruleID</td>";
+          echo "<td>&nbsp$userName</td>"; echo "<td>&nbsp$orderNo</td>"; echo "<td>&nbsp$amount</td>";
+          echo "<td>&nbsp$cost</td>"; echo "<td>&nbsp$status</td>"; echo "<td>&nbsp$bittrexRef</td>";
+          echo "<td>&nbsp$sellPrice</td>";
+          //$liveCoinPrice = number_format((float)bittrexCoinPrice($apiKey,$apiSecret,$baseCurrency,$coin), 10, '.', '');
+          if ($type == 'Buy'){
+            $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
+            $livePricePct = 0;
+          }else{
+            $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, 3, '.', '');
+            $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
+          }
+          echo "<td>&nbsp$liveCoinPrice</td>";
+          echo "<td>&nbsp$pctDifference</td>";
+          echo "<td>&nbsp$livePricePct</td>";
+          echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
+				}
+				print_r("</table>");
+				?>
+      </div>
+      <div class="column side">
+          &nbsp
+      </div>
+    </div>
+
+      <div class="footer">
+          <hr>
+          <!-- <input type="button" value="Logout">
+  				<a href='logout.php'>Logout</a>-->
+
+          <input type="button" onclick="location='logout.php'" value="Logout"/>
+
+      </div>
+
+
+
+    <!--  </div>
+  	</div>
+
+
+  </div>-->
+
+
+<?php
+//include header template
+require('layout/footer.php');
+$date = date('Y/m/d H:i:s', time());
+echo " Last Updated :".$date;
+?>
