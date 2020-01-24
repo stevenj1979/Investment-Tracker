@@ -682,10 +682,10 @@ function returnPattern($p3,$p2,$p1, $t3,$t2,$t1){
   $rulePattern = $t4.$t3.$t2.$t1;
   Echo "$livePattern : $rulePattern : ";
   if ($livePattern == $rulePattern){
-    Echo "<BR>True : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>Flase : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
