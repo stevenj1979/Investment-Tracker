@@ -741,7 +741,7 @@ function autoBuy($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled){
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False ".$score);
+    print_r("False ");
     return False;
   }
 }
