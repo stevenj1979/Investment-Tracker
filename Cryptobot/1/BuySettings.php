@@ -216,7 +216,7 @@ $userSettingsLen = count($userSettings);
           for($x = 0; $x < $userSettingsLen; $x++) {
             //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
             echo "<td><a href='AddNewSetting.php?edit=".$userSettings[$x][28]."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
-            echo "<td><a href='AddNewSetting.php?copyRule=".$userSettings[$x][28]."'><span class='fa fa-copy' style='font-size:22px;'></span></a></td>";
+            echo "<td><a href='AddNewSetting.php?copyRule=".$userSettings[$x][28]."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
             echo "<td><a href='AddNewSetting.php?delete=".$userSettings[$x][28]."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
             echo "<td>".$userSettings[$x][28]."</td>";echo "<td>".$userSettings[$x][0]."</td>";
             echo "<td>".$userSettings[$x][1]."</td>";echo "<td>".$userSettings[$x][2]."</td>";echo "<td>".$userSettings[$x][3]."</td>";
