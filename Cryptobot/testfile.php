@@ -74,7 +74,7 @@ Echo "<BR> THIS IS A NEW TEST! ";
 //2.192246 Charge
 
 echo "<BR> newBuywithPattern : ".newBuywithPattern('-1-1-11','-100-1,000-1,-1-1-11',1);
-
+echo "<BR> newReturnPattern : ".newReturnPattern('1-1-11','1-1-11');
 
 ?>
 </html>
