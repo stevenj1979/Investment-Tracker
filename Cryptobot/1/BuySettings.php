@@ -176,6 +176,7 @@ function drawSellCheckbox($checked){
 }
 
 
+
 $userSettings = getRules($_SESSION['ID']);
 $userSettingsLen = count($userSettings);
 //echo $userDetails[0][1];
@@ -203,7 +204,7 @@ $userSettingsLen = count($userSettings);
 
            <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>
            <table>
-             <th>&nbsp</th><th>&nbsp</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
+             <th>&nbsp</th><th>&nbsp</th><th>&nbsp</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
              <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
              <TH>&nbsp7DChangeBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH><TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH>
              <TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspBuyCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBTCAmount</TH><TH>&nbspBuyCoinOffsetEnabled</TH><TH>&nbspBuyCoinOffsetPct</TH><TH>&nbspPriceTrendEnabled</TH><TH>&nbspPrice4Trend</TH>
@@ -213,7 +214,9 @@ $userSettingsLen = count($userSettings);
              <tr>
           <?php
           for($x = 0; $x < $userSettingsLen; $x++) {
+            //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
             echo "<td><a href='AddNewSetting.php?edit=".$userSettings[$x][28]."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
+            echo "<td><a href='AddNewSetting.php?copyRule=".$userSettings[$x][28]."'><span class='fas fa-copy' style='font-size:22px;'></span></a></td>";
             echo "<td><a href='AddNewSetting.php?delete=".$userSettings[$x][28]."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
             echo "<td>".$userSettings[$x][28]."</td>";echo "<td>".$userSettings[$x][0]."</td>";
             echo "<td>".$userSettings[$x][1]."</td>";echo "<td>".$userSettings[$x][2]."</td>";echo "<td>".$userSettings[$x][3]."</td>";
