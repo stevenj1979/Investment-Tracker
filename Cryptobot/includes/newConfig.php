@@ -393,7 +393,7 @@ function bittrexbalance($apikey, $apisecret, $base ){
 }
 
 function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency){
-    Echo "bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency)"''
+    Echo "bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency)";
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
     echo $uri."<BR>";
