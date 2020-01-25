@@ -732,7 +732,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
       return True;
       exit;
     }
-    elseif(newReturnPattern() || newReturnPattern()  || newReturnPattern() ){
+    elseif(newReturnPattern($livePattern,$pieces[$x]) || newReturnPattern($livePattern,$pieces[$x])  || newReturnPattern($livePattern,$pieces[$x]) ){
       print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
