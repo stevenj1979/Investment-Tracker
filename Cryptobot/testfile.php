@@ -67,13 +67,13 @@ Echo "<BR> THIS IS A TEST! ";
 
 Echo "<BR> THIS IS A NEW TEST! ";
 
-buyCoins('8363893012e5441a9d667a09cff9d717', '4229026e95454f37af92bff669243f86','BTC', 'stevenj1979@gmail.com', 3, '2020-01-25 20:31:17', 'USDT',1,1,0.00000000, 22,'stevenj1979',84,1.50,0,1,90);
+//buyCoins('8363893012e5441a9d667a09cff9d717', '4229026e95454f37af92bff669243f86','BTC', 'stevenj1979@gmail.com', 3, '2020-01-25 20:31:17', 'USDT',1,1,0.00000000, 22,'stevenj1979',84,1.50,0,1,90);
 
 //782.94515487 USDT BALANCE
 //8368.73560680 BTC Price
 //2.192246 Charge
 
-
+newBuywithPattern('-1-1-11','-100-1,000-1,-1-1-11',1);
 
 
 ?>

@@ -711,6 +711,15 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   }
 }
 
+function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
+  $pieces = explode(",", $savedPattern);
+  $piecesSize = count($pieces);
+
+  for ($x = 0; $x < $piecesSize; $x++) {
+    Echo "<br> ".$pieces[$x];
+  }
+}
+
 function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
   if ($buyEnabled == 0){
       print_r("True");
