@@ -691,6 +691,16 @@ function returnPattern($p3,$p2,$p1, $t3,$t2,$t1){
   }
 }
 
+function newReturnPattern($livePattern, $rulePattern){
+  if ($livePattern == $rulePattern){
+    Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
+    return true;
+  }else{
+    Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
+    return false;
+  }
+}
+
 function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   $retPattern = returnPattern($p3,$p2,$p1,$t3,$t2,$t1);
 
@@ -716,7 +726,23 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
   $piecesSize = count($pieces);
 
   for ($x = 0; $x < $piecesSize; $x++) {
-    Echo "<br> ".$pieces[$x];
+    //Echo "<br> ".$pieces[$x];
+    if ($pEnabled == 0){
+      print_r("True");
+      return True;
+      exit;
+    }
+    elseif(newReturnPattern() || newReturnPattern()  || newReturnPattern() ){
+      print_r("True");
+      $GLOBALS['allDisabled'] = true;
+      return True;
+      exit;
+    }else{
+      $GLOBALS['allDisabled'] = true;
+      //print_r($buyTop >= $score);
+      print_r("False");
+      return False;
+    }
   }
 }
 
