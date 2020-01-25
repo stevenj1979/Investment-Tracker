@@ -119,8 +119,8 @@ while($date <= $newTime){
                       echo "9: PriceTrend buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)<BR>";
                         if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
                           echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
-                          if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice,$LiveBTCPrice)){
-                            echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice,$LiveBTCPrice)";
+                          if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)){
+                            echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)";
                             if (autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)){
                               echo "<BR> 12: autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)";
                               if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}

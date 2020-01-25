@@ -639,14 +639,14 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
   }
 }
 
-function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice, $LiveBTCPrice){
+function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
   echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
   if ($buyMinEnabled == 0){
       print_r("True");
       return True;
       exit;
-  }elseif ($LiveBTCPrice <= $BuyMin){
-      echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
+  }elseif ($LiveCoinPrice <= $BuyMin){
+      echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
@@ -682,10 +682,10 @@ function returnPattern($p3,$p2,$p1, $t3,$t2,$t1){
   $rulePattern = $t4.$t3.$t2.$t1;
   Echo "$livePattern : $rulePattern : ";
   if ($livePattern == $rulePattern){
-    Echo "<BR>True : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>Flase : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
