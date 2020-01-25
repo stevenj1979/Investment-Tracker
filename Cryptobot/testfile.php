@@ -60,6 +60,8 @@ echo "<BR> Return Pattern: ".returnPattern(-1,-1,1,-1,-1,1);
 
 echo "<BR> Buy With Min: ".buyWithMin(1,8500.000, 8300.0000);
 
+echo "<BR> AutoBuy: ".autoBuy(8500.000, 8300.0000,1);
+
 //buyCoins("8363893012e5441a9d667a09cff9d717", "",'BTC', 'stevenj1979@gmail.com', 3, '2020-01-24 15:41:31', 'USDT',1,1,0.00000000, 21,'stevenj1979',84,1.50,0,1);
 
 //782.94515487 USDT BALANCE
