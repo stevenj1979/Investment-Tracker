@@ -74,6 +74,7 @@ while($date <= $newTime){
       $BuyPriceMinEnabled = $buyRules[$y][50]; $BuyPriceMin = $buyRules[$y][51];
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
+      $newBuyPattern = = $buyRules[$y][57];
       //if ($userID <> ){ continue; }
       echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
       echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
@@ -116,8 +117,9 @@ while($date <= $newTime){
                   if (buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
                       echo "8: SellOrders buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)<BR>";
                     if (buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)){
-                      echo "9: PriceTrend buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)<BR>";
-                        if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
+                      echo "9: PriceTrend newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newBuyPattern,$priceTrendEnabled)<BR>";
+                        //if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
+                        if(newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newBuyPattern,$priceTrendEnabled)){
                           echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
                           if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)){
                             echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)";
