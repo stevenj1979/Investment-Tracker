@@ -693,10 +693,10 @@ function returnPattern($p3,$p2,$p1, $t3,$t2,$t1){
 
 function newReturnPattern($livePattern, $rulePattern){
   if ($livePattern == $rulePattern){
-    Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is True newReturnPattern : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
+    Echo "<BR>This is Flase newReturnPattern : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
@@ -705,11 +705,11 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   $retPattern = returnPattern($p3,$p2,$p1,$t3,$t2,$t1);
 
   if ($tEnabled == 0){
-      print_r("True");
+      print_r("<BR>True buywithPattern");
       return True;
       exit;
   }elseif ($retPattern){
-      print_r("True");
+      print_r("<BR>True buywithPattern");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
