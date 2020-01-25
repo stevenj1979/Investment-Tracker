@@ -33,7 +33,8 @@ function findCoinStats($CMCStats, $symbol){
 }
 
 
-
+///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
+///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 
 
 //set time
@@ -63,6 +64,8 @@ echo "<BR> Buy With Min: ".buyWithMin(1,8500.000, 8300.0000);
 echo "<BR> AutoBuy: ".autoBuy(8500.000, 8300.0000,1);
 
 Echo "<BR> THIS IS A TEST! ";
+
+Echo "<BR> THIS IS A NEW TEST! ";
 
 //buyCoins("8363893012e5441a9d667a09cff9d717", "",'BTC', 'stevenj1979@gmail.com', 3, '2020-01-24 15:41:31', 'USDT',1,1,0.00000000, 21,'stevenj1979',84,1.50,0,1);
 
