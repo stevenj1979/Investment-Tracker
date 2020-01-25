@@ -271,10 +271,10 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $btcBuyAmount = $BTCBalance - $charges;
   }
 
-  if ($baseCurrency == 'USDT') {
-    $bitPriceNew = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
-    $btcBuyAmount = ($btcBuyAmount/$bitPriceNew);
-  }
+  //if ($baseCurrency == 'USDT') {
+  //  $bitPriceNew = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+  //  $btcBuyAmount = ($btcBuyAmount/$bitPriceNew);
+  //}
 
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
@@ -284,8 +284,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $subject = "Coin Purchase: ".$coin;
     $from = 'Coin Purchase <purchase@investment-tracker.net>';
   }
-  $btcwithCharge = (($btcBuyAmount/100)*0.25)+$btcBuyAmount;
-  echo "<BR> btcwithCharge $btcwithCharge = (($btcBuyAmount/100)*0.25)+$btcBuyAmount;";
+  $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);
+  echo "<BR> btcwithCharge $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);";
   if ($BTCBalance >= $btcwithCharge) {
     echo "buy Coin - Balance Sufficient";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
