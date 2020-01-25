@@ -26,7 +26,7 @@ function drawVisualization() {
 ?>
   var symbol = "<?php echo $_SESSION['symbol']; ?>";
   var json = $.ajax({
-    url: "http://www.investment-tracker.net/content/CryptoBot/1/getCoinChart.php?coinID=" + symbol , // make this url point to the data file
+    url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinChart.php?coinID=" + symbol , // make this url point to the data file
     dataType: "json",
     async: false,
     success: (

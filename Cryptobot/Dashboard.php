@@ -111,7 +111,7 @@ function updateSQLactive($userID){
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
     $body = "Dear ".$user.", <BR/>";
     $body .= "You have $daysRemaining days left before your subscription expires<BR/>";
-    $body .= "Please renew on this link http://www.investment-tracker.net/content/CryptoBot/1/Subscribe.php<BR/>";
+    $body .= "Please renew on this link http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/Subscribe.php<BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

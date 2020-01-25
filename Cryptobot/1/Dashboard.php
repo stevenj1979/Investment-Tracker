@@ -20,7 +20,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
     var jsonData = null;
     var userID = "<?php echo $_SESSION['ID']; ?>";
     var json = $.ajax({
-      url: "http://www.investment-tracker.net/content/CryptoBot/1/getDashboardChart.php?ID=" + userID, // make this url point to the data file
+      url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getDashboardChart.php?ID=" + userID, // make this url point to the data file
       dataType: "json",
       async: false,
       success: (
@@ -52,7 +52,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
     var jsonData = null;
     var userID = "<?php echo $_SESSION['ID']; ?>";
     var json = $.ajax({
-      url: "http://www.investment-tracker.net/content/CryptoBot/1/getDashboardChart.php?ID=" + userID, // make this url point to the data file
+      url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getDashboardChart.php?ID=" + userID, // make this url point to the data file
       dataType: "json",
       async: false,
       success: (
