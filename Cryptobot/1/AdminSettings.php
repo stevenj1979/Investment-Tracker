@@ -277,13 +277,13 @@ $userSubSize = count($userSub);
              ?>
 
              <br>Quick Links<br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/BuySellCoins.php"> BuySellCoins </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/BuySellCoins.php"> BuySellCoins </a>
              <br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/testfile.php"> Test </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testfile.php"> Test </a>
              <br>
              <a href="https://n1plcpnl0035.prod.ams1.secureserver.net:2083/logout/?locale=en"> cPanel </a>
              <br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/AutoUpdatePrice.php"> Auto Update Price </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AutoUpdatePrice.php"> Auto Update Price </a>
              <br>
          </div>
 
