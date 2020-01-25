@@ -189,7 +189,7 @@ $userSettingsLen = count($userSettings);
 
            <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>
            <table>
-             <th>&nbsp</th><th>&nbsp</th><TH>&nbspRuleID</TH><TH>&nbspID</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
+             <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspID</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
              <TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH><TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH>
              <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
              <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
@@ -198,6 +198,7 @@ $userSettingsLen = count($userSettings);
           //echo "<BR>".$userSettingsLen;
           for($x = 0; $x < $userSettingsLen; $x++) {
             echo "<td><a href='AddNewSettingSell.php?edit=".$userSettings[$x][35]."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
+            echo "<td><a href='AddNewSettingSell.php?copyRule=".$userSettings[$x][35]."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
             echo "<td><a href='AddNewSettingSell.php?delete=".$userSettings[$x][35]."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
             echo "<td>".$userSettings[$x][35]."</td>"; echo "<td>".$userSettings[$x][0]."</td>";
             echo "<td>".$userSettings[$x][1]."</td>";echo "<td>".$userSettings[$x][2]."</td>";echo "<td>".$userSettings[$x][3]."</td>";//Market Cap
