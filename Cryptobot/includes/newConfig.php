@@ -724,15 +724,17 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
 function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
   $pieces = explode(",", $savedPattern);
   $piecesSize = count($pieces);
-
+  $testTrue = False;
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
+    if (newReturnPattern($livePattern,$pieces[$x])){ $testTrue = True;}
+  }
     if ($pEnabled == 0){
       print_r("True");
       return True;
       exit;
     }
-    elseif(newReturnPattern($livePattern,$pieces[$x]) || newReturnPattern($livePattern,$pieces[$x])  || newReturnPattern($livePattern,$pieces[$x]) ){
+    elseif($testTrue){
       print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
@@ -743,7 +745,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
       print_r("False");
       return False;
     }
-  }
+  //}
 }
 
 function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
