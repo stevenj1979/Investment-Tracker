@@ -2,6 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/stevenj1979/public_html/Investment-Tracker
-    - /bin/cp -r Cryptobot $DEPLOYPATH
     - /bin/cp SQLData.php /home/stevenj1979/public_html/
     - /bin/cp Encrypt.php /home/stevenj1979/public_html/
+    - /bin/cp -R Cryptobot $DEPLOYPATH
