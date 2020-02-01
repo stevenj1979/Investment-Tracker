@@ -589,7 +589,7 @@ function writeBittrexActionBuy($apikey, $apisecret,$coin, $email, $userID, $tota
 
 }
 
-function getSQL(){
+function getOldSQL(){
   $servername = "localhost";
   $username = "autoCryptoBot";
   $password = "@c5WmgTgjtR+";
