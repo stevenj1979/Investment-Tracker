@@ -7,7 +7,7 @@ $apikey=getAPIKeyread();
 $apisecret=getAPISecretRead();
 
 function getCoinPriceStats(){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -70,7 +70,7 @@ function calculateSellPrice($coinID, $Live1HrChange, $Live24HrChange, $CoinPrice
 }
 
 function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -86,7 +86,7 @@ function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
 }
 
 function updateSellPrice($coinID, $newSellPrice,$finalTrend){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
