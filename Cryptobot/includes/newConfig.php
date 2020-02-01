@@ -3,7 +3,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 
 function getBittrexRequests(){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -26,7 +26,7 @@ function getBittrexRequests(){
 
 
 function deleteFromBittrexAction($bittrexRef){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -42,7 +42,7 @@ function deleteFromBittrexAction($bittrexRef){
 }
 
 function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit){
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -75,7 +75,7 @@ function bittrexOrder($apikey, $apisecret, $uuid){
 
 function getTrackingCoins(){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -98,7 +98,7 @@ function getTrackingCoins(){
 function getTrackingSellCoins(){
   $tempAry = [];
 
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -134,7 +134,7 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency){
 
 function getUserRules(){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -165,7 +165,7 @@ function getUserRules(){
 
 function getUserSellRules(){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -273,7 +273,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 function writeSQLTransBuy($type, $coinID,$userID, $cost,$amounttobuy, $date, $BittrexID, $orderNo){
   $currentDate = date("Y-m-d H:i:s", time());
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -290,7 +290,7 @@ function writeSQLTransBuy($type, $coinID,$userID, $cost,$amounttobuy, $date, $Bi
 }
 
 function writeBittrexActionBuy($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice,$ruleID){
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -390,7 +390,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
 }
 
 function writeBittrexAction($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice){
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -423,7 +423,7 @@ function getCoinMarketCapStats(){
 }
 
 function copyNewMarketCap($coinID,$MarketCap){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -438,7 +438,7 @@ function copyNewMarketCap($coinID,$MarketCap){
 }
 
 function copyNewPctChange($coinID,$PctChange1Hr, $PctChange24Hr, $PctChange7D){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -454,7 +454,7 @@ function copyNewPctChange($coinID,$PctChange1Hr, $PctChange24Hr, $PctChange7D){
 
 
 function copyCoinVolume($coinID,$CoinVolume){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -492,7 +492,7 @@ function getVolumeStats($stats){
 }
 
 function copyCoinBuyOrders($coinID,$CoinBuyOrders){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -507,7 +507,7 @@ function copyCoinBuyOrders($coinID,$CoinBuyOrders){
 }
 
 function copyCoinSellOrders($coinID,$CoinSellOrders){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -522,7 +522,7 @@ function copyCoinSellOrders($coinID,$CoinSellOrders){
 }
 
 function copyCoinPrice($coinID,$CoinPrice){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -536,7 +536,7 @@ function copyCoinPrice($coinID,$CoinPrice){
   $conn->close();
 }
 function copyWebTable($coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -550,7 +550,7 @@ function copyWebTable($coinID){
   $conn->close();
 }
 function updateWebCoinStatsTable($coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -806,7 +806,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency)
 }
 
 function updateSQL($baseCurrency, $transactionID, $BittrexID){
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -874,7 +874,7 @@ function bittrexCancel($apikey, $apisecret, $uuid){
 }
 
 function cancelBittrexSQL($id){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -889,7 +889,7 @@ function cancelBittrexSQL($id){
 }
 
 function changeTransStatus($transactionID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -905,7 +905,7 @@ function changeTransStatus($transactionID){
 }
 
 function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $cost, $amount, $orderNo,$timeToCancelBuyMins){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -920,7 +920,7 @@ function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $
 }
 
 function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -935,7 +935,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
 }
 
 function bittrexSellCancel($bittrexRef, $transactionID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -950,7 +950,7 @@ function bittrexSellCancel($bittrexRef, $transactionID){
 }
 
 function bittrexBuyCancel($bittrexRef, $transactionID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -965,7 +965,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
 }
 
 function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -980,7 +980,7 @@ function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
 }
 
 function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -995,7 +995,7 @@ function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
 }
 
 function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -1010,7 +1010,7 @@ function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
 }
 
 function bittrexSellCompleteUpdateAmount($transactionID, $amount){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -1026,7 +1026,7 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
 
 function getTotalBTC($userID){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `OpenBTC` FROM `AllTimeBTC` WHERE `UserID` = $userID";
@@ -1038,7 +1038,7 @@ function getTotalBTC($userID){
 
 function getDailyBTC($userID){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `OpenBTC` FROM `DailyBTC` WHERE `UserID` = $userID";
@@ -1049,7 +1049,7 @@ function getDailyBTC($userID){
 }
 
 function copyCoinHistory($coin){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call copyCoinHistory($coin);";
   //print_r($sql);
@@ -1062,7 +1062,7 @@ function copyCoinHistory($coin){
 }
 
 function copyBuyHistory($coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call copyBuyHistory($coinID);";
   //print_r($sql);
@@ -1076,7 +1076,7 @@ function copyBuyHistory($coinID){
 
 function getAveragePrice($symbol){
   $tempAry = [];
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `AvgCoinPrice` FROM `AvgCoinPriceView` WHERE `Symbol` = '$symbol'";
@@ -1116,7 +1116,7 @@ function get1HrChange($coinID, $date){
 }
 
 function update1HrPriceChange($price,$coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update1HrPriceChange($price,$coinID);";
   //print_r($sql);
@@ -1129,7 +1129,7 @@ function update1HrPriceChange($price,$coinID){
 }
 
 function update24HrPriceChange($price,$coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update24HrPriceChange($price,$coinID);";
   //print_r($sql);
@@ -1142,7 +1142,7 @@ function update24HrPriceChange($price,$coinID){
 }
 
 function update8HrPriceChange($price,$coinID){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update8HrPriceChange($price,$coinID);";
   //print_r($sql);
@@ -1155,7 +1155,7 @@ function update8HrPriceChange($price,$coinID){
 }
 
 function bittrexUpdateBuyQty($transactionID, $quantity){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexBuyUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
@@ -1165,7 +1165,7 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
 }
 
 function bittrexUpdateSellQty($transactionID, $quantity){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexSellUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
@@ -1175,7 +1175,7 @@ function bittrexUpdateSellQty($transactionID, $quantity){
 }
 
 function bittrexCopyTransNewAmount($transactionID, $quantity, $orderNo){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CopyTransNewAmount($transactionID,$quantity,'$orderNo');";
   print_r("<br>".$sql);
