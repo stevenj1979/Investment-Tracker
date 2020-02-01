@@ -4,6 +4,8 @@ ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('/home/stevenj1979/Encrypt.php');
+
 $apikey=getAPIKeyread();
 $apisecret=getAPISecretRead();
 
@@ -47,14 +49,9 @@ $date = date("Y-m-d H", time());
 $current_date = date('Y-m-d H:i');
 
 
-$symbol = "USDT";
-$baseCurrency = "BTC";
-$balance = bittrexbalance($apikey,$apisecret,$baseCurrency);
-echo "<BR> BALANCE: $balance";
-$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');
-echo "<BR> $symbol : $baseCurrency : $bitPrice";
 
 
+encryptText();
 
 ?>
 </html>
