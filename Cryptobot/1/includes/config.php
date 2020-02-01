@@ -4,13 +4,14 @@ session_start();
 
 //set timezone
 date_default_timezone_set('Asia/Dubai');
-require('../../../../SQLData.php')
+require('../../../../../SQLData.php');
 //database credentials
 $host = getHost();
 $userName = getUserName();
 $dbName = getDBName();
 $pass = getDBPass();
 
+Echo "$host";
 
 //application address
 define('DIR','http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/');

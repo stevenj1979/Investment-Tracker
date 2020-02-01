@@ -1,6 +1,8 @@
 <?php
 //include config
-require_once('includes/config.php');?>
+require_once('includes/config.php');
+require('../../../../SQLData.php');
+?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
