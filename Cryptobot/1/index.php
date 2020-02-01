@@ -10,6 +10,8 @@
 //if logged in redirect to members page
 if( $user->is_logged_in() ){ header('Location: login.php'); exit(); }
 
+include ('/home/stevenj1979/SQLData.php');
+
 //if form has been submitted process it
 if(isset($_POST['submit'])){
 
