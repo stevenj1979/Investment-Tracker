@@ -6,7 +6,7 @@
 <html>
 <style>
 <?php include 'style/style.css';
-include '../../../NewSQLData.php'; ?>
+include_once ('/home/stevenj1979/SQLData.php'); ?>
 </style>
 <body>
 <?php
@@ -48,7 +48,7 @@ function deleteItem($id){
 
   $_GET['nUReady'] = null;
   // Create connection
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -67,7 +67,7 @@ function deleteItem($id){
 }
 
 function copyRule($ID){
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -100,7 +100,7 @@ function submitNewUser(){
 
   $_GET['nUReady'] = null;
   // Create connection
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -241,7 +241,7 @@ function updateEditedUser(){
   $newBuyPattern = $_POST['NewBuyPattern'];
   //$nActive = $_POST['nActive'];
   // Create connection
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -268,7 +268,7 @@ function updateEditedUser(){
 
 function getRules($id){
 
-  $conn = getSQL(rand(1,4));
+  $conn = getSQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
