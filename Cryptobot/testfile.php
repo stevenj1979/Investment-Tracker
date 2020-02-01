@@ -51,7 +51,7 @@ $current_date = date('Y-m-d H:i');
 
 
 
-encryptText();
+encrypt('This is a test!');
 
 ?>
 </html>

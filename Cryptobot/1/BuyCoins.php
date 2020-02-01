@@ -196,7 +196,7 @@ function getUserIDs($userID){
   				<?php
 				$tracking = getTrackingCoins();
 				$newArrLength = count($tracking);
-        echo $newArrLength;
+        //echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
