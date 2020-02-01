@@ -17,10 +17,10 @@ $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
 require('layout/header.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 
 function getCoinsfromSQL(){
-    $conn = getSQL(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -39,7 +39,7 @@ function getCoinsfromSQL(){
 
 function getTrackingSellCoins($userID){
   $tempAry = [];
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -90,7 +90,7 @@ function upAndDownColour($direction){
 }
 
 function getConfig($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
