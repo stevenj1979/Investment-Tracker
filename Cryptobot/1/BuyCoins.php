@@ -45,7 +45,7 @@ function getTrackingCoins(){
      ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
      FROM `CoinStatsView` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
 
-     echo $sql.getHost();
+     //echo $sql.getHost();
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange']
@@ -196,6 +196,7 @@ function getUserIDs($userID){
   				<?php
 				$tracking = getTrackingCoins();
 				$newArrLength = count($tracking);
+        echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
