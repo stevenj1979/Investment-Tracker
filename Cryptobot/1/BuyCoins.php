@@ -44,7 +44,8 @@ function getTrackingCoins(){
      `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
      ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
      FROM `CoinStatsView` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
-     echo $sql;
+
+     echo $sql.getHost();
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange']
