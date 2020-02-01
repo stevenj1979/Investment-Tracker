@@ -117,7 +117,7 @@ function getLiveCoinPriceUSD($symbol){
 
 function getTotalHoldings($userID){
   $tempAry = [];
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
