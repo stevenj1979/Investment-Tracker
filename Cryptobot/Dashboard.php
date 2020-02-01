@@ -5,7 +5,7 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 function getUserConfig(){
     $tempAry = [];
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
      $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` FROM `UserConfigView`";
@@ -31,7 +31,7 @@ function DeleteHistory($hours){
 
 function userHistory($userID){
     $tempAry = [];
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $query = "SET time_zone = 'Asia/Dubai';";
@@ -67,7 +67,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
     //echo "<br> TEST2: ".empty($BTCfromCoins);
     //echo "<br> TEST3: ".isnull($BTCfromCoins);
     $tempAry = [];
-    $conn = getNewSQLConn(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call UpdateUserProfitNew($userID,$liveBTC, $BittrexBTC, $liveUSDT, $BittrexUSDT, $liveETH,$BittrexETH,'$date',$btcPrice, $ethPrice, $usdtPrice);";
@@ -81,7 +81,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
 }
 
 function coinHistory($hours){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call deleteHistory($hours)";

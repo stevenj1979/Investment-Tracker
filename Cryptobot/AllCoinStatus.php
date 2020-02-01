@@ -20,7 +20,7 @@ if (!empty($_GET['mins'])){
 }
 
 function get1HrChangeAll(){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -38,7 +38,7 @@ function get1HrChangeAll(){
 
 
 function getUserConfig(){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -55,7 +55,7 @@ function getUserConfig(){
 }
 
 function get1HrChangeSum(){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -72,7 +72,7 @@ function get1HrChangeSum(){
 }
 
 function update1HrAllCoin($coinID, $hr1Diff){
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call update1HrAllCoin($coinID,$hr1Diff);";
   //print_r($sql);
@@ -91,7 +91,7 @@ function tempDisableUsers($hours){
   }else{
     $newDate = $date;
   }
-  $conn = getNewSQLConn(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call updateTempDisableUsers('$newDate');";
   print_r($sql);
