@@ -69,7 +69,7 @@ function displayToggleAdmin($id){
 }
 
 function getSubscription(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`UserName`,`SubscriptionLength`,`DateSubmitted`,`TransactionID`,`Status`,`UserID` FROM `UserSubscription` WHERE `Status` = 'Open'";
@@ -83,7 +83,7 @@ function getSubscription(){
 }
 
 function getConfig($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `BTC`,`CoinSalePct`,`MarketCapBuyPct`,`MarketCapSellPct`,`VolumeBuyPct`,`VolumeSellPct`,`BuyOrdersPct`,`SellOrdersPct`, `minPctGain`,`BuyWithScore`, `Score`,
@@ -99,7 +99,7 @@ function getConfig($userID){
 }
 
 function getCoins(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`Symbol`,`Name`,`BaseCurrency`,`BuyCoin` FROM `Coin` Order by `BuyCoin` DESC";
@@ -113,7 +113,7 @@ function getCoins(){
 }
 
 function getUsers(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`Email`,`ExpiryDate`,`DisableUntil` FROM `UserConfigView`";
