@@ -9,7 +9,7 @@ require_once('includes/config.php');
 //check if already logged in move to home page
 if( $user->is_logged_in() ){ header('Location: index.php'); exit(); }
 
-include ('/home/stevenj1979/SQLData.php');
+include_once ('/home/stevenj1979/SQLData.php');
 
 function updateUser($nameUser){
 

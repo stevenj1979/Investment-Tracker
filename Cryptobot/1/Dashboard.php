@@ -2,7 +2,7 @@
 require('includes/config.php');
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
-include ('/home/stevenj1979/SQLData.php');
+include_once ('/home/stevenj1979/SQLData.php');
 ?>
 
 <html>
