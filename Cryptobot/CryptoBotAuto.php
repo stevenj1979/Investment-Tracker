@@ -3,8 +3,9 @@
 ini_set('max_execution_time', 500);
 require('includes/newConfig.php');
 
-$apikey='8363893012e5441a9d667a09cff9d717';
-$apisecret='4229026e95454f37af92bff669243f86';
+include_once ('/home/stevenj1979/SQLData.php');
+$apikey=getAPIKeyread();
+$apisecret=getAPISecretRead();
 
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
@@ -20,7 +21,7 @@ if (!empty($_GET['mins'])){
 }
 
 function getUserVariables(){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);

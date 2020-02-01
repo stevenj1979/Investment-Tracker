@@ -2,14 +2,12 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-
-$apikey='8363893012e5441a9d667a09cff9d717';
-$apisecret='4229026e95454f37af92bff669243f86';
-
-
+include_once ('/home/stevenj1979/SQLData.php');
+$apikey=getAPIKeyread();
+$apisecret=getAPISecretRead();
 
 function getCoinPriceStats(){
-  $conn = getNewSQL(rand(1,3));
+  $conn = getNewSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -72,7 +70,7 @@ function calculateSellPrice($coinID, $Live1HrChange, $Live24HrChange, $CoinPrice
 }
 
 function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -88,7 +86,7 @@ function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
 }
 
 function updateSellPrice($coinID, $newSellPrice,$finalTrend){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }

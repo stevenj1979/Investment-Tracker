@@ -2,9 +2,9 @@
 <?php
 ini_set('max_execution_time', 500);
 require('includes/newConfig.php');
-
-$apikey='8363893012e5441a9d667a09cff9d717';
-$apisecret='4229026e95454f37af92bff669243f86';
+include_once ('/home/stevenj1979/SQLData.php');
+$apikey=getAPIKeyread();
+$apisecret=getAPISecretRead();
 
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
@@ -20,7 +20,7 @@ if (!empty($_GET['mins'])){
 }
 
 function get1HrChangeAll(){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -38,7 +38,7 @@ function get1HrChangeAll(){
 
 
 function getUserConfig(){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -55,7 +55,7 @@ function getUserConfig(){
 }
 
 function get1HrChangeSum(){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -72,7 +72,7 @@ function get1HrChangeSum(){
 }
 
 function update1HrAllCoin($coinID, $hr1Diff){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call update1HrAllCoin($coinID,$hr1Diff);";
   //print_r($sql);
@@ -91,7 +91,7 @@ function tempDisableUsers($hours){
   }else{
     $newDate = $date;
   }
-  $conn = getNewSQL(rand(1,4));
+  $conn = getNewSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call updateTempDisableUsers('$newDate');";
   print_r($sql);

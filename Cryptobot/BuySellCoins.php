@@ -3,8 +3,9 @@
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 
-$apikey='8363893012e5441a9d667a09cff9d717';
-$apisecret='4229026e95454f37af92bff669243f86';
+include_once ('/home/stevenj1979/SQLData.php');
+$apikey=getAPIKey();
+$apisecret=getAPISecret();
 //$buyCancelTime = "01:0";
 //$noOfBuys = 5;
 $buyCounter = 0;
