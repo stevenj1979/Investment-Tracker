@@ -1,8 +1,8 @@
 <?php
 //require('includes/config.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 
-$conn = getSQL(rand(1,4));
+$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

@@ -1,6 +1,6 @@
 <?php
 //require('includes/config.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 //$active = trim($_GET['y']);
 include '../includes/newConfig.php';
 
@@ -126,38 +126,11 @@ if(isset($_POST['coinTxt'])){
   //header('Location: BuyCoins.php');
 }
 
-/*function getNewSQL($number){
-  $servername = "localhost";
-  $dbname = "NewCryptoBotDb";
 
-  switch ($number) {
-    case 1:
-        $username = "jenkinss";
-        $password = "Butt3rcup23";
-        break;
-    case 2:
-        $username = "cryptoBotWeb1";
-        $password = "UnYpH7HkgK[N";
-        break;
-    case 3:
-        $username = "cryptoBotWeb2";
-        $password = "U0I^=bBc0jkf";
-        break;
-    case 4:
-        $username = "autoCryptoBot";
-        $password = "@c5WmgTgjtR+";
-        break;
-    default:
-        $username = "cryptoBotWeb3";
-        $password = "XcE)n7GJ-Twr";
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
-}*/
 
 function getUserConfig($userID){
   $tempAry = [];
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `UserName`,`APIKey`,`APISecret`,`Email`,`BTCBuyAmount` FROM `UserConfigView` WHERE `ID` = $userID";
@@ -171,7 +144,7 @@ function getUserConfig($userID){
 
 function getCoinStats($symbol){
   $tempAry = [];
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `Symbol`,`AvgCoinPrice`,`MaxCoinPrice`, `MinCoinPrice` FROM `AvgCoinPriceTableWeb` WHERE `Symbol` = '$symbol'";
@@ -183,168 +156,7 @@ function getCoinStats($symbol){
 
 }
 
-/*function bittrexbalance($apikey, $apisecret, $base ){
-    $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, true);
-    $balance = $obj["result"]["Available"];
-    return $balance;
-}*/
-
-/*function getMinTradeAmount($coin, $baseCurrency, $apisecret){
-  $minTradeSize = getMinTrade($apisecret);
-  $tradeArraySize = count($minTradeSize['result']);
-  //print_r($tradeArraySize);
-  for($y = 0; $y < $tradeArraySize; $y++) {
-    if($minTradeSize['result'][$y]['MarketCurrency']==$coin && $minTradeSize['result'][$y]['BaseCurrency']==$baseCurrency){
-      $minTradeAmount= $minTradeSize['result'][$y]['MinTradeSize'];
-      return $minTradeAmount;
-      exit;
-    }
-  }
-}*/
-
-/*function getMinTrade($apisecret){
-  $nonce=time();
-  //$uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
-  $uri="https://bittrex.com/api/v1.1/public/getmarkets";
-  $sign=hash_hmac('sha512',$uri,$apisecret);
-  $ch = curl_init($uri);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  $execResult = curl_exec($ch);
-  $obj = json_decode($execResult, true);
-  //$balance = $obj["result"]["MinTradeSize"];
-  return $obj;
-}*/
-
-/*function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
-      $nonce=time();
-      $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
-      $sign=hash_hmac('sha512',$uri,$apisecret);
-      $ch = curl_init($uri);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      $execResult = curl_exec($ch);
-      $obj = json_decode($execResult, true);
-      $balance = $obj["result"]["Last"];
-      return $balance;
-}*/
-
-/*function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $cost, $amount, $orderNo,$timeToCancelBuyMins){
-  $conn = getNewSQL(rand(1,4));
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  //$sql = "call AddBittrexBuy($coinID, $userID, '$type', '$bittrexRef', '$status', $ruleID, $cost, $amount, '$orderNo');";
-  $sql = "call addBittrexBuy($coinID, $userID, '$type', '$bittrexRef', '$status', $ruleID, $cost, $amount, '$orderNo',$timeToCancelBuyMins);";
-
-  //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}*/
-
-/*function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency){
-    $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
-    echo $uri."<BR>";
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, true);
-    return $obj;
-}*/
-
-/*function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
-    $body = "Dear ".$user.", <BR/>";
-    $body .= "Congratulations you have bought the following Coin: "."<BR/>";
-    $body .= "Coin: ".$symbol." Amount: ".$amount." Price: ".$cost."<BR/>";
-    $body .= "Order Number: ".$orderNo."<BR/>";
-    $body .= "Score: ".$score."<BR/>";
-    $body .= "Kind Regards\nCryptoBot.";
-    $headers = 'MIME-Version: 1.0' . "\r\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    //$headers .= 'From: Alerts <Alerts@Investment-Tracker.net>' . "\r\n";
-    $headers .= "From:".$from."\r\n";
-    $headers .= "To:".$to."\r\n";
-    mail($to, $subject, wordwrap($body,70),$headers);
-}*/
-
-/*function buyManualCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins){
-  $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
-  //get min trade
-  if ($buyType == 2){
-    //$btcBuyAmount = ($BTCBalance/100.28)*100;
-      $btcBuyAmount = ($BTCBalance/100.28)*$btcBuyAmount;
-  }
-  if ($baseCurrency == 'USDT') {
-    $bitPriceNew = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
-    $btcBuyAmount = ($btcBuyAmount*$bitPriceNew);
-  }
-
-  $subject = "Coin Alert: ".$coin;
-  $from = 'Coin Alert <alert@investment-tracker.net>';
-  echo "Balance: $BTCBalance";
-  $minTradeAmount = getMinTradeAmount($coin,$baseCurrency,$apisecret);
-  if ($buyCoin) {
-    $subject = "Coin Purchase: ".$coin;
-    $from = 'Coin Purchase <purchase@investment-tracker.net>';
-  }
-  $btcwithCharge = (($btcBuyAmount/100)*0.25)+$btcBuyAmount;
-  echo "$btcwithCharge = (($btcBuyAmount/100)*0.25)+$btcBuyAmount;";
-  if ($BTCBalance >= $btcwithCharge) {
-    echo "buy Coin - Balance Sufficient";
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
-    if ($CoinSellOffsetEnabled == 1){
-
-      $bitPrice = number_format((float)newPrice($bitPrice,$CoinSellOffsetPct, "Buy"), 8, '.', '');
-    }
-    //$livePrice = getLiveCoinPrice($tracking[$x][0]);
-    //$avgCoinPrice = getAveragePrice($coin);
-    //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
-    //if ($avgCoinPrice > $bitPrice){ return; }
-    $quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    Echo "This is a test : bittrexbuy($apikey, $apisecret, $coin, $quantity, $bitPrice, $baseCurrency);";
-    if ($quantity>$minTradeAmount){
-        echo "Quantity above min trade amount";
-        //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
-        $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
-        echo "Buy Coin = $buyCoin";
-        if ($buyCoin){
-          $obj = bittrexbuy($apikey, $apisecret, $coin, $quantity, $bitPrice, $baseCurrency);
-          //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
-          $bittrexRef = $obj["result"]["uuid"];
-          $status = $obj["success"];
-          if ($status == 1){
-            echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $quantity, $orderNo);";
-            date_default_timezone_set('Asia/Dubai');
-            //$tmpTime = $timeToCancelBuyMins;
-            //$newDate = date("Y-m-d H:i:s", time());
-            //$current_date = date('Y-m-d H:i:s');
-            //$newTime = date("Y-m-d H:i:s",strtotime('+'.$timeToCancelBuyMins.'Mins', strtotime($current_date)));
-            //$buyCancelTime = strtotime( '+ 16 minute');
-            bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $quantity, $orderNo,$timeToCancelBuyMins);
-            //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
-          }
-        }
-        if ($sendEmail==1 && $buyCoin ==0){
-        //if ($sendEmail){
-          sendEmail($email, $coin, $quantity, $bitPrice, $orderNo, $score, $subject,$userName, $from);
-        }
-    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $quantity>$minTradeAmount"; }
-  }
-}*/
+/
 
 
 $userID = $_SESSION['ID'];
@@ -366,8 +178,6 @@ $userID = $_SESSION['ID'];
     $apiKey = $_SESSION['APIKey']; $apiSecret = $_SESSION['APISecret'] ; $baseCurrency = $_SESSION['baseCurrency'];
     $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
     echo "BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency)";
-
-    //http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/ManualBuy.php?coin=BTC&baseCurrency=USDT&coinID=84&coinPrice=8147.90910738
 
     ?>
   </div>

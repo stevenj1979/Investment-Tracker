@@ -6,7 +6,7 @@
 <html>
 <style>
 <?php include 'style/style.css';
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 ?>
 </style>
 <body>
@@ -84,37 +84,9 @@ if(!empty($_GET['uuid'])){
   //header('Location: bittrexOrders.php');
 }
 
-function getNewSQL($number){
-  $servername = "localhost";
-  $dbname = "NewCryptoBotDb";
-
-  switch ($number) {
-    case 1:
-        $username = "jenkinss";
-        $password = "Butt3rcup23";
-        break;
-    case 2:
-        $username = "cryptoBotWeb1";
-        $password = "UnYpH7HkgK[N";
-        break;
-    case 3:
-        $username = "cryptoBotWeb2";
-        $password = "U0I^=bBc0jkf";
-        break;
-    case 4:
-        $username = "autoCryptoBot";
-        $password = "@c5WmgTgjtR+";
-        break;
-    default:
-        $username = "cryptoBotWeb3";
-        $password = "XcE)n7GJ-Twr";
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
-}
 
 function bittrexBuyCancel($bittrexRef, $transactionID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -129,7 +101,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
 }
 
 function bittrexUpdateBuyQty($transactionID, $quantity){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexBuyUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
@@ -139,7 +111,7 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
 }
 
 function bittrexUpdateSellQty($transactionID, $quantity){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexSellUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
@@ -149,7 +121,7 @@ function bittrexUpdateSellQty($transactionID, $quantity){
 }
 
 function bittrexCopyTransNewAmount($transactionID, $quantity){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CopyTransNewAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
@@ -160,7 +132,7 @@ function bittrexCopyTransNewAmount($transactionID, $quantity){
 
 
 function bittrexSellCancel($bittrexRef, $transactionID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -188,7 +160,7 @@ function bittrexCancel($apikey, $apisecret, $uuid){
 }
 
 function changeTransStatus($orderNo, $transactionID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -207,7 +179,7 @@ function changeTransStatus($orderNo, $transactionID){
 }
 
 function deleteItem($id){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);

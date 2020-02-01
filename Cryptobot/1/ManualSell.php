@@ -6,7 +6,7 @@
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
 if(isset($_GET['coin'])){
   //collect values from the url
@@ -79,37 +79,9 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getNewSQL($number){
-  $servername = "localhost";
-  $dbname = "NewCryptoBotDb";
-
-  switch ($number) {
-    case 1:
-        $username = "jenkinss";
-        $password = "Butt3rcup23";
-        break;
-    case 2:
-        $username = "cryptoBotWeb1";
-        $password = "UnYpH7HkgK[N";
-        break;
-    case 3:
-        $username = "cryptoBotWeb2";
-        $password = "U0I^=bBc0jkf";
-        break;
-    case 4:
-        $username = "autoCryptoBot";
-        $password = "@c5WmgTgjtR+";
-        break;
-    default:
-        $username = "cryptoBotWeb3";
-        $password = "XcE)n7GJ-Twr";
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
-}
 
 function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -138,7 +110,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate){
 
 
 function getTrackingSellCoinsMan($transactionID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);

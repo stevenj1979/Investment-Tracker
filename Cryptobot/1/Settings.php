@@ -4,7 +4,7 @@
 </head>
 <?php require('includes/config.php');
   //include 'includes/functions.php';
-  include '../../../NewSQLData.php';
+  include_once ('/home/stevenj1979/SQLData.php');
 ?>
 <html>
 <style>
@@ -43,7 +43,7 @@ require('layout/header.php');
 
 function getUserIDs($userID){
   $tempAry = [];
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -67,7 +67,7 @@ function getUserIDs($userID){
 function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency){
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
     echo "Error";

@@ -28,10 +28,10 @@ $title = 'CryptoBot';
 
 //include header template
 require('layout/header.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 
 function getCoinsfromSQL($userID){
-    $conn = getSQL(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -51,7 +51,7 @@ function getCoinsfromSQL($userID){
 
 function getCoinPrice(){
 
-    $conn = getSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -69,7 +69,7 @@ function getCoinPrice(){
 }
 
 function getTrackingCoins(){
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -87,7 +87,7 @@ function getTrackingCoins(){
 }
 
 function getProfitTotal($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);

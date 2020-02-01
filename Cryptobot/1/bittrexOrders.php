@@ -17,7 +17,7 @@ $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
 require('layout/header.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 //$coin = trim($_GET['coin']);
 //$AreYouSure = trim($_GET['AreYouSure']);
 
@@ -51,39 +51,11 @@ function changeSelection(){
   //print_r($globals['sql_Option']);
 }
 
-function getNewSQL($number){
-  $servername = "localhost";
-  $dbname = "NewCryptoBotDb";
-
-  switch ($number) {
-    case 1:
-        $username = "jenkinss";
-        $password = "Butt3rcup23";
-        break;
-    case 2:
-        $username = "cryptoBotWeb1";
-        $password = "UnYpH7HkgK[N";
-        break;
-    case 3:
-        $username = "cryptoBotWeb2";
-        $password = "U0I^=bBc0jkf";
-        break;
-    case 4:
-        $username = "autoCryptoBot";
-        $password = "@c5WmgTgjtR+";
-        break;
-    default:
-        $username = "cryptoBotWeb3";
-        $password = "XcE)n7GJ-Twr";
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
-}
 
 function getBTTrackingCoins($userID){
   $tempAry = [];
   global $sql_option;
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -114,7 +86,7 @@ function getNumberColour($ColourText, $target){
 }
 
 function getConfig($userID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -192,7 +164,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
   }
 
 function getUserIDs($userID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
