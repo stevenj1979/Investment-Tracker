@@ -14,7 +14,7 @@ include ('/home/stevenj1979/SQLData.php');
 function updateUser($nameUser){
 
   // Create connection
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -32,7 +32,7 @@ function checkFirstTime($nameUser){
   $tempAry = [];
 
   // Create connection
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
