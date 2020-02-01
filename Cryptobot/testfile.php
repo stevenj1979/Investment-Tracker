@@ -53,8 +53,8 @@ $current_date = date('Y-m-d H:i');
 
 $aryEnc = encrypt('This is a test!');
 echo $aryEnc['data'];
-echo $aryEnc['secret'];
+echo "<BR>".$aryEnc['secret'];
 
-
+echo "<BR>".decrypt($aryEnc['data'],$aryEnc['secret']);
 ?>
 </html>
