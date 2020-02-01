@@ -10,12 +10,9 @@ include '../../../../SQLData.php';
 if( $user->is_logged_in() ){ header('Location: index.php'); exit(); }
 
 function updateUser($nameUser){
-  $servername = "localhost";
-  $username = "jenkinss";
-  $password = "Butt3rcup23";
-  $dbname = "NewCryptoBotDb";
+
   // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
+  $conn = getNewSQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -31,12 +28,9 @@ function updateUser($nameUser){
 
 function checkFirstTime($nameUser){
   $tempAry = [];
-	$servername = "localhost";
-  $username = "jenkinss";
-  $password = "Butt3rcup23";
-  $dbname = "NewCryptoBotDb";
+
   // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
+  $conn = getNewSQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
