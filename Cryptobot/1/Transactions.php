@@ -15,7 +15,7 @@ $title = 'CryptoBot';
 
 //include header template
 require('layout/header.php');
-include '../../../NewSQLData.php';
+include ('/home/stevenj1979/SQLData.php');
 
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}

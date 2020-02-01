@@ -11,7 +11,7 @@ $userName = getUserName();
 $dbName = getDBName();
 $pass = getDBPass();
 
-Echo "$host";
+//Echo "$host";
 
 //application address
 define('DIR','http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/');
