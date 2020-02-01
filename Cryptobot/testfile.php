@@ -51,8 +51,10 @@ $current_date = date('Y-m-d H:i');
 
 
 
-echo encrypt('This is a test!');
-//phpinfo();
+$aryEnc = encrypt('This is a test!');
+echo $aryEnc['data'];
+echo $aryEnc['secret'];
+
 
 ?>
 </html>
