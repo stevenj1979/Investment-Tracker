@@ -7,4 +7,6 @@ $ciphertext = sodium_crypto_secretbox('This is a secret!', $nonce, $key);
 
 echo "<BR> This is a test: ".$ciphertext;
 
+//edit Encrypt
+
 ?>
