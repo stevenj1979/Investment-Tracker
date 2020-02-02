@@ -67,6 +67,7 @@ while($date <= $newTime){
       $VolumeEnabled = $buyRules[$y][22]; $VolumeTop = $buyRules[$y][23]; $VolumeBtm = $buyRules[$y][24];
       $BuyCoin = $buyRules[$y][25]; $SendEmail = $buyRules[$y][26];$BTCAmount = $buyRules[$y][27]; $KEK = $buyRules[$y][58];
       $Email = $buyRules[$y][28]; $UserName = $buyRules[$y][29]; $APIKey = $buyRules[$y][30]; $APISecret = decrypt($KEK,$buyRules[$y][31]);
+      Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][34]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
