@@ -112,6 +112,8 @@ $userDetails = getUserIDs($_SESSION['ID']);
     <a href="Settings.php" class="active">Settings</a><?php
     if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
 //echo $tempOutput;
+$kek = $userDetails[0][13];
+$apisecret =Decrypt($kek,$userDetails[0][5]);
 ?>
   </div>
       <div class="row">
@@ -134,7 +136,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
               </div>
               <div class="form-group">
                 <b>API Secret: </b><br/>
-                <input type="text" name="API_Secret" id="API_Secret" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][5]; ?>" tabindex="4">
+                <input type="text" name="API_Secret" id="API_Secret" class="form-control input-lg" placeholder="User Name" value="<?php echo $apisecret; ?>" tabindex="4">
                 <p class="comments">Bittrex Secret API Key</p>
               </div>
               <div class="form-group">
