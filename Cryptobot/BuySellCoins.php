@@ -178,12 +178,16 @@ while($date <= $newTime){
       $SellOrdersEnabled = $sellRules[$z][25]; $SellOrdersTop = $sellRules[$z][26]; $SellOrdersBtm = $sellRules[$z][27];
       $VolumeEnabled = $sellRules[$z][28]; $VolumeTop = $sellRules[$z][29]; $VolumeBtm = $sellRules[$z][30];
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
-      $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33]; $APISecret = $sellRules[$z][34];
+      $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
+      //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
       $sellCoinOffsetEnabled = $sellRules[$z][35]; $sellCoinOffsetPct = $sellRules[$z][36];
       $sellPriceMinEnabled = $sellRules[$z][37]; $sellPriceMin = $sellRules[$z][38];
+      $KEKSell = $sellRules[$z][40];
+      if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
+
       echo "<BR> RULE: ".$ruleIDSell;
       echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID <> $sellCoinsUserID){ continue; }
