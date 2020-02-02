@@ -53,15 +53,6 @@ function getMinTrade($apisecret){
 }
 
 function writeSQLBuy($symbol, $amounttobuy, $cost, $date, $orderNo, $userID, $baseCurrency){
-    //$servername = "sql7.freemysqlhosting.net";
-    //$username = "sql7253140";
-    //$password = "77YxhGXAH4";
-    //$dbname = "sql7253140";
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
-
 
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
