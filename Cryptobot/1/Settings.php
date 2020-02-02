@@ -82,7 +82,7 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
   //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
+  if ($conn->multi_query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
