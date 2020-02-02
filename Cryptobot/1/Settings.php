@@ -79,7 +79,7 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
   $enc_KEK = $encAry['secret'];
   $sql = "UPDATE `UserConfig` SET `APIKey`='$apikey', `APISecret`='$enc_apiSecret',`EnableDailyBTCLimit`=$enableDailyBTCLimitNum
          ,`EnableTotalBTCLimit`=$enableTotalBTCLimitNum,`DailyBTCLimit`=$dailyBTCLimit,`TotalBTCLimit`=$totalBTCLimit,`BTCBuyAmount`=$BTCBuyAmount, `BaseCurrency`='$userBaseCurrency',`KEK`='$enc_KEK'
-         WHERE `UserID` = $userID
+         WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
