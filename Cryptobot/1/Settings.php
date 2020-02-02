@@ -5,6 +5,7 @@
 <?php require('includes/config.php');
   //include 'includes/functions.php';
   include_once ('/home/stevenj1979/SQLData.php');
+  include_once ('/home/stevenj1979/Encrypt.php');
 ?>
 <html>
 <style>
@@ -49,7 +50,7 @@ function getUserIDs($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`
+  $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`,`KEK`
   FROM `UserConfigView` WHERE `ID` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -57,7 +58,7 @@ function getUserIDs($userID){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'],
-      $row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency']);
+      $row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK']);
   }
   $conn->close();
   return $tempAry;
@@ -73,7 +74,13 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
     echo "Error";
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call updateUserConfig('$newusername','$email','$apikey', '$apisecret',$enableDailyBTCLimitNum,$enableTotalBTCLimitNum,$dailyBTCLimit,$totalBTCLimit,$BTCBuyAmount, $userID, '$userBaseCurrency') ";
+  $encAry = Encrypt($apisecret);
+  $enc_apiSecret = $encAry['data'];
+  $enc_KEK = $encAry['secret'];
+  $sql = "UPDATE `UserConfig` SET `APIKey`='$apikey', `APISecret`='$enc_apiSecret',`EnableDailyBTCLimit`=$enableDailyBTCLimitNum
+         ,`EnableTotalBTCLimit`=$enableTotalBTCLimitNum,`DailyBTCLimit`=$dailyBTCLimit,`TotalBTCLimit`=$totalBTCLimit,`BTCBuyAmount`=$BTCBuyAmount, `BaseCurrency`='$userBaseCurrency',`KEK`='$enc_KEK'
+         WHERE `UserID` = $userID
+         UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
