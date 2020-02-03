@@ -3,8 +3,8 @@
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
-$apikey=getAPIKeyread();
-$apisecret=getAPISecretRead();
+$apikey=getAPIKey();
+$apisecret=getAPISecret();
 
 function getCoinPriceStats(){
   $conn = getSQLConn(rand(1,3));

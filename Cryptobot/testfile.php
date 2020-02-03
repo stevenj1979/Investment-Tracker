@@ -6,8 +6,8 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
-$apikey=getAPIKeyread();
-$apisecret=getAPISecretRead();
+$apikey=getAPIKey();
+$apisecret=getAPISecret();
 
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
