@@ -412,7 +412,7 @@ function getCoinMarketCapStats(){
     $start = 0;
     for($n=0;$n<5;$n++){
       $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit."&start=".$start;
-      echo "<BR>".$cnmkt;
+      echo "<BR> CNMKT: ".$cnmkt;
       $fgc = json_decode(file_get_contents($cnmkt), true);
       for($i=0;$i<$limit;$i++){
         //echo "<br> : ".$fgc[$i]["symbol"]." : ".$fgc[$i]["market_cap_usd"];
