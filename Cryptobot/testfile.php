@@ -58,7 +58,8 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR>DECRYPT: ".decrypt($aryEnc['secret'],$aryEnc['data']);
 $newAry = getCoinMarketCapStats();
 
-echo "<BR> NEW Aray: ".$newAry[0][0];
+echo "<BR> NEW Aray Sym: ".$newAry[0][0];
+echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
 
 ?>
 </html>
