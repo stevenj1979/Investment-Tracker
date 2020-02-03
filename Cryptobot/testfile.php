@@ -24,7 +24,7 @@ if (!empty($_GET['mins'])){
 
 function timerReady($start, $seconds){
   $newDate = date("Y-m-d H:i",strtotime("+".$seconds." seconds", strtotime($start)));
-  $current_date = date("Y-m-d H:i", time());
+  $current_date = date("Y-m-d H:i");
   echo "<BR> NewDate $newDate :: current date $currentDate";
   if ($newDate == $current_date){return true;}else{return false;}
 }
