@@ -6,7 +6,7 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
-
+echo "<BR> API Secret: $apisecret";
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
   parse_str($argv[1], $params);
