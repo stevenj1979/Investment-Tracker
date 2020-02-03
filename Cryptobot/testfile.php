@@ -22,6 +22,12 @@ if (!empty($_GET['mins'])){
   echo "<br> GETMINS: ".$_GET['mins'];
 }
 
+function timerReady($start, $seconds){
+  $newDate = date("Y-m-d H:i",strtotime("+".$seconds." seconds", strtotime($start)));
+  $current_date = date('Y-m-d H:i');
+  if ($newDate == $current_date){return true;}else{return false;}
+}
+
 function findCoinStats($CMCStats, $symbol){
   $statsLength = count($CMCStats);
   for($y = 0; $y < $statsLength; $y++) {
@@ -60,6 +66,8 @@ $newAry = getCoinMarketCapStats();
 
 echo "<BR> NEW Aray Sym: ".$newAry[0][0];
 echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
+
+echo "<BR> TimerReady: ".timerReady('2020-02-02 2028',120);
 
 ?>
 </html>
