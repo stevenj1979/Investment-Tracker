@@ -7,8 +7,8 @@ include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
 //$apikey=getAPIKey();
-//$apisecret=getAPISecret();
-
+$apisecret=getAPISecret();
+echo "<BR>API Secret is:  $apisecret";
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
   parse_str($argv[1], $params);
