@@ -51,10 +51,14 @@ $current_date = date('Y-m-d H:i');
 
 
 
-$aryEnc = encrypt('This is a test!');
-echo "<BR>DATA: ".$aryEnc['data'];
-echo "<BR>SECRET: ".$aryEnc['secret'];
+//$aryEnc = encrypt('This is a test!');
+//echo "<BR>DATA: ".$aryEnc['data'];
+//echo "<BR>SECRET: ".$aryEnc['secret'];
 
-echo "<BR>DECRYPT: ".decrypt($aryEnc['secret'],$aryEnc['data']);
+//echo "<BR>DECRYPT: ".decrypt($aryEnc['secret'],$aryEnc['data']);
+$newAry = getCoinMarketCapStats();
+
+echo "<BR> NEW Aray: ".$newAry[0][0];
+
 ?>
 </html>
