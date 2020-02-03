@@ -258,7 +258,7 @@ while($date <= $newTime){
     $buyOrderCancelTime = $BittrexReqs[$b][24];
     if ($liveCoinPriceBit <> 0 && $bitPrice <> 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
     if ($liveCoinPriceBit <> 0 && $cost <> 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
-
+    echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
     $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid);
 
     $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
