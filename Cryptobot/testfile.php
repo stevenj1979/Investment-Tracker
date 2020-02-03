@@ -27,7 +27,9 @@ function timerReady($start, $seconds){
   $current_date = date('Y-m-d H:i', time());
   echo "<BR> NewDate $newDate :: current date $current_date";
   //if ($newDate == $current_date){return true;}else{return false;}
-  echo "<BR> DateDiff: ".date_diff($current_date,$newDate);
+  $diff=date_diff($current_date,$newDate);
+  //echo "<BR> DateDiff: ".date_diff();
+  echo $diff->format("%s seconds");
 }
 
 function findCoinStats($CMCStats, $symbol){
