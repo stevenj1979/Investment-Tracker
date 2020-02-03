@@ -68,7 +68,7 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> NEW Aray Sym: ".$newAry[0][0];
 //echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
 
-echo "<BR> TimerReady: ".timerReady('2020-02-02 20:29',120);
+echo "<BR> TimerReady: ".timerReady('2020-02-02 00:40',120);
 
 ?>
 </html>
