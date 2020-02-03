@@ -29,7 +29,7 @@ function getUserVariables(){
 
   $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit` FROM `UserConfigView`  ";
   $result = $conn->query($sql);
-  //print_r($sql);
+  print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'],$row['DailyBTCLimit'],$row['TotalBTCLimit']);
   }
