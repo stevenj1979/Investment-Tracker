@@ -73,6 +73,7 @@ while($date <= $newTime){
     echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
 
     //Update Price
+    echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');
     echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());;
     copyCoinPrice($coinID,$bitPrice);
