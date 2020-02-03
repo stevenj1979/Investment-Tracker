@@ -117,7 +117,7 @@ while($date <= $newTime){
     //sleep(1);
   }//loop Coins
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
-  sleep(30);
+  sleep(15);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
   $pauseStart = date("Y-m-d H:i", time());
