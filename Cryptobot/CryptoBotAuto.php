@@ -20,6 +20,14 @@ if (!empty($_GET['mins'])){
   echo "<br> GETMINS: ".$_GET['mins'];
 }
 
+function timerReady($start, $seconds){
+  $newDate = date("Y-m-d H:i",strtotime("+".$seconds." seconds", strtotime($start)));
+  $current_date = date('Y-m-d H:i', time());
+  echo "<BR> NewDate $newDate :: current date $current_date";
+  if ($newDate <= $current_date){return true;}else{return false;}
+
+}
+
 function getUserVariables(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -56,12 +64,14 @@ function findCoinStats($CMCStats, $symbol){
 date_default_timezone_set('Asia/Dubai');
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
+$history_date = $current_date; $marketCap_Date = $current_date;
 //$newTime = date("Y-m-d H:i",strtotime("+5 minutes", strtotime($current_date)));
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
+$historyFlag = False; $marketCapFlag = True;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $CMCStats = getCoinMarketCapStats();
 while($date <= $newTime){
@@ -80,7 +90,7 @@ while($date <= $newTime){
     copyCoinPrice($coinID,$bitPrice);
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
-    if ($i == 0){
+    if ($marketCapFlag == True){
       echo "<br> Count=".count($CMCStats);
       $statsForCoin = findCoinStats($CMCStats,$symbol);
       echo "<br> Market Cap ".$statsForCoin[0][1];
@@ -94,9 +104,10 @@ while($date <= $newTime){
       copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
+      $marketCapFlag = Flase;
     }
-
-    if ($i ==  1){
+    if ($i == 1){$historyFlag = True;}
+    if ($historyFlag ==  True){
       copyCoinHistory($coinID);
       copyBuyHistory($coinID);
       copyWebTable($coinID);
@@ -112,6 +123,7 @@ while($date <= $newTime){
       $Hr24Date = date("Y-m-d H",strtotime("-1 Day"));
       $Hr24Price = get1HrChange($coinID,$Hr24Date);
       update24HrPriceChange($Hr24Price[0][0],$coinID);
+      $historyFlag = False;
     }
 
     //sleep(1);
@@ -131,6 +143,9 @@ while($date <= $newTime){
 
   $i = $i+1;
   $date = date("Y-m-d H:i", time());
+  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
+  if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i');}
+
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
