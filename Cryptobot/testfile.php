@@ -70,7 +70,7 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
 
 echo "<BR> TimerReady: ";
-if (timerReady('2020-02-02 00:40',120)) {Echo " True";}else{echo " False";}
+if (timerReady('2020-02-02 12:00',120)) {Echo " True";}else{echo " False";}
 
 ?>
 </html>
