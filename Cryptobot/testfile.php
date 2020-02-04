@@ -27,7 +27,7 @@ function timerReady($start, $seconds){
   $current_date = date('Y-m-d H:i', time());
   echo "<BR> NewDate $newDate :: current date $current_date";
   if ($newDate >= $current_date){return true;}else{return false;}
-  
+
 }
 
 function findCoinStats($CMCStats, $symbol){
@@ -69,7 +69,8 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> NEW Aray Sym: ".$newAry[0][0];
 //echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
 
-echo "<BR> TimerReady: ".timerReady('2020-02-02 00:40',120);
+echo "<BR> TimerReady: ";
+if (timerReady('2020-02-02 00:40',120)) {Echo " True";}else{echo " False";}
 
 ?>
 </html>
