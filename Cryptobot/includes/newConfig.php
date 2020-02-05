@@ -202,7 +202,7 @@ function newPrice($bitPrice, $pct, $action){
   }
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins){
+function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$buyAmountOverrideEnabled,$buyAmountOverride){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
   //get min trade
   if ($buyType == 2){
@@ -210,15 +210,15 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       $btcBuyAmount = ($BTCBalance/100.28)*$btcBuyAmount;
   }
 
-  if ($btcBuyAmount == 0){
+  if ($btcBuyAmount == 0 OR $buyAmountOverrideEnabled == 1 AND $buyAmountOverride == 0){
     $charges = ($BTCBalance / 100 ) * 0.28;
     $btcBuyAmount = $BTCBalance - $charges;
   }
 
-  //if ($baseCurrency == 'USDT') {
-  //  $bitPriceNew = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
-  //  $btcBuyAmount = ($btcBuyAmount/$bitPriceNew);
-  //}
+  if ($buyAmountOverrideEnabled == 1 AND $buyAmountOverride > 0) {
+    $btcBuyAmount = $buyAmountOverride;
+
+  }
 
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
