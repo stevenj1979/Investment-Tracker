@@ -210,15 +210,15 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       $btcBuyAmount = ($BTCBalance/100.28)*$btcBuyAmount;
   }
 
-  if ($btcBuyAmount == 0 OR $buyAmountOverrideEnabled == 1 AND $buyAmountOverride == 0){
+  if ($btcBuyAmount == 0){
     $charges = ($BTCBalance / 100 ) * 0.28;
     $btcBuyAmount = $BTCBalance - $charges;
   }
 
-  if ($buyAmountOverrideEnabled == 1 AND $buyAmountOverride > 0) {
-    $btcBuyAmount = $buyAmountOverride;
+//if ($buyAmountOverrideEnabled == 1 AND $buyAmountOverride > 0) {
+//    $btcBuyAmount = $buyAmountOverride;
 
-  }
+//  }
 
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
