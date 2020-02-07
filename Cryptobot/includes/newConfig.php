@@ -202,7 +202,7 @@ function newPrice($bitPrice, $pct, $action){
   }
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$buyAmountOverrideEnabled,$buyAmountOverride){
+function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
   //get min trade
   if ($buyType == 2){
