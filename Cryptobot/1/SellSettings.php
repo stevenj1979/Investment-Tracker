@@ -66,7 +66,7 @@ function getRules($userID){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `RuleID`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`
-  ,`AutoSellCoinEnabled`,`AutoSellPrice`
+  ,`AutoSellCoinEnabled`,`AutoSellPrice`,`SellPatternEnabled`,`SellPattern`
 FROM `UserSellRules` WHERE `UserID` = $userID";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -78,7 +78,7 @@ FROM `UserSellRules` WHERE `UserID` = $userID";
       $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['RuleID'],$row['SellPriceMinEnabled'],$row['SellPriceMin']
-      ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice']
+      ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern']
 );//35
   }
   $conn->close();
@@ -193,7 +193,9 @@ $userSettingsLen = count($userSettings);
              <TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH><TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH>
              <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
              <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
-             <TH>&nbspAPIKey</TH><TH>&nbspAPISecret</TH><TH>&nbspSellPriceMinEnabled</TH><TH>&nbspSellPriceMin</TH><TH>&nbspLimitToCoin</TH><TH>&nbspAutoSellCoinEnabled</TH><TH>&nbspAutoSellPrice</TH><TR>
+             <TH>&nbspAPIKey</TH><TH>&nbspAPISecret</TH><TH>&nbspSellPriceMinEnabled</TH><TH>&nbspSellPriceMin</TH><TH>&nbspLimitToCoin</TH><TH>&nbspAutoSellCoinEnabled</TH><TH>&nbspAutoSellPrice</TH>
+             <TH>&nbspSellPatternEnabled</TH><TH>&nbspSellPattern</TH>
+             <TR>
           <?php
           //echo "<BR>".$userSettingsLen;
           for($x = 0; $x < $userSettingsLen; $x++) {
@@ -214,6 +216,7 @@ $userSettingsLen = count($userSettings);
             echo "<td>".$userSettings[$x][33]."</td>";echo "<td>".$userSettings[$x][34]."</td>";
             echo "<td>".$userSettings[$x][36]."</td>";echo "<td>".$userSettings[$x][37]."</td>";echo "<td>".$userSettings[$x][38]."</td>";
             echo "<td>".$userSettings[$x][39]."</td>";echo "<td>".$userSettings[$x][40]."</td>";
+            echo "<td>".$userSettings[$x][41]."</td>";echo "<td>".$userSettings[$x][42]."</td>";
             echo "<tr>";
           }
           echo "</table> <br><a href='AddNewSettingSell.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";

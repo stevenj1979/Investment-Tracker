@@ -166,6 +166,10 @@ while($date <= $newTime){
     $D7ChangePctChange = $sellCoins[$a][34]; $LiveCoinPrice = $sellCoins[$a][19]; $CoinPricePctChange = $sellCoins[$a][20];
     $BaseCurrency = $sellCoins[$a][36]; $orderNo = $sellCoins[$a][10]; $amount = $sellCoins[$a][5]; $cost = $sellCoins[$a][4];
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
+
+    $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
+    $BuyRuleLength = Len($orderNo - 20); $BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
+    $BuyRule = substr($orderNo, $BuyRuleLength);
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
       //Variables
@@ -185,6 +189,8 @@ while($date <= $newTime){
       $sellCoinOffsetEnabled = $sellRules[$z][35]; $sellCoinOffsetPct = $sellRules[$z][36];
       $sellPriceMinEnabled = $sellRules[$z][37]; $sellPriceMin = $sellRules[$z][38];
       $KEKSell = $sellRules[$z][40];
+      $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
+      $LimitToBuyRule = $sellRules[$z][43];
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -193,6 +199,7 @@ while($date <= $newTime){
       echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID <> $sellCoinsUserID){ continue; }
       if ($limitToCoinSell <> "ALL" && $symbol <> $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $symbol"; continue;}
+      //if ($limitToBuyRule <> "ALL" && $BuyRule <> )
       $GLOBALS['allDisabled'] = false;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
          echo "<br>1: MarketCap sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)";
@@ -207,28 +214,32 @@ while($date <= $newTime){
                 if (sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)){
                   echo "<br>6: 7D Price Change sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)";
                   if (sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)){
-                    if (sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice)){
-                      $buyPrice = ($cost * $amount);
-                      $sellPrice = ($LiveCoinPrice * $amount);
-                      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
-                      $profit = (($sellPrice-$fee)-$buyPrice)/$buyPrice*100;
-                      echo "<br>7: Profit $ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled";
-                      if (sellWithScore($ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled)){
-                          echo "<br>8: PriceDiff1 $CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled";
-                          if (sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
-                            //echo "<br>10 PriceDiff2 ";
+                    echo "<br>7: Sell With Score sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)";
+                    if(newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newSellPattern,$priceTrendEnabled)){
+                      echo "<br>8: Sell with Pattern newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newSellPattern,$priceTrendEnabled)";
+                      if (sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice)){
+                        $buyPrice = ($cost * $amount);
+                        $sellPrice = ($LiveCoinPrice * $amount);
+                        $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+                        $profit = (($sellPrice-$fee)-$buyPrice)/$buyPrice*100;
+                        echo "<br>7: Profit $ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled";
+                        if (sellWithScore($ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled)){
+                            echo "<br>8: PriceDiff1 $CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled";
+                            if (sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
+                              //echo "<br>10 PriceDiff2 ";
 
-                            if ($GLOBALS['allDisabled'] == true){
-                              //print_r(" Sell Sell Sell!!");
-                              //sendEmail($email, $coin, $quantity, $bitPrice, "Testing : ".$z, $totalScore);
-                              $date = date("Y-m-d H:i:s", time());
-                              echo "Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
-                              //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
-                              sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
-                              //break;
+                              if ($GLOBALS['allDisabled'] == true){
+                                //print_r(" Sell Sell Sell!!");
+                                //sendEmail($email, $coin, $quantity, $bitPrice, "Testing : ".$z, $totalScore);
+                                $date = date("Y-m-d H:i:s", time());
+                                echo "Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
+                                //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
+                                sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
+                                //break;
+                              }
+
                             }
-
-                          }
+                        }
                       }
                     }
                   }

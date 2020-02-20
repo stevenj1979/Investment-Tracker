@@ -236,6 +236,7 @@ function getRules($id){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `RuleID`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
+  ,`SellPatternEnabled`, `SellPattern`
 FROM `UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -247,7 +248,7 @@ FROM `UserSellRules` WHERE `ID` = $id";
       $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['RuleID'],$row['SellPriceMinEnabled']
-      ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice']
+      ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern']
     );
   }
   $conn->close();
@@ -451,6 +452,9 @@ function displayEdit($id){
   addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][38],38);
   addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][39]);
   addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][40],39);
+  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][41]);
+  addNewText('Sell Pattern: ','SellPattern',$formSettings[0][42],40);
+
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='39'>
   </div>";
