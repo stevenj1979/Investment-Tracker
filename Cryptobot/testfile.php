@@ -72,5 +72,7 @@ $current_date = date('Y-m-d H:i');
 echo "<BR> TimerReady: ";
 if (timerReady('2020-02-02 12:00',120)) {Echo " True";}else{echo " False";}
 
+echo "<BR> Limit to buy rule: ".limitToBuyRule(20,"19,20,21,22",1);
+
 ?>
 </html>

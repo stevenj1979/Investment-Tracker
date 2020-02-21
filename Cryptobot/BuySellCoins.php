@@ -191,6 +191,7 @@ while($date <= $newTime){
       $KEKSell = $sellRules[$z][40];
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $LimitToBuyRule = $sellRules[$z][43];
+      if ($LimitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -199,7 +200,7 @@ while($date <= $newTime){
       echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID <> $sellCoinsUserID){ continue; }
       if ($limitToCoinSell <> "ALL" && $symbol <> $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $symbol"; continue;}
-      //if ($limitToBuyRule <> "ALL" && $BuyRule <> )
+      if ($limitToBuyRule <> "ALL" && limitToBuyRule($BuyRule,$LimitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $LimitToBuyRule : $BuyRule"; continue;}
       $GLOBALS['allDisabled'] = false;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
          echo "<br>1: MarketCap sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)";

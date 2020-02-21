@@ -647,6 +647,16 @@ function newReturnPattern($livePattern, $rulePattern){
   }
 }
 
+function buyRuleTest($livePattern, $rulePattern){
+  if ($livePattern == $rulePattern){
+    Echo "<BR>This is True buyRuleTest : $livePattern : $rulePattern <BR>";
+    return true;
+  }else{
+    Echo "<BR>This is Flase buyRuleTest : $livePattern : $rulePattern <BR>";
+    return false;
+  }
+}
+
 function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   $retPattern = returnPattern($p3,$p2,$p1,$t3,$t2,$t1);
 
@@ -674,6 +684,33 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
     if (newReturnPattern($livePattern,$pieces[$x])){ $testTrue = True;}
+  }
+    if ($pEnabled == 0){
+      print_r("True");
+      return True;
+      exit;
+    }
+    elseif($testTrue){
+      print_r("True");
+      $GLOBALS['allDisabled'] = true;
+      return True;
+      exit;
+    }else{
+      $GLOBALS['allDisabled'] = true;
+      //print_r($buyTop >= $score);
+      print_r("False");
+      return False;
+    }
+  //}
+}
+
+function limitToBuyRule($livePattern, $savedPattern, $pEnabled){
+  $pieces = explode(",", $savedPattern);
+  $piecesSize = count($pieces);
+  $testTrue = False;
+  for ($x = 0; $x < $piecesSize; $x++) {
+    //Echo "<br> ".$pieces[$x];
+    if (buyRuleTest($livePattern,$pieces[$x])){ $testTrue = True;}
   }
     if ($pEnabled == 0){
       print_r("True");
