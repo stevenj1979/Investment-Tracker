@@ -168,7 +168,7 @@ while($date <= $newTime){
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
-    $BuyRuleLength = Len($orderNo - 20); $BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
+    $BuyRuleLength = strlen($orderNo - 20); $BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
     $BuyRule = substr($orderNo, $BuyRuleLength);
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
