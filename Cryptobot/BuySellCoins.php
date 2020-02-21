@@ -168,7 +168,8 @@ while($date <= $newTime){
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
-    $BuyRuleLength = strlen($orderNo - 20); $BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
+    $BuyRuleLength = strlen($orderNo - 20);
+    $BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
     $BuyRule = substr($orderNo, $BuyRuleLength);
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -223,9 +224,9 @@ while($date <= $newTime){
                         $sellPrice = ($LiveCoinPrice * $amount);
                         $fee = (($LiveCoinPrice * $amount)/100)*0.25;
                         $profit = (($sellPrice-$fee)-$buyPrice)/$buyPrice*100;
-                        echo "<br>7: Profit $ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled";
+                        echo "<br>9: Profit $ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled";
                         if (sellWithScore($ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled)){
-                            echo "<br>8: PriceDiff1 $CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled";
+                            echo "<br>10: PriceDiff1 $CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled";
                             if (sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
                               //echo "<br>10 PriceDiff2 ";
 
