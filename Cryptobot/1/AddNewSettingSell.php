@@ -223,7 +223,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  header('Location: SellSettings.php');
+  //header('Location: SellSettings.php');
 }
 
 function getRules($id){
