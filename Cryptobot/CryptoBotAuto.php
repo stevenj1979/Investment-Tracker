@@ -143,7 +143,7 @@ while($date <= $newTime){
 
   $i = $i+1;
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
+  if (timerReady($history_date,60)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
   if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i');}
 
 }//while loop
