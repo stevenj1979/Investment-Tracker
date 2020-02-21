@@ -196,7 +196,7 @@ function updateEditedUser(){
   $sellPriceMinEnabled = postDataYesNo($_POST['sellPriceMinEnabled']);
   $sellPriceMin = postData($_POST['sellPriceMin']);
   $limitToCoin = $_POST['limitToCoin'];
-  $sellPatternEnabled = $_POST['SellPatternEnabled'];
+  $sellPatternEnabled = postDataYesNo($_POST['SellPatternEnabled']);
   $sellPattern =  $_POST['SellPattern'];
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
 
