@@ -199,7 +199,7 @@ while($date <= $newTime){
       echo "<BR> RULE: ".$ruleIDSell;
       echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID <> $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
-      if ($limitToCoinSell <> "ALL" && $symbol <> $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $symbol"; continue;}
+      if ($limitToCoinSell <> "ALL" && $coin <> $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
       if ($limitToBuyRule <> "ALL" && limitToBuyRule($BuyRule,$LimitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $LimitToBuyRule : $BuyRule"; continue;}
       $GLOBALS['allDisabled'] = false;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
