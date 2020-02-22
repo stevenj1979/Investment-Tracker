@@ -71,8 +71,7 @@ $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
-$historyFlag = False; $marketCapFlag = false;
-$marketCapStatsUpdateFlag = False;
+$historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = False;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 while($date <= $newTime){
   echo "NEW LOOP ";
@@ -108,7 +107,7 @@ while($date <= $newTime){
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
 
     }
-    if ($i == 1){$historyFlag = True;}
+    //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
       Echo "<BR> History flag Update ";
       copyCoinHistory($coinID);
@@ -145,10 +144,10 @@ while($date <= $newTime){
   //}
 
   $i = $i+1;
-  if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
+  //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,40)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
-  if (timerReady($marketCap_date,3)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True;}
+  if (timerReady($history_date,3)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
+  if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True;}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
