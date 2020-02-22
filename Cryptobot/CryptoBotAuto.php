@@ -148,7 +148,7 @@ while($date <= $newTime){
   if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
   if (timerReady($history_date,40)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
-  if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True;}
+  if (timerReady($marketCap_date,3)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True;}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
