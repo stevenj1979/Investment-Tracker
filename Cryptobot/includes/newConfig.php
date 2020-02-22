@@ -556,6 +556,7 @@ function copyWebTable($coinID){
 }
 function updateWebCoinStatsTable($coinID){
   $conn = getSQLConn(rand(1,3));
+  Echo "<BR> Update Web Coin Stats : call UpdateWebCoinStats($coinID);";
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -1132,6 +1133,7 @@ function getAveragePrice($symbol){
 
 function coinPriceHistory($coinID,$price,$baseCurrency,$date){
   $conn = getHistorySQL(rand(1,4));
+  Echo "<BR> UpdateHistoryPrice : call UpdateHistoryPrice($coinID,$price,'$baseCurrency','$date');";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call UpdateHistoryPrice($coinID,$price,'$baseCurrency','$date');";
   //print_r($sql);
@@ -1159,6 +1161,7 @@ function get1HrChange($coinID, $date){
 
 function update1HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
+  Echo "<BR> Update1HrPriceChange : call Update1HrPriceChange($price,$coinID);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update1HrPriceChange($price,$coinID);";
   //print_r($sql);
@@ -1172,6 +1175,7 @@ function update1HrPriceChange($price,$coinID){
 
 function update24HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
+  echo "<BR> Update24HrPriceChange : call Update24HrPriceChange($price,$coinID);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update24HrPriceChange($price,$coinID);";
   //print_r($sql);
@@ -1185,6 +1189,7 @@ function update24HrPriceChange($price,$coinID){
 
 function update8HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
+  Echo "<BR> Update8HrPriceChange : call Update8HrPriceChange($price,$coinID);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call Update8HrPriceChange($price,$coinID);";
   //print_r($sql);
