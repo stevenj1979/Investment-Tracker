@@ -540,6 +540,7 @@ function copyCoinPrice($coinID,$CoinPrice){
 }
 function copyWebTable($coinID){
   $conn = getSQLConn(rand(1,3));
+  Echo "<BR> Updating Web table : $coinID";
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
