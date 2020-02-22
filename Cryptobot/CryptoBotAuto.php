@@ -143,8 +143,8 @@ while($date <= $newTime){
 
   $i = $i+1;
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,60)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
-  if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i');}
+  if (timerReady($history_date,40)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
+  if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i');}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
