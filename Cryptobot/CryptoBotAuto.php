@@ -71,7 +71,7 @@ $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
-$historyFlag = False; $marketCapFlag = True;
+$historyFlag = False; $marketCapFlag = false;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $CMCStats = getCoinMarketCapStats();
 while($date <= $newTime){
