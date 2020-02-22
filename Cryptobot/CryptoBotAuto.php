@@ -72,8 +72,8 @@ $coins = getTrackingCoins();
 $coinLength = Count($coins);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
 $historyFlag = False; $marketCapFlag = false;
+$marketCapStatsUpdateFlag = False;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
-$CMCStats = getCoinMarketCapStats();
 while($date <= $newTime){
   echo "NEW LOOP ";
 
@@ -91,11 +91,12 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
+      if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
       Echo "<BR> Market Cap flag Update ";
       echo "<br> Count=".count($CMCStats);
       $statsForCoin = findCoinStats($CMCStats,$symbol);
       echo "<br> Market Cap ".$statsForCoin[0][1];
-      //copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
+      copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
       copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
       echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
 
@@ -105,7 +106,7 @@ while($date <= $newTime){
       copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
-      $marketCapFlag = Flase;
+
     }
     if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
@@ -125,7 +126,7 @@ while($date <= $newTime){
       $Hr24Date = date("Y-m-d H",strtotime("-1 Day"));
       $Hr24Price = get1HrChange($coinID,$Hr24Date);
       update24HrPriceChange($Hr24Price[0][0],$coinID);
-      $historyFlag = False;
+
     }
 
     //sleep(1);
@@ -144,9 +145,10 @@ while($date <= $newTime){
   //}
 
   $i = $i+1;
+  if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
   if (timerReady($history_date,40)){$historyFlag=True; $history_date = date('Y-m-d H:i');}
-  if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i');}
+  if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True;}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
