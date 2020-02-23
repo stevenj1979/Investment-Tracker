@@ -3,14 +3,15 @@
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('/home/stevenj1979/Encrypt.php');
 function getUserConfig(){
     $tempAry = [];
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-     $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` FROM `UserConfigView`";
+     $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` ,`KEK` FROM `UserConfigView`";
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['APIKey'],$row['APISecret'],$row['DaysRemaining'],$row['Email'],$row['UserName'],$row['Active']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['APIKey'],$row['APISecret'],$row['DaysRemaining'],$row['Email'],$row['UserName'],$row['Active'],$row['KEK']);}
     $conn->close();
     return $tempAry;
 }
@@ -145,15 +146,19 @@ $usdtPrice= getLiveCoinPriceUSD('USDT');
 Echo "<BR> BTC Price: $btcPrice : ETH Price :  $ethPrice : USDT Price : $usdtPrice ";
 $confSize = count($conf);
 for($x = 0; $x < $confSize; $x++) {
+  $userID = $conf[$x][0];
+  $apiKey = $conf[$x][1]; $apiSecret = $conf[$x][2]; $Kek = $conf[$x][7];
+  if (!empty($Kek)){$apiSecret = Decrypt($Kek,$conf[$x][2]);}
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
-  $bittrexBalBTC = bittrexbalance($conf[$x][1], $conf[$x][2], 'BTC' );
-  $bittrexBalUSDT = bittrexbalance($conf[$x][1], $conf[$x][2], 'USDT' );
-  $bittrexBalETH = bittrexbalance($conf[$x][1], $conf[$x][2], 'ETH' );
+  $bittrexBalBTC = bittrexbalance($apiKey, $apiSecret, 'BTC' );
+  $bittrexBalUSDT = bittrexbalance($apiKey, $apiSecret, 'USDT' );
+  $bittrexBalETH = bittrexbalance($apiKey, $apiSecret, 'ETH' );
   $btcToday = userHistory($conf[$x][0]);
+  $currentBTCPurchased = $btcToday[0][1]; $currentUSDTPurchased = $btcToday[0][2]; $currentETHPurchased = $btcToday[0][3];
   echo "<BR> BTCPrice ".$btcPrice;
-  Echo "<BR> Update User Profit: updateUserProfit(".$conf[$x][0].",".$btcToday[0][1].",".$bittrexBalBTC.",".$btcToday[0][2].",".$bittrexBalUSDT.",".$btcToday[0][3].",".$bittrexBalETH.",".$btcPrice.",".$ethPrice.",".$usdtPrice.")";
-  updateUserProfit($conf[$x][0],$btcToday[0][1],$bittrexBalBTC,$btcToday[0][2],$bittrexBalUSDT,$btcToday[0][3],$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
-  $daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $userID = $userDates[$x][0]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
+  Echo "<BR> Update User Profit: updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);";
+  updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
+  //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
 
 //coinHistory(10);
