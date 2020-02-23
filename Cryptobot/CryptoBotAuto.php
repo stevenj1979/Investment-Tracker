@@ -131,7 +131,7 @@ while($date <= $newTime){
     //sleep(1);
   }//loop Coins
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
-  sleep(30);
+  sleep(45);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
   $pauseStart = date("Y-m-d H:i", time());
@@ -146,7 +146,7 @@ while($date <= $newTime){
   $i = $i+1;
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,30)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";}
+  if (timerReady($history_date,60)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";}
   if (timerReady($marketCap_date,400)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer ";}
 
 }//while loop
