@@ -140,9 +140,9 @@ function getLiveCoinPriceUSD($symbol){
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
-$btcPrice = getLiveCoinPriceUSD('BTC');
-$ethPrice = getLiveCoinPriceUSD('ETH');
-$usdtPrice= getLiveCoinPriceUSD('USDT');
+//$btcPrice = getLiveCoinPriceUSD('BTC');
+//$ethPrice = getLiveCoinPriceUSD('ETH');
+//$usdtPrice= getLiveCoinPriceUSD('USDT');
 Echo "<BR> BTC Price: $btcPrice : ETH Price :  $ethPrice : USDT Price : $usdtPrice ";
 $confSize = count($conf);
 for($x = 0; $x < $confSize; $x++) {
@@ -150,9 +150,15 @@ for($x = 0; $x < $confSize; $x++) {
   $apiKey = $conf[$x][1]; $apiSecret = $conf[$x][2]; $Kek = $conf[$x][7];
   if (!empty($Kek)){$apiSecret = Decrypt($Kek,$conf[$x][2]);}
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
+  $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
+  $ethPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','ETH')), 8, '.', '');
+  $usdtPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','USDT')), 8, '.', '');
   $bittrexBalBTC = bittrexbalance($apiKey, $apiSecret, 'BTC' );
+  if (empty($bittrexBalBTC)){$bittrexBalBTC = 0;}
   $bittrexBalUSDT = bittrexbalance($apiKey, $apiSecret, 'USDT' );
+  if (empty($bittrexBalUSDT)){$bittrexBalUSDT = 0;}
   $bittrexBalETH = bittrexbalance($apiKey, $apiSecret, 'ETH' );
+  if (empty($bittrexBalETH)){$bittrexBalETH = 0;}
   $btcToday = userHistory($conf[$x][0]);
   $currentBTCPurchased = $btcToday[0][1]; $currentUSDTPurchased = $btcToday[0][2]; $currentETHPurchased = $btcToday[0][3];
   echo "<BR> BTCPrice ".$btcPrice;
