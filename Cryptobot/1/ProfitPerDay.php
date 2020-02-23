@@ -38,7 +38,7 @@ function getCoinsfromSQL($userID){
     }
 
     //$sql = "SELECT `UserID`,`OrderNo`,`Symbol`,`Amount`,`Cost`,`TradeDate`,`SellPrice`, `Profit`, `ETHProfit`, `DateSold`, `ID` FROM `Transaction` where `Status` = 'Sold' and `UserID` = $userID order by `DateSold` desc limit 50";
-    $sql = "SELECT sum(`PurchasePrice`) as PurchasePrice,`Year`,`Month`,`Day`,sum(`SellPrice`),Sum(`Fee`),sum(`Profit`),sum(`BTCProfit`),sum(`USDTProfit`),sum(`ETHProfit`),sum(`USDProfit`)
+    $sql = "SELECT sum(`PurchasePrice`) as PurchasePrice,`Year`,`Month`,`Day`,sum(`SellPrice`) as SellPrice,Sum(`Fee`) as Fee,sum(`Profit`) as Profit,sum(`BTCProfit`)as BTCProfit,sum(`USDTProfit`) as USDTProfit,sum(`ETHProfit`) as ETHProfit,sum(`USDProfit`) as USDProfit
       FROM `CoinProfitView`
       WHERE `UserID` = $userID and `Type` = 'Sell' and `Status` = 'Sold'
       group by `Year`,`Month`,`Day`
