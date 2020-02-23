@@ -184,7 +184,7 @@ function tableHeader($th1,$th2,$th3,$th4,$th5,$th6,$th7,$th8,$th9,$th10){
    Echo "<Table><TH>$th1</TH><TH>$th2</TH><TH>$th3</TH><TH>$th4</TH><TH>$th5</TH><TH>$th6</TH><TH>$th7</TH><TH>$th8</TH><TH>$th9</TH><TH>$th10</TH><TR>";
 }
 
-function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10,$td11){
+function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10){
     Echo "<td>$td1</td><td>$td2</td><td>$td3</td><td>$td4</td><td>$td5</td><td>$td6</td><td>$td7</td><td>$td8</td><td>$td9</td><td>$td10</td><tr>";
 }
 
