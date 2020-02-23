@@ -142,6 +142,7 @@ $conf = getUserConfig();
 $btcPrice = getLiveCoinPriceUSD('BTC');
 $ethPrice = getLiveCoinPriceUSD('ETH');
 $usdtPrice= getLiveCoinPriceUSD('USDT');
+Echo "<BR> BTC Price: $btcPrice : ETH Price :  $ethPrice : USDT Price : $usdtPrice ";
 $confSize = count($conf);
 for($x = 0; $x < $confSize; $x++) {
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
@@ -150,6 +151,7 @@ for($x = 0; $x < $confSize; $x++) {
   $bittrexBalETH = bittrexbalance($conf[$x][1], $conf[$x][2], 'ETH' );
   $btcToday = userHistory($conf[$x][0]);
   echo "<BR> BTCPrice ".$btcPrice;
+  Echo "<BR> Update User Profit: updateUserProfit(".$conf[$x][0].",".$btcToday[0][1].",".$bittrexBalBTC.",".$btcToday[0][2].",".$bittrexBalUSDT.",".$btcToday[0][3].",".$bittrexBalETH.",".$btcPrice.",".$ethPrice.",".$usdtPrice.")";
   updateUserProfit($conf[$x][0],$btcToday[0][1],$bittrexBalBTC,$btcToday[0][2],$bittrexBalUSDT,$btcToday[0][3],$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
   $daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $userID = $userDates[$x][0]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
