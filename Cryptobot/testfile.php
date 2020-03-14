@@ -8,7 +8,7 @@ include_once ('/home/stevenj1979/Encrypt.php');
 
 //$apikey=getAPIKey();
 $apisecret=getAPISecret();
-echo "<BR>API Secret is:  $apisecret";
+//echo "<BR>API Secret is:  $apisecret";
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
   parse_str($argv[1], $params);
@@ -51,7 +51,7 @@ function SQLCommand(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Show Create Procedure AddBittrexSell;";
+  $sql = "Show Create function AddBittrexSell;";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -90,10 +90,10 @@ echo SQLCommand();
 //echo "<BR> NEW Aray Sym: ".$newAry[0][0];
 //echo "<BR> NEW Aray Market Cap: ".$newAry[0][1];
 
-echo "<BR> TimerReady: ";
-if (timerReady('2020-02-02 12:00',120)) {Echo " True";}else{echo " False";}
+//echo "<BR> TimerReady: ";
+//if (timerReady('2020-02-02 12:00',120)) {Echo " True";}else{echo " False";}
 
-echo "<BR> Limit to buy rule: ".limitToBuyRule(20,"19,20,21,22",1);
+//echo "<BR> Limit to buy rule: ".limitToBuyRule(20,"19,20,21,22",1);
 
 ?>
 </html>
