@@ -56,8 +56,10 @@ function SQLCommand(){
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
+  $i = 0;
   while ($row = mysqli_fetch_assoc($result)){
-    Echo $row;
+    Echo $row[$i];
+    $i = $i + 1;
   }
   $conn->close();
   return $tempAry;
