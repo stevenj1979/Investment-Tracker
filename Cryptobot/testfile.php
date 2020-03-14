@@ -57,7 +57,7 @@ function SQLCommand(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Type'],$row['BittrexRef']);
+    Echo $row;
   }
   $conn->close();
   return $tempAry;
@@ -78,7 +78,7 @@ $date = date("Y-m-d H", time());
 $current_date = date('Y-m-d H:i');
 
 
-echo SQLCommand();
+SQLCommand();
 
 //$aryEnc = encrypt('This is a test!');
 //echo "<BR>DATA: ".$aryEnc['data'];
