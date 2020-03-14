@@ -43,6 +43,27 @@ function findCoinStats($CMCStats, $symbol){
   return $tempStats;
 }
 
+function SQLCommand(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Show Create Procedure AddBittrexSell;";
+  $conn->query("SET time_zone = '+04:00';");
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['Type'],$row['BittrexRef']);
+  }
+  $conn->close();
+  return $tempAry;
+
+}
+
 
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
@@ -57,7 +78,7 @@ $date = date("Y-m-d H", time());
 $current_date = date('Y-m-d H:i');
 
 
-
+echo SQLCommand();
 
 //$aryEnc = encrypt('This is a test!');
 //echo "<BR>DATA: ".$aryEnc['data'];
