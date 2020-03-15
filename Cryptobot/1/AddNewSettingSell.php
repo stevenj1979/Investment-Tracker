@@ -237,7 +237,7 @@ function getRules($id){
 `ID`,`UserID`,`SellCoin`,`SendEmail`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`,
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
-  `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `RuleID`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
+  `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
   ,`SellPatternEnabled`, `SellPattern`
 FROM `UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
@@ -249,7 +249,7 @@ FROM `UserSellRules` WHERE `ID` = $id";
       $row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],
       $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],
-      $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['RuleID'],$row['SellPriceMinEnabled']
+      $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern']
     );
   }
@@ -448,14 +448,14 @@ function displayEdit($id){
     <b>Profit Sale Btm: </b><br/>
     <input type='text' name='ProfitSaleBtm' id='ProfitSaleBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][21]."' tabindex='35'>
   </div>";
-  addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][36]);
-  addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][37],37);
+  addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
+  addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37);
 
-  addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][38],38);
-  addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][39]);
-  addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][40],39);
-  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][41]);
-  addNewText('Sell Pattern: ','SellPattern',$formSettings[0][42],40);
+  addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38);
+  addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
+  addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39);
+  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
+  addNewText('Sell Pattern: ','SellPattern',$formSettings[0][41],40);
 
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='39'>
