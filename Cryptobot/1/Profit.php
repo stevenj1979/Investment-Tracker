@@ -38,7 +38,8 @@ function getCoinsfromSQL($userID){
     }
 
     //$sql = "SELECT `UserID`,`OrderNo`,`Symbol`,`Amount`,`Cost`,`TradeDate`,`SellPrice`, `Profit`, `ETHProfit`, `DateSold`, `ID` FROM `Transaction` where `Status` = 'Sold' and `UserID` = $userID order by `DateSold` desc limit 50";
-    $sql = "SELECT `PurchasePrice`,`Year`,`Month`,`Day`,`SellPrice`,`Fee`,`Profit`,`Symbol`,`BTCProfit`,`USDTProfit`,`ETHProfit`,`USDProfit` FROM `CoinProfitView` WHERE `UserID` = $userID and `Type` = 'Sell' and `Status` = 'Sold'";
+    $sql = "SELECT `PurchasePrice`,`Year`,`Month`,`Day`,`SellPrice`,`Fee`,`Profit`,`Symbol`,`BTCProfit`,`USDTProfit`,`ETHProfit`,`USDProfit` FROM `CoinProfitView` WHERE `UserID` = $userID and `Type` = 'Sell' and `Status` = 'Sold'
+    order by `ActionDate` desc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
