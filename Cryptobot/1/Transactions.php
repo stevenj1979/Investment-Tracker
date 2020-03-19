@@ -100,7 +100,7 @@ if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "
 
 				$coin = getCoinsfromSQL($_SESSION['ID']);
         $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
-        $orderNo = $coin[$x][13];
+        $orderNo = $coin[$x][13];$symbol = $coin[$x][14];
 				$arrlength = count($coin);
         echo "<html><h2>Transactions</h2>";
         echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
@@ -112,7 +112,7 @@ if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "
            </form>";
 				print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>TradeDate</th><th>Status</th><tr>");
 				for($x = 0; $x < $arrlength; $x++) {
-				 print_r("<td>$Id</td><td>$orderNo</td><td>$bittrexRef</td><td>$amount</td><td>$coinPrice</td><td>$orderDate</td><td>$status</td><tr>");
+				 print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td>$orderDate</td><td>$status</td><tr>");
 				}
 				print_r("</Table>");
 				?>
