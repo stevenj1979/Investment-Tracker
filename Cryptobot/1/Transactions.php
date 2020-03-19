@@ -56,6 +56,7 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
+    ,`FixSellRule`
           FROM `TransactionsView` WHERE ".$_SESSION['sql_option']." and `UserID` = $userID order by `OrderDate` desc ";
     print_r($sql);
     $result = $conn->query($sql);
@@ -63,7 +64,7 @@ function getCoinsfromSQL($userID){
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule']);
     }
     $conn->close();
     return $tempAry;
@@ -109,11 +110,11 @@ if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "
             <option value='Pending'>Pending</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
            </form>";
-				print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>TradeDate</th><th>Status</th><tr>");
+				print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th><tr>");
 				for($x = 0; $x < $arrlength; $x++) {
             $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
-            $orderNo = $coin[$x][14];$symbol = $coin[$x][15];
-				    print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td>$orderDate</td><td>$status</td><tr>");
+            $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
+				    print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td><tr>");
 				}
 				print_r("</Table>");
 				?>
