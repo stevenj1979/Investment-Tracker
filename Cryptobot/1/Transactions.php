@@ -55,15 +55,15 @@ function getCoinsfromSQL($userID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`
+    $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
           FROM `TransactionsView` WHERE ".$_SESSION['sql_option']." and `UserID` = $userID order by `OrderDate` desc ";
-    //print_r($sql);
+    print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['OrderNo']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['OrderNo'],$row['Symbol']);
     }
     $conn->close();
     return $tempAry;
