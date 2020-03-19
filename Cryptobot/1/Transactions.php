@@ -63,7 +63,7 @@ function getCoinsfromSQL($userID){
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['OrderNo'],$row['Symbol']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol']);
     }
     $conn->close();
     return $tempAry;
@@ -100,7 +100,7 @@ if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "
 
 				$coin = getCoinsfromSQL($_SESSION['ID']);
         $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
-        $orderNo = $coin[$x][13];$symbol = $coin[$x][14];
+        $orderNo = $coin[$x][14];$symbol = $coin[$x][15];
 				$arrlength = count($coin);
         echo "<html><h2>Transactions</h2>";
         echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
