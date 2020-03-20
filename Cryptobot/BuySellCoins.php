@@ -129,7 +129,7 @@ while($date <= $newTime){
                   if (buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
                       echo "8: SellOrders buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)<BR>";
                     if (buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)){
-                      echo "9: PriceTrend newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newBuyPattern,$priceTrendEnabled)<BR>";
+                      echo "9: PriceTrend newBuywithPattern($price4TrendTrgt.$price3TrendTrgt.$lastPriceTrendTrgt.$livePriceTrendTrgt,$newBuyPattern,$priceTrendEnabled)<BR>";
                         //if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
                         if(newBuywithPattern($price4TrendTrgt.$price3TrendTrgt.$lastPriceTrendTrgt.$livePriceTrendTrgt,$newBuyPattern,$priceTrendEnabled)){
                           echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
