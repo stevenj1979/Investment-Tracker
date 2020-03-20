@@ -50,6 +50,7 @@ while($date <= $newTime){
     $Hr24ChangePctChange = $coins[$x][13]; $D7ChangePctChange = $coins[$x][14]; $CoinPricePctChange = $coins[$x][19];
     $SellOrdersPctChange = $coins[$x][22]; $VolumePctChange = $coins[$x][25];
     $price4Trend = $coins[$x][27]; $price3Trend = $coins[$x][28]; $lastPriceTrend = $coins[$x][29];  $livePriceTrend = $coins[$x][30];
+    $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
     $LiveCoinPrice = $coins[$x][17];
     //$timeToCancelBuyMins = $coins[$x][31];
     //LOG
@@ -129,9 +130,9 @@ while($date <= $newTime){
                   if (buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
                       echo "8: SellOrders buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)<BR>";
                     if (buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)){
-                      echo "9: PriceTrend newBuywithPattern($price4TrendTrgt.$price3TrendTrgt.$lastPriceTrendTrgt.$livePriceTrendTrgt,$newBuyPattern,$priceTrendEnabled)<BR>";
+                      echo "9: PriceTrend newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)<BR>";
                         //if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
-                        if(newBuywithPattern($price4TrendTrgt.$price3TrendTrgt.$lastPriceTrendTrgt.$livePriceTrendTrgt,$newBuyPattern,$priceTrendEnabled)){
+                        if(newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)){
                           echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
                           if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)){
                             echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)";
