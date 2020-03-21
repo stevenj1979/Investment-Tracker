@@ -272,8 +272,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //$avgCoinPrice = getAveragePrice($coin);
     //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
     //if ($avgCoinPrice > $bitPrice){ return; }
-    $quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    if ($quantity>$minTradeAmount){
+    //$quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
+    if ($btcBuyAmount>$minTradeAmount){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
@@ -299,9 +299,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
-          sendEmail($email, $coin, $quantity, $bitPrice, $orderNo, $score, $subject,$userName, $from);
+          sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
-    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $quantity>$minTradeAmount"; }
+    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; }
   //}
 }
 
