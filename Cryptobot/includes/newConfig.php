@@ -204,9 +204,19 @@ function newPrice($bitPrice, $pct, $action){
   }
 }
 
-function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice){
+function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
    if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
    if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
+
+   if ($coin <> 'BTC' && $buyType == 0) {
+     //get BTC price
+     $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC')), 8, '.', '');
+      //convert to USD
+      $usdPrice = $btcBuyAmount * $btcPrice;
+      // convert USD to coin Amount
+      $returnPrice = $bitPrice/$usdPrice;
+
+   }
 
    return $returnPrice;
 }
