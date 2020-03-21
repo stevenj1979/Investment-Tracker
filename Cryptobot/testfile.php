@@ -83,12 +83,12 @@ $current_date = date('Y-m-d H:i');
 //SQLCommand();
 //buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 12:54:14', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.5,0,1,90,8);
 
-buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 16:16:41', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.50,0,1,90,8);
+//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 16:16:41', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.50,0,1,90,8);
 
 //714f3f7873a2481c9f89b7c1f3801f2d, 2377fc19e47b4c7fb9dd32a70edd3b9f,'BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 16:16:41', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.50,0,1,90,8
 
 
-//echo "<BR> 1. ".returnBuyAmount('BTC', 'USDT', 0.01, 0, 0.0829, 5987,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
+echo "<BR> 1. ".returnBuyAmount('BTC', 'USDT', 0.01, 0, 736.00, 6166,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 //echo "<BR> 2. ".returnBuyAmount('ETH', 'USDT', 0.01, 0, 1, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 //echo "<BR> 3. ".returnBuyAmount('ETH', 'USDT', 50, 1, 1.1, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 
