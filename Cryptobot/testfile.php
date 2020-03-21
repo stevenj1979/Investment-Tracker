@@ -89,6 +89,8 @@ echo "<BR> 1. ".returnBuyAmount('BTC', 'USDT', 0.01, 0, 0.0829, 5987,'714f3f7873
 echo "<BR> 2. ".returnBuyAmount('ETH', 'USDT', 0.01, 0, 1, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 echo "<BR> 3. ".returnBuyAmount('ETH', 'USDT', 50, 1, 1.1, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 
+echo "<BR> 3. ".returnBuyAmount('BCH', 'USDT', 0.01, 1, 1.1, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
+
 
 
 ?>
