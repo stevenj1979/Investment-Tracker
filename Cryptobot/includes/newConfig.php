@@ -209,7 +209,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
    if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
    if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
 
-   if ($coin <> 'BTC' && $buyType == 0) {
+   if ($coin !== 'BTC' && $buyType == 0) {
      //get BTC price
      $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC')), 8, '.', '');
      echo "<BR> bit price = $btcPrice ";
@@ -287,7 +287,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$buyCancelTime = strtotime( '+ 16 minute');
             bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $quantity, $orderNo,$timeToCancelBuyMins);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
-            if ($SellRuleFixed <> "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
+            if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
         }
