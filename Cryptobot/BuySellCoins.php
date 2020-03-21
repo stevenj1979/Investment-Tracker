@@ -83,7 +83,7 @@ while($date <= $newTime){
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
-      //if ($userID !== ){ continue; }
+      //if ($userID != ){ continue; }
       echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
       echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
       echo "<BR> Disable Until $disableUntil";
@@ -92,8 +92,8 @@ while($date <= $newTime){
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
-      if ($baseCurrency !== $userBaseCurrency && $userBaseCurrency !== "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
-      if ($limitToCoin !== "ALL" && $symbol !== $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
+      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
+      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
       Echo "<BR>Rule Limited to :  $limitToCoin";
       $totalBTCSpent = getTotalBTC($userID);
 
@@ -201,16 +201,16 @@ while($date <= $newTime){
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $LimitToBuyRule = $sellRules[$z][43];
       if ($LimitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      if ($fixSellRule !== "ALL" && (int)$fixSellRule !== $ruleIDSell){echo "<BR>EXIT: Sell Rule Limited! $fixSellRule ; $ruleIDSell"; continue;}
+      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echo "<BR>EXIT: Sell Rule Limited! $fixSellRule ; $ruleIDSell"; continue;}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
 
       echo "<BR> RULE: ".$ruleIDSell;
       echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
-      if ($userID !== $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
-      if ($limitToCoinSell !== "ALL" && $coin !== $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
-      if ($limitToBuyRule !== "ALL" && limitToBuyRule($BuyRule,$LimitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $LimitToBuyRule : $BuyRule"; continue;}
+      if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
+      if ($limitToBuyRule != "ALL" && limitToBuyRule($BuyRule,$LimitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $LimitToBuyRule : $BuyRule"; continue;}
       $GLOBALS['allDisabled'] = false;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
          echo "<br>1: MarketCap sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)";
@@ -278,8 +278,8 @@ while($date <= $newTime){
     $KEK = $BittrexReqs[$b][25];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
-    if ($liveCoinPriceBit !== 0 && $bitPrice !== 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
-    if ($liveCoinPriceBit !== 0 && $cost !== 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
+    if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
+    if ($liveCoinPriceBit != 0 && $cost != 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
     echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
     $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid);
 
@@ -294,8 +294,8 @@ while($date <= $newTime){
     echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$resultOrd["result"]["CancelInitiated"];
     if ($resultOrd["success"] == 1){
       if ($type == "Buy"){
-        if ($orderIsOpen !== 1 && $resultOrd["result"]["CancelInitiated"] !== 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
-          //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen !== 1 & CancelInitiated !== 1");
+        if ($orderIsOpen != 1 && $resultOrd["result"]["CancelInitiated"] != 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
+          //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
             $subject = "Coin Purchase1: ".$coin;
             $from = 'Coin Purchase <purchase@investment-tracker.net>';
@@ -306,7 +306,7 @@ while($date <= $newTime){
           continue;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
-        if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime !== '0000-00-00 00:00:00'){
+        if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
           echo "<BR>CANCEL time exceeded! CANCELLING!";
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
@@ -328,14 +328,14 @@ while($date <= $newTime){
           continue;
         }
       }else{ // $type Sell
-        if ($orderIsOpen !== 1 && $resultOrd["result"]["CancelInitiated"] !== 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
+        if ($orderIsOpen != 1 && $resultOrd["result"]["CancelInitiated"] != 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
           echo "<BR>SELL Order COMPLETE!";
             $profitPct = ($finalPrice-$cost)/$cost*100;
             $sellPrice = ($finalPrice*$amount);
             $buyPrice = $cost*$amount;
             $fee = (($sellPrice)/100)*0.25;
             $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
-            //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "SELL - Order Is Open !== 1 & CancelInitiated !== 1");
+            //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "SELL - Order Is Open != 1 & CancelInitiated != 1");
             if ($sendEmail){
               $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell;
               $from = 'Coin Sale <sale@investment-tracker.net>';
