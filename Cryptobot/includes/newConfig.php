@@ -205,29 +205,20 @@ function newPrice($bitPrice, $pct, $action){
 }
 
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
-  $returnPrice = $btcBuyAmount;
-   if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
-   if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
+    //$returnPrice = $btcBuyAmount;
 
-   if ($coin !== 'BTC' && $buyType == 0) {
-     //get BTC price
-     $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC')), 8, '.', '');
-     echo "<BR> bit price $coin = $btcPrice ";
-      //convert to USD
-      echo "<BR> usd price  = $btcBuyAmount * $btcPrice;";
-      $usdPrice = $btcBuyAmount * $btcPrice;
-      echo " : $usdPrice ";
-      // convert USD to coin Amount
-      echo "<BR> return price  = $usdPrice/$bitPrice ";
-      $returnPrice = $usdPrice/$bitPrice;
+      echo "<BR> return price  = $btcBuyAmount/$bitPrice ";
+      $returnPrice = ($btcBuyAmount/$bitPrice) - (($BTCBalance/ 100 ) * 0.28);
       echo " : $returnPrice ";
 
-   }
 
    if ($returnPrice > $BTCBalance) {
      $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
      echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
    }
+
+   if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
+   if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
 
    return $returnPrice;
 }
