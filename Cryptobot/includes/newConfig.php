@@ -214,7 +214,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC')), 8, '.', '');
      echo "<BR> bit price $coin = $btcPrice ";
       //convert to USD
-      $usdPrice = $btcBuyAmount * $btcPrice;
+      $usdPrice = $btcPrice/$btcBuyAmount;
       echo "<BR> usd price = $usdPrice = $btcBuyAmount * $btcPrice;";
       // convert USD to coin Amount
       $returnPrice = $bitPrice/$usdPrice;
