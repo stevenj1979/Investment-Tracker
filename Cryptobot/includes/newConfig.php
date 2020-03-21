@@ -218,8 +218,8 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
       $usdPrice = $btcBuyAmount * $btcPrice;
       echo " : $usdPrice ";
       // convert USD to coin Amount
-      echo "<BR> return price  = $bitPrice/$usdPrice ";
-      $returnPrice = $bitPrice/$usdPrice;
+      echo "<BR> return price  = $usdPrice/$bitPrice ";
+      $returnPrice = $usdPrice/$bitPrice;
       echo " : $returnPrice ";
 
    }
