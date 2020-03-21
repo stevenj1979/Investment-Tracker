@@ -123,7 +123,7 @@ if(isset($_POST['coinTxt'])){
 
   buyCoins($_SESSION['APIKey'],$_SESSION['APISecret'],$_SESSION['coin'],$_SESSION['Email'],$_SESSION['ID'],$date,$_SESSION['baseCurrency']
   ,1,1,$_SESSION['BTCBuyAmount'],99999,$_SESSION['UserName'],$_SESSION['coinID'],0,0,1,$_SESSION['TimeToCancelBuyMinsTxt'],'ALL');
-  //header('Location: BuyCoins.php');
+  header('Location: BuyCoins.php');
 }
 
 
