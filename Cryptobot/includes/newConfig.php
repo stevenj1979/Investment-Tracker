@@ -222,7 +222,10 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 
    }
 
-   if ($returnPrice > $BTCBalance) { $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
+   if ($returnPrice > $BTCBalance) {
+     $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
+     echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
+   }
 
    return $returnPrice;
 }
