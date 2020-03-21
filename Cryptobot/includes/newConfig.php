@@ -217,8 +217,16 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
    }
 
-   if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
-   if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
+   if ($btcBuyAmount == 0 && $buyType == 0){
+     echo "<BR> $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
+     $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
+     echo " $returnPrice ";
+   }
+   if ($buyType == 1){
+     echo "<BR> ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28) : ";
+     $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);
+     echo " $returnPrice ";
+   }
 
    return $returnPrice;
 }
