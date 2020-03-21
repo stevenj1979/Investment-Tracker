@@ -205,6 +205,7 @@ function newPrice($bitPrice, $pct, $action){
 }
 
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
+  $returnPrice = $btcBuyAmount;
    if ($btcBuyAmount == 0 && $buyType == 0){ $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
    if ($buyType == 1){  $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);}
 
@@ -217,6 +218,8 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
       $returnPrice = $bitPrice/$usdPrice;
 
    }
+
+   if ($returnPrice > $BTCBalance) { $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);}
 
    return $returnPrice;
 }
