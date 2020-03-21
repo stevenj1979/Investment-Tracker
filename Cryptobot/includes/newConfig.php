@@ -235,20 +235,22 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
   //get min trade
-  if ($buyType == 2){
+  //if ($buyType == 2){
     //$btcBuyAmount = ($BTCBalance/100.28)*100;
-      $btcBuyAmount = ($BTCBalance/100.28)*$btcBuyAmount;
-  }
+  //    $btcBuyAmount = ($BTCBalance/100.28)*$btcBuyAmount;
+  //}
 
-  if ($btcBuyAmount == 0){
-    $charges = ($BTCBalance / 100 ) * 0.28;
-    $btcBuyAmount = $BTCBalance - $charges;
-  }
+  //if ($btcBuyAmount == 0){
+  //  $charges = ($BTCBalance / 100 ) * 0.28;
+  //  $btcBuyAmount = $BTCBalance - $charges;
+  //}
 
 //if ($buyAmountOverrideEnabled == 1 AND $buyAmountOverride > 0) {
 //    $btcBuyAmount = $buyAmountOverride;
 
 //  }
+  $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+  $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);
 
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
@@ -258,9 +260,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $subject = "Coin Purchase: ".$coin;
     $from = 'Coin Purchase <purchase@investment-tracker.net>';
   }
-  $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);
-  echo "<BR> btcwithCharge $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);";
-  if ($BTCBalance >= $btcwithCharge) {
+  //$btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);
+  //echo "<BR> btcwithCharge $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);";
+  //if ($btcBuyAmount > $minTradeAmount) {
     echo "buy Coin - Balance Sufficient";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
     if ($CoinSellOffsetEnabled == 1){
@@ -301,7 +303,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           sendEmail($email, $coin, $quantity, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
     }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $quantity>$minTradeAmount"; }
-  }
+  //}
 }
 
 function writeFixedSellRule($SellRuleFixed,$bittrexRef){
