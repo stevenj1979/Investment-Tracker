@@ -249,8 +249,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+  echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);"
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);
-
+  echo "<BR> btcBuyAmount $btcBuyAmount ";
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";

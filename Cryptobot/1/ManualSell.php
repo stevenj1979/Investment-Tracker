@@ -61,7 +61,8 @@ if(isset($_GET['coinTxt'])){
     $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
   echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
-  //sellManualCoin($coin,$amount,$cost,$baseCurrency,$transactionID,$orderNo, $bitPrice){
+  //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
+
   sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
   header('Location: SellCoins.php');
 }
