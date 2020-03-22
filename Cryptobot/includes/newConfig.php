@@ -225,7 +225,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
    }
 
-   return $returnPrice;
+   return $returnPrice/$bitPrice;
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed){
