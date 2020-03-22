@@ -156,7 +156,6 @@ function getCoinStats($symbol){
 
 }
 
-/
 
 
 $userID = $_SESSION['ID'];
