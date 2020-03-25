@@ -225,7 +225,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
    }
    echo "<BR> Balance : $BTCBalance ";
-   if ($BTCBalance < 20.00){}
+   if ($BTCBalance < 20.00){$returnPrice == 0;}
 
    return $returnPrice/$bitPrice;
 }
