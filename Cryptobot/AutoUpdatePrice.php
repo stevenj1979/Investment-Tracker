@@ -38,13 +38,13 @@ function getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend){
   else {return $newTrend;}
 }
 
-function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency){
+function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency, $coinMultiplier){
   Echo "<BR> calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency){";
   $finalTrend = getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend);
   Echo "<BR> Final Trend : $finalTrend ";
   if ($finalTrend >0){
     //Trend Upwards
-    $finalTrend = $finalTrend / 2;
+    $finalTrend = $finalTrend / $coinMultiplier;
     Echo "<BR> New Final Trend : $finalTrend ";
     $newSellPrice = (($LiveCoinPrice / 100) * $finalTrend) + $LiveCoinPrice;
     Echo "<BR> newSellPrice $newSellPrice = (($LiveCoinPrice / 100) * $finalTrend) + $LiveCoinPrice;";
@@ -54,7 +54,7 @@ function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPr
     updateSellPrice($coinID, $newSellPrice,$finalTrend);
   }else{
     //Trend Downwards
-    $finalTrend = $finalTrend / 2;
+    $finalTrend = $finalTrend / $coinMultiplier;
     Echo "<BR> New Final Trend : $finalTrend ";
     $newBuyPrice = (($LiveCoinPrice / 100) * $finalTrend) - $LiveCoinPrice;
     Echo "<BR> newBuyPrice $newBuyPrice = (($LiveCoinPrice / 100) * $finalTrend) - $LiveCoinPrice;";
@@ -110,7 +110,7 @@ $coinStatsSize = count($coinStatsAry);
 
 for($x = 0; $x < $coinStatsSize; $x++) {
   calculateBuyPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
-  ,$coinStatsAry[$x][9],$coinStatsAry[$x][10],$coinStatsAry[$x][11]);
+  ,$coinStatsAry[$x][9],$coinStatsAry[$x][10],$coinStatsAry[$x][11],4);
   //calculateSellPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
   //,$coinStatsAry[$x][9],$coinStatsAry[$x][10]);
   Echo "<BR><BR> NEW COIN!!! ------------------------------------------------------------";
