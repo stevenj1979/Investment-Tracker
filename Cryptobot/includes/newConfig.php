@@ -224,14 +224,18 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
      echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
    }
-   echo "<BR> Balance : $BTCBalance ";
-   if ($BTCBalance < 20.00){$returnPrice == 0;}
+   //echo "<BR> Balance : $BTCBalance ";
+   //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
    return $returnPrice/$bitPrice;
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+
+  if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
+  elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
+  elseif ($baseCurrency == 'ETH'){ $buyMin = 0.148;}
   //get min trade
   //if ($buyType == 2){
     //$btcBuyAmount = ($BTCBalance/100.28)*100;
@@ -273,7 +277,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
     //if ($avgCoinPrice > $bitPrice){ return; }
     //$quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    if ($btcBuyAmount>$minTradeAmount && $BTCBalance >= 20.00){
+    if ($btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
