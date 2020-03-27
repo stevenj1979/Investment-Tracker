@@ -115,7 +115,7 @@ function getLiveCoinPriceUSD($symbol){
   return $tmpCoinPrice;
 }
 
-function bittrexbalance($apikey, $apisecret, $base ){
+function bittrex_balance($apikey, $apisecret, $base ){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
