@@ -148,7 +148,7 @@ function getTotalHoldings($userID){
 
 
 
-function newPrice($bitPrice, $pct, $action){
+function new_Price($bitPrice, $pct, $action){
   if ($action == "Buy"){
     //$bitPrice = 0.00000742;
     echo "<BR> 1: ".number_format((float)$bitPrice, 8, '.', '');
@@ -159,7 +159,7 @@ function newPrice($bitPrice, $pct, $action){
     return round($bitPrice,8, PHP_ROUND_HALF_DOWN);
   }else{
     $bitPrice = $bitPrice+(($bitPrice/100)*$pct);
-    $bitPrice = round($newPrice,8, PHP_ROUND_HALF_DOWN);
+    $bitPrice = round($new_Price,8, PHP_ROUND_HALF_DOWN);
     return $bitPrice;
   }
 }
