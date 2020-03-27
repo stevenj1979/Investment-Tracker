@@ -3,6 +3,7 @@ require('includes/config.php');
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 include_once ('/home/stevenj1979/SQLData.php');
+include '../includes/newConfig.php';
 ?>
 
 <html>
@@ -114,30 +115,9 @@ function getLiveCoinPriceUSD($symbol){
   return $tmpCoinPrice;
 }
 
-
-function getTotalHoldings($userID){
-  $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "SELECT sum(`OriginalPurchasePrice`) as OriginalPurchasePrice,sum(`LivePrice`) as LivePrice ,sum(`Profit`) as Profit,`Status` FROM `UnrealisedProfit` WHERE `UserID` = $userID";
-  //echo $sql;
-  $result = $conn->query($sql);
-
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LivePrice'],$row['Profit'],$row['Status']);
-  }
-  $conn->close();
-  return $tempAry;
-}
-
-
-
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalance($apikey, $apisecret, $base ){
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
+    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -147,6 +127,26 @@ function bittrexbalance($apikey, $apisecret){
     $balance = $obj["result"]["Available"];
     return $balance;
 }
+
+function getTotalHoldings($userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `BittrexBTC`,`BittrexUSDT`,`BittrexETH`FROM `UserProfit` WHERE `UserID` = $userID and DATE_FORMAT(`ActionDate`, '%Y-%m-%d') = CURDATE()";
+  //echo $sql;
+  $result = $conn->query($sql);
+
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BittrexBTC'],$row['BittrexUSDT'],$row['BittrexETH']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+
 
 function newPrice($bitPrice, $pct, $action){
   if ($action == "Buy"){
@@ -191,7 +191,7 @@ $btcPrice = getLiveCoinPriceUSD("BTC");
       <div class="row">
             <div class="settingCol1">
               <?php
-              $profitUSD = $uProfit[0][2]*$btcPrice;
+              //$profitUSD = $uProfit[0][2]*$btcPrice;
 
               echo "<form action='Dashboard.php?dropdown=Yes' method='post'><select name='currencySelect'>";
               echo "<Option value='BTC'>BTC</option>";
@@ -207,12 +207,16 @@ $btcPrice = getLiveCoinPriceUSD("BTC");
                  $curSymbol = '$';
                  $round = 2;
               }
-              $purchasePrice = number_format((float)$uProfit[0][0] * $conversion, $round, '.', '');
-              $livePrice = number_format((float)$uProfit[0][1] * $conversion, $round, '.', '');
-              $uProfit = number_format((float)$uProfit[0][2] * $conversion, $round, '.', '');
+              $apiKey = getAPIKeyread(); $apiSecret = getAPISecretRead();
+              $btcPrice = number_format((float)$uProfit[0][0] * $conversion, $round, '.', '');
+              $usdtPrice = number_format((float)$uProfit[0][1] * $conversion, $round, '.', '');
+              $ethProfit = number_format((float)$uProfit[0][2] * $conversion, $round, '.', '');
+              $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
+              $LiveETHPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','ETH')), 8, '.', '');
+              $totalProfit = ($btcPrice*$LiveBTCPrice)+$usdtPrice+($ethProfit*$LiveETHPrice);
               echo "<h3>Dashboard</h3>";
-              echo "<table><TH>Purchase Price</TH><TH>Live Holding Price</TH><TH>Unrealised Profit</TH><tr>";
-              echo "<td>$curSymbol $purchasePrice</td><td>$curSymbol $livePrice</td><td>$curSymbol $uProfit</td>";
+              echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Total USD</TH><tr>";
+              echo "<td>BTC $btcPrice</td><td>USDT $usdtPrice</td><td>ETH $ethProfit</td><td>USD $totalProfit</td>";
               echo "</table>";
 
               //$tableData = chartData();
