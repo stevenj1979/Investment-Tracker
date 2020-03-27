@@ -166,7 +166,7 @@ function new_Price($bitPrice, $pct, $action){
 
 
 $uProfit = getTotalHoldings($_SESSION['ID']);
-$btcPrice = getLiveCoinPriceUSD("BTC");
+//$btcPrice = getLiveCoinPriceUSD("BTC");
 ?>
 <div class="header">
   <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
@@ -208,9 +208,9 @@ $btcPrice = getLiveCoinPriceUSD("BTC");
                  $round = 2;
               }
               $apiKey = getAPIKeyread(); $apiSecret = getAPISecretRead();
-              $btcPrice = number_format((float)$uProfit[0][0] * $conversion, $round, '.', '');
-              $usdtPrice = number_format((float)$uProfit[0][1] * $conversion, $round, '.', '');
-              $ethProfit = number_format((float)$uProfit[0][2] * $conversion, $round, '.', '');
+              $btcPrice = (float)$uProfit[0][0];
+              $usdtPrice = float)$uProfit[0][1];
+              $ethProfit = (float)$uProfit[0][2];
               echo "<BR> $btcPrice : $usdtPrice : $ethProfit ";
               $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
               $LiveETHPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','ETH')), 8, '.', '');
