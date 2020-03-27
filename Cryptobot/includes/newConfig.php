@@ -273,7 +273,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
     //if ($avgCoinPrice > $bitPrice){ return; }
     //$quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    if ($btcBuyAmount>$minTradeAmount){
+    if ($btcBuyAmount>$minTradeAmount && $BTCBalance >= 20.00){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
