@@ -209,7 +209,7 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
               }
               $apiKey = getAPIKeyread(); $apiSecret = getAPISecretRead();
               $btcPrice = (float)$uProfit[0][0];
-              $usdtPrice = float)$uProfit[0][1];
+              $usdtPrice = (float)$uProfit[0][1];
               $ethProfit = (float)$uProfit[0][2];
               echo "<BR> $btcPrice : $usdtPrice : $ethProfit ";
               $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
