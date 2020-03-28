@@ -135,12 +135,12 @@ function getTotalHoldings($userID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `BittrexBTC`,`BittrexUSDT`,`BittrexETH`FROM `UserProfit` WHERE `UserID` = $userID and DATE_FORMAT(`ActionDate`, '%Y-%m-%d') = CURDATE()";
+  $sql = "SELECT `BittrexBTC`,`BittrexUSDT`,`BittrexETH`, `BTCPrice`, `ETHPrice`, `USDTPrice` FROM `UserProfit` WHERE `UserID` = $userID and DATE_FORMAT(`ActionDate`, '%Y-%m-%d') = CURDATE()";
   //echo $sql;
   $result = $conn->query($sql);
 
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['BittrexBTC'],$row['BittrexUSDT'],$row['BittrexETH']);
+      $tempAry[] = Array($row['BittrexBTC'],$row['BittrexUSDT'],$row['BittrexETH'],$row['BTCPrice'],$row['ETHPrice'],$row['USDTPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -212,10 +212,13 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
               $usdtPrice = (float)$uProfit[0][1];
               $ethProfit = (float)$uProfit[0][2];
               //echo "<BR> $btcPrice : $usdtPrice : $ethProfit ";
-              $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
-              $LiveETHPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','ETH')), 8, '.', '');
+              //$LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
+              $LiveBTCPrice = (float)$uProfit[0][3];
+              //$LiveETHPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','ETH')), 8, '.', '');
+              $LiveETHPrice = (float)$uProfit[0][4];
+              $LiveUSDTPrice = (float)$uProfit[0][5];
               //echo "<BR> $LiveBTCPrice : $LiveETHPrice";
-              $totalProfit = ($btcPrice*$LiveBTCPrice)+$usdtPrice+($ethProfit*$LiveETHPrice);
+              $totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice);
               echo "<h3>Dashboard</h3>";
               echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Total USD</TH><tr>";
               echo "<td>BTC $btcPrice</td><td>USDT $usdtPrice</td><td>ETH $ethProfit</td><td>USD $totalProfit</td>";
