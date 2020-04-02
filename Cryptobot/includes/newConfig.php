@@ -855,7 +855,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   if ($sellCoin){
     $subject = "Coin Sale: ".$coin."_".$ruleID;
     $from = 'Coin Sale <sale@investment-tracker.net>';
-    echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount,$bitPrice";
+    echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
     $obj = bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);
     Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
