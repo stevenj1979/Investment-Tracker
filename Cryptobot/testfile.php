@@ -97,9 +97,9 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> 5. ".returnBuyAmount('BCH', 'USDT', 73, 0, 3, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 //echo "<BR> 6. ".returnBuyAmount('BCH', 'USDT', 50, 1, 3, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 
-$obj = bittrexsell('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f', 'ETH' ,0.26588255170000,145.86987634, 'USDT');
+//$obj = bittrexsell('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f', 'ETH' ,0.26588255170000,145.86987634, 'USDT');
 
-
+echo returnBuyAmount('BTC', 'USDT', 75.00, 0, 0.08291313, 6901.28,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
 
 ?>
 </html>

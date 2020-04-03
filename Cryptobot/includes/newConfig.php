@@ -205,29 +205,31 @@ function newPrice($bitPrice, $pct, $action){
 }
 
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
+  //Convert USD to BTC/ETH/BCH
+  //$btcBuyAmount = $btcBuyAmount/$bitPrice;
 
   if ($btcBuyAmount == 0){
-    echo "<BR> $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
+    echo "<BR> 1: $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
     $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     echo " $returnPrice ";
   }elseif ($btcBuyAmount > 0 && $buyType == 0){
-      echo "<BR> return price  = $btcBuyAmount/$bitPrice ";
-      $returnPrice = ($btcBuyAmount/$bitPrice) - (($BTCBalance/ 100 ) * 0.28);
+      echo "<BR> 2: return price  = $btcBuyAmount/$bitPrice ";
+      $returnPrice = ($btcBuyAmount) - (($BTCBalance/ 100 ) * 0.28);
       echo " : $returnPrice ";
     }elseif ($btcBuyAmount > 0 && $buyType == 1){
-      echo "<BR> ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28) : ";
+      echo "<BR> 3: ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28) : ";
       $returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);
       echo " $returnPrice ";
     }
 
    if ($returnPrice > $BTCBalance) {
      $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
-     echo "<BR> $returnPrice = $returnPrice > $BTCBalance ";
+     echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
    //echo "<BR> Balance : $BTCBalance ";
    //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
-   return $returnPrice/$bitPrice;
+   return $returnPrice;
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed){
