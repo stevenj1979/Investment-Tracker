@@ -207,7 +207,7 @@ function newPrice($bitPrice, $pct, $action){
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
   //Convert USD to BTC/ETH/BCH
   //$btcBuyAmount = $btcBuyAmount/$bitPrice;
-
+  echo "<BR> 0: returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){";
   if ($btcBuyAmount == 0){
     echo "<BR> 1: $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
     $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
