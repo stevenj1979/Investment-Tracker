@@ -18,9 +18,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $userID = $_GET['ID'];
-$btcPrice = getLiveCoinPriceUSD('BTC');
-$usdtPrice = getLiveCoinPriceUSD('USDT');
-$ethPrice = getLiveCoinPriceUSD('ETH');
+//$btcPrice = getLiveCoinPriceUSD('BTC');
+//$usdtPrice = getLiveCoinPriceUSD('USDT');
+//$ethPrice = getLiveCoinPriceUSD('ETH');
 $query = "SELECT sum(`LiveBTC`+`BittrexBTC`)* `BTCPrice` as TotalBTC
 ,sum(`LiveUSDT`+`BittrexUSDT`)* `USDTPrice`as TotalUSDT
 ,sum(`LiveETH`+`BittrexETH`)*`ETHPrice` as TotalETH
