@@ -228,7 +228,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
         $percentGain = 2.0;
         $arrlength = count($coins);
         //$pricelength = count($CoinPrice);
-        $btcPrice = getLiveCoinPriceUSD("BTC");
+        //$btcPrice = getLiveCoinPriceUSD("BTC");
         //echo "<br><h2>Profit</h2>";
         echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
         //echo "<HTML><Table><TH>Symbol</TH><TH>Original Purchase Price</TH><TH>Sale Price</TH><TH>Fee</TH><TH>Profit BTC</TH><TH>Original Purchase Price USD</TH><TH>Sale Price USD</TH><TH>Fee USD</TH><TH>Profit USD</TH><TH>Year Sold</TH><TH>Month Sold</TH><TH>Day Sold</TH><TR>";
@@ -251,10 +251,10 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
 
 
                     //$dateSold =  $coins[$x][7];
-                    $usdProfit = number_format((float)$profit*$btcPrice, 2, '.', '');
-                    $purchasePriceUSD = number_format((float)$purchasePrice*$btcPrice, 2, '.', '');
-                    $sellPriceUSD = number_format((float)$sellPrice*$btcPrice, 2, '.', '');
-                    $feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
+                    //$usdProfit = number_format((float)$profit*$btcPrice, 2, '.', '');
+                    //$purchasePriceUSD = number_format((float)$purchasePrice, 2, '.', '');
+                    //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
+                    //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
                     $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $profitUSD = $coins[$x][11];
                     $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;

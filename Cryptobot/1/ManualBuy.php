@@ -1,7 +1,6 @@
 <?php
 //require('includes/config.php');
 include_once ('/home/stevenj1979/SQLData.php');
-//$active = trim($_GET['y']);
 include '../includes/newConfig.php';
 
 ?>
