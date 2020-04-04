@@ -30,6 +30,7 @@ $title = 'CryptoBot';
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
+
 function getCoinsfromSQL($userID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -221,6 +222,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
  <div class="row">
         <div class="settingCol1">
 				<?php
+        $totalProfitSumUSD  = null; $totalProfitSumUSDT = null; $totalProfitSumETH = null; $totalProfitSumBTC = null;
         $coins = getCoinsfromSQL($_SESSION['ID']);
         //$CoinPrice = getCoinPrice();
 

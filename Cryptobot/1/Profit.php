@@ -220,6 +220,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
  <div class="row">
         <div class="settingCol1">
 				<?php
+        $totalProfitSumUSD  = null; $totalProfitSumUSDT = null; $totalProfitSumETH = null; $totalProfitSumBTC = null;
         $coins = getCoinsfromSQL($_SESSION['ID']);
         //$CoinPrice = getCoinPrice();
         $totalProfitSum = 0;
