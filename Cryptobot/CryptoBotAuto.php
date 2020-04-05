@@ -67,6 +67,7 @@ $current_date = date('Y-m-d H:i');
 $history_date = $current_date; $marketCap_Date = $current_date;
 //$newTime = date("Y-m-d H:i",strtotime("+5 minutes", strtotime($current_date)));
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
+logAction('CryptoBotAuto Start','CoinPrice');
 $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
@@ -75,7 +76,6 @@ $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = False;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 while($date <= $newTime){
   echo "NEW LOOP ";
-
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -105,7 +105,6 @@ while($date <= $newTime){
       copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
-
     }
     //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
@@ -147,11 +146,12 @@ while($date <= $newTime){
   $i = $i+1;
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";}
-  if (timerReady($marketCap_date,570)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer ";}
+  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice');}
+  if (timerReady($marketCap_date,570)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
+logAction('CryptoBotAuto End - Number of loops : '.$i,'CoinPrice');
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 ?>
 </html>
