@@ -8,7 +8,7 @@ include '../includes/newConfig.php';
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+
 <style>
 <?php include 'style/style.css'; ?>
 </style>
