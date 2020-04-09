@@ -2,11 +2,11 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php include_once ('/home/stevenj1979/SQLData.php');
+include '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
-include_once ('/home/stevenj1979/SQLData.php');
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
 if(isset($_GET['coin'])){
   //collect values from the url
@@ -23,8 +23,17 @@ if(isset($_GET['coin'])){
 
 if(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
+  date_default_timezone_set('Asia/Dubai');
+  $date = date("Y-m-d H:i:s", time());
   $_SESSION['coin'] = $_GET['coinTxt'];
   $_SESSION['amount'] = $_GET['amountTxt'];
+  $userConfig = getTrackingSellCoinsMan($_SESSION['transactionID']);
+  $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
+  $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
+  $userID = $_SESSION['ID'];
+  if (!Empty($KEK)){$apisecret = decrypt($KEK,$userConfig[0][40]);}
+  $bitPrice = number_format((float)($bitPrice), 8, '.', '');
+  $profit = $livePrice/$cost;
   if ($_GET['priceSelect'] == 'manual'){
     $_SESSION['salePrice'] = $_GET['costTxt'];
   }elseif ($_GET['priceSelect'] == 0.25){
@@ -60,14 +69,15 @@ if(isset($_GET['coinTxt'])){
     $tempPrice = (($_SESSION['cost']/100 )*20)+$_SESSION['cost'];
     $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
-  echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
-  //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
+  //echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
+  sellCoins($apikey, $apisecret, $_SESSION['coin'], $email, $userID, 0, $date,$_SESSION['baseCurrency'], 1, 1, 99999,$userName, $_SESSION['orderNo'] ,$_SESSION['amount'],$_SESSION['cost'],$_SESSION['transactionID']
+  ,$coinID,0,0,$_SESSION['salePrice']){
 
-  sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
+  //sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
   header('Location: SellCoins.php');
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceMan($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -81,7 +91,7 @@ function bittrexbalance($apikey, $apisecret){
 }
 
 
-function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
+function bittrexSellAddMan($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -96,7 +106,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
   $conn->close();
 }
 
-function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate){
+function bittrexsellMan($apikey, $apisecret, $symbol, $quant, $rate){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market=BTC-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
     echo "<BR>$uri<BR>";
@@ -120,6 +130,7 @@ function getTrackingSellCoinsMan($transactionID){
   $sql = "SELECT
 `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,
 `LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`,`Email`,`UserName`,`APIKey`,`APISecret`,`BTCBuyAmount`
+,`KEK`
 FROM `ManualSell` WHERE `ID` = $transactionID";
   $result = $conn->query($sql);
   print_r($sql);
@@ -129,7 +140,7 @@ FROM `ManualSell` WHERE `ID` = $transactionID";
       $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'],
       $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],
       $row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Email'],$row['UserName'],
-      $row['APIKey'],$row['APISecret'],$row['BTCBuyAmount']);
+      $row['APIKey'],$row['APISecret'],$row['BTCBuyAmount'],$row['KEK']);
   }
   $conn->close();
   return $tempAry;
