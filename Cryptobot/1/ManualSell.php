@@ -25,9 +25,9 @@ if(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
-  $_SESSION['coin'] = $_GET['coinTxt'];
-  $_SESSION['amount'] = $_GET['amountTxt'];
-  $userConfig = getTrackingSellCoinsMan($_SESSION['transactionID']);
+  $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $_SESSION['baseCurrency'];
+  $orderNo = $_SESSION['orderNo']; $cost = $_SESSION['cost']; $transactionID = $_SESSION['transactionID'];
+  $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
   $userID = $_SESSION['ID'];
@@ -69,9 +69,9 @@ if(isset($_GET['coinTxt'])){
     $tempPrice = (($_SESSION['cost']/100 )*20)+$_SESSION['cost'];
     $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
+  $salePrice = $_SESSION['salePrice'];
   //echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
-  sellCoins($apikey, $apisecret, $_SESSION['coin'], $email, $userID, 0, $date,$_SESSION['baseCurrency'], 1, 1, 99999,$userName, $_SESSION['orderNo'] ,$_SESSION['amount'],$_SESSION['cost'],$_SESSION['transactionID']
-  ,$coinID,0,0,$_SESSION['salePrice']){
+  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice){
 
   //sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
   header('Location: SellCoins.php');
