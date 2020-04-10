@@ -137,11 +137,14 @@ while($date <= $newTime){
                           logAction("PriceTrend newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)", 'BuySell');
                           echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
                           if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)){
+                            logAction("buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)", 'BuySell');
                             echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)";
                             if (autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)){
+                              logAction("autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)", 'BuySell');
                               echo "<BR> 12: autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)";
                               if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
                               if ($GLOBALS['allDisabled'] == true){
+                                logAction("GLOBALS['allDisabled'] : ".$GLOBALS['allDisabled'], 'BuySell');
                                 $date = date("Y-m-d H:i:s", time());
                                 echo "Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed<BR>";
                                 buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed);
