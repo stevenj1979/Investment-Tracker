@@ -649,7 +649,7 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
 }
 
 function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
-  echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
+  echo "BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice";
   if ($buyMinEnabled == 0){
       print_r("True");
       return True;
@@ -830,11 +830,11 @@ function autoBuy($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled){
 }
 
 function buyAmountOverride($buyAmountOverrideEnabled){
-  if ($autoBuyCoinEnabled == 0){
+  if ($buyAmountOverrideEnabled == 0){
       print_r("True");
       return True;
       exit;
-  }elseif ($autoBuyCoinEnabled == 1){
+  }elseif ($buyAmountOverrideEnabled == 1){
       print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
