@@ -105,5 +105,7 @@ $current_date = date('Y-m-d H:i');
 
 //buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-10 18:50:02', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
 echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 75, 1, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
+echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 75, 0, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
+echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 0, 1, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
 ?>
 </html>
