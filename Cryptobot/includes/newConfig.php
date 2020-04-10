@@ -1337,7 +1337,7 @@ function sqltoSteven($errorSQL){
 }
 
 function logAction($log, $logFile){
-  file_put_contents('/log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
+  file_put_contents('./log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
 }
 
 ?>
