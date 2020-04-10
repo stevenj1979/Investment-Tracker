@@ -309,7 +309,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         //if ($sendEmail){
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
-    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; }
+    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; logAction("BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount", 'BuySell');}
   //}
 }
 
