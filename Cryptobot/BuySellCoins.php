@@ -121,6 +121,7 @@ while($date <= $newTime){
         if (buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)){
           echo "3: BuyOrders buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)<br>";
           if (buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)){
+              logAction("buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)", 'BuySell');
               echo "4: 1HrChange buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)<br>";
             if (buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)){
                 echo "5: 24HrChange buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)<BR>";
