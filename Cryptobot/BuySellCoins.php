@@ -180,7 +180,7 @@ while($date <= $newTime){
         //      }
         //    }
         //  }
-        }
+        //}
       //}
       echo "<BR> NEXT RULE <BR>";
     }//Rule Loop
