@@ -98,9 +98,12 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> 6. ".returnBuyAmount('BCH', 'USDT', 50, 1, 3, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
 
 //$obj = bittrexsell('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f', 'ETH' ,0.26588255170000,145.86987634, 'USDT');
-$BTCBalance = bittrexbalance('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT');
-$bitPrice = number_format((float)(bittrexCoinPrice('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT','BTC')), 8, '.', '');
-echo returnBuyAmount('BTC', 'USDT', 75.00, 0, $BTCBalance, $bitPrice,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
+//$BTCBalance = bittrexbalance('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT');
+//$bitPrice = number_format((float)(bittrexCoinPrice('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT','BTC')), 8, '.', '');
+//echo returnBuyAmount('BTC', 'USDT', 75.00, 0, $BTCBalance, $bitPrice,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
+
+
+buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-10 18:50:02', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
 
 ?>
 </html>
