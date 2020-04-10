@@ -306,12 +306,13 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
+          logAction("Bittrex Status:  $status", 'BuySell');
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
-    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; logAction("BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount", 'BuySell');}
+    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; logAction("BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell');}
   //}
 }
 
