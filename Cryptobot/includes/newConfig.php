@@ -307,7 +307,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
-          logAction("Bittrex Status:  $obj", 'BuySell');
+          logAction("Bittrex Status:  ".json_encode($obj), 'BuySell');
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
