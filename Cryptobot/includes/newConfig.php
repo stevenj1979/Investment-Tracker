@@ -501,6 +501,36 @@ function copyNewMarketCap($coinID,$MarketCap){
   $conn->close();
 }
 
+function addBuyRuletoSQL($transactionID, $buyRule){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `Transaction` set `BuyRule`= $buyRule WHERE `ID` = $transactionID";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function addSellRuletoSQL($transactionID, $sellRule){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `Transaction` set `SellRule`= $buyRule WHERE `ID` = $transactionID";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function copyNewPctChange($coinID,$PctChange1Hr, $PctChange24Hr, $PctChange7D){
   $conn = getSQLConn(rand(1,3));
   Echo "<BR> call UpdatePctChange($coinID, $PctChange1Hr, $PctChange24Hr, $PctChange7D);";

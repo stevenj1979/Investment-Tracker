@@ -327,6 +327,7 @@ while($date <= $newTime){
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+          addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           continue;
         }
@@ -348,6 +349,7 @@ while($date <= $newTime){
                 sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+              addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }
           }
           continue;
@@ -367,6 +369,7 @@ while($date <= $newTime){
               sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
             }
             bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
+            addSellRuletoSQL($transactionID, $ruleIDBTSell);
             continue;
         }
         if ($daysOutstanding <= -28){
