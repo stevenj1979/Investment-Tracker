@@ -85,7 +85,7 @@ function getTrackingCoins(){
 
     $sql = "SELECT `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders` ,
     `LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend` FROM `CoinStatsView`";
-    echo "<BR> $sql";
+    //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -682,39 +682,39 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
 }
 
 function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
-  echo "BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice";
+  //echo "BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice";
   if ($buyMinEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($LiveCoinPrice <= $BuyMin){
-      echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice";
+      //echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False");
+    //print_r("False");
     return False;
   }
 }
 
 function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
-  echo "BuyMin $sellMin LiveBTCPrice $LiveBTCPrice";
+  //echo "BuyMin $sellMin LiveBTCPrice $LiveBTCPrice";
   if ($sellMinEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($LiveBTCPrice > $sellMin){
-      echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
+      //echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False");
+    //print_r("False");
     return False;
   }
 }
@@ -724,30 +724,30 @@ function returnPattern($p3,$p2,$p1, $t3,$t2,$t1){
   $rulePattern = $t4.$t3.$t2.$t1;
   Echo "$livePattern : $rulePattern : ";
   if ($livePattern == $rulePattern){
-    Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is True : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is Flase : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
 
 function newReturnPattern($livePattern, $rulePattern){
   if ($livePattern == $rulePattern){
-    Echo "<BR>This is True newReturnPattern : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is True newReturnPattern : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>This is Flase newReturnPattern : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is Flase newReturnPattern : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
 
 function buyRuleTest($livePattern, $rulePattern){
   if ($livePattern == $rulePattern){
-    Echo "<BR>This is True buyRuleTest : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is True buyRuleTest : $livePattern : $rulePattern <BR>";
     return true;
   }else{
-    Echo "<BR>This is Flase buyRuleTest : $livePattern : $rulePattern <BR>";
+    //Echo "<BR>This is Flase buyRuleTest : $livePattern : $rulePattern <BR>";
     return false;
   }
 }
@@ -756,18 +756,18 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   $retPattern = returnPattern($p3,$p2,$p1,$t3,$t2,$t1);
 
   if ($tEnabled == 0){
-      print_r("<BR>True buywithPattern");
+      //print_r("<BR>True buywithPattern");
       return True;
       exit;
   }elseif ($retPattern){
-      print_r("<BR>True buywithPattern");
+      //print_r("<BR>True buywithPattern");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False");
+    //print_r("False");
     return False;
   }
 }
@@ -781,19 +781,19 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
     if (newReturnPattern($livePattern,$pieces[$x])){ $testTrue = True;}
   }
     if ($pEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
     }
     elseif($testTrue){
-      print_r("True");
+      //print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
     }else{
       $GLOBALS['allDisabled'] = true;
       //print_r($buyTop >= $score);
-      print_r("False");
+      //print_r("False");
       return False;
     }
   //}
@@ -808,19 +808,19 @@ function limitToBuyRule($livePattern, $savedPattern, $pEnabled){
     if (buyRuleTest($livePattern,$pieces[$x])){ $testTrue = True;}
   }
     if ($pEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
     }
     elseif($testTrue){
-      print_r("True");
+      //print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
     }else{
       $GLOBALS['allDisabled'] = true;
       //print_r($buyTop >= $score);
-      print_r("False");
+      //print_r("False");
       return False;
     }
   //}
@@ -828,54 +828,54 @@ function limitToBuyRule($livePattern, $savedPattern, $pEnabled){
 
 function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
   if ($buyEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($buyTop >= $score && $buyBtm <= $score && $buyEnabled == 1){
-      print_r("True");
+      //print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False ".$score);
+    //print_r("False ".$score);
     return False;
   }
 }
 
 function autoBuy($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled){
   if ($autoBuyCoinEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($LiveCoinPrice <= $autoBuyPrice && $autoBuyCoinEnabled == 1){
-      print_r("True");
+      //print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False ");
+    //print_r("False ");
     return False;
   }
 }
 
 function buyAmountOverride($buyAmountOverrideEnabled){
   if ($buyAmountOverrideEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($buyAmountOverrideEnabled == 1){
-      print_r("True");
+      //print_r("True");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False ".$score);
+    //print_r("False ".$score);
     return False;
   }
 }
