@@ -302,6 +302,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$newTime = date("Y-m-d H:i:s",strtotime('+'.$timeToCancelBuyMins.'Mins', strtotime($current_date)));
             //$buyCancelTime = strtotime( '+ 16 minute');
             bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
+            addBuyRuletoSQL($bittrexRef,$ruleID);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
@@ -501,12 +502,12 @@ function copyNewMarketCap($coinID,$MarketCap){
   $conn->close();
 }
 
-function addBuyRuletoSQL($transactionID, $buyRule){
+function addBuyRuletoSQL($bittrexRef, $buyRule){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `Transaction` set `BuyRule`= $buyRule WHERE `ID` = $transactionID";
+  $sql = "UPDATE `Transaction` set `BuyRule`= $buyRule WHERE WHERE `BittrexRef` = '$bittrexRef'";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
