@@ -14,13 +14,13 @@ $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
   parse_str($argv[1], $params);
   $tmpTime = str_replace('_', ' ', $params['mins']);
-  echo $tmpTime;
+  //echo $tmpTime;
   //error_log($argv[1], 0);
 }
-echo "<BR> isEmpty : ".empty($_GET['mins']);
+//echo "<BR> isEmpty : ".empty($_GET['mins']);
 if (!empty($_GET['mins'])){
   $tmpTime = str_replace('_', ' ', $_GET['mins']);
-  echo "<br> GETMINS: ".$_GET['mins'];
+  //echo "<br> GETMINS: ".$_GET['mins'];
 }
 
 
