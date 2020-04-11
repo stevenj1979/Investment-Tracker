@@ -40,7 +40,7 @@ $coins = getTrackingCoins();
 
 $coinLength = Count($coins);
 
-echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
+//echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($date <= $newTime){
   echo "<BR> BUY COINS!! ";
   for($x = 0; $x < $coinLength; $x++) {
@@ -54,8 +54,8 @@ while($date <= $newTime){
     $LiveCoinPrice = $coins[$x][17];
     //$timeToCancelBuyMins = $coins[$x][31];
     //LOG
-    echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
-    echo "<blockquote>";
+    //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
+    //echo "<blockquote>";
     for($y = 0; $y < $buyRulesSize; $y++) {
       //Variables
       $BuyOrdersEnabled = $buyRules[$y][1]; $BuyOrdersTop = $buyRules[$y][2]; $BuyOrdersBtm = $buyRules[$y][3];
@@ -72,7 +72,7 @@ while($date <= $newTime){
       $APISecret = $buyRules[$y][31];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
-      Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
+      //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][34]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
@@ -84,17 +84,17 @@ while($date <= $newTime){
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
       //if ($userID != ){ continue; }
-      echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
-      echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
-      echo "<BR> Disable Until $disableUntil";
-      echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
-      echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
+      //echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
+      //echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
+      //echo "<BR> Disable Until $disableUntil";
+      //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
+      //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
-      Echo "<BR>Rule Limited to :  $limitToCoin";
+      //Echo "<BR>Rule Limited to :  $limitToCoin";
       $totalBTCSpent = getTotalBTC($userID);
 
       if (!empty($totalBTCSpent[0][0])){
@@ -113,9 +113,9 @@ while($date <= $newTime){
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
-      echo "<br> buyAmountOverride($buyAmountOverrideEnabled)) $BTCAmount = $buyAmountOverride; Echo <BR> 13: BuyAmountOverride set to : $buyAmountOverride;";
-      echo "Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
-      echo "1: MarketCap buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)<br>";
+      //echo "<br> buyAmountOverride($buyAmountOverrideEnabled)) $BTCAmount = $buyAmountOverride; Echo <BR> 13: BuyAmountOverride set to : $buyAmountOverride;";
+      //echo "Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
+      //echo "1: MarketCap buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)<br>";
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $test2 = buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
       $test3 = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled);
@@ -130,7 +130,8 @@ while($date <= $newTime){
       $test12 = $GLOBALS['allDisabled'];
       if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
       //logAction("1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ", 'BuySell');
-      Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
+      //Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
+      Echo "<BR> UserID: $userID | Coin : $symbol | 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
       //if (buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)){
       //  echo "2: Volume buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)<br>";
       //  if (buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)){
@@ -272,6 +273,7 @@ while($date <= $newTime){
                                 //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
                                 sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
                                 //break;
+                                //addSellRuletoSQL()
                               }
 
                             }
@@ -327,7 +329,7 @@ while($date <= $newTime){
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
-          addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
+          //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           continue;
         }
@@ -349,7 +351,7 @@ while($date <= $newTime){
                 sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
-              addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
+              //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }
           }
           continue;
@@ -369,7 +371,7 @@ while($date <= $newTime){
               sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
             }
             bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
-            addSellRuletoSQL($transactionID, $ruleIDBTSell);
+            //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             continue;
         }
         if ($daysOutstanding <= -28){
