@@ -27,6 +27,7 @@ if(isset($_GET['coinTxt'])){
   $date = date("Y-m-d H:i:s", time());
   $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $_SESSION['baseCurrency'];
   $orderNo = $_SESSION['orderNo']; $cost = $_SESSION['cost']; $transactionID = $_SESSION['transactionID'];
+  Echo "<BR> TransactionID $transactionID | ".$_SESSION['transactionID'];
   $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
