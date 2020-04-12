@@ -914,6 +914,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       //writeBittrexAction($coinID,$transactionID,$userID,"Sell",$bittrexRef, $date, $status,$bitPrice);
       bittrexSellAdd($coinID, $transactionID, $userID, 'Sell', $bittrexRef, $status, $bitPrice, $ruleID);
     }
+    logAction("SellCoins:  ".json_encode($obj), 'BuySell');
   }
   if ($sendEmail==1 &&  $sellCoin ==0){
   //if ($sendEmail){
