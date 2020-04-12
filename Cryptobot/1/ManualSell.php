@@ -15,7 +15,7 @@ if(isset($_GET['coin'])){
   $_SESSION['amount'] = trim($_GET['amount']);
   $_SESSION['cost'] = trim($_GET['cost']);
   $_SESSION['baseCurrency'] = trim($_GET['baseCurrency']);
-  $_SESSION['transactionID'] = trim($_GET['transacationID']);
+  $_SESSION['transactionID'] = trim($_GET['transactionID']);
   $_SESSION['orderNo'] = trim($_GET['orderNo']);
   $_SESSION['salePrice'] = trim($_GET['salePrice']);
   //$active = trim($_GET['y']);
