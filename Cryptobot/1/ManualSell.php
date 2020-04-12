@@ -27,7 +27,7 @@ if(isset($_GET['coinTxt'])){
   $date = date("Y-m-d H:i:s", time());
   $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $GLOBALS['baseCurrency'];
   $orderNo = $GLOBALS['orderNo']; $cost = $GLOBALS['cost']; $transactionID = $GLOBALS['transactionID'];
-  Echo "<BR> TransactionID ".$_GET['transactionID']." | ".$GLOBALS['baseCurrency']." | ".$GLOBALS['orderNo']." | ".$GLOBALS['cost'];
+  Echo "<BR> TransactionID ".$_GET['TranIDTxt']." | ".$GLOBALS['baseCurrency']." | ".$GLOBALS['orderNo']." | ".$GLOBALS['cost'];
   $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
@@ -221,6 +221,7 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                   <option value="10" name='tenPctOpt'>10%</option>
                   <option value="20" name='twentyPctOpt'>20%</option>
                 Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
+                TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>"><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
               </div>
