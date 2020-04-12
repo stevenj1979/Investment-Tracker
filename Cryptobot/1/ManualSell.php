@@ -36,41 +36,41 @@ if(isset($_GET['coinTxt'])){
   $bitPrice = number_format((float)($bitPrice), 8, '.', '');
   $profit = $livePrice/$cost;
   if ($_GET['priceSelect'] == 'manual'){
-    $_SESSION['salePrice'] = $_GET['costTxt'];
+    $GLOBALS['salePrice'] = $_GET['costTxt'];
   }elseif ($_GET['priceSelect'] == 0.25){
-    $tempPrice = (($_SESSION['cost']/100 )*0.25)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*0.25)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 0.5){
-    $tempPrice = (($_SESSION['cost']/100 )*0.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*0.5)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 1){
-    $tempPrice = (($_SESSION['cost']/100 )*1)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*1)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 1.5){
-    $tempPrice = (($_SESSION['cost']/100 )*1.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*1.5)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 2){
-    $tempPrice = (($_SESSION['cost']/100 )*2)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*2)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 2.5){
-    $tempPrice = (($_SESSION['cost']/100 )*2.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*2.5)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 3){
-    $tempPrice = (($_SESSION['cost']/100 )*3)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*3)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 5){
-    $tempPrice = (($_SESSION['cost']/100 )*5)+$_SESSION['cost'];
+    $tempPrice = (($GLOBALS['cost']/100 )*5)+$GLOBALS['cost'];
     echo "<BR> Temp Price $tempPrice";
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
-    echo "<BR> session price ".$_SESSION['salePrice'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    echo "<BR> session price ".$GLOBALS['salePrice'];
   }elseif ($_GET['priceSelect'] == 10){
-    $tempPrice = (($_SESSION['cost']/100 )*10)+$_SESSION['cost'];
+    $tempPrice = (($GLOBALS['cost']/100 )*10)+$GLOBALS['cost'];
     $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 20){
-    $tempPrice = (($_SESSION['cost']/100 )*20)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($GLOBALS['cost']/100 )*20)+$GLOBALS['cost'];
+    $GLOBALS['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
-  $salePrice = $_SESSION['salePrice'];
+  $salePrice = $GLOBALS['salePrice'];
   //echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
   sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
 
@@ -206,8 +206,8 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
 <h1>Manual Sell Coin</h1>
 <h2>Enter Price</h2>
                 <form action='ManualSell.php?manualPrice=Yes' method='get'>
-                Coin: <input type="text" name="coinTxt" value="<?php echo $_SESSION['coin']; ?>"><br>
-                Amount: <input type="text" name="amountTxt" value="<?php echo $_SESSION['amount']; ?>"><br>
+                Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+                Amount: <input type="text" name="amountTxt" value="<?php echo $GLOBALS['amount']; ?>"><br>
                 <select name="priceSelect">
                   <option value="manual" name='manualOpt'>Manual Price (Below)</option>
                   <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
@@ -220,7 +220,7 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                   <option value="5" name='fivePctOpt'>5%</option>
                   <option value="10" name='tenPctOpt'>10%</option>
                   <option value="20" name='twentyPctOpt'>20%</option>
-                Cost: <input type="text" name="costTxt" value="<?php echo $_SESSION['salePrice']; ?>"><br>
+                Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
               </div>
