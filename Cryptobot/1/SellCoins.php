@@ -233,7 +233,7 @@ $date = date('Y/m/d H:i:s', time());
             }
             echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
             echo "<td>".number_format((float)$profitBtc, 8, '.', '')."</td>";
-            echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transacationID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#F1948A'></i></a></td>";
+            echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#F1948A'></i></a></td>";
             echo "<tr>";
         }
         print_r("</table>");
