@@ -11,13 +11,13 @@ echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'
 if(isset($_GET['coin'])){
   //collect values from the url
   echo "Coin is set ".$_GET['coin']. " TransactionID : ".$_GET['transactionID'];
-  $_SESSION['coin'] = trim($_GET['coin']);
-  $_SESSION['amount'] = trim($_GET['amount']);
-  $_SESSION['cost'] = trim($_GET['cost']);
-  $_SESSION['baseCurrency'] = trim($_GET['baseCurrency']);
-  $_SESSION['transactionID'] = trim($_GET['transactionID']);
-  $_SESSION['orderNo'] = trim($_GET['orderNo']);
-  $_SESSION['salePrice'] = trim($_GET['salePrice']);
+  $GLOBALS['coin'] = trim($_GET['coin']);
+  $GLOBALS['amount'] = trim($_GET['amount']);
+  $GLOBALS['cost'] = trim($_GET['cost']);
+  $GLOBALS['baseCurrency'] = trim($_GET['baseCurrency']);
+  $GLOBALS['transactionID'] = trim($_GET['transactionID']);
+  $GLOBALS['orderNo'] = trim($_GET['orderNo']);
+  $GLOBALS['salePrice'] = trim($_GET['salePrice']);
   //$active = trim($_GET['y']);
 }
 
@@ -25,9 +25,9 @@ if(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
-  $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $_SESSION['baseCurrency'];
-  $orderNo = $_SESSION['orderNo']; $cost = $_SESSION['cost']; $transactionID = $_SESSION['transactionID'];
-  Echo "<BR> TransactionID $transactionID | ".$_SESSION['transactionID'];
+  $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $GLOBALS['baseCurrency'];
+  $orderNo = $GLOBALS['orderNo']; $cost = $GLOBALS['cost']; $transactionID = $GLOBALS['transactionID'];
+  Echo "<BR> TransactionID $transactionID | ".$GLOBALS['transactionID'];
   $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
