@@ -45,6 +45,7 @@ if(!empty($_GET['uuid'])){
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        logAction("Bittrex Cancel 1 : ".json_encode($result), 'BuySell');
       }else{
         echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
@@ -74,10 +75,12 @@ if(!empty($_GET['uuid'])){
           }
           //break;
         }
+        logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell');
       }else {
         bittrexUpdateBuyQty($_GET['transactionID'], $orderQty-$orderQtyRemaining);
         bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell');
       }
     }
   }
@@ -98,6 +101,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  logAction("bittrexBuyCancel: ".$sql, 'BuySell');
 }
 
 function bittrexUpdateBuyQty($transactionID, $quantity){
@@ -144,6 +148,7 @@ function bittrexSellCancel($bittrexRef, $transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  logAction("bittrexSellCancel: ".$sql, 'BuySell');
 }
 
 function bittrexCancel($apikey, $apisecret, $uuid){
@@ -157,6 +162,7 @@ function bittrexCancel($apikey, $apisecret, $uuid){
     $obj = json_decode($execResult, true);
     $balance = $obj["success"];
     return $balance;
+    logAction("bittrexCancel: ".$uri, 'BuySell');
 }
 
 function changeTransStatus($orderNo, $transactionID){
