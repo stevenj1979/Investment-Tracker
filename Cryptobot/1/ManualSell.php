@@ -10,7 +10,7 @@ include '../includes/newConfig.php';?>
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
 if(isset($_GET['coin'])){
   //collect values from the url
-  echo "Coin is set ".$_GET['coin'];
+  echo "Coin is set ".$_GET['coin']. " TransactionID : ".$_GET['transactionID'];
   $_SESSION['coin'] = trim($_GET['coin']);
   $_SESSION['amount'] = trim($_GET['amount']);
   $_SESSION['cost'] = trim($_GET['cost']);
