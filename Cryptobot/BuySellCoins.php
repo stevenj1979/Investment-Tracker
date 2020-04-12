@@ -186,10 +186,10 @@ while($date <= $newTime){
       //}
       echo "<BR> NEXT RULE <BR>";
     }//Rule Loop
-    echo "</blockquote>";
+    //echo "</blockquote>";
   }//Coin Loop
   echo "<BR> SELL COINS!! ";
-  echo "<blockquote>";
+  //echo "<blockquote>";
   $sellCoins = getTrackingSellCoins();
   $sellCoinsLength = count($sellCoins);
   for($a = 0; $a < $sellCoinsLength; $a++) {
@@ -307,7 +307,7 @@ while($date <= $newTime){
     }//Sell Rules
 
   }//Sell Coin Loop
-  echo "</blockquote>";
+  //echo "</blockquote>";
     echo "<BR> CHECK BITTREX!! ";
   echo "<blockquote>";
   $BittrexReqs = getBittrexRequests();
