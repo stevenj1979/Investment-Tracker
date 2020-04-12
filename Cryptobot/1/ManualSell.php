@@ -31,7 +31,7 @@ if(isset($_GET['coinTxt'])){
   $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
-  $userID = $_GET['UserIDTxt'];
+  $userID = $userConfig[0][0];
   if (!Empty($KEK)){$apisecret = decrypt($KEK,$userConfig[0][40]);}
   $bitPrice = number_format((float)($bitPrice), 8, '.', '');
   $profit = $livePrice/$cost;
@@ -225,7 +225,6 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                 BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>"><br>
                 OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>"><br>
                 OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>"><br>
-                UserID: <input type="text" name="UserIDTxt" value="<?php echo $_SESSION['ID']; ?>"><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
               </div>
