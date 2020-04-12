@@ -37,9 +37,11 @@ echo "UUID ".$_GET['uuid'];
 echo "<BR> EMPTY ".empty($_GET['uuid']);
 if(!empty($_GET['uuid'])){
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+  logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
   if ($resultOrd == 1){
     $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
+    logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell');
     if ($orderQty == $orderQtyRemaining) {
       if ($_GET['type'] == 'Sell'){
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
