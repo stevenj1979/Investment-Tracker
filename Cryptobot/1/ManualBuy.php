@@ -80,9 +80,9 @@ if(isset($_POST['coinTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
-  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_post['BaseCurTxt'];
-  $coinID = $_post['CoinIDTxt']; $userID = $_SESSION['ID'];
-  $TimeToCancelBuyMins = $_post['TimeToCancelBuyMinsTxt'];
+  $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+  $coinID = $_POST['CoinIDTxt']; $userID = $_SESSION['ID'];
+  $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
   $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
   $userConfig = getUserConfig($userID);
   $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
