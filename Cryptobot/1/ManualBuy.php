@@ -61,6 +61,7 @@ google.setOnLoadCallback(drawVisualization);
 if($_GET['coin'] <> ""){
   //collect values from the url
   $userConfig = getUserConfig($_SESSION['ID']);
+  $btcBuyAmount = $userConfig[0][4];
   $coinStats = getCoinStats($_GET['coin']);
   echo "Coin is set ".$_GET['coin'];
   $coin = trim($_GET['coin']);
@@ -186,7 +187,7 @@ $userID = $_SESSION['ID'];
           <h2>Enter Price</h2>
           <form action='ManualBuy.php?manualPrice=Yes' method='post'>
             Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
-            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['BTCBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance ?> <br>
+            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['btcBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance ?> <br>
             <select name="priceSelect">
               <option value="manual" name='manualOpt'>Manual Price (Below)</option>
               <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
