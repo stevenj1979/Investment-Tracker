@@ -179,7 +179,7 @@ $userID = $_SESSION['ID'];
     $apiKey = $GLOBALS['APIKey']; $apiSecret = $GLOBALS['APISecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
-    echo "BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency)";
+    $cost = $GLOBALS['cost'];
 
     ?>
   </div>
@@ -208,13 +208,13 @@ $userID = $_SESSION['ID'];
             Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
             Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
             <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
-              $tmpPrice = number_format((float)$GLOBALS['cost']-(($GLOBALS['cost']/100 )*1), 8, '.', '');
-              $GLOBALS['cost'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-              echo "<p> 1% = ".number_format((float)$salePrice, 8, '.', '');
+              $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
+              $cost = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+              echo "<p> 1% = ".number_format((float)$cost, 8, '.', '');
               ?>
             <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
             <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
-            BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+            BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><br>
             CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
             UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
             <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
