@@ -221,9 +221,9 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                   <option value="10" name='tenPctOpt'>10%</option>
                   <option value="20" name='twentyPctOpt'>20%</option>
                 Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
-                TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" readonly ><br>
-                BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" readonly ><br>
-                OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" readonly ><br>
+                TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" style='color:Gray' readonly ><br>
+                BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+                OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" style='color:Gray' readonly ><br>
                 OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" readonly ><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
