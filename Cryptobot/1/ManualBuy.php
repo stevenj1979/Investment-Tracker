@@ -63,18 +63,11 @@ if($_GET['coin'] <> ""){
   $userConfig = getUserConfig($_SESSION['ID']);
   $coinStats = getCoinStats($_GET['coin']);
   echo "Coin is set ".$_GET['coin'];
-  $_SESSION['coin'] = trim($_GET['coin']);
-  $_SESSION['cost'] = trim($_GET['coinPrice']);
-  $_SESSION['baseCurrency'] = trim($_GET['baseCurrency']);
-  $_SESSION['coinID'] = trim($_GET['coinID']);
-  $_SESSION['UserName'] = $userConfig[0][0];
-  $_SESSION['APIKey'] = $userConfig[0][1];
-  $_SESSION['APISecret'] = $userConfig[0][2];
-  $_SESSION['Email'] = $userConfig[0][3];
-  $_SESSION['BTCBuyAmount'] = $userConfig[0][4];
-  $_SESSION['AvgCoinPrice'] = $coinStats[0][1];
-  $_SESSION['MaxCoinPrice'] = $coinStats[0][2];
-  $_SESSION['MinCoinPrice'] = $coinStats[0][3];
+  $coin = trim($_GET['coin']);
+  $cost = trim($_GET['coinPrice']);
+  $baseCurrency = trim($_GET['baseCurrency']);
+  $coinID = trim($_GET['coinID']);
+
   //$active = trim($_GET['y']);
 }
 
@@ -83,46 +76,50 @@ if(isset($_POST['coinTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
-  $_SESSION['salePrice'] = number_format((float)$_post['coinPriceTxt'], 8, '.', '');
-  $_SESSION['TimeToCancelBuyMinsTxt'] = $_post['TimeToCancelBuyMinsTxt'];
-  $_SESSION['BTCBuyAmount'] = $_POST['costTxt'];
+  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_post['BaseCurTxt'];
+  $coinID = $_post['CoinIDTxt']; $userID = $_SESSION['ID'];
+  $TimeToCancelBuyMins = $_post['TimeToCancelBuyMinsTxt'];
+  $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
+  $userConfig = getUserConfig($userID);
+  $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
+  $BTCBuyAmount = $userConfig[0][4]; $AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
   if ($_POST['priceSelect'] == 'manual'){
-    $_SESSION['salePrice'] = $_POST['coinPriceTxt'];
+    $salePrice = $_POST['coinPriceTxt'];
   }elseif ($_POST['priceSelect'] == 0.25){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*0.25), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*0.25), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 0.5){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*0.5), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*0.5), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 1){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*1), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 1.5){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*1.5), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*1.5), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 2){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*2), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*2), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 2.5){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*2.5), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*2.5), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 3){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*3), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*3), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 5){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*5), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*5), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 10){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*10), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*10), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }elseif ($_POST['priceSelect'] == 20){
-    $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*20), 8, '.', '');
-    $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    $tmpPrice = number_format((float)$cost-(($cost/100 )*20), 8, '.', '');
+    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
   }
 
-  buyCoins($_SESSION['APIKey'],$_SESSION['APISecret'],$_SESSION['coin'],$_SESSION['Email'],$_SESSION['ID'],$date,$_SESSION['baseCurrency']
-  ,1,1,$_SESSION['BTCBuyAmount'],99999,$_SESSION['UserName'],$_SESSION['coinID'],0,0,1,$_SESSION['TimeToCancelBuyMinsTxt'],'ALL');
-  header('Location: BuyCoins.php');
+  //buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL');
+  echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL');";
+  //header('Location: BuyCoins.php');
 }
 
 
@@ -173,7 +170,7 @@ $userID = $_SESSION['ID'];
     <a href="bittrexOrders.php">Bittrex Orders</a>
     <a href="Settings.php">Settings</a><?php
     if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-    $apiKey = $_SESSION['APIKey']; $apiSecret = $_SESSION['APISecret'] ; $baseCurrency = $_SESSION['baseCurrency'];
+    $apiKey = $GLOBALS['APIKey']; $apiSecret = $GLOBALS['APISecret'] ; $baseCurrency = $GLOBALS['baseCurrency'];
     $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
     echo "BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency)";
 
@@ -187,8 +184,8 @@ $userID = $_SESSION['ID'];
           <h1>Manual Buy Coin</h1>
           <h2>Enter Price</h2>
           <form action='ManualBuy.php?manualPrice=Yes' method='post'>
-            Coin: <input type="text" name="coinTxt" value="<?php echo $_SESSION['coin']; ?>"><br>
-            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $_SESSION['BTCBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance ?> <br>
+            Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['BTCBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance ?> <br>
             <select name="priceSelect">
               <option value="manual" name='manualOpt'>Manual Price (Below)</option>
               <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
@@ -201,15 +198,17 @@ $userID = $_SESSION['ID'];
               <option value="5" name='fivePctOpt'>5%</option>
               <option value="10" name='tenPctOpt'>10%</option>
               <option value="20" name='twentyPctOpt'>20%</option>
-            Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $_SESSION['cost']; ?>"> <br>
+            Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
             Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
-            <p>Average Coin Price = <?php echo $_SESSION['AvgCoinPrice'];
-              $tmpPrice = number_format((float)$_SESSION['cost']-(($_SESSION['cost']/100 )*1), 8, '.', '');
+            <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
+              $tmpPrice = number_format((float)$GLOBALS['cost']-(($GLOBALS['cost']/100 )*1), 8, '.', '');
               $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-              echo "<p> 1% = ".number_format((float)$_SESSION['salePrice'], 8, '.', '');
+              echo "<p> 1% = ".number_format((float)$salePrice, 8, '.', '');
               ?>
-            <p>Max Coin Price = <?php  echo $_SESSION['MaxCoinPrice']; ?>
-            <p>Min Coin Price = <?php  echo $_SESSION['MinCoinPrice']; ?>
+            <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
+            <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
+            BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+            CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['CoinID']; ?>" style='color:Gray' readonly ><br>
             <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
           </form>
           <h2 align="center">Coin Price History</h2>
