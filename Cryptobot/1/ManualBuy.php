@@ -69,8 +69,8 @@ if($_GET['coin'] <> ""){
   $cost = trim($_GET['coinPrice']);
   $baseCurrency = trim($_GET['baseCurrency']);
   $coinID = trim($_GET['coinID']);
-  $KEK = userConfig[0][5];
-  $apikey = userConfig[0][1]; $apiSecret = userConfig[0][2];
+  $KEK = $userConfig[0][5];
+  $apikey = $userConfig[0][1]; $apiSecret = $userConfig[0][2];
   //$coinPrice = trim($_GET['coinPrice']);
   //$active = trim($_GET['y']);
 }
