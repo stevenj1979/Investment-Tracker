@@ -488,7 +488,7 @@ function getCoinMarketCapStats(){
       }
       $start = $start + $limit + 1;
     }
-    logAction("$cnmkt",'CMC');
+    logAction("$cnmkt | ".json_decode($fgc),'CMC');
   return $tmpCoinPrice;
 }
 
