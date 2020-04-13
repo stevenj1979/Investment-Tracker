@@ -179,7 +179,7 @@ $userID = $_SESSION['ID'];
     if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
     $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
-    $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
+    $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
     $cost = $GLOBALS['cost'];
 
     ?>
@@ -193,7 +193,7 @@ $userID = $_SESSION['ID'];
           <h2>Enter Price</h2>
           <form action='ManualBuy.php?manualPrice=Yes' method='post'>
             Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
-            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['btcBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance.$apiKey.$apiKey.$baseCurrency.$KEK ?> <br>
+            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['btcBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance.$apiKey.$apiSecret.$baseCurrency.$KEK ?> <br>
             <select name="priceSelect">
               <option value="manual" name='manualOpt'>Manual Price (Below)</option>
               <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
