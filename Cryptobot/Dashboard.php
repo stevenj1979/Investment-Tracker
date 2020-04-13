@@ -134,6 +134,7 @@ function getLiveCoinPriceUSD($symbol){
       $tmpCoinPrice = $fgc[$i]["price_usd"];
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 

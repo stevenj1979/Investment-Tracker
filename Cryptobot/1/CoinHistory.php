@@ -254,6 +254,7 @@ function getLiveCoinPrice($symbol){
 
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 

@@ -9,6 +9,7 @@ function getLiveCoinPriceUSD($symbol){
   for($i=0;$i<$limit;$i++){
     if ($fgc[$i]["symbol"] == $symbol){$tmpCoinPrice = $fgc[$i]["price_usd"];}
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 

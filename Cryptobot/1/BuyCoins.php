@@ -127,6 +127,7 @@ function getLiveCoinPrice($symbol){
       $tmpCoinPrice = $fgc[$i]["price_btc"];
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 

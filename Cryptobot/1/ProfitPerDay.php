@@ -164,6 +164,7 @@ function getLiveCoinPrice($symbol){
 
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
@@ -178,6 +179,7 @@ function getLiveCoinPriceUSD($symbol){
       $tmpCoinPrice = $fgc[$i]["price_usd"];
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
