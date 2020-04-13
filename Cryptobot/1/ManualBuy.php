@@ -134,7 +134,7 @@ function getUserConfig($userID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `UserName`,`APIKey`,`APISecret`,`Email`,`BTCBuyAmount`, `KEK` FROM `UserConfigView` WHERE `ID` = $userID";
-  //echo $sql;
+  echo $sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserName'],$row['APIKey'],$row['APISecret'],$row['Email'],$row['BTCBuyAmount']);}
   $conn->close();
