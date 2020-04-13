@@ -213,6 +213,7 @@ $userID = $_SESSION['ID'];
             <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
             BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
             CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
+            UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
             <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
           </form>
           <h2 align="center">Coin Price History</h2>
