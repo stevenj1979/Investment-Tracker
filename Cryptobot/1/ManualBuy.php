@@ -81,7 +81,7 @@ if(isset($_POST['coinTxt'])){
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
   $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
-  $coinID = $_POST['CoinIDTxt']; $userID = $_SESSION['ID'];
+  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['userID'];
   $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
   $BTCBuyAmount = $_POST['costTxt']; $cost = $_POST['coinPriceTxt'];
   $userConfig = getUserConfig($userID);
@@ -89,6 +89,7 @@ if(isset($_POST['coinTxt'])){
   $AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
   $KEK = $userConfig[0][5];
   if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
+  echo "<BR> KEK $KEK | APISecret $APISecret";
   if ($_POST['priceSelect'] == 'manual'){
     $salePrice = $cost;
   }elseif ($_POST['priceSelect'] == 0.25){
