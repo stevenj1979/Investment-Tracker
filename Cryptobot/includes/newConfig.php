@@ -236,7 +236,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
    return $returnPrice/$bitPrice;
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed){
+function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
 
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
@@ -257,7 +257,11 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 //    $btcBuyAmount = $buyAmountOverride;
 
 //  }
-  $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+  if ($buyPriceCoin == 0){
+    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+  }else{
+    $bitPrice = $buyPriceCoin;
+  }
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
