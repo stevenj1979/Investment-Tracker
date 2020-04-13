@@ -177,7 +177,7 @@ $userID = $_SESSION['ID'];
     <a href="bittrexOrders.php">Bittrex Orders</a>
     <a href="Settings.php">Settings</a><?php
     if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-    $apiKey = $GLOBALS['APIKey']; $apiSecret = $GLOBALS['APISecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
+    $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
     $cost = $GLOBALS['cost'];
