@@ -78,7 +78,7 @@ if(isset($_POST['coinTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
-  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_post['BaseCurTxt'];
+  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_get['BaseCurTxt'];
   $coinID = $_post['CoinIDTxt']; $userID = $_SESSION['ID'];
   $TimeToCancelBuyMins = $_post['TimeToCancelBuyMinsTxt'];
   $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
@@ -207,7 +207,7 @@ $userID = $_SESSION['ID'];
             Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
             <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
               $tmpPrice = number_format((float)$GLOBALS['cost']-(($GLOBALS['cost']/100 )*1), 8, '.', '');
-              $_SESSION['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+              $GLOBALS['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
               echo "<p> 1% = ".number_format((float)$salePrice, 8, '.', '');
               ?>
             <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
