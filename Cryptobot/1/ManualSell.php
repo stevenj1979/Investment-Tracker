@@ -71,9 +71,9 @@ if(isset($_GET['coinTxt'])){
     $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
 
-  //sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
-  echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
-  //header('Location: SellCoins.php');
+  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
+  header('Location: SellCoins.php');
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
