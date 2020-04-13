@@ -2,6 +2,7 @@
 //require('includes/config.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include '../includes/newConfig.php';
+require('includes/config.php');
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 ?>
 <html>
