@@ -119,6 +119,7 @@ if(isset($_POST['coinTxt'])){
 
   //buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL');
   echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL');";
+
   //header('Location: BuyCoins.php');
 }
 
@@ -208,7 +209,7 @@ $userID = $_SESSION['ID'];
             <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
             <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
             BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
-            CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['CoinID']; ?>" style='color:Gray' readonly ><br>
+            CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
             <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
           </form>
           <h2 align="center">Coin Price History</h2>
