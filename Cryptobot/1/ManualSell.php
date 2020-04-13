@@ -224,7 +224,7 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                 TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" style='color:Gray' readonly ><br>
                 BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
                 OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" style='color:Gray' readonly ><br>
-                OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" readonly ><br>
+                OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" style='color:Gray' readonly ><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
               </div>

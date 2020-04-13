@@ -52,6 +52,7 @@ if(!empty($_GET['uuid'])){
         echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell');
       }
     }else{
       if ($_GET['type'] == 'Sell'){
@@ -77,12 +78,12 @@ if(!empty($_GET['uuid'])){
           }
           //break;
         }
-        logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell');
+        logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell');
       }else {
         bittrexUpdateBuyQty($_GET['transactionID'], $orderQty-$orderQtyRemaining);
         bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
-        logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell');
+        logAction("Bittrex Cancel 4 : ".json_encode($result), 'BuySell');
       }
     }
   }
