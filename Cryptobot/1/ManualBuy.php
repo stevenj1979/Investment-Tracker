@@ -140,7 +140,7 @@ function getUserConfig($userID){
   $sql = "SELECT `UserName`,`APIKey`,`APISecret`,`Email`,`BTCBuyAmount`, `KEK` FROM `UserConfigView` WHERE `ID` = $userID";
   echo $sql;
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserName'],$row['APIKey'],$row['APISecret'],$row['Email'],$row['BTCBuyAmount']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserName'],$row['APIKey'],$row['APISecret'],$row['Email'],$row['BTCBuyAmount'],$row['KEK']);}
   $conn->close();
   return $tempAry;
 
