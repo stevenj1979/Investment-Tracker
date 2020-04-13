@@ -89,7 +89,7 @@ if(isset($_POST['coinTxt'])){
   //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
   $KEK = $userConfig[0][5];
   if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
-  echo "<BR> KEK $KEK | APISecret $APISecret";
+  echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
   if ($_POST['priceSelect'] == 'manual'){
     $salePrice = $cost;
   }elseif ($_POST['priceSelect'] == 0.25){
