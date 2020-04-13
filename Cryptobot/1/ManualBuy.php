@@ -83,7 +83,9 @@ if(isset($_POST['coinTxt'])){
   $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
   $userConfig = getUserConfig($userID);
   $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
-  $BTCBuyAmount = $userConfig[0][4]; $AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
+  $AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
+  $KEK = $userConfig[0][5];
+  if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][5]);}
   if ($_POST['priceSelect'] == 'manual'){
     $salePrice = $_POST['coinPriceTxt'];
   }elseif ($_POST['priceSelect'] == 0.25){
@@ -131,7 +133,7 @@ function getUserConfig($userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `UserName`,`APIKey`,`APISecret`,`Email`,`BTCBuyAmount` FROM `UserConfigView` WHERE `ID` = $userID";
+  $sql = "SELECT `UserName`,`APIKey`,`APISecret`,`Email`,`BTCBuyAmount`, `KEK` FROM `UserConfigView` WHERE `ID` = $userID";
   //echo $sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserName'],$row['APIKey'],$row['APISecret'],$row['Email'],$row['BTCBuyAmount']);}
