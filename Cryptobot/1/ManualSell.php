@@ -38,7 +38,7 @@ if(isset($_GET['coinTxt'])){
   if ($_GET['priceSelect'] == 'manual'){
     $salePrice = $_GET['costTxt'];
   }elseif ($_GET['priceSelect'] == 0.25){
-    $tempPrice = ($cost/100 )*0.25)+$cost;
+    $tempPrice = (()$cost/100 )*0.25)+$cost;
     $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 0.5){
     $tempPrice = (($cost/100 )*0.5)+$cost;
