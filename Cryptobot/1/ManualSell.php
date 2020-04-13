@@ -70,12 +70,10 @@ if(isset($_GET['coinTxt'])){
     $tempPrice = (($_GET['costTxt']/100 )*20)+$_GET['costTxt'];
     $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
-  //$salePrice = $GLOBALS['salePrice'];
-  //echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
-  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
 
-  //sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
-  header('Location: SellCoins.php');
+  //sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
+  //header('Location: SellCoins.php');
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
