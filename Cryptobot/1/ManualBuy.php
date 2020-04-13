@@ -69,7 +69,8 @@ if($_GET['coin'] <> ""){
   $cost = trim($_GET['coinPrice']);
   $baseCurrency = trim($_GET['baseCurrency']);
   $coinID = trim($_GET['coinID']);
-
+  $KEK = userConfig[0][5];
+  //$coinPrice = trim($_GET['coinPrice']);
   //$active = trim($_GET['y']);
 }
 
@@ -78,7 +79,7 @@ if(isset($_POST['coinTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
-  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_get['BaseCurTxt'];
+  $salePrice = number_format((float)$_post['coinPriceTxt'], 8, '.', ''); $coin = $_post['coinTxt']; $baseCurrency = $_post['BaseCurTxt'];
   $coinID = $_post['CoinIDTxt']; $userID = $_SESSION['ID'];
   $TimeToCancelBuyMins = $_post['TimeToCancelBuyMinsTxt'];
   $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
@@ -175,7 +176,8 @@ $userID = $_SESSION['ID'];
     <a href="bittrexOrders.php">Bittrex Orders</a>
     <a href="Settings.php">Settings</a><?php
     if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-    $apiKey = $GLOBALS['APIKey']; $apiSecret = $GLOBALS['APISecret'] ; $baseCurrency = $GLOBALS['baseCurrency'];
+    $apiKey = $GLOBALS['APIKey']; $apiSecret = $GLOBALS['APISecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
+    if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency);
     echo "BTCBalance = bittrexbalance($apiKey, $apiSecret,$baseCurrency)";
 
@@ -207,7 +209,7 @@ $userID = $_SESSION['ID'];
             Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
             <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
               $tmpPrice = number_format((float)$GLOBALS['cost']-(($GLOBALS['cost']/100 )*1), 8, '.', '');
-              $GLOBALS['salePrice'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+              $GLOBALS['cost'] = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
               echo "<p> 1% = ".number_format((float)$salePrice, 8, '.', '');
               ?>
             <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
