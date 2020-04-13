@@ -83,14 +83,14 @@ if(isset($_POST['coinTxt'])){
   $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_SESSION['ID'];
   $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
-  $BTCBuyAmount = $_POST['costTxt']; $cost = $GLOBALS['cost'];
+  $BTCBuyAmount = $_POST['costTxt']; $cost = $_POST['coinPriceTxt'];
   $userConfig = getUserConfig($userID);
   $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
   $AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
   $KEK = $userConfig[0][5];
   if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   if ($_POST['priceSelect'] == 'manual'){
-    $salePrice = $_POST['coinPriceTxt'];
+    $salePrice = $cost;
   }elseif ($_POST['priceSelect'] == 0.25){
     $tmpPrice = number_format((float)$cost-(($cost/100 )*0.25), 8, '.', '');
     $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
