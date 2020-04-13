@@ -81,7 +81,7 @@ if(isset($_POST['coinTxt'])){
   $date = date("Y-m-d H:i:s", time());
   //$_SESSION['coin'] = $_post['coinTxt'];
   $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
-  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['userID'];
+  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
   $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
   $BTCBuyAmount = $_POST['costTxt']; $cost = $_POST['coinPriceTxt'];
   $userConfig = getUserConfig($userID);
