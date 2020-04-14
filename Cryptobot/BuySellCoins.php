@@ -132,36 +132,7 @@ while($date <= $newTime){
       //logAction("1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ", 'BuySell');
       //Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
       Echo "<BR> UserID: $userID | Coin : $symbol | 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
-      //if (buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)){
-      //  echo "2: Volume buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)<br>";
-      //  if (buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)){
-      //    echo "3: BuyOrders buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)<br>";
-      //    if (buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)){
-              //logAction("buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled)", 'BuySell');
-      //        echo "4: 1HrChange buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)<br>";
-      //      if (buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)){
-      //          echo "5: 24HrChange buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)<BR>";
-      //        if (buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)){
-      //            echo "6: 7DChange buyWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)<BR>";
-      //          if (buyWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)){
-      //              echo "7: CoinPrice buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)<BR>";
-      //            if (buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
-      //                echo "8: SellOrders buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)<BR>";
-      //              if (buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)){
-      //                echo "9: PriceTrend newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)<BR>";
-      //                  //if (buywithPattern($price4Trend,$price3Trend,$lastPriceTrend,$livePriceTrend,$price4TrendTrgt,$price3TrendTrgt,$lastPriceTrendTrgt,$livePriceTrendTrgt,$priceTrendEnabled)){
-      //                  if(newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)){
-      //                    logAction("PriceTrend newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled)", 'BuySell');
-      //                    echo "10: BuyPriceMinEnabled $BuyPriceMinEnabled BuyPriceMin $BuyPriceMin LiveCoinPrice $LiveCoinPrice LiveBTCPrice $LiveBTCPrice<BR>";
-      //                    if (buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)){
-      //                      logAction("buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)", 'BuySell');
-      //                      echo "<BR> 11: buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice)";
-      //                      if (autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)){
-      //                        logAction("autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)", 'BuySell');
-      //                        echo "<BR> 12: autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled)";
-      //                        if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
-      //                        if ($GLOBALS['allDisabled'] == true){
-        //                        logAction("GLOBALS['allDisabled'] : ".$GLOBALS['allDisabled'], 'BuySell');
+
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True){
         $date = date("Y-m-d H:i:s", time());
@@ -170,20 +141,7 @@ while($date <= $newTime){
         logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed)", 'BuySell');
         $buyCounter = $buyCounter + 1;
       }
-                                //break;
-        //                      }
 
-        //                    }
-        //                  }
-        //                }
-        //            }
-        //          }
-        //        }
-        //      }
-        //    }
-        //  }
-        //}
-      //}
       echo "<BR> NEXT RULE <BR>";
     }//Rule Loop
     //echo "</blockquote>";
@@ -256,54 +214,18 @@ while($date <= $newTime){
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = (($sellPrice-$fee)-$buyPrice)/$buyPrice*100;
       Echo "<BR> UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11";
-      //   echo "<br>1: MarketCap sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)";
-      //  if (sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)){
-      //    echo "<br>2: Volume sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)";
-      //    if (sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled)){
-      //      echo "<br>3: SellOrders sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)";
-      //      if (sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled)){
-      //        echo "<br>4: 1Hr Price Change sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)";
-      //        if (sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled)){
-      //          echo "<br>5: 24Hr Price Change sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)";
-      //          if (sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled)){
-      //            echo "<br>6: 7D Price Change sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)";
-      //            if (sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)){
-      //              echo "<br>7: Sell With Score sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled)";
-      //              if(newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newSellPattern,$priceTrendEnabled)){
-      //                echo "<br>8: Sell with Pattern newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newSellPattern,$priceTrendEnabled)";
-      //                if (sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice)){
 
-      //                  echo "<br>9: Profit $ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled";
-      //                  if (sellWithScore($ProfitPctTop,$ProfitPctBtm,$profit,$ProfitPctEnabled)){
-      //                      echo "<br>10: PriceDiff1 $CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled";
-      //                      if (sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled)){
-                              //echo "<br>10 PriceDiff2 ";
+      if ($sTest1 == True && $sTest2 == True && $sTest3 == True && $sTest4 == True && $sTest5 == True && $sTest6 == True && $sTest7 == True && $sTest8 == True && $sTest9 == True && $sTest10 == True && $sTest11 == True){
+        $date = date("Y-m-d H:i:s", time());
+        echo "<BR>Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
+        //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
+        sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
+        logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell');
+        logAction("UserID: $userID | Coin : $symbol | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell');
+        //break;
+        //addSellRuletoSQL()
+      }
 
-      //                        if ($GLOBALS['allDisabled'] == true){
-                                //print_r(" Sell Sell Sell!!");
-                                //sendEmail($email, $coin, $quantity, $bitPrice, "Testing : ".$z, $totalScore);
-                              if ($sTest1 == True && $sTest2 == True && $sTest3 == True && $sTest4 == True && $sTest5 == True && $sTest6 == True && $sTest7 == True && $sTest8 == True && $sTest9 == True && $sTest10 == True &&
-                                $sTest11 == True){
-                                $date = date("Y-m-d H:i:s", time());
-                                echo "<BR>Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
-                                //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
-                                sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
-                                logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell');
-                                logAction("UserID: $userID | Coin : $symbol | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell');
-                                //break;
-                                //addSellRuletoSQL()
-                              }
-
-      //                      }
-      //                  }
-      //                }
-      //              }
-      //            }
-      //          }
-      //        }
-      //      }
-      //    }
-      //}
       echo "<BR> NEXT RULE <BR>";
     }//Sell Rules
 
