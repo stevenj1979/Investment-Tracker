@@ -114,7 +114,11 @@ $current_date = date('Y-m-d H:i');
 
 //echo "<BR> BuyRuleLength : $BuyRuleLength";
 
-buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-11 18:36:47', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
-
+//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-11 18:36:47', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
+Echo "<BR> Test1 : ".sellWithScore(0.6,-999.00,-2.00,1);
+Echo "<BR> Test2 : ".sellWithScore(0.6,-999.00,0.5999,1);
+Echo "<BR> Test3 : ".sellWithScore(0.6,-999.00,5.00,0);
+Echo "<BR> Test4 : ".sellWithScore(0.6,-999.00,23.00,1);
+Echo "<BR> Test5 : ".sellWithScore(0.6,-999.00,-23.00,1);
 ?>
 </html>
