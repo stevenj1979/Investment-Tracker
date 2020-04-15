@@ -214,7 +214,7 @@ while($date <= $newTime){
       $buyPrice = ($cost * $amount);
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
-      $profit = (($sellPrice-$fee)-$buyPrice)/$buyPrice*100;
+      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11;
       Echo "<BR> UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11 TOTAL:  $totalScore_Sell PROFIT: $profit";
 
