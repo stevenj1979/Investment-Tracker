@@ -157,7 +157,7 @@ while($date <= $newTime){
     $D7ChangePctChange = $sellCoins[$a][34]; $LiveCoinPrice = $sellCoins[$a][19]; $CoinPricePctChange = $sellCoins[$a][20];
     $BaseCurrency = $sellCoins[$a][36]; $orderNo = $sellCoins[$a][10]; $amount = $sellCoins[$a][5]; $cost = $sellCoins[$a][4];
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
-    $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43]; $liveCoinPrice = $sellCoins[$a][19];
+    $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43]; 
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     //$BuyRuleLength = strlen($orderNo - 20);
