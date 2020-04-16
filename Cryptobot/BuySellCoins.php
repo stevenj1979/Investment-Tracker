@@ -178,7 +178,7 @@ while($date <= $newTime){
       $VolumeEnabled = $sellRules[$z][28]; $VolumeTop = $sellRules[$z][29]; $VolumeBtm = $sellRules[$z][30];
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
       $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
-      $profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
+      //$profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
       //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
       $sellCoinOffsetEnabled = $sellRules[$z][35]; $sellCoinOffsetPct = $sellRules[$z][36];
@@ -198,6 +198,11 @@ while($date <= $newTime){
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
       if ($limitToBuyRule != "ALL" && limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}
       $GLOBALS['allDisabled'] = false;
+
+      $buyPrice = ($cost * $amount);
+      $sellPrice = ($LiveCoinPrice * $amount);
+      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
       $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $sTest2 = sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
@@ -211,10 +216,7 @@ while($date <= $newTime){
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
       $sTest11 = $GLOBALS['allDisabled'];
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
-      $buyPrice = ($cost * $amount);
-      $sellPrice = ($LiveCoinPrice * $amount);
-      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
-      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11;
       Echo "<BR> UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11 TOTAL:  $totalScore_Sell PROFIT: $profit";
 
