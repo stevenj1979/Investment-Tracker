@@ -210,7 +210,7 @@ while($date <= $newTime){
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
       $sTest11 = $GLOBALS['allDisabled'];
-
+      Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
       $buyPrice = ($cost * $amount);
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
