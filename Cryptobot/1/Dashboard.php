@@ -175,23 +175,7 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
   </div>
 <?php
 //$tempOutput = getNewHeader();
-?>
-  <div class="topnav">
-    <a href="Dashboard.php" class="active">Dashboard</a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
-    <a href="BuyCoins.php">Buy Coins</a>
-    <a href="SellCoins.php">Sell Coins</a>
-    <a href="Profit.php">Profit</a>
-    <a href="bittrexOrders.php">Bittrex Orders</a>
-    <a href="Settings.php">Settings</a><?php
-    if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-//echo $tempOutput;
-?>
-</div>
-      <div class="row">
-            <div class="settingCol1">
-              <?php
+displayHeader(0);
               //$profitUSD = $uProfit[0][2]*$btcPrice;
 
               echo "<form action='Dashboard.php?dropdown=Yes' method='post'><select name='currencySelect'>";
@@ -235,14 +219,8 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
                  <h2 align="center">Current Coin Holdings</h2>
                  <div id="visualization" style="width: 1200px; height: 400px;"></div>
                  <div id="visualization2" style="width: 1200px; height: 400px;"></div>
-              </div>
-            </div>
-        </div>
-
-        <div class="footer">
-          <hr>
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-        </div>
+              </div><?php
+          displaySideColumn();?>
 
         </body>
         </html>
