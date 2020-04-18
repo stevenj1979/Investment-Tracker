@@ -252,7 +252,7 @@ displayHeader(5);
         //$totalBTC = ($profitTtl[0][0]*getLiveCoinPrice("BTC")));
 
         //echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>BTC Total</td><td class='totalRow'>".$totalProfitSum."</td><td class='totalRow'>$".round($usdPrice,2)."</td><td class='totalRow'></td><td class='totalRow'></td><tr>";
-        echo "</Table>"
+        echo "</Table>";
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
