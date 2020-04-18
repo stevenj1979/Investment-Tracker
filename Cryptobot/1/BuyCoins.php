@@ -132,7 +132,7 @@ function getLiveCoinPrice($symbol){
   return $tmpCoinPrice;
 }
 
-function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
+function bittrexCoinPriceLoc($apikey, $apisecret, $baseCoin, $coin){
       $nonce=time();
       $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
       $sign=hash_hmac('sha512',$uri,$apisecret);
