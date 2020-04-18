@@ -383,6 +383,32 @@ while($date <= $newTime){
     echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining";
   }//Bittrex Loop
 
+  $coinAlerts = getCoinAlerts();
+  $coinAlertsLength = count($coinAlerts);
+
+  for($d = 0; $d < $coinAlertsLength; $d++) {
+    $id = $coinAlerts[$d][0];
+    $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
+    $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7];
+
+    if ($action == 'LessThan'){
+      if ($liveCoinPrice <= $price) {
+        //Send Alert
+        sendAlertEmail($email, $symbol, $price, $action, $userName);
+        //Close Alert
+        closeCoinAlerts($id);
+      }
+    } else{
+      if ($liveCoinPrice >= $price) {
+        //Send Alert
+        sendAlertEmail($email, $symbol, $price, $action, $userName);
+        //Close Alert
+        closeCoinAlerts($id);
+      }
+    }
+
+  }
+
   echo "</blockquote>";
   sleep(15);
   $i = $i+1;

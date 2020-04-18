@@ -1437,4 +1437,47 @@ function displayFooter(){
   Echo "</div>";
 }
 
+function getCoinAlerts(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice` FROM `CoinAlertsView`";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function closeCoinAlerts($id){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `CoinAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function sendAlertEmail($to, $symbol , $price, $action, $user){
+    $subject = "Coin Alert: ".$coin;
+    $from = 'Coin Alert <alert@investment-tracker.net>';
+    $body = "Dear ".$user.", <BR/>";
+    $body .= "Your coin Alert for $symbol has been triggered : "."<BR/>";
+    $body .= "Coin: $symbol Action: $action Price: $price<BR/>";
+    $body .= "Kind Regards\nCryptoBot.";
+    $headers = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    //$headers .= 'From: Alerts <Alerts@Investment-Tracker.net>' . "\r\n";
+    $headers .= "From:".$from."\r\n";
+    $headers .= "To:".$to."\r\n";
+    mail($to, $subject, wordwrap($body,70),$headers);
+}
 ?>
