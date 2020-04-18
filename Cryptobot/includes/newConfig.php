@@ -1424,11 +1424,11 @@ function displayMiddleColumn(){
 function displayFarSideColumn(){
   Echo "<div id='visualization' style='width: 600px; height: 400px;'></div>";
   Echo "</div>";
-  Echo "<div class='column side'>";
+  //Echo "<div class='column side'>";
 }
 
 function displayFooter(){
-  Echo "</div>";
+  //Echo "</div>";
   Echo "</div>";
   Echo "<div class='footer'>";
   Echo "<hr>";
