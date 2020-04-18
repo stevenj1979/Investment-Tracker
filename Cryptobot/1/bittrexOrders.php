@@ -26,7 +26,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 
 //}
 if(empty($sql_option)){
-  $sql_option = "`Status` = '1'";
+  $GLOBALS['sql_option'] = "`Status` = '1'";
   unset($dropArray);
   $dropArray[] = Array("Open","Closed","All");
 }
@@ -36,17 +36,17 @@ if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
 }}
 
 function changeSelection(){
-  global $sql_option;
+  //global $sql_option;
   global $dropArray;
   unset($dropArray);
   if ($_POST['transSelect']=='Closed'){
-     $sql_option = "`Status` = 'Closed'";
+     $GLOBALS['sql_option'] = "`Status` = 'Closed'";
      $dropArray[] = Array("Closed","Open","All");
   }elseif ($_POST['transSelect']=='Open'){
-    $sql_option = "`Status` = '1'";
+    $GLOBALS['sql_option']  = "`Status` = '1'";
     $dropArray[] = Array("All","Closed","Open");
   }else{
-    $sql_option = "1";
+    $GLOBALS['sql_option']  = "1";
     $dropArray[] = Array("All","Closed","Open");
   }
   //print_r($globals['sql_Option']);
@@ -55,7 +55,7 @@ function changeSelection(){
 
 function getBTTrackingCoins($userID){
   $tempAry = [];
-  global $sql_option;
+  $sqlOption = $GLOBALS['sql_option'];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -63,8 +63,8 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-  `TransactionID`,`BaseCurrency`,`LiveCoinPrice` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sql_option order by `ActionDate` desc limit 50";
-  //echo "$sql";
+  `TransactionID`,`BaseCurrency`,`LiveCoinPrice` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sqlOption order by `ActionDate` desc limit 50";
+  echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
