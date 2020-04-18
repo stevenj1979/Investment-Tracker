@@ -1398,8 +1398,8 @@ function displayHeader($n){
         $active = '';
       }
       if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}?>
-    </div><div class='row'> </div>
-<div class="row">
+    </div>
+    <div class="row">
      <div class="settingCol1"><?php
 }
 
