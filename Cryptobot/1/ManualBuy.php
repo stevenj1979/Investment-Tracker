@@ -89,7 +89,7 @@ if($_GET['alert'] <> ""){
   displaySideColumn();
   ?>&nbsp<?php
   displayMiddleColumn();
-  displayAlertForm();
+  displayAlertForm($_POST['coinAlt'],$_POST['coinPrice']);
   displayFarSideColumn();
   ?>&nbsp<?php
   displayFooter();
@@ -224,8 +224,8 @@ function displayCoinForm(){
   <h2 align="center">Coin Price History</h2><?php
 }
 
-function displayAlertForm(){
-  $coin = $_POST['coinAlt']; $cost = $_POST['coinPrice'];
+function displayAlertForm($coin,$cost){
+
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
