@@ -181,7 +181,7 @@ function getCoinStats($symbol){
 }
 
 function setGlobalVars(){
-    $userID = $_SESSION['ID'];
+
     $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
@@ -189,6 +189,7 @@ function setGlobalVars(){
 }
 
 function displayCoinForm(){
+  $userID = $_SESSION['ID'];
   ?> <h1>Manual Buy Coin</h1>
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualPrice=Yes' method='post'>
@@ -215,9 +216,9 @@ function displayCoinForm(){
       ?>
     <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
     <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
-    BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><br>
+    BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
     CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
-    UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
+    UserID: <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
   </form>
   <h2 align="center">Coin Price History</h2><?php
