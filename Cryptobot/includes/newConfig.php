@@ -1380,4 +1380,63 @@ function logAction($log, $logFile){
   file_put_contents('./log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
 }
 
+function displayHeader($n){
+  $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php");
+  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings");
+  $headerLen = count($headers);
+  ?><div class="header">
+    <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
+        <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
+    </div>
+    <div class="topnav"> <?php
+      for($x = 0; $x < $headerLen; $x++) {
+        $h1 = $headers[0][$x];
+        $r1 = $ref[0][$x];
+        if ($n == $x) { $active = " class='active'";}
+        Echo "<a href='$h1'$active>$r1</a>";
+      }
+      ?>
+      <!--<a href="Dashboard.php">Dashboard</a>
+      <a href="Transactions.php">Transactions</a>
+      <a href="Stats.php">Stats</a>
+      <a href="BuyCoins.php" class="active">Buy Coins</a>
+      <a href="SellCoins.php">Sell Coins</a>
+      <a href="Profit.php">Profit</a>
+      <a href="bittrexOrders.php">Bittrex Orders</a>
+      <a href="Settings.php">Settings</a>--><?php
+      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
+}
+
+function displaySideColumn(){
+  ?></div>
+  <div class="row">
+       <div class="column side"> <?php
+}
+
+function displayMiddleColumn(){
+  ?>
+  </div>
+  <div class="column middle"> <?php
+}
+
+function displayFarSideColumn(){
+  ?> <div id="visualization" style="width: 600px; height: 400px;"></div>
+</div>
+<div class="column side"> <?php
+}
+
+function displayFooter(){
+  ?> </div>
+</div>
+
+<div class="footer">
+    <hr>
+    <!-- <input type="button" value="Logout">
+    <a href='logout.php'>Logout</a>-->
+
+    <input type="button" onclick="location='logout.php'" value="Logout"/>
+
+</div><?php
+}
+
 ?>

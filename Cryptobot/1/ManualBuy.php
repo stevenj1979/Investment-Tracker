@@ -160,85 +160,58 @@ function getCoinStats($symbol){
 
 }
 
+function displayCoinForm(){
+  ?> <h1>Manual Buy Coin</h1>
+  <h2>Enter Price</h2>
+  <form action='ManualBuy.php?manualPrice=Yes' method='post'>
+    Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+    BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['btcBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance.$apiKey.$apiSecret.$baseCurrency.$KEK ?> <br>
+    <select name="priceSelect">
+      <option value="manual" name='manualOpt'>Manual Price (Below)</option>
+      <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
+      <option value="0.5" name='zeroFivePctOpt'>0.5%</option>
+      <option value="1" name='onePctOpt'>1%</option>
+      <option value="1.5" name='onePointFivePctOpt'>1.5%</option>
+      <option value="2" name='twoPctOpt'>2%</option>
+      <option value="2.5" name='twoPointFivePctOpt'>2.5%</option>
+      <option value="3" name='threePctOpt'>3%</option>
+      <option value="5" name='fivePctOpt'>5%</option>
+      <option value="10" name='tenPctOpt'>10%</option>
+      <option value="20" name='twentyPctOpt'>20%</option>
+    Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
+    Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
+    <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
+      $cost = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+      echo "<p> 1% = ".number_format((float)$cost, 8, '.', '');
+      ?>
+    <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
+    <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
+    BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><br>
+    CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
+    UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
+    <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <h2 align="center">Coin Price History</h2><<?php
+}
+
 
 
 $userID = $_SESSION['ID'];
-?>
-<div class="header">
-  <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-      <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-  </div>
-  <div class="topnav">
-    <a href="Dashboard.php">Dashboard</a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
-    <a href="BuyCoins.php" class="active">Buy Coins</a>
-    <a href="SellCoins.php">Sell Coins</a>
-    <a href="Profit.php">Profit</a>
-    <a href="bittrexOrders.php">Bittrex Orders</a>
-    <a href="Settings.php">Settings</a><?php
-    if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
+
+    displayHeader(3);
     $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
     $cost = $GLOBALS['cost'];
 
-    ?>
-  </div>
-  <div class="row">
-       <div class="column side">
-          &nbsp
-      </div>
-      <div class="column middle">
-          <h1>Manual Buy Coin</h1>
-          <h2>Enter Price</h2>
-          <form action='ManualBuy.php?manualPrice=Yes' method='post'>
-            Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
-            BTC Buy Amount: <input type="text" name="costTxt" value="<?php echo $GLOBALS['btcBuyAmount']; ?>"> 0 equals full bittrex balance | Current Balance is : <?php echo $BTCBalance.$apiKey.$apiSecret.$baseCurrency.$KEK ?> <br>
-            <select name="priceSelect">
-              <option value="manual" name='manualOpt'>Manual Price (Below)</option>
-              <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
-              <option value="0.5" name='zeroFivePctOpt'>0.5%</option>
-              <option value="1" name='onePctOpt'>1%</option>
-              <option value="1.5" name='onePointFivePctOpt'>1.5%</option>
-              <option value="2" name='twoPctOpt'>2%</option>
-              <option value="2.5" name='twoPointFivePctOpt'>2.5%</option>
-              <option value="3" name='threePctOpt'>3%</option>
-              <option value="5" name='fivePctOpt'>5%</option>
-              <option value="10" name='tenPctOpt'>10%</option>
-              <option value="20" name='twentyPctOpt'>20%</option>
-            Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
-            Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
-            <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
-              $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
-              $cost = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-              echo "<p> 1% = ".number_format((float)$cost, 8, '.', '');
-              ?>
-            <p>Max Coin Price = <?php  echo $GLOBALS['MaxCoinPrice']; ?>
-            <p>Min Coin Price = <?php  echo $GLOBALS['MinCoinPrice']; ?>
-            BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><br>
-            CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
-            UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
-            <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
-          </form>
-          <h2 align="center">Coin Price History</h2>
-          <div id="visualization" style="width: 600px; height: 400px;"></div>
-      </div>
-      <div class="column side">
-        &nbsp
-      </div>
-  </div>
-
-  <div class="footer">
-        <hr>
-        <!-- <input type="button" value="Logout">
-        <a href='logout.php'>Logout</a>-->
-
-        <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-  </div>
-
-    <?php
+    displaySideColumn();
+    ?>&nbsp<?php
+    displayMiddleColumn();
+    displayCoinForm();
+    displayFarSideColumn();
+    ?>&nbsp    <?php
+    displayFooter();
     //include header template
     require('layout/footer.php');
     ?>
