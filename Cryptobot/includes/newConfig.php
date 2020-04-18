@@ -1387,8 +1387,9 @@ function displayHeader($n){
   ?><div class="header">
     <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
         <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-    </div>
-    <div class="topnav"> <?php
+
+     </div>
+     <div class="topnav"> <?php
       for($x = 0; $x < $headerLen; $x++) {
         $h1 = $headers[$x];
         $r1 = $ref[$x];
