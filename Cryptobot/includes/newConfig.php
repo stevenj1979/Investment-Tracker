@@ -1406,40 +1406,34 @@ function displayHeader($n){
       <a href="Profit.php">Profit</a>
       <a href="bittrexOrders.php">Bittrex Orders</a>
       <a href="Settings.php">Settings</a>--><?php
-      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-}
-
-function displaySideColumn(){
-  ?></div>
-  <div class="row">
-    <div class="column side">
-        <img src='Images/CBLogoSmall.png' width="150">
+      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}?>
     </div><?php
 }
 
+function displaySideColumn(){
+  Echo "<div class='row'>";
+  Echo "<div class='column side'>";
+  Echo "<img src='Images/CBLogoSmall.png' width='150'>";
+  Echo "</div>";
+}
+
 function displayMiddleColumn(){
-  ?>
-  <div class="column middle"> <?php
+  Echo "<div class='column middle'>";
 }
 
 function displayFarSideColumn(){
-  ?> <div id="visualization" style="width: 600px; height: 400px;"></div>
-</div>
-<div class="column side"> <?php
+  Echo "<div id='visualization' style='width: 600px; height: 400px;'></div>";
+  Echo "</div>";
+  Echo "<div class='column side'>";
 }
 
 function displayFooter(){
-  ?> </div>
-</div>
-
-<div class="footer">
-    <hr>
-    <!-- <input type="button" value="Logout">
-    <a href='logout.php'>Logout</a>-->
-
-    <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-</div><?php
+  Echo "</div>";
+  Echo "</div>";
+  Echo "<div class='footer'>";
+  Echo "<hr>";
+  Echo "<input type='button' onClick='location.href=\"logout.php\"' value='Logout'/>";
+  Echo "</div>";
 }
 
 ?>
