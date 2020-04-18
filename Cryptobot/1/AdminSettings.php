@@ -201,8 +201,6 @@ $userSubSize = count($userSub);
 //echo $userDetails[0][1];
 
     displayHeader(8) ?>
-         <p class="pageTitle">&nbsp Admin Settings</p>
-         <div class="settingCol1">
            Renew Subscription
            <table><th>Action</th><th>Username</th><th>SubscriptionLength</th><th>Date</th><th>TransactionID</th><tr>
            <?php
