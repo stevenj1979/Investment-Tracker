@@ -88,7 +88,7 @@ if($_GET['alert'] <> ""){
   displaySideColumn();
   ?>&nbsp<?php
   displayMiddleColumn();
-  //Content here
+  displayAlertForm();
   displayFarSideColumn();
   ?>&nbsp<?php
   displayFooter();
