@@ -35,7 +35,7 @@ function getCoinsfromSQL(){
     return $tempAry;
 }
 
-function getTrackingCoins(){
+function getTrackingCoinsLoc(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -168,7 +168,7 @@ displayHeader(3);
 displaySideColumn();
 ?>&nbsp<?php
 
-				$tracking = getTrackingCoins();
+				$tracking = getTrackingCoinsLoc();
 				$newArrLength = count($tracking);
         //echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);
