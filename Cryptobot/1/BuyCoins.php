@@ -93,7 +93,7 @@ function getConfig($userID){
   return $tempAry;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
     $subject = "Coin Sale: ".$symbol;
     $body = "Dear Steven, <BR/>";
     $body .= "Congratulations you have sold the following Coin: "."<BR/>";
