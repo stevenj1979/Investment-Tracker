@@ -239,6 +239,10 @@ function displayAlertForm(){
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
     Coin: <input type="text" name="coinAltTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+    <select name="greaterThanSelect">
+      <option value=">" name='greaterThanOpt'>></option>
+      <option value="<" name='lessThanOpt'><</option>
+
     Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
     BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
     CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
