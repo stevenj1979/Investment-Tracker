@@ -162,10 +162,9 @@ function getUserIDs($userID){
   $conn->close();
   return $tempAry;
 }
-
-
-displayHeader(3);
 displaySideColumn();
+displayHeader(3);
+
 ?>&nbsp<?php
 
 				$tracking = getTrackingCoinsLoc();
