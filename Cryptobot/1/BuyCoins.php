@@ -164,8 +164,7 @@ function getUserIDs($userID){
 }
 
 displayHeader(3);
-displaySideColumn();
-displayMiddleColumn();
+
 
 				$tracking = getTrackingCoinsLoc();
 				$newArrLength = count($tracking);
@@ -203,10 +202,10 @@ displayMiddleColumn();
 				}//end for
 				print_r("</table>");
 
-
-				displayFarSideColumn();
-        ?>&nbsp<?php
-        displayFooter();
+        displaySideColumn();
+        //displayMiddleColumn();
+				//displayFarSideColumn();
+        //displayFooter();
 
 //include header template
 require('layout/footer.php');
