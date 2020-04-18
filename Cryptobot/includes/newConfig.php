@@ -1409,7 +1409,7 @@ function displaySideColumn(){
   <div class="column side">
     &nbsp
   </div>
-</div>
+  </div>
 
   <div class="footer">
       <hr>
