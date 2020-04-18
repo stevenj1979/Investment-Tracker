@@ -1455,6 +1455,19 @@ function getCoinAlerts(){
   return $tempAry;
 }
 
+function getCoinAlertsUser($userId){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice` FROM `CoinAlertsView` WHERE `UserID` = 3";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function closeCoinAlerts($id){
   $conn = getSQLConn(rand(1,3));
     // Check connection

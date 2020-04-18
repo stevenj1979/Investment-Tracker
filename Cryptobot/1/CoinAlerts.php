@@ -24,14 +24,20 @@ include_once ('/home/stevenj1979/SQLData.php');
 
         displayHeader(8);
 
-        echo "<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th><TH>&nbsp% Change 24 Hrs</th>
-        <TH>&nbsp% Change 7 Days</th><TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
-        $newArrLength = 3;
+        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><tr>";
+        $coinAlerts = getCoinAlertsUser($userID);
+        $newArrLength = Count($coinAlerts);
 				for($x = 0; $x < $newArrLength; $x++) {
-          echo "<BR> $x";
-
+          $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
+          $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
+          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7];
+          echo "<td>$id</td><td>$coinID</td>";
+          echo "<td>$action</td><td>$price</td>";
+          echo "<td>$symbol</td><td>$userName</td>";
+          echo "<td>$email</td><td>$liveCoinPrice</td>";
+          echo "<TR>";
         }
-
+        Echo "</table>";
         displaySideColumn();
         //displayMiddleColumn();
 				//displayFarSideColumn();
