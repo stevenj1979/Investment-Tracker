@@ -73,6 +73,25 @@ if($_GET['coin'] <> ""){
   $apikey = $userConfig[0][1]; $apiSecret = $userConfig[0][2];
   //$coinPrice = trim($_GET['coinPrice']);
   //$active = trim($_GET['y']);
+      displayHeader(3);
+      displaySideColumn();
+      ?>&nbsp<?php
+      displayMiddleColumn();
+      displayCoinForm();
+      displayFarSideColumn();
+      ?>&nbsp    <?php
+      displayFooter();
+}
+
+if($_GET['alert'] <> ""){
+  displayHeader(3);
+  displaySideColumn();
+  ?>&nbsp<?php
+  displayMiddleColumn();
+  //Content here
+  displayFarSideColumn();
+  ?>&nbsp    <?php
+  displayFooter();
 }
 
 if(isset($_POST['coinTxt'])){
@@ -199,19 +218,13 @@ function displayCoinForm(){
 
 $userID = $_SESSION['ID'];
 
-    displayHeader(3);
+
     $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
     $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
     $cost = $GLOBALS['cost'];
 
-    displaySideColumn();
-    ?>&nbsp<?php
-    displayMiddleColumn();
-    displayCoinForm();
-    displayFarSideColumn();
-    ?>&nbsp    <?php
-    displayFooter();
+
     //include header template
     require('layout/footer.php');
     ?>
