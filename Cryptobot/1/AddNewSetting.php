@@ -2,7 +2,8 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';?>
 <html>
 <style>
 <?php include 'style/style.css';
@@ -14,26 +15,7 @@ include_once ('/home/stevenj1979/SQLData.php'); ?>
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
-?>
-
-  <div class="header">
-    <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-        <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-  </div>
-  <div class="topnav">
-    <a href="Dashboard.php">Dashboard</a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
-    <a href="BuyCoins.php">Buy Coins</a>
-    <a href="SellCoins.php">Sell Coins</a>
-    <a href="Profit.php">Profit</a>
-    <a href="bittrexOrders.php">Bittrex Orders</a>
-    <a href="Settings.php" class="active">Settings</a><?php
-    if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-    ?>
-  </div>
-<div class"row">
-<?php
+displayHeader(7);
 if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewUser(); }
 if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
@@ -381,7 +363,7 @@ function displayEdit($id){
   </div>";
   echo "</form>";
 }
-
+displaySideColumn();
 ?>
 </body>
 </html>
