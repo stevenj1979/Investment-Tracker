@@ -1381,8 +1381,8 @@ function logAction($log, $logFile){
 }
 
 function displayHeader($n){
-  $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php");
-  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts");
+  $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","AdminSettings.php");
+  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Admin Settings");
   $headerLen = count($headers);
   ?><div class="header">
     <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
@@ -1394,11 +1394,12 @@ function displayHeader($n){
         $h1 = $headers[$x];
         $r1 = $ref[$x];
         if ($n == $x) { $active = " class='active'";}
-        Echo "<a href='$h1'$active>$r1</a>";
+        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<a href='$h1'$active>$r1</a>";}
+        else{Echo "<a href='$h1'$active>$r1</a>";}
         $active = '';
       }
-      if ($n > $headerLen ){ $active = " class='active'"; }
-      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
+      //if ($n > $headerLen ){ $active = " class='active'"; }
+      //if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
     </div>
     <div class="row">
      <div class="settingCol1"><?php
