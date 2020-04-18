@@ -165,7 +165,6 @@ function getUserIDs($userID){
 
 displayHeader(3);
 displaySideColumn();
-?>&nbsp<?php
 displayMiddleColumn();
 
 				$tracking = getTrackingCoinsLoc();

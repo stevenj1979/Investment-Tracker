@@ -1412,12 +1412,13 @@ function displayHeader($n){
 function displaySideColumn(){
   ?></div>
   <div class="row">
-       <div class="column side"> <?php
+    <div class="column side">
+        <img src='Images/CBLogoSmall.png' width="150">
+    </div><?php
 }
 
 function displayMiddleColumn(){
   ?>
-  </div>
   <div class="column middle"> <?php
 }
 

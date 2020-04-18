@@ -75,7 +75,6 @@ if($_GET['coin'] <> ""){
   //$active = trim($_GET['y']);
       displayHeader(3);
       displaySideColumn();
-      ?>&nbsp<?php
       displayMiddleColumn();
       setGlobalVars();
       displayCoinForm();
@@ -87,7 +86,6 @@ if($_GET['coin'] <> ""){
 if($_GET['alert'] <> ""){
   displayHeader(3);
   displaySideColumn();
-  ?>&nbsp<?php
   displayMiddleColumn();
   $GLOBALS['coin'] = $_GET['coinAlt']; $GLOBALS['cost'] = $_GET['coinPrice']; $GLOBALS['baseCurrency'] = $_GET['baseCurrency'];
   $GLOBALS['coinID'] = $_GET['coinID'];
