@@ -168,13 +168,7 @@ function new_Price($bitPrice, $pct, $action){
 
 $uProfit = getTotalHoldings($_SESSION['ID']);
 //$btcPrice = getLiveCoinPriceUSD("BTC");
-?>
-<div class="header">
-  <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-      <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-  </div>
-<?php
-//$tempOutput = getNewHeader();
+
 displayHeader(0);
               //$profitUSD = $uProfit[0][2]*$btcPrice;
 
