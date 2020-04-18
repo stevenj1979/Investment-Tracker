@@ -95,7 +95,7 @@ if($_GET['alert'] <> ""){
   displayFooter();
 }
 
-if(isset($_POST['manualAlert'])){
+if(isset($_POST['coinAltTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
