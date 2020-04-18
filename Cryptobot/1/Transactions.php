@@ -2,7 +2,8 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
@@ -72,32 +73,7 @@ function getCoinsfromSQL($userID){
 
 date_default_timezone_set('Asia/Dubai');
 if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "Active";} else { $liveCoinStatus = "Disabled Until: ".$_SESSION['DisableUntil']." - ".date("Y-m-d H:i:s", time());}
-?>
-
-
-      <div class="header">
-        <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-            <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']." : ".$liveCoinStatus ?></th></Table><br>
-        </div>
-        <div class="topnav">
-          <a href="Dashboard.php">Dashboard</a>
-          <a href="Transactions.php" class="active">Transactions</a>
-          <a href="Stats.php">Stats</a>
-          <a href="BuyCoins.php">Buy Coins</a>
-          <a href="SellCoins.php">Sell Coins</a>
-          <a href="Profit.php">Profit</a>
-          <a href="bittrexOrders.php">Bittrex Orders</a>
-          <a href="Settings.php">Settings</a><?php
-          if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-          ?>
-      </div>
-        <div class="row">
-               <div class="column side">
-                  &nbsp
-              </div>
-              <div class="column middle">
-
-				<?php
+displayHeader(1);
 
 				$coin = getCoinsfromSQL($_SESSION['ID']);
 
@@ -118,24 +94,7 @@ if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "
 				    print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td><tr>");
 				}
 				print_r("</Table>");
-				?>
-
-      </div>
-      <div class="column side">
-          &nbsp
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-
-<?php
+				displaySideColumn();
 //include header template
 require('layout/footer.php');
 ?>
