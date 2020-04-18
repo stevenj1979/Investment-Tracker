@@ -5,6 +5,7 @@
 </head>
 <?php require('includes/config.php');
   include_once ('/home/stevenj1979/SQLData.php');
+  include_once '../includes/newConfig.php';
 ?>
 <html>
 <style>
@@ -199,31 +200,7 @@ $userSubSize = count($userSub);
 
 //echo $userDetails[0][1];
 
-?>
-
-<!--<div class="container">
-
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
-
-        <div class="header">
-          <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-              <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-        </div>
-        <div class="topnav">
-          <a href="Dashboard.php">Dashboard</a>
-          <a href="Transactions.php">Transactions</a>
-          <a href="Stats.php">Stats</a>
-          <a href="BuyCoins.php">Buy Coins</a>
-          <a href="SellCoins.php">Sell Coins</a>
-          <a href="Profit.php">Profit</a>
-          <a href="bittrexOrders.php">Bittrex Orders</a>
-          <a href="Settings.php">Settings</a><?php
-          if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php' class='active'>Admin Settings</a>";}
-          ?>
-        </div>
-<div class="row">
+    displayHeader(8) ?>
          <p class="pageTitle">&nbsp Admin Settings</p>
          <div class="settingCol1">
            Renew Subscription
@@ -293,22 +270,9 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php?mins=+10_minutes"> Cryptobot Auto </a>
              <br>
-         </div>
-
-
-      </div>
-      &nbsp
-        <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
 
 <?php
-
+  displaySideColumn();
 
 //include header template
 //require('layout/footer.php');

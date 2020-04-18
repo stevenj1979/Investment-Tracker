@@ -1397,7 +1397,8 @@ function displayHeader($n){
         Echo "<a href='$h1'$active>$r1</a>";
         $active = '';
       }
-      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}?>
+      if ($n > $headerLen ){ $active = " class='active'"; }
+      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
     </div>
     <div class="row">
      <div class="settingCol1"><?php
