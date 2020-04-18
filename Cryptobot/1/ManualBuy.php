@@ -79,7 +79,7 @@ if($_GET['coin'] <> ""){
       displayMiddleColumn();
       displayCoinForm();
       displayFarSideColumn();
-      ?>&nbsp    <?php
+      ?>&nbsp<?php
       displayFooter();
 }
 
@@ -90,7 +90,7 @@ if($_GET['alert'] <> ""){
   displayMiddleColumn();
   //Content here
   displayFarSideColumn();
-  ?>&nbsp    <?php
+  ?>&nbsp<?php
   displayFooter();
 }
 
@@ -211,7 +211,17 @@ function displayCoinForm(){
     UserID: <input type="text" name="UserIDTxt" value="<?php echo $GLOBALS['userID']; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
   </form>
-  <h2 align="center">Coin Price History</h2><<?php
+  <h2 align="center">Coin Price History</h2><?php
+}
+
+function displayAlertForm(){
+  ?> <h1>Coin Alert</h1>
+  <h2>Enter Price</h2>
+  <form action='ManualBuy.php?manualAlert=Yes' method='post'>
+
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <?php
 }
 
 
