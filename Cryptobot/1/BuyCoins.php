@@ -106,7 +106,7 @@ function sendEmailLoc($to, $symbol, $amount, $cost){
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
