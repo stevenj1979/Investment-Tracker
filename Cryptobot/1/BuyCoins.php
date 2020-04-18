@@ -162,12 +162,11 @@ function getUserIDs($userID){
   $conn->close();
   return $tempAry;
 }
+
+displayHeader(3);
 displaySideColumn();
 ?>&nbsp<?php
 displayMiddleColumn();
-displayHeader(3);
-
-
 
 				$tracking = getTrackingCoinsLoc();
 				$newArrLength = count($tracking);
