@@ -1407,11 +1407,11 @@ function displayHeader($n){
       <a href="bittrexOrders.php">Bittrex Orders</a>
       <a href="Settings.php">Settings</a>--><?php
       if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}?>
-    </div><?php
+    </div><div class='row'><?php
 }
 
 function displaySideColumn(){
-  Echo "<div class='row'>";
+  //Echo "";
   Echo "<div class='column side'>";
   Echo "<img src='Images/CBLogoSmall.png' width='150'>";
   Echo "</div>";
@@ -1422,6 +1422,7 @@ function displayMiddleColumn(){
 }
 
 function displayFarSideColumn(){
+  Echo "</div>";
   Echo "<div id='visualization' style='width: 600px; height: 400px;'></div>";
   Echo "</div>";
   //Echo "<div class='column side'>";
