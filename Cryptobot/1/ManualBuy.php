@@ -111,11 +111,30 @@ if(isset($_POST['coinAltTxt'])){
 
   if ($_POST['greaterThanSelect'] == "<" ){
     echo "buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
+    buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
   }else{
     echo "buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
+    buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
     //get OrderNo and TansIT
+    $sellCoin = sellCoinData($date,$coinID,$userID);
+    $orderNo = $sellCoin[0][0]; $transactionID = $sellCoin[0][1]; $amount = $sellCoin[0][2]; $cost = $sellCoin[0][3];
     Echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
+    sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
   }
+  header('Location: BuyCoins.php');
+}
+
+function sellCoinData($date,$coinID,$userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `OrderNo`, `ID`, `Amount`, `CoinPrice` FROM `SellCoinStatsView` WHERE `OrderDate` = '$date' and `CoinID` = $coinID and `UserID` = $userID";
+  echo $sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['OrderNo'],$row['ID'],$row['Amount'],$row['CoinPrice']);}
+  $conn->close();
+  return $tempAry;
 }
 
 if(isset($_POST['coinTxt'])){
