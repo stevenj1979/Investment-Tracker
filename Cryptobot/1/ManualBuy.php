@@ -99,42 +99,40 @@ if(isset($_POST['coinAltTxt'])){
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   $userID = $_SESSION['ID'];
-  $coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+  //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
   $salePrice = $_POST['coinPriceAltTxt'];
   $userConfig = getUserConfig($userID);
   $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
   //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
   $KEK = $userConfig[0][5];
-  if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
-  echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
+  //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
+  //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
   if ($_POST['greaterThanSelect'] == "<" ){
-    echo "<BR>buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
-    buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
+    AddCoinAlert($coinID,'LessThan',$userID, $salePrice);
   }else{
-    echo "<BR>buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
-    buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
-    //get OrderNo and TansIT
-    $sellCoin = sellCoinData($date,$coinID,$userID);
-    $orderNo = $sellCoin[0][0]; $transactionID = $sellCoin[0][1]; $amount = $sellCoin[0][2]; $cost = $sellCoin[0][3];
-    Echo "<BR>sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
-    sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice);
   }
   //header('Location: BuyCoins.php');
 }
 
-function sellCoinData($date,$coinID,$userID){
+function AddCoinAlert($coinID,$action,$userID, $salePrice){
+  //
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `OrderNo`, `ID`, `Amount`, `CoinPrice` FROM `SellCoinStatsView` WHERE `OrderDate` = '$date' and `CoinID` = $coinID and `UserID` = $userID";
-  echo $sql;
-  $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['OrderNo'],$row['ID'],$row['Amount'],$row['CoinPrice']);}
-  $conn->close();
-  return $tempAry;
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`) VALUES ($coinID,'$action',$salePrice,$userID)";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
 }
 
 if(isset($_POST['coinTxt'])){
