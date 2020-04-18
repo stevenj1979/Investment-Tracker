@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 
@@ -120,7 +121,7 @@ function getColour($ColourText){
   return $colour;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
 
     //$to = $row['Email'];
     //echo $row['Email'];
@@ -137,7 +138,7 @@ function sendEmail($to, $symbol, $amount, $cost){
 
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -150,7 +151,7 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getLiveCoinPrice($symbol){
+function getLiveCoinPriceLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -168,7 +169,7 @@ function getLiveCoinPrice($symbol){
   return $tmpCoinPrice;
 }
 
-function getLiveCoinPriceUSD($symbol){
+function getLiveCoinPriceUSDLoc($symbol){
   $limit = 100;
   $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
   $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -196,34 +197,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
   echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
 }
 
-?>
-
-<!--<div class="container">
-
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
-
-      <div class="header">
-        <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-            <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-
-         </div>
-         <div class="topnav">
-           <a href="Dashboard.php">Dashboard</a>
-           <a href="Transactions.php">Transactions</a>
-           <a href="Stats.php">Stats</a>
-           <a href="BuyCoins.php">Buy Coins</a>
-           <a href="SellCoins.php">Sell Coins</a>
-           <a href="Profit.php" class='active'>Profit</a>
-           <a href="bittrexOrders.php">Bittrex Orders</a>
-           <a href="Settings.php">Settings</a><?php
-           if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-           ?>
-       </div>
- <div class="row">
-        <div class="settingCol1">
-				<?php
+displayHeader(5);
         $totalProfitSumUSD  = null; $totalProfitSumUSDT = null; $totalProfitSumETH = null; $totalProfitSumBTC = null;
         $coins = getCoinsfromSQL($_SESSION['ID']);
         //$CoinPrice = getCoinPrice();
@@ -280,23 +254,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
 
         //echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>BTC Total</td><td class='totalRow'>".$totalProfitSum."</td><td class='totalRow'>$".round($usdPrice,2)."</td><td class='totalRow'></td><td class='totalRow'></td><tr>";
         echo "</Table>"
-				?>
-      </div>
-      <div class="column side">
-        &nbsp
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-
-<?php
+				displaySideColumn();
 //include header template
 require('layout/footer.php');
 ?>
