@@ -202,26 +202,9 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
 
 	    <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
 
-      <div class="header">
-        <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-            <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
 
-         </div>
-         <div class="topnav">
-           <a href="Dashboard.php">Dashboard</a>
-           <a href="Transactions.php">Transactions</a>
-           <a href="Stats.php">Stats</a>
-           <a href="BuyCoins.php">Buy Coins</a>
-           <a href="SellCoins.php">Sell Coins</a>
-           <a href="Profit.php" class='active'>Profit</a>
-           <a href="bittrexOrders.php">Bittrex Orders</a>
-           <a href="Settings.php">Settings</a><?php
-           if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-           ?>
-       </div>
- <div class="row">
-        <div class="settingCol1">
 				<?php
+        displayHeader(5);
         $totalProfitSumUSD  = null; $totalProfitSumUSDT = null; $totalProfitSumETH = null; $totalProfitSumBTC = null;
         $coins = getCoinsfromSQL($_SESSION['ID']);
         //$CoinPrice = getCoinPrice();
@@ -279,23 +262,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
 
         //echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>BTC Total</td><td class='totalRow'>".$totalBTC."</td><td class='totalRow'>$".round($usdPrice,2)."</td><td class='totalRow'></td><td class='totalRow'></td><tr>";
         //echo "</Table>"
-				?>
-      </div>
-      <div class="column side">
-        &nbsp
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-
-<?php
+				displaySideColumn();
 //include header template
 require('layout/footer.php');
 ?>
