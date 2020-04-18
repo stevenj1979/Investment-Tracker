@@ -110,18 +110,18 @@ if(isset($_POST['coinAltTxt'])){
   echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
   if ($_POST['greaterThanSelect'] == "<" ){
-    echo "buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
+    echo "<BR>buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
     buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
   }else{
-    echo "buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
+    echo "<BR>buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);";
     buyCoins($APIKey,$APISecret,$coin,$email,$userID,$date,$baseCurrency,1,0,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,120960,'ALL',$salePrice);
     //get OrderNo and TansIT
     $sellCoin = sellCoinData($date,$coinID,$userID);
     $orderNo = $sellCoin[0][0]; $transactionID = $sellCoin[0][1]; $amount = $sellCoin[0][2]; $cost = $sellCoin[0][3];
-    Echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
+    Echo "<BR>sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
     sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 0, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
   }
-  header('Location: BuyCoins.php');
+  //header('Location: BuyCoins.php');
 }
 
 function sellCoinData($date,$coinID,$userID){
