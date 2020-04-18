@@ -73,7 +73,7 @@ function getCoinPrice(){
     return $tempAry;
 }
 
-function getTrackingCoins(){
+function getTrackingCoinsLoc(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -118,7 +118,7 @@ function getColour($ColourText){
   return $colour;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
 
     //$to = $row['Email'];
     //echo $row['Email'];
@@ -135,7 +135,7 @@ function sendEmail($to, $symbol, $amount, $cost){
 
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -148,7 +148,7 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getLiveCoinPrice($symbol){
+function getLiveCoinPriceLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -166,7 +166,7 @@ function getLiveCoinPrice($symbol){
   return $tmpCoinPrice;
 }
 
-function getLiveCoinPriceUSD($symbol){
+function getLiveCoinPriceUSDLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -207,7 +207,7 @@ displayHeader(5);
         $percentGain = 2.0;
         $arrlength = count($coins);
         //$pricelength = count($CoinPrice);
-        //$btcPrice = getLiveCoinPriceUSD("BTC");
+        //$btcPrice = getLiveCoinPriceUSDLoc("BTC");
         //echo "<br><h2>Profit</h2>";
         echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
         tableHeader('Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold','Day Sold');
@@ -249,7 +249,7 @@ displayHeader(5);
         //echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>".$totalProfitSum."</td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>$usdPrice</td>";
         //echo "<td class='totalRow'><td class='totalRow'><td class='totalRow'></td><tr>";
         tableEnd($totalProfitSumUSDT,$totalProfitSumUSD,$totalProfitSumETH,$totalProfitSumBTC);
-        //$totalBTC = ($profitTtl[0][0]*getLiveCoinPrice("BTC")));
+        //$totalBTC = ($profitTtl[0][0]*getLiveCoinPriceLoc("BTC")));
 
         //echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>BTC Total</td><td class='totalRow'>".$totalProfitSum."</td><td class='totalRow'>$".round($usdPrice,2)."</td><td class='totalRow'></td><td class='totalRow'></td><tr>";
         echo "</Table>";
