@@ -94,7 +94,7 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
 
 $userDetails = getUserIDs($_SESSION['ID']);
 //$userSettings = getConfig($_SESSION['ID']);
-  displayHeader(4);
+  displayHeader(7);
   $kek = $userDetails[0][13];
   $apisecret =Decrypt($kek,$userDetails[0][5]);
 ?>
