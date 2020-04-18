@@ -1390,8 +1390,8 @@ function displayHeader($n){
     </div>
     <div class="topnav"> <?php
       for($x = 0; $x < $headerLen; $x++) {
-        $h1 = $headers[0][$x];
-        $r1 = $ref[0][$x];
+        $h1 = $headers[$x];
+        $r1 = $ref[$x];
         if ($n == $x) { $active = " class='active'";}
         Echo "<a href='$h1'$active>$r1</a>";
       }
