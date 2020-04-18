@@ -89,7 +89,8 @@ if($_GET['alert'] <> ""){
   displaySideColumn();
   ?>&nbsp<?php
   displayMiddleColumn();
-  $GLOBALS['coin'] = $_GET['coinAlt']; $GLOBALS['cost'] = $_GET['coinPrice'];
+  $GLOBALS['coin'] = $_GET['coinAlt']; $GLOBALS['cost'] = $_GET['coinPrice']; $GLOBALS['baseCurrency'] = $_GET['baseCurrency'];
+  $GLOBALS['coinID'] = $_GET['coinID'];
   displayAlertForm();
   displayFarSideColumn();
   ?>&nbsp<?php
@@ -232,6 +233,8 @@ function displayAlertForm(){
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
     Coin: <input type="text" name="coinAltTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
     Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
+    BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+    CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
