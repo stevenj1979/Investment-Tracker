@@ -3,7 +3,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
-<?php require('includes/config.php');?>
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
@@ -19,7 +20,7 @@ header( "Refresh: 120; URL=$current_url" );
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
-function getCoinsfromSQL(){
+function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
@@ -37,7 +38,7 @@ function getCoinsfromSQL(){
     return $tempAry;
 }
 
-function getTrackingSellCoins($userID){
+function getTrackingSellCoinsLoc($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -107,7 +108,7 @@ function getConfig($userID){
   return $tempAry;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
 
     //$to = $row['Email'];
     //echo $row['Email'];
@@ -124,7 +125,7 @@ function sendEmail($to, $symbol, $amount, $cost){
 
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -137,7 +138,7 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getLiveCoinPrice($symbol){
+function getLiveCoinPriceLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -181,30 +182,10 @@ $date = date('Y/m/d H:i:s', time());
 
 	    <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
 
-      <div class="header">
-        <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-            <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
 
-         </div>
-         <div class="topnav">
-           <a href="Dashboard.php">Dashboard</a>
-           <a href="Transactions.php">Transactions</a>
-           <a href="Stats.php">Stats</a>
-           <a href="BuyCoins.php">Buy Coins</a>
-           <a href="SellCoins.php" class="active">Sell Coins</a>
-           <a href="Profit.php">Profit</a>
-           <a href="bittrexOrders.php">Bittrex Orders</a>
-           <a href="Settings.php">Settings</a><?php
-           if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-           ?>
-         </div>
- <div class="row">
-        <div class="column side">
-           &nbsp
-       </div>
-       <div class="column middle">
 				<?php
-        $trackingSell = getTrackingSellCoins($_SESSION['ID']);
+        displayHeader(4);
+        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>&nbsp<th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th>&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
@@ -238,22 +219,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<tr>";
         }
         print_r("</table>");
-				?>
-      </div>
-      <div class="column side">
-          <img src='Images/CBLogoSmall.png' width="150">
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-<?php
+				displaySideColumn();
 //include header template
 require('layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
