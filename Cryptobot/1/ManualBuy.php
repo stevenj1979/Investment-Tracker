@@ -96,10 +96,22 @@ if($_GET['alert'] <> ""){
 }
 
 if(isset($_POST['manualAlert'])){
+  date_default_timezone_set('Asia/Dubai');
+  $date = date("Y-m-d H:i:s", time());
   $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
+  $userConfig = getUserConfig($userID);
+  $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
+  //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
+  $KEK = $userConfig[0][5];
+  if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
+  echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
-
+  if ($_POST['greaterThanSelect'] == "<" ){
+    echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
+  }else{
+    Echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
+  }
 }
 
 if(isset($_POST['coinTxt'])){
