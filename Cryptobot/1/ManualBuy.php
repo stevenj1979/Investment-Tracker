@@ -225,10 +225,12 @@ function displayCoinForm(){
 }
 
 function displayAlertForm(){
+  $coin = $_POST['coin']; $cost = $_POST['coinPrice'];
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
-
+    Coin: <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><br>
+    Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
