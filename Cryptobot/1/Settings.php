@@ -6,6 +6,7 @@
   //include 'includes/functions.php';
   include_once ('/home/stevenj1979/SQLData.php');
   include_once ('/home/stevenj1979/Encrypt.php');
+  include_once '../includes/newConfig.php';
 ?>
 <html>
 <style>
@@ -93,27 +94,9 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
 
 $userDetails = getUserIDs($_SESSION['ID']);
 //$userSettings = getConfig($_SESSION['ID']);
-?>
-<div class='header'>
-<table><TH><table class='CompanyName'><td rowspan='2' class='CompanyName'><img src='Images/CBLogoSmall.png' width='40'></td><td class='CompanyName'><div class='Crypto'>Crypto</Div><td><tr class='CompanyName'>
-<td class='CompanyName'><Div class='Bot'>Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class='glyphicon glyphicon-user'></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-</div>
-<?php
-//$tempOutput = getNewHeader();
-?>
-  <div class="topnav">
-    <a href="Dashboard.php">Dashboard</a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
-    <a href="BuyCoins.php">Buy Coins</a>
-    <a href="SellCoins.php">Sell Coins</a>
-    <a href="Profit.php">Profit</a>
-    <a href="bittrexOrders.php">Bittrex Orders</a>
-    <a href="Settings.php" class="active">Settings</a><?php
-    if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-//echo $tempOutput;
-$kek = $userDetails[0][13];
-$apisecret =Decrypt($kek,$userDetails[0][5]);
+  displayHeader(4);
+  $kek = $userDetails[0][13];
+  $apisecret =Decrypt($kek,$userDetails[0][5]);
 ?>
   </div>
       <div class="row">
@@ -177,14 +160,8 @@ $apisecret =Decrypt($kek,$userDetails[0][5]);
               <div class="form-group">
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="8">
               </div>
-            </form>
-            </div>
-       </div>
-
-       <div class="footer">
-         <hr>
-         <input type="button" onclick="location='logout.php'" value="Logout"/>
-       </div>
+            </form><?php
+            displaySideColumn(); ?>
 
 </body>
 </html>
