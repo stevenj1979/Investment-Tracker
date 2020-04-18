@@ -102,10 +102,10 @@ if(isset($_POST['coinAltTxt'])){
   //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
   $salePrice = $_POST['coinPriceAltTxt'];
-  $userConfig = getUserConfig($userID);
-  $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
+  //$userConfig = getUserConfig($userID);
+  //$UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
   //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
-  $KEK = $userConfig[0][5];
+  //$KEK = $userConfig[0][5];
   //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
