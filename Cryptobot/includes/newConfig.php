@@ -1397,44 +1397,48 @@ function displayHeader($n){
         Echo "<a href='$h1'$active>$r1</a>";
         $active = '';
       }
-      ?>
-      <!--<a href="Dashboard.php">Dashboard</a>
-      <a href="Transactions.php">Transactions</a>
-      <a href="Stats.php">Stats</a>
-      <a href="BuyCoins.php" class="active">Buy Coins</a>
-      <a href="SellCoins.php">Sell Coins</a>
-      <a href="Profit.php">Profit</a>
-      <a href="bittrexOrders.php">Bittrex Orders</a>
-      <a href="Settings.php">Settings</a>--><?php
       if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}?>
-    </div><div class='row'><?php
+    </div><div class='row'> </div>
+<div class="row">
+     <div class="settingCol1"><?php
 }
 
 function displaySideColumn(){
-  //Echo "";
-  Echo "<div class='column side'>";
-  Echo "<img src='Images/CBLogoSmall.png' width='150'>";
-  Echo "</div>";
+  //Echo "";?>
+  </div>
+  <div class="column side">
+    &nbsp
+  </div>
+</div>
+
+  <div class="footer">
+      <hr>
+      <!-- <input type="button" value="Logout">
+      <a href='logout.php'>Logout</a>-->
+
+      <input type="button" onclick="location='logout.php'" value="Logout"/>
+
+  </div><?php
 }
 
 function displayMiddleColumn(){
-  Echo "<div class='column middle'>";
+  //Echo "<div class='column middle'>";
 }
 
 function displayFarSideColumn(){
-  Echo "</div>";
-  Echo "<div id='visualization' style='width: 600px; height: 400px;'></div>";
-  Echo "</div>";
+  //Echo "</div>";
+  //Echo "<div id='visualization' style='width: 600px; height: 400px;'></div>";
+  //Echo "</div>";
   //Echo "<div class='column side'>";
 }
 
 function displayFooter(){
   //Echo "</div>";
-  Echo "</div>";
-  Echo "<div class='footer'>";
-  Echo "<hr>";
-  Echo "<input type='button' onClick='location.href=\"logout.php\"' value='Logout'/>";
-  Echo "</div>";
+  //Echo "</div>";
+  //Echo "<div class='footer'>";
+  //Echo "<hr>";
+  //Echo "<input type='button' onClick='location.href=\"logout.php\"' value='Logout'/>";
+  //Echo "</div>";
 }
 
 function getCoinAlerts(){
