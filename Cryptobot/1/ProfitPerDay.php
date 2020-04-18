@@ -76,7 +76,7 @@ function getCoinPrice(){
     return $tempAry;
 }
 
-function getTrackingCoins(){
+function getTrackingCoinsLoc(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
