@@ -89,7 +89,7 @@ if($_GET['alert'] <> ""){
   displaySideColumn();
   ?>&nbsp<?php
   displayMiddleColumn();
-  $GLOBALS['coin'] = $_POST['coinAlt']; $GLOBALS['cost'] = $_POST['coinPrice'];
+  $GLOBALS['coin'] = $_Get['coinAlt']; $GLOBALS['cost'] = $_GET['coinPrice'];
   displayAlertForm();
   displayFarSideColumn();
   ?>&nbsp<?php
