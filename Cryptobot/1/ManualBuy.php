@@ -114,7 +114,7 @@ if(isset($_POST['coinAltTxt'])){
   }else{
     AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice);
   }
-  //header('Location: BuyCoins.php');
+  header('Location: CoinAlerts.php');
 }
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice){
