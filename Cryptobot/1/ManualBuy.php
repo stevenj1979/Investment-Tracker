@@ -97,6 +97,13 @@ if($_GET['alert'] <> ""){
   displayFooter();
 }
 
+if(isset($_POST['manualAlert'])){
+  $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
+
+
+}
+
 if(isset($_POST['coinTxt'])){
 //if($_POST['manualPrice'] == 'Yes'){
   date_default_timezone_set('Asia/Dubai');
@@ -227,7 +234,7 @@ function displayCoinForm(){
 }
 
 function displayAlertForm(){
-
+  $userID = $_SESSION['ID'];
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
@@ -235,6 +242,7 @@ function displayAlertForm(){
     Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
     BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
     CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
+    UserID: <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
