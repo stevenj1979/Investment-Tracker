@@ -1394,6 +1394,7 @@ function displayHeader($n){
         $r1 = $ref[$x];
         if ($n == $x) { $active = " class='active'";}
         Echo "<a href='$h1'$active>$r1</a>";
+        $active = '';
       }
       ?>
       <!--<a href="Dashboard.php">Dashboard</a>
