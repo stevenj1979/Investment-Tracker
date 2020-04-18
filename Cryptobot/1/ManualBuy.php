@@ -77,6 +77,7 @@ if($_GET['coin'] <> ""){
       displaySideColumn();
       ?>&nbsp<?php
       displayMiddleColumn();
+      setGlobalVars();
       displayCoinForm();
       displayFarSideColumn();
       ?>&nbsp<?php
@@ -179,6 +180,14 @@ function getCoinStats($symbol){
 
 }
 
+function setGlobalVars(){
+    $userID = $_SESSION['ID'];
+    $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
+    if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
+    $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
+    $cost = $GLOBALS['cost'];
+}
+
 function displayCoinForm(){
   ?> <h1>Manual Buy Coin</h1>
   <h2>Enter Price</h2>
@@ -226,13 +235,7 @@ function displayAlertForm(){
 
 
 
-$userID = $_SESSION['ID'];
 
-
-    $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
-    if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
-    $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
-    $cost = $GLOBALS['cost'];
 
 
     //include header template
