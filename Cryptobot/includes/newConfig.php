@@ -1407,7 +1407,7 @@ function displaySideColumn(){
   //Echo "";?>
   </div>
   <div class="column side">
-    &nbsp
+    <img src='Images/CBLogoSmall.png' width="150">
   </div>
   </div>
 
