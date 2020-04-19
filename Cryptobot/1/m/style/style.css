@@ -37,11 +37,16 @@ th{
   font-weight: 300;
   background-color: #2C3E50
   color: white;
-  font-size: 32px;
+  font-size: 30px;
 }
 td{
   text-align: center;
   font-size: 30px;
+}
+
+h2{
+  font-size: 32px;
+  font-weight: 400;
 }
 
 .header {
