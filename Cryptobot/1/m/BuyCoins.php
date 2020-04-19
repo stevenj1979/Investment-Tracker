@@ -20,8 +20,6 @@ header( "Refresh: 120; URL=$current_url" );
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
-if(isMobile()){ header("Location: ../m/BuyCoins.php");}
-
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -174,7 +172,7 @@ displayHeader(3);
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-				print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th><TH>&nbsp% Change 24 Hrs</th>
+				print_r("<h2>Buy Coins Mobile!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th><TH>&nbsp% Change 24 Hrs</th>
         <TH>&nbsp% Change 7 Days</th><TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>");
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables

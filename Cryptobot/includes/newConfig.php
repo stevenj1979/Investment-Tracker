@@ -1499,4 +1499,8 @@ function sendAlertEmail($to, $symbol , $price, $action, $user){
     $headers .= "To:".$to."\r\n";
     mail($to, $subject, wordwrap($body,70),$headers);
 }
+
+function isMobile() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
 ?>
