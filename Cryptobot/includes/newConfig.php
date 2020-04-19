@@ -1386,8 +1386,9 @@ function displayHeader($n){
   $headerLen = count($headers);
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
   ?><div class="header">
-    <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='<?php echo $imgpath; ?>' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-        <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
+    <table>
+      <TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
+      <TH>Logged in as:</th><i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
      </div>
      <div class="topnav"> <?php
      $active = "";
