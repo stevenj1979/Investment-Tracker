@@ -172,7 +172,7 @@ input[type=text], select {
 .settingCol1{
   float: left;
   width: 98%;
-  padding-left: 5px;
+  padding-left: 20px;
 }
 
 /* Middle column */
