@@ -19,7 +19,7 @@ header( "Refresh: 120; URL=$current_url" );
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
-$locationStr = "Location: ".$_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/m/BuyCoins.php';
+$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 if(isMobile()){ header($locationStr);}
 
 function getCoinsfromSQL(){
