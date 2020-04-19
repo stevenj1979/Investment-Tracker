@@ -1384,8 +1384,9 @@ function displayHeader($n){
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","AdminSettings.php");
   $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Admin Settings");
   $headerLen = count($headers);
+  $imgpath = $_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png'
   ?><div class="header">
-    <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
+    <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='<?php echo $imgpath; ?>' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
         <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
 
      </div>
