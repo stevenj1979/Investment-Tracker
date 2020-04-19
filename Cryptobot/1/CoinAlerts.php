@@ -27,7 +27,7 @@ if($_GET['iD'] <> ""){
 
         displayHeader(8);
 
-        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><tr>";
+        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><TH>&nbspDelete Alert</th><tr>";
         $coinAlerts = getCoinAlertsUser($userID);
         $newArrLength = Count($coinAlerts);
 				for($x = 0; $x < $newArrLength; $x++) {
@@ -38,7 +38,7 @@ if($_GET['iD'] <> ""){
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";
           echo "<td>$email</td><td>$liveCoinPrice</td>";
-          echo "<td><a href='CoinAlerts.php?iD=$id'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
+          echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:24px;color:#D4EFDF'></i></a></td>";
           echo "<TR>";
         }
         Echo "</table>";
