@@ -4,7 +4,7 @@ session_start();
 
 //set timezone
 date_default_timezone_set('Asia/Dubai');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
 //database credentials
 $host = getHost();
 $userName = getUserName();
@@ -32,7 +32,7 @@ try {
 }
 
 //include the user class, pass in the database connection
-include('classes/user.php');
-include('classes/phpmailer/mail.php');
+include($_SERVER['DOCUMENT_ROOT'].'Investment-Tracker/Cryptobot/1/classes/user.php');
+include($_SERVER['DOCUMENT_ROOT'].'Investment-Tracker/Cryptobot/1/classes/phpmailer/mail.php');
 $user = new User($db);
 ?>
