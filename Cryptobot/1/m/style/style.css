@@ -8,7 +8,7 @@ ul {
 li a {
   display: block;
   background-color: #2C3E50;
-  font-size: 22px;
+  font-size: 28px;
 }
 table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -48,7 +48,7 @@ td,th{
     border-bottom: 1px solid #ddd;
 }
 td{
-  font-size: 28px;
+  font-size: 32px;
   text-align: center;
 }
 h2 {color:#069;}
