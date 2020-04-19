@@ -1,5 +1,5 @@
 <?php
-include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
+include_once ('/home/stevenj1979/SQLData.php');
 
 function getBittrexRequests(){
   $tempAry = [];

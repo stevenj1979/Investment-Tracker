@@ -4,7 +4,7 @@ session_start();
 
 //set timezone
 date_default_timezone_set('Asia/Dubai');
-include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
+include_once ('/home/stevenj1979/SQLData.php');
 //database credentials
 $host = getHost();
 $userName = getUserName();

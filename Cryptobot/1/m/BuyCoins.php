@@ -18,7 +18,7 @@ $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
+include_once ('/home/stevenj1979/SQLData.php');
 
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
