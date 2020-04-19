@@ -1390,6 +1390,7 @@ function displayHeader($n){
 
      </div>
      <div class="topnav"> <?php
+     $active = "";
       for($x = 0; $x < $headerLen; $x++) {
         $h1 = $headers[$x];
         $r1 = $ref[$x];
