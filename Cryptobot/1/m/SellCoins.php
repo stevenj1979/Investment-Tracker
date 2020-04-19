@@ -188,7 +188,7 @@ $date = date('Y/m/d H:i:s', time());
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th><th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th>&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
+        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th><th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th><th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],2); $pctChange1Hr = round($trackingSell[$x][9],2);$pctChange24Hr = round($trackingSell[$x][12],2);
@@ -204,7 +204,7 @@ $date = date('Y/m/d H:i:s', time());
             //echo "<td>$sellOrders</td>";
             $diffColour = 'Red';
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
-            echo "<td>".$pctChange1Hr."</td><td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>";
+            echo "<td>".$pctChange1Hr."</td>";
             echo "<td>$amount</td>";
             $cost = number_format((float)$trackingSell[$x][28], 10, '.', '');
             echo "<td>$cost</td>";
