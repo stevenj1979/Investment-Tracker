@@ -3,24 +3,22 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
-<?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
+<?php require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/includes/config.php');
+include_once $_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/includes/newConfig.php';?>
 <style>
-<?php include 'style/style.css'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/m/style/style.css'; ?>
 </style> <?php
-ini_set("max_execution_time", 150);
+
 //if not logged in redirect to login page
-if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
+if(!$user->is_logged_in()){ header('Location: /home/stevenj1979/Investment-Tracker/Cryptobot/1/login.php'); exit(); }
 
 //define page title
 $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require('layout/header.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
-$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
-if(isMobile()){ header($locationStr);}
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
@@ -190,7 +188,7 @@ $date = date('Y/m/d H:i:s', time());
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>&nbsp<th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th>&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
+        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th><th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th>&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],2); $pctChange1Hr = round($trackingSell[$x][9],2);$pctChange24Hr = round($trackingSell[$x][12],2);
@@ -201,9 +199,9 @@ $date = date('Y/m/d H:i:s', time());
             $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = $sellAmount - $buyAmount - $fee;
             echo "<td>$coin</td>";
             echo "<td>$livePrice</td>";
-            echo "<td>$mrktCap</td>";
-            echo "<td>$volume</td>";
-            echo "<td>$sellOrders</td>";
+            //echo "<td>$mrktCap</td>";
+            //echo "<td>$volume</td>";
+            //echo "<td>$sellOrders</td>";
             $diffColour = 'Red';
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
             echo "<td>".$pctChange1Hr."</td><td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>";
@@ -223,7 +221,7 @@ $date = date('Y/m/d H:i:s', time());
         print_r("</table>");
 				displaySideColumn();
 //include header template
-require('layout/footer.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
 echo " Last Updated :".$date;
 ?>
