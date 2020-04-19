@@ -1,31 +1,14 @@
 
-#customers ul {
+ul {
   list-style-type: none;
   margin: 0;
-  padding: 10px;
-  /*overflow: hidden;*/
-  background-color: #4CAF50;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 18px;
-}
-
-li {
-    float: left;
+  padding: 0;
 }
 
 li a {
-    display: block;
-    color: #2C3E50;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Change the link color to #111 (black) on hover */
-li a:hover {
-    background-color: #ddd;
+  display: block;
+  width: 60px;
+  background-color: #2C3E50;
 }
 table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
