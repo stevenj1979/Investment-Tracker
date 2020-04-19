@@ -20,7 +20,7 @@ header( "Refresh: 120; URL=$current_url" );
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
-if(isMobile()){ header("Location: ../m/BuyCoins.php");}
+if(isMobile()){ header("Location: /m/BuyCoins.php");}
 
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
