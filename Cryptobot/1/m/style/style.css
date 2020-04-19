@@ -30,7 +30,7 @@ tr.CompanyName:hover,td.CompanyName:hover {background-color: transparent;}
 td.CompanyName{
   border: 0px solid #2C3E50;
   text-align: left;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 table.CompanyName{
@@ -48,7 +48,7 @@ td,th{
     border-bottom: 1px solid #ddd;
 }
 td{
-  font-size: 14px;
+  font-size: 22px;
   text-align: center;
 }
 h2 {color:#069;}

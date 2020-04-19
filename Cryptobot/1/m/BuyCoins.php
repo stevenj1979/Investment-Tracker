@@ -184,6 +184,7 @@ displayHeader(3);
           $priceChange = number_format((float)$bitPrice-$LastCoinPrice, 8, '.', '');
           $priceDiff1 = number_format((float)$tracking[$x][19], 2, '.', '');
           //Table
+
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           echo "<td>".$bitPrice."</td>";
