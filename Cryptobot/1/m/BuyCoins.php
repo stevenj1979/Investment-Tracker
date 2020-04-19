@@ -172,13 +172,13 @@ displayHeader(3);
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-				print_r("<h2>Buy Coins Mobile!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>
+				print_r("<h2>Buy Coins Mobile!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>
         <TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>");
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
           $Live1HrChange = round($tracking[$x][10],2); $Live24HrChange = round($tracking[$x][13],2); $Live7DChange = $tracking[$x][14];
-          $bitPrice = $tracking[$x][17]; $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
+          $bitPrice = round($tracking[$x][17],2); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
           $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
           $priceChange = number_format((float)$bitPrice-$LastCoinPrice, 8, '.', '');
@@ -191,14 +191,14 @@ displayHeader(3);
           //echo "<td>$MarketCap</td>";
           //echo "<td>$volume</td>";
           //echo "<td>$buyOrders</td>";
-          echo "<td>% $priceDiff1</td>";
-          echo "<td>".$priceChange." ".$baseCurrency."</td>";
+          //echo "<td>% $priceDiff1</td>";
+          echo "<td>".$priceChange."</td>";
           echo "<td>".$Live1HrChange."</td>";
           //echo "<td>".$Live24HrChange."</td>";
           //echo "<td>".$Live7DChange."</td>";
-          echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
-          echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:32px;color:#D4EFDF'></i></a></td>";
-          echo "<td><a href='ManualBuy.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:32px;color:#D4EFDF'></i></a></td>";
+          echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
+          echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:36px;color:#D4EFDF'></i></a></td>";
+          echo "<td><a href='ManualBuy.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:36px;color:#D4EFDF'></i></a></td>";
           echo "<tr>";
 				}//end for
 				print_r("</table>");
