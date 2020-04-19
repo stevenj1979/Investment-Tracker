@@ -17,8 +17,8 @@ $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require('layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
 
 if(isMobile()){ header("Location: /home/stevenj1979/Investment-Tracker/Cryptobot/1/m/BuyCoins.php");}
 
@@ -210,7 +210,7 @@ displayHeader(3);
         //displayFooter();
 
 //include header template
-require('layout/footer.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
 echo " Last Updated :".$date;
 ?>

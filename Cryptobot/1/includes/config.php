@@ -32,7 +32,7 @@ try {
 }
 
 //include the user class, pass in the database connection
-include($_SERVER['DOCUMENT_ROOT'].'Investment-Tracker/Cryptobot/1/classes/user.php');
-include($_SERVER['DOCUMENT_ROOT'].'Investment-Tracker/Cryptobot/1/classes/phpmailer/mail.php');
+include($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/classes/user.php');
+include($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/classes/phpmailer/mail.php');
 $user = new User($db);
 ?>
