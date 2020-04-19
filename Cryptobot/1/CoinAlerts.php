@@ -21,8 +21,10 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
 if($_GET['iD'] <> ""){
-  Echo "<BR> ID : ".$_GET['iD'];
+  $id = $_GET['iD'];
+  Echo "<BR> ID : $id";
   //header('Location: CoinAlerts.php');
+  deleteSQLAlert($id);
 }
 
 function deleteSQLAlert($id){
