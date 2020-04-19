@@ -22,8 +22,24 @@ include_once ('/home/stevenj1979/SQLData.php');
 
 if($_GET['iD'] <> ""){
   Echo "<BR> ID : ".$_GET['iD'];
+  header('Location: CoinAlerts.php');
 }
 
+function deleteSQLAlert($id){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "DELETE FROM `CoinAlerts` WHERE `ID` = $id";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
 
         displayHeader(8);
 
