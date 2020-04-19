@@ -56,7 +56,7 @@ function deleteSQLAlert($id){
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";
           echo "<td>$email</td><td>$liveCoinPrice</td>";
-          echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:24px;color:#D4EFDF'></i></a></td>";
+          echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
           echo "<TR>";
         }
         Echo "</table>";
