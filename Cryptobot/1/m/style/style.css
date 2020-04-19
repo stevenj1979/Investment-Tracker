@@ -21,6 +21,9 @@ li a {
   padding: 14px 16px;
   text-decoration: none;
 }
+.active {
+  background-color: #4CAF50;
+}
 
 li a:hover {
   background-color: #111;
@@ -30,6 +33,7 @@ li a:hover {
     background-color: #2C3E50;
     text-align: center;
     padding: 2px;
+    color: white;
 }
 .column {
     float: right;
