@@ -32,12 +32,16 @@ li a:hover:not(.active) {
   background-color: #555;
   color: white;
 }
+
+.header {
+    background-color: #2C3E50;
+    text-align: center;
+    padding: 2px;
+}
 .column {
     float: right;
     margin: 0;
 }
-
-
 
 /* Left and right column */
 .column.side {
