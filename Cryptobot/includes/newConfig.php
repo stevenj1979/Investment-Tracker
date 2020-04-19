@@ -1388,7 +1388,7 @@ function displayHeader($n){
   ?><div class="header">
     <table>
       <TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
-      <TH>Logged in as:</th><i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
+      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th></Table><br>
      </div>
      <div class="topnav"> <?php
      $active = "";
