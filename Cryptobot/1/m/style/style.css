@@ -35,9 +35,11 @@ th{
   font-weight: bolder;
   background-color: #2C3E50
   color: white;
+  font-size: 36px;
 }
 td{
   text-align: center;
+  font-size: 30px;
 }
 
 .header {
