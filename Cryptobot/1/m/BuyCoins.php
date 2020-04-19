@@ -3,10 +3,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
-<?php require('/home/stevenj1979/Investment-Tracker/Cryptobot/1/includes/config.php');
-include_once '/home/stevenj1979/Investment-Tracker/Cryptobot/includes/newConfig.php';?>
+<?php require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/includes/config.php');
+include_once $_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/includes/newConfig.php';?>
 <style>
-<?php include '/home/stevenj1979/Investment-Tracker/Cryptobot/1/m/style/style.css'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/m/style/style.css'; ?>
 </style> <?php
 
 //if not logged in redirect to login page
@@ -17,8 +17,8 @@ $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require('/home/stevenj1979/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
+include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
 
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
@@ -208,7 +208,7 @@ displayHeader(3);
         //displayFooter();
 
 //include header template
-require('/home/stevenj1979/Investment-Tracker/Cryptobot/1/layout/footer.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
 echo " Last Updated :".$date;
 ?>
