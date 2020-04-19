@@ -18,9 +18,9 @@ $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ($_SERVER['DOCUMENT_ROOT'].'/SQLData.php');
-
-if(isMobile()){ header("Location: /home/stevenj1979/Investment-Tracker/Cryptobot/1/m/BuyCoins.php");}
+include_once ('/home/stevenj1979/SQLData.php');
+$locationStr = "Location: ".$_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/m/BuyCoins.php';
+if(isMobile()){ header($locationStr);}
 
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
