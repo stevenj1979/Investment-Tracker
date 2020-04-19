@@ -1391,14 +1391,16 @@ function displayHeader($n){
      </div>
      <div class="topnav"> <?php
      $active = "";
+     echo "<ul>";
       for($x = 0; $x < $headerLen; $x++) {
         $h1 = $headers[$x];
         $r1 = $ref[$x];
         if ($n == $x) { $active = " class='active'";}
-        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<a href='$h1'$active>$r1</a>";}
-        else{Echo "<a href='$h1'$active>$r1</a>";}
+        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1</a></li>";}
+        else{Echo "<li><a href='$h1'$active>$r1</a></li>";}
         $active = '';
       }
+      echo "<ul>";
       //if ($n > $headerLen ){ $active = " class='active'"; }
       //if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
     </div>
