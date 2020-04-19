@@ -22,7 +22,8 @@ li a {
   text-decoration: none;
 }
 .active {
-  background-color: #4CAF50;
+  background-color: #85929E;
+  color: #2C3E50;
 }
 
 li a:hover {
@@ -33,6 +34,7 @@ th{
   text-align: center;
   font-weight: bolder;
   background-color: #2C3E50
+  color: white;
 }
 td{
   text-align: center;
@@ -43,6 +45,11 @@ td{
     text-align: center;
     padding: 2px;
     color: white;
+}
+.footer {
+    background-color: #2C3E50;
+    text-align: center;
+    padding: 2px;
 }
 .column {
     float: right;
