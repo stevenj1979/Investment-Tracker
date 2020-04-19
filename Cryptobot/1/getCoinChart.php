@@ -10,9 +10,8 @@ if ($conn->connect_error) {
 $coinID = $_GET['coinID'];
 $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
   FROM `CoinBuyHistory`
-  WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL 10 DAY)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
-  order by `ActionDate` asc
-  limit 500";
+  WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL 7 DAY)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
+  order by `ActionDate` asc";
 //$query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice FROM `CoinBuyHistory` WHERE ID = (
 //  select `ID` from `Coin` where `Symbol` = '$coinID')
 //   and DATE_ADD(`ActionDate`, INTERVAL 24 HOUR) >= now() order by `ActionDate` asc";
