@@ -49,6 +49,22 @@ h2{
   font-weight: 400;
 }
 
+#username{
+    height: 38px;
+}
+
+#email{
+  height: 38px;
+}
+
+#passwordConfirm{
+  height: 38px;
+}
+
+#submitLogin{
+  height: 38px;
+}
+
 .header {
     background-color: #2C3E50;
     text-align: center;

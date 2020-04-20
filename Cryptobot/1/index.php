@@ -169,7 +169,7 @@ require('layout/header.php');
 				</div>
 
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" id="submitLogin" tabindex="5"></div>
 				</div>
 			</form>
 		</div>
