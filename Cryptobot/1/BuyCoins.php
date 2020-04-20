@@ -216,7 +216,11 @@ displayHeader(3);
           echo "<td>% $priceDiff1</td>";
           echo "<td>".$priceChange." ".$baseCurrency."</td>";
           echo "<td>".$Live1HrChange."</td>";
-          echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
+          if ($_SESSION['isMobile'] == False){
+            echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
+          }else{
+            echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
+          }
           echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
           echo "<td><a href='ManualBuy.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:24px;color:#D4EFDF'></i></a></td>";
           echo "<tr>";
