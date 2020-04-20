@@ -200,7 +200,7 @@ displayHeader(3);
           $bitPrice = round($tracking[$x][17],2); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
           $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
-          $priceChange = number_format((float)$bitPrice-$LastCoinPrice, 8, '.', '');
+          $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),4);
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),4);
           //Table
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
