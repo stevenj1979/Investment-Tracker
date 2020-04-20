@@ -211,12 +211,14 @@ $date = date('Y/m/d H:i:s', time());
         echo "<th>Price Trend 1</th><th>&nbsp% Change 1Hr</th>&nbsp&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
+            $roundNum = 2;
+            if($_SESSION['isMobile'] == False){$roundNum = 8;}
             $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],2); $pctChange1Hr = round($trackingSell[$x][9],2);$pctChange24Hr = round($trackingSell[$x][12],2);
-            $pctChange7D = $trackingSell[$x][13]; $livePrice = $trackingSell[$x][16]; $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = round($trackingSell[$x][21],2);
-            $volume = round($trackingSell[$x][24],4); $baseCurrency = $trackingSell[$x][25]; $amount = round($trackingSell[$x][26],10);  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
-            $profitPct = round($trackingSell[$x][33],2);$cost = $trackingSell[$x][28]; $realAmount = $trackingSell[$x][26];
-            $priceDiff1 = number_format((float)$livePrice-$LastCoinPrice, 10, '.', ''); $buyAmount = $amount * $cost;
-            $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = $sellAmount - $buyAmount - $fee;
+            $pctChange7D = $trackingSell[$x][13]; $livePrice = round($trackingSell[$x][16],$roundNum); $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = round($trackingSell[$x][21],2);
+            $volume = round($trackingSell[$x][24],4); $baseCurrency = $trackingSell[$x][25]; $amount = round($trackingSell[$x][26],$roundNum);  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
+            $profitPct = round($trackingSell[$x][33],2);$cost = round($trackingSell[$x][28],$roundNum); $realAmount = $trackingSell[$x][26];
+            $priceDiff1 = round(number_format((float)$livePrice-$LastCoinPrice, 10, '.', ''),$roundNum); $buyAmount = $amount * $cost;
+            $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = round(number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', ''),$roundNum);
             echo "<td>$coin</td>";
             echo "<td>$livePrice</td>";
             if($_SESSION['isMobile'] == False){
@@ -237,7 +239,7 @@ $date = date('Y/m/d H:i:s', time());
               $profitColour = "Red";
             }
             echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
-            echo "<td>".number_format((float)$profitBtc, 8, '.', '')."</td>";
+            echo "<td>".$profitBtc."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#F1948A'></i></a></td>";
             echo "<tr>";
         }
