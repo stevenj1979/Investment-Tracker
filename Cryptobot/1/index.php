@@ -4,6 +4,7 @@
 </head>
 
 <?php require('includes/config.php');
+include_once '../includes/newConfig.php';
 setStyle(isMobile());
 
 //if logged in redirect to members page

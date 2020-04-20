@@ -1,11 +1,8 @@
 <?php
 //include config
 require_once('includes/config.php');
-
-?>
-<style>
-<?php include 'style/style.css'; ?>
-</style> <?php
+include_once '../includes/newConfig.php';
+setStyle(isMobile());
 //check if already logged in move to home page
 if( $user->is_logged_in() ){ header('Location: index.php'); exit(); }
 
@@ -148,7 +145,7 @@ require('layout/header.php');
 						 <a href='reset.php'>Forgot your Password?</a>
              <a href='Subscribe.php'>Subscribe</a>
 				<hr>
-          <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="5">
+          <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" id="submitLogin" tabindex="5">
     </div>
     <div class="column side">
         <img src='Images/CBLogoSmall.png' width="150">

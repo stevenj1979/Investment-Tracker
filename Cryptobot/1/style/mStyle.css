@@ -50,19 +50,24 @@ h2{
 }
 
 #username{
-    height: 38px;
+  width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+box-sizing: border-box;
 }
 
-#email{
-  height: 38px;
-}
-
-#passwordConfirm{
-  height: 38px;
+#password{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 
 #submitLogin{
-  height: 38px;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 
 .header {
