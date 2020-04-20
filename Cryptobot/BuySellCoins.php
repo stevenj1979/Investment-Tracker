@@ -385,7 +385,7 @@ while($date <= $newTime){
 
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
-  echo "<BR> CHECK BITTREX!! ";
+  echo "<BR> CHECK Alerts!! ";
   for($d = 0; $d < $coinAlertsLength; $d++) {
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
