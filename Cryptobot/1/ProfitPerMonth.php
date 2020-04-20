@@ -185,17 +185,17 @@ function getLiveCoinPriceUSDLoc($symbol){
   return $tmpCoinPrice;
 }
 
-function tableHeader($th1,$th2,$th3,$th4,$th5,$th6,$th7,$th8,$th9,$th10){
-   Echo "<Table><TH>$th1</TH><TH>$th2</TH><TH>$th3</TH><TH>$th4</TH><TH>$th5</TH><TH>$th6</TH><TH>$th7</TH><TH>$th8</TH><TH>$th9</TH><TH>$th10</TH><TR>";
+function tableHeader($th1,$th2,$th3,$th4,$th5,$th6,$th7,$th8,$th9){
+   Echo "<Table><TH>$th1</TH><TH>$th2</TH><TH>$th3</TH><TH>$th4</TH><TH>$th5</TH><TH>$th6</TH><TH>$th7</TH><TH>$th8</TH><TH>$th9</TH><TR>";
 }
 
-function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10){
-    Echo "<td>$td1</td><td>$td2</td><td>$td3</td><td>$td4</td><td>$td5</td><td>$td6</td><td>$td7</td><td>$td8</td><td>$td9</td><td>$td10</td><tr>";
+function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9){
+    Echo "<td>$td1</td><td>$td2</td><td>$td3</td><td>$td4</td><td>$td5</td><td>$td6</td><td>$td7</td><td>$td8</td><td>$td9</td><tr>";
 }
 
 function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
   echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>$sumBTC</td><td class='totalRow'>$sumUSDT</td><td class='totalRow'>$sumETH</td><td class='totalRow'>$sumUSD</td>";
-  echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
+  echo "<td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
 }
 
 displayHeader(5);
@@ -211,7 +211,7 @@ displayHeader(5);
         //$btcPrice = getLiveCoinPriceUSDLoc("BTC");
         //echo "<br><h2>Profit</h2>";
         echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
-        tableHeader('Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold','Day Sold');
+        tableHeader('Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold');
         for($x = 0; $x < $arrlength; $x++) {
 
                     //$price = $coins[$x][9];
@@ -241,7 +241,7 @@ displayHeader(5);
                     $totalProfitSumBTC = $totalProfitSumBTC + $profitBTC;
                     //print_r("<tr><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
-                    tableRow($purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth,$sellDay);
+                    tableRow($purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth);
 
         }
         //$profitTtl = getProfitTotal($_SESSION['ID']);
