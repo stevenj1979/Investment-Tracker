@@ -184,8 +184,15 @@ displayHeader(3);
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-				print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th><TH>&nbsp% Change 24 Hrs</th>
-        <TH>&nbsp% Change 7 Days</th><TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>");
+				print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+        if($_SESSION['isMobile'] == False){
+          echo "<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>";
+          echo "<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>";
+        }
+
+        echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>";
+        echo "<TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
+
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
@@ -199,14 +206,16 @@ displayHeader(3);
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           echo "<td>".$bitPrice."</td>";
-          echo "<td>$MarketCap</td>";
-          echo "<td>$volume</td>";
-          echo "<td>$buyOrders</td>";
+          if ($_SESSION['isMobile'] == False){
+            echo "<td>$MarketCap</td>";
+            echo "<td>$volume</td>";
+            echo "<td>$buyOrders</td>";
+            echo "<td>".$Live24HrChange."</td>";
+            echo "<td>".$Live7DChange."</td>";
+          }
           echo "<td>% $priceDiff1</td>";
           echo "<td>".$priceChange." ".$baseCurrency."</td>";
           echo "<td>".$Live1HrChange."</td>";
-          echo "<td>".$Live24HrChange."</td>";
-          echo "<td>".$Live7DChange."</td>";
           echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
           echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
           echo "<td><a href='ManualBuy.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:24px;color:#D4EFDF'></i></a></td>";
