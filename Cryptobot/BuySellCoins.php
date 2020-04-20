@@ -385,12 +385,12 @@ while($date <= $newTime){
 
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
-
+  echo "<BR> CHECK BITTREX!! ";
   for($d = 0; $d < $coinAlertsLength; $d++) {
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
     $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7];
-
+    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice";
     if ($action == 'LessThan'){
       if ($liveCoinPrice <= $price) {
         //Send Alert
