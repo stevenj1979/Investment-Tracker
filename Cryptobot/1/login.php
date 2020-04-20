@@ -62,6 +62,8 @@ if(isset($_POST['submit'])){
 		//echo $password;
 		if($user->login($username,$password)){
 			$_SESSION['username'] = $username;
+      $_SESSION['isMobile'] == False;
+      if(isMobile()){ $_SESSION['isMobile'] == True;}
 			$temp = checkFirstTime($username);
       $_SESSION['DisableUntil'] = $temp[0][1];
 			updateUser($username);
