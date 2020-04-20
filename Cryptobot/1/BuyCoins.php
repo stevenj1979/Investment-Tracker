@@ -192,16 +192,16 @@ displayHeader(3);
 
         echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>";
         echo "<TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
-
+        //$roundNum = 2;
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
           $Live1HrChange = round($tracking[$x][10],2); $Live24HrChange = round($tracking[$x][13],2); $Live7DChange = $tracking[$x][14];
-          $bitPrice = $tracking[$x][17]; $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
+          $bitPrice = round($tracking[$x][17],2); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
           $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
           $priceChange = number_format((float)$bitPrice-$LastCoinPrice, 8, '.', '');
-          $priceDiff1 = number_format((float)$tracking[$x][19], 2, '.', '');
+          $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),4);
           //Table
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
