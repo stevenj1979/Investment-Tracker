@@ -59,7 +59,7 @@ h2{
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  height: 50px;
+  height: 100px;
 }
 
 #password{
@@ -67,7 +67,7 @@ h2{
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  height: 50px;
+  height: 100px;
 }
 
 #submitLogin{
@@ -75,7 +75,7 @@ h2{
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  height: 50px;
+  height: 100px;
 }
 
 .header {
