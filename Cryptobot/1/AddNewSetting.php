@@ -224,6 +224,7 @@ function updateEditedUser(){
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
   $buyAmountOverride = $_POST['BuyAmountOverride'];
   $newBuyPattern = $_POST['NewBuyPattern'];
+  $coinOrder = $_POST['CoinOrderTxt'];
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -238,7 +239,7 @@ function updateEditedUser(){
   `CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm, `SendEmail`=$sendEmail, `BuyCoin`=$buyCoin, `BTCAmount`=$bTCBuyAmount, `BuyCoinOffsetPct`=$BuyCoinOffsetPct,
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
-  , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = '$SellRuleFixed', `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1)
+  , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = '$SellRuleFixed', `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `CoinOrder` = $coinOrder
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -265,8 +266,8 @@ function getRules($id){
 `24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
-,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`
-FROM `UserBuyRules` WHERE `RuleID` = $id";
+,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed` `CoinOrder`
+FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -278,7 +279,7 @@ FROM `UserBuyRules` WHERE `RuleID` = $id";
       $row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['BuyCoin'],$row['SendEmail'],$row['BTCAmount'],$row['RuleID']
      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']
-     ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed']);
+     ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']);
   }
   $conn->close();
   return $tempAry;
@@ -358,6 +359,7 @@ function displayEdit($id){
   addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000');
   addNewText('New Buy Pattern: ', 'NewBuyPattern', $formSettings[0][50], 49, 'Eg 7000');
   addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL');
+  addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 50, 'Eg ALL');
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
   </div>";
