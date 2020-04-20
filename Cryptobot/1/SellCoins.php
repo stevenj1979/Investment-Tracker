@@ -22,18 +22,6 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
 setStyle($_SESSION['isMobile']);
 
-function setStyle($isMobile){
-  if ($isMobile){
-      echo "<style>";
-      include 'style/mStyle.css';
-      echo "</style>";
-  }else{
-    echo "<style>";
-    include 'style/style.css';
-    echo "</style>";
-  }
-
-}
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));

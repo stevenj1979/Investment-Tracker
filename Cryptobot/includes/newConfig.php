@@ -1504,6 +1504,18 @@ function sendAlertEmail($to, $symbol , $price, $action, $user){
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
+function setStyle($isMobile){
+  if ($isMobile){
+      echo "<style>";
+      include 'style/mStyle.css';
+      echo "</style>";
+  }else{
+    echo "<style>";
+    include 'style/style.css';
+    echo "</style>";
+  }
+}
+
 function isMobile() {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }

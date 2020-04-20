@@ -3,10 +3,9 @@
 
 </head>
 
-<?php require('includes/config.php');?>
-<style>
-<?php include 'style/style.css'; ?>
-</style> <?php
+<?php require('includes/config.php');
+setStyle(isMobile());
+
 //if logged in redirect to members page
 if( $user->is_logged_in() ){ header('Location: login.php'); exit(); }
 
