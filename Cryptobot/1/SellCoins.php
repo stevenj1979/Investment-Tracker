@@ -231,7 +231,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
             echo "<td>".$pctChange1Hr."</td>";
             echo "<td>$amount</td>";
-            $cost = number_format((float)$trackingSell[$x][28], 10, '.', '');
+            $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$roundNum);
             echo "<td>$cost</td>";
             if ($profitPct > 0){
               $profitColour = "Green";
