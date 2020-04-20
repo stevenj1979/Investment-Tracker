@@ -20,7 +20,20 @@ header( "Refresh: 120; URL=$current_url" );
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
-if(isMobile()){ header($locationStr);}
+setStyle($_SESSION['isMobile']);
+
+function setStyle($isMobile){
+  if ($isMobile){
+      echo "<style>";
+      include 'style/mStyle.css';
+      echo "</style>";
+  }else{
+    echo "<style>";
+    include 'style/style.css';
+    echo "</style>";
+  }
+
+}
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
@@ -190,7 +203,12 @@ $date = date('Y/m/d H:i:s', time());
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>&nbsp<th>Price Trend 1</th>&nbsp<th>&nbsp% Change 1Hr</th>&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>");
+        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>");
+        if($_SESSION['isMobile'] == False){
+          echo "&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>";
+          echo "&nbsp<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>";
+        }
+        echo "<th>Price Trend 1</th><th>&nbsp% Change 1Hr</th>&nbsp&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],2); $pctChange1Hr = round($trackingSell[$x][9],2);$pctChange24Hr = round($trackingSell[$x][12],2);
@@ -201,12 +219,15 @@ $date = date('Y/m/d H:i:s', time());
             $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = $sellAmount - $buyAmount - $fee;
             echo "<td>$coin</td>";
             echo "<td>$livePrice</td>";
-            echo "<td>$mrktCap</td>";
-            echo "<td>$volume</td>";
-            echo "<td>$sellOrders</td>";
+            if($_SESSION['isMobile'] == False){
+              echo "<td>$mrktCap</td>";
+              echo "<td>$volume</td>";
+              echo "<td>$sellOrders</td>";
+              echo "<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>";
+            }
             $diffColour = 'Red';
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
-            echo "<td>".$pctChange1Hr."</td><td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>";
+            echo "<td>".$pctChange1Hr."</td>";
             echo "<td>$amount</td>";
             $cost = number_format((float)$trackingSell[$x][28], 10, '.', '');
             echo "<td>$cost</td>";
