@@ -25,7 +25,7 @@ $userID = $_GET['ID'];
 $query = "SELECT `ActionDate`,`BittrexBTC`,`BittrexUSDT`,`BittrexETH`,`BTCinUSD`,`ETHinUSD`,`USDTinUSD`,`TotalUSD`
 FROM `UserProfitView`
 WHERE `UserID` = $userID
-order by `ActionDate` desc
+order by `ActionDate` asc
 limit 50";
 $table = array();
 $table['cols'] = array(
