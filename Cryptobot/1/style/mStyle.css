@@ -53,7 +53,13 @@ h2{
   font-size: 34px;
   font-weight: 400;
 }
-
+#Home:hover #homeContent{
+    display: block;
+      position: absolute;
+}
+#AboutUs:hover #AboutUsContent{
+    display: block;
+      position: absolute;
 #username{
   width: 100%;
   padding: 12px 20px;
