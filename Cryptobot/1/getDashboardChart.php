@@ -22,15 +22,10 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT sum(`LiveBTC`+`BittrexBTC`)* `BTCPrice` as TotalBTC
-,sum(`LiveUSDT`+`BittrexUSDT`)* `USDTPrice`as TotalUSDT
-,sum(`LiveETH`+`BittrexETH`)*`ETHPrice` as TotalETH
-, cast(`ActionDate` as date) AS ActionDate
-FROM `UserProfit`
-WHERE `UserID` = $userID and DATE(`ActionDate`) > DATE( DATE_SUB( curdate() , INTERVAL 3 WEEK ) )
-group by day(`ActionDate`),Month(`ActionDate`),Year(`ActionDate`)
-order by `ActionDate` asc
-limit 21";
+$query = "SELECT `ActionDate`,`BittrexBTC`,`BittrexUSDT`,`BittrexETH`,`BTCinUSD`,`ETHinUSD`,`USDTinUSD`,`TotalUSD`
+FROM `UserProfitView`
+WHERE `UserID` = $userID
+order by `ActionDate` desc";
 $table = array();
 $table['cols'] = array(
     /* define your DataTable columns here
@@ -43,9 +38,9 @@ $table['cols'] = array(
     // and your second column is a "number" type
     // but you can change them if they are not
     array('label' => 'ActionDate', 'type' => 'string'),
-    array('label' => 'TotalBTC', 'type' => 'number'),
-    array('label' => 'TotalUSDT', 'type' => 'number'),
-    array('label' => 'TotalETH', 'type' => 'number')
+    array('label' => 'BTCinUSD', 'type' => 'number'),
+    array('label' => 'ETHinUSD', 'type' => 'number'),
+    array('label' => 'USDTinUSD', 'type' => 'number')
 );
 
 $rows = array();
@@ -55,11 +50,11 @@ while ($row = mysqli_fetch_assoc($result)){
     // each column needs to have data inserted via the $temp array
     $temp[] = array('v' => $row['ActionDate']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
-    $temp[] = array('v' => (float) $row['TotalBTC']);
+    $temp[] = array('v' => (float) $row['BTCinUSD']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
-    $temp[] = array('v' => (float) $row['TotalUSDT']);
+    $temp[] = array('v' => (float) $row['ETHinUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
-    $temp[] = array('v' => (float) $row['TotalETH']);
+    $temp[] = array('v' => (float) $row['USDTinUSD']);
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
 }
