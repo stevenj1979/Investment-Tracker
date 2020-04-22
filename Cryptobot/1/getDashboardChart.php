@@ -41,7 +41,8 @@ $table['cols'] = array(
     array('label' => 'ActionDate', 'type' => 'string'),
     array('label' => 'BTCinUSD', 'type' => 'number'),
     array('label' => 'ETHinUSD', 'type' => 'number'),
-    array('label' => 'USDTinUSD', 'type' => 'number')
+    array('label' => 'USDTinUSD', 'type' => 'number'),
+    array('label' => 'TotalUSD', 'type' => 'number')
 );
 
 $rows = array();
@@ -56,6 +57,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $temp[] = array('v' => (float) $row['ETHinUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
     $temp[] = array('v' => (float) $row['USDTinUSD']);
+    $temp[] = array('v' => (float) $row['TotalUSD']);
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
 }
