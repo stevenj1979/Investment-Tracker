@@ -1525,9 +1525,9 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
   $symbolBool = Flase; $priceBool = False;
   if ($symbol == $liveSymbol){ $symbolBool = True;}
   if ($isGreater == 1){
-    if ($bitPrice > $livePrice){$priceBool = True;}
+    if ($livePrice > $bitPrice){$priceBool = True;}
   }else{
-    if ($bitPrice < $livePrice){$priceBool = True;}
+    if ($livePrice < $bitPrice){$priceBool = True;}
   }
   if ($symbolBool == True && $priceBool == True) { return True;}
   else{ return False; }
