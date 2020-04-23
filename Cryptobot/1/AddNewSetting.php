@@ -240,7 +240,7 @@ function updateEditedUser(){
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
   , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = '$SellRuleFixed', `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `CoinOrder` = $coinOrder,
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = $coinPricePattern
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern'
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
