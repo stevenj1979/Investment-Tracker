@@ -1526,16 +1526,16 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
   if ($symbol == $liveSymbol){ $symbolBool = True;}
   if ($isGreater == 1){
     if ($livePrice > $bitPrice){$priceBool = True;}
-    echo "<BR> if ($livePrice > $bitPrice){";
+    //echo "<BR> if ($livePrice > $bitPrice){";
   }else{
     if ($livePrice < $bitPrice){$priceBool = True;}
-    echo "<BR> if ($livePrice < $bitPrice){";
+    //echo "<BR> if ($livePrice < $bitPrice){";
   }
   if ($symbolBool == True && $priceBool == True) { return True;}
   else{ return False; }
 }
 
-function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater){
+function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled){
   $pieces = explode(",", $coinPattern);
   $piecesSize = count($pieces);
   $testTrue = False;
@@ -1543,7 +1543,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater){
     //Echo "<br> ".$pieces[$x];
     $row = explode(":", $pieces[$x]);
     if (isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
-    echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
+    //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
   }
     if ($pEnabled == 0){
       //print_r("True");
