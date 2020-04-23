@@ -1542,7 +1542,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
     $row = explode(":", $pieces[$x]);
-    if (isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
+    if (isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True; echo "<BR> 3: isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
   }
     if ($pEnabled == 0){
