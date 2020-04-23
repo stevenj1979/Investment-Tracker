@@ -250,7 +250,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  //header('Location: BuySettings.php');
+  header('Location: BuySettings.php');
 }
 
 
@@ -363,7 +363,7 @@ function displayEdit($id){
   addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL');
   addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL');
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
-  addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][49], 52, 'Eg BTC:7000,ETH:140,BCH:230');
+  addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230');
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
   </div>";
