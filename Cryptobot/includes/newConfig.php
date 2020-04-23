@@ -1532,4 +1532,32 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
   if ($symbolBool == True && $priceBool == True) { return True;}
   else{ return False; }
 }
+
+function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater){
+  $pieces = explode(",", $coinPattern);
+  $piecesSize = count($pieces);
+  $testTrue = False;
+  for ($x = 0; $x < $piecesSize; $x++) {
+    //Echo "<br> ".$pieces[$x];
+    $row = explode(":", $pieces[$x]);
+    if (isCoinMatch($row[1],$row[0],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
+    echo "<BR>isCoinMatch($row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
+  }
+    if ($pEnabled == 0){
+      //print_r("True");
+      return True;
+      exit;
+    }
+    elseif($testTrue){
+      //print_r("True");
+      $GLOBALS['allDisabled'] = true;
+      return True;
+      exit;
+    }else{
+      $GLOBALS['allDisabled'] = true;
+      //print_r($buyTop >= $score);
+      //print_r("False");
+      return False;
+    }
+}
 ?>
