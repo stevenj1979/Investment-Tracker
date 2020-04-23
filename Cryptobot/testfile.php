@@ -81,7 +81,7 @@ $current_date = date('Y-m-d H:i');
 
 
 //SQLCommand();
-echo "<BR> 1: ".isCoinMatch(240, "BCH", 241.00, "BTC", 1);
+echo "<BR> 1: ".isCoinMatch(240, "BCH", 241.00, "BTC", 0);
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
