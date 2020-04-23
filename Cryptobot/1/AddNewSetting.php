@@ -250,7 +250,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  header('Location: BuySettings.php');
+  //header('Location: BuySettings.php');
 }
 
 
