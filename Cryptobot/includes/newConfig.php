@@ -1519,4 +1519,17 @@ function setStyle($isMobile){
 function isMobile() {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
+
+
+function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
+  $symbolBool = Flase; $priceBool = False;
+  if ($symbol == $liveSymbol){ $symbolBool = True;}
+  if ($isGreater == 1){
+    if ($bitPrice > $livePrice){$priceBool = True;}
+  }else{
+    if ($bitPrice < $livePrice){$priceBool = True;}
+  }
+  if ($symbolBool == True && $priceBool == True) { return True;}
+  else{ return False; }
+}
 ?>

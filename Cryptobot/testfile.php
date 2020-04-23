@@ -81,44 +81,10 @@ $current_date = date('Y-m-d H:i');
 
 
 //SQLCommand();
-//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 12:54:14', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.5,0,1,90,8);
+echo "<BR> 1: ".isCoinMatch(7100, "BTC", 6956, "BTC", 1);
+echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
+echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
+echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
 
-//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 16:16:41', 'USDT',1,1,0.00000000, 26,'stevenj1979',84,1.50,0,1,90,8);
-//$BTCBalance = bittrexbalance('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','USDT');
-//echo "<BR> Balance : $BTCBalance ";
-//714f3f7873a2481c9f89b7c1f3801f2d, 2377fc19e47b4c7fb9dd32a70edd3b9f,'BTC', 'stevenj1979@gmail.com', 3, '2020-03-21 16:16:41', 'USDT',1,1,0.10000000, 26,'stevenj1979',84,1.50,0,1,90,8
-
-
-//echo "<BR> 1. ".returnBuyAmount('BTC', 'USDT', 0.0, 1, 184.66010708, 6174.68721687,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> 2. ".returnBuyAmount('BTC', 'USDT', 50, 1, 0.20, 6166,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> 3. ".returnBuyAmount('ETH', 'USDT', 73, 0, 3, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> 4. ".returnBuyAmount('ETH', 'USDT', 50, 1, 3, 128,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-
-//echo "<BR> 5. ".returnBuyAmount('BCH', 'USDT', 73, 0, 3, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> 6. ".returnBuyAmount('BCH', 'USDT', 50, 1, 3, 212,'714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f');
-
-//$obj = bittrexsell('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f', 'ETH' ,0.26588255170000,145.86987634, 'USDT');
-//$BTCBalance = bittrexbalance('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT');
-//$bitPrice = number_format((float)(bittrexCoinPrice('714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f','USDT','BTC')), 8, '.', '');
-//echo returnBuyAmount('BTC', 'USDT', 75.00, 0, $BTCBalance, $bitPrice,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
-
-
-//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-10 18:50:02', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
-//echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 75, 1, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 75, 0, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
-//echo "<BR> ReturnBuyAmount ! ".returnBuyAmount('BTC', 'USDT', 0, 1, 207.33430889, 6855.87700005,'714f3f7873a2481c9f89b7c1f3801f2d','2377fc19e47b4c7fb9dd32a70edd3b9f');
-
-//$BuyRuleLength = strlen('ORDETH2020022417200227');
-//$BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
-//$BuyRule = substr('ORDETH2020022417200227', -2);
-
-//echo "<BR> BuyRuleLength : $BuyRuleLength";
-
-//buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-11 18:36:47', 'USDT',1,1,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
-Echo "<BR> Test1 : ".sellWithScore(999.00,0.6,-2.00,1);
-Echo "<BR> Test2 : ".sellWithScore(999.00,0.6,0.5999,1);
-Echo "<BR> Test3 : ".sellWithScore(999.00,0.6,5.00,0);
-Echo "<BR> Test4 : ".sellWithScore(999.00,0.6,23.00,1);
-Echo "<BR> Test5 : ".sellWithScore(999.00,0.6,-23.00,1);
 ?>
 </html>
