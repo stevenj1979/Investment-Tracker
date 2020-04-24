@@ -393,17 +393,18 @@ function displayEdit($id){
 
   echo "</div>";
   echo "<div class='settingsform'>";
-  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
-  addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  echo "<H3>Coin Price Pattern</H3>";
+    addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+    addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Admin</H3>";
-  addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
-  addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
-  addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False);
-  addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False);
-  addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False);
-  addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False);
+    addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
+    addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
+    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False);
+    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False);
+    addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False);
+    addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
