@@ -288,8 +288,8 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
 }
 
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
-  if ($longText == True){ $textClass = 'enableTextBox';} else {$textClass = 'enableTextBoxLong';}
-  echo "<div class='settingsform'>
+  if ($longText == True){ $textClass = 'enableTextBox'; $divClass = 'settingsform'; } else {$textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong';}
+  echo "<div class='$divClass'>
     <b>".$RealName."</b><br/>
     <input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>
   </div>";
