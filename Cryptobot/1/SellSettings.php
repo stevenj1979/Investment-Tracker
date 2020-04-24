@@ -190,8 +190,8 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
    $sellPriceMinEnabled = $userSettings[$x][35];$sellPriceMin = $userSettings[$x][36];
    $limitToCoin = $userSettings[$x][37];$autoSellCoinEnabled = $userSettings[$x][38];$autoSellPrice = $userSettings[$x][39];
    $sellPatternEnabled = $userSettings[$x][40];$sellPattern = $userSettings[$x][41];$coinPricePatternEnabled = $userSettings[$x][42];$coinPricePattern = $userSettings[$x][43];
-
-   if ($sellCoin == $flag){
+   echo "$SellCoin == $flag";
+   if ($SellCoin == $flag){
      echo "<td><a href='AddNewSettingSell.php?edit=".$iD."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?copyRule=".$iD."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?delete=".$iD."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
