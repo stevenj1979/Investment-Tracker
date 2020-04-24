@@ -352,13 +352,13 @@ function displayEdit($id){
   addNewText('PriceDiff1Top: ', 'PriceDiff1Top', $formSettings[0][17], 25, 'Eg 50', False);
   addNewText('PriceDiff1Btm: ', 'PriceDiff1Btm', $formSettings[0][18], 26, 'Eg 50', False);
   echo "</div>";
-  echo "<div class='settingsform'>";
-  addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
-  addNewThreeOption('Price Trend 4: ','Price4Trend',$formSettings[0][32]);
-  addNewThreeOption('Price Trend 3: ','Price3Trend',$formSettings[0][33]);
-  addNewThreeOption('Last Price Trend: ','LastPriceTrend',$formSettings[0][34]);
-  addNewThreeOption('Live Price Trend: ','LivePriceTrend',$formSettings[0][35]);
-  echo "</div>";
+  //echo "<div class='settingsform'>";
+
+  //addNewThreeOption('Price Trend 4: ','Price4Trend',$formSettings[0][32]);
+  //addNewThreeOption('Price Trend 3: ','Price3Trend',$formSettings[0][33]);
+  //addNewThreeOption('Last Price Trend: ','LastPriceTrend',$formSettings[0][34]);
+  //addNewThreeOption('Live Price Trend: ','LivePriceTrend',$formSettings[0][35]);
+  //echo "</div>";
   echo "<div class='settingsform'>";
   addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
   addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
@@ -382,10 +382,11 @@ function displayEdit($id){
   addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000', False);
   echo "</div>";
   echo "<div class='settingsform'>";
+  addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
   addNewText('New Buy Pattern: ', 'NewBuyPattern', $formSettings[0][50], 49, 'Eg 7000', True);
   addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False);
   addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False);
-  echo "</div>"; 
+  echo "</div>";
   echo "<div class='settingsform'>";
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
