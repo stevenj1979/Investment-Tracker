@@ -211,6 +211,7 @@ function showBuyRules($userSettings, $title, $flag){
    $buyAmountOverrideEnabled = $userSettings[$x][48];$buyAmountOverride = $userSettings[$x][49];$newBuyPattern = $userSettings[$x][50];
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
+   echo "$buyCoin == $flag";
    if ($buyCoin == $flag){
      echo "<td><a href='AddNewSetting.php?edit=".$ruleID."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSetting.php?copyRule=".$ruleID."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
