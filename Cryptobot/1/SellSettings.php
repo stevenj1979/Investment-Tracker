@@ -161,6 +161,62 @@ function drawSellCheckbox($checked){
   }
 }
 
+function showSellRules($userSettings, $title, $flag, $userSettingsLen){
+  echo "<H3>$title</H3>"; ?>
+  <table>
+    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
+    <TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH><TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH>
+    <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
+    <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
+    <TH>&nbspAPIKey</TH><TH>&nbspAPISecret</TH><TH>&nbspSellPriceMinEnabled</TH><TH>&nbspSellPriceMin</TH><TH>&nbspLimitToCoin</TH><TH>&nbspAutoSellCoinEnabled</TH><TH>&nbspAutoSellPrice</TH>
+    <TH>&nbspSellPatternEnabled</TH><TH>&nbspSellPattern</TH><TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH>
+    <TR>
+ <?php
+ //echo "<BR>".$userSettingsLen;
+ for($x = 0; $x < $userSettingsLen; $x++) {
+
+   $iD = $userSettings[$x][0];$userID = $userSettings[$x][1];
+   $SellCoin = $userSettings[$x][2];$SendEmail = $userSettings[$x][3];
+   $buyOrdersEnabled = $userSettings[$x][4];  $buyOrdersTop = $userSettings[$x][5];$buyOrdersBtm = $userSettings[$x][6];
+   $marketCapEnabled = $userSettings[$x][7];$marketCapTop = $userSettings[$x][8];$marketCapBtm = $userSettings[$x][9];
+   $hr1ChangeEnabled = $userSettings[$x][10];  $hr1ChangeTop = $userSettings[$x][11];  $hr1ChangeBtm = $userSettings[$x][12];
+   $hr24ChangeEnabled = $userSettings[$x][13];  $hr24ChangeTop = $userSettings[$x][14];  $hr24ChangeBtm = $userSettings[$x][15];
+   $d7ChangeEnabled = $userSettings[$x][16];$d7ChangeTop = $userSettings[$x][17];$d7ChangeBtm = $userSettings[$x][18];
+   $profitPctEnabled = $userSettings[$x][19];  $profitPctTop = $userSettings[$x][20];$profitPctBtm = $userSettings[$x][21];
+   $coinPriceEnabled = $userSettings[$x][22];$coinPriceTop = $userSettings[$x][23];$coinPriceBtm  = $userSettings[$x][24];
+   $sellOrdersEnabled = $userSettings[$x][25];  $sellOrdersTop = $userSettings[$x][26];$sellOrdersBtm = $userSettings[$x][27];
+   $volumeEnabled = $userSettings[$x][28];$volumeTop = $userSettings[$x][29];$volumeBtm = $userSettings[$x][30];
+   $email = $userSettings[$x][31];$userName = $userSettings[$x][32];$aPIKey = $userSettings[$x][33];$aPISecret = $userSettings[$x][34];
+   $sellPriceMinEnabled = $userSettings[$x][35];$sellPriceMin = $userSettings[$x][36];
+   $limitToCoin = $userSettings[$x][37];$autoSellCoinEnabled = $userSettings[$x][38];$autoSellPrice = $userSettings[$x][39];
+   $sellPatternEnabled = $userSettings[$x][40];$sellPattern = $userSettings[$x][41];$coinPricePatternEnabled = $userSettings[$x][42];$coinPricePattern = $userSettings[$x][43];
+
+   if ($sellCoin == $flag){
+     echo "<td><a href='AddNewSettingSell.php?edit=".$iD."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
+     echo "<td><a href='AddNewSettingSell.php?copyRule=".$iD."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
+     echo "<td><a href='AddNewSettingSell.php?delete=".$iD."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
+     echo "<td>".$iD."</td>";
+     echo "<td>".$userID."</td>";echo "<td>".$SellCoin."</td>";echo "<td>".$SendEmail."</td>";//Market Cap
+     echo "<td>".$buyOrdersEnabled."</td>";echo "<td>".$buyOrdersTop."</td>";echo "<td>".$buyOrdersBtm."</td>";//Volume
+     echo "<td>".$marketCapEnabled."</td>";echo "<td>".$marketCapTop."</td>";echo "<td>".$marketCapBtm."</td>";//Buy Orders
+     echo "<td>".$hr1ChangeEnabled."</td>";echo "<td>".$hr1ChangeTop."</td>";echo "<td>".$hr1ChangeBtm."</td>";//PriceChange 1Hr
+     echo "<td>".$hr24ChangeEnabled."</td>";echo "<td>".$hr24ChangeTop."</td>";echo "<td>".$hr24ChangeBtm."</td>";//Price Change 24Hr
+     echo "<td>".$d7ChangeEnabled."</td>";echo "<td>".$d7ChangeTop."</td>";echo "<td>".$d7ChangeBtm."</td>";//PriceChange 7D
+     echo "<td>".$profitPctEnabled."</td>";echo "<td>".$coinPriceTop."</td>";echo "<td>".$coinPriceEnabled."</td>";echo "<td>".$profitPctBtm."</td>";echo "<td>".$profitPctTop."</td>";
+     echo "<td>".$coinPriceBtm."</td>";echo "<td>".$sellOrdersEnabled."</td>";echo "<td>".$sellOrdersTop."</td>";
+     echo "<td>".$sellOrdersBtm."</td>";echo "<td>".$volumeEnabled."</td>";echo "<td>".$volumeTop."</td>";
+     echo "<td>".$volumeBtm."</td>";echo "<td>".$email."</td>";echo "<td>".$userName."</td>";
+     echo "<td>".$aPIKey."</td>";echo "<td>".$aPISecret."</td>";
+     echo "<td>".$sellPriceMinEnabled."</td>";echo "<td>".$sellPriceMin."</td>";echo "<td>".$limitToCoin."</td>";
+     echo "<td>".$autoSellCoinEnabled."</td>";echo "<td>".$autoSellPrice."</td>";
+     echo "<td>".$sellPatternEnabled."</td>";echo "<td>".$sellPattern."</td>";
+     echo "<td>".$coinPricePatternEnabled."</td>";echo "<td>".$coinPricePattern."</td>";
+     echo "<tr>";
+   }
+ }
+ echo "</table> <br><a href='AddNewSettingSell.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
+}
+
 
 $userSettings = getRules($_SESSION['ID']);
 $userSettingsLen = count($userSettings);
@@ -168,40 +224,9 @@ $userSettingsLen = count($userSettings);
 displayHeader(7);
 ?>
 
-           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>
-           <table>
-             <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
-             <TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH><TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH>
-             <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
-             <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
-             <TH>&nbspAPIKey</TH><TH>&nbspAPISecret</TH><TH>&nbspSellPriceMinEnabled</TH><TH>&nbspSellPriceMin</TH><TH>&nbspLimitToCoin</TH><TH>&nbspAutoSellCoinEnabled</TH><TH>&nbspAutoSellPrice</TH>
-             <TH>&nbspSellPatternEnabled</TH><TH>&nbspSellPattern</TH><TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH>
-             <TR>
-          <?php
-          //echo "<BR>".$userSettingsLen;
-          for($x = 0; $x < $userSettingsLen; $x++) {
-            echo "<td><a href='AddNewSettingSell.php?edit=".$userSettings[$x][0]."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
-            echo "<td><a href='AddNewSettingSell.php?copyRule=".$userSettings[$x][0]."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
-            echo "<td><a href='AddNewSettingSell.php?delete=".$userSettings[$x][0]."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
-            echo "<td>".$userSettings[$x][0]."</td>";
-            echo "<td>".$userSettings[$x][1]."</td>";echo "<td>".$userSettings[$x][2]."</td>";echo "<td>".$userSettings[$x][3]."</td>";//Market Cap
-            echo "<td>".$userSettings[$x][4]."</td>";echo "<td>".$userSettings[$x][5]."</td>";echo "<td>".$userSettings[$x][6]."</td>";//Volume
-            echo "<td>".$userSettings[$x][7]."</td>";echo "<td>".$userSettings[$x][8]."</td>";echo "<td>".$userSettings[$x][9]."</td>";//Buy Orders
-            echo "<td>".$userSettings[$x][10]."</td>";echo "<td>".$userSettings[$x][11]."</td>";echo "<td>".$userSettings[$x][12]."</td>";//PriceChange 1Hr
-            echo "<td>".$userSettings[$x][13]."</td>";echo "<td>".$userSettings[$x][14]."</td>";echo "<td>".$userSettings[$x][15]."</td>";//Price Change 24Hr
-            echo "<td>".$userSettings[$x][16]."</td>";echo "<td>".$userSettings[$x][17]."</td>";echo "<td>".$userSettings[$x][18]."</td>";//PriceChange 7D
-            echo "<td>".$userSettings[$x][19]."</td>";echo "<td>".$userSettings[$x][23]."</td>";echo "<td>".$userSettings[$x][22]."</td>";echo "<td>".$userSettings[$x][21]."</td>";echo "<td>".$userSettings[$x][20]."</td>";
-            echo "<td>".$userSettings[$x][24]."</td>";echo "<td>".$userSettings[$x][25]."</td>";echo "<td>".$userSettings[$x][26]."</td>";
-            echo "<td>".$userSettings[$x][27]."</td>";echo "<td>".$userSettings[$x][28]."</td>";echo "<td>".$userSettings[$x][29]."</td>";
-            echo "<td>".$userSettings[$x][30]."</td>";echo "<td>".$userSettings[$x][31]."</td>";echo "<td>".$userSettings[$x][32]."</td>";
-            echo "<td>".$userSettings[$x][33]."</td>";echo "<td>".$userSettings[$x][34]."</td>";
-            echo "<td>".$userSettings[$x][35]."</td>";echo "<td>".$userSettings[$x][36]."</td>";echo "<td>".$userSettings[$x][37]."</td>";
-            echo "<td>".$userSettings[$x][38]."</td>";echo "<td>".$userSettings[$x][39]."</td>";
-            echo "<td>".$userSettings[$x][40]."</td>";echo "<td>".$userSettings[$x][41]."</td>";
-            echo "<td>".$userSettings[$x][42]."</td>";echo "<td>".$userSettings[$x][43]."</td>";
-            echo "<tr>";
-          }
-          echo "</table> <br><a href='AddNewSettingSell.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
+           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3><?php
+            showSellRules($userSettings, "Enabled Rules",1,$userSettingsLen);
+            showSellRules($userSettings, "Disabled Rules",0,$userSettingsLen);
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           displaySideColumn();?>
 
