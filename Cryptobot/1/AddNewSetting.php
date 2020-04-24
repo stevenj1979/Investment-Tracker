@@ -289,14 +289,14 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
 
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
-  echo "<b>".$RealName."</b><br/>
+  echo "<br/><b>".$RealName."</b>
     <input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>";
 
 }
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<br/><b>$RealName</b><select name='$idName' id='$idName' class='enableTextBox'>
    <option value='".$option1."'>".$option1."</option>
     <option value='".$option2."'>".$option2."</option></select>";
 }
@@ -305,7 +305,7 @@ function addNewThreeOption($RealName, $idName, $value){
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
-  echo "<b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<br/><b>$RealName</b><select name='$idName' id='$idName' class='enableTextBox'>
     <option value='".$nOption1."'>".$nOption1."</option>
     <option value='".$nOption2."'>".$nOption2."</option>
     <option value='".$nOption3."'>".$nOption3."</option></select>";
@@ -318,7 +318,7 @@ function displayEdit($id){
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsform'>";
-    echo "<H2>Market Cap</H2>";
+    echo "<H3>Market Cap</H3>";
     addNewTwoOption('MarketCapEnable: ', 'MarketCapEnable', $formSettings[0][4]);
     addNewText('MarketCapTop: ', 'MarketCapTop', $formSettings[0][5], 2, 'Eg 50', False);
     addNewText('MarketCapBtm: ', 'MarketCapBtm', $formSettings[0][6], 3, 'Eg 50', False);
