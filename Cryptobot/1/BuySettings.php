@@ -177,7 +177,7 @@ function drawSellCheckbox($checked){
   }
 }
 
-function showBuyRules($userSettings, $title, $flag){
+function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
   echo "<H3>$title</H3>"; ?>
   <table>
@@ -249,8 +249,8 @@ displayHeader(7);?>
            <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3><?php
 
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
-          showBuyRules($userSettings, "Enabled Rules", 1);
-          showBuyRules($userSettings, "Disabled Rules", 0);
+          showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
+          showBuyRules($userSettings, "Disabled Rules", 0,$userSettingsLen);
 
           displaySideColumn();?>
 
