@@ -31,7 +31,7 @@ if(isset($_GET['coinTxt'])){
   $userConfig = getTrackingSellCoinsMan($transactionID);
   $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
   $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
-  $userID = $userConfig[0][0];
+  $userID = $userConfig[0][3];
   if (!Empty($KEK)){$apisecret = decrypt($KEK,$userConfig[0][40]);}
   $bitPrice = number_format((float)($bitPrice), 8, '.', '');
   $profit = $livePrice/$cost;
