@@ -186,6 +186,7 @@ $userSettingsLen = count($userSettings);
 displayHeader(7);?>
 
            <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>
+           <H3>Enabled Rules</H3>
            <table>
              <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
              <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
@@ -242,6 +243,7 @@ displayHeader(7);?>
           }
           echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";?>
+          <H3>Disabled Rules</H3>
           <table>
             <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
             <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
