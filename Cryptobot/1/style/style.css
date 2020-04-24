@@ -121,6 +121,9 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
+#enableTextBoxLong{
+    width: 80%;
+}
 .settingsform{
   width: 13%;
   padding: 6px 10px;
