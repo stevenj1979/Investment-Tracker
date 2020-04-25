@@ -1491,13 +1491,13 @@ function getCoinAlertsbyID($id){
   return $tempAry;
 }
 
-function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring){
+function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring, $price){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-  $sql = "UPDATE `CoinAlerts` SET `CoinID`= $coinID, `Action`= '$action', `UserID`= $userID, `Category` = '$category', `ReocurringAlert`= $reocurring WHERE `ID` = $id";
+  $sql = "UPDATE `CoinAlerts` SET `CoinID`= $coinID, `Action`= '$action', `UserID`= $userID, `Category` = '$category', `ReocurringAlert`= $reocurring, `Price` = $price WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
