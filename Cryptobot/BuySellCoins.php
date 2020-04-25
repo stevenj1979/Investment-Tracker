@@ -411,7 +411,7 @@ while($date <= $newTime){
         closeCoinAlerts($id);
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
-      if ($Live1HrChangeAlrt <= $price) { {
+      if ($Live1HrChangeAlrt <= $price) { 
         sendAlertEmail($email, $symbol, $price, $action, $userName);
         //Close Alert
         closeCoinAlerts($id);
@@ -426,6 +426,7 @@ while($date <= $newTime){
     }
 
   }
+}
 
   echo "</blockquote>";
   sleep(15);
