@@ -126,7 +126,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
   deleteSQLAlert($id);
-  header('Location: CoinAlerts.php');
+  //header('Location: CoinAlerts.php');
 }else{
   displayHeader(8);
   $userID = $_SESSION['ID'];
