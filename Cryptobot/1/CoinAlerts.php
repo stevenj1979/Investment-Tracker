@@ -44,14 +44,14 @@ function deleteSQLAlert($id){
 }
 
         displayHeader(8);
-
+        $userID = $_SESSION['ID'];
         echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><TH>&nbspDelete Alert</th><tr>";
         $coinAlerts = getCoinAlertsUser($userID);
         $newArrLength = Count($coinAlerts);
 				for($x = 0; $x < $newArrLength; $x++) {
           $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
           $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
-          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];  
+          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];
           echo "<td>$id</td><td>$coinID</td>";
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";
