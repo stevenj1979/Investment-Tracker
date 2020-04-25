@@ -115,7 +115,7 @@ function deleteSQLAlert($id){
 
         displayHeader(8);
         $userID = $_SESSION['ID'];
-        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
+        echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
         <TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>";
         $coinAlerts = getCoinAlertsUser($userID);
         $newArrLength = Count($coinAlerts);
