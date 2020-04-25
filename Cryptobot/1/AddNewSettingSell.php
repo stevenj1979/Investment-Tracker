@@ -279,6 +279,7 @@ function displayEdit($id){
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Volume</H3>";
+
   //if ($formSettings[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
   //echo "<div class='settingsform'>
   //  <b>MarketCapEnable: </b><br/><select name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox'>
