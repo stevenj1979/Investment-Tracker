@@ -394,6 +394,7 @@ while($date <= $newTime){
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
     $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7]; $category = $coinAlerts[$d][8];
+    $Live1HrChangeAlrt = $coinAlerts[$d][9]; $Live24HrChangeAlrt = $coinAlerts[$d][10]; $Live7DChangeAlrt = $coinAlerts[$d][11];
     Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice";
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
@@ -410,9 +411,18 @@ while($date <= $newTime){
         closeCoinAlerts($id);
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
-
-    } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
-
+      if ($Live1HrChangeAlrt <= $price) { {
+        sendAlertEmail($email, $symbol, $price, $action, $userName);
+        //Close Alert
+        closeCoinAlerts($id);
+      }
+    } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
+      if ($Live1HrChangeAlrt >= $price) {
+        //Send Alert
+        sendAlertEmail($email, $symbol, $price, $action, $userName);
+        //Close Alert
+        closeCoinAlerts($id);
+      }
     }
 
   }
