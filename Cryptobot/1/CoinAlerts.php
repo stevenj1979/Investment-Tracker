@@ -26,16 +26,9 @@ $showmain = True;
 if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
-  if($_GET['edit'] <> ""){
-    echo "<BR> Edit : ".$_GET['edit'];
-    $id = $_GET['edit'];
-    $alertDetails = getCoinAlertsbyID($id);
-    $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
-    echo "<BR> Coin $coin cost $cost CoinID $coinID";
-  } else {
-    echo "<BR> Alert : ".$_GET['alert'];
-    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
-  }
+
+  echo "<BR> Alert : ".$_GET['alert'];
+  $coin = $_GET['coinAlt']; $cost = $_GET['coinPrice']; $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price1</h2>
@@ -54,8 +47,6 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
     <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
-      <?php  $GLOBALS['CoinEdit'] = True;
-      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
@@ -64,16 +55,13 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }elseif ($_GET['alert'] == 1 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
-  if($_GET['edit'] <> ""){
+
     echo "<BR> Edit : ".$_GET['edit'];
     $id = $_GET['edit'];
     $alertDetails = getCoinAlertsbyID($id);
     $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
     echo "<BR> Coin $coin cost $cost CoinID $coinID";
-  } else {
-    echo "<BR> Alert : ".$_GET['alert'];
-    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
-  }
+
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price2</h2>
@@ -128,6 +116,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
   $showmain = false;
+  // UPDATE Existing ID
 
 }elseif ($_GET['alert'] == 4 && isset($_GET['alert'])){
   $id = $_GET['iD'];
