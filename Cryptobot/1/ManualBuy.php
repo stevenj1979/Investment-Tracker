@@ -118,7 +118,7 @@ if(isset($_POST['coinAltTxt'])){
   }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Pct Price in 1 Hour"){
 
   }
-  header('Location: CoinAlerts.php');
+  //header('Location: CoinAlerts.php');
 }
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category){
