@@ -43,7 +43,7 @@ if ($_GET['alert'] == 0){
   }
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
-  <h2>Enter Price</h2>
+  <h2>Enter Price1</h2>
   <form action='CoinAlerts.php?alert=2' method='post'>
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
@@ -81,7 +81,7 @@ if ($_GET['alert'] == 0){
   }
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
-  <h2>Enter Price</h2>
+  <h2>Enter Price2</h2>
   <form action='CoinAlerts.php?alert=3' method='post'>
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
@@ -105,7 +105,6 @@ if ($_GET['alert'] == 0){
   <?php
   displaySideColumn();
 }elseif ($_GET['alert'] == 2){
-  $showmain = false;
   Echo "<BR> Add New Alert ";
   $showmain = false;
   date_default_timezone_set('Asia/Dubai');
