@@ -20,7 +20,7 @@ $showmain = True;
 //include header template
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
-
+$showmain = True;
 if($_GET['iD'] <> ""){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
