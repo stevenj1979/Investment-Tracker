@@ -112,12 +112,13 @@ if(isset($_POST['coinAltTxt'])){
   $current_date = date('Y-m-d H:i');
   $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
   echo "<BR> ".$_POST['greaterThanSelect']." : ".$category;
+  Echo "<BR> $userID, $salePrice,$category,$reocurring,$newTime)";
   if ($_POST['greaterThanSelect'] == "<"){
     AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime);
   }elseif ($_POST['greaterThanSelect'] == ">"){
     AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
   }
-  header('Location: CoinAlerts.php');
+  //header('Location: CoinAlerts.php');
 }
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
