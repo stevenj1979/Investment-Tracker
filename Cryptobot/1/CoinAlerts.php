@@ -28,7 +28,7 @@ if($_GET['iD'] <> ""){
   deleteSQLAlert($id);
 }
 
-if ($_GET['manualAlert'] <> ""){
+if ($_POST['manualAlert'] <> ""){
   $showmain = false;
   if (isset($_GET['IDTxt'])){
     $id = $_GET['IDTxt'];
