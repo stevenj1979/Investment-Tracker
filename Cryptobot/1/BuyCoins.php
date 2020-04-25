@@ -212,7 +212,7 @@ displayHeader(3);
           }else{
             echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
             echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:32px;color:#D4EFDF'></i></a></td>";
-            echo "<td><a href='ManualBuy.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:32px;color:#D4EFDF'></i></a></td>";
+            echo "<td><a href='CoinAlerts.php?alert=Yes&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:32px;color:#D4EFDF'></i></a></td>";
           }
 
           echo "<tr>";
