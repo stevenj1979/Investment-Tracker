@@ -278,11 +278,11 @@ function displayAlertForm(){
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>></option>
       <option value="% Price in 1 Hour" name='pctPriceOpt'><</option>
-
+    </select>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
-
+    </select>
     Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
     BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
     CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
