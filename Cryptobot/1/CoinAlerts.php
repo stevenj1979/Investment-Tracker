@@ -40,16 +40,16 @@ if ($_GET['edit'] <> ""){
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
       <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-    </select>
+    </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
-    </select>
-    Coin Price: <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
+    </select><label for="greaterThanSelect">Select Option</label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
     <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk"> Reocurring Alert: </label><br>
-    BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
-    CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
-    UserID: <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
+    <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
+    <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
+    <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
