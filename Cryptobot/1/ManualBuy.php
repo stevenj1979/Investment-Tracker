@@ -108,7 +108,7 @@ if(isset($_POST['coinAltTxt'])){
   //$KEK = $userConfig[0][5];
   //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
-
+  echo "<BR> ".$_POST['greaterThanSelect']." : ".$category;
   if ($_POST['greaterThanSelect'] == "<" && $category == "Price"){
     AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category);
   }elseif ($_POST['greaterThanSelect'] == ">" && $category == "Price"){
