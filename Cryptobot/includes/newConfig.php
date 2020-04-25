@@ -1493,7 +1493,10 @@ function getCoinAlertsbyID($id){
 
 function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring){
   $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
   $sql = "UPDATE `CoinAlerts` SET `CoinID`= $coinID, `Action`= '$action', `UserID`= $userID, `Category` = '$category' `ReocurringAlert`= $reocurring FROM `CoinAlerts` WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
