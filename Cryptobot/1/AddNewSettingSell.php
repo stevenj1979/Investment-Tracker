@@ -433,7 +433,7 @@ function displayEdit($id){
   //  <input type='text' name='PriceDiff1Btm' id='PriceDiff1Btm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][24]."' tabindex='26'>
   //</div>";
   echo "</div>";
-  echo "<div class='settingsform'>";
+
 
   echo "<div class='settingsform'>";
   echo "<H3>Profit Sale</H3>";
@@ -469,6 +469,7 @@ function displayEdit($id){
   addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
   addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
   echo "</div>";
+  echo "<div class='settingsform'>";
   echo "<H3>Admin</H3>";
   addNewTwoOption('Send Email: ','sendEmail',$formSettings[0][3]);
   //if ($formSettings[0][3] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
