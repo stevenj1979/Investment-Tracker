@@ -244,30 +244,26 @@ FROM `UserSellRules` WHERE `ID` = $id";
 
 
 function addNewText($RealName, $idName, $value, $tabIndex){
-  echo "<div class='settingsform'>
-    <b>".$RealName."</b><br/>
-    <input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' value='".$value."' tabindex='".$tabIndex."'>
-  </div>";
+  echo "<b>".$RealName."</b><br/>
+    <input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' value='".$value."' tabindex='".$tabIndex."'>";
 
 }
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
    <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+    <option value='".$option2."'>".$option2."</option></select>";
 }
 
 function addNewThreeOption($RealName, $idName, $value){
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
-  echo "<div class='settingsform'>
-    <b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
     <option value='".$nOption1."'>".$nOption1."</option>
     <option value='".$nOption2."'>".$nOption2."</option>
-    <option value='".$nOption3."'>".$nOption3."</option></select></div>";
+    <option value='".$nOption3."'>".$nOption3."</option></select>";
 }
 
 function displayEdit($id){
@@ -275,175 +271,232 @@ function displayEdit($id){
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSettingSell.php?editedUserReady=".$id."' method='post'>";
-  if ($formSettings[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>MarketCapEnable: </b><br/><select name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  echo "<div class='settingsform'>";
+    echo "<H3>Market Cap</H3>";
+  addNewTwoOption('MarketCapEnable: ','VolumeEnable',$formSettings[0][7]);
+  addNewText('MarketCapTop: ','VolumeTop',$formSettings[0][8],37);
+  addNewText('MarketCapBtm: ','VolumeBtm',$formSettings[0][9],37);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Volume</H3>";
+  //if ($formSettings[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>MarketCapEnable: </b><br/><select name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox'>
+   //<option value='".$option1."'>".$option1."</option>
+    //<option value='".$option2."'>".$option2."</option></select></div>";
 
   //echo "<div class='settingsform'>
   //  <b>MarketCapEnable: </b><br/>
   //  <input type='text' name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][0]."' tabindex='1'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>MarketCapTop: </b><br/>
-    <input type='text' name='MarketCapTop' id='MarketCapTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][8]."' tabindex='2'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>MarketCapBtm: </b><br/>
-    <input type='text' name='MarketCapBtm' id='MarketCapBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][9]."' tabindex='3'>
-  </div>";
-
-  if ($formSettings[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>VolumeEnable: </b><br/><select name='VolumeEnable' id='VolumeEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>MarketCapTop: </b><br/>
+  //  <input type='text' name='MarketCapTop' id='MarketCapTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][8]."' tabindex='2'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>MarketCapBtm: </b><br/>
+  //  <input type='text' name='MarketCapBtm' id='MarketCapBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][9]."' tabindex='3'>
+  //</div>";
+  addNewTwoOption('VolumeEnable: ','VolumeEnable',$formSettings[0][28]);
+  addNewText('VolumeTop: ','VolumeTop',$formSettings[0][29],37);
+  addNewText('VolumeBtm: ','VolumeBtm',$formSettings[0][30],37);
+  //if ($formSettings[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>VolumeEnable: </b><br/><select name='VolumeEnable' id='VolumeEnable' class='enableTextBox'>
+   //<option value='".$option1."'>".$option1."</option>
+    //<option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>VolumeEnable: </b><br/>
   //  <input type='text' name='VolumeEnable' id='VolumeEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][3]."' tabindex='4'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>VolumeTop: </b><br/>
-    <input type='text' name='VolumeTop' id='VolumeTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][29]."' tabindex='5'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>VolumeBtm: </b><br/>
-    <input type='text' name='VolumeBtm' id='VolumeBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][30]."' tabindex='6'>
-  </div><br>";
-  if ($formSettings[0][25] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>SellOrdersEnabled: </b><br/><select name='BuyOrdersEnabled' id='BuyOrdersEnabled' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>VolumeTop: </b><br/>
+  //  <input type='text' name='VolumeTop' id='VolumeTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][29]."' tabindex='5'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>VolumeBtm: </b><br/>
+  //  <input type='text' name='VolumeBtm' id='VolumeBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][30]."' tabindex='6'>
+  //</div><br>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Sell Orders</H3>";
+  addNewTwoOption('SellOrdersEnabled: ','VolumeEnable',$formSettings[0][25]);
+  addNewText('SellOrdersTop: ','BuyOrdersTop',$formSettings[0][26],37);
+  addNewText('SellOrdersBtm: ','BuyOrdersBtm',$formSettings[0][27],37);
+  //if ($formSettings[0][25] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>SellOrdersEnabled: </b><br/><select name='BuyOrdersEnabled' id='BuyOrdersEnabled' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>BuyOrdersEnabled: </b><br/>
   //  <input type='text' name='BuyOrdersEnabled' id='BuyOrdersEnabled' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][6]."' tabindex='7'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>SellOrdersTop: </b><br/>
-    <input type='text' name='BuyOrdersTop' id='BuyOrdersTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][26]."' tabindex='8'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>SellOrdersBtm: </b><br/>
-    <input type='text' name='BuyOrdersBtm' id='BuyOrdersBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][27]."' tabindex='9'>
-  </div>";
-  if ($formSettings[0][10] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>1HrEnable: </b><br/><select name='1HrEnable' id='1HrEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>SellOrdersTop: </b><br/>
+  //  <input type='text' name='BuyOrdersTop' id='BuyOrdersTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][26]."' tabindex='8'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>SellOrdersBtm: </b><br/>
+  //  <input type='text' name='BuyOrdersBtm' id='BuyOrdersBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][27]."' tabindex='9'>
+  //</div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>1 Hour Price</H3>";
+  addNewTwoOption('1HrEnable: ','1HrEnable',$formSettings[0][10]);
+  addNewText('PriceChange1HrTop: ','PriceChange1HrTop',$formSettings[0][11],37);
+  addNewText('PriceChange1HrBtm: ','PriceChange1HrBtm',$formSettings[0][12],37);
+  //if ($formSettings[0][10] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>1HrEnable: </b><br/><select name='1HrEnable' id='1HrEnable' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>1HrEnable: </b><br/>
   //  <input type='text' name='1HrEnable' id='1HrEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][9]."' tabindex='10'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange1HrTop: </b><br/>
-    <input type='text' name='PriceChange1HrTop' id='PriceChange1HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][11]."' tabindex='11'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange1HrBtm: </b><br/>
-    <input type='text' name='PriceChange1HrBtm' id='PriceChange1HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][12]."' tabindex='12'>
-  </div>";
-  if ($formSettings[0][13] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>24HrEnable: </b><br/><select name='24HrEnable' id='24HrEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange1HrTop: </b><br/>
+  //  <input type='text' name='PriceChange1HrTop' id='PriceChange1HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][11]."' tabindex='11'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange1HrBtm: </b><br/>
+  //  <input type='text' name='PriceChange1HrBtm' id='PriceChange1HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][12]."' tabindex='12'>
+  //</div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>24 Hour Price</H3>";
+  addNewTwoOption('24HrEnable:','24HrEnable',$formSettings[0][13]);
+  addNewText('PriceChange24HrTop: ','PriceChange24HrTop',$formSettings[0][14],37);
+  addNewText('PriceChange24HrBtm: ','PriceChange24HrBtm',$formSettings[0][15],37);
+  //if ($formSettings[0][13] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>24HrEnable: </b><br/><select name='24HrEnable' id='24HrEnable' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>24HrEnable: </b><br/>
   //  <input type='text' name='24HrEnable' id='24HrEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][12]."' tabindex='13'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange24HrTop: </b><br/>
-    <input type='text' name='PriceChange24HrTop' id='PriceChange24HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][14]."' tabindex='14'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange24HrBtm: </b><br/>
-    <input type='text' name='PriceChange24HrBtm' id='PriceChange24HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][15]."' tabindex='15'>
-  </div>";
-  if ($formSettings[0][16] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>7DEnable: </b><br/><select name='7DEnable' id='7DEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange24HrTop: </b><br/>
+  //  <input type='text' name='PriceChange24HrTop' id='PriceChange24HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][14]."' tabindex='14'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange24HrBtm: </b><br/>
+  //  <input type='text' name='PriceChange24HrBtm' id='PriceChange24HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][15]."' tabindex='15'>
+  //</div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>7 Day Price</H3>";
+  addNewTwoOption('7DEnable: ','7DEnable',$formSettings[0][16]);
+  addNewText('PriceChange7DTop: ','PriceChange7DTop',$formSettings[0][17],37);
+  addNewText('PriceChange7DBtm: ','PriceChange7DBtm',$formSettings[0][18],37);
+  //if ($formSettings[0][16] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>7DEnable: </b><br/><select name='7DEnable' id='7DEnable' class='enableTextBox'>
+   //<option value='".$option1."'>".$option1."</option>
+    //<option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>7DEnable: </b><br/>
   //  <input type='text' name='7DEnable' id='7DEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][15]."' tabindex='16'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange7DTop: </b><br/>
-    <input type='text' name='PriceChange7DTop' id='PriceChange7DTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][17]."' tabindex='17'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange7DBtm: </b><br/>
-    <input type='text' name='PriceChange7DBtm' id='PriceChange7DBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][18]."' tabindex='18'>
-  </div>";
-
-  if ($formSettings[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Enable: </b><br/><select name='PriceDiff1Enable' id='PriceDiff1Enable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange7DTop: </b><br/>
+  //  <input type='text' name='PriceChange7DTop' id='PriceChange7DTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][17]."' tabindex='17'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceChange7DBtm: </b><br/>
+  //  <input type='text' name='PriceChange7DBtm' id='PriceChange7DBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][18]."' tabindex='18'>
+  //</div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Price Difference</H3>";
+  addNewTwoOption('PriceDiff1Enable: ','PriceDiff1Enable',$formSettings[0][22]);
+  addNewText('PriceDiff1Top: ','PriceDiff1Top',$formSettings[0][23],37);
+  addNewText('PriceDiff1Btm: ','PriceDiff1Btm',$formSettings[0][24],37);
+  //if ($formSettings[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>PriceDiff1Enable: </b><br/><select name='PriceDiff1Enable' id='PriceDiff1Enable' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>PriceDiff1Enable: </b><br/>
   //  <input type='text' name='PriceDiff1Enable' id='PriceDiff1Enable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][23]."' tabindex='24'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Top: </b><br/>
-    <input type='text' name='PriceDiff1Top' id='PriceDiff1Top' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][23]."' tabindex='25'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Btm: </b><br/>
-    <input type='text' name='PriceDiff1Btm' id='PriceDiff1Btm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][24]."' tabindex='26'>
-  </div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceDiff1Top: </b><br/>
+  //  <input type='text' name='PriceDiff1Top' id='PriceDiff1Top' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][23]."' tabindex='25'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>PriceDiff1Btm: </b><br/>
+  //  <input type='text' name='PriceDiff1Btm' id='PriceDiff1Btm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][24]."' tabindex='26'>
+  //</div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
 
-  if ($formSettings[0][3] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Send Email: </b><br/><select name='sendEmail' id='sendEmail' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Profit Sale</H3>";
+  addNewTwoOption('Profit Sale Enable: ','ProfitSaleEnable',$formSettings[0][19]);
+  addNewText('Profit Sale Top: ','ProfitSaleTop',$formSettings[0][20],37);
+  addNewText('rofit Sale Btm: ','ProfitSaleBtm',$formSettings[0][21],37);
+  //if ($formSettings[0][19] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
   //echo "<div class='settingsform'>
-  //  <b>Send Email: </b><br/>
-  //  <input type='text' name='sendEmail' id='sendEmail' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][35]."' tabindex='36'>
-  //</div>";
-  if ($formSettings[0][2] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Sell Coin: </b><br/><select name='sellCoin' id='sellCoin' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>Sell Coin: </b><br/>
-  //  <input type='text' name='sellCoin' id='sellCoin' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][36]."' tabindex='37'>
-  //</div>";
-  if ($formSettings[0][19] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Profit Sale Enable: </b><br/><select name='ProfitSaleEnable' id='ProfitSaleEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  //  <b>Profit Sale Enable: </b><br/><select name='ProfitSaleEnable' id='ProfitSaleEnable' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
   //echo "<div class='settingsform'>
   //  <b>Profit Sale Enable: </b><br/>
   //  <input type='text' name='ProfitSaleEnable' id='ProfitSaleEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][37]."' tabindex='33'>
   //</div>";
-  echo "<div class='settingsform'>
-    <b>Profit Sale Top: </b><br/>
-    <input type='text' name='ProfitSaleTop' id='ProfitSaleTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][20]."' tabindex='34'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>Profit Sale Btm: </b><br/>
-    <input type='text' name='ProfitSaleBtm' id='ProfitSaleBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][21]."' tabindex='35'>
-  </div>";
+  //echo "<div class='settingsform'>
+  //  <b>Profit Sale Top: </b><br/>
+  //  <input type='text' name='ProfitSaleTop' id='ProfitSaleTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][20]."' tabindex='34'>
+  //</div>";
+  //echo "<div class='settingsform'>
+  //  <b>Profit Sale Btm: </b><br/>
+  //  <input type='text' name='ProfitSaleBtm' id='ProfitSaleBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][21]."' tabindex='35'>
+  //</div>";
+  echo "</div>";
+
+  echo "<div class='settingsform'>";
+  echo "<H3>Sell Pattern</H3>";
+  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
+  addNewText('Sell Pattern: ','SellPattern',$formSettings[0][41],40);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Coin Price Pattern</H3>";
+  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
+  addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
+  echo "</div>";
+  echo "<H3>Admin</H3>";
+  addNewTwoOption('Send Email: ','sendEmail',$formSettings[0][3]);
+  //if ($formSettings[0][3] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>Send Email: </b><br/><select name='sendEmail' id='sendEmail' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>Send Email: </b><br/>
+  //  <input type='text' name='sendEmail' id='sendEmail' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][35]."' tabindex='36'>
+  //</div>";
+  addNewTwoOption('Sell Coin: ','sellCoin',$formSettings[0][2]);
   addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
   addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37);
 
   addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38);
   addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39);
-  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
-  addNewText('Sell Pattern: ','SellPattern',$formSettings[0][41],40);
-  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
-  addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
-
+  //if ($formSettings[0][2] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  //echo "<div class='settingsform'>
+  //  <b>Sell Coin: </b><br/><select name='sellCoin' id='sellCoin' class='enableTextBox'>
+  // <option value='".$option1."'>".$option1."</option>
+  //  <option value='".$option2."'>".$option2."</option></select></div>";
+  //echo "<div class='settingsform'>
+  //  <b>Sell Coin: </b><br/>
+  //  <input type='text' name='sellCoin' id='sellCoin' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][36]."' tabindex='37'>
+  //</div>";
+  echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='39'>
   </div>";
