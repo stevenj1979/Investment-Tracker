@@ -122,7 +122,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   if ($_POST['greaterThanSelect'] == ">"){$action = "GreaterThan";} else {$action = "LessThan";}
   if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
   updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring, $price);
-  //header('Location: CoinAlerts.php');
+  header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 4 && isset($_GET['alert'])){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
