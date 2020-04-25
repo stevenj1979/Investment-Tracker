@@ -117,8 +117,9 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
   $showmain = false;
   // UPDATE Existing ID
-  $id = $_POST['IDTxt']; $coinID = $_POST['CoinIDTxt']; $action = $_POST['greaterThanSelect']; $category = $_POST['priceSelect'];
+  $id = $_POST['IDTxt']; $coinID = $_POST['CoinIDTxt'];  $category = $_POST['priceSelect'];
   $price = $_POST['coinPriceAltTxt']; $userID = $_SESSION['ID'];
+  if ($_POST['greaterThanSelect'] == ">"){$action = "GreaterThan";} else {$action = "LessThan";}
   if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
   updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring);
   //header('Location: CoinAlerts.php');
