@@ -33,7 +33,7 @@ if ($_GET['edit'] <> ""){
   $userID = $_SESSION['ID'];
   if($_GET['edit'] <> ""){
     echo "<BR> Edit : ".$_GET['edit'];
-    $id = $_POST['edit'];
+    $id = $_GET['edit'];
     $alertDetails = getCoinAlertsbyID($id);
     $coin = $alertDetails[4]; $cost = $alertDetails[4]; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $alertDetails[1];
   } else {
