@@ -21,12 +21,7 @@ $showmain = True;
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $showmain = True;
-if($_GET['iD'] <> ""){
-  $id = $_GET['iD'];
-  Echo "<BR> ID : $id";
-  //header('Location: CoinAlerts.php');
-  deleteSQLAlert($id);
-}
+
 
 if ($_GET['alert'] == 0){
   $showmain = false;
@@ -134,6 +129,37 @@ if ($_GET['alert'] == 0){
 }elseif ($_GET['alert'] == 3){
   $showmain = false;
 
+}elseif($_GET['iD'] <> ""){
+  $id = $_GET['iD'];
+  Echo "<BR> ID : $id";
+  //header('Location: CoinAlerts.php');
+  deleteSQLAlert($id);
+}else{
+  displayHeader(8);
+  $userID = $_SESSION['ID'];
+  echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
+  <TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>";
+  $coinAlerts = getCoinAlertsUser($userID);
+  $newArrLength = Count($coinAlerts);
+  for($x = 0; $x < $newArrLength; $x++) {
+    $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
+    $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
+    $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];
+    $reocurring = $coinAlerts[$x][12];
+    echo "<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
+    echo "<td>$id</td><td>$coinID</td>";
+    echo "<td>$action</td><td>$price</td>";
+    echo "<td>$symbol</td><td>$userName</td>";
+    echo "<td>$email</td><td>$liveCoinPrice</td><td>$category</td>";
+    Echo "<td>$reocurring</td>";
+    echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
+    echo "<TR>";
+  }
+  Echo "</table>";
+  displaySideColumn();
+  //displayMiddleColumn();
+  //displayFarSideColumn();
+  //displayFooter();
 }
 
 
@@ -172,31 +198,7 @@ function deleteSQLAlert($id){
 }
 
 if ($showmain == True){
-        displayHeader(8);
-        $userID = $_SESSION['ID'];
-        echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
-        <TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>";
-        $coinAlerts = getCoinAlertsUser($userID);
-        $newArrLength = Count($coinAlerts);
-				for($x = 0; $x < $newArrLength; $x++) {
-          $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
-          $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
-          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];
-          $reocurring = $coinAlerts[$x][12];
-          echo "<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
-          echo "<td>$id</td><td>$coinID</td>";
-          echo "<td>$action</td><td>$price</td>";
-          echo "<td>$symbol</td><td>$userName</td>";
-          echo "<td>$email</td><td>$liveCoinPrice</td><td>$category</td>";
-          Echo "<td>$reocurring</td>";
-          echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
-          echo "<TR>";
-        }
-        Echo "</table>";
-        displaySideColumn();
-        //displayMiddleColumn();
-				//displayFarSideColumn();
-        //displayFooter();
+
 }
 //include header template
 require('layout/footer.php');
