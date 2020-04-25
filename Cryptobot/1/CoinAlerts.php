@@ -23,7 +23,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 $showmain = True;
 
 
-if ($_GET['alert'] == 0){
+if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
   if($_GET['edit'] <> ""){
@@ -61,7 +61,7 @@ if ($_GET['alert'] == 0){
   </form>
   <?php
   displaySideColumn();
-}elseif ($_GET['alert'] == 1){
+}elseif ($_GET['alert'] == 1 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
   if($_GET['edit'] <> ""){
@@ -99,7 +99,7 @@ if ($_GET['alert'] == 0){
   </form>
   <?php
   displaySideColumn();
-}elseif ($_GET['alert'] == 2){
+}elseif ($_GET['alert'] == 2 && isset($_GET['alert'])){
   Echo "<BR> Add New Alert ";
   $showmain = false;
   date_default_timezone_set('Asia/Dubai');
@@ -126,10 +126,10 @@ if ($_GET['alert'] == 0){
     AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
   }
   header('Location: CoinAlerts.php');
-}elseif ($_GET['alert'] == 3){
+}elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
   $showmain = false;
 
-}elseif($_GET['iD'] <> ""){
+}elseif ($_GET['alert'] == 4 && isset($_GET['alert'])){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
   //header('Location: CoinAlerts.php');
@@ -152,7 +152,7 @@ if ($_GET['alert'] == 0){
     echo "<td>$symbol</td><td>$userName</td>";
     echo "<td>$email</td><td>$liveCoinPrice</td><td>$category</td>";
     Echo "<td>$reocurring</td>";
-    echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
+    echo "<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
     echo "<TR>";
   }
   Echo "</table>";
