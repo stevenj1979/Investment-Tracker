@@ -116,7 +116,7 @@ function deleteSQLAlert($id){
     $conn->close();
 }
 
-if ($showmain = True){
+if ($showmain == True){
         displayHeader(8);
         $userID = $_SESSION['ID'];
         echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
