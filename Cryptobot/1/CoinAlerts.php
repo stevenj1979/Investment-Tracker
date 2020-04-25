@@ -35,7 +35,7 @@ if ($_GET['edit'] <> ""){
     echo "<BR> Edit : ".$_GET['edit'];
     $id = $_GET['edit'];
     $alertDetails = getCoinAlertsbyID($id);
-    $coin = $alertDetails[4]; $cost = $alertDetails[3]; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $alertDetails[1];
+    $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
     echo "<BR> Coin $coin cost $cost CoinID $coinID";
   } else {
     echo "<BR> Alert : ".$_GET['alert'];
