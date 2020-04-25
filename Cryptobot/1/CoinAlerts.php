@@ -51,7 +51,7 @@ function deleteSQLAlert($id){
 				for($x = 0; $x < $newArrLength; $x++) {
           $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
           $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
-          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7];
+          $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];  
           echo "<td>$id</td><td>$coinID</td>";
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";

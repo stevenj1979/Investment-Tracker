@@ -130,7 +130,7 @@ function AddCoinAlert($coinID,$action,$userID, $salePrice, $category){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`,`Category`) VALUES ($coinID,'$action',$salePrice,$userID,'$category')";
-    //print_r($sql);
+    print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
