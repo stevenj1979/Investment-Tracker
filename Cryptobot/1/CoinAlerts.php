@@ -53,7 +53,7 @@ if ($_GET['edit'] <> ""){
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
-  <form action='CoinAlert.php?manualAlert=Yes' method='post'>
+  <form action='CoinAlerts.php?manualAlert=Yes' method='post'>
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
