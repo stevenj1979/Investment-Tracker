@@ -101,7 +101,7 @@ if(isset($_POST['coinAltTxt'])){
   $userID = $_SESSION['ID'];
   //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
-  $salePrice = $_POST['coinPriceAltTxt'];
+  $salePrice = $_POST['coinPriceAltTxt']; $category = $_POST['priceSelect'];
   //$userConfig = getUserConfig($userID);
   //$UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
   //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
@@ -109,13 +109,13 @@ if(isset($_POST['coinAltTxt'])){
   //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
-  if ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "Price"){
-    AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$_POST['priceSelect']);
-  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Price"){
-    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$_POST['priceSelect']);
-  }elseif ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "Pct Price in 1 Hour"){
+  if ($_POST['greaterThanSelect'] == "<" && $category == "Price"){
+    AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category);
+  }elseif ($_POST['greaterThanSelect'] == ">" && $category == "Price"){
+    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category);
+  }elseif ($_POST['greaterThanSelect'] == "<" && $category == "Pct Price in 1 Hour"){
 
-  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Pct Price in 1 Hour"){
+  }elseif ($_POST['greaterThanSelect'] == ">" && $category == "Pct Price in 1 Hour"){
 
   }
   //header('Location: CoinAlerts.php');
