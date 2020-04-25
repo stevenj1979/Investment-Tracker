@@ -1452,12 +1452,12 @@ function displayFooter(){
 function getCoinAlerts(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange` FROM `CoinAlertsView`";
+  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent` FROM `CoinAlertsView`";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
-    ,$row['Live24HrChange'],$row['Live7DChange']);
+    ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent']);
   }
   $conn->close();
   return $tempAry;
@@ -1466,12 +1466,12 @@ function getCoinAlerts(){
 function getCoinAlertsUser($userId){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange` FROM `CoinAlertsView` WHERE `UserID` = $userId";
+  $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent` FROM `CoinAlertsView` WHERE `UserID` = $userId";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
-    ,$row['Live24HrChange'],$row['Live7DChange']);
+    ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent']);
   }
   $conn->close();
   return $tempAry;
@@ -1484,6 +1484,23 @@ function closeCoinAlerts($id){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "UPDATE `CoinAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function updateAlertTime($id){
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= '$current_date' WHERE `ID` = $id";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
