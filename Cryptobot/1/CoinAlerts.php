@@ -28,15 +28,18 @@ if($_GET['iD'] <> ""){
   deleteSQLAlert($id);
 }
 
-if ($_POST['manualAlert'] <> ""){
-  $showmain = false;
-  if (isset($_GET['IDTxt'])){
+if (isset($_GET['IDTxt']) && isset($_GET['coinAltTxt'])){
+    $showmain = false;
+
     $id = $_GET['IDTxt'];
     Echo "<BR> Update Coin Alerts with ID : $id";
-  }else{
-    Echo "<BR> Add New Alert ";
-  }
-  header('Location: CoinAlerts.php');
+
+
+
+  //header('Location: CoinAlerts.php');
+}elseif (!isset($_GET['IDTxt']) && isset($_GET['coinAltTxt'])){
+  $showmain = false;
+  Echo "<BR> Add New Alert ";
 }
 
 if ($_GET['edit'] <> ""){
