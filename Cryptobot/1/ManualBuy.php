@@ -102,7 +102,7 @@ if(isset($_POST['coinAltTxt'])){
   //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
   $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
   $salePrice = $_POST['coinPriceAltTxt']; $category = $_POST['priceSelect'];
-  if(!empty($_POST['reocurringChk'])){$reocurring = $_POST['reocurringChk'];}else{$reocurring==0;}
+  if(isset($_POST['reocurringChk'])){$reocurring == 1;}else{ $reocurring == 0;}
   //$reocurring = $_POST['reocurringChk'];
   //$userConfig = getUserConfig($userID);
   //$UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
