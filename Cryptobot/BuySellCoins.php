@@ -393,22 +393,26 @@ while($date <= $newTime){
   for($d = 0; $d < $coinAlertsLength; $d++) {
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
-    $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7];
+    $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7]; $category = $coinAlerts[$d][8];
     Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice";
-    if ($action == 'LessThan'){
+    if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
         //Send Alert
         sendAlertEmail($email, $symbol, $price, $action, $userName);
         //Close Alert
         closeCoinAlerts($id);
       }
-    } else{
+    } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
         //Send Alert
         sendAlertEmail($email, $symbol, $price, $action, $userName);
         //Close Alert
         closeCoinAlerts($id);
       }
+    } elseif ($action == 'LessThan' && $category == "% Price in 1 Hour"){
+
+    } elseif ($action == 'LessThan' && $category == "% Price in 1 Hour"){
+
     }
 
   }

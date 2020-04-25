@@ -109,15 +109,19 @@ if(isset($_POST['coinAltTxt'])){
   //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
 
-  if ($_POST['greaterThanSelect'] == "<" ){
-    AddCoinAlert($coinID,'LessThan',$userID, $salePrice);
-  }else{
-    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice);
+  if ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "Price"){
+    AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$_POST['priceSelect']);
+  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Price"){
+    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$_POST['priceSelect']);
+  }elseif ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "% Price in 1 Hour"){
+
+  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "% Price in 1 Hour"){
+
   }
   header('Location: CoinAlerts.php');
 }
 
-function AddCoinAlert($coinID,$action,$userID, $salePrice){
+function AddCoinAlert($coinID,$action,$userID, $salePrice, $category){
   //
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -125,7 +129,7 @@ function AddCoinAlert($coinID,$action,$userID, $salePrice){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`) VALUES ($coinID,'$action',$salePrice,$userID)";
+    $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`,`Category`) VALUES ($coinID,'$action',$salePrice,$userID,'$category')";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -270,6 +274,11 @@ function displayAlertForm(){
   <h2>Enter Price</h2>
   <form action='ManualBuy.php?manualAlert=Yes' method='post'>
     Coin: <input type="text" name="coinAltTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+
+    <select name="priceSelect">
+      <option value="Price" name='priceOpt'>></option>
+      <option value="% Price in 1 Hour" name='pctPriceOpt'><</option>
+
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
