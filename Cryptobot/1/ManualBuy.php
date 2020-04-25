@@ -276,8 +276,8 @@ function displayAlertForm(){
     Coin: <input type="text" name="coinAltTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
 
     <select name="priceSelect">
-      <option value="Price" name='priceOpt'>></option>
-      <option value="Pct Price in 1 Hour" name='pctPriceOpt'><</option>
+      <option value="Price" name='priceOpt'>Price</option>
+      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
     </select>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
