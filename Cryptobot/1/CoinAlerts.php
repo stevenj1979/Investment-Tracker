@@ -29,7 +29,12 @@ if($_GET['iD'] <> ""){
 }
 
 if ($_GET['manualAlert'] <> ""){
-
+  if (isset($_GET['IDTxt'])){
+    $id = $_GET['IDTxt'];
+    Echo "<BR> Update Coin Alerts with ID : $id";
+  }else{
+    Echo "<BR> Add New Alert ";
+  }
 }
 
 if ($_GET['edit'] <> ""){
