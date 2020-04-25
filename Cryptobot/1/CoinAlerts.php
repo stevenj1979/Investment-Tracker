@@ -28,7 +28,7 @@ if($_GET['iD'] <> ""){
   deleteSQLAlert($id);
 }
 
-if (isset($_GET['IDTxt']) && isset($_GET['coinAltTxt'])){
+if ($GLOBALS['CoinID']){
     $showmain = false;
 
     $id = $_GET['IDTxt'];
@@ -37,7 +37,7 @@ if (isset($_GET['IDTxt']) && isset($_GET['coinAltTxt'])){
 
 
   //header('Location: CoinAlerts.php');
-}elseif (!isset($_GET['IDTxt']) && isset($_GET['coinAltTxt'])){
+}elseif ($GLOBALS['CoinEdit']){
   $showmain = false;
   Echo "<BR> Add New Alert ";
 }
@@ -73,7 +73,8 @@ if ($_GET['edit'] <> ""){
     <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
     <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
-      <?php if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; } ?>
+      <?php  $GLOBALS['CoinEdit'] = True;
+      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
