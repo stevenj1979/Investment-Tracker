@@ -31,6 +31,7 @@ if($_GET['iD'] <> ""){
 if ($_GET['edit'] <> ""){
   $showmain = false;
   $userID = $_SESSION['ID'];
+  displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
   <form action='CoinAlert.php?manualAlert=Yes' method='post'>
@@ -52,6 +53,7 @@ if ($_GET['edit'] <> ""){
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
+  displaySideColumn();
 }
 
 if(isset($_POST['coinAltTxt'])){
