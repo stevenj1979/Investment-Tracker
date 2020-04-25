@@ -45,7 +45,8 @@ function deleteSQLAlert($id){
 
         displayHeader(8);
         $userID = $_SESSION['ID'];
-        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><TH>&nbspDelete Alert</th><tr>";
+        echo "<h2>Coin Alerts!</h2><Table><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th><TH>&nbspDelete Alert</th>
+        <TH>&nbspCategory</th><tr>";
         $coinAlerts = getCoinAlertsUser($userID);
         $newArrLength = Count($coinAlerts);
 				for($x = 0; $x < $newArrLength; $x++) {
@@ -55,7 +56,7 @@ function deleteSQLAlert($id){
           echo "<td>$id</td><td>$coinID</td>";
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";
-          echo "<td>$email</td><td>$liveCoinPrice</td>";
+          echo "<td>$email</td><td>$liveCoinPrice</td><td>$category</td>";
           echo "<td><a href='CoinAlerts.php?iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
           echo "<TR>";
         }
