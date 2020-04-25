@@ -16,6 +16,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
+$showmain = True;
 //include header template
 require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
@@ -28,6 +29,7 @@ if($_GET['iD'] <> ""){
 }
 
 if ($_GET['edit'] <> ""){
+  $showmain = false;
   $userID = $_SESSION['ID'];
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
@@ -53,6 +55,7 @@ if ($_GET['edit'] <> ""){
 }
 
 if(isset($_POST['coinAltTxt'])){
+  $showmain = false;
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
   $userID = $_SESSION['ID'];
@@ -113,6 +116,7 @@ function deleteSQLAlert($id){
     $conn->close();
 }
 
+if ($showmain = True){
         displayHeader(8);
         $userID = $_SESSION['ID'];
         echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
@@ -138,7 +142,7 @@ function deleteSQLAlert($id){
         //displayMiddleColumn();
 				//displayFarSideColumn();
         //displayFooter();
-
+}
 //include header template
 require('layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
