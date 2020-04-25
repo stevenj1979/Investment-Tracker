@@ -29,12 +29,14 @@ if($_GET['iD'] <> ""){
 }
 
 if ($_GET['manualAlert'] <> ""){
+  $showmain = false;
   if (isset($_GET['IDTxt'])){
     $id = $_GET['IDTxt'];
     Echo "<BR> Update Coin Alerts with ID : $id";
   }else{
     Echo "<BR> Add New Alert ";
   }
+  header('Location: CoinAlerts.php');
 }
 
 if ($_GET['edit'] <> ""){
