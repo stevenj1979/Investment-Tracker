@@ -113,9 +113,9 @@ if(isset($_POST['coinAltTxt'])){
     AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$_POST['priceSelect']);
   }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Price"){
     AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$_POST['priceSelect']);
-  }elseif ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "% Price in 1 Hour"){
+  }elseif ($_POST['greaterThanSelect'] == "<" && $_POST['priceSelect'] == "Pct Price in 1 Hour"){
 
-  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "% Price in 1 Hour"){
+  }elseif ($_POST['greaterThanSelect'] == ">" && $_POST['priceSelect'] == "Pct Price in 1 Hour"){
 
   }
   header('Location: CoinAlerts.php');
@@ -277,7 +277,7 @@ function displayAlertForm(){
 
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>></option>
-      <option value="% Price in 1 Hour" name='pctPriceOpt'><</option>
+      <option value="Pct Price in 1 Hour" name='pctPriceOpt'><</option>
     </select>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>

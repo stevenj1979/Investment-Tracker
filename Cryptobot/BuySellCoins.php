@@ -409,9 +409,9 @@ while($date <= $newTime){
         //Close Alert
         closeCoinAlerts($id);
       }
-    } elseif ($action == 'LessThan' && $category == "% Price in 1 Hour"){
+    } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
 
-    } elseif ($action == 'LessThan' && $category == "% Price in 1 Hour"){
+    } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
 
     }
 
