@@ -31,12 +31,18 @@ if($_GET['iD'] <> ""){
 if ($_GET['edit'] <> ""){
   $showmain = false;
   $userID = $_SESSION['ID'];
+  if($_GET['edit'] <> ""){
+    $id = $_POST['edit'];
+    $alertDetails = getCoinAlertsUser($id);
+    $coin = $alertDetails[4]; $cost = $alertDetails[4]; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $alertDetails[1];
+  } else {
+    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
+  }
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price</h2>
   <form action='CoinAlert.php?manualAlert=Yes' method='post'>
-    Coin: <input type="text" name="coinAltTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
-
+    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
       <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
@@ -45,10 +51,10 @@ if ($_GET['edit'] <> ""){
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
-    <input type="text" name="coinPriceAltTxt" value="<?php echo $GLOBALS['cost']; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
-    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk"> Reocurring Alert: </label><br>
-    <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
-    <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
+    <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
   </form>
