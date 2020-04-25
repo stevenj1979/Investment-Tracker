@@ -28,7 +28,7 @@ if($_GET['iD'] <> ""){
   deleteSQLAlert($id);
 }
 
-if ($GLOBALS['CoinID']){
+if ($_POST['manualAlert'] == "Yes" && isset($_GET['IDTxt'])){
     $showmain = false;
 
     $id = $_GET['IDTxt'];
@@ -37,7 +37,7 @@ if ($GLOBALS['CoinID']){
 
 
   //header('Location: CoinAlerts.php');
-}elseif ($GLOBALS['CoinEdit']){
+}elseif ($_POST['manualAlert'] == "Yes"){
   $showmain = false;
   Echo "<BR> Add New Alert ";
 }
