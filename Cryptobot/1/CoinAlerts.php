@@ -117,12 +117,16 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
   $showmain = false;
   // UPDATE Existing ID
-
+  $id = $_POST['IDTxt']; $coinID = $_POST['CoinIDTxt']; $action = $_POST['greaterThanSelect']; $category = $_POST['priceSelect'];
+  $price = $_POST['coinPriceAltTxt']; $userID = $_SESSION['ID'];
+  if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
+  updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring);
+  header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 4 && isset($_GET['alert'])){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
-  //header('Location: CoinAlerts.php');
   deleteSQLAlert($id);
+  header('Location: CoinAlerts.php');
 }else{
   displayHeader(8);
   $userID = $_SESSION['ID'];

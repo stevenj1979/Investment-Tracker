@@ -1491,6 +1491,20 @@ function getCoinAlertsbyID($id){
   return $tempAry;
 }
 
+function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `CoinAlerts` SET `CoinID`= $coinID, `Action`= '$action', `UserID`= $userID, `Category` = '$category' `ReocurringAlert`= $reocurring FROM `CoinAlerts` WHERE `ID` = $id";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
+    ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function closeCoinAlerts($id){
   $conn = getSQLConn(rand(1,3));
     // Check connection
