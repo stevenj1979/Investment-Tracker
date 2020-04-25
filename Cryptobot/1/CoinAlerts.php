@@ -28,16 +28,83 @@ if($_GET['iD'] <> ""){
   deleteSQLAlert($id);
 }
 
-if ($_POST['manualAlert'] == "Yes" && isset($_GET['IDTxt'])){
-    $showmain = false;
+if ($_GET['alert'] == 0){
+  $showmain = false;
+  $userID = $_SESSION['ID'];
+  if($_GET['edit'] <> ""){
+    echo "<BR> Edit : ".$_GET['edit'];
+    $id = $_GET['edit'];
+    $alertDetails = getCoinAlertsbyID($id);
+    $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
+    echo "<BR> Coin $coin cost $cost CoinID $coinID";
+  } else {
+    echo "<BR> Alert : ".$_GET['alert'];
+    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
+  }
+  displayHeader(8);
+  ?> <h1>Coin Alert</h1>
+  <h2>Enter Price</h2>
+  <form action='CoinAlerts.php?alert=2' method='post'>
+    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
+    <select name="priceSelect">
+      <option value="Price" name='priceOpt'>Price</option>
+      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
+    </select> <label for="priceSelect">Select Category</label><br>
+    <select name="greaterThanSelect">
+      <option value=">" name='greaterThanOpt'>></option>
+      <option value="<" name='lessThanOpt'><</option>
+    </select><label for="greaterThanSelect">Select Option</label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
+    <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
+    <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
+      <?php  $GLOBALS['CoinEdit'] = True;
+      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
-    $id = $_GET['IDTxt'];
-    Echo "<BR> Update Coin Alerts with ID : $id";
+  </form>
+  <?php
+  displaySideColumn();
+}elseif ($_GET['alert'] == 1){
+  $showmain = false;
+  $userID = $_SESSION['ID'];
+  if($_GET['edit'] <> ""){
+    echo "<BR> Edit : ".$_GET['edit'];
+    $id = $_GET['edit'];
+    $alertDetails = getCoinAlertsbyID($id);
+    $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
+    echo "<BR> Coin $coin cost $cost CoinID $coinID";
+  } else {
+    echo "<BR> Alert : ".$_GET['alert'];
+    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
+  }
+  displayHeader(8);
+  ?> <h1>Coin Alert</h1>
+  <h2>Enter Price</h2>
+  <form action='CoinAlerts.php?alert=3' method='post'>
+    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
+    <select name="priceSelect">
+      <option value="Price" name='priceOpt'>Price</option>
+      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
+    </select> <label for="priceSelect">Select Category</label><br>
+    <select name="greaterThanSelect">
+      <option value=">" name='greaterThanOpt'>></option>
+      <option value="<" name='lessThanOpt'><</option>
+    </select><label for="greaterThanSelect">Select Option</label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
+    <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
+    <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
+      <?php  $GLOBALS['CoinEdit'] = True;
+      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
-
-
-  //header('Location: CoinAlerts.php');
-}elseif ($_POST['manualAlert'] == "Yes"){
+  </form>
+  <?php
+  displaySideColumn();
+}elseif ($_GET['alert'] == 2){
   $showmain = false;
   Echo "<BR> Add New Alert ";
   $showmain = false;
@@ -65,51 +132,11 @@ if ($_POST['manualAlert'] == "Yes" && isset($_GET['IDTxt'])){
     AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
   }
   header('Location: CoinAlerts.php');
-}
-
-if ($_GET['edit'] <> ""){
+}elseif ($_GET['alert'] == 3){
   $showmain = false;
-  $userID = $_SESSION['ID'];
-  if($_GET['edit'] <> ""){
-    echo "<BR> Edit : ".$_GET['edit'];
-    $id = $_GET['edit'];
-    $alertDetails = getCoinAlertsbyID($id);
-    $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
-    echo "<BR> Coin $coin cost $cost CoinID $coinID";
-  } else {
-    echo "<BR> Alert : ".$_GET['alert'];
-    $coin = $GLOBALS['coin']; $cost = $GLOBALS['cost']; $baseCurrency = $GLOBALS['baseCurrency']; $coinID = $GLOBALS['coinID'];
-  }
-  displayHeader(8);
-  ?> <h1>Coin Alert</h1>
-  <h2>Enter Price</h2>
-  <form action='CoinAlerts.php?manualAlert=Yes' method='post'>
-    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
-    <select name="priceSelect">
-      <option value="Price" name='priceOpt'>Price</option>
-      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-    </select> <label for="priceSelect">Select Category</label><br>
-    <select name="greaterThanSelect">
-      <option value=">" name='greaterThanOpt'>></option>
-      <option value="<" name='lessThanOpt'><</option>
-    </select><label for="greaterThanSelect">Select Option</label><br>
-    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
-    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
-    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
-    <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
-    <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
-      <?php  $GLOBALS['CoinEdit'] = True;
-      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
-    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
-
-  </form>
-  <?php
-  displaySideColumn();
-}
-
-if(isset($_POST['coinAltTxt'])){
 
 }
+
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
   //
@@ -157,7 +184,7 @@ if ($showmain == True){
           $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
           $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];
           $reocurring = $coinAlerts[$x][12];
-          echo "<td><a href='CoinAlerts.php?edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
+          echo "<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
           echo "<td>$id</td><td>$coinID</td>";
           echo "<td>$action</td><td>$price</td>";
           echo "<td>$symbol</td><td>$userName</td>";
