@@ -397,34 +397,35 @@ while($date <= $newTime){
     $Live1HrChangeAlrt = $coinAlerts[$d][9]; $Live24HrChangeAlrt = $coinAlerts[$d][10]; $Live7DChangeAlrt = $coinAlerts[$d][11];
     $reocurring = $coinAlerts[$d][12]; $dateTimeSent = $coinAlerts[$d][13];
     $current_date = date('Y-m-d H:i');
-    $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
-    $dateFlag = ($dateTimeSent > $newTime);
-    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateFlag, $dateTimeSent, $newTime, $reocurring";
+    //$newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
+    //$dateFlag = ($newTime > $dateTimeSent);
+    $newTime = $current_date - $dateTimeSent;
+    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $newTime, $reocurring";
 
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
         //Send Alert
-        if ($dateFlag){sendAlertEmail($email, $symbol, $price, $action, $userName); }
+        if ($newTime > 30){sendAlertEmail($email, $symbol, $price, $action, $userName); }
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
         //Send Alert
-        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($newTime > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
-        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($newTime > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
         //Send Alert
-        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($newTime > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
