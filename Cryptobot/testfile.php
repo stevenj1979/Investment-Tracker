@@ -85,10 +85,11 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
-echo "<BR> 1: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 7001.00, "BTC", 1,1);
-echo "<BR> 2: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 239.00, "BCH", 1,1);
-echo "<BR> 3: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 241.00, "BCH", 1,1);
-echo "<BR> 4: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
-echo "<BR> 5: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
+//echo "<BR> 1: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 7001.00, "BTC", 1,1);
+//echo "<BR> 2: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 239.00, "BCH", 1,1);
+//echo "<BR> 3: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 241.00, "BCH", 1,1);
+//echo "<BR> 4: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
+//echo "<BR> 5: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
+BuyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-26 20:27:57', 'USDT',1,0,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
 ?>
 </html>
