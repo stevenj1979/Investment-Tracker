@@ -6,19 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
-<style>
-<?php include 'style/style.css'; ?>
-
-	    #Home:hover #homeContent{
-		      display: block;
-		        position: absolute;
-	    }
-	    #AboutUs:hover #AboutUsContent{
-		      display: block;
-		        position: absolute;
-	    }
-</style> <?php
+include_once '../includes/newConfig.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
