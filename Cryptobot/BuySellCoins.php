@@ -406,27 +406,27 @@ while($date <= $newTime){
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
         //Send Alert
-        if ($minutes > 30){sendAlertEmail($email, $symbol, $price, $action, $userName); }
+        if ($minutes > 30){sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
         //Send Alert
-        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
-        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
         //Send Alert
-        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($minutes > 30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
