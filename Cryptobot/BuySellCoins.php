@@ -411,20 +411,20 @@ while($date <= $newTime){
         //Send Alert
         if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
-        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id)}
+        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
         if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
-        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id)}
+        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
         //Send Alert
         if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
-        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id)}
+        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     }
 
