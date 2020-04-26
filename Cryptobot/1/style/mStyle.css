@@ -54,6 +54,16 @@ h2{
   font-weight: 400;
 }
 
+#visualization{
+  width: 80%;
+  height: 50%;
+}
+
+#visualization2{
+  width: 1200px;
+  height: 400px;
+}
+
 #Home:hover #homeContent{
     display: block;
       position: absolute;

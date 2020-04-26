@@ -224,8 +224,10 @@ displayHeader(0);
               <div class="page-wrapper">
                  <br />
                  <h2 align="center">Current Coin Holdings</h2>
-                 <div id="visualization" style="width: 1200px; height: 400px;"></div>
-                 <div id="visualization2" style="width: 1200px; height: 400px;"></div>
+                 <!--<div id="visualization" style="width: 1200px; height: 400px;"></div>
+                 <div id="visualization2" style="width: 1200px; height: 400px;"></div>-->
+                 <div id="visualization" ></div>
+                 <div id="visualization2" ></div>
               </div><?php
           displaySideColumn();
           require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');

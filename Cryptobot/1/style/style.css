@@ -103,6 +103,16 @@ img{
   align-self: center;
 }
 
+#visualization{
+  width: 1200px;
+  height: 400px;
+}
+
+#visualization2{
+  width: 1200px;
+  height: 400px;
+}
+
 input[type=button], input[type=submit], input[type=reset] {
     background-color: #85929E;
     border: none;
