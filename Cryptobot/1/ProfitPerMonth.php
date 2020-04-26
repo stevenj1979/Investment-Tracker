@@ -25,11 +25,10 @@ include_once '../includes/newConfig.php';?>
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 
 //define page title
-$title = 'CryptoBot';
-
-//include header template
-require('layout/header.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
+
+setStyle($_SESSION['isMobile']);
 
 function getCoinsfromSQL($userID){
     $conn = getSQLConn(rand(1,3));
