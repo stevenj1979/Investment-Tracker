@@ -210,9 +210,9 @@ displayHeader(0);
               echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Total USD</TH><tr>";
               if ($_SESSION['isMobile']){
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);
-                echo "<td>BTC $btcPrice</td><td>USDT $usdtPrice</td><td>ETH $ethProfit</td><td>USD $totalProfit</td>";
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $totalProfit</td>";
               }else{
-                echo "<td>BTC $btcPrice</td><td>USDT $usdtPrice</td><td>ETH $ethProfit</td><td>USD $totalProfit</td>";
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $totalProfit</td>";
               }
               echo "</table>";
 
