@@ -90,7 +90,15 @@ include '../includes/newConfig.php';
 ?>
 <html>
 <style>
-<?php include 'style/style.css';
+<?php
+$title = 'CryptoBot';
+$current_url = $_SERVER[ 'REQUEST_URI' ];
+header( "Refresh: 120; URL=$current_url" );
+//include header template
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
+include_once ('/home/stevenj1979/SQLData.php');
+$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
+setStyle($_SESSION['isMobile']);
 //.page-wrapper
   //{
    //width:1000px;
@@ -214,7 +222,10 @@ displayHeader(0);
                  <div id="visualization" style="width: 1200px; height: 400px;"></div>
                  <div id="visualization2" style="width: 1200px; height: 400px;"></div>
               </div><?php
-          displaySideColumn();?>
+          displaySideColumn();
+          require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
+          $date = date('Y/m/d H:i:s', time());
+          echo " Last Updated :".$date;?>
 
         </body>
         </html>
