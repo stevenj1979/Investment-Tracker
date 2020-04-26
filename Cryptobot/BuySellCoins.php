@@ -404,7 +404,7 @@ while($date <= $newTime){
         //Send Alert
         if ($dateTimeSent > $newTime){sendAlertEmail($email, $symbol, $price, $action, $userName); }
         //Close Alert
-        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id):}
+        if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
