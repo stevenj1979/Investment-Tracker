@@ -398,31 +398,33 @@ while($date <= $newTime){
     $reocurring = $coinAlerts[$d][12]; $dateTimeSent = $coinAlerts[$d][13];
     $current_date = date('Y-m-d H:i');
     $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
-    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice";
+    $dateFlag = ($dateTimeSent > $newTime);
+    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateFlag, $dateTimeSent, $newTime, $reocurring";
+
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
         //Send Alert
-        if ($dateTimeSent > $newTime){sendAlertEmail($email, $symbol, $price, $action, $userName); }
+        if ($dateFlag){sendAlertEmail($email, $symbol, $price, $action, $userName); }
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
         //Send Alert
-        if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
-        if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
         //Send Alert
-        if ($dateTimeSent > $newTime){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
+        if ($dateFlag){ sendAlertEmail($email, $symbol, $price, $action, $userName);}
         //Close Alert
         if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
       }
