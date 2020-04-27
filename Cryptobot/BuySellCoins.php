@@ -400,7 +400,7 @@ while($date <= $newTime){
     //$newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
     //$dateFlag = ($newTime > $dateTimeSent);
     $minutes = (strtotime($dateTimeSent) - time()) / 60;
-    $newTime = $current_date - $dateTimeSent;
+    $newTime = $dateTimeSent - $current_date ;
     Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring";
 
     if ($action == 'LessThan' && $category == "Price"){
