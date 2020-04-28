@@ -85,9 +85,8 @@ function getHistoryFromSQL(){
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
-    FROM `CoinBuyHistory` WHERE $sql_option and $sql_option_base
-    order by `ActionDate` desc
-    limit 200  ";
+    FROM `CoinBuyHistory` WHERE $sql_option and $sql_option_base and `ActionDate` >= curdate() - INTERVAL DAYOFWEEK(curdate())+2 HOUR
+    order by `ActionDate` desc";
     $result = $conn->query($sql);
     //echo $sql;
     //$result = mysqli_query($link4, $query);
