@@ -15,7 +15,7 @@ google.load('visualization', '1', {packages: ['corechart']});
 function drawVisualization() {
   var jsonData = null;
 
-  var symbol = "<?php echo $_SESSION['symbol']; ?>";
+  var symbol = "<?php echo $_SESSION['StatsListSelected']; ?>";
   var json = $.ajax({
     url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinChart.php?coinID=" + symbol , // make this url point to the data file
     dataType: "json",
