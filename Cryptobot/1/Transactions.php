@@ -65,7 +65,7 @@ function getCoinsfromSQL($userID){
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
     ,`FixSellRule`
           FROM `TransactionsView` WHERE ".$_SESSION['TransListSelected']." and `UserID` = $userID order by `OrderDate` desc ";
-    //print_r($sql);
+    print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
