@@ -26,11 +26,7 @@ setStyle($_SESSION['isMobile']);
 
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
-if(empty($_SESSION['sql_option'])){
-  //$_SESSION['sql_option'] = "`Status` = 'Open'";
-  //$dropArray[] = Array("Open","Sold","Pending","All");
-  //echo "<BR> $sql_option";
-}else {
+if(isset($_POST['dropdown']){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }
