@@ -63,7 +63,8 @@ setStyle($_SESSION['isMobile']);
 //}
  if ($_POST['coinSelect'] <> ""){
     echo "<BR> ".$_SESSION['StatsListSelected'] ." : ".$_POST['coinSelect'];
-      $_SESSION['StatsListSelected'] = $_POST['coinSelect'];
+      $temp = explode(":",$_POST['coinSelect']);
+      $_SESSION['StatsListSelected'] = $temp[0];
       //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
       //  $_SESSION['symbol'] = $coinOption[0];
       //  $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
@@ -75,7 +76,8 @@ setStyle($_SESSION['isMobile']);
 
 
 function getHistoryFromSQL(){
-    $sql_option = $_SESSION['StatsListSelected'];
+    $temp = explode(":",$_SESSION['StatsListSelected']);
+    $sql_option = $temp[0];
     $sql_Array = $_SESSION['StatsList'];
     $sql_option_base = getBase($sql_option, $sql_Array);
     $conn = getSQLConn(rand(1,3));
