@@ -35,7 +35,7 @@ if($_POST['transSelect'] <> ""){
 function changeSelection(){
   //global $sql_option;
   //global $dropArray;
-  echo "<BR> TransSelect : ".$_POST['transSelect'];
+  //echo "<BR> TransSelect : ".$_POST['transSelect'];
   if ($_POST['transSelect']=='Open'){
      $_SESSION['TransListSelected'] = "`Status` = 'Open'";
      //$dropArray[] = Array("Open","Sold","All");
@@ -62,7 +62,7 @@ function getCoinsfromSQL($userID){
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
     ,`FixSellRule`
           FROM `TransactionsView` WHERE ".$_SESSION['TransListSelected']." and `UserID` = $userID order by `OrderDate` desc ";
-    print_r($sql);
+    //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
