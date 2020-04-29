@@ -27,8 +27,8 @@ setStyle($_SESSION['isMobile']);
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
 if(empty($_SESSION['sql_option'])){
-  $_SESSION['sql_option'] = "`Status` = 'Open'";
-  $dropArray[] = Array("Open","Sold","Pending","All");
+  //$_SESSION['sql_option'] = "`Status` = 'Open'";
+  //$dropArray[] = Array("Open","Sold","Pending","All");
   //echo "<BR> $sql_option";
 }else {
   //Print_r("I'm HERE!!!".$_POST['submit']);
@@ -37,20 +37,20 @@ if(empty($_SESSION['sql_option'])){
 
 
 function changeSelection(){
-  global $sql_option;
-  global $dropArray;
+  //global $sql_option;
+  //global $dropArray;
   if ($_POST['transSelect']=='Open'){
-     $_SESSION['sql_option'] = "`Status` = 'Open'";
-     $dropArray[] = Array("Open","Sold","All");
+     $_SESSION['TransListSelected'] = "`Status` = 'Open'";
+     //$dropArray[] = Array("Open","Sold","All");
   }elseif ($_POST['transSelect']=='Sold'){
-    $_SESSION['sql_option'] = "`Status` = 'Sold'";
-    $dropArray[] = Array("Sold","Open","All");
+    $_SESSION['TransListSelected'] = "`Status` = 'Sold'";
+    //$dropArray[] = Array("Sold","Open","All");
   }elseif ($_POST['transSelect']=='Pending'){
-    $_SESSION['sql_option'] = "`Status` = 'Pending'";
-    $dropArray[] = Array("Sold","Open","All");
+    $_SESSION['TransListSelected'] = "`Status` = 'Pending'";
+    //$dropArray[] = Array("Sold","Open","All");
   }elseif ($_POST['transSelect']=='All'){
-    $_SESSION['sql_option'] = "1";
-    $dropArray[] = Array("All","Open","Sold");
+    $_SESSION['TransListSelected'] = "1";
+    //$dropArray[] = Array("All","Open","Sold");
   }
   //print_r($globals['sql_Option']);
 }
@@ -64,7 +64,7 @@ function getCoinsfromSQL($userID){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
     ,`FixSellRule`
-          FROM `TransactionsView` WHERE ".$_SESSION['sql_option']." and `UserID` = $userID order by `OrderDate` desc ";
+          FROM `TransactionsView` WHERE ".$_SESSION['TransListSelected']." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
