@@ -1653,8 +1653,4 @@ function getBase($selected, $statsAry){
     }
 }
 
-function setTransactionStatus(){
-  //$_SESSION['TransList'] = Array("Open","Pending","Closed","All")
-  $_SESSION['TransListSelected'] =  "`Status` = 'Open'";
-}
 ?>
