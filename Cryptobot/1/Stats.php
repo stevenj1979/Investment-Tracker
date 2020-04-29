@@ -145,7 +145,7 @@ displayHeader(2);
           echo "<td>".$historyStats[$y][21]."</td>";echo "<td>".$historyStats[$y][22]."</td>";echo "<td>".$historyStats[$y][23]."</td>";echo "<td>".$historyStats[$y][24]."</td>";
           echo "<td>".$historyStats[$y][25]."</td>";echo "<td>".$historyStats[$y][26]."</td>";echo "<td>".$historyStats[$y][27]."</td><tr>";
         }
-        echo "</table>";
+        echo "</table>".$_SESSION['StatsListSelected'];
 				displaySideColumn();
 
 //include header template

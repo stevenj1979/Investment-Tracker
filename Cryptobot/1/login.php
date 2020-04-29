@@ -64,6 +64,7 @@ if(isset($_POST['submit'])){
 			$temp = checkFirstTime($username);
       $_SESSION['DisableUntil'] = $temp[0][1];
 			updateUser($username);
+      setStats();
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;

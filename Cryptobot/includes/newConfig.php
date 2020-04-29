@@ -1616,4 +1616,28 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
       return False;
     }
 }
+
+function getStats(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol`,`ID`,`BaseCurrency` FROM `CoinStatsView` order by `Symbol` asc";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol'],$row['ID'],$row['BaseCurrency']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function setStats(){
+  $statsAry = getStats();
+  $_SESSION['StatsList'] = $statsAry
+  $_SESSION['StatsListSelected'] =  $statsAry[0][0];
+}
 ?>
