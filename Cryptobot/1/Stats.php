@@ -12,6 +12,19 @@ include_once '../includes/newConfig.php';?>
 google.load('visualization', '1', {packages: ['corechart']});
 </script>
 <script type="text/javascript">
+<?php if ($_POST['coinSelect'] <> ""){
+
+     $temp = explode(":",$_POST['coinSelect']);
+     $_SESSION['StatsListSelected'] = $temp[0];
+     //echo "<BR> ".$_SESSION['StatsListSelected'] ." : ".$_POST['coinSelect']." : ".$temp[0];
+     //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
+     //  $_SESSION['symbol'] = $coinOption[0];
+     //  $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
+     //}else{
+     //  $sql_option = "`Symbol` = 'ETH' ";
+     //  $_SESSION['symbol'] = "ETH";
+     //  $sql_option_base = "`BaseCurrency` = 'BTC'";
+   } ?>
 function drawVisualization() {
   var jsonData = null;
 
@@ -61,19 +74,7 @@ setStyle($_SESSION['isMobile']);
 //if(empty($sql_option)){
 
 //}
- if ($_POST['coinSelect'] <> ""){
 
-      $temp = explode(":",$_POST['coinSelect']);
-      $_SESSION['StatsListSelected'] = $temp[0];
-      //echo "<BR> ".$_SESSION['StatsListSelected'] ." : ".$_POST['coinSelect']." : ".$temp[0];
-      //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
-      //  $_SESSION['symbol'] = $coinOption[0];
-      //  $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
-      //}else{
-      //  $sql_option = "`Symbol` = 'ETH' ";
-      //  $_SESSION['symbol'] = "ETH";
-      //  $sql_option_base = "`BaseCurrency` = 'BTC'";
-      }
 
 
 function getHistoryFromSQL(){
