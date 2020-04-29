@@ -89,7 +89,7 @@ displayHeader(1);
         echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
            <option value='Open'>Open</option>
           <option value='Sold'>Sold</option>
-            <option value='Pending'>Pending</option></select>
+            <option value='Pending'>Pending</option>
             <option value='All'>All</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
            </form>";
