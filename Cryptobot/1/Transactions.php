@@ -26,7 +26,7 @@ setStyle($_SESSION['isMobile']);
 
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
-if(isset($_POST['dropdown'])){
+if($_POST['dropdown'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }
