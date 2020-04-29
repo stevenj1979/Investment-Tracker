@@ -1646,7 +1646,7 @@ function getBase($selected, $statsAry){
     for($x = 0; $x < $statsOptionCount; $x++) {
       if ($statsAry[0][$x] == $selected){
         return $statsAry[2][$x];
-        exit function;
+        exit;
       }
     }
 }
