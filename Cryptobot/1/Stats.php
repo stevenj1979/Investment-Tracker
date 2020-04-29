@@ -62,6 +62,7 @@ setStyle($_SESSION['isMobile']);
 
 //}
  if ($_POST['coinSelect'] <> ""){
+    echo "<BR> ".$_SESSION['StatsListSelected'] ." : ".$_POST['coinSelect'];
       $_SESSION['StatsListSelected'] = $_POST['coinSelect'];
       //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
       //  $_SESSION['symbol'] = $coinOption[0];
