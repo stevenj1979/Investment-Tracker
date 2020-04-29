@@ -35,6 +35,7 @@ if(isset($_POST['dropdown'])){
 function changeSelection(){
   //global $sql_option;
   //global $dropArray;
+  echo "<BR> TransSelect : ".$_POST['transSelect'];
   if ($_POST['transSelect']=='Open'){
      $_SESSION['TransListSelected'] = "`Status` = 'Open'";
      //$dropArray[] = Array("Open","Sold","All");
