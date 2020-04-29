@@ -1637,7 +1637,7 @@ function getStats(){
 
 function setStats(){
   $statsAry = getStats();
-  $_SESSION['StatsList'] = $statsAry
+  $_SESSION['StatsList'] = $statsAry;
   $_SESSION['StatsListSelected'] =  $statsAry[0][0];
 }
 ?>
