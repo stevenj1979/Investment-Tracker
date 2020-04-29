@@ -14,17 +14,7 @@ google.load('visualization', '1', {packages: ['corechart']});
 <script type="text/javascript">
 function drawVisualization() {
   var jsonData = null;
-  <?php if ($_POST['coinSelect'] <> ""){
-          $coinOption = explode(":",$_POST['coinSelect']);
-          $sql_option = "`Symbol` = '".$coinOption[0]."' ";
-          $_SESSION['symbol'] = $coinOption[0];
-          $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
-        }else{
-          $sql_option = "`Symbol` = 'ETH' ";
-          $_SESSION['symbol'] = "ETH";
-          $sql_option_base = "`BaseCurrency` = 'BTC'";
-        }
-?>
+
   var symbol = "<?php echo $_SESSION['symbol']; ?>";
   var json = $.ajax({
     url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinChart.php?coinID=" + symbol , // make this url point to the data file
@@ -71,10 +61,22 @@ setStyle($_SESSION['isMobile']);
 //if(empty($sql_option)){
 
 //}
+ if ($_POST['coinSelect'] <> ""){
+      $_SESSION['StatsListSelected'] = $_POST['coinSelect'];
+      //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
+      //  $_SESSION['symbol'] = $coinOption[0];
+      //  $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
+      //}else{
+      //  $sql_option = "`Symbol` = 'ETH' ";
+      //  $_SESSION['symbol'] = "ETH";
+      //  $sql_option_base = "`BaseCurrency` = 'BTC'";
+      }
+
 
 function getHistoryFromSQL(){
-    global $sql_option;
-    global $sql_option_base;
+    $sql_option = $_SESSION['StatsListSelected'];
+    $sql_Array = $_SESSION['StatsList'];
+    $sql_option_base = getBase($sql_option, $sql_Array);
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
@@ -120,7 +122,8 @@ function getCoinsFromSQL(){
 }
 
 displayHeader(2);
-        $coinStats = getCoinsFromSQL();
+        //$coinStats = getCoinsFromSQL();
+        $coinStats = $_SESSION['StatsList'];
         $StatsArrLength = count($coinStats);
         $historyStats = getHistoryFromSQL();
         $historySize = count($historyStats);
@@ -145,7 +148,7 @@ displayHeader(2);
           echo "<td>".$historyStats[$y][21]."</td>";echo "<td>".$historyStats[$y][22]."</td>";echo "<td>".$historyStats[$y][23]."</td>";echo "<td>".$historyStats[$y][24]."</td>";
           echo "<td>".$historyStats[$y][25]."</td>";echo "<td>".$historyStats[$y][26]."</td>";echo "<td>".$historyStats[$y][27]."</td><tr>";
         }
-        echo "</table>".$_SESSION['StatsListSelected'];
+        echo "</table>";
 				displaySideColumn();
 
 //include header template

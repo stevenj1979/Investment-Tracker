@@ -1640,4 +1640,14 @@ function setStats(){
   $_SESSION['StatsList'] = $statsAry;
   $_SESSION['StatsListSelected'] =  $statsAry[0][0];
 }
+
+function getBase($selected, $statsAry){
+    $statsOptionCount = Count($statsAry);
+    for($x = 0; $x < $statsOptionCount; $x++) {
+      if ($statsAry[0][$x] == $selected){
+        return $statsAry[2][$x];
+        exit function;
+      }
+    }
+}
 ?>
