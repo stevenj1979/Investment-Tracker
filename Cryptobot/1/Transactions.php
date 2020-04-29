@@ -90,6 +90,7 @@ displayHeader(1);
            <option value='Open'>Open</option>
           <option value='Sold'>Sold</option>
             <option value='Pending'>Pending</option></select>
+            <option value='All'>All</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
            </form>";
 				print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th><tr>");
