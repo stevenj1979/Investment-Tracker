@@ -58,6 +58,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $temp[] = array('v' => (float) $row['ETHinUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
     $temp[] = array('v' => (float) $row['USDTinUSD']);
+    $temp[] = array('v' => (float) $row['PendingCoinsUSD']);
     $temp[] = array('v' => (float) $row['TotalUSD']);
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
