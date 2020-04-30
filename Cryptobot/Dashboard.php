@@ -138,6 +138,35 @@ function getLiveCoinPriceUSD($symbol){
   return $tmpCoinPrice;
 }
 
+function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPrice, $ethPrice, $usdtPrice){
+    //set time
+    date_default_timezone_set('Asia/Dubai');
+    $date = date("Y-m-d H:i", time());
+    $BTCtoAdd = $liveBTC * $btcPrice;
+    if (empty($BTCtoAdd)) {$BTCtoAdd = 0;}
+    $USDTtoAdd = $liveUSDT * $usdtPrice;
+    if (empty($USDTtoAdd)) {$USDTtoAdd = 0;}
+    $ETHtoAdd = $liveETH * $ethPrice;
+    if (empty($ETHtoAdd)) {$ETHtoAdd = 0;}
+    $totaltoAdd = $BTCtoAdd+$USDTtoAdd+$ETHtoAdd;
+    //if (empty($actionDate)){$actionDate = $date;}
+    //echo "<br> TEST1: ".isset($BTCfromCoins);
+    //echo "<br> TEST2: ".empty($BTCfromCoins);
+    //echo "<br> TEST3: ".isnull($BTCfromCoins);
+    $tempAry = [];
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "call AddPendingUSDtoUserProfit($userID,$totaltoAdd);";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
@@ -165,6 +194,7 @@ for($x = 0; $x < $confSize; $x++) {
   echo "<BR> BTCPrice ".$btcPrice;
   Echo "<BR> Update User Profit: updateUserProfit($userID,$bittrexBalBTC,$bittrexBalUSDT,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);";
   updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
+  updateUserProfitUnrealised($userID,$currentBTCPurchased,$currentUSDTPurchased,$currentETHPurchased,$btcPrice, $ethPrice,$usdtPrice);
   //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
 
