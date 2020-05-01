@@ -496,7 +496,7 @@ function getCoinMarketCapStats(){
 }
 
 function newCoinMarketCapStats(){
-  $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
+  $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/map';
   $parameters = [
     'symbol' => 'BTC,USDT,BCH,XRP'
   ];
