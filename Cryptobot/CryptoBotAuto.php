@@ -72,7 +72,7 @@ $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
-$historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = False;
+$historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 while($date <= $newTime){
   echo "NEW LOOP ";
@@ -108,7 +108,7 @@ while($date <= $newTime){
       //copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       //copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
-      $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
+      $marketCapFlag = False; //$marketCapStatsUpdateFlag = True;
       logAction('Market Cap Update Set','CoinPrice');
     }
     //if ($i == 1){$historyFlag = True;}
@@ -135,7 +135,7 @@ while($date <= $newTime){
     //sleep(1);
   }//loop Coins
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
-  $historyFlag = False; if ($marketCapStatsUpdateFlag == False) {$marketCapFlag = True;}
+  $historyFlag = False; if ($marketCapStatsUpdateFlag == True) {$marketCapFlag = True;}
   sleep(60);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
