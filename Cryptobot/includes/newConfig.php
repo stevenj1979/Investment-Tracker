@@ -540,6 +540,7 @@ function newCoinMarketCapStats($symbol){
   //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
   //print_r($temp);
   //for($i=0;$i<$tempCount;$i++){
+  echo "<BR> $coinMarketID";
   $coin = explode(",",$coinMarketID);
   $i = 1;
   foreach ($temp as $item) {
