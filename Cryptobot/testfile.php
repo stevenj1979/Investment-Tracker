@@ -96,6 +96,7 @@ $current_date = date('Y-m-d H:i');
 
 //function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency,
 //$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
-echo newCoinMarketCapStats();
+$temp = newCoinMarketCapStats();
+echo " Symbol : ".$temp[0]." Market Cap: ".$temp[1]." 1Hr Change: ".$temp[2]." 24Hr Change: ".$temp[3]." 7Day Change: ".$temp[4];
 ?>
 </html>
