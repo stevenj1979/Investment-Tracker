@@ -96,9 +96,10 @@ $current_date = date('Y-m-d H:i');
 
 //function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency,
 //$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
-$newTemp = getCMCID("BTC,ETH,BCH");
-echo "<BR> ".$newTemp;
-//$temp = newCoinMarketCapStats(1,2,3);
-//echo " Symbol : ".$temp[0]." Market Cap: ".$temp[1]." 1Hr Change: ".$temp[2]." 24Hr Change: ".$temp[3]." 7Day Change: ".$temp[4];
+//$newTemp = getCMCID("BTC,ETH,BCH");
+//echo "<BR> ".$newTemp;
+$temp = newCoinMarketCapStats("BTC,ETH,BCH");
+echo " Symbol : ".$temp[0][0]." Market Cap: ".$temp[0][1]." 1Hr Change: ".$temp[0][2]." 24Hr Change: ".$temp[0][3]." 7Day Change: ".$temp[0][4];
+echo " Symbol : ".$temp[1][0]." Market Cap: ".$temp[1][1]." 1Hr Change: ".$temp[1][2]." 24Hr Change: ".$temp[1][3]." 7Day Change: ".$temp[1][4];
 ?>
 </html>
