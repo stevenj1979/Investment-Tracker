@@ -520,8 +520,10 @@ function newCoinMarketCapStats(){
   ));
 
   $response = curl_exec($curl); // Send the request, save the response
-  print_r(json_decode($response)); // print json decoded response
+  $tmpCMCAry = $response['market_cap']
+  //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
+  return $tmpCMCAry;
 }
 
 function copyNewMarketCap($coinID,$MarketCap){
