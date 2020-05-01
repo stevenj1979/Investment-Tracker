@@ -166,7 +166,7 @@ function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPric
     }
     $conn->close();
 }
-
+$apiKey = ""; $apiSecret = "";
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();

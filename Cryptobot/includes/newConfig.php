@@ -1257,6 +1257,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date){
 }
 
 function get1HrChange($coinID, $date){
+  $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT Ph.`Price` from `PriceHistory` Ph
