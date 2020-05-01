@@ -107,6 +107,7 @@ while($date <= $newTime){
       copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
       $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
+      logAction('Market Cap Update Set','CoinPrice');
     }
     //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
