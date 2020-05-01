@@ -496,9 +496,11 @@ function getCoinMarketCapStats(){
 }
 
 function newCoinMarketCapStats(){
-  $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/map';
+  $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
   $parameters = [
-    'symbol' => 'BTC,USDT,BCH,XRP'
+    'start' => '1',
+    'limit' => '1',
+    'convert' => 'USD,BTC'
   ];
   $cmcKey = getCMCKey();
   $headers = [
