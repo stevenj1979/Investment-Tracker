@@ -98,7 +98,7 @@ $current_date = date('Y-m-d H:i');
 //$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
 //$newTemp = getCMCID("BTC,ETH,BCH");
 //echo "<BR> ".$newTemp;
-$temp = newCoinMarketCapStats("BTC,ETH,BCH");
+$temp = newCoinMarketCapStats("BTC,ETH,BCH,XRP");
 $tempCount = count($temp);
 //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
 //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
