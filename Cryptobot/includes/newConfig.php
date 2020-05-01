@@ -495,10 +495,20 @@ function getCoinMarketCapStats(){
   return $tmpCoinPrice;
 }
 
-function newCoinMarketCapStats(){
+function getCMCID($symbol){
+    $temp = 1;
+    if ($symbol == "BTC"){$temp =1;}
+    elseif ($symbol == "ETH"){$temp =2;}
+    elseif ($symbol == "BCH"){$temp =5;}
+    elseif ($symbol == "XRP"){$temp =3;}
+    return $temp;
+}
+
+function newCoinMarketCapStats($symbol){
+  $coinMarketID = getCMCID($symbol);
   $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
   $parameters = [
-    'symbol' => 'BTC'
+    'id' => $coinMarketID
   ];
   $cmcKey = getCMCKey();
   $headers = [
