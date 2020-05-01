@@ -579,6 +579,7 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  logAction("CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7Change)",'CMC');
 }
 
 function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
@@ -594,6 +595,7 @@ function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  logAction("BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders)",'CMC');
 }
 
 function copyNewMarketCap($coinID,$MarketCap){
