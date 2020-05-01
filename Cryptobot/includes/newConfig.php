@@ -497,10 +497,14 @@ function getCoinMarketCapStats(){
 
 function getCMCID($symbol){
     $temp = 1;
-    if ($symbol == "BTC"){$temp =1;}
-    elseif ($symbol == "ETH"){$temp =2;}
-    elseif ($symbol == "BCH"){$temp =5;}
-    elseif ($symbol == "XRP"){$temp =3;}
+    $symbol_str = explode(",",$symbol);
+    $symbolCount = count($symbol_str);
+    for ($x = 0; $x < $symbolCount; $x++) {
+      if ($symbol == "BTC"){$temp =$temp."1,";}
+      elseif ($symbol == "ETH"){$temp =$temp."2,";}
+      elseif ($symbol == "BCH"){$temp =$temp."5,";}
+      elseif ($symbol == "XRP"){$temp =$temp."3,";}
+    }
     return $temp;
 }
 
