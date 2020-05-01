@@ -90,7 +90,8 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
-      if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
+      //if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
+      $CMCStats = getCoinMarketCapStats();
       Echo "<BR> Market Cap flag Update ";
       echo "<br> Count=".count($CMCStats);
       $statsForCoin = findCoinStats($CMCStats,$symbol);
@@ -105,6 +106,7 @@ while($date <= $newTime){
       copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
+      $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
     }
     //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
@@ -130,7 +132,7 @@ while($date <= $newTime){
     //sleep(1);
   }//loop Coins
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
-  $marketCapFlag = False; $historyFlag = False;
+  $historyFlag = False; if ($marketCapStatsUpdateFlag == False) {$marketCapFlag = True;}
   sleep(60);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
@@ -147,7 +149,7 @@ while($date <= $newTime){
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
   if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice');}
-  if (timerReady($marketCap_date,570)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
+  //if (timerReady($marketCap_date,570)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
