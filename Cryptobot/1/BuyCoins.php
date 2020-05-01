@@ -167,7 +167,7 @@ function getUserIDs($userID){
 displayHeader(3);
 
 
-				$tracking = getTrackingCoinsLoc();
+				$tracking = getTrackingCoins();
 				$newArrLength = count($tracking);
         //echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);
@@ -180,7 +180,7 @@ displayHeader(3);
         }
 
         echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>";
-        echo "<TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
+        echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
         //$roundNum = 2;
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
@@ -191,6 +191,8 @@ displayHeader(3);
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
           $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),4);
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),4);
+          $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
+          $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           //Table
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
@@ -207,10 +209,12 @@ displayHeader(3);
           echo "<td>".$Live1HrChange."</td>";
           if ($_SESSION['isMobile'] == False){
             echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
+            echo "<td>$new1HrPriceChange</td>";
             echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
             echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:24px;color:#D4EFDF'></i></a></td>";
           }else{
             echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
+            echo "<td>$new1HrPriceChange</td>";
             echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:32px;color:#D4EFDF'></i></a></td>";
             echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:32px;color:#D4EFDF'></i></a></td>";
           }
