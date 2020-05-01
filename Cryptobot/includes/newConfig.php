@@ -500,10 +500,11 @@ function getCMCID($symbol){
     $symbol_str = explode(",",$symbol);
     $symbolCount = count($symbol_str);
     for ($x = 0; $x < $symbolCount; $x++) {
-      if ($symbol == "BTC"){$temp =$temp."1,";}
-      elseif ($symbol == "ETH"){$temp =$temp."2,";}
-      elseif ($symbol == "BCH"){$temp =$temp."5,";}
-      elseif ($symbol == "XRP"){$temp =$temp."3,";}
+      echo
+      if ($symbol_str[$x] == "BTC"){$temp =$temp."1,";}
+      elseif ($symbol_str[$x] == "ETH"){$temp =$temp."2,";}
+      elseif ($symbol_str[$x] == "BCH"){$temp =$temp."5,";}
+      elseif ($symbol_str[$x] == "XRP"){$temp =$temp."3,";}
     }
     return $temp;
 }
