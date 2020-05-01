@@ -547,19 +547,20 @@ function newCoinMarketCapStats($symbol){
   for($i=0;$i<$coinCount;$i++){
     $tempId = (Int)$coin[$i];
     echo "<BR> ".$temp['data'][$tempId]['symbol'];
+    $tmpCMCAry[] = Array($temp['data'][$tempId]['symbol'],$temp['data'][$tempId]['quote']['USD']['market_cap'],$temp['data'][$tempId]['quote']['USD']['percent_change_1h'],
+    $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d']);
   }
 
   //echo "<BR> ".$temp['data'][52]['symbol'];
 
-  foreach ($temp as $item) {
+  //foreach ($temp as $item) {
     //Print_r($item);
 
 
     //echo "<BR>".$item[52]['symbol'];
-    //$tmpCMCAry[] = Array($item['data'][$i+1]['symbol'],$item['data'][$i+1]['quote']['USD']['market_cap'],$item['data'][$i+1]['quote']['USD']['percent_change_1h'],
-    //$item['data'][$i+1]['quote']['USD']['percent_change_24h'],$item['data'][$i+1]['quote']['USD']['percent_change_7d']);
-    $i++;
-  }
+    //
+    //$i++;
+  //}
   //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
   return $tmpCMCAry;
