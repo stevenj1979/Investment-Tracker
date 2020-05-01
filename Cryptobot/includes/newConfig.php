@@ -500,7 +500,7 @@ function newCoinMarketCapStats(){
   $parameters = [
     'start' => '1',
     'limit' => '1',
-    'convert' => 'USD,BTC'
+    'convert' => 'BTC'
   ];
   $cmcKey = getCMCKey();
   $headers = [
