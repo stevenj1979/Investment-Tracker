@@ -566,6 +566,21 @@ function newCoinMarketCapStats($symbol){
   return $tmpCMCAry;
 }
 
+function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7Change){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call UpdateCMCStatstoSQL($coinID, $MarketCap,$hr1Change, $hr24Change, $d7Change);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function copyNewMarketCap($coinID,$MarketCap){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {

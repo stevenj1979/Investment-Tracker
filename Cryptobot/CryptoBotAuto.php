@@ -96,11 +96,11 @@ while($date <= $newTime){
       //echo "<br> Count=".count($CMCStats);
       $statsForCoin = findCoinStats($CMCStats,$symbol);
       //$statsForCoin = newCoinMarketCapStats($symbol);
-      echo "<br> Market Cap ".$statsForCoin[0][1];
-      copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
-      copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
-      echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
-
+      //echo "<br> Market Cap ".$statsForCoin[0][1];
+      //copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
+      //copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
+      //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
+      CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency);
       $coinVolData = getVolumeStats($bittrexStats);
       copyCoinVolume($coinID, $coinVolData[0][0]);

@@ -104,7 +104,7 @@ $tempCount = count($temp);
 //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
 //print_r($temp);
 
-$newTemp = findCoinStats($temp, "ETH");
+$newTemp = findCoinStats($temp, "XRP");
 echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
 ?>
 </html>
