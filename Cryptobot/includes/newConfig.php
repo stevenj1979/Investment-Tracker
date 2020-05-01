@@ -519,7 +519,7 @@ function newCoinMarketCapStats(){
 
   $response = curl_exec($curl); // Send the request, save the response
   $temp = var_Dump(json_decode($response, true));
-  echo "<br>HERE! ".$temp['data'][1]['quote']['market_cap'];
+  echo "<br>HERE! ".$temp['data'][1]['quote'][1]['market_cap'];
   //$tmpCMCAry = $temp['Data']['Quote']['BTC']['market_cap'];
   //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
