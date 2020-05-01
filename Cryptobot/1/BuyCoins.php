@@ -191,7 +191,7 @@ displayHeader(3);
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
           $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),4);
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),4);
-          $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
+          $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           //Table
           echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
