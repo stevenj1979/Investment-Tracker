@@ -1573,7 +1573,7 @@ function isMobile() {
 
 
 function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
-  $symbolBool = Flase; $priceBool = False;
+  $symbolBool = False; $priceBool = False;
   if ($symbol == $liveSymbol){
     $symbolBool = True;
     if ($isGreater == 1){
