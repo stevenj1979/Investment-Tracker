@@ -98,11 +98,12 @@ $current_date = date('Y-m-d H:i');
 //$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
 //$newTemp = getCMCID("BTC,ETH,BCH");
 //echo "<BR> ".$newTemp;
-$temp = newCoinMarketCapStats("BTC,ETH,BCH,XRP");
+$temp = var_dump(newCoinMarketCapStats("BTC,ETH,BCH,XRP"));
 $tempCount = count($temp);
 //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
 //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
 //print_r($temp);
+
 for($i=0;$i<$tempCount;$i++){
   echo "$tempCount <BR> Symbol : ".$temp[$i][0]." Market Cap: ".$temp[$i][1]." 1Hr Change: ".$temp[$i][2]." 24Hr Change: ".$temp[$i][3]." 7Day Change: ".$temp[$i][4];
   //echo "<BR> Symbol : ".$temp[1][0]." Market Cap: ".$temp[1][1]." 1Hr Change: ".$temp[1][2]." 24Hr Change: ".$temp[1][3]." 7Day Change: ".$temp[1][4];
