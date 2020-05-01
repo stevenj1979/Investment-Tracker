@@ -105,6 +105,6 @@ $tempCount = count($temp);
 //print_r($temp);
 
 $newTemp = findCoinStats($temp, "ETH");
-echo "<BR> newTemp ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
+echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
 ?>
 </html>
