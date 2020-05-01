@@ -90,12 +90,12 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
-      //if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
-      //if ($marketCapFlag){$CMCStats = getCoinMarketCapStats();}
+      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats("BTC,ETH,BCH,XRP"); $marketCapStatsUpdateFlag = False;}
+      //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       //echo "<br> Count=".count($CMCStats);
-      //$statsForCoin = findCoinStats($CMCStats,$symbol);
-      $statsForCoin = newCoinMarketCapStats($symbol);
+      $statsForCoin = findCoinStats($CMCStats,$symbol);
+      //$statsForCoin = newCoinMarketCapStats($symbol);
       echo "<br> Market Cap ".$statsForCoin[0][1];
       copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
       copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
