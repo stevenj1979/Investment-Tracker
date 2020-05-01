@@ -103,9 +103,10 @@ while($date <= $newTime){
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency);
       $coinVolData = getVolumeStats($bittrexStats);
-      copyCoinVolume($coinID, $coinVolData[0][0]);
-      copyCoinBuyOrders($coinID, $coinVolData[0][1]);
-      copyCoinSellOrders($coinID, $coinVolData[0][2]);
+      BittrexStatstoSQL($coinID, $coinVolData[0][0],$coinVolData[0][1],$coinVolData[0][2]);
+      //copyCoinVolume($coinID, $coinVolData[0][0]);
+      //copyCoinBuyOrders($coinID, $coinVolData[0][1]);
+      //copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
       $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
       logAction('Market Cap Update Set','CoinPrice');

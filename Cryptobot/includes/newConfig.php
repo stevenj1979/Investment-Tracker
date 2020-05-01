@@ -581,6 +581,21 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
   $conn->close();
 }
 
+function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call UpdateBittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function copyNewMarketCap($coinID,$MarketCap){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
