@@ -500,7 +500,7 @@ function getCMCID($symbol){
     $symbol_str = explode(",",$symbol);
     $symbolCount = count($symbol_str);
     for ($x = 0; $x < $symbolCount; $x++) {
-      echo $symbol_str[$x];
+      //echo $symbol_str[$x];
       if ($symbol_str[$x] == "BTC"){$temp =$temp."1,";}
       elseif ($symbol_str[$x] == "ETH"){$temp =$temp."1027,";}
       elseif ($symbol_str[$x] == "BCH"){$temp =$temp."1831,";}
@@ -515,7 +515,7 @@ function newCoinMarketCapStats($symbol){
   $parameters = [
     'id' => $coinMarketID
   ];
-  echo "<BR> : $coinMarketID";
+  //echo "<BR> : $coinMarketID";
   $cmcKey = getCMCKey();
   $headers = [
     'Accepts: application/json',
@@ -541,7 +541,7 @@ function newCoinMarketCapStats($symbol){
   //print_r($temp);
   //for($i=0;$i<$tempCount;$i++){
   $coin = explode(",",$coinMarketID);
-  $i = 0;
+  $i = 1;
   foreach ($temp as $item) {
     //Print_r($item);
     $tempId = $coin[$i];
