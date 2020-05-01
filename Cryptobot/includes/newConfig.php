@@ -496,11 +496,11 @@ function getCoinMarketCapStats(){
 }
 
 function getCMCID($symbol){
-    $temp = 1;
+    $temp = "";
     $symbol_str = explode(",",$symbol);
     $symbolCount = count($symbol_str);
     for ($x = 0; $x < $symbolCount; $x++) {
-      echo
+      echo $symbol_str[$x];
       if ($symbol_str[$x] == "BTC"){$temp =$temp."1,";}
       elseif ($symbol_str[$x] == "ETH"){$temp =$temp."2,";}
       elseif ($symbol_str[$x] == "BCH"){$temp =$temp."5,";}
