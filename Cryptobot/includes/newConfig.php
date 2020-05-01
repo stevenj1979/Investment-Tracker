@@ -524,7 +524,7 @@ function newCoinMarketCapStats(){
   echo "<br>HERE2! ".$temp['data'][1]['id'];
   echo "<br>HERE3! ".$temp['data'][1]['name'];
   echo "<br>HERE4! ".$temp['data'][1]['max_supply'];
-  echo "<br>HERE5! ".$temp['data'][1]['quote'][1];
+  echo "<br>HERE5! ".$temp['data'][1]['quote'][1][1]['price'];
   //print_r($temp);
   //$tmpCMCAry = $temp['Data']['Quote']['BTC']['market_cap'];
   //print_r(json_decode($response)); // print json decoded response
