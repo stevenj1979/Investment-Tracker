@@ -515,6 +515,7 @@ function newCoinMarketCapStats($symbol){
   $parameters = [
     'id' => $coinMarketID
   ];
+  echo "<BR> : $coinMarketID";
   $cmcKey = getCMCKey();
   $headers = [
     'Accepts: application/json',
@@ -534,11 +535,14 @@ function newCoinMarketCapStats($symbol){
 
   $response = curl_exec($curl); // Send the request, save the response
   $temp = json_decode($response, true);
+  $tempCount = count($temp);
   //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
   //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
   //print_r($temp);
-  $tmpCMCAry = Array($temp['data'][1]['symbol'],$temp['data'][1]['quote']['USD']['market_cap'],$temp['data'][1]['quote']['USD']['percent_change_1h'],$temp['data'][1]['quote']['USD']['percent_change_24h']
-  ,$temp['data'][1]['quote']['USD']['percent_change_7d']);
+  for($i=0;$i<$tempCount;$i++){
+    $tmpCMCAry[] = Array($temp['data'][1]['symbol'],$temp['data'][1]['quote']['USD']['market_cap'],$temp['data'][1]['quote']['USD']['percent_change_1h'],$temp['data'][1]['quote']['USD']['percent_change_24h']
+    ,$temp['data'][1]['quote']['USD']['percent_change_7d']);
+  }
   //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
   return $tmpCMCAry;
