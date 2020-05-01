@@ -544,8 +544,8 @@ function newCoinMarketCapStats($symbol){
   $coin = explode(",",$coinMarketID);
   $i = 1;
 
-  echo "<BR> ".$temp[1]['symbol'];
-  echo "<BR> ".$temp[52]['symbol'];
+  echo "<BR> ".$temp['data'][1]['symbol'];
+  echo "<BR> ".$temp['data'][2]['symbol'];
 
   foreach ($temp as $item) {
     //Print_r($item);
