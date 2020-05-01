@@ -91,10 +91,11 @@ while($date <= $newTime){
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
       //if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
-      if ($marketCapFlag){$CMCStats = getCoinMarketCapStats();}
+      //if ($marketCapFlag){$CMCStats = getCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
-      echo "<br> Count=".count($CMCStats);
-      $statsForCoin = findCoinStats($CMCStats,$symbol);
+      //echo "<br> Count=".count($CMCStats);
+      //$statsForCoin = findCoinStats($CMCStats,$symbol);
+      $statsForCoin = newCoinMarketCapStats($symbol);
       echo "<br> Market Cap ".$statsForCoin[0][1];
       copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
       copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
