@@ -540,10 +540,12 @@ function newCoinMarketCapStats($symbol){
   //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
   //print_r($temp);
   //for($i=0;$i<$tempCount;$i++){
+  $i = 1;
   foreach ($temp as $item) {
-    echo "<BR> ".$item[1];
+    echo "<BR> ".$item['data'][$i]['symbol'];
     //$tmpCMCAry[] = Array($item['data'][$i+1]['symbol'],$item['data'][$i+1]['quote']['USD']['market_cap'],$item['data'][$i+1]['quote']['USD']['percent_change_1h'],
     //$item['data'][$i+1]['quote']['USD']['percent_change_24h'],$item['data'][$i+1]['quote']['USD']['percent_change_7d']);
+    $i++;
   }
   //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
