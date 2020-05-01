@@ -542,7 +542,8 @@ function newCoinMarketCapStats($symbol){
   //for($i=0;$i<$tempCount;$i++){
   $i = 1;
   foreach ($temp as $item) {
-    echo "<BR> ".var_dump($item);
+    Print_r($item);
+    echo "<BR>";
     //$tmpCMCAry[] = Array($item['data'][$i+1]['symbol'],$item['data'][$i+1]['quote']['USD']['market_cap'],$item['data'][$i+1]['quote']['USD']['percent_change_1h'],
     //$item['data'][$i+1]['quote']['USD']['percent_change_24h'],$item['data'][$i+1]['quote']['USD']['percent_change_7d']);
     $i++;
