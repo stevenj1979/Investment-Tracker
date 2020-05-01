@@ -51,7 +51,8 @@ while($date <= $newTime){
     $SellOrdersPctChange = $coins[$x][22]; $VolumePctChange = $coins[$x][25];
     $price4Trend = $coins[$x][27]; $price3Trend = $coins[$x][28]; $lastPriceTrend = $coins[$x][29];  $livePriceTrend = $coins[$x][30];
     $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
-    $LiveCoinPrice = $coins[$x][17];
+    $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
+    $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
     //$timeToCancelBuyMins = $coins[$x][31];
     //LOG
     //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
@@ -70,6 +71,7 @@ while($date <= $newTime){
       $SellRuleFixed = $buyRules[$y][59]; $overrideDailyLimit = $buyRules[$y][60];
       $Email = $buyRules[$y][28]; $UserName = $buyRules[$y][29]; $APIKey = $buyRules[$y][30];
       $APISecret = $buyRules[$y][31]; $coinPricePatternEnabled = $buyRules[$y][61]; $coinPricePattern = $buyRules[$y][62];
+      $Hr1ChangeTrendEnabled = $buyRules[$y][63]; $Hr1ChangeTrend = $buyRules[$y][64];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -128,15 +130,16 @@ while($date <= $newTime){
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
       $test11 = autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled);
       $test12 = coinMatchPattern($coinPricePattern,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled);
+      $test14 = newBuywithPattern($new1HrPriceChange,$Hr1ChangeTrend,$Hr1ChangeTrendEnabled);
       $test13 = $GLOBALS['allDisabled'];
       if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
       //logAction("1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ", 'BuySell');
       //Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
-      $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13;
-      Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 13: $test13 TOTAL: $totalScore_Buy";
+      $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13+$test14;
+      Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 13: $test13 14: $test14 TOTAL: $totalScore_Buy";
 
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
-      $test11 == True && $test12 == True && $test13 == True){
+      $test11 == True && $test12 == True && $test13 == True && $test14 == True){
         $date = date("Y-m-d H:i:s", time());
         echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);

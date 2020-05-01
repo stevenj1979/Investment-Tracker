@@ -59,11 +59,12 @@ function copyRule($ID){
     , `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`
     , `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `BuyCoin`, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`
     , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`
-  ,`NewBuyPattern`,`SellRuleFixed`,`CoinPricePatternEnabled`,`CoinPricePattern`)
+  ,`NewBuyPattern`,`SellRuleFixed`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`)
 Select `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`
 , `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`
 , `VolumeBtm`, 0, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinPricePatternEnabled`,`CoinPricePattern`
+,`1HrChangeTrendEnabled`,`1HrChangeTrend`
 from `BuyRules`
 where `ID` = $ID";
   //print_r($sql);
@@ -195,6 +196,7 @@ function updateEditedUser(){
   $coinPricePattern = $_POST['CoinPricePattern'];
   //if (!empty($_POST['PriceTrendEnabled'])){if ($_POST['PriceTrendEnabled'] == "Yes"){$priceTrendEnabled = 1;}else{$priceTrendEnabled = 0;}}else{ $priceTrendEnabled = 0;}
   $priceTrendEnabled = postDataYesNo($_POST['PriceTrendEnabled']);
+  $hr1ChangeEnabled = postDataYesNo($_POST['Hr1ChangeEnabled']);
   if (!empty($_POST['Price4Trend'])){
     if ($_POST['Price4Trend'] == "Up"){$price4Trend = 1;}elseif ($_POST['Price4Trend'] == "Down"){$price4Trend = -1;
     }else{$price4Trend = 0;}}else{ $price4Trend = 0;}
@@ -225,6 +227,8 @@ function updateEditedUser(){
   $buyAmountOverride = $_POST['BuyAmountOverride'];
   $newBuyPattern = $_POST['NewBuyPattern'];
   $coinOrder = $_POST['CoinOrderTxt'];
+  $hr1ChangePattern = $_POST['Hr1ChangePattern'];
+
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -240,7 +244,7 @@ function updateEditedUser(){
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
   , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = '$SellRuleFixed', `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `CoinOrder` = $coinOrder,
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern'
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern' 
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -267,7 +271,7 @@ function getRules($id){
 `24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
-,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`
+,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
 FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -281,7 +285,7 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']
-     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern']);
+     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend']);
   }
   $conn->close();
   return $tempAry;
@@ -396,6 +400,11 @@ function displayEdit($id){
   echo "<H3>Coin Price Pattern</H3>";
     addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
     addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>1Hr Change Pattern</H3>";
+  addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
+  addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Admin</H3>";

@@ -82,7 +82,7 @@ function getRules($userID){
 `CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
-,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`
+,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
 FROM `UserBuyRules` WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -96,7 +96,7 @@ FROM `UserBuyRules` WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
       ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']
-      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern']);//35
+      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend']);//35
   }
   $conn->close();
   return $tempAry;
@@ -188,7 +188,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
     <TH>&nbspPrice3Trend</TH><TH>&nbspLastPriceTrend</TH><TH>&nbspLivePriceTrend</TH>
    <TH>&nbspActive</TH><TH>&nbspDisableUntil</TH><TH>&nbspBaseCurrency</TH><TH>&nbspNoOfCoinPurchase</TH><TH>&nbspTimetoCancelBuy</TH><TH>&nbspBuyType</TH><TH>&nbspTimeToCancelBuyMins</TH><TH>&nbspBuyPriceMinEnabled</TH><TH>&nbspBuyPriceMin</TH>
    <TH>&nbspLimitToCoin</TH><TH>&nbspAutoBuyCoinEnabled</TH><TH>&nbspAutoBuyPrice</TH><TH>&nbspBuyAmountOverrideEnabled</TH><TH>&nbspBuyAmountOverride</TH><TH>&nbspNewBuyPattern</TH><TH>&nbspSellRuleFixed</TH><TH>&nbspCoinOrder</TH>
-   <TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH>
+   <TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH><TH>&nbsp1HrTrendEnabled</TH><TH>&nbsp1HrTrendPattern</TH>
     <tr>
  <?php
  for($x = 0; $x < $userSettingsLen; $x++) {
@@ -210,6 +210,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $autoBuyCoinEnabled = $userSettings[$x][46];$autoBuyPrice = $userSettings[$x][47];
    $buyAmountOverrideEnabled = $userSettings[$x][48];$buyAmountOverride = $userSettings[$x][49];$newBuyPattern = $userSettings[$x][50];
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
+   $Hr1ChangeEnabled = $userSettings[$x][55];$Hr1ChangePattern = $userSettings[$x][56];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
    if ($buyCoin == $flag){
@@ -232,7 +233,9 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>".$limitToCoin."</td><td>".$autoBuyCoinEnabled."</td><td>".$autoBuyPrice."</td>";
      echo "<td>".$buyAmountOverrideEnabled."</td><td>".$buyAmountOverride."</td>";
      echo "<td>".$newBuyPattern."</td><td>".$sellRuleFixed."</td>";
-     echo "<td>".$coinOrder."</td><td>".$coinPricePatternEnabled."</td><td>".$coinPricePattern."</td><tr>";
+     echo "<td>".$coinOrder."</td><td>".$coinPricePatternEnabled."</td><td>".$coinPricePattern."</td>";
+     Echo "<td>$Hr1ChangeEnabled</td><td>$Hr1ChangePattern</td>";
+     echo "<tr>";
    }
  }
  echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
