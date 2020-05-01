@@ -506,7 +506,7 @@ function getCMCID($symbol){
       elseif ($symbol_str[$x] == "BCH"){$temp =$temp."5,";}
       elseif ($symbol_str[$x] == "XRP"){$temp =$temp."3,";}
     }
-    return $temp;
+    return rtrim($temp, ',');
 }
 
 function newCoinMarketCapStats($symbol){
