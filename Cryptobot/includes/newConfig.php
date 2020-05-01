@@ -1273,7 +1273,7 @@ function update1HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
   Echo "<BR> Update1HrPriceChange : call Update1HrPriceChange($price,$coinID);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call Update1HrPriceChange($price,$coinID);";
+  $sql = "call call NewUpdate1HrPriceChange($price,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
