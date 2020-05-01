@@ -91,7 +91,7 @@ while($date <= $newTime){
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
       //if ($marketCapStatsUpdateFlag == True){$CMCStats = getCoinMarketCapStats(); $marketCapStatsUpdateFlag = False;}
-      $CMCStats = getCoinMarketCapStats();
+      if ($marketCapFlag){$CMCStats = getCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       echo "<br> Count=".count($CMCStats);
       $statsForCoin = findCoinStats($CMCStats,$symbol);
