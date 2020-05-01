@@ -543,13 +543,17 @@ function newCoinMarketCapStats($symbol){
   echo "<BR> $coinMarketID";
   $coin = explode(",",$coinMarketID);
   $i = 1;
+  $coinCount = count($coin);
+  for($i=0;$i<$coinCount;$i++){
+    $tempId = (Int)$coin[$i];
+    echo "<BR> ".$temp['data'][$tempId]['symbol'];
+  }
 
-  echo "<BR> ".$temp['data'][1]['symbol'];
-  echo "<BR> ".$temp['data'][52]['symbol'];
+  //echo "<BR> ".$temp['data'][52]['symbol'];
 
   foreach ($temp as $item) {
     //Print_r($item);
-    $tempId = (Int)$coin[$i];
+
 
     //echo "<BR>".$item[52]['symbol'];
     //$tmpCMCAry[] = Array($item['data'][$i+1]['symbol'],$item['data'][$i+1]['quote']['USD']['market_cap'],$item['data'][$i+1]['quote']['USD']['percent_change_1h'],
