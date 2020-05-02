@@ -1744,6 +1744,7 @@ function setStats(){
   $statsAry = getStats();
   $_SESSION['StatsList'] = $statsAry;
   $_SESSION['StatsListSelected'] =  $statsAry[0][0];
+  $_SESSION['StatsListTime'] = "15 Minute";
 }
 
 function getBase($selected, $statsAry){

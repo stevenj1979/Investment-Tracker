@@ -16,21 +16,14 @@ google.load('visualization', '1', {packages: ['corechart']});
 
      $temp = explode(":",$_POST['coinSelect']);
      $_SESSION['StatsListSelected'] = $temp[0];
-     //echo "<BR> ".$_SESSION['StatsListSelected'] ." : ".$_POST['coinSelect']." : ".$temp[0];
-     //  $sql_option = "`Symbol` = '".$coinOption[0]."' ";
-     //  $_SESSION['symbol'] = $coinOption[0];
-     //  $sql_option_base = "`BaseCurrency` = '".$coinOption[1]."'";
-     //}else{
-     //  $sql_option = "`Symbol` = 'ETH' ";
-     //  $_SESSION['symbol'] = "ETH";
-     //  $sql_option_base = "`BaseCurrency` = 'BTC'";
+     $_SESSION['StatsListTime']  = $_POST['timeSelect'];
    }elseif ($_GET['coin'] <> ""){
      $_SESSION['StatsListSelected'] = $_GET['coin'];
    } ?>
 function drawVisualization() {
   var jsonData = null;
 
-  var symbol = "<?php echo $_SESSION['StatsListSelected']; ?>";
+  var symbol = "<?php echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']); ?>";
   var json = $.ajax({
     url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinChart.php?coinID=" + symbol , // make this url point to the data file
     dataType: "json",
@@ -83,7 +76,7 @@ function getHistoryFromSQL(){
     //$temp = $_SESSION['StatsListSelected'];
     $sql_option = $_SESSION['StatsListSelected'];
     $sql_Array = $_SESSION['StatsList'];
-
+    $sql_time = $_SESSION['StatsListTime'];
     $sql_option_base = getBase($sql_option, $sql_Array);
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -95,7 +88,7 @@ function getHistoryFromSQL(){
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
-    FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL 15 Minute))
+    FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` desc";
     $result = $conn->query($sql);
     //echo $sql;
@@ -140,7 +133,11 @@ displayHeader(2);
         for($x = 0; $x < $StatsArrLength; $x++) {
             echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
         }
-        echo "</select><input type='submit' value='Update'/></form>";?>
+        echo "</select><SELECT name='timeSelect'>";
+        echo "<Option value='15 Minute'>15 Minute</option>";
+        echo "<Option value='30 Minute'>30 Minute</option>";
+        echo "<Option value='1 Hour'>1 Hour</option>";
+        echo "<input type='submit' value='Update'/></form>";?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
         echo "<table><TH>ID</TH><TH>Symbol</TH> <TH>LiveBuyOrders</TH> <TH>LastBuyOrders</TH> <TH>BuyOrdersPctChange</TH> <TH>LiveMarketCap</TH> <TH>LastMarketCap</TH> <TH>MarketCapPctChange</TH>
