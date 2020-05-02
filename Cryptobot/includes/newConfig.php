@@ -1751,7 +1751,7 @@ function getBase($selected, $statsAry){
     for($x = 0; $x < $statsOptionCount; $x++) {
       //echo "<BR> If check : 1; ".$statsAry[$x][2]." : 2; ".$statsAry[1][$x]." : SELECTED; ".$selected;
       if ($statsAry[0][$x] == $selected){
-        //echo "<BR> Base Currency = ".$statsAry[$x][2];
+        echo "<BR> Base Currency = ".$statsAry[$x][2];
         return $statsAry[$x][2];
         exit;
       }
