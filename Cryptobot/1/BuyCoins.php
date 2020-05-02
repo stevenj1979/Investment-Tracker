@@ -194,7 +194,7 @@ displayHeader(3);
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           //Table
-          echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
+          echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           echo "<td>".$bitPrice."</td>";
           if ($_SESSION['isMobile'] == False){

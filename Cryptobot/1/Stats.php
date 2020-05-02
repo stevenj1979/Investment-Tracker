@@ -24,6 +24,8 @@ google.load('visualization', '1', {packages: ['corechart']});
      //  $sql_option = "`Symbol` = 'ETH' ";
      //  $_SESSION['symbol'] = "ETH";
      //  $sql_option_base = "`BaseCurrency` = 'BTC'";
+   }elseif ($_GET['coin'] <> ""){
+     $_SESSION['StatsListSelected'] = $_GET['coin'];
    } ?>
 function drawVisualization() {
   var jsonData = null;
