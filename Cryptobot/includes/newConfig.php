@@ -1749,8 +1749,8 @@ function setStats(){
 function getBase($selected, $statsAry){
     $statsOptionCount = Count($statsAry);
     for($x = 0; $x < $statsOptionCount; $x++) {
-      echo "<BR> If check : 1; ".$statsAry[$x][2]." : 2; ".$statsAry[1][$x]." : SELECTED; ".$selected;
-      if ($statsAry[0][$x] == $selected){
+      echo "<BR> If check : 1; ".$statsAry[$x][2]." : 2; ".$statsAry[$x][1]." : SELECTED; ".$selected;
+      if ($statsAry[$x][0] == $selected){
         echo "<BR> Base Currency = ".$statsAry[$x][2];
         return $statsAry[$x][2];
         exit;
