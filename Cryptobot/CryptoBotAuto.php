@@ -101,11 +101,11 @@ while($date <= $newTime){
       //copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
       //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
-      logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
+      //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency);
       $coinVolData = getVolumeStats($bittrexStats);
       BittrexStatstoSQL($coinID, $coinVolData[0][0],$coinVolData[0][1],$coinVolData[0][2]);
-      logAction("BittrexStatstoSQL($coinID, ".$coinVolData[0][0].",".$coinVolData[0][1].",".$coinVolData[0][2].")",'CMC');
+      //logAction("BittrexStatstoSQL($coinID, ".$coinVolData[0][0].",".$coinVolData[0][1].",".$coinVolData[0][2].")",'CMC');
       //copyCoinVolume($coinID, $coinVolData[0][0]);
       //copyCoinBuyOrders($coinID, $coinVolData[0][1]);
       //copyCoinSellOrders($coinID, $coinVolData[0][2]);
