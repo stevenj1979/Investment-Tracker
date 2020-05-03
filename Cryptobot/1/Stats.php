@@ -84,13 +84,15 @@ function getHistoryFromSQL(){
         die("Connection failed: " . $conn->connect_error);
     }
     //$coinOption = explode(":",$sql_option);
-    $sql = "SELECT
+    date_default_timezone_set('Asia/Dubai');
+    $sql = "set time_zone='+04:00';";
+    $sql .= "SELECT
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
     FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` desc";
-    $result = $conn->query($sql);
+    $result = $conn->multi_query($sql);
     //echo $sql;
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);

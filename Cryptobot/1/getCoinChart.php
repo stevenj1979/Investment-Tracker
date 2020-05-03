@@ -10,7 +10,8 @@ if ($conn->connect_error) {
 $coinID = $_GET['coinID'];
 date_default_timezone_set('Asia/Dubai');
 $time = str_replace("_"," ",$_GET['time']);
-$query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
+$query = "set time_zone='+04:00';";
+$query .= "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
   FROM `CoinBuyHistory`
   WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL $time)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
   order by `ActionDate` asc";
@@ -33,7 +34,7 @@ $table['cols'] = array(
 );
 
 $rows = array();
-$result = $conn->query($query);
+$result = $conn->multi_query($query);
 while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
     // each column needs to have data inserted via the $temp array
