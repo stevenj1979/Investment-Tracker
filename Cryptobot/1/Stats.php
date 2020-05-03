@@ -85,8 +85,8 @@ function getHistoryFromSQL(){
     }
     //$coinOption = explode(":",$sql_option);
     date_default_timezone_set('Asia/Dubai');
-    $sql = "set time_zone='+04:00';";
-    $sql .= "SELECT
+    //$sql = "set time_zone='+04:00';";
+    $sql = "SELECT
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
