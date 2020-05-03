@@ -224,9 +224,10 @@ function getUserIDs($userID){
               $roundNum = 4;
           }else{
             $roundNum = 8;
-            echo "<td>&nbsp$orderNo</td>";
+            //echo "<td>&nbsp$orderNo</td>";
 
           }
+          NewEcho("<td>&nbsp$orderNo</td>",$_SESSION['isMobile'],0);
           echo "<td>&nbsp".round($amount,$roundNum)."</td>";
           echo "<td>&nbsp".round($cost,$roundNum)."</td>"; echo "<td>&nbsp$status</td>"; echo "<td>&nbsp$bittrexRef</td>";
           echo "<td>&nbsp".round($sellPrice,$roundNum)."</td>";
