@@ -92,7 +92,7 @@ function getHistoryFromSQL(){
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
     FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` desc";
-    $result = $conn->multi_query($sql);
+    $result = $conn->query($sql);
     //echo $sql;
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);

@@ -34,7 +34,7 @@ $table['cols'] = array(
 );
 
 $rows = array();
-$result = $conn->multi_query($query);
+$result = $conn->query($query);
 while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
     // each column needs to have data inserted via the $temp array
