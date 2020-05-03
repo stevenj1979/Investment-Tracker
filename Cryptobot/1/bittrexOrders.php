@@ -201,10 +201,10 @@ function getUserIDs($userID){
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
             if ($_SESSION['isMobile']){
-              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
+              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
               echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
             }else{
-              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
+              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
               echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
             }
 				for($x = 0; $x < $newArrLength; $x++) {
