@@ -17,8 +17,9 @@ $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require('layout/header.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
+setStyle($_SESSION['isMobile']);
 //$coin = trim($_GET['coin']);
 //$AreYouSure = trim($_GET['AreYouSure']);
 
@@ -63,14 +64,14 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-  `TransactionID`,`BaseCurrency`,`LiveCoinPrice` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sqlOption order by `ActionDate` desc limit 50";
+  `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sqlOption order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],
-      $row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice']);
+      $row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled']);
   }
   $conn->close();
   return $tempAry;
@@ -199,12 +200,13 @@ function getUserIDs($userID){
             <option value='".$dropArray[0][2]."'>".$dropArray[0][2]."</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
-        echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH><TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>&nbspCancel&nbsp</TH><TR>";
+        echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH><TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
+        echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
-          $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15];
+          $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18];
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp$coin</td>"; echo "<td>&nbsp$userID</td>";
           //echo "<td>$totalScore</td>";
@@ -212,9 +214,17 @@ function getUserIDs($userID){
           //echo "<td>$sendEmail</td>";
           //echo "<td>$sellCoin</td>";
           //echo "<td>$ruleID</td>";
-          echo "<td>&nbsp$userName</td>"; echo "<td>&nbsp$orderNo</td>"; echo "<td>&nbsp$amount</td>";
-          echo "<td>&nbsp$cost</td>"; echo "<td>&nbsp$status</td>"; echo "<td>&nbsp$bittrexRef</td>";
-          echo "<td>&nbsp$sellPrice</td>";
+          echo "<td>&nbsp$userName</td>";
+          if ($_SESSION['isMobile']){
+              $roundNum = 4;
+          }else{
+            $roundNum = 8;
+            echo "<td>&nbsp$orderNo</td>";
+
+          }
+          echo "<td>&nbsp".round($amount,$roundNum)."</td>";
+          echo "<td>&nbsp".round($cost,$roundNum)."</td>"; echo "<td>&nbsp$status</td>"; echo "<td>&nbsp$bittrexRef</td>";
+          echo "<td>&nbsp".round($sellPrice,$roundNum)."</td>";
           //$liveCoinPrice = number_format((float)bittrexCoinPriceLoc($apiKey,$apiSecret,$baseCurrency,$coin), 10, '.', '');
           if ($type == 'Buy'){
             $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
@@ -223,9 +233,10 @@ function getUserIDs($userID){
             $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, 3, '.', '');
             $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
           }
-          echo "<td>&nbsp$liveCoinPrice</td>";
+          echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
           echo "<td>&nbsp$pctDifference</td>";
           echo "<td>&nbsp$livePricePct</td>";
+          echo "<td>&nbsp$quantityFilled</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
 				}
 				print_r("</table>");
