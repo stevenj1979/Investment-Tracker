@@ -299,7 +299,7 @@ while($date <= $newTime){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
-             }
+             }else{ logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex');}
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid);
             if ($result == 1){
@@ -311,7 +311,7 @@ while($date <= $newTime){
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
-            }
+            }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex');}
           }
           continue;
         }
@@ -341,16 +341,16 @@ while($date <= $newTime){
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
               continue;
-            }
+            }else{ logAction("bittrexCancelSellOrder: ".$cancelRslt, 'Bittrex');}
           }else{
              $result = bittrexCancel($apiKey,$apiSecret,$uuid);
              if ($result == 1){
                $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
                //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
-               bittrexCopyTransNewAmount($transactionID,$orderQtyRemaining,$newOrderNo);
+               bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
                //Update QTY
-               bittrexUpdateSellQty($transactionID,$qtySold);
-               bittrexSellCancel($uuid, $transactionID);
+               //bittrexUpdateSellQty($transactionID,$qtySold);
+               //bittrexSellCancel($uuid, $transactionID);
 
                if ($sendEmail){
                  $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell." Qty: ".$orderQty." : ".$orderQtyRemaining;
@@ -358,7 +358,7 @@ while($date <= $newTime){
                  sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
                }
                continue;
-             }
+             }else{ logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');}
           }
         }
         if ($pctFromSale <= -3 or $pctFromSale >= 4){
@@ -368,16 +368,16 @@ while($date <= $newTime){
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
               continue;
-            }
+            }else{ logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');}
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid);
             if ($result == 1){
               $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
               //sendtoSteven($transactionID,"QTYRemaining: ".$orderQtyRemaining."_QTYSold: ".$qtySold."_OrderQTY: ".$orderQty."_UUID: ".$uuid, "NewOrderNo: ".$newOrderNo."_OrderNo: ".$orderNo, "SELL - Less -2 Greater 2.5");
-              bittrexCopyTransNewAmount($transactionID,$orderQtyRemaining,$newOrderNo);
+              bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
               //Update QTY
-              bittrexUpdateSellQty($transactionID,$qtySold);
-              bittrexSellCancel($uuid, $transactionID);
+              //bittrexUpdateSellQty($transactionID,$qtySold);
+              //bittrexSellCancel($uuid, $transactionID);
 
               if ($sendEmail){
                 $subject = "Coin Sale2: ".$coin." RuleID:".$ruleIDBTSell." Qty: ".$orderQty." : ".$orderQtyRemaining;
@@ -386,11 +386,11 @@ while($date <= $newTime){
                 sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
               }
               continue;
-            }
+            }else{ logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');}
           }
         }
       } //end $type Buy Sell
-    } //end bittrex order check
+    }else{ logAction("bittrexCheckOrder: ".$resultOrd["success"], 'Bittrex');}//end bittrex order check
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
     echo "<br>Time Since Action ".substr($timeSinceAction,0,4);
 

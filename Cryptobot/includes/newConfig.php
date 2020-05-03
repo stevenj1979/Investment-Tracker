@@ -1438,10 +1438,10 @@ function bittrexUpdateSellQty($transactionID, $quantity){
   logAction("bittrexUpdateSellQty: ".$sql, 'BuySell');
 }
 
-function bittrexCopyTransNewAmount($transactionID, $quantity, $orderNo){
+function bittrexCopyTransNewAmount($transactionID, $oQuantity, $nQuantity, $orderNo){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call CopyTransNewAmount($transactionID,$quantity,'$orderNo');";
+  $sql = "call newCopyTransNewAmount($nQuantity,$oQuantity,$transactionID,'$orderNo');";
   print_r("<br>".$sql);
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {
