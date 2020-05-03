@@ -348,6 +348,7 @@ while($date <= $newTime){
                $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
                //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
                bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
+               bittrexSellComplete($uuid, $transactionID, $finalPrice);
                //Update QTY
                //bittrexUpdateSellQty($transactionID,$qtySold);
                //bittrexSellCancel($uuid, $transactionID);
@@ -375,6 +376,7 @@ while($date <= $newTime){
               $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
               //sendtoSteven($transactionID,"QTYRemaining: ".$orderQtyRemaining."_QTYSold: ".$qtySold."_OrderQTY: ".$orderQty."_UUID: ".$uuid, "NewOrderNo: ".$newOrderNo."_OrderNo: ".$orderNo, "SELL - Less -2 Greater 2.5");
               bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
+              bittrexSellComplete($uuid, $transactionID, $finalPrice);
               //Update QTY
               //bittrexUpdateSellQty($transactionID,$qtySold);
               //bittrexSellCancel($uuid, $transactionID);
