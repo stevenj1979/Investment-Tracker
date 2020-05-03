@@ -234,9 +234,9 @@ function getUserIDs($userID){
             $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
           }
           echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
-          echo "<td>&nbsp$pctDifference</td>";
-          echo "<td>&nbsp$livePricePct</td>";
-          echo "<td>&nbsp$quantityFilled</td>";
+          echo "<td>&nbsp".round($pctDifference,2)."</td>";
+          echo "<td>&nbsp".round($livePricePct,2)."</td>";
+          echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
 				}
 				print_r("</table>");
