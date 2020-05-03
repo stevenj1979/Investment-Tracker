@@ -271,6 +271,7 @@ while($date <= $newTime){
     echo "TIME SINCE ACTION: $timeSinceAction";
     Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
     echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$resultOrd["result"]["CancelInitiated"];
+    updateBittrexQuantityFilled($qtySold,$uuid);
     if ($resultOrd["success"] == 1){
       if ($type == "Buy"){
         if ($orderIsOpen != 1 && $resultOrd["result"]["CancelInitiated"] != 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
