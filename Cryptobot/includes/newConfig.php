@@ -1826,7 +1826,7 @@ function replaceStars($tempStr,$starCount){
       }
     }
   }
-return $returnStr;
+return rtrim($returnStr, ",");
 }
 
 function str_replace_first($search, $replace, $subject) {
