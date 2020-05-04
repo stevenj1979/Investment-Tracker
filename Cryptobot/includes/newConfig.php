@@ -1858,6 +1858,7 @@ Function removeWildcard($wildcardStr){
         for ($x=0; $x<$starCount; $x++){
           $newStr = returnWildcardStr($tempStr[$i],$starCount);
           Echo "<BR> newStr = $newStr";
+          $returntempStr = $newStr; //just for testing 
           //$returntempStr = replaceStars($newStr,$starCount);
         }
         $returnStr .= $returntempStr;
