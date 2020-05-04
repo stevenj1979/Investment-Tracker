@@ -1791,8 +1791,8 @@ function NewEcho($textStr, $isMobile, $display){
 Function removeWildcard($wildcardStr){
 	$tempStr = explode($wildcardStr, ',');
 	$tempStrCount = count($tempStr);
-  $returnStr ="";
-	for(i=0; i>$tempStrCount; i++){
+  $returnStr = "";
+	for($i=0; $i < $tempStrCount; $i++){
     if (strpos($tempStr, '*') !== false) {
         //Replace all instances of * with 1 EG *-1-11 > 1-1-11
         $returnStr .=str_replace("*","1",$tempStr[$i]).",";
