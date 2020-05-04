@@ -85,17 +85,15 @@ function getHistoryFromSQL(){
     }
     //$coinOption = explode(":",$sql_option);
     date_default_timezone_set('Asia/Dubai');
-    //$sql = "set time_zone='+04:00';";
-    $sql = "SELECT
+    $sql = "set time_zone='+04:00';";
+    $sql .= "SELECT
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
     FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` desc";
-    $result = $conn->query($sql);
-    //echo $sql;
-    //$result = mysqli_query($link4, $query);
-	//mysqli_fetch_assoc($result);
+    //$result = $conn->query($sql);
+    $result = mysqli_multi_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],
         $row['Live1HrChange'],$row['Last1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],
