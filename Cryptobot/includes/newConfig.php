@@ -1788,6 +1788,14 @@ function NewEcho($textStr, $isMobile, $display){
   }
 }
 
+function returnWildcardStr($tempStr, $starCount){
+  $returnStr = "";
+  for ($n=0; $n<$starCount; $n++){
+    $returnStr .= $tempStr.$tempStr.$tempStr;
+  }
+  return $returnStr;
+}
+
 Function removeWildcard($wildcardStr){
 	$tempStr = explode(',',$wildcardStr);
 	$tempStrCount = count($tempStr);
@@ -1795,13 +1803,22 @@ Function removeWildcard($wildcardStr){
 	for($i=0; $i < $tempStrCount; $i++){
     echo "<BR> Test: ".$tempStr[$i];
     if (strpos($tempStr[$i], '*') !== false) {
-        //Replace all instances of * with 1 EG *-1-11 > 1-1-11
-        $returnStr .=str_replace("*","1",$tempStr[$i]).",";
-        //Replace all instances of * with 0 EG *-1-11 > 0-1-11
-        $returnStr .=str_replace("*","0",$tempStr[$i]).",";
-        //Replace all instances of * with -1 EG *-1-11 > -1-1-11
-        $returnStr .=str_replace("*","-1",$tempStr[$i]).",";
-        //add the 3 srings to the return str
+        $starCount =substr_count($tempStr[$i],"*");
+        //$returntempStr = $tempStr[$i].",";
+        for ($x=0; $x<$starCount; $x++){
+          if ($x == 0){
+            //Replace all instances of * with 1 EG *-1-11 > 1-1-11
+            $returntempStr .=str_replace("*","1",$tempStr[$i],1).",";
+            //Replace all instances of * with 0 EG *-1-11 > 0-1-11
+            $returntempStr .=str_replace("*","0",$tempStr[$i],1).",";
+            //Replace all instances of * with -1 EG *-1-11 > -1-1-11
+            $returntempStr .=str_replace("*","-1",$tempStr[$i],1).",";
+            //add the 3 srings to the return str
+          }else{
+
+          }
+        }
+        $returnStr .= $returntempStr;
     }else{
         //no instances of * - add the string to the return string
         $returnStr .=$tempStr[$i].",";
