@@ -107,7 +107,7 @@ $current_date = date('Y-m-d H:i');
 //$newTemp = findCoinStats($temp, "XRP");
 //echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
 //echo "<BR> Return String 1 : ".removeWildcard("-1-1-11,1-1-11");
-echo "<BR> Return String 2 : ".removeWildcard("*111");
+echo "<BR> Return String 2 : ".removeWildcard("*111,*-101");
 //echo "<BR> Return String 2 : ".replaceStars("**-11",2);
 //echo "<BR> Return String 2 : ".replaceStars("*1-11",1);
 //echo "<BR> Return String 3 : ".removeWildcard("*-1-11,*0-11");
