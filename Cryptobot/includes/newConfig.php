@@ -1826,7 +1826,7 @@ function replaceStars($tempStr,$starCount){
     }
     $returnStr .= $tempStr.",";
   }
-return rtrim($returnStr, ",");
+return $returnStr;
 }
 
 function str_replace_first($search, $replace, $subject) {
@@ -1843,7 +1843,7 @@ function returnWildcardStr($tempStr, $starCount){
       $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
   }
   echo "<BR> Test Return Str: $returnStr";
-  return rtrim($returnStr, ",");
+  return $returnStr;
 }
 
 Function removeWildcard($wildcardStr){
@@ -1873,7 +1873,7 @@ Function removeWildcard($wildcardStr){
     }
 	}
   echo "<BR> returnStr $returnStr";
- return $returnStr;
+ return rtrim($returnStr,',');
 }
 
 ?>
