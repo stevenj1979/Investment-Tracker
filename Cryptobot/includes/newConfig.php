@@ -1843,7 +1843,7 @@ function returnWildcardStr($tempStr, $starCount){
   for ($n=0; $n<$starCount; $n++){
       $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
   }
-  echo "<BR> Test Return Str: $returnStr";
+  //echo "<BR> Test Return Str: $returnStr";
   return $returnStr;
 }
 
@@ -1858,17 +1858,8 @@ Function removeWildcard($wildcardStr){
         //$returntempStr = $tempStr[$i].",";
         for ($x=0; $x<$starCount; $x++){
 
-          echo "<BR> returnWildcardStr(".$tempStr[$i].",$starCount)";
           $newStr = returnWildcardStr($tempStr[$i],$starCount);
-          //Echo "<BR> newStr = $newStr";
-          //$replaceStarsAry = explode(',',$newStr);
-          //$replaceStarsCount = count($replaceStarsAry);
-          //for ($m=0; $m<$replaceStarsCount; $m++){
-            //$returntempStr = $newStr; //just for testing
-            echo "<BR> replaceStars($newStr,$starCount)";
-            $returntempStr = replaceStars($newStr,$starCount);
-            echo "<BR> returntempStr $returntempStr";
-
+          $returntempStr = replaceStars($newStr,$starCount);
         }
         $returnStr .= $returntempStr;
     }else{
@@ -1876,7 +1867,6 @@ Function removeWildcard($wildcardStr){
         $returnStr .=$tempStr[$i].",";
     }
 	}
-  //echo "<BR> returnStr $returnStr";
  return rtrim($returnStr,',');
 }
 
