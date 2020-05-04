@@ -1788,10 +1788,18 @@ function NewEcho($textStr, $isMobile, $display){
   }
 }
 
+function replaceStars($tempStr,$starCount){
+  for ($j = -1; $j<$starCount-1; $j++){
+    for ($k = -1; $k<3-1; $k++){
+      echo "<BR> $j $k";
+    }
+  }
+}
+
 function returnWildcardStr($tempStr, $starCount){
   $returnStr = "";
   for ($n=0; $n<$starCount; $n++){
-    $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
+      $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
   }
   echo "<BR> Test Return Str: $returnStr";
   return $returnStr;
