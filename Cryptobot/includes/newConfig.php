@@ -1800,8 +1800,8 @@ function replaceStars($tempStr,$starCount){
       }
     }
   }elseif ($starCount == 3){
-    for ($j = -1; $j<$starCount; $j++){
-      for ($k = -1; $k<$starCount; $k++){
+    for ($j = -1; $j<$starCount-1; $j++){
+      for ($k = -1; $k<$starCount-1; $k++){
         for ($l = -1; $l<3-1; $l++){
           echo "<BR> $j $k $l";
         }
