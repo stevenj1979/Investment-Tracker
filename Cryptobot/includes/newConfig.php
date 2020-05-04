@@ -1809,11 +1809,11 @@ Function removeWildcard($wildcardStr){
         for ($x=0; $x<$starCount; $x++){
           if ($x == 0){
             //Replace all instances of * with 1 EG *-1-11 > 1-1-11
-            $returntempStr .=str_replace("*","1",$tempStr[$i],1).",";
+            //$returntempStr .=str_replace("*","1",$tempStr[$i],1).",";
             //Replace all instances of * with 0 EG *-1-11 > 0-1-11
-            $returntempStr .=str_replace("*","0",$tempStr[$i],1).",";
+            //$returntempStr .=str_replace("*","0",$tempStr[$i],1).",";
             //Replace all instances of * with -1 EG *-1-11 > -1-1-11
-            $returntempStr .=str_replace("*","-1",$tempStr[$i],1).",";
+            //$returntempStr .=str_replace("*","-1",$tempStr[$i],1).",";
             //add the 3 srings to the return str
           }else{
 
