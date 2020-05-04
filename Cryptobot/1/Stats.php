@@ -102,7 +102,6 @@ function getHistoryFromSQL(){
         $row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],
         $row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['ActionDate']);
       }
-    }
 
     $conn->close();
     return $tempAry;
