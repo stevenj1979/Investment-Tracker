@@ -1858,12 +1858,12 @@ Function removeWildcard($wildcardStr){
         for ($x=0; $x<$starCount; $x++){
           $newStr = returnWildcardStr($tempStr[$i],$starCount);
           Echo "<BR> newStr = $newStr";
-          $replaceStarsAry = explode(',',$newStr);
-          $replaceStarsCount = count($replaceStarsAry);
-          for ($m=0; $m<$replaceStarsCount; $m++){
+          //$replaceStarsAry = explode(',',$newStr);
+          //$replaceStarsCount = count($replaceStarsAry);
+          //for ($m=0; $m<$replaceStarsCount; $m++){
             //$returntempStr = $newStr; //just for testing
-            echo "<BR> Send to replace Stars : ".$replaceStarsAry[$m]." + ".$starCount;
-            $returntempStr .= replaceStars($replaceStarsAry[$m],$starCount);
+            //echo "<BR> Send to replace Stars : ".$replaceStarsAry[$m]." + ".$starCount;
+            $returntempStr .= replaceStars($newStr,$starCount);
           }
         }
         $returnStr .= $returntempStr;
