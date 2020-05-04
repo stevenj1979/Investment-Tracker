@@ -1791,8 +1791,9 @@ function NewEcho($textStr, $isMobile, $display){
 function returnWildcardStr($tempStr, $starCount){
   $returnStr = "";
   for ($n=0; $n<$starCount; $n++){
-    $returnStr .= $tempStr.$tempStr.$tempStr;
+    $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
   }
+  echo "<BR> Test Return Str: $returnStr";
   return $returnStr;
 }
 
