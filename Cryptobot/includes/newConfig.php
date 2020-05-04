@@ -1791,15 +1791,19 @@ function NewEcho($textStr, $isMobile, $display){
 function replaceStars($tempStr,$starCount){
   if ($starCount == 1){
     for ($k = -1; $k<3-1; $k++){
-      echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
+      //echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
+      $tempStr1 = str_replace_first("*",$k,$tempStr);
+      Echo "<BR> $tempStr1";
     }
   }elseif ($starCount == 2){
     for ($j = -1; $j<$starCount; $j++){
       for ($k = -1; $k<3-1; $k++){
         //echo "<BR> $j $k";
-        echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
+        //echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
         $tempStr1 = str_replace_first("*",$j,$tempStr);
-        echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
+        //echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
+        $tempStr2 = str_replace_first("*",$k,$tempStr1);
+        Echo "<BR> $tempStr2";
       }
     }
   }elseif ($starCount == 3){
@@ -1807,11 +1811,13 @@ function replaceStars($tempStr,$starCount){
       for ($k = -1; $k<$starCount-1; $k++){
         for ($l = -1; $l<3-1; $l++){
           //echo "<BR> $j $k $l";
-          echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
+          //echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
           $tempStr1 = str_replace_first("*",$j,$tempStr);
-          echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
+          //echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
           $tempStr2 = str_replace_first("*",$k,$tempStr1);
-          echo "<BR> $l ".str_replace_first("*",$l,$tempStr2);
+          //echo "<BR> $l ".str_replace_first("*",$l,$tempStr2);
+          $tempStr3 = str_replace_first("*",$l,$tempStr2);
+          Echo "<BR> $tempStr3";
         }
       }
     }
