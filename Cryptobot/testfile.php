@@ -98,13 +98,17 @@ $current_date = date('Y-m-d H:i');
 //$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
 //$newTemp = getCMCID("BTC,ETH,BCH");
 //echo "<BR> ".$newTemp;
-$temp = newCoinMarketCapStats("BTC,ETH,BCH,XRP");
-$tempCount = count($temp);
+//$temp = newCoinMarketCapStats("BTC,ETH,BCH,XRP");
+//$tempCount = count($temp);
 //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
 //echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
 //print_r($temp);
 
-$newTemp = findCoinStats($temp, "XRP");
-echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
+//$newTemp = findCoinStats($temp, "XRP");
+//echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
+echo "<BR> Return String 1 : ".removeWildcard("-1-1-11");
+echo "<BR> Return String 2 : ".removeWildcard("*-1-11");
+echo "<BR> Return String 3 : ".removeWildcard("**-11");
+
 ?>
 </html>
