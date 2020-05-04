@@ -1802,29 +1802,29 @@ function replaceStars($tempStr,$starCount){
       for ($k = -1; $k<3-1; $k++){
         //echo "<BR> $j $k";
         //echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
-        $tempStr1 = str_replace_first("*",$j,$tempStr);
+        $tempStr = str_replace_first("*",$j,$tempStr);
         //echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
-        $tempStr2 = str_replace_first("*",$k,$tempStr1);
+        $tempStr = str_replace_first("*",$k,$tempStr);
         //Echo "<BR> $tempStr2";
       }
     }
-    $returnStr .= $tempStr2.",";
+    $returnStr .= $tempStr.",";
   }elseif ($starCount == 3){
     for ($j = -1; $j<$starCount-1; $j++){
       for ($k = -1; $k<$starCount-1; $k++){
         for ($l = -1; $l<3-1; $l++){
           //echo "<BR> $j $k $l";
           //echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
-          $tempStr1 = str_replace_first("*",$j,$tempStr);
+          $tempStr = str_replace_first("*",$j,$tempStr);
           //echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
-          $tempStr2 = str_replace_first("*",$k,$tempStr1);
+          $tempStr = str_replace_first("*",$k,$tempStr);
           //echo "<BR> $l ".str_replace_first("*",$l,$tempStr2);
-          $tempStr3 = str_replace_first("*",$l,$tempStr2);
+          $tempStr = str_replace_first("*",$l,$tempStr);
           //Echo "<BR> $tempStr3";
         }
       }
     }
-    $returnStr .= $tempStr3.",";
+    $returnStr .= $tempStr.",";
   }
 return rtrim($returnStr, ",");
 }
