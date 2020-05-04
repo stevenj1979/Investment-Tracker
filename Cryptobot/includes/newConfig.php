@@ -1795,7 +1795,7 @@ function replaceStars($tempStr,$starCount){
       //echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
       $tempStr1 = str_replace_first("*",$k,$tempStr);
       //Echo "<BR> $tempStr1";
-      $returnStr .= $tempStr1;
+      $returnStr .= $tempStr1.",";
     }
   }elseif ($starCount == 2){
     for ($j = -1; $j<$starCount; $j++){
@@ -1806,7 +1806,7 @@ function replaceStars($tempStr,$starCount){
         //echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
         $tempStr2 = str_replace_first("*",$k,$tempStr1);
         //Echo "<BR> $tempStr2";
-        $returnStr .= $tempStr2;
+        $returnStr .= $tempStr2.",";
       }
     }
   }elseif ($starCount == 3){
@@ -1821,7 +1821,7 @@ function replaceStars($tempStr,$starCount){
           //echo "<BR> $l ".str_replace_first("*",$l,$tempStr2);
           $tempStr3 = str_replace_first("*",$l,$tempStr2);
           //Echo "<BR> $tempStr3";
-          $returnStr .= $tempStr3;
+          $returnStr .= $tempStr3.",";
         }
       }
     }
