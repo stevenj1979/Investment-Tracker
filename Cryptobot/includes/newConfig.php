@@ -1789,22 +1789,22 @@ function NewEcho($textStr, $isMobile, $display){
 }
 
 Function removeWildcard($wildcardStr){
-	$tempStr = explode($wildcardStr, ',');
+	$tempStr = explode(',',$wildcardStr);
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i][0];
-    if (strpos($tempStr[$i][0], '*') !== false) {
+    echo "<BR> Test: ".$tempStr[$i];
+    if (strpos($tempStr[$i], '*') !== false) {
         //Replace all instances of * with 1 EG *-1-11 > 1-1-11
-        $returnStr .=str_replace("*","1",$tempStr[$i][0]).",";
+        $returnStr .=str_replace("*","1",$tempStr[$i]).",";
         //Replace all instances of * with 0 EG *-1-11 > 0-1-11
-        $returnStr .=str_replace("*","0",$tempStr[$i][0]).",";
+        $returnStr .=str_replace("*","0",$tempStr[$i]).",";
         //Replace all instances of * with -1 EG *-1-11 > -1-1-11
-        $returnStr .=str_replace("*","-1",$tempStr[$i][0]).",";
+        $returnStr .=str_replace("*","-1",$tempStr[$i]).",";
         //add the 3 srings to the return str
     }else{
         //no instances of * - add the string to the return string
-        $returnStr .=$tempStr[$i][0].",";
+        $returnStr .=$tempStr[$i].",";
     }
 	}
  return $returnStr;
