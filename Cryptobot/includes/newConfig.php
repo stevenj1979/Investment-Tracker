@@ -1864,7 +1864,7 @@ Function removeWildcard($wildcardStr){
             //$returntempStr = $newStr; //just for testing
             //echo "<BR> Send to replace Stars : ".$replaceStarsAry[$m]." + ".$starCount;
             $returntempStr .= replaceStars($newStr,$starCount);
-          }
+
         }
         $returnStr .= $returntempStr;
     }else{
