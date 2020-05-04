@@ -1797,9 +1797,9 @@ function replaceStars($tempStr,$starCount){
     for ($j = -1; $j<$starCount; $j++){
       for ($k = -1; $k<3-1; $k++){
         //echo "<BR> $j $k";
-        echo "<BR> $j ".str_replace("*",$j,$tempStr,1);
-        $tempStr1 = str_replace("*",$j,$tempStr,1);
-        echo "<BR> $k ".str_replace("*",$k,$tempStr1,1);
+        echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
+        $tempStr1 = str_replace_first("*",$j,$tempStr);
+        echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
       }
     }
   }elseif ($starCount == 3){
@@ -1807,16 +1807,24 @@ function replaceStars($tempStr,$starCount){
       for ($k = -1; $k<$starCount-1; $k++){
         for ($l = -1; $l<3-1; $l++){
           //echo "<BR> $j $k $l";
-          echo "<BR> $j ".str_replace("*",$j,$tempStr,1);
-          $tempStr1 = str_replace("*",$j,$tempStr,1);
-          echo "<BR> $k ".str_replace("*",$k,$tempStr1,1);
-          $tempStr2 = str_replace("*",$k,$tempStr1,1);
-          echo "<BR> $l ".str_replace("*",$l,$tempStr2,1);
+          echo "<BR> $j ".str_replace_first("*",$j,$tempStr);
+          $tempStr1 = str_replace_first("*",$j,$tempStr);
+          echo "<BR> $k ".str_replace_first("*",$k,$tempStr1);
+          $tempStr2 = str_replace_first("*",$k,$tempStr1);
+          echo "<BR> $l ".str_replace_first("*",$l,$tempStr2);
         }
       }
     }
   }
 
+}
+
+function str_replace_first($search, $replace, $subject) {
+    $pos = strpos($subject, $search);
+    if ($pos !== false) {
+        return substr_replace($subject, $replace, $pos, strlen($search));
+    }
+    return $subject;
 }
 
 function returnWildcardStr($tempStr, $starCount){
