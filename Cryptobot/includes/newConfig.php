@@ -1851,18 +1851,19 @@ Function removeWildcard($wildcardStr){
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i];
+    //echo "<BR> Test: ".$tempStr[$i];
     if (strpos($tempStr[$i], '*') !== false) {
         $starCount =substr_count($tempStr[$i],"*");
         //$returntempStr = $tempStr[$i].",";
         for ($x=0; $x<$starCount; $x++){
+          echo "<BR> returnWildcardStr(".$tempStr[$i].",$starCount)";
           $newStr = returnWildcardStr($tempStr[$i],$starCount);
-          Echo "<BR> newStr = $newStr";
+          //Echo "<BR> newStr = $newStr";
           //$replaceStarsAry = explode(',',$newStr);
           //$replaceStarsCount = count($replaceStarsAry);
           //for ($m=0; $m<$replaceStarsCount; $m++){
             //$returntempStr = $newStr; //just for testing
-            //echo "<BR> Send to replace Stars : ".$replaceStarsAry[$m]." + ".$starCount;
+            echo "<BR> replaceStars($newStr,$starCount)";
             $returntempStr .= replaceStars($newStr,$starCount);
 
         }
@@ -1872,7 +1873,7 @@ Function removeWildcard($wildcardStr){
         $returnStr .=$tempStr[$i].",";
     }
 	}
-  echo "<BR> returnStr $returnStr";
+  //echo "<BR> returnStr $returnStr";
  return rtrim($returnStr,',');
 }
 
