@@ -1791,7 +1791,7 @@ function NewEcho($textStr, $isMobile, $display){
 function replaceStars($tempStr,$starCount){
   if ($starCount == 1){
     for ($k = -1; $k<3-1; $k++){
-      echo "<BR> $k ".str_replace("*",$k,$tempStr,1);
+      echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
     }
   }elseif ($starCount == 2){
     for ($j = -1; $j<$starCount; $j++){
