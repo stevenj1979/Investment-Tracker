@@ -141,6 +141,11 @@ displayHeader(2);
         echo "<Option value='15 Minute'>15 Minute</option>";
         echo "<Option value='30 Minute'>30 Minute</option>";
         echo "<Option value='1 Hour'>1 Hour</option>";
+        echo "<Option value='6 Hour'>6 Hour</option>";
+        echo "<Option value='12 Hour'>12 Hour</option>";
+        echo "<Option value='1 Day'>1 Day</option>";
+        echo "<Option value='5 Day'>5 Day</option>";
+        echo "<Option value='1 Week'>1 Week</option>";
         echo "<input type='submit' value='Update'/></form>";?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
