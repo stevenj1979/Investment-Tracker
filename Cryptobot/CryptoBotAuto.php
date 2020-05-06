@@ -154,7 +154,7 @@ while($date <= $newTime){
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
   if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice');}
-  //if (timerReady($marketCap_date,570)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
+  if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
