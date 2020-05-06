@@ -12,8 +12,9 @@ include_once '../includes/newConfig.php';?>
 google.load('visualization', '1', {packages: ['corechart']});
 </script>
 <script type="text/javascript">
-<?php if ($_POST['coinSelect'] <> ""){
-
+<?php
+setTimeZone();
+if ($_POST['coinSelect'] <> ""){
      $temp = explode(":",$_POST['coinSelect']);
      $_SESSION['StatsListSelected'] = $temp[0];
      $_SESSION['StatsListTime']  = $_POST['timeSelect'];
