@@ -72,7 +72,7 @@ function SQLCommand(){
 
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H", time());
 //echo "<BR> Date1: $date";
 //$date2 = date("Y-m-d H:", time());

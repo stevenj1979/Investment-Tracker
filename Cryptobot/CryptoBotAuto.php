@@ -61,7 +61,7 @@ function findCoinStats($CMCStats, $symbol){
 }
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 $history_date = $current_date; $marketCap_Date = $current_date;

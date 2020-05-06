@@ -54,7 +54,7 @@ function userHistory($userID){
 
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH){
     //set time
-    date_default_timezone_set('Asia/Dubai');
+    setTimeZone();
     $date = date("Y-m-d H:i", time());
     if (empty($liveBTC)){$liveBTC = 0;}
     if (empty($BittrexBTC)){$BittrexBTC = 0;}

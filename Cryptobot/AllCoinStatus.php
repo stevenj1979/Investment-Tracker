@@ -141,7 +141,7 @@ function emailUsersReenable($userConfig, $action, $disableUntil){
 }
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 //$newTime = date("Y-m-d H:i",strtotime("+5 minutes", strtotime($current_date)));

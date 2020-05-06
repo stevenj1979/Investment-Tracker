@@ -31,7 +31,7 @@ function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,
 
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 

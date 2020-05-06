@@ -55,7 +55,7 @@ function userHistory($userID){
 
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH,$btcPrice, $ethPrice, $usdtPrice){
     //set time
-    date_default_timezone_set('Asia/Dubai');
+    setTimeZone();
     $date = date("Y-m-d H:i", time());
     if (empty($liveBTC)){$liveBTC = 0;}
     if (empty($BittrexBTC)){$BittrexBTC = 0;}
@@ -140,7 +140,7 @@ function getLiveCoinPriceUSD($symbol){
 
 function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPrice, $ethPrice, $usdtPrice){
     //set time
-    date_default_timezone_set('Asia/Dubai');
+    setTimeZone();
     $date = date("Y-m-d H:i", time());
     $BTCtoAdd = $liveBTC * $btcPrice;
     if (empty($BTCtoAdd)) {$BTCtoAdd = 0;}

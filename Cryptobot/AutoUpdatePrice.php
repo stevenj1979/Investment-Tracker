@@ -102,7 +102,7 @@ function updateSellPrice($coinID, $newSellPrice,$finalTrend){
 }
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H", time());
 
 $coinStatsAry = getCoinPriceStats();

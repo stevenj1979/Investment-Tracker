@@ -1870,4 +1870,8 @@ Function removeWildcard($wildcardStr){
  return rtrim($returnStr,',');
 }
 
+function setTimeZone(){
+  date_default_timezone_set('Asia/Dubai');
+}
+
 ?>
