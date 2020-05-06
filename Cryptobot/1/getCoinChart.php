@@ -8,7 +8,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $coinID = $_GET['coinID'];
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $time = str_replace("_"," ",$_GET['time']);
 //$query = "set time_zone='+04:00';";
 $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
