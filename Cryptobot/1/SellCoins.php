@@ -207,7 +207,7 @@ $date = date('Y/m/d H:i:s', time());
             $profitPct = round($trackingSell[$x][33],2);$cost = round($trackingSell[$x][28],$roundNum); $realAmount = $trackingSell[$x][26];
             $priceDiff1 = round(number_format((float)$livePrice-$LastCoinPrice, 10, '.', ''),$roundNum); $buyAmount = $amount * $cost;
             $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = round(number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', ''),$roundNum);
-            echo "<td>$coin</td>";
+            echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
             echo "<td>$livePrice</td>";
             if($_SESSION['isMobile'] == False){
               echo "<td>$mrktCap</td>";
