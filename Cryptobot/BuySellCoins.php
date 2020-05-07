@@ -447,7 +447,7 @@ while($completeFlag == False){
 
   echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
-  sleep(10);
+  sleep(15);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
