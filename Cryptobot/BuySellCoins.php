@@ -36,7 +36,7 @@ $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-
+logAction("Buy Sell Coins Start", 'BuySellTiming');
 $buyRules = getUserRules();
 $buyRulesSize = count($buyRules);
 $sellRules = getUserSellRules();
@@ -49,6 +49,7 @@ $coinLength = Count($coins);
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($date <= $newTime){
   echo "<BR> BUY COINS!! ";
+  logAction("Check Buy Coins Start", 'BuySellTiming');
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -158,6 +159,7 @@ while($date <= $newTime){
     //echo "</blockquote>";
   }//Coin Loop
   echo "<BR> SELL COINS!! ";
+  logAction("Check Sell Coins Start", 'BuySellTiming');
   //echo "<blockquote>";
   $sellCoins = getTrackingSellCoins();
   $sellCoinsLength = count($sellCoins);
@@ -250,6 +252,7 @@ while($date <= $newTime){
   }//Sell Coin Loop
   //echo "</blockquote>";
     echo "<BR> CHECK BITTREX!! ";
+    logAction("Check Bittrex Orders Start", 'BuySellTiming');
   echo "<blockquote>";
   $BittrexReqs = getBittrexRequests();
   $BittrexReqsSize = count($BittrexReqs);
@@ -402,6 +405,7 @@ while($date <= $newTime){
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
   echo "<BR> CHECK Alerts!! ";
+  logAction("Check Alerts Start", 'BuySellTiming');
   for($d = 0; $d < $coinAlertsLength; $d++) {
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
@@ -492,6 +496,7 @@ while($date <= $newTime){
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
 }//end While
+logAction("Buy Sell Coins End", 'BuySellTiming');
 //$to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'BuySell Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 echo "<br>EndTime ".date("Y-m-d H:i:s", time());
