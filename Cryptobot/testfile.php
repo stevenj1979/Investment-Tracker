@@ -86,7 +86,7 @@ $newTime = date("Y-m-d H:i",strtotime("+1 Minute", strtotime($current_date)));
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
 
-echo coinMatchPattern("BTC:6200.00,ETH:125.00,BCH:199.00,XRP:0.17",6110.00,"BTC",0,1);
+echo coinMatchPattern("BTC:6200.00,ETH:125.00,BCH:199.00,XRP:0.17",6210.00,"BTC",0,1);
 
 ?>
 </html>
