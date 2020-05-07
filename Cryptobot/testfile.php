@@ -72,6 +72,7 @@ function SQLCommand(){
 
 
 //set time
-Echo "<BR> ".getCoinList(getStats(),3);
+$tempSry = newCoinMarketCapStats("1831,3602,1,1027,52");
+Echo "<BR> ".var_dump($tempSry);
 ?>
 </html>
