@@ -79,7 +79,7 @@ $date = date("Y-m-d H:i", time());
 //echo "<BR> Date1: $date2";
 $current_date = date('Y-m-d H:i');
 
-$newTime = date("Y-m-d H:i",strtotime("+30 Seconds", strtotime($current_date)));
+$newTime = date("Y-m-d H:i",strtotime("+1 Minute", strtotime($current_date)));
 //SQLCommand();
 //echo "<BR> 1: ".isCoinMatch(240, "BCH", 239.00, "BTC", 1);
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
@@ -118,12 +118,12 @@ $completeFlag = False;
 //else { Echo "NO: $date <= $newTime";}
 $i = 0;
 while($completeFlag == False){
-  Echo "YES: $date <= $newTime";
+  Echo "<BR>YES: $date <= $newTime";
   sleep(5);
   //$date = date("Y-m-d H:i", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
   $i++;
 }
-Echo "NO: $date <= $newTime i = $i";
+Echo "<BR>NO: $date <= $newTime i = $i";
 ?>
 </html>
