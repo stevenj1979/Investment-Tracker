@@ -37,13 +37,14 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewCoin(); }
 if(!empty($_GET['activateID'])){ displayActivate($_GET['activateID'],$_GET['activateBuyCoin']); }
 if(!empty($_GET['deleteID'])){ displayDelete($_GET['deleteID']); }
-if(!empty($_GET['addCoinReady'])){ runAddCoin($_POST['symbol'],$_POST['name'],$_POST['baseCurrency']); }
+if(!empty($_GET['addCoinReady'])){ runAddCoin($_POST['symbol'],$_POST['name'],$_POST['baseCurrency'],$_POST['cmcid']); }
 
 function submitNewCoin(){
   echo "<form action='editCoinAdmin.php?addCoinReady=Yes' method='post'>";
   addNewText('Symbol','symbol','',1,'eg BTC');
   addNewText('Name','name','',2,'eg Bit Coin');
   addNewText('Base Currency','baseCurrency','',3,'eg Base Currency');
+  addNewText('Coin Market Cap ID','cmcid','',4,'eg 1');
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='4'>
   </div>";
@@ -58,14 +59,14 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder){
 
 }
 
-function runAddCoin($symbol, $name, $baseCurrency){
+function runAddCoin($symbol, $name, $baseCurrency, $cmcid){
 
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "INSERT INTO `Coin`(`Symbol`, `Name`, `BaseCurrency`, `BuyCoin`) VALUES ('$symbol','$name','$baseCurrency',1)";
+  $sql = "INSERT INTO `Coin`(`Symbol`, `Name`, `BaseCurrency`, `BuyCoin`, `cmcid`) VALUES ('$symbol','$name','$baseCurrency',1, $cmcid)";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

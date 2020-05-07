@@ -92,7 +92,7 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
-      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats("BTC,ETH,BCH,XRP"); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('BTC,ETH,BCH,XRP')",'CMC');}
+      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC');}
       //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       //echo "<br> Count=".count($CMCStats);
