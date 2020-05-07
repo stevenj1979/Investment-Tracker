@@ -185,7 +185,7 @@ displayHeader(3);
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
-          $Live1HrChange = round($tracking[$x][10],2); $Live24HrChange = round($tracking[$x][13],2); $Live7DChange = $tracking[$x][14];
+          $Live1HrChange = round($tracking[$x][8],2); $Live24HrChange = round($tracking[$x][11],2); $Live7DChange = $tracking[$x][14];
           $bitPrice = round($tracking[$x][17],2); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
           $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
