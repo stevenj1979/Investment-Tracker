@@ -36,7 +36,7 @@ $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-logAction("Buy Sell Coins Start", 'BuySellTiming');
+logAction("Buy Sell Coins Start : End set to $newTime", 'BuySellTiming');
 $buyRules = getUserRules();
 $buyRulesSize = count($buyRules);
 $sellRules = getUserSellRules();
@@ -492,6 +492,7 @@ while($date <= $newTime){
 
 
   echo "</blockquote>";
+  logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   sleep(10);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
