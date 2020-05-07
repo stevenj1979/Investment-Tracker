@@ -72,6 +72,6 @@ function SQLCommand(){
 
 
 //set time
-Echo "<BR> ".getCoinList(getStats());
+Echo "<BR> ".getCoinList(getStats(),3);
 ?>
 </html>
