@@ -116,13 +116,14 @@ $newTime = date("Y-m-d H:i",strtotime("+10 Seconds", strtotime($current_date)));
 $completeFlag = False;
 //if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
 //else { Echo "NO: $date <= $newTime";}
-
+$i = 0;
 while($completeFlag == False){
   Echo "YES: $date <= $newTime";
   sleep(5);
   //$date = date("Y-m-d H:i", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
+  $i++;
 }
-Echo "NO: $date <= $newTime";
+Echo "NO: $date <= $newTime i = $i";
 ?>
 </html>
