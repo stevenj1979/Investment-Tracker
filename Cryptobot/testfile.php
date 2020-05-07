@@ -79,7 +79,7 @@ $date = date("Y-m-d H:i", time());
 //echo "<BR> Date1: $date2";
 $current_date = date('Y-m-d H:i');
 
-$newTime = date("Y-m-d H:i",strtotime("+10 Seconds", strtotime($current_date)));
+$newTime = date("Y-m-d H:i",strtotime("+30 Seconds", strtotime($current_date)));
 //SQLCommand();
 //echo "<BR> 1: ".isCoinMatch(240, "BCH", 239.00, "BTC", 1);
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
