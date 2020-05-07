@@ -85,45 +85,8 @@ $newTime = date("Y-m-d H:i",strtotime("+1 Minute", strtotime($current_date)));
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
 //echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
-//echo "<BR> 1: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 7001.00, "BTC", 1,1);
-//echo "<BR> 2: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 239.00, "BCH", 1,1);
-//echo "<BR> 3: ".coinMatchPattern("BTC:7000,ETH:140,BCH:240", 241.00, "BCH", 1,1);
-//echo "<BR> 4: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
-//echo "<BR> 5: ".coinMatchPattern("BTC:6500,ETH:140,BCH:240", 239.00, "BCH", 0,1);
-//BuyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','BTC', 'stevenj1979@gmail.com', 3, '2020-04-26 20:27:57', 'USDT',
-//1,0,75.00000000, 29,'stevenj1979',84,1.50,0,1,90,11);
 
+echo coinMatchPattern("BTC:6200.00,ETH:125.00,BCH:199.00,XRP:0.17",6110.00,"BTC",0,1);
 
-//function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency,
-//$sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin){
-//$newTemp = getCMCID("BTC,ETH,BCH");
-//echo "<BR> ".$newTemp;
-//$temp = newCoinMarketCapStats("BTC,ETH,BCH,XRP");
-//$tempCount = count($temp);
-//echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
-//echo "<br>HERE5! ".$temp['data'][1]['quote']['USD']['market_cap'];
-//print_r($temp);
-
-//$newTemp = findCoinStats($temp, "XRP");
-//echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
-//echo "<BR> Return String 1 : ".removeWildcard("-1-1-11,1-1-11");
-//echo "<BR> Remove Wildcard 1 : ".removeWildcard("*111,*-101");
-//echo "<BR> Remove Wildcard 2 : ".removeWildcard("*-1-11,*-101,*0-11,*001");
-//echo "<BR> Replace stars : ".replaceStars("*111,*111,*111,",1);
-//echo "<BR> Return String 2 : ".replaceStars("*1-11",1);
-//echo "<BR> Return String 3 : ".removeWildcard("*-1-11,*0-11");
-//echo "<BR> Return String 4 : ".removeWildcard("**-11,**11");
-$completeFlag = False;
-//if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
-//else { Echo "NO: $date <= $newTime";}
-$i = 0;
-while($completeFlag == False){
-  Echo "<BR>YES: $date <= $newTime";
-  sleep(5);
-  //$date = date("Y-m-d H:i", time());
-  if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
-  $i++;
-}
-Echo "<BR>NO: $date <= $newTime i = $i";
 ?>
 </html>
