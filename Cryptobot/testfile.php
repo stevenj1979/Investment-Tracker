@@ -113,14 +113,15 @@ $newTime = date("Y-m-d H:i",strtotime("+10 Seconds", strtotime($current_date)));
 //echo "<BR> Return String 2 : ".replaceStars("*1-11",1);
 //echo "<BR> Return String 3 : ".removeWildcard("*-1-11,*0-11");
 //echo "<BR> Return String 4 : ".removeWildcard("**-11,**11");
+$completeFlag = False;
+//if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
+//else { Echo "NO: $date <= $newTime";}
 
-if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
-else { Echo "NO: $date <= $newTime";}
-
-while($date <= $newTime){
+while($completeFlag == False){
   Echo "YES: $date <= $newTime";
-    sleep(5);
-  $date = date("Y-m-d H:i", time());
+  sleep(5);
+  //$date = date("Y-m-d H:i", time());
+  if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }
 Echo "NO: $date <= $newTime";
 ?>
