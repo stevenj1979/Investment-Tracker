@@ -36,7 +36,7 @@ $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-logAction("Buy Sell Coins Start : End set to $newTime", 'BuySellTiming');
+logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming');
 $buyRules = getUserRules();
 $buyRulesSize = count($buyRules);
 $sellRules = getUserSellRules();
@@ -422,70 +422,24 @@ while($date <= $newTime){
 
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //Send Alert
-        //if ($minutes < -30){sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //Send Alert
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //Send Alert
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'LessThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert <= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'GreaterThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert >= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //Send Alert
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'LessThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert <= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'GreaterThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert >= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //Send Alert
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     } elseif ($action == 'LessThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert <= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
-
     } elseif ($action == 'GreaterThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert >= $price) { actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);}
-        //if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
-        //Close Alert
-        //if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
-      //}
     }
 
   }
@@ -497,7 +451,7 @@ while($date <= $newTime){
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
 }//end While
-logAction("Buy Sell Coins End", 'BuySellTiming');
+logAction("Buy Sell Coins End $date ", 'BuySellTiming');
 //$to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'BuySell Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 echo "<br>EndTime ".date("Y-m-d H:i:s", time());
