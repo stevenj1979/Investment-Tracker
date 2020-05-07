@@ -79,7 +79,7 @@ $date = date("Y-m-d H", time());
 //echo "<BR> Date1: $date2";
 $current_date = date('Y-m-d H:i');
 
-
+$newTime = date("Y-m-d H:i",strtotime("+10 Minutes", strtotime($current_date)));
 //SQLCommand();
 //echo "<BR> 1: ".isCoinMatch(240, "BCH", 239.00, "BTC", 1);
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
@@ -108,11 +108,18 @@ $current_date = date('Y-m-d H:i');
 //echo "<BR> newTemp ".$newTemp[0][0]." ; ".$newTemp[0][1]." ; ".$newTemp[0][2]." ; ".$newTemp[0][3]." ; ".$newTemp[0][4];
 //echo "<BR> Return String 1 : ".removeWildcard("-1-1-11,1-1-11");
 //echo "<BR> Remove Wildcard 1 : ".removeWildcard("*111,*-101");
-echo "<BR> Remove Wildcard 2 : ".removeWildcard("*-1-11,*-101,*0-11,*001");
+//echo "<BR> Remove Wildcard 2 : ".removeWildcard("*-1-11,*-101,*0-11,*001");
 //echo "<BR> Replace stars : ".replaceStars("*111,*111,*111,",1);
 //echo "<BR> Return String 2 : ".replaceStars("*1-11",1);
 //echo "<BR> Return String 3 : ".removeWildcard("*-1-11,*0-11");
 //echo "<BR> Return String 4 : ".removeWildcard("**-11,**11");
+
+if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
+else { Echo "NO: $date <= $newTime";}
+
+//while($date <= $newTime){
+
+//}
 
 ?>
 </html>
