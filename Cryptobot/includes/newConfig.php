@@ -509,8 +509,8 @@ function getCMCID($symbol){
     return rtrim($temp, ',');
 }
 
-function newCoinMarketCapStats($symbol){
-  $coinMarketID = getCMCID($symbol);
+function newCoinMarketCapStats($coinMarketID){
+  //$coinMarketID = getCMCID($symbol);
   $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
   $parameters = [
     'id' => $coinMarketID
@@ -1752,12 +1752,12 @@ function getStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Symbol`,`ID`,`BaseCurrency` FROM `CoinStatsView` order by `Symbol` asc";
+  $sql = "SELECT `Symbol`,`ID`,`BaseCurrency`,`cmcid` FROM `CoinStatsView` order by `Symbol` asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Symbol'],$row['ID'],$row['BaseCurrency']);
+      $tempAry[] = Array($row['Symbol'],$row['ID'],$row['BaseCurrency'],$row['cmcid']);
   }
   $conn->close();
   return $tempAry;
@@ -1878,11 +1878,11 @@ function setTimeZone(){
   date_default_timezone_set('Asia/Dubai');
 }
 
-function getCoinList($coinStats){
+function getCoinList($coinStats, $num){
   $returnStr = "";
   $coinStatsCount = count($coinStats);
   for ($i=0; $i<$coinStatsCount; $i++){
-    $returnStr .= $coinStats[$i][0].",";
+    $returnStr .= $coinStats[$i][$num].",";
   }
   return rtrim($returnStr,',');
 }
