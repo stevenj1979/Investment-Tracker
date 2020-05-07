@@ -1752,12 +1752,12 @@ function getStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Symbol`,`ID`,`BaseCurrency`,`cmcid` FROM `CoinStatsView` order by `Symbol` asc";
+  $sql = "SELECT `Symbol`,`ID`,`BaseCurrency`,`CMCID` FROM `CoinStatsView` order by `Symbol` asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Symbol'],$row['ID'],$row['BaseCurrency'],$row['cmcid']);
+      $tempAry[] = Array($row['Symbol'],$row['ID'],$row['BaseCurrency'],$row['CMCID']);
   }
   $conn->close();
   return $tempAry;
