@@ -34,7 +34,7 @@ function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,
 setTimeZone();
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
-
+$completeFlag = False;
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming');
 $buyRules = getUserRules();
@@ -47,7 +47,7 @@ $coins = getTrackingCoins();
 $coinLength = Count($coins);
 
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
-while($date <= $newTime){
+while($completeFlag == False){
   echo "<BR> BUY COINS!! ";
   logAction("Check Buy Coins Start", 'BuySellTiming');
   for($x = 0; $x < $coinLength; $x++) {
@@ -450,6 +450,7 @@ while($date <= $newTime){
   sleep(10);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
+  if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
 logAction("Buy Sell Coins End $date ", 'BuySellTiming');
 //$to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
