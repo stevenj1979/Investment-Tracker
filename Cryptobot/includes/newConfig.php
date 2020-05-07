@@ -1878,4 +1878,13 @@ function setTimeZone(){
   date_default_timezone_set('Asia/Dubai');
 }
 
+function getCoinList($coinStats){
+  $returnStr = "";
+  $coinStatsCount = count($coinStats);
+  for (i=0; i<$coinStatsCount; i++){
+    $returnStr .= $coinStats[$i][0].",";
+  }
+  return rtrim($returnStr,',');
+}
+
 ?>

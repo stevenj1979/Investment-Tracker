@@ -72,21 +72,6 @@ function SQLCommand(){
 
 
 //set time
-setTimeZone();
-$date = date("Y-m-d H:i", time());
-//echo "<BR> Date1: $date";
-//$date2 = date("Y-m-d H:", time());
-//echo "<BR> Date1: $date2";
-$current_date = date('Y-m-d H:i');
-
-$newTime = date("Y-m-d H:i",strtotime("+1 Minute", strtotime($current_date)));
-//SQLCommand();
-//echo "<BR> 1: ".isCoinMatch(240, "BCH", 239.00, "BTC", 1);
-//echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
-//echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 1);
-//echo "<BR> 3: ".isCoinMatch(7000, "BTC", 7001, "BTC", 0);
-
-echo coinMatchPattern("BTC:6200.00,ETH:125.00,BCH:199.00,XRP:0.17",6210.00,"BTC",0,1);
-
+Echo "<BR> ".getCoinList(getStats());
 ?>
 </html>
