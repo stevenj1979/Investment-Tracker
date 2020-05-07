@@ -1881,7 +1881,7 @@ function setTimeZone(){
 function getCoinList($coinStats){
   $returnStr = "";
   $coinStatsCount = count($coinStats);
-  for (i=0; i<$coinStatsCount; i++){
+  for ($i=0; $i<$coinStatsCount; $i++){
     $returnStr .= $coinStats[$i][0].",";
   }
   return rtrim($returnStr,',');
