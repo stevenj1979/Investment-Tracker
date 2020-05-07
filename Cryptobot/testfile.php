@@ -119,6 +119,7 @@ else { Echo "NO: $date <= $newTime";}
 
 while($date <= $newTime){
   Echo "YES: $date <= $newTime";
+    sleep(5);
   $date = date("Y-m-d H:i", time());
 }
 Echo "NO: $date <= $newTime";
