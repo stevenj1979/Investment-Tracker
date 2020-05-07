@@ -73,13 +73,13 @@ function SQLCommand(){
 
 //set time
 setTimeZone();
-$date = date("Y-m-d H", time());
+$date = date("Y-m-d H:i", time());
 //echo "<BR> Date1: $date";
 //$date2 = date("Y-m-d H:", time());
 //echo "<BR> Date1: $date2";
 $current_date = date('Y-m-d H:i');
 
-$newTime = date("Y-m-d H:i",strtotime("+10 Minutes", strtotime($current_date)));
+$newTime = date("Y-m-d H:i",strtotime("+10 Seconds", strtotime($current_date)));
 //SQLCommand();
 //echo "<BR> 1: ".isCoinMatch(240, "BCH", 239.00, "BTC", 1);
 //echo "<BR> 2: ".isCoinMatch(7100, "BTC", 6956, "BTC", 0);
@@ -117,9 +117,10 @@ $newTime = date("Y-m-d H:i",strtotime("+10 Minutes", strtotime($current_date)));
 if ($date <= $newTime){ Echo "YES: $date <= $newTime";}
 else { Echo "NO: $date <= $newTime";}
 
-//while($date <= $newTime){
-
-//}
-
+while($date <= $newTime){
+  Echo "YES: $date <= $newTime";
+  $date = date("Y-m-d H:i", time());
+}
+Echo "NO: $date <= $newTime";
 ?>
 </html>
