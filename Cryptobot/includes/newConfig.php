@@ -1698,13 +1698,17 @@ function isMobile() {
 
 function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
   $symbolBool = False; $priceBool = False;
+  Echo "<BR> $symbol : $liveSymbol";
   if ($symbol == $liveSymbol){
     $symbolBool = True;
     if ($isGreater == 1){
-      if ($livePrice > $bitPrice){$priceBool = True;}
+      Echo "<BR> Is Greater: $isGreater";
+      if ($livePrice > $bitPrice){$priceBool = True;Echo "<BR> Price : $livePrice : $bitPrice";}
+
       //echo "<BR> if ($livePrice > $bitPrice){";
     }else{
-      if ($livePrice < $bitPrice){$priceBool = True;}
+      Echo "<BR> Is Less Than: $isGreater";
+      if ($livePrice < $bitPrice){$priceBool = True;Echo "<BR> Price : $livePrice : $bitPrice";}
       //echo "<BR> if ($livePrice < $bitPrice){";
     }
   }
