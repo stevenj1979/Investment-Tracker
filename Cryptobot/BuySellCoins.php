@@ -450,7 +450,7 @@ while($completeFlag == False){
   sleep(10);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
-  if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;logAction("Buy Sell Coins Change Flag ".date("Y-m-d H:i", time())." $newTime ", 'BuySellTiming')}
+  if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;logAction("Buy Sell Coins Change Flag ".date("Y-m-d H:i", time())." $newTime ", 'BuySellTiming');}
 }//end While
 logAction("Buy Sell Coins End $date ", 'BuySellTiming');
 //$to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
