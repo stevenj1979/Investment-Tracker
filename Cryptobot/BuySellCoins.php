@@ -143,8 +143,8 @@ while($completeFlag == False){
       //logAction("1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ", 'BuySell');
       //Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
       $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13+$test14;
-      if ($totalScore_Buy >= 13 ){logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1: \t$test1\t 2: \t$test2\t 3: \t$test3\t 4: \t$test4\t 5: \t$test5\t 6: \t$test6\t 7: \t$test7\t 8: \t$test8\t 9: \t$test9\t 10: \t$test10\t 11: \t$test11\t 12: \t$test12\t 13: \t$test13\t 14: \t$test14\t TOTAL: $totalScore_Buy / 14","BuyScore");}
-      Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1: \t$test1\t 2: \t$test2\t 3: \t$test3\t 4: \t$test4\t 5: \t$test5\t 6: \t$test6\t 7: \t$test7\t 8: \t$test8\t 9: \t$test9\t 10: \t$test10\t 11: \t$test11\t 12: \t$test12\t 13: \t$test13\t 14: \t$test14\t TOTAL: $totalScore_Buy / 14";
+      if ($totalScore_Buy >= 13 ){logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14","BuyScore");}
+      Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14";
 
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True && $test13 == True && $test14 == True){
@@ -233,8 +233,8 @@ while($completeFlag == False){
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
 
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11;
-      if ($totalScore_Sell >= 11){logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1: \t$sTest1\t 2: \t$sTest2\t 3: \t$sTest3\t 4: \t$sTest4\t 5: \t$sTest5\t 6: \t$sTest6\t 7: \t$sTest7\t 8: \t$sTest8\t 9: \t$sTest9\t 10: \t$sTest10\t 11: \t$sTest11\t 12: \t$sTest12\t TOTAL:  $totalScore_Sell / 12, PROFIT: $profit","SellScore");}
-      Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1: \t$sTest1\t 2: \t$sTest2\t 3: \t$sTest3\t 4: \t$sTest4\t 5: \t$sTest5\t 6: \t$sTest6\t 7: \t$sTest7\t 8: \t$sTest8\t 9: \t$sTest9\t 10: \t$sTest10\t 11: \t$sTest11\t 12: \t$sTest12\t TOTAL:  $totalScore_Sell / 12, PROFIT: $profit";
+      if ($totalScore_Sell >= 11){logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12  TOTAL:  $totalScore_Sell / 12, PROFIT: $profit","SellScore");}
+      Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12  TOTAL:  $totalScore_Sell / 12, PROFIT: $profit";
 
       if ($sTest1 == True && $sTest2 == True && $sTest3 == True && $sTest4 == True && $sTest5 == True && $sTest6 == True && $sTest7 == True && $sTest8 == True && $sTest9 == True && $sTest10 == True
       && $sTest11 == True && $sTest12 == True){
