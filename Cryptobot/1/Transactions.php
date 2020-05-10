@@ -42,7 +42,7 @@ if($_POST['transSelect'] <> ""){
   echo "2";
   updateSellRule();
 }else{
-  echo "3";
+  echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
 }
 
