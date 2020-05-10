@@ -36,13 +36,14 @@ if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }elseif ($_GET['SellRule'] <> ""){
-  echo "1";
+  //echo "1";
   displayChangeFix($_GET['FixSellRule'],$_GET['SellRule']);
 }elseif ($_POST['transID'] <> ""){
-  echo "2";
+  //echo "2";
   updateSellRule();
+  header('Location: Transactions.php');
 }else{
-  echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
+  //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
 }
 
