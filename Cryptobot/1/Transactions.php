@@ -80,6 +80,7 @@ function updateSellRule(){
   $newID = $_POST['newSellID'];
   $transID = $_POST['transID'];
   $sql = "UPDATE $newID - $transID";
+  echo $sql;
 }
 
 function getCoinsfromSQL($userID){
