@@ -97,7 +97,7 @@ function displayDefault(){
       <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
      </form>";
   print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th>");
-  print_r("<th>Change Fixed Sell Rule</th>")
+  print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
