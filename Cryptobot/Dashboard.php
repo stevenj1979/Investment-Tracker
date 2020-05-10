@@ -195,7 +195,8 @@ for($x = 0; $x < $confSize; $x++) {
     $currentBTCPurchased = $btcToday[0][1]; $currentUSDTPurchased = $btcToday[0][2]; $currentETHPurchased = $btcToday[0][3];
   }
   echo "<BR> BTCPrice ".$btcPrice;
-  Echo "<BR> Update User Profit: updateUserProfit($userID,$bittrexBalBTC,$bittrexBalUSDT,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);";
+  Echo "<BR> Update User Profit: updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);";
+  Echo "<BR> Update Unrealised Profit: updateUserProfitUnrealised($userID,$currentBTCPurchased,$currentUSDTPurchased,$currentETHPurchased,$btcPrice, $ethPrice,$usdtPrice);";
   updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
   updateUserProfitUnrealised($userID,$currentBTCPurchased,$currentUSDTPurchased,$currentETHPurchased,$btcPrice, $ethPrice,$usdtPrice);
   //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
