@@ -87,7 +87,7 @@ function updateSellRule(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `SellRule`= $newID WHERE `ID` = $transID";
+    $sql = "UPDATE `Transaction` SET `FixSellRule`= $newID WHERE `ID` = $transID";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
