@@ -41,7 +41,7 @@ if($_POST['transSelect'] <> ""){
 }elseif ($_POST['transID'] <> ""){
   //echo "2";
   updateSellRule();
-  //header('Location: Transactions.php');
+  header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -88,7 +88,7 @@ function updateSellRule(){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "UPDATE `Transaction` SET `FixSellRule`= $newID WHERE `ID` = $transID";
-    print_r($sql);
+    //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
