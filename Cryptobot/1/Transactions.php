@@ -37,7 +37,7 @@ if($_POST['transSelect'] <> ""){
   changeSelection();
 }elseif ($_GET['SellRule'] <> ""){
   echo "1";
-  displayChangeFix($_GET['SellRule']);
+  displayChangeFix($_GET['FixSellRule']);
 }elseif ($_POST['newSellRule'] <> ""){
   echo "2";
   updateSellRule();
