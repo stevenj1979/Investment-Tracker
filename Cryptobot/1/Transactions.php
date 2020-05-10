@@ -70,7 +70,7 @@ function changeSelection(){
 function displayChangeFix(){
   $fixSellRule = $_POST['FixSellRule'];
   echo "<form action='Transactions.php?newSellRule=Yes' method='post'>";
-  echo "<input type='text' name='fixedSellID' value=$fixSellRule style='color:Gray' readonly ><label for='fixedSellID'>Current Fixed Sell ID: </label><br>";
+  echo "<input type='text' name='fixedSellID' value='$fixSellRule' style='color:Gray' readonly ><label for='fixedSellID'>Current Fixed Sell ID: </label><br>";
   echo "<input type='text' name='newSellID'><label for='newSellID'>New Fixed Sell ID: </label><br>";
   echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
 }
