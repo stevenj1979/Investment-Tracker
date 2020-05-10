@@ -108,6 +108,16 @@ function getHistoryFromSQL(){
     return $tempAry;
 }
 
+function displayOption($name){
+  if ($_SESSION['StatsListSelected'] == $name){
+      echo "<Option selected='selected' value='$name'>$name</option>";
+  }else{
+    echo "<Option value='$name'>$name</option>";
+  }
+
+
+}
+
 function getCoinsFromSQL(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -138,14 +148,14 @@ displayHeader(2);
             echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
         }
         echo "</select><SELECT name='timeSelect'>";
-        echo "<Option value='15 Minute'>15 Minute</option>";
-        echo "<Option value='30 Minute'>30 Minute</option>";
-        echo "<Option value='1 Hour'>1 Hour</option>";
-        echo "<Option value='6 Hour'>6 Hour</option>";
-        echo "<Option value='12 Hour'>12 Hour</option>";
-        echo "<Option value='1 Day'>1 Day</option>";
-        echo "<Option value='5 Day'>5 Day</option>";
-        echo "<Option value='1 Week'>1 Week</option>";
+        displayOption("15 Minute");
+        displayOption("30 Minute");
+        displayOption("1 Hour");
+        displayOption("6 Hour");
+        displayOption("12 Hour");
+        displayOption("1 Day");
+        displayOption("5 Day");
+        displayOption("1 Week");
         echo "<input type='submit' value='Update'/></form>";?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
