@@ -883,14 +883,16 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   }
 }
 
-function newBuywithPattern($livePattern, $savedPattern, $pEnabled){
-  $savedPattern = removeWildcard($savedPattern);
-  $pieces = explode(",", $savedPattern);
+function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID){
+  $pieces = removeWildcard($savedPattern);
+  //$pieces = explode(",", $savedPattern);
   $piecesSize = count($pieces);
   $testTrue = False;
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
-    if (newReturnPattern($livePattern,$pieces[$x])){ $testTrue = True;}
+    if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0)){
+      if (newReturnPattern($livePattern,$pieces[$x][2])){ $testTrue = True;}
+    }
   }
     if ($pEnabled == 0){
       //print_r("True");
@@ -1858,8 +1860,8 @@ function returnWildcardStr($tempStr, $starCount){
   return $returnStr;
 }
 
-Function removeWildcard($wildcardStr){
-	$tempStr = explode(',',$wildcardStr);
+Function removeWildcard($tempStr){
+	//$tempStr = explode(',',$wildcardStr);
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
@@ -1878,7 +1880,7 @@ Function removeWildcard($wildcardStr){
         $returnStr .=$tempStr[$i].",";
     }
 	}
- return rtrim($returnStr,',');
+ return implode(",",rtrim($returnStr,','));
 }
 
 function setTimeZone(){
@@ -1912,4 +1914,39 @@ function getCoinPriceMatchList(){
   return $tempAry;
 }
 
+function getCoinPricePattenList(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinPattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getCoin1HrPattenList(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['Pattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>
