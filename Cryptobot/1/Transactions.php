@@ -36,7 +36,9 @@ if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }elseif ($_POST['SellRule'] <> ""){
-
+  displayChangeFix();
+}elseif ($_POST['newSellRule'] <> ""){
+  updateSellRule();
 }else{
   displayDefault();
 }
@@ -60,6 +62,18 @@ function changeSelection(){
     //$dropArray[] = Array("All","Open","Sold");
   }
   //print_r($globals['sql_Option']);
+}
+
+function displayChangeFix(){
+  $fixSellRule = $_POST['FixSellRule'];
+  echo "<form action='Transactions.php?newSellRule=Yes' method='post'>";
+  echo "<input type='text' name='fixedSellID' value=$fixSellRule style='color:Gray' readonly ><label for='fixedSellID'>Current Fixed Sell ID: </label><br>";
+  echo "<input type='text' name='newSellID'><label for='newSellID'>New Fixed Sell ID: </label><br>";
+  echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
+}
+
+function updateSellRule(){
+
 }
 
 function getCoinsfromSQL($userID){
@@ -105,7 +119,7 @@ function displayDefault(){
       $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
       $purchasePrice = round($amount*$coinPrice,2);
       print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
-      print_r("<td><a href='Transactions.php?SellRule=$Id'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
+      print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
