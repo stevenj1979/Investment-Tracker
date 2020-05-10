@@ -36,10 +36,13 @@ if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }elseif ($_POST['SellRule'] <> ""){
+  echo "1";
   displayChangeFix();
 }elseif ($_POST['newSellRule'] <> ""){
+  echo "2";
   updateSellRule();
 }else{
+  echo "3";
   displayDefault();
 }
 
