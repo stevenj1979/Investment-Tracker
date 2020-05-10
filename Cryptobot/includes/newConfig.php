@@ -1717,15 +1717,17 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
 
 }
 
-function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled){
-  $pieces = explode(",", $coinPattern);
-  $piecesSize = count($pieces);
+function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled, $ruleID){
+  //$pieces = explode(",", $coinPattern);
+  $piecesSize = count($coinPattern);
   $testTrue = False;
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
-    $row = explode(":", $pieces[$x]);
-    if (isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
+    //$row = explode(":", $pieces[$x]);
+    if (($coinPattern[$x][0] == $ruleID && $coinPattern[$x][1] == 0) OR ($coinPattern[$x][1] == $ruleID && $coinPattern[$x][0] == 0)){
+      if (isCoinMatch((float)$coinPattern[$x][3],$coinPattern[$x][4],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
+    }
   }
     if ($pEnabled == 0){
       //print_r("True");
@@ -1885,6 +1887,24 @@ function getCoinList($coinStats, $num){
     $returnStr .= $coinStats[$i][$num].",";
   }
   return rtrim($returnStr,',');
+}
+
+function getCoinPriceMatchList(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol` FROM `CoinPriceMatchView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 ?>

@@ -43,8 +43,8 @@ $sellRules = getUserSellRules();
 $sellRulesSize = count($sellRules);
 $i = 0;
 $coins = getTrackingCoins();
-
 $coinLength = Count($coins);
+$coinPriceMatch = getCoinPriceMatchList();
 
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
@@ -136,7 +136,7 @@ while($completeFlag == False){
       $test9 = newBuywithPattern($newPriceTrend,$newBuyPattern,$priceTrendEnabled);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
       $test11 = autoBuy($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled);
-      $test12 = coinMatchPattern($coinPricePattern,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled);
+      $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy);
       $test14 = newBuywithPattern($new1HrPriceChange,$Hr1ChangeTrend,$Hr1ChangeTrendEnabled);
       $test13 = $GLOBALS['allDisabled'];
       if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
@@ -228,7 +228,7 @@ while($completeFlag == False){
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
-      $sTest11 = coinMatchPattern($coinPricePatternSell,$LiveCoinPrice,$symbol,1,$coinPricePatternSellEnabled);
+      $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,1,$coinPricePatternSellEnabled,$ruleIDSell);
       $sTest12 = $GLOBALS['allDisabled'];
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
 
