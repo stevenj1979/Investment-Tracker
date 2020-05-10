@@ -37,7 +37,7 @@ if($_POST['transSelect'] <> ""){
   changeSelection();
 }elseif ($_GET['SellRule'] <> ""){
   echo "1";
-  displayChangeFix();
+  displayChangeFix($_GET['SellRule']);
 }elseif ($_POST['newSellRule'] <> ""){
   echo "2";
   updateSellRule();
@@ -67,8 +67,8 @@ function changeSelection(){
   //print_r($globals['sql_Option']);
 }
 
-function displayChangeFix(){
-  $fixSellRule = $_POST['FixSellRule'];
+function displayChangeFix($fixSellRule){
+  //$fixSellRule = $_POST['FixSellRule'];
   echo "<form action='Transactions.php?newSellRule=Yes' method='post'>";
   echo "<input type='text' name='fixedSellID' value='$fixSellRule' style='color:Gray' readonly ><label for='fixedSellID'>Current Fixed Sell ID: </label><br>";
   echo "<input type='text' name='newSellID'><label for='newSellID'>New Fixed Sell ID: </label><br>";
