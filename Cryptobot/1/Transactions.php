@@ -79,8 +79,21 @@ function displayChangeFix($fixSellRule, $transID){
 function updateSellRule(){
   $newID = $_POST['newSellID'];
   $transID = $_POST['transID'];
-  $sql = "UPDATE $newID - $transID";
-  echo $sql;
+
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `SellRule`= $newID WHERE `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
 }
 
 function getCoinsfromSQL($userID){
