@@ -26,9 +26,18 @@ setStyle($_SESSION['isMobile']);
 
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
+
+date_default_timezone_set('Asia/Dubai');
+if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "Active";} else { $liveCoinStatus = "Disabled Until: ".$_SESSION['DisableUntil']." - ".date("Y-m-d H:i:s", time());}
+displayHeader(1);
+
 if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
+}elseif ($_POST['SellRule'] <> ""){
+
+}else{
+  displayDefault();
 }
 
 
@@ -74,30 +83,34 @@ function getCoinsfromSQL($userID){
     return $tempAry;
 }
 
-date_default_timezone_set('Asia/Dubai');
-if ($_SESSION['DisableUntil']<date("Y-m-d H:i:s", time())) { $liveCoinStatus = "Active";} else { $liveCoinStatus = "Disabled Until: ".$_SESSION['DisableUntil']." - ".date("Y-m-d H:i:s", time());}
-displayHeader(1);
+function displayDefault(){
+  $coin = getCoinsfromSQL($_SESSION['ID']);
 
-				$coin = getCoinsfromSQL($_SESSION['ID']);
+  $arrlength = count($coin);
+  echo "<html><h2>Transactions</h2>";
+  echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
+  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
+     <option value='Open'>Open</option>
+    <option value='Sold'>Sold</option>
+      <option value='Pending'>Pending</option>
+      <option value='All'>All</option></select>
+      <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
+     </form>";
+  print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th>");
+  print_r("<th>Change Fixed Sell Rule</th>")
+  print_r("<tr>");
+  for($x = 0; $x < $arrlength; $x++) {
+      $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
+      $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
+      $purchasePrice = round($amount*$coinPrice,2);
+      print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
+      print_r("<td><a href='Transactions.php?SellRule=Yes'><i class='fas fa-ambulance' style='font-size:32px;color:#D4EFDF'></i></a></td>");
+      print_r("<tr>");
+  }
+  print_r("</Table>");
+}
 
-				$arrlength = count($coin);
-        echo "<html><h2>Transactions</h2>";
-        echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
-        echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
-           <option value='Open'>Open</option>
-          <option value='Sold'>Sold</option>
-            <option value='Pending'>Pending</option>
-            <option value='All'>All</option></select>
-            <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
-           </form>";
-				print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th><tr>");
-				for($x = 0; $x < $arrlength; $x++) {
-            $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
-            $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
-            $purchasePrice = round($amount*$coinPrice,2);
-				    print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td><tr>");
-				}
-				print_r("</Table>");
+
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
