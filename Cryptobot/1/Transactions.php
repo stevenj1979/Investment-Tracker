@@ -35,9 +35,7 @@ displayHeader(1);
 if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
-}
-
-if ($_POST['SellRule'] <> ""){
+}elseif ($_GET['SellRule'] <> ""){
   echo "1";
   displayChangeFix();
 }elseif ($_POST['newSellRule'] <> ""){
