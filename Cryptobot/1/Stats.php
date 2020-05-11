@@ -108,6 +108,17 @@ function getHistoryFromSQL(){
     return $tempAry;
 }
 
+function displayOptionOne($symbol,$baseCurrency){
+    $selected = $_SESSION['StatsListSelected'];
+  if ($selected == $symbol){
+      echo "<Option selected='selected' value='$symbol'>$symbol</option>";
+  }else{
+    echo "<Option value='$symbol'>$symbol</option>";
+  }
+
+
+}
+
 function displayOption($name){
     $selected = $_SESSION['StatsListSelected'];
   if ($selected == $name){
@@ -146,7 +157,8 @@ displayHeader(2);
         echo "<h2>Stats</h2><form action='Stats.php?dropdown=Yes' method='post'><select name='coinSelect'>";
 
         for($x = 0; $x < $StatsArrLength; $x++) {
-            echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
+            //echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
+            displayOptionOne($coinStats[$x][0],$coinStats[$x][2]);
         }
         echo "</select><SELECT name='timeSelect'>";
         displayOption("15 Minute");
