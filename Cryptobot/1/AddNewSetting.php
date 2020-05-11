@@ -433,7 +433,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
 
-  Echo "<select name="listbox" size="3">";
+  Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
 
   echo "</select>";
