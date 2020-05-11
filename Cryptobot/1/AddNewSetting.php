@@ -244,7 +244,7 @@ function updateEditedUser(){
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
   , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = '$SellRuleFixed', `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `CoinOrder` = $coinOrder,
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern' 
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern'
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -291,6 +291,25 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   return $tempAry;
 }
 
+function getPricePatternBuy($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`UserID` FROM `CoinPriceMatchView` WHERE (`BuyRuleID` = $id )";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
   echo "<br/><b>".$RealName."</b>
@@ -315,9 +334,19 @@ function addNewThreeOption($RealName, $idName, $value){
     <option value='".$nOption3."'>".$nOption3."</option></select>";
 }
 
+function displayListBox($tempAry){
+  $tempCount = count($tempAry);
+  for ($i=0; $i<$tempCount; $i++){
+    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
+
+      echo "<option value='$result'>$result</option>";
+  }
+}
+
 
 function displayEdit($id){
   $formSettings = getRules($id);
+  $pricePattern = getPricePatternBuy($id);
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
@@ -400,6 +429,14 @@ function displayEdit($id){
   echo "<H3>Coin Price Pattern</H3>";
     addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
     addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>New Coin Price Pattern</H3>";
+
+  Echo "<select name="listbox" size="3">";
+  displayListBox($pricePattern);
+
+  echo "</select>";
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
