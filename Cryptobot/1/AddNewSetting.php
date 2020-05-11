@@ -23,6 +23,8 @@ if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
     Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
+  }elseif (!empty($_POST['remove'])){
+    Echo "this is a remove test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -475,7 +477,7 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "<input type='submit' name='publish' value='Publish'></div>";
+  echo "<input type='submit' name='publish' value='Add'><input type='submit' name='remove' value='Remove'></div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
