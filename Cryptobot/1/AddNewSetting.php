@@ -26,7 +26,7 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
-if(!empty($_GET['add'])){ Echo "this is a test";}
+if(!empty($_GET['add'])){ Echo "this is a test".$_POST['listbox'];}
 
 
 function deleteItem($id){
@@ -463,16 +463,16 @@ function displayEdit($id){
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-  Echo "<select name='select'>";
+
+  Echo "<form action='AddNewSetting.php?add=yes' method='post'><select name='select'>";
   displaySymbols($symbolList);
   echo "</select>";
   addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
+  echo "<a href='AddNewSetting.php?add=yes'>Add</a>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
-
   echo "</select>";
-  echo "<a href='AddNewSetting.php?add=yes'>Add</a>";
-  echo "</div>";
+  echo "<input type='submit'></form></div>";
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
