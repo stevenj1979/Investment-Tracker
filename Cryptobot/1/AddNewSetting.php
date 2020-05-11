@@ -26,7 +26,7 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
-if(!empty($_GET['add'])){ Echo "this is a test".$_GET['add'];displayEdit($_GET['add']);}
+if(!empty($_GET['add'])){ Echo "this is a test".$_GET['add'].$_GET['select'];displayEdit($_GET['add']);}
 
 
 function deleteItem($id){
