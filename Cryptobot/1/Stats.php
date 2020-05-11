@@ -110,7 +110,7 @@ function getHistoryFromSQL(){
 
 function displayOption($name){
   if ($_SESSION['StatsListSelected'] == $name){
-      echo "<Option selected='selected' value='$name'>$name</option>";
+      echo "<Option selected='selected' value='$name'>$name selected</option>";
   }else{
     echo "<Option value='$name'>$name</option>";
   }
