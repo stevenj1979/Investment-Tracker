@@ -206,7 +206,7 @@ displayHeader(0);
               $LiveUSDTPrice = (float)$uProfit[0][5];
               $pendingUSDT = (float)$uProfit[0][6];
               //echo "<BR> $LiveBTCPrice : $LiveETHPrice";
-              $totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice);
+              $totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice)+$pendingUSDT;
               echo "<h3>Dashboard</h3>";
               echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Purchased Coins USD</TH><TH>Total USD</TH><tr>";
               if ($_SESSION['isMobile']){
