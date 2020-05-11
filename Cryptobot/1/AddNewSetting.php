@@ -26,7 +26,7 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
-if(!empty($_GET['add'])){ Echo "this is a test".$_GET['add'].$_GET['select'];displayEdit($_GET['add']);}
+if(!empty($_POST['publish'])){ Echo "this is a test".$_POST['add'].$_POST['select'];displayEdit($_POST['add']);}
 
 
 function deleteItem($id){
@@ -472,7 +472,8 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "<input type='submit'></form></div>";
+  echo "<input type='submit' name='publish' value='Publish'></form></div>";
+
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
