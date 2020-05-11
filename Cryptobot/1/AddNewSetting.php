@@ -21,7 +21,7 @@ if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewUser(); }
 if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
-  if (!empty($_POST['publish']){
+  if (!empty($_POST['publish'])){
     Echo "this is a test".$_POST['editedUserReady'].$_POST['select'];displayEdit($_POST['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
