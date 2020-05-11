@@ -1,6 +1,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';?>
@@ -25,6 +26,8 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
+if(!empty($_GET['add'])){ Echo "this is a test";}
+
 
 function deleteItem($id){
 
@@ -468,6 +471,7 @@ function displayEdit($id){
   displayListBox($pricePattern);
 
   echo "</select>";
+  echo "<a href='AddNewSetting.php?add=yes'>Add</a>";
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
