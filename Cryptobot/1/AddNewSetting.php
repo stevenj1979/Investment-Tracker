@@ -26,7 +26,7 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
-if(!empty($_GET['add'])){ Echo "this is a test".$_POST['listbox'];}
+if(!empty($_GET['add'])){ Echo "this is a test".$_POST['add'];displayEdit($_POST['add']);}
 
 
 function deleteItem($id){
@@ -468,7 +468,7 @@ function displayEdit($id){
   displaySymbols($symbolList);
   echo "</select>";
   addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
-  echo "<a href='AddNewSetting.php?add=yes'>Add</a>";
+  echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
