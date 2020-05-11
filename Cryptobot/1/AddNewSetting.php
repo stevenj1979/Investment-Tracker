@@ -23,8 +23,10 @@ if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
     Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
+    addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice']);
   }elseif (!empty($_POST['remove'])){
     Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
+    removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox'])
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -33,9 +35,42 @@ if(!empty($_GET['editedUserReady'])){
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
 
+function addpricePatterntoSQL($ruleID, $symbol, $price){
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID);";
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
+
+function removePricePatternfromSQL($ruleID, $price){
+  $splitPrice = explode(':',$price);
+  $price = $splitPrice[0][1]; $symbol = $splitPrice[0][0];
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
+    select `ID` from `CoinPriceMatch` where `Price` = $price and `UserID` = $userID and `CoinID` = (
+      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
 
 function deleteItem($id){
-
   $_GET['nUReady'] = null;
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -461,11 +496,11 @@ function displayEdit($id){
   addNewText('New Buy Pattern: ', 'NewBuyPattern', $formSettings[0][50], 49, 'Eg 7000', True);
 
   echo "</div>";
-  echo "<div class='settingsform'>";
-  echo "<H3>Coin Price Pattern</H3>";
-    addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
-    addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
-  echo "</div>";
+  //echo "<div class='settingsform'>";
+  //echo "<H3>Coin Price Pattern</H3>";
+  //  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+  //  addNewText('Coin Price Pattern: ', 'CoinPricePattern', $formSettings[0][54], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
 
@@ -477,7 +512,7 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "<input type='submit' name='publish' value='Add'><input type='submit' name='remove' value='Remove'></div>";
+  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
