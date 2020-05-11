@@ -364,7 +364,7 @@ function displayListBox($tempAry){
 
 function displaySymbols($symbolList){
   $symbolListCount = count($symbolList);
-  for ($i=0; $i<$tempCount; $i++){
+  for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][0];
     echo "<option value='$symbol'>$symbol</option>";
   }
