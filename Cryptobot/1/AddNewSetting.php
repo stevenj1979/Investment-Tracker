@@ -22,7 +22,7 @@ if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
-    Echo "this is a test".$_GET['editedUserReady'].$_POST['select'];displayEdit($_GET['editedUserReady']);
+    Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -470,7 +470,7 @@ function displayEdit($id){
   Echo "<select name='select'>";
   displaySymbols($symbolList);
   echo "</select>";
-  addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
+  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
