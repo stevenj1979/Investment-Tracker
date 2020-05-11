@@ -22,7 +22,7 @@ if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
-    Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
+    Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
     addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice']);
   }elseif (!empty($_POST['remove'])){
     Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
@@ -37,6 +37,7 @@ if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
 
 function addpricePatterntoSQL($ruleID, $symbol, $price){
   $userID = $_SESSION['ID'];
+  echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
