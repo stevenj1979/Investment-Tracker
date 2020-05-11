@@ -54,14 +54,14 @@ function addpricePatterntoSQL($ruleID, $symbol, $price){
 
 function removePricePatternfromSQL($ruleID, $price){
   $splitPrice = explode(':',$price);
-  $newPrice = $splitPrice[0][1]; $symbol = $splitPrice[0][0];
+  $newPrice = $splitPrice[1]; $symbol = $splitPrice[0];
   $userID = $_SESSION['ID'];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
     select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `CoinID` = (
-      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1)) $price";
+      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
