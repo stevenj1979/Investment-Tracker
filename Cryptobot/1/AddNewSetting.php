@@ -26,7 +26,7 @@ if(!empty($_GET['editedUserReady'])){
     addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice']);
   }elseif (!empty($_POST['remove'])){
     Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
-    removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox'])
+    removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
