@@ -464,7 +464,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
 
-  Echo "<select name='select'>";
+  Echo "<form action='AddNewSetting.php?add=".$id."' method='post'>><select name='select'>";
   displaySymbols($symbolList);
   echo "</select>";
   addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
@@ -472,7 +472,7 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "</div>";
+  echo "<input type='submit'></form></div>";
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
