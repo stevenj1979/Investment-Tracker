@@ -463,6 +463,7 @@ function displayEdit($id){
   Echo "<select name='select'>";
   displaySymbols($symbolList);
   echo "</select>";
+  addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
 
