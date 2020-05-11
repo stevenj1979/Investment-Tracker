@@ -22,7 +22,7 @@ if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish']){
-    Echo "this is a test".$_POST['add'].$_POST['select'];displayEdit($_POST['add']);
+    Echo "this is a test".$_POST['editedUserReady'].$_POST['select'];displayEdit($_POST['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -467,7 +467,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
 
-  Echo "<form action='AddNewSetting.php?add=".$id."' method='post'>><select name='select'>";
+  Echo "<select name='select'>";
   displaySymbols($symbolList);
   echo "</select>";
   addNewText('Coin Price: ', 'CoinPricePattern', 0, 52, 'Eg 7000.00', True);
