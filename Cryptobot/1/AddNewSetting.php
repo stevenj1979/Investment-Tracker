@@ -24,7 +24,7 @@ if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
     Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
   }elseif (!empty($_POST['remove'])){
-    Echo "this is a remove test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];displayEdit($_GET['editedUserReady']);
+    Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
