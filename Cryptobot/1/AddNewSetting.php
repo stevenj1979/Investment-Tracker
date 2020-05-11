@@ -21,12 +21,15 @@ if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewUser(); }
 if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
-  //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
-  updateEditedUser();
+  if (!empty($_POST['publish']){
+    Echo "this is a test".$_POST['add'].$_POST['select'];displayEdit($_POST['add']);
+  }else{
+    //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
+    updateEditedUser();
+  }
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
-if(!empty($_POST['publish'])){ Echo "this is a test".$_POST['add'].$_POST['select'];displayEdit($_POST['add']);}
 
 
 function deleteItem($id){
@@ -472,7 +475,7 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "<input type='submit' name='publish' value='Publish'></form></div>";
+  echo "<input type='submit' name='publish' value='Publish'></div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>1Hr Change Pattern</H3>";
