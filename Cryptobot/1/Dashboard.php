@@ -144,12 +144,12 @@ function getTotalHoldings($userID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `BittrexBTC`,`BittrexUSDT`,`BittrexETH`, `BTCPrice`, `ETHPrice`, `USDTPrice` FROM `UserProfit` WHERE `UserID` = $userID and DATE_FORMAT(`ActionDate`, '%Y-%m-%d') = CURDATE()";
+  $sql = "SELECT `BittrexBTC`,`BittrexUSDT`,`BittrexETH`, `BTCPrice`, `ETHPrice`, `USDTPrice`,`PendingCoinsUSD` FROM `UserProfit` WHERE `UserID` = $userID and DATE_FORMAT(`ActionDate`, '%Y-%m-%d') = CURDATE()";
   //echo $sql;
   $result = $conn->query($sql);
 
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['BittrexBTC'],$row['BittrexUSDT'],$row['BittrexETH'],$row['BTCPrice'],$row['ETHPrice'],$row['USDTPrice']);
+      $tempAry[] = Array($row['BittrexBTC'],$row['BittrexUSDT'],$row['BittrexETH'],$row['BTCPrice'],$row['ETHPrice'],$row['USDTPrice'],$row['PendingCoinsUSD']);
   }
   $conn->close();
   return $tempAry;
@@ -204,15 +204,16 @@ displayHeader(0);
               //$LiveETHPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','ETH')), 8, '.', '');
               $LiveETHPrice = (float)$uProfit[0][4];
               $LiveUSDTPrice = (float)$uProfit[0][5];
+              $pendingUSDT = (float)$uProfit[0][6];
               //echo "<BR> $LiveBTCPrice : $LiveETHPrice";
               $totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice);
               echo "<h3>Dashboard</h3>";
-              echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Total USD</TH><tr>";
+              echo "<table><TH>BTC</TH><TH>USDT</TH><TH>ETH</TH><TH>Purchased Coins USD</TH><TH>Total USD</TH><tr>";
               if ($_SESSION['isMobile']){
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $totalProfit</td>";
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $pendingUSDT</td><td>&nbspUSD $totalProfit</td>";
               }else{
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $totalProfit</td>";
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspUSDT $usdtPrice</td><td>&nbspETH $ethProfit</td><td>&nbspUSD $pendingUSDT</td><td>&nbspUSD $totalProfit</td>";
               }
               echo "</table>";
 
