@@ -120,11 +120,11 @@ function displayOptionOne($symbol,$baseCurrency){
 }
 
 function displayOption($name){
-    $selected = $_SESSION['StatsListSelected'];
+    $selected = $_SESSION['StatsListTime'];
   if ($selected == $name){
-      echo "<Option selected='selected' value='$name'>$name $selected</option>";
+      echo "<Option selected='selected' value='$name'>$name</option>";
   }else{
-    echo "<Option value='$name'>$name $selected</option>";
+    echo "<Option value='$name'>$name</option>";
   }
 
 
