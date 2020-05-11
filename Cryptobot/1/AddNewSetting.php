@@ -61,7 +61,7 @@ function removePricePatternfromSQL($ruleID, $price){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
     select `ID` from `CoinPriceMatch` where `Price` = $price and `UserID` = $userID and `CoinID` = (
-      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
+      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1)) $price";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
