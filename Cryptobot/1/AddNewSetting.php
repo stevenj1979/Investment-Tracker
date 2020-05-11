@@ -310,6 +310,25 @@ function getPricePatternBuy($id){
   return $tempAry;
 }
 
+function getSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol` FROM `Coin` WHERE `BuyCoin` = 1";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
   echo "<br/><b>".$RealName."</b>
@@ -343,10 +362,19 @@ function displayListBox($tempAry){
   }
 }
 
+function displaySymbols($symbolList){
+  $symbolListCount = count($symbolList);
+  for ($i=0; $i<$tempCount; $i++){
+    $symbol = $symbolList[$i][0];
+    echo "<option value='$symbol'>$symbol</option>";
+  }
+}
+
 
 function displayEdit($id){
   $formSettings = getRules($id);
   $pricePattern = getPricePatternBuy($id);
+  $symbolList = getSymbols();
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
@@ -432,7 +460,9 @@ function displayEdit($id){
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-
+  Echo "<select name='select' size='3'>";
+  displaySymbols($symbolList);
+  echo "</select>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
 
