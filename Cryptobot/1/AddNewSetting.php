@@ -467,7 +467,7 @@ function displaySymbols($symbolList,$num, $name){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
-    $name = str_replace('-1','Minus1',$name);
+    //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$name'>$symbol</option>";
   }
 }
@@ -476,7 +476,7 @@ function displayTrendSymbols($symbolList, $name){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i];
-    $name = str_replace('-1','Minus1',$name);
+    //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$name'>$symbol</option>";
   }
 }
