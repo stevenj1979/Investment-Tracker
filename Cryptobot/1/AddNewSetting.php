@@ -32,7 +32,12 @@ if(!empty($_GET['editedUserReady'])){
   }elseif (!empty($_POST['removeTrend'])){
       Echo " ".$_POST['removeTrend'].$_POST['listboxTrend'];
   }elseif (!empty($_POST['publishHr1'])){
-      Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
+      //Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
+      if ($_POST['selectCmbo1Hr1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmbo1Hr2']; $temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
+      elseif ($_POST['selectCmbo1Hr2'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = '*';$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
+      elseif ($_POST['selectCmbo1Hr3'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = '*';$temp4 = $_POST['selectCmbo1Hr4'];}
+      elseif ($_POST['selectCmbo1Hr4'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = '*';}
+      Echo "$temp1 $temp2 $temp3 $temp4 ";
   }elseif (!empty($_POST['publishTrend'])){
       //Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
       if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
