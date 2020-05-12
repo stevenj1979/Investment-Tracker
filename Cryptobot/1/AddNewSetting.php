@@ -35,7 +35,7 @@ if(!empty($_GET['editedUserReady'])){
       Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
   }elseif (!empty($_POST['publishTrend'])){
       Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
-      echo "<BR> PriceTrend ".$_POST['PriceTrend1'];
+      echo "<BR> PriceTrend ".$_POST['PriceTrend1'].$_POST['PriceTrend2'].$_POST['PriceTrend3'].$_POST['PriceTrend4'];
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
