@@ -28,7 +28,8 @@ if(!empty($_GET['editedUserReady'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
   }elseif (!empty($_POST['removeHr1'])){
-      Echo " ".$_POST['removeHr1'].$_POST['listbox1Hr'];
+      //Echo " ".$_POST['removeHr1'].$_POST['listbox1Hr'];
+      remove1HrPatternfromSQL($_GET['editedUserReady'],$_POST['listbox1Hr']);
   }elseif (!empty($_POST['removeTrend'])){
       Echo " ".$_POST['removeTrend'].$_POST['listboxTrend'];
   }elseif (!empty($_POST['publishHr1'])){
@@ -98,6 +99,22 @@ function removePricePatternfromSQL($ruleID, $price){
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
     select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `CoinID` = (
       SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
+
+function remove1HrPatternfromSQL($ruleID, $pattern){
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `Coin1HrPatternRules` WHERE `Coin1HrPatternID` = (SELECT `ID` FROM `Coin1HrPattern` WHERE `Pattern` = '$pattern') and `BuyRuleID` = $ruleID and `UserID` = $userID";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
