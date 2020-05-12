@@ -55,7 +55,7 @@ function addTrendPatterntoSQL($pattern, $ruleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSellSetting.php?edit='.$ruleID);
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function addpricePatterntoSQL($ruleID, $symbol, $price){
@@ -72,7 +72,7 @@ function addpricePatterntoSQL($ruleID, $symbol, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSellSetting.php?edit='.$ruleID);
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
@@ -92,7 +92,7 @@ function removePricePatternfromSQL($ruleID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSellSetting.php?edit='.$ruleID);
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function removeTrendPatternfromSQL($ruleID, $pattern){
@@ -108,7 +108,7 @@ function removeTrendPatternfromSQL($ruleID, $pattern){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSellSetting.php?edit='.$ruleID);
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function copyRule($ID){
