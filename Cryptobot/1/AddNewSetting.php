@@ -466,11 +466,19 @@ function displaySymbols($symbolList,$num, $name){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
+    $name = replace('-1','Minus1',$name);
     echo "<option value='$name'>$symbol</option>";
   }
 }
 
-
+function displayTrendSymbols($symbolList, $name){
+  $symbolListCount = count($symbolList);
+  for ($i=0; $i<$symbolListCount; $i++){
+    $symbol = $symbolList[$i];
+    $name = replace('-1','Minus1',$name);
+    echo "<option value='$name'>$symbol</option>";
+  }
+}
 
 
 
@@ -563,16 +571,16 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
   Echo "<select name='selectCmboTrend1'>";
-  displaySymbols($comboList,0,'PriceTrend1');
+  displayTrendSymbols($comboList,'PriceTrend1');
   echo "</select>";
   Echo "<select name='selectCmboTrend2'>";
-  displaySymbols($comboList,0,'PriceTrend2');
+  displayTrendSymbols($comboList,'PriceTrend2');
   echo "</select>";
   Echo "<select name='selectCmboTrend3'>";
-  displaySymbols($comboList,0,'PriceTrend3');
+  displayTrendSymbols($comboList,'PriceTrend3');
   echo "</select>";
   Echo "<select name='selectCmboTrend4'>";
-  displaySymbols($comboList,0,'PriceTrend4');
+  displaySymbols($comboList,'PriceTrend4');
   echo "</select>";
   Echo "<select name='listboxTrend' size='3'>";
   displayListBoxNormal($priceTrendList,2);
@@ -605,13 +613,13 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
   Echo "<select name='selectCmbo1Hr1'>";
-  displaySymbols($comboList,0, 'Combo1Hr1');
+  displayTrendSymbols($comboList, 'Combo1Hr1');
   echo "</select><select name='selectCmbo1Hr2'>";
-  displaySymbols($comboList,0, 'Combo1Hr2');
+  displayTrendSymbols($comboList, 'Combo1Hr2');
   echo "</select><select name='selectCmbo1Hr3'>";
-  displaySymbols($comboList,0, 'Combo1Hr3');
+  displayTrendSymbols($comboList, 'Combo1Hr3');
   echo "</select><select name='selectCmbo1Hr4'>";
-  displaySymbols($comboList,0, 'Combo1Hr4');
+  displayTrendSymbols($comboList,'Combo1Hr4');
   echo "</select>";
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
