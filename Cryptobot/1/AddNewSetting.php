@@ -454,13 +454,16 @@ function displayListBoxNormal($tempAry, $num){
   }
 }
 
-function displaySymbols($symbolList,$num){
+function displaySymbols($symbolList,$num, $name){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
-    echo "<option value='$symbol'>$symbol</option>";
+    echo "<option value='$name'>$symbol</option>";
   }
 }
+
+
+
 
 
 
@@ -557,7 +560,7 @@ function displayEdit($id){
   echo "<H3>New Coin Price Pattern</H3>";
 
   Echo "<select name='select'>";
-  displaySymbols($symbolList,0);
+  displaySymbols($symbolList,0,'PricePatt1');
   echo "</select>";
   addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
@@ -566,14 +569,21 @@ function displayEdit($id){
   echo "</select>";
   echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div>";
 
-  echo "<div class='settingsform'>";
-  echo "<H3>1Hr Change Pattern</H3>";
-  addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
-  addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
-  echo "</div>";
+  //echo "<div class='settingsform'>";
+  //echo "<H3>1Hr Change Pattern</H3>";
+  //addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
+  //addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  //echo "</div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
+  Echo "<select name='selectCmbo1Hr'>";
+  $comboList = Array('*','1','0','-1');
+  displaySymbols($comboList,0, 'Combo1Hr1');
+  displaySymbols($comboList,0, 'Combo1Hr2');
+  displaySymbols($comboList,0, 'Combo1Hr3');
+  displaySymbols($comboList,0, 'Combo1Hr4');
+  echo "</select>";
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
   echo "</select>";
