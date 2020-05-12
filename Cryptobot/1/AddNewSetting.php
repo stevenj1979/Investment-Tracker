@@ -574,8 +574,8 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
-  Echo "<select name='listbox' size='3'>";
-  displayListBoxNormal($pricePattern,2);
+  Echo "<select name='listbox1Hr' size='3'>";
+  displayListBoxNormal($pricePattern,3);
   echo "</select>";
   echo "</div>";
   echo "<div class='settingsform'>";
