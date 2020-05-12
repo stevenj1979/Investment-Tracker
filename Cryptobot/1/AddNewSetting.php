@@ -545,10 +545,17 @@ function displayEdit($id){
   addNewTwoOption('Buy Amount Override Enabled: ', 'BuyAmountOverrideEnabled', $formSettings[0][48]);
   addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000', False);
   echo "</div>";
+  //echo "<div class='settingsform'>";
+  //echo "<H3>Price Trend</H3>";
+  //addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
+  //addNewText('New Buy Pattern: ', 'NewBuyPattern', $formSettings[0][50], 49, 'Eg 7000', True);
+
+  //echo "</div>";
   echo "<div class='settingsform'>";
-  echo "<H3>Price Trend</H3>";
-  addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
-  addNewText('New Buy Pattern: ', 'NewBuyPattern', $formSettings[0][50], 49, 'Eg 7000', True);
+  echo "<H3>New Price Trend</H3>";
+  Echo "<select name='select'>";
+  displaySymbols($priceTrendList,2,'PriceTrend1');
+  echo "</select>";
 
   echo "</div>";
   //echo "<div class='settingsform'>";
