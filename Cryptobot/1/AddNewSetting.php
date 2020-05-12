@@ -37,14 +37,15 @@ if(!empty($_GET['editedUserReady'])){
       elseif ($_POST['selectCmbo1Hr2'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = '*';$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
       elseif ($_POST['selectCmbo1Hr3'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = '*';$temp4 = $_POST['selectCmbo1Hr4'];}
       elseif ($_POST['selectCmbo1Hr4'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = '*';}
-      Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
+      //Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
+      add1HrPatterntoSQL($temp1.$temp2.$temp3.$temp4, $_GET['editedUserReady']);
   }elseif (!empty($_POST['publishTrend'])){
       //Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
       if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
       elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
       elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
       elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
-      Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
+      Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -52,6 +53,23 @@ if(!empty($_GET['editedUserReady'])){
 }
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
 if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
+
+function add1HrPatterntoSQL($pattern, $ruleID){
+  $userID = $_SESSION['ID'];
+  echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call add1HrPattern($pattern, $ruleID, $userID);";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
 
 function addpricePatterntoSQL($ruleID, $symbol, $price){
   $userID = $_SESSION['ID'];
