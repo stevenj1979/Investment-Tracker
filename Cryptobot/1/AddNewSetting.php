@@ -133,7 +133,7 @@ function removeTrendPatternfromSQL($ruleID, $pattern){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "DELETE FROM `CoinPricePatternRules` WHERE `PatternID` = (SELECT `ID` FROM `CoinPricePattern` WHERE `Pattern` = '$pattern') and `BuyRuleID` = $ruleID and `UserID` = $userID";
+  $sql = "DELETE FROM `CoinPricePatternRules` WHERE `PatternID` = (SELECT `ID` FROM `CoinPricePattern` WHERE `CoinPattern` = '$pattern') and `BuyRuleID` = $ruleID and `UserID` = $userID";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
