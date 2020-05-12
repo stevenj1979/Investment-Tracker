@@ -474,7 +474,7 @@ function displaySymbols($symbolList,$num){
 
 function displayTrendSymbols($symbolList){
   $symbolListCount = count($symbolList);
-  for ($i=0; $i<$symbolListCount; $i++){
+  for ($i=-1; $i<$symbolListCount-1; $i++){
     $symbol = $symbolList[$i];
     //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$i'>$symbol</option>";
@@ -490,7 +490,7 @@ function displayEdit($id){
   $symbolList = getSymbols();
   $Hr1ChangeList = get1HrchangeBuy($id);
   $priceTrendList = getPriceTrendBuy($id);
-  $comboList = Array('*','1','0','-1');
+  $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
