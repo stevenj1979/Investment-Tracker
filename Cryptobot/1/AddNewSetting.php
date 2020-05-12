@@ -81,14 +81,14 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addPricePattern('$pattern', $ruleID, $userID);";
-  //echo $sql;
+  echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function addpricePatterntoSQL($ruleID, $symbol, $price){
