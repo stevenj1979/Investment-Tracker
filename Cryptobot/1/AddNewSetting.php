@@ -355,6 +355,44 @@ function getPricePatternBuy($id){
   return $tempAry;
 }
 
+function get1HrchangeBuy($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` WHERE `BuyRuleID` = $id ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['Pattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getPriceTrendBuy($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` WHERE `BuyRuleID` = $id ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinPattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getSymbols(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -407,19 +445,31 @@ function displayListBox($tempAry){
   }
 }
 
-function displaySymbols($symbolList){
+function displayListBoxNormal($tempAry, $num){
+  $tempCount = count($tempAry);
+  for ($i=0; $i<$tempCount; $i++){
+    $result = $tempAry[$i][$num]; //$symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
+
+      echo "<option value='$result'>$result</option>";
+  }
+}
+
+function displaySymbols($symbolList,$num){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
-    $symbol = $symbolList[$i][0];
+    $symbol = $symbolList[$i][$num];
     echo "<option value='$symbol'>$symbol</option>";
   }
 }
+
 
 
 function displayEdit($id){
   $formSettings = getRules($id);
   $pricePattern = getPricePatternBuy($id);
   $symbolList = getSymbols();
+  $Hr1ChangeList = get1HrchangeBuy($id);
+  $priceTrendList = getPriceTrendBuy($id);
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
@@ -507,7 +557,7 @@ function displayEdit($id){
   echo "<H3>New Coin Price Pattern</H3>";
 
   Echo "<select name='select'>";
-  displaySymbols($symbolList);
+  displaySymbols($symbolList,0);
   echo "</select>";
   addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
@@ -521,7 +571,15 @@ function displayEdit($id){
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
   addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
   echo "</div>";
+
   echo "<div class='settingsform'>";
+  echo "<H3>New 1Hr Change Pattern</H3>";
+  Echo "<select name='listbox' size='3'>";
+  displayListBoxNormal($pricePattern,2);
+  echo "</select>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+
   echo "<H3>Admin</H3>";
     addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
