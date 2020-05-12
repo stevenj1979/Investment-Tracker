@@ -463,21 +463,21 @@ function displayListBoxNormal($tempAry, $num){
   }
 }
 
-function displaySymbols($symbolList,$num, $name){
+function displaySymbols($symbolList,$num){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
     //$name = str_replace('-1','Minus1',$name);
-    echo "<option value='$name'>$symbol</option>";
+    echo "<option value='$i'>$symbol</option>";
   }
 }
 
-function displayTrendSymbols($symbolList, $name){
+function displayTrendSymbols($symbolList){
   $symbolListCount = count($symbolList);
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i];
     //$name = str_replace('-1','Minus1',$name);
-    echo "<option value='$name'>$symbol</option> $name $symbol";
+    echo "<option value='$i'>$symbol</option>";
   }
 }
 
@@ -572,16 +572,16 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
   Echo "<select name='selectCmboTrend1'>";
-  displayTrendSymbols($comboList,'PriceTrend1');
+  displayTrendSymbols($comboList);
   echo "</select>";
   Echo "<select name='selectCmboTrend2'>";
-  displayTrendSymbols($comboList,'PriceTrend2');
+  displayTrendSymbols($comboList);
   echo "</select>";
   Echo "<select name='selectCmboTrend3'>";
-  displayTrendSymbols($comboList,'PriceTrend3');
+  displayTrendSymbols($comboList);
   echo "</select>";
   Echo "<select name='selectCmboTrend4'>";
-  displayTrendSymbols($comboList,'PriceTrend4');
+  displayTrendSymbols($comboList);
   echo "</select>";
   Echo "<select name='listboxTrend' size='3'>";
   displayListBoxNormal($priceTrendList,2);
@@ -596,7 +596,7 @@ function displayEdit($id){
   echo "<H3>New Coin Price Pattern</H3>";
 
   Echo "<select name='select'>";
-  displaySymbols($symbolList,0,'PricePatt1');
+  displaySymbols($symbolList,0);
   echo "</select>";
   addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
@@ -614,13 +614,13 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
   Echo "<select name='selectCmbo1Hr1'>";
-  displayTrendSymbols($comboList, 'Combo1Hr1');
+  displayTrendSymbols($comboList);
   echo "</select><select name='selectCmbo1Hr2'>";
-  displayTrendSymbols($comboList, 'Combo1Hr2');
+  displayTrendSymbols($comboList);
   echo "</select><select name='selectCmbo1Hr3'>";
-  displayTrendSymbols($comboList, 'Combo1Hr3');
+  displayTrendSymbols($comboList);
   echo "</select><select name='selectCmbo1Hr4'>";
-  displayTrendSymbols($comboList,'Combo1Hr4');
+  displayTrendSymbols($comboList);
   echo "</select>";
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
