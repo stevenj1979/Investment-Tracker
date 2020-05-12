@@ -61,7 +61,7 @@ function add1HrPatterntoSQL($pattern, $ruleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call add1HrPattern($pattern, $ruleID, $userID);";
+  $sql = "call add1HrPattern('$pattern', $ruleID, $userID);";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
