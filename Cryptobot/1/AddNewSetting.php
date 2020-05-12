@@ -473,6 +473,7 @@ function displayEdit($id){
   $symbolList = getSymbols();
   $Hr1ChangeList = get1HrchangeBuy($id);
   $priceTrendList = getPriceTrendBuy($id);
+  $comboList = Array('*','1','0','-1');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
@@ -554,9 +555,20 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
   Echo "<select name='select'>";
-  displaySymbols($priceTrendList,2,'PriceTrend1');
+  displaySymbols($comboList,2,'PriceTrend1');
   echo "</select>";
-
+  Echo "<select name='select'>";
+  displaySymbols($comboList,2,'PriceTrend2');
+  echo "</select>";
+  Echo "<select name='select'>";
+  displaySymbols($comboList,2,'PriceTrend3');
+  echo "</select>";
+  Echo "<select name='select'>";
+  displaySymbols($comboList,2,'PriceTrend4');
+  echo "</select>";
+  Echo "<select name='listboxTrend' size='3'>";
+  displayListBoxNormal($priceTrendList,2);
+  echo "</select>";
   echo "</div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Coin Price Pattern</H3>";
@@ -585,7 +597,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
   Echo "<select name='selectCmbo1Hr1'>";
-  $comboList = Array('*','1','0','-1');
+
   displaySymbols($comboList,0, 'Combo1Hr1');
   echo "</select><select name='selectCmbo1Hr2'>";
   displaySymbols($comboList,0, 'Combo1Hr2');
