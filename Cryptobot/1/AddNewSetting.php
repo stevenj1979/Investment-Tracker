@@ -577,11 +577,14 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
-  Echo "<select name='selectCmbo1Hr'>";
+  Echo "<select name='selectCmbo1Hr1'>";
   $comboList = Array('*','1','0','-1');
   displaySymbols($comboList,0, 'Combo1Hr1');
+  echo "</select><select name='selectCmbo1Hr2'>";
   displaySymbols($comboList,0, 'Combo1Hr2');
+  echo "</select><select name='selectCmbo1Hr3'>";
   displaySymbols($comboList,0, 'Combo1Hr3');
+  echo "</select><select name='selectCmbo1Hr4'>";
   displaySymbols($comboList,0, 'Combo1Hr4');
   echo "</select>";
   Echo "<select name='listbox1Hr' size='3'>";
