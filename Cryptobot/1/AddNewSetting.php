@@ -554,17 +554,17 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
-  Echo "<select name='select'>";
-  displaySymbols($comboList,2,'PriceTrend1');
+  Echo "<select name='selectCmboTrend1'>";
+  displaySymbols($comboList,0,'PriceTrend1');
   echo "</select>";
-  Echo "<select name='select'>";
-  displaySymbols($comboList,2,'PriceTrend2');
+  Echo "<select name='selectCmboTrend2'>";
+  displaySymbols($comboList,0,'PriceTrend2');
   echo "</select>";
-  Echo "<select name='select'>";
-  displaySymbols($comboList,2,'PriceTrend3');
+  Echo "<select name='selectCmboTrend3'>";
+  displaySymbols($comboList,0,'PriceTrend3');
   echo "</select>";
-  Echo "<select name='select'>";
-  displaySymbols($comboList,2,'PriceTrend4');
+  Echo "<select name='selectCmboTrend4'>";
+  displaySymbols($comboList,0,'PriceTrend4');
   echo "</select>";
   Echo "<select name='listboxTrend' size='3'>";
   displayListBoxNormal($priceTrendList,2);
@@ -597,7 +597,6 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
   Echo "<select name='selectCmbo1Hr1'>";
-
   displaySymbols($comboList,0, 'Combo1Hr1');
   echo "</select><select name='selectCmbo1Hr2'>";
   displaySymbols($comboList,0, 'Combo1Hr2');
