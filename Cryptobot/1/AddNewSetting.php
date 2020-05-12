@@ -35,6 +35,7 @@ if(!empty($_GET['editedUserReady'])){
       Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
   }elseif (!empty($_POST['publishTrend'])){
       Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
+      echo "<BR> PriceTrend ".$_POST['PriceTrend1'];
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -571,7 +572,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
   Echo "<select name='selectCmboTrend1'>";
-  displaySymbols($comboList,0,'PriceTrend1');
+  displayTrendSymbols($comboList,'PriceTrend1');
   echo "</select>";
   Echo "<select name='selectCmboTrend2'>";
   displaySymbols($comboList,0,'PriceTrend2');
