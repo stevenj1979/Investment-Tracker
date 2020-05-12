@@ -80,7 +80,7 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addPricePattern('$pattern', $ruleID, $userID);";
+  $sql = "call addPricePattern('$pattern', $ruleID, $userID, 0);";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -97,7 +97,7 @@ function addpricePatterntoSQL($ruleID, $symbol, $price){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID);";
+  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID,0);";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
