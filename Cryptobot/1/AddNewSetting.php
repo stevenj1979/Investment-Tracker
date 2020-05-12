@@ -27,6 +27,14 @@ if(!empty($_GET['editedUserReady'])){
   }elseif (!empty($_POST['remove'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
+  }elseif (!empty($_POST['removeHr1'])){
+
+  }elseif (!empty($_POST['removeTrend'])){
+
+  }elseif (!empty($_POST['publishHr1'])){
+
+  }elseif (!empty($_POST['publishTrend'])){
+
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -569,7 +577,7 @@ function displayEdit($id){
   Echo "<select name='listboxTrend' size='3'>";
   displayListBoxNormal($priceTrendList,2);
   echo "</select>";
-  echo "</div>";
+  echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Coin Price Pattern</H3>";
   //  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
@@ -608,7 +616,7 @@ function displayEdit($id){
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
   echo "</select>";
-  echo "</div>";
+  echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'></div>";
   echo "<div class='settingsform'>";
 
   echo "<H3>Admin</H3>";
