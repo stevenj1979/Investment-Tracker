@@ -437,6 +437,33 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Sell Pattern</H3>";
+  Echo "<select name='selectCmboTrend1'>";
+  displayTrendSymbols($comboList);
+  echo "</select>";
+  Echo "<select name='selectCmboTrend2'>";
+  displayTrendSymbols($comboList);
+  echo "</select>";
+  Echo "<select name='selectCmboTrend3'>";
+  displayTrendSymbols($comboList);
+  echo "</select>";
+  Echo "<select name='selectCmboTrend4'>";
+  displayTrendSymbols($comboList);
+  echo "</select>";
+  Echo "<select name='listboxTrend' size='3'>";
+  displayListBoxNormal($priceTrendList,2);
+  echo "</select>";
+  echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div>";
+
+
+  //echo "<div class='settingsform'>";
+  //echo "<H3>Coin Price Pattern</H3>";
+  //addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
+  //addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
+  //echo "</div>";
+
+
+  echo "<div class='settingsform'>";
+  echo "<H3>New Coin Price Pattern</H3>";
   Echo "<select name='select'>";
   displaySymbols($symbolList,0);
   echo "</select>";
@@ -448,11 +475,7 @@ function displayEdit($id){
   echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div>";
   echo "</div>";
 
-  echo "<div class='settingsform'>";
-  echo "<H3>Coin Price Pattern</H3>";
-  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
-  addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
-  echo "</div>";
+
   echo "<div class='settingsform'>";
   echo "<H3>Admin</H3>";
   addNewTwoOption('Send Email: ','sendEmail',$formSettings[0][3]);
