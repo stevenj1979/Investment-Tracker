@@ -28,13 +28,13 @@ if(!empty($_GET['editedUserReady'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
   }elseif (!empty($_POST['removeHr1'])){
-
+      Echo " ".$_POST['removeHr1'];
   }elseif (!empty($_POST['removeTrend'])){
-
+      Echo " ".$_POST['removeTrend'];
   }elseif (!empty($_POST['publishHr1'])){
-
+      Echo " ".$_POST['publishHr1'];
   }elseif (!empty($_POST['publishTrend'])){
-
+      Echo " ".$_POST['publishTrend'];
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
