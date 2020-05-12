@@ -341,10 +341,30 @@ function displayTrendSymbols($symbolList){
   }
 }
 
+function getSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol` FROM `Coin` WHERE `BuyCoin` = 1";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function displayEdit($id){
   $formSettings = getRules($id);
   $pricePattern = getPricePatternSell($id);
   $priceTrendList = getPriceTrendSell($id);
+  $symbolList = getSymbols();
   $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
