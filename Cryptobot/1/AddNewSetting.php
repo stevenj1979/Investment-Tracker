@@ -25,7 +25,7 @@ if(!empty($_GET['editedUserReady'])){
     Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
     addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice']);
   }elseif (!empty($_POST['remove'])){
-    Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
+    //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
@@ -42,14 +42,14 @@ function addpricePatterntoSQL($ruleID, $symbol, $price){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID);";
-  echo $sql;
+  //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
@@ -62,14 +62,14 @@ function removePricePatternfromSQL($ruleID, $price){
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
     select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `CoinID` = (
       SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
-  echo $sql;
+  //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function deleteItem($id){
