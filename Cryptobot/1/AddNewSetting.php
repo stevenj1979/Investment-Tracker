@@ -31,7 +31,8 @@ if(!empty($_GET['editedUserReady'])){
       //Echo " ".$_POST['removeHr1'].$_POST['listbox1Hr'];
       remove1HrPatternfromSQL($_GET['editedUserReady'],$_POST['listbox1Hr']);
   }elseif (!empty($_POST['removeTrend'])){
-      Echo " ".$_POST['removeTrend'].$_POST['listboxTrend'];
+      //Echo " ".$_POST['removeTrend'].$_POST['listboxTrend'];
+      removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
   }elseif (!empty($_POST['publishHr1'])){
       //Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
       if ($_POST['selectCmbo1Hr1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmbo1Hr2']; $temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
@@ -46,7 +47,8 @@ if(!empty($_GET['editedUserReady'])){
       elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
       elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
       elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
-      Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
+      //Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
+      addTrendPatterntoSQL($temp1.$temp2.$temp3.$temp4,$_GET['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -62,6 +64,23 @@ function add1HrPatterntoSQL($pattern, $ruleID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call add1HrPattern('$pattern', $ruleID, $userID);";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
+
+function addTrendPatterntoSQL($pattern, $ruleID){
+  $userID = $_SESSION['ID'];
+  echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addPricePattern('$pattern', $ruleID, $userID);";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -99,6 +118,22 @@ function removePricePatternfromSQL($ruleID, $price){
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
     select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `CoinID` = (
       SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
+
+function removeTrendPatternfromSQL($ruleID, $pattern){
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `CoinPricePatternRules` WHERE `CoinPricePatternID` = (SELECT `ID` FROM `CoinPricePattern` WHERE `Pattern` = '$pattern') and `BuyRuleID` = $ruleID and `UserID` = $userID";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
