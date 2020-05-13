@@ -136,7 +136,9 @@ function displayDefault(){
   newEcho("<th>OrderNo</th>",$_SESSION['isMobile'],0);
   print_r("<th>Symbol</th><th>Amount</th><th>Cost</th>");
   newecho("<th>BaseCurrency</th>",$_SESSION['isMobile'],0);
-  print_r("<th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th>");
+  print_r("<th>Purchase Price</th>");
+  newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],0);
+  print_r("<th>Status</th><th>FixSellRule</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
@@ -148,7 +150,9 @@ function displayDefault(){
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],0);
       print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td>");
       newEcho("<td></td>",$_SESSION['isMobile'],0);
-      print_r("<td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
+      print_r("<td>$purchasePrice</td>");
+      newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],0);
+      print_r("<td>$status</td><td>$fixSellRule</td>");
       print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='$fontSize;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
   }
