@@ -1866,7 +1866,7 @@ Function removeWildcard($tempStr){
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i];
+    echo "<BR> Test: ".$tempStr[$i][0];
     if (strpos($tempStr[$i], '*') !== false) {
         $starCount =substr_count($tempStr[$i],"*");
         //$returntempStr = $tempStr[$i].",";
