@@ -1866,19 +1866,19 @@ Function removeWildcard($tempStr){
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i][0];
-    if (strpos($tempStr[$i], '*') !== false) {
-        $starCount =substr_count($tempStr[$i],"*");
+    echo "<BR> Test: ".$tempStr[$i][2];
+    if (strpos($tempStr[$i][2], '*') !== false) {
+        $starCount =substr_count($tempStr[$i][2],"*");
         //$returntempStr = $tempStr[$i].",";
         for ($x=0; $x<$starCount; $x++){
 
-          $newStr = returnWildcardStr($tempStr[$i],$starCount);
+          $newStr = returnWildcardStr($tempStr[$i][2],$starCount);
           $returntempStr = replaceStars($newStr,$starCount);
         }
         $returnStr .= $returntempStr;
     }else{
         //no instances of * - add the string to the return string
-        $returnStr .=$tempStr[$i].",";
+        $returnStr .=$tempStr[$i][2].",";
     }
 	}
  return implode(",",rtrim($returnStr,','));
