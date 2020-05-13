@@ -1523,7 +1523,7 @@ function displaySideColumn(){
   //Echo "";?>
   </div>
   <div class="column side">
-    &nbsp
+    
   </div>
   </div>
 
