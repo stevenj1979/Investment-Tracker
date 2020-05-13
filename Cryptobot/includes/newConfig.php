@@ -883,14 +883,15 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   }
 }
 
-function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID){
+function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buySell){
+  //$buySell == 0 for buy ; 1 for sell
   $pieces = removeWildcard($savedPattern);
   //$pieces = explode(",", $savedPattern);
   $piecesSize = count($pieces);
   $testTrue = False;
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
-    if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0)){
+    if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0 && $buySell == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0&& $buySell == 1)){
       if (newReturnPattern($livePattern,$pieces[$x][2])){ $testTrue = True;}
     }
   }
@@ -1516,25 +1517,25 @@ function displayHeader($n){
       //if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
     </div>
     <div class="row">
-     <div class="settingCol1"><?php
+      <div class="settingCol1"><?php
 }
 
 function displaySideColumn(){
   //Echo "";?>
-  </div>
-  <div class="column side">
-    
-  </div>
-  </div>
+      </div>
+      <div class="column side">
 
-  <div class="footer">
+      </div>
+    </div>
+
+    <div class="footer">
       <hr>
       <!-- <input type="button" value="Logout">
       <a href='logout.php'>Logout</a>-->
 
       <input type="button" onclick="location='logout.php'" value="Logout"/>
 
-  </div><?php
+    </div><?php
 }
 
 function displayMiddleColumn(){
@@ -1720,7 +1721,7 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
 
 }
 
-function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled, $ruleID){
+function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled, $ruleID, $buySell){
   //$pieces = explode(",", $coinPattern);
   $piecesSize = count($coinPattern);
   $testTrue = False;
@@ -1730,7 +1731,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
     //Echo "<br> ".$pieces[$x];
     //$row = explode(":", $pieces[$x]);
     //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
-    if (($buyRuleID == $ruleID && $sellRuleID == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0)){
+    if (($buyRuleID == $ruleID && $sellRuleID == 0 && $buySell == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0 && $buySell == 1)){
       //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
       if (isCoinMatch((float)$coinPattern[$x][3],$coinPattern[$x][4],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";

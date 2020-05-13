@@ -70,9 +70,19 @@ function SQLCommand(){
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 
-
+$coinPriceMatch = getCoinPriceMatchList();
+$coinPricePatternList = getCoinPricePattenList();
+$coin1HrPatternList = getCoin1HrPattenList();
 //set time
-$tempSry = newCoinMarketCapStats("1831,3602,1,1027,52");
-Echo "<BR> ".var_dump($tempSry);
+//$tempSry = newCoinMarketCapStats("1831,3602,1,1027,52");
+//Echo "<BR> ".var_dump($tempSry);
+Echo "<BR> newBuywithPattern1 SELL : ".newBuywithPattern("1"."1"."1"."-1",$coinPricePatternList,1,8,1);
+Echo "<BR> newBuywithPattern2 BUY : ".newBuywithPattern("-1"."-1"."-1"."1",$coinPricePatternList,1,14,0);
+
+Echo "<BR> CoinMatch Pattern1  SELL : ".coinMatchPattern(8700.00,8600.00,"BTC",1,1,8,1);
+Echo "<BR> CoinMatch Pattern2  BUY : ".coinMatchPattern(8500.00,8600.00,"BTC",1,1,14,0);
+
+
+
 ?>
 </html>
