@@ -885,9 +885,9 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
 
 function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buySell){
   //$buySell == 0 for buy ; 1 for sell
-  $tmpStr = removeWildcard($savedPattern);
-  echo "<BR> TempStr : ".$tmpStr;
-  $pieces = explode(",", $tmpStr);
+  $pieces = removeWildcard($savedPattern);
+  //echo "<BR> TempStr : ".$tmpStr;
+  //$pieces = explode(",", $tmpStr);
   $piecesSize = count($pieces);
   $testTrue = False;
   echo var_dump($pieces);
@@ -1884,7 +1884,7 @@ Function removeWildcard($tempStr){
     }
 	}
   //echo "<BR> Return Str : ".$returnStr;
- return implode(",",rtrim($returnStr,','));
+ return explode(",",rtrim($returnStr,','));
 }
 
 function setTimeZone(){
