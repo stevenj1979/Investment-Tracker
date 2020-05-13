@@ -885,8 +885,8 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
 
 function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buySell){
   //$buySell == 0 for buy ; 1 for sell
-  $pieces = removeWildcard($savedPattern);
-  //$pieces = explode(",", $savedPattern);
+  $tmpStr = removeWildcard($savedPattern);
+  $pieces = explode(",", $tmpStr);
   $piecesSize = count($pieces);
   $testTrue = False;
   for ($x = 0; $x < $piecesSize; $x++) {
@@ -1866,7 +1866,7 @@ Function removeWildcard($tempStr){
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i][2];
+    //echo "<BR> Test: ".$tempStr[$i][2];
     if (strpos($tempStr[$i][2], '*') !== false) {
         $starCount =substr_count($tempStr[$i][2],"*");
         //$returntempStr = $tempStr[$i].",";
@@ -1881,7 +1881,7 @@ Function removeWildcard($tempStr){
         $returnStr .=$tempStr[$i][2].",";
     }
 	}
-  echo "<BR> Return Str : ".$returnStr;
+  //echo "<BR> Return Str : ".$returnStr;
  return implode(",",rtrim($returnStr,','));
 }
 
