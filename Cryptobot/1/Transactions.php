@@ -140,7 +140,7 @@ function displayDefault(){
       $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
       $purchasePrice = round($amount*$coinPrice,$num);
       print_r("<td>$Id</td>");
-      NewEcho("<td>$orderNo</td>",1,0);
+      NewEcho("<td>$orderNo</td>",0,1);
       print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
       print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
