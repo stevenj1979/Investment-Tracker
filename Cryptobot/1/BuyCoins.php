@@ -166,7 +166,7 @@ function getUserIDs($userID){
 
 displayHeader(3);
 
-
+        if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
 				$tracking = getTrackingCoins();
 				$newArrLength = count($tracking);
         //echo $newArrLength;
@@ -184,13 +184,13 @@ displayHeader(3);
         //$roundNum = 2;
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
-          $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
-          $Live1HrChange = round($tracking[$x][8],2); $Live24HrChange = round($tracking[$x][11],2); $Live7DChange = $tracking[$x][14];
-          $bitPrice = round($tracking[$x][17],2); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
-          $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
+          $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
+          $Live1HrChange = round($tracking[$x][8],$num); $Live24HrChange = round($tracking[$x][11],$num); $Live7DChange = $tracking[$x][14];
+          $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
+          $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
-          $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),4);
-          $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),4);
+          $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
+          $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           //Table
@@ -210,13 +210,13 @@ displayHeader(3);
           if ($_SESSION['isMobile'] == False){
             echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
             echo "<td>$new1HrPriceChange</td>";
-            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
-            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:24px;color:#D4EFDF'></i></a></td>";
+            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>";
+            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>";
           }else{
             echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
             echo "<td>$new1HrPriceChange</td>";
-            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:32px;color:#D4EFDF'></i></a></td>";
-            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='font-size:32px;color:#D4EFDF'></i></a></td>";
+            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>";
+            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>";
           }
 
           echo "<tr>";
