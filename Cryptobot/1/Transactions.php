@@ -132,7 +132,9 @@ function displayDefault(){
       <option value='All'>All</option></select>
       <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
      </form>";
-  print_r("<Table><th>ID</th><th>OrderNo</th><th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th>");
+  print_r("<Table><th>ID</th>");
+  newEcho("<th>OrderNo</th>",$_SESSION['isMobile'],0);
+  print_r("<th>Symbol</th><th>Amount</th><th>Cost</th><th>BaseCurrency</th><th>Purchase Price</th><th>TradeDate</th><th>Status</th><th>FixSellRule</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
@@ -140,7 +142,7 @@ function displayDefault(){
       $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
       $purchasePrice = round($amount*$coinPrice,$num);
       print_r("<td>$Id</td>");
-      NewEcho("<td>$orderNo</td>",0,1);
+      NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],0);
       print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
       print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
