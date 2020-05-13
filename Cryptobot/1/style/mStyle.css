@@ -115,10 +115,10 @@ h2{
 
 /* Left and right column */
 .column.side {
-    width: 1%;
+    width: 0%;
 }
 .side.smaller {
-    width: 1%;
+    width: 0%;
 }
 .settingCol1{
   float: left;
