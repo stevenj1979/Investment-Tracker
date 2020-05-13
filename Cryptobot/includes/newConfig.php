@@ -1727,7 +1727,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
   //$pieces = explode(",", $coinPattern);
   $piecesSize = count($coinPattern);
   $testTrue = False;
-  echo "<BR> Count : ".$piecesSize;
+  //echo "<BR> Count : ".$piecesSize;
   for ($x = 0; $x < $piecesSize; $x++) {
     $buyRuleID = $coinPattern[$x][0]; $sellRuleID = $coinPattern[$x][1];
     //echo "<BR> pattern : ".$coinPattern[$x][2];
@@ -1736,7 +1736,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
     //$row = explode(":", $pieces[$x]);
     //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
     if (($buyRuleID == $ruleID && $sellRuleID == 0 && $buySell == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0 && $buySell == 1)){
-      echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
+      //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
       if (isCoinMatch((float)$coinPriceMatchPrice,$coinPriceMatchSymbol,$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
     }
