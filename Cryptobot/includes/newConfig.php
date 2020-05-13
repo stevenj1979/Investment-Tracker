@@ -1881,6 +1881,7 @@ Function removeWildcard($tempStr){
         $returnStr .=$tempStr[$i][2].",";
     }
 	}
+  echo "<BR> Return Str : ".$returnStr;
  return implode(",",rtrim($returnStr,','));
 }
 
