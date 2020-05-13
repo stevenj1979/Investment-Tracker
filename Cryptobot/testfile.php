@@ -74,6 +74,7 @@ $coinPriceMatch = getCoinPriceMatchList();
 $coinPricePatternList = getCoinPricePattenList();
 $coin1HrPatternList = getCoin1HrPattenList();
 //set time
+echo var_dump($coinPriceMatch);
 //$tempSry = newCoinMarketCapStats("1831,3602,1,1027,52");
 //Echo "<BR> ".var_dump($tempSry);
 Echo "<BR> newBuywithPattern1 SELL : ".newBuywithPattern("1"."1"."1"."-1",$coinPricePatternList,1,8,1);
