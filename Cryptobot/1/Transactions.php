@@ -140,7 +140,7 @@ function displayDefault(){
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
-      $Id = $coin[$x][0]; $coinPrice = round($coin[$x][3],$num); $amount  = round($coin[$x][4],$num); $status  = $coin[$x][5]; $orderDate = date_format($coin[$x][6],$dformat);
+      $Id = $coin[$x][0]; $coinPrice = round($coin[$x][3],$num); $amount  = round($coin[$x][4],$num); $status  = $coin[$x][5]; $orderDate = date_format(strtotime($coin[$x][6]),$dformat);
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
       $purchasePrice = round($amount*$coinPrice,$num);
       print_r("<td>$Id</td>");
