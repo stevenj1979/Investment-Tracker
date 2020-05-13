@@ -1873,7 +1873,7 @@ function stringsToArray($str1, $str2, $str3, $str4){
     $returnAry[$i][2] = $tmpAry3[$i];
     $returnAry[$i][3] = $tmpAry4[$i];
   }
-  return $returnAry
+  return $returnAry;
 }
 
 Function removeWildcard($tempStr){
