@@ -1864,8 +1864,8 @@ function returnWildcardStr($tempStr, $starCount){
 }
 
 function stringsToArray($str1, $str2, $str3, $str4){
-  $tmpAry1 = explode($str1,','); $tmpAry2 = = explode($str2,',');
-  $tmpAry3 = explode($str3,','); $tmpAry4 = = explode($str4,',');
+  $tmpAry1 = explode($str1,','); $tmpAry2 = explode($str2,',');
+  $tmpAry3 = explode($str3,','); $tmpAry4 = explode($str4,',');
   $aryCount = count($tmpAry1); $returnAry = [];
   for ($i=0; $i<$aryCount; $i++){
     $returnAry[$i][0] = $tmpAry1[$i];
