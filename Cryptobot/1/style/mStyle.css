@@ -122,13 +122,13 @@ h2{
 }
 .settingCol1{
   float: left;
-  width: 98%;
+  width: 100%;
   padding-left: 60px;
 }
 
 /* Middle column */
 .column.middle {
-    width: 98%;
+    width: 100%;
 }
 .statscolumn{
     margin: 25px;
