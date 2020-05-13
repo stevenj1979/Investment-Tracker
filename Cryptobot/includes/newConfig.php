@@ -1863,6 +1863,19 @@ function returnWildcardStr($tempStr, $starCount){
   return $returnStr;
 }
 
+function stringsToArray($str1, $str2, $str3, $str4){
+  $tmpAry1 = explode($str1,','); $tmpAry2 = = explode($str2,',');
+  $tmpAry3 = explode($str3,','); $tmpAry4 = = explode($str4,',');
+  $aryCount = count($tmpAry1); $returnAry = [];
+  for ($i=0; $i<$aryCount; $i++){
+    $returnAry[$i][0] = $tmpAry1[$i];
+    $returnAry[$i][1] = $tmpAry2[$i];
+    $returnAry[$i][2] = $tmpAry3[$i];
+    $returnAry[$i][3] = $tmpAry4[$i];
+  }
+  return $returnAry
+}
+
 Function removeWildcard($tempStr){
 	//$tempStr = explode(',',$wildcardStr);
 	$tempStrCount = count($tempStr);
@@ -1876,15 +1889,24 @@ Function removeWildcard($tempStr){
 
           $newStr = returnWildcardStr($tempStr[$i][2],$starCount);
           $returntempStr = replaceStars($newStr,$starCount);
+          $buyRuleIDStr = returnWildcardStr($tempStr[$i][0],$starCount);
+          $sellRuleIDStr = returnWildcardStr($tempStr[$i][1],$starCount);
+          $userIDStr = returnWildcardStr($tempStr[$i][3],$starCount);
         }
         $returnStr .= $returntempStr;
+        $returnBuyRuleIDStr .= $buyRuleIDStr;
+        $returnSellRuleIDStr .= $sellRuleIDStr;
+        $returnUserIDStr .= $userIDStr;
     }else{
         //no instances of * - add the string to the return string
         $returnStr .=$tempStr[$i][2].",";
+        $returnBuyRuleIDStr .= $tempStr[$i][0].",";
+        $returnSellRuleIDStr .= $tempStr[$i][1].",";
+        $returnUserIDStr .= $tempStr[$i][3].",";
     }
 	}
-  //echo "<BR> Return Str : ".$returnStr;
- return explode(",",rtrim($returnStr,','));
+  $finalReturnStr = stringsToArray(rtrim($returnBuyRuleIDStr,','),rtrim($returnSellRuleIDStr,','),rtrim($returnStr,','),rtrim($returnUserIDStr,','));
+ return $finalReturnStr;
 }
 
 function setTimeZone(){
