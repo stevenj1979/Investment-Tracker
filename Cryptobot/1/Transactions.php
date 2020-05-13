@@ -6,7 +6,7 @@
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';?>
 <style>
-<?php include 'style/style.css'; ?>
+<?php setStyle($_SESSION['isMobile']); ?>
 </style> <?php
 
 //if not logged in redirect to login page
@@ -121,7 +121,7 @@ function getCoinsfromSQL($userID){
 
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
-
+  if ($_SESSION['isMobile']){ $num = 2;}else{$num = 8;}
   $arrlength = count($coin);
   echo "<html><h2>Transactions</h2>";
   echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
@@ -136,10 +136,12 @@ function displayDefault(){
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
-      $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
+      $Id = $coin[$x][0]; $coinPrice = round($coin[$x][3],$num); $amount  = round($coin[$x][4],$num); $status  = $coin[$x][5]; $orderDate = $coin[$x][6]; $bittrexRef = $coin[$x][9];
       $orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
-      $purchasePrice = round($amount*$coinPrice,2);
-      print_r("<td>$Id</td><td>$orderNo</td><td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
+      $purchasePrice = round($amount*$coinPrice,$num);
+      print_r("<td>$Id</td>");
+      NewEcho("<td>$orderNo</td>",1,0);
+      print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td><td></td><td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
       print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
   }
