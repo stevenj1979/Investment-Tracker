@@ -1883,6 +1883,7 @@ function stringsToArray($str1, $str2, $str3, $str4){
 
 Function removeWildcard($tempStr){
 	//$tempStr = explode(',',$wildcardStr);
+  $returnUserIDStr ="";$returnSellRuleIDStr = ""; $returnBuyRuleIDStr ="";
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
