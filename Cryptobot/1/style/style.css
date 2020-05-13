@@ -104,13 +104,13 @@ img{
 }
 
 #visualization{
-  width: 1200px;
-  height: 400px;
+  width: 2400px;
+  height: 1000px;
 }
 
 #visualization2{
-  width: 1200px;
-  height: 400px;
+  width: 2400px;
+  height: 1000px;
 }
 
 input[type=button], input[type=submit], input[type=reset] {
