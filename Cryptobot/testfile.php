@@ -68,6 +68,8 @@ function SQLCommand(){
 
 $temp = stringsToArray("4,4,4,3,0","0,0,0,0,8","1111,1101,1100,1001,1000","3,3,3,3,3");
 
+echo "<BR> TEST: ".var_dump($temp);
+
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 ///usr/bin/uapi VersionControlDeployment create repository_root=/home/stevenj1979/public_html/Investment-Tracker
 
