@@ -889,6 +889,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
   $pieces = explode(",", $tmpStr);
   $piecesSize = count($pieces);
   $testTrue = False;
+  echo var_dump($pieces);
   for ($x = 0; $x < $piecesSize; $x++) {
     Echo "<br> ".$pieces[$x];
     if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0 && $buySell == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0&& $buySell == 1)){
