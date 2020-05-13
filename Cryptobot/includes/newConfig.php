@@ -1735,7 +1735,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
     //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
     if (($buyRuleID == $ruleID && $sellRuleID == 0 && $buySell == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0 && $buySell == 1)){
       //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
-      if (isCoinMatch((float)$coinPattern[$x][3],$coinPattern[$x][4],$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
+      if (isCoinMatch((float)$coinPriceMatchPrice,$coinPriceMatchSymbol,$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
     }
   }
