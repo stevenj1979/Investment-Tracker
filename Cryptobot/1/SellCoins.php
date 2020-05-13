@@ -187,6 +187,7 @@ $date = date('Y/m/d H:i:s', time());
 
 
 				<?php
+        if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
@@ -199,14 +200,14 @@ $date = date('Y/m/d H:i:s', time());
         echo "<th>Price Trend 1</th><th>&nbsp% Change 1Hr</th>&nbsp&nbsp<th>&nbspAmount</th>&nbsp<th>&nbspCost</th>&nbsp<th>&nbspProfit%</th>&nbsp<th>&nbspProfit BTC</th>&nbsp<th>&nbspManual Sell</th>&nbsp<tr>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
-            $roundNum = 2;
-            if($_SESSION['isMobile'] == False){$roundNum = 8;}
-            $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],2); $pctChange1Hr = round($trackingSell[$x][9],2);$pctChange24Hr = round($trackingSell[$x][12],2);
-            $pctChange7D = $trackingSell[$x][13]; $livePrice = round($trackingSell[$x][16],$roundNum); $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = round($trackingSell[$x][21],2);
-            $volume = round($trackingSell[$x][24],4); $baseCurrency = $trackingSell[$x][25]; $amount = round($trackingSell[$x][26],$roundNum);  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
-            $profitPct = round($trackingSell[$x][33],2);$cost = round($trackingSell[$x][28],$roundNum); $realAmount = $trackingSell[$x][26];
-            $priceDiff1 = round(number_format((float)$livePrice-$LastCoinPrice, 10, '.', ''),$roundNum); $buyAmount = $amount * $cost;
-            $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = round(number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', ''),$roundNum);
+            //$roundNum = 2;
+            //if($_SESSION['isMobile'] == False){$roundNum = 8;}
+            $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],$num); $pctChange1Hr = round($trackingSell[$x][9],$num);$pctChange24Hr = round($trackingSell[$x][12],$num);
+            $pctChange7D = $trackingSell[$x][13]; $livePrice = round($trackingSell[$x][16],$num); $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = round($trackingSell[$x][21],$num);
+            $volume = round($trackingSell[$x][24],$num); $baseCurrency = $trackingSell[$x][25]; $amount = round($trackingSell[$x][26],$num);  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
+            $profitPct = round($trackingSell[$x][33],$num);$cost = round($trackingSell[$x][28],$num); $realAmount = $trackingSell[$x][26];
+            $priceDiff1 = round(number_format((float)$livePrice-$LastCoinPrice, 10, '.', ''),$num); $buyAmount = $amount * $cost;
+            $sellAmount = $livePrice * $amount; $fee = ($sellAmount/100)*0.25; $profitBtc = round(number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', ''),$num);
             echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
             echo "<td>$livePrice</td>";
             if($_SESSION['isMobile'] == False){
@@ -219,7 +220,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
             echo "<td>".$pctChange1Hr."</td>";
             echo "<td>$amount</td>";
-            $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$roundNum);
+            $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$num);
             echo "<td>$cost</td>";
             if ($profitPct > 0){
               $profitColour = "Green";
@@ -228,7 +229,7 @@ $date = date('Y/m/d H:i:s', time());
             }
             echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
             echo "<td>".$profitBtc."</td>";
-            echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#F1948A'></i></a></td>";
+            echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<tr>";
         }
         print_r("</table>");
