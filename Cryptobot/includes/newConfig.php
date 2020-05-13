@@ -1734,7 +1734,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
     //$row = explode(":", $pieces[$x]);
     //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
     if (($buyRuleID == $ruleID && $sellRuleID == 0 && $buySell == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0 && $buySell == 1)){
-      //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
+      echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
       if (isCoinMatch((float)$coinPriceMatchPrice,$coinPriceMatchSymbol,$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
     }
@@ -1864,13 +1864,13 @@ function returnWildcardStr($tempStr, $starCount){
 }
 
 function stringsToArray($str1, $str2, $str3, $str4){
-  echo "<BR> STR1 ".$str1;
+  //echo "<BR> STR1 ".$str1;
   $tmpAry1 = explode(',',$str1); $tmpAry2 = explode(',',$str2);
   $tmpAry3 = explode(',',$str3); $tmpAry4 = explode(',',$str4);
   $aryCount = count($tmpAry1); $returnAry = [];
-  echo "<BR> Count ".$aryCount;
+  //echo "<BR> Count ".$aryCount;
   for ($i=0; $i<$aryCount; $i++){
-    echo "<BR> B :".$tmpAry1[$i];
+    //echo "<BR> B :".$tmpAry1[$i];
     $returnAry[$i][0] = $tmpAry1[$i];
     $returnAry[$i][1] = $tmpAry2[$i];
     $returnAry[$i][2] = $tmpAry3[$i];
