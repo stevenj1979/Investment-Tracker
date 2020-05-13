@@ -146,7 +146,7 @@ function displayDefault(){
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],0);
       print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td>");
-      newEcho("<td></td>");
+      newEcho("<td></td>",$_SESSION['isMobile'],0);
       print_r("<td>$purchasePrice</td><td>$orderDate</td><td>$status</td><td>$fixSellRule</td>");
       print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'><i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'></i></a></td>");
       print_r("<tr>");
