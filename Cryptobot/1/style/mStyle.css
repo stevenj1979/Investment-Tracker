@@ -115,20 +115,20 @@ h2{
 
 /* Left and right column */
 .column.side {
-    width: 15%;
+    width: 1%;
 }
 .side.smaller {
-    width: 5%;
+    width: 1%;
 }
 .settingCol1{
   float: left;
-  width: 90%;
+  width: 98%;
   padding-left: 60px;
 }
 
 /* Middle column */
 .column.middle {
-    width: 70%;
+    width: 98%;
 }
 .statscolumn{
     margin: 25px;
