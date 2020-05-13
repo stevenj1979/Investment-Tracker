@@ -121,7 +121,7 @@ function getCoinsfromSQL($userID){
 
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
-  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:46px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $arrlength = count($coin);
   echo "<html><h2>Transactions</h2>";
   echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
