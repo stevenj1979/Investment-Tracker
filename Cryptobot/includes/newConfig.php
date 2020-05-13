@@ -1730,6 +1730,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
   echo "<BR> Count : ".$piecesSize;
   for ($x = 0; $x < $piecesSize; $x++) {
     $buyRuleID = $coinPattern[$x][0]; $sellRuleID = $coinPattern[$x][1];
+    //echo "<BR> pattern : ".$coinPattern[$x][2];
     $coinPriceMatchPrice = $coinPattern[$x][3]; $coinPriceMatchSymbol = $coinPattern[$x][4];
     //Echo "<br> ".$pieces[$x];
     //$row = explode(":", $pieces[$x]);

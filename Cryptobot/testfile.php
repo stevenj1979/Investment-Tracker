@@ -83,8 +83,8 @@ $coin1HrPatternList = getCoin1HrPattenList();
 Echo "<BR> newBuywithPattern1 SELL : ".newBuywithPattern("1"."1"."1"."-1",$coinPricePatternList,1,8,1);
 Echo "<BR> newBuywithPattern2 BUY : ".newBuywithPattern("-1"."-1"."-1"."1",$coinPricePatternList,1,14,0);
 
-Echo "<BR> CoinMatch Pattern1  SELL : ".coinMatchPattern($coinPricePatternList,8600.00,"BTC",1,1,8,1);
-Echo "<BR> CoinMatch Pattern2  BUY : ".coinMatchPattern($coinPricePatternList,8600.00,"BTC",1,1,14,0);
+Echo "<BR> CoinMatch Pattern1  SELL : ".coinMatchPattern($coinPriceMatch,8600.00,"BTC",1,1,8,1);
+Echo "<BR> CoinMatch Pattern2  BUY : ".coinMatchPattern($coinPriceMatch,8600.00,"BTC",1,1,14,0);
 
 
 
