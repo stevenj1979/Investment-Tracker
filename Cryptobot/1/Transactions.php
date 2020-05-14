@@ -126,7 +126,9 @@ function getCoinsfromSQL($userID){
 function displayOption($nText){
   if ($_SESSION['TransListSelected'] == $nText){
     Echo "<option  selected='selected' value='$nText'>$nText</option>";
-  }else{
+  }elseif ($_SESSION['TransListSelected'] == "1" and $nText == "All" ){
+    Echo "<option  selected='selected' value='$nText'>$nText</option>";
+  else{
     Echo "<option value='$nText'>$nText</option>";
   }
 
