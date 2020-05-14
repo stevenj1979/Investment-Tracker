@@ -27,8 +27,8 @@ setStyle($_SESSION['isMobile']);
 
 //}
 if(empty($sql_option)){
-  $GLOBALS['sql_option'] = "`Status` = '1'";
-  unset($dropArray);
+  //$GLOBALS['sql_option'] = "`Status` = '1'";
+  //unset($dropArray);
   $dropArray[] = Array("Open","Closed","All");
 }
 if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
@@ -41,14 +41,14 @@ function changeSelection(){
   global $dropArray;
   unset($dropArray);
   if ($_POST['transSelect']=='Closed'){
-     $GLOBALS['sql_option'] = "`Status` = 'Closed'";
-     $dropArray[] = Array("Closed","Open","All");
+     $_SESSION['BittrexListSelected'] = "Closed'";
+     //$dropArray[] = Array("Closed","Open","All");
   }elseif ($_POST['transSelect']=='Open'){
-    $GLOBALS['sql_option']  = "`Status` = '1'";
-    $dropArray[] = Array("All","Closed","Open");
+    $_SESSION['BittrexListSelected'] = "1";
+    //$dropArray[] = Array("All","Closed","Open");
   }else{
-    $GLOBALS['sql_option']  = "1";
-    $dropArray[] = Array("All","Closed","Open");
+    $_SESSION['BittrexListSelected'] = "1";
+    //$dropArray[] = Array("All","Closed","Open");
   }
   //print_r($globals['sql_Option']);
 }
@@ -56,7 +56,8 @@ function changeSelection(){
 
 function getBTTrackingCoins($userID){
   $tempAry = [];
-  $sqlOption = $GLOBALS['sql_option'];
+  $sqlOption = $_SESSION['BittrexListSelected'];
+  $statusA : "`Status` = '"; $statusB = "'";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -64,8 +65,8 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-  `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and $sqlOption order by `ActionDate` desc limit 50";
-  //echo "<BR>$sql";
+  `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
+  echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
@@ -184,7 +185,15 @@ function getUserIDs($userID){
   return $tempAry;
 }
 
+function displayOption($name){
+  $tempStr = $_SESSION['BittrexListSelected'];
+  if ($tempStr == $name){
+    echo "<option  selected='selected' value='$name'>$name</option>";
+  }else{
+    echo "<option value='$name'>$name</option>";
+  }
 
+}
 
         displayHeader(6);
 				$tracking = getBTTrackingCoins($_SESSION['ID']);
