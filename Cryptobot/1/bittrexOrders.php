@@ -214,7 +214,8 @@ function displayOption($name){
 
               echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH>";
               NewEcho("<TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH><TH>&nbspbittrex Ref&nbsp</TH>";
+              echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
+              NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
 
 				for($x = 0; $x < $newArrLength; $x++) {
