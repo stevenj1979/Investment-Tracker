@@ -128,7 +128,7 @@ function displayOption($nText){
     Echo "<option  selected='selected' value='$nText'>$nText</option>";
   }elseif ($_SESSION['TransListSelected'] == "1" and $nText == "All" ){
     Echo "<option  selected='selected' value='$nText'>$nText</option>";
-  else{
+  }else{
     Echo "<option value='$nText'>$nText</option>";
   }
 
