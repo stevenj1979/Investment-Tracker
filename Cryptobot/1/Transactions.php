@@ -100,7 +100,7 @@ function updateSellRule(){
 function getCoinsfromSQL($userID){
     global $sql_option;
     $status = $_SESSION['TransListSelected'];
-    if ($status == "1"){ $statusA = ''; $statusB = '';} else{$statusA = "`Status` '" = ;$statusB = "'";}
+    if ($status == "1"){ $statusA = ''; $statusB = '';} else{$statusA = "`Status` '" ;$statusB = "'";}
     $tempAry = [];
     // Create connection
     $conn = getSQLConn(rand(1,3));
