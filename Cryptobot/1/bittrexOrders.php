@@ -57,7 +57,7 @@ function changeSelection(){
 function getBTTrackingCoins($userID){
   $tempAry = [];
   $sqlOption = $_SESSION['BittrexListSelected'];
-  $statusA : "`Status` = '"; $statusB = "'";
+  $statusA = "`Status` = '"; $statusB = "'";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
