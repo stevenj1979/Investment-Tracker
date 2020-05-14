@@ -651,6 +651,7 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
+  addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
   Echo "<select name='selectCmboTrend1'>";
   displayTrendSymbols($comboList);
   echo "</select>";
@@ -674,7 +675,7 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-
+  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   Echo "<select name='select'>";
   displaySymbols($symbolList,0);
   echo "</select>";
@@ -693,6 +694,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
+  addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
   Echo "<select name='selectCmbo1Hr1'>";
   displayTrendSymbols($comboList);
   echo "</select><select name='selectCmbo1Hr2'>";
