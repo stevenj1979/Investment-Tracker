@@ -66,7 +66,7 @@ function changeSelection(){
     //$dropArray[] = Array("All","Open","Sold");
   }
   //print_r($globals['sql_Option']);
-  echo "<BR> TransSelect AFTER : ".$_POST['transSelect'];
+  echo "<BR> TransSelect AFTER : ".$_POST['TransListSelected'];
 }
 
 function displayChangeFix($fixSellRule, $transID){
