@@ -67,6 +67,7 @@ function changeSelection(){
   }
   //print_r($globals['sql_Option']);
   echo "<BR> TransSelect AFTER : ".$_POST['TransListSelected'];
+  displayDefault();
 }
 
 function displayChangeFix($fixSellRule, $transID){
