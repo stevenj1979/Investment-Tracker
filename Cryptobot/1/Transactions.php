@@ -108,7 +108,7 @@ function getCoinsfromSQL($userID){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
     ,`FixSellRule`
-          FROM `TransactionsView` WHERE ".$statusA.$status.$statusB" and `UserID` = $userID order by `OrderDate` desc ";
+          FROM `TransactionsView` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
