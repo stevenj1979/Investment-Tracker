@@ -65,7 +65,7 @@ if(isset($_POST['submit'])){
       $_SESSION['DisableUntil'] = $temp[0][1];
 			updateUser($username);
       setStats();
-      $_SESSION['TransListSelected'] =  "`Status` = 'Open'";
+      $_SESSION['TransListSelected'] =  "Open";
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;

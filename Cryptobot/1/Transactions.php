@@ -53,13 +53,13 @@ function changeSelection(){
   //global $dropArray;
   //echo "<BR> TransSelect : ".$_POST['transSelect'];
   if ($_POST['transSelect']=='Open'){
-     $_SESSION['TransListSelected'] = "`Status` = 'Open'";
+     $_SESSION['TransListSelected'] = "Open";
      //$dropArray[] = Array("Open","Sold","All");
   }elseif ($_POST['transSelect']=='Sold'){
-    $_SESSION['TransListSelected'] = "`Status` = 'Sold'";
+    $_SESSION['TransListSelected'] = "Sold";
     //$dropArray[] = Array("Sold","Open","All");
   }elseif ($_POST['transSelect']=='Pending'){
-    $_SESSION['TransListSelected'] = "`Status` = 'Pending'";
+    $_SESSION['TransListSelected'] = "Pending";
     //$dropArray[] = Array("Sold","Open","All");
   }elseif ($_POST['transSelect']=='All'){
     $_SESSION['TransListSelected'] = "1";
@@ -99,6 +99,8 @@ function updateSellRule(){
 
 function getCoinsfromSQL($userID){
     global $sql_option;
+    $status = $_SESSION['TransListSelected'];
+    if ($status == "1"){ $statusA = ''; $statusB = '';} else{$statusA = "`Status` '" = ;$statusB = "'";}
     $tempAry = [];
     // Create connection
     $conn = getSQLConn(rand(1,3));
@@ -106,7 +108,7 @@ function getCoinsfromSQL($userID){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
     ,`FixSellRule`
-          FROM `TransactionsView` WHERE ".$_SESSION['TransListSelected']." and `UserID` = $userID order by `OrderDate` desc ";
+          FROM `TransactionsView` WHERE ".$statusA.$status.$statusB" and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
@@ -119,6 +121,15 @@ function getCoinsfromSQL($userID){
     return $tempAry;
 }
 
+function displayOption($nText){
+  if ($_SESSION['TransListSelected'] == $nText){
+    Echo "<option  selected='selected' value='$nText'>$nText</option>";
+  }else{
+    Echo "<option value='$nText'>$nText</option>";
+  }
+
+}
+
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
   if ($_SESSION['isMobile']){
@@ -129,12 +140,12 @@ function displayDefault(){
   $arrlength = count($coin);
   echo "<html><h2>Transactions</h2>";
   echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
-  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
-     <option value='Open'>Open</option>
-    <option value='Sold'>Sold</option>
-      <option value='Pending'>Pending</option>
-      <option value='All'>All</option></select>
-      <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
+  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
+    displayOption("Open");
+    displayOption("Sold");
+    displayOption("Pending");
+    displayOption("All");
+        echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
      </form>";
   print_r("<Table><th>ID</th>");
   newEcho("<th>OrderNo</th>",$_SESSION['isMobile'],0);
