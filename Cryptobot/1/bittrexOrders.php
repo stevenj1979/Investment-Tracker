@@ -47,7 +47,7 @@ function changeSelection(){
     $_SESSION['BittrexListSelected'] = "1";
     //$dropArray[] = Array("All","Closed","Open");
   }else{
-    $_SESSION['BittrexListSelected'] = "1";
+    $_SESSION['BittrexListSelected'] = "1A";
     //$dropArray[] = Array("All","Closed","Open");
   }
   //print_r($globals['sql_Option']);
@@ -57,7 +57,7 @@ function changeSelection(){
 function getBTTrackingCoins($userID){
   $tempAry = [];
   $sqlOption = $_SESSION['BittrexListSelected'];
-  $statusA = "`Status` = '"; $statusB = "'";
+  if ($sqlOption == "1A"){$statusA = ""; $statusB = ""; $sqlOption = "1";}else {$statusA = "`Status` = '"; $statusB = "'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -187,7 +187,9 @@ function getUserIDs($userID){
 
 function displayOption($name){
   $tempStr = $_SESSION['BittrexListSelected'];
-  if ($tempStr == $name){
+  if ($tempStr == "1" and $name = "Open"){
+    echo "<option  selected='selected' value='$name'>$name</option>";
+  }elseif ($tempStr == "1A" and $name == "All"){
     echo "<option  selected='selected' value='$name'>$name</option>";
   }else{
     echo "<option value='$name'>$name</option>";
