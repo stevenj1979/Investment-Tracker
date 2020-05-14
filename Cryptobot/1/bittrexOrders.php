@@ -212,7 +212,9 @@ function displayOption($name){
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
-              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH><TH>&nbspuserName&nbsp</TH>";
+              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH>";
+              NewEcho("<TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH>",$_SESSION['isMobile'],0);
+              echo "<TH>&nbspuserName&nbsp</TH>";
               NewEcho("<TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
@@ -226,7 +228,7 @@ function displayOption($name){
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp$coin</td>"; echo "<td>&nbsp$userID</td>";
           //echo "<td>$totalScore</td>";
-          echo "<td>&nbsp$actionDate</td>"; echo "<td>&nbsp$baseCurrency</td>";
+          NewEcho("<td>&nbsp$actionDate</td><td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
           //echo "<td>$sendEmail</td>";
           //echo "<td>$sellCoin</td>";
           //echo "<td>$ruleID</td>";
