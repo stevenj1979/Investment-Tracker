@@ -524,6 +524,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Sell Pattern</H3>";
+  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
   Echo "<select name='selectCmboTrend1'>";
   displayTrendSymbols($comboList);
   echo "</select>";
@@ -551,6 +552,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
+  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
   Echo "<select name='select'>";
   displaySymbols($symbolList,0);
   echo "</select>";
