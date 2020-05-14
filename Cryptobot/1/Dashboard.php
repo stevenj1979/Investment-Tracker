@@ -180,20 +180,20 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
 displayHeader(0);
               //$profitUSD = $uProfit[0][2]*$btcPrice;
 
-              echo "<form action='Dashboard.php?dropdown=Yes' method='post'><select name='currencySelect'>";
-              echo "<Option value='BTC'>BTC</option>";
-              echo "<Option value='USD'>USD</option>";
-              echo "</select><input type='submit' value='Update'/></form>";
+              //echo "<form action='Dashboard.php?dropdown=Yes' method='post'><select name='currencySelect'>";
+              //echo "<Option value='BTC'>BTC</option>";
+              //echo "<Option value='USD'>USD</option>";
+              //echo "</select><input type='submit' value='Update'/></form>";
 
-              if ($_POST['currencySelect'] == 'BTC'){
-                 $conversion = 1;
-                 $curSymbol = 'BTC';
-                 $round = 8;
-              }else{
+              //if ($_POST['currencySelect'] == 'BTC'){
+              //   $conversion = 1;
+              //   $curSymbol = 'BTC';
+              //   $round = 8;
+            //}else{
                  $conversion = $btcPrice;
                  $curSymbol = '$';
                  $round = 2;
-              }
+              //}
               $apiKey = getAPIKeyread(); $apiSecret = getAPISecretRead();
               $btcPrice = (float)$uProfit[0][0];
               $usdtPrice = (float)$uProfit[0][1];
