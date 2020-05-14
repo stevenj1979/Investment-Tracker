@@ -212,10 +212,10 @@ function displayOption($name){
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
-              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH><TH>&nbspuserID&nbsp</TH>";
-              NewEcho("<TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspuserName&nbsp</TH>";
-              NewEcho("<TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
+              echo "<Table><TH>&nbspType&nbsp</TH><TH>&nbspcoin&nbsp</TH>";
+              NewEcho("<TH>&nbspuserID&nbsp</TH><TH>&nbspactionDate&nbsp</TH><TH>&nbspbaseCurrency&nbsp</TH>",$_SESSION['isMobile'],0);
+
+              NewEcho("<TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
@@ -226,13 +226,13 @@ function displayOption($name){
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18];
           echo "<td>&nbsp$type</td>";
-          echo "<td>&nbsp$coin</td>"; echo "<td>&nbsp$userID</td>";
+          echo "<td>&nbsp$coin</td>";
           //echo "<td>$totalScore</td>";
-          NewEcho("<td>&nbsp$actionDate</td><td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>&nbsp$userID</td><td>&nbsp$actionDate</td><td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
           //echo "<td>$sendEmail</td>";
           //echo "<td>$sellCoin</td>";
           //echo "<td>$ruleID</td>";
-          echo "<td>&nbsp$userName</td>";
+          NewEcho("<td>&nbsp$userName</td>",$_SESSION['isMobile'],0);
           if ($_SESSION['isMobile']){
               $roundNum = 4;
           }else{
