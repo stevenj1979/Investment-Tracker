@@ -146,7 +146,6 @@ input[type=text], select {
 .settingsformCmbo{
   width: 100%;
   padding: 6px 10px;
-  color: white;
   margin: 4px 0;
   display: inline-block;
   background-color: #2C3E50;
@@ -154,8 +153,8 @@ input[type=text], select {
   border-radius: 4px;
   box-sizing: border-box;
 }
-.settingsformCmbo.select{
-  color: black;
+.settingsformCmbo.Label{
+  color: white;
 }
 .settingsformMain{
   width: 100%;
