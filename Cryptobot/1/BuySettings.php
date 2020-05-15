@@ -232,7 +232,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>".$buyType."</td><td>".$timeToCancelBuyMins."</td><td>".$buyPriceMinEnabled."</td><td>".$buyPriceMin."</td>";
      echo "<td>".$limitToCoin."</td><td>".$autoBuyCoinEnabled."</td><td>".$autoBuyPrice."</td>";
      echo "<td>".$buyAmountOverrideEnabled."</td><td>".$buyAmountOverride."</td>";
-     echo "<td>".$newBuyPattern."</td><td>".$sellRuleFixed."</td>";
+     echo "<td>".$newBuyPattern."</td><td><a href='AddNewSettingSell.php?edit=$sellRuleFixed'>".$sellRuleFixed."</a></td>";
      echo "<td>".$coinOrder."</td><td>".$coinPricePatternEnabled."</td><td>".$coinPricePattern."</td>";
      Echo "<td>$Hr1ChangeEnabled</td><td>$Hr1ChangePattern</td>";
      echo "<tr>";
