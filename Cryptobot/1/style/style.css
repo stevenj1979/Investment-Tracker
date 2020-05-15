@@ -146,6 +146,7 @@ input[type=text], select {
 .settingsformCmbo{
   width: 100%;
   padding: 6px 10px;
+  color: white;
   margin: 4px 0;
   display: inline-block;
   background-color: #2C3E50;
