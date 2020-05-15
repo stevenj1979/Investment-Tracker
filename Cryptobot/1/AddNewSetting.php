@@ -576,7 +576,7 @@ function displayEdit($id){
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
-  echo "<div class='settingsform'>";
+  echo "<div class='settingsform'>";echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
     addNewTwoOption('MarketCapEnable: ', 'MarketCapEnable', $formSettings[0][4]);
     addNewText('MarketCapTop: ', 'MarketCapTop', $formSettings[0][5], 2, 'Eg 50', False);
@@ -627,6 +627,7 @@ function displayEdit($id){
   //echo "</div>";
 
   echo "<div class='settingsform'>";
+  echo "<H3>Coin Price Offset</H3>";
   addNewTwoOption('Buy Coin Offset Enabled: ', 'BuyCoinOffsetEnabled', $formSettings[0][29]);
   addNewText('Buy Coin Offset Pct: ', 'BuyCoinOffsetPct', $formSettings[0][30], 26, 'Eg 50', False);
   echo "</div>";
@@ -725,7 +726,7 @@ function displayEdit($id){
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
-  </div>";
+  </div></div>";
   echo "</form>";
 }
 displaySideColumn();
