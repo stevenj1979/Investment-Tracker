@@ -652,7 +652,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Price Trend</H3>";
   addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
-  echo "<div class='settingsform'>";
+  echo "<div class='settingsformCmbo'>";
   Echo "<select name='selectCmboTrend1'>";
   displayTrendSymbols($comboList);
   echo "</select>";
