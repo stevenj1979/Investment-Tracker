@@ -677,6 +677,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+  echo "<div class='settingsformCmbo'>";
   Echo "<select name='select'>";
   displaySymbols($symbolList,0);
   echo "</select>";
@@ -685,7 +686,7 @@ function displayEdit($id){
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
   echo "</select>";
-  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div>";
+  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
   //echo "<div class='settingsform'>";
   //echo "<H3>1Hr Change Pattern</H3>";
@@ -696,6 +697,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
+  echo "<div class='settingsformCmbo'>";
   Echo "<select name='selectCmbo1Hr1'>";
   displayTrendSymbols($comboList);
   echo "</select><select name='selectCmbo1Hr2'>";
@@ -708,7 +710,7 @@ function displayEdit($id){
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
   echo "</select>";
-  echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'></div>";
+  echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'></div></div>";
   echo "<div class='settingsform'>";
 
   echo "<H3>Admin</H3>";
