@@ -459,7 +459,7 @@ function displayEdit($id){
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSettingSell.php?editedUserReady=".$id."' method='post'>";
-  echo "<div class='settingsform'>";echo "<div class='settingsform'>";
+  echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
   addNewTwoOption('MarketCapEnable: ','VolumeEnable',$formSettings[0][7]);
   addNewText('MarketCapTop: ','VolumeTop',$formSettings[0][8],37);
