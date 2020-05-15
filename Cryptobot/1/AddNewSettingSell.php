@@ -331,26 +331,29 @@ FROM `UserSellRules` WHERE `ID` = $id";
 
 
 function addNewText($RealName, $idName, $value, $tabIndex){
-  echo "<b>".$RealName."</b>
-    <input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' value='".$value."' tabindex='".$tabIndex."'><br/>";
+  echo "<input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' value='".$value."' tabindex='".$tabIndex."'>
+  <label for='$idName'>".$RealName."</label><br/>";
 
 }
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<b>$RealName</b><select name='$idName' id='$idName' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select><br/>";
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+  <option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option></select>
+    <label for='$idName'>$RealName</label>
+     <br/>";
 }
 
 function addNewThreeOption($RealName, $idName, $value){
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
-  echo "<b>$RealName</b><select name='$idName' id='$idName' class='enableTextBox'>
-    <option value='".$nOption1."'>".$nOption1."</option>
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+  <option value='".$nOption1."'>".$nOption1."</option>
     <option value='".$nOption2."'>".$nOption2."</option>
-    <option value='".$nOption3."'>".$nOption3."</option></select><br/>";
+    <option value='".$nOption3."'>".$nOption3."</option></select>
+    <label for='$idName'>".$RealName."</label><br/><br/>";
 }
 
 function getPricePatternSell($id){

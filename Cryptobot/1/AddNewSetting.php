@@ -502,26 +502,28 @@ function getSymbols(){
 
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
-  echo "<br/><label for='$idName'>".$RealName."</label>
-    <input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>";
+  echo "<input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>
+  <label for='$idName'>".$RealName."</label>";
 
 }
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<br/><label for='$idName'>$RealName</label><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
    <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select>";
+    <option value='".$option2."'>".$option2."</option></select>
+    <label for='$idName'>$RealName</label>";
 }
 
 function addNewThreeOption($RealName, $idName, $value){
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
-  echo "<br/><label for='$idName'>$RealName</label><select name='$idName' id='$idName' class='enableTextBox'>
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
     <option value='".$nOption1."'>".$nOption1."</option>
     <option value='".$nOption2."'>".$nOption2."</option>
-    <option value='".$nOption3."'>".$nOption3."</option></select>";
+    <option value='".$nOption3."'>".$nOption3."</option></select>
+    <label for='$idName'>$RealName</label>";
 }
 
 function displayListBox($tempAry){
