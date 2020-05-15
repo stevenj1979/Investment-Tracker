@@ -154,6 +154,9 @@ input[type=text], select {
   border-radius: 4px;
   box-sizing: border-box;
 }
+.settingsformCmbo.select{
+  color: black;
+}
 .settingsformMain{
   width: 100%;
   padding: 6px 10px;
