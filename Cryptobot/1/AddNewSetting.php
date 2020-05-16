@@ -503,7 +503,7 @@ function getSymbols(){
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText, $enabled){
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
-  if ($enabled == 0){$readOnly = " readonly ";}
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
   echo "<input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' $readOnly value='".$value."' tabindex='".$tabIndex."'>
   <label for='$idName'>".$RealName."</label>";
