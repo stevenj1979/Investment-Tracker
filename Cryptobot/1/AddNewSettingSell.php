@@ -332,7 +332,7 @@ FROM `UserSellRules` WHERE `ID` = $id";
 
 function addNewText($RealName, $idName, $value, $tabIndex,$enabled){
   $readOnly = "";
-  //echo "<BR> ENABLED: ".$enabled;
+  echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
   echo "<input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' $readOnly value='".$value."' tabindex='".$tabIndex."'>
   <label for='$idName'>".$RealName."</label><br/>";
