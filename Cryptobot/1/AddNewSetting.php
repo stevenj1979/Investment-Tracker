@@ -564,7 +564,7 @@ function displaySymbols($symbolList,$num, $name, $enabled){
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
     //$name = str_replace('-1','Minus1',$name);
-    echo "<option value='$i'>$symbol</option>";
+    echo "<option value='$symbol'>$symbol</option>";
   }
   Echo "</SELECT>";
 }
