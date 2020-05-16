@@ -271,6 +271,7 @@ function updateEditedUser(){
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   $coinPricePatternEnabled = postDataYesNo($_POST['CoinPricePatternEnabled']);
   $coinPricePattern = $_POST['CoinPricePattern'];
+  $overrideDailyLimitEnabled = postDataYesNo($_POST['OverrideDailyLimitEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -283,7 +284,7 @@ function updateEditedUser(){
   `7DChangeTop`=$PriceChange7DTop,`7DChangeBtm`=$PriceChange7DBtm,`ProfitPctEnabled`=$ProfitSaleEnable,`ProfitPctTop`=$ProfitSaleTop,`ProfitPctBtm`=$ProfitSaleBtm,`CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm,
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
   ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern'
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -310,7 +311,7 @@ function getRules($id){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
-  ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`
+  ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`OverrideDailyLimit`
 FROM `UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -323,7 +324,7 @@ FROM `UserSellRules` WHERE `ID` = $id";
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],//27
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
-    );
+    ,$row['OverrideDailyLimit']);//44
   }
   $conn->close();
   return $tempAry;
@@ -590,7 +591,8 @@ function displayEdit($id){
   addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
   addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
-
+  addNewTwoOption('Override Daily Limit Enabled:','OverrideDailyLimitEnabled',$formSettings[0][44]);
+  //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='39'>
