@@ -557,14 +557,19 @@ function displaySymbols($symbolList,$num){
   }
 }
 
-function displayTrendSymbols($symbolList){
+function displayTrendSymbols($symbolList, $name, $enabled){
   $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i];
     $num = $i-1;
     //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$num'>$symbol</option>";
   }
+  echo "</select>";
 }
 
 
@@ -660,18 +665,10 @@ function displayEdit($id){
   echo "<H3>New Price Trend</H3>";
   addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
   echo "<div class='settingsformCmbo'>";
-  Echo "<select name='selectCmboTrend1'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend2'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend3'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend4'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
+  displayTrendSymbols($comboList,'selectCmboTrend1', $formSettings[0][31]);
+  displayTrendSymbols($comboList,'selectCmboTrend2', $formSettings[0][31]);
+  displayTrendSymbols($comboList,'selectCmboTrend3', $formSettings[0][31]);
+  displayTrendSymbols($comboList,'selectCmboTrend4', $formSettings[0][31]);
   Echo "<select name='listboxTrend' size='3'>";
   displayListBoxNormal($priceTrendList,2);
   echo "</select>";
@@ -705,15 +702,10 @@ function displayEdit($id){
   echo "<H3>New 1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
   echo "<div class='settingsformCmbo'>";
-  Echo "<select name='selectCmbo1Hr1'>";
-  displayTrendSymbols($comboList);
-  echo "</select><select name='selectCmbo1Hr2'>";
-  displayTrendSymbols($comboList);
-  echo "</select><select name='selectCmbo1Hr3'>";
-  displayTrendSymbols($comboList);
-  echo "</select><select name='selectCmbo1Hr4'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
+  displayTrendSymbols($comboList,'selectCmbo1Hr1', $formSettings[0][55]);
+  displayTrendSymbols($comboList,'selectCmbo1Hr2', $formSettings[0][55]);
+  displayTrendSymbols($comboList,'selectCmbo1Hr3', $formSettings[0][55]);
+  displayTrendSymbols($comboList,'selectCmbo1Hr4', $formSettings[0][55]);
   Echo "<select name='listbox1Hr' size='3'>";
   displayListBoxNormal($Hr1ChangeList,2);
   echo "</select>";
