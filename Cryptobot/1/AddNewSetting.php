@@ -500,7 +500,9 @@ function getSymbols(){
   return $tempAry;
 }
 
-function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText){
+function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText, $enabled){
+  $readOnly = "";
+  if ($enabled == "No"){$readOnly = " readonly ";}
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
   echo "<input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>
   <label for='$idName'>".$RealName."</label>";
@@ -516,6 +518,7 @@ function addNewTwoOption($RealName, $idName, $value){
 }
 
 function addNewThreeOption($RealName, $idName, $value){
+
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
@@ -579,44 +582,44 @@ function displayEdit($id){
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
     addNewTwoOption('MarketCapEnable: ', 'MarketCapEnable', $formSettings[0][4]);
-    addNewText('MarketCapTop: ', 'MarketCapTop', $formSettings[0][5], 2, 'Eg 50', False);
-    addNewText('MarketCapBtm: ', 'MarketCapBtm', $formSettings[0][6], 3, 'Eg 50', False);
+    addNewText('MarketCapTop: ', 'MarketCapTop', $formSettings[0][5], 2, 'Eg 50', False,$formSettings[0][4]);
+    addNewText('MarketCapBtm: ', 'MarketCapBtm', $formSettings[0][6], 3, 'Eg 50', False,$formSettings[0][4]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Volume</H3>";
   addNewTwoOption('VolumeEnable: ', 'VolumeEnable', $formSettings[0][22]);
-  addNewText('VolumeTop: ', 'VolumeTop', $formSettings[0][23], 5, 'Eg 50', False);
-  addNewText('VolumeBtm: ', 'VolumeBtm', $formSettings[0][24], 6, 'Eg 50', False);
+  addNewText('VolumeTop: ', 'VolumeTop', $formSettings[0][23], 5, 'Eg 50', False,$formSettings[0][22]);
+  addNewText('VolumeBtm: ', 'VolumeBtm', $formSettings[0][24], 6, 'Eg 50', False,$formSettings[0][22]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Buy Orders</H3>";
   addNewTwoOption('BuyOrdersEnabled: ', 'BuyOrdersEnabled', $formSettings[0][1]);
-  addNewText('BuyOrdersTop: ', 'BuyOrdersTop', $formSettings[0][2], 8, 'Eg 50', False);
-  addNewText('BuyOrdersBtm: ', 'BuyOrdersBtm', $formSettings[0][3], 9, 'Eg 50', False);
+  addNewText('BuyOrdersTop: ', 'BuyOrdersTop', $formSettings[0][2], 8, 'Eg 50', False,$formSettings[0][1]);
+  addNewText('BuyOrdersBtm: ', 'BuyOrdersBtm', $formSettings[0][3], 9, 'Eg 50', False,$formSettings[0][1]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>1 Hour Price</H3>";
   addNewTwoOption('1HrEnable: ', '1HrEnable', $formSettings[0][7]);
-  addNewText('PriceChange1HrTop: ', 'PriceChange1HrTop', $formSettings[0][8], 11, 'Eg 50', False);
-  addNewText('PriceChange1HrBtm: ', 'PriceChange1HrBtm', $formSettings[0][9], 12, 'Eg 50', False);
+  addNewText('PriceChange1HrTop: ', 'PriceChange1HrTop', $formSettings[0][8], 11, 'Eg 50', False,$formSettings[0][7]);
+  addNewText('PriceChange1HrBtm: ', 'PriceChange1HrBtm', $formSettings[0][9], 12, 'Eg 50', False,$formSettings[0][7]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>24 Hour Price</H3>";
   addNewTwoOption('24HrEnable: ', '24HrEnable', $formSettings[0][10]);
-  addNewText('PriceChange24HrTop: ', 'PriceChange24HrTop', $formSettings[0][11], 14, 'Eg 50', False);
-  addNewText('PriceChange24HrBtm: ', 'PriceChange24HrBtm', $formSettings[0][12], 15, 'Eg 50', False);
+  addNewText('PriceChange24HrTop: ', 'PriceChange24HrTop', $formSettings[0][11], 14, 'Eg 50', False,$formSettings[0][10]);
+  addNewText('PriceChange24HrBtm: ', 'PriceChange24HrBtm', $formSettings[0][12], 15, 'Eg 50', False,$formSettings[0][10]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>7 Day Price</H3>";
   addNewTwoOption('7DEnable: ', '7DEnable', $formSettings[0][13]);
-  addNewText('PriceChange7DTop: ', 'PriceChange7DTop', $formSettings[0][14], 17, 'Eg 50', False);
-  addNewText('PriceChange7DBtm: ', 'PriceChange7DBtm', $formSettings[0][15], 18, 'Eg 50', False);
+  addNewText('PriceChange7DTop: ', 'PriceChange7DTop', $formSettings[0][14], 17, 'Eg 50', False,$formSettings[0][13]);
+  addNewText('PriceChange7DBtm: ', 'PriceChange7DBtm', $formSettings[0][15], 18, 'Eg 50', False,$formSettings[0][13]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Price Difference</H3>";
   addNewTwoOption('PriceDiff1Enable: ', 'PriceDiff1Enable', $formSettings[0][16]);
-  addNewText('PriceDiff1Top: ', 'PriceDiff1Top', $formSettings[0][17], 25, 'Eg 50', False);
-  addNewText('PriceDiff1Btm: ', 'PriceDiff1Btm', $formSettings[0][18], 26, 'Eg 50', False);
+  addNewText('PriceDiff1Top: ', 'PriceDiff1Top', $formSettings[0][17], 25, 'Eg 50', False,$formSettings[0][16]);
+  addNewText('PriceDiff1Btm: ', 'PriceDiff1Btm', $formSettings[0][18], 26, 'Eg 50', False,$formSettings[0][16]);
   echo "</div>";
   //echo "<div class='settingsform'>";
 
@@ -629,22 +632,22 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>Coin Price Offset</H3>";
   addNewTwoOption('Buy Coin Offset Enabled: ', 'BuyCoinOffsetEnabled', $formSettings[0][29]);
-  addNewText('Buy Coin Offset Pct: ', 'BuyCoinOffsetPct', $formSettings[0][30], 26, 'Eg 50', False);
+  addNewText('Buy Coin Offset Pct: ', 'BuyCoinOffsetPct', $formSettings[0][30], 26, 'Eg 50', False,$formSettings[0][29]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Buy Price Minimum</H3>";
   addNewTwoOption('Buy Price Min Enabled: ', 'BuyPriceMinEnabled', $formSettings[0][43]);
-  addNewText('Buy Price Min: ', 'BuyPriceMin', $formSettings[0][44], 44, 'Eg 7000', False);
+  addNewText('Buy Price Min: ', 'BuyPriceMin', $formSettings[0][44], 44, 'Eg 7000', False,$formSettings[0][43]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Auto Buy</H3>";
   addNewTwoOption('Auto Buy Enabled: ', 'AutoBuyEnabled', $formSettings[0][46]);
-  addNewText('Auto Buy Price: ', 'AutoBuyPrice', $formSettings[0][47], 47, 'Eg 7000', False);
+  addNewText('Auto Buy Price: ', 'AutoBuyPrice', $formSettings[0][47], 47, 'Eg 7000', False,$formSettings[0][46]);
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Buy Amount Override</H3>";
   addNewTwoOption('Buy Amount Override Enabled: ', 'BuyAmountOverrideEnabled', $formSettings[0][48]);
-  addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000', False);
+  addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000', False,$formSettings[0][48]);
   echo "</div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Price Trend</H3>";
@@ -684,7 +687,7 @@ function displayEdit($id){
   Echo "<select name='select'>";
   displaySymbols($symbolList,0);
   echo "</select>";
-  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
+  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
@@ -719,10 +722,10 @@ function displayEdit($id){
   echo "<H3>Admin</H3>";
     addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
-    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False);
-    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False);
-    addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False);
-    addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False);
+    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,"Yes");
+    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,"Yes");
+    addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,"Yes");
+    addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,"Yes");
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
