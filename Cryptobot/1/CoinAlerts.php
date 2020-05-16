@@ -138,6 +138,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }else{
   displayHeader(8);
   $userID = $_SESSION['ID'];
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
   <TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>";
   $coinAlerts = getCoinAlertsUser($userID);
@@ -147,13 +148,13 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
     $email = $coinAlerts[$x][6];$liveCoinPrice= round($coinAlerts[$x][7],$roundNum); $category = $coinAlerts[$x][8];
     $reocurring = $coinAlerts[$x][12];
-    NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$symbol</td><td>$userName</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$email</td><td>$liveCoinPrice</td><td>$category</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$reocurring</td>",$_SESSION['isMobile'] ,2);
-    NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<TR>",$_SESSION['isMobile'] ,2);
   }
   Echo "</table>";
