@@ -40,6 +40,7 @@ function getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend){
 
 function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency, $coinMultiplier){
   Echo "<BR> calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency){";
+  $newSellPrice = 0.00;   
   $finalTrend = getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend);
   Echo "<BR> Final Trend : $finalTrend ";
   if ($finalTrend >0){
