@@ -567,13 +567,14 @@ function displayEdit($id){
 
 
   echo "<div class='settingsform'>";
-  echo "<H3>New Coin Price Pattern</H3>".$formSettings[0][42];
-  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
+  echo "<H3>New Coin Price Pattern</H3>";
+  $coinPricePatEnabled = $formSettings[0][42];
+  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$coinPricePatEnabled);
   echo "<div class='settingsformCmbo'>";
-  displaySymbols($symbolList,0,'select',$formSettings[0][42]);
-  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][42]);
+  displaySymbols($symbolList,0,'select',$coinPricePatEnabled);
+  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
-  displayListBox($pricePattern,'listbox',$formSettings[0][42]);
+  displayListBox($pricePattern,'listbox',$coinPricePatEnabled);
   echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
 
