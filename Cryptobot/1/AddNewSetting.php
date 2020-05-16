@@ -539,22 +539,34 @@ function displayListBox($tempAry){
   }
 }
 
-function displayListBoxNormal($tempAry, $num){
+function displayListBoxNormal($tempAry, $num, $name, $enabled){
   $tempCount = count($tempAry);
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='listbox1Hr' size='3' $readOnly>";
   for ($i=0; $i<$tempCount; $i++){
     $result = $tempAry[$i][$num]; //$symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
 
       echo "<option value='$result'>$result</option>";
   }
+  echo "</select>";
 }
 
-function displaySymbols($symbolList,$num){
+function displaySymbols($symbolList,$num, $name, $enabled){
   $symbolListCount = count($symbolList);
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
     //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$i'>$symbol</option>";
   }
+  Echo "</SELECT>";
 }
 
 function displayTrendSymbols($symbolList, $name, $enabled){
@@ -669,9 +681,7 @@ function displayEdit($id){
   displayTrendSymbols($comboList,'selectCmboTrend2', $formSettings[0][31]);
   displayTrendSymbols($comboList,'selectCmboTrend3', $formSettings[0][31]);
   displayTrendSymbols($comboList,'selectCmboTrend4', $formSettings[0][31]);
-  Echo "<select name='listboxTrend' size='3'>";
-  displayListBoxNormal($priceTrendList,2);
-  echo "</select>";
+  displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][31]);
   echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Coin Price Pattern</H3>";
@@ -682,9 +692,7 @@ function displayEdit($id){
   echo "<H3>New Coin Price Pattern</H3>";
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   echo "<div class='settingsformCmbo'>";
-  Echo "<select name='select'>";
-  displaySymbols($symbolList,0);
-  echo "</select>";
+  displaySymbols($symbolList,0,'select',$formSettings[0][53]);
   addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   Echo "<select name='listbox' size='3'>";
@@ -706,9 +714,7 @@ function displayEdit($id){
   displayTrendSymbols($comboList,'selectCmbo1Hr2', $formSettings[0][55]);
   displayTrendSymbols($comboList,'selectCmbo1Hr3', $formSettings[0][55]);
   displayTrendSymbols($comboList,'selectCmbo1Hr4', $formSettings[0][55]);
-  Echo "<select name='listbox1Hr' size='3'>";
-  displayListBoxNormal($Hr1ChangeList,2);
-  echo "</select>";
+  displayListBoxNormal($Hr1ChangeList,2,'listbox1Hr',$formSettings[0][55]);
   echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'></div></div>";
   echo "<div class='settingsform'>";
 
