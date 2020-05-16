@@ -6,7 +6,7 @@
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';?>
 <style>
-<?php include 'style/style.css'; ?>
+<?php setStyle($_SESSION['isMobile']); ?>
 </style> <?php
 
 //if not logged in redirect to login page
@@ -22,6 +22,7 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $showmain = True;
 
+if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 
 if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
@@ -143,17 +144,17 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
-    $price = $coinAlerts[$x][3];$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
-    $email = $coinAlerts[$x][6];$liveCoinPrice= $coinAlerts[$x][7]; $category = $coinAlerts[$x][8];
+    $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
+    $email = $coinAlerts[$x][6];$liveCoinPrice= round($coinAlerts[$x][7],$roundNum); $category = $coinAlerts[$x][8];
     $reocurring = $coinAlerts[$x][12];
-    echo "<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
-    echo "<td>$id</td><td>$coinID</td>";
-    echo "<td>$action</td><td>$price</td>";
-    echo "<td>$symbol</td><td>$userName</td>";
-    echo "<td>$email</td><td>$liveCoinPrice</td><td>$category</td>";
-    Echo "<td>$reocurring</td>";
-    echo "<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>";
-    echo "<TR>";
+    NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$symbol</td><td>$userName</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$email</td><td>$liveCoinPrice</td><td>$category</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$reocurring</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='font-size:20px;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<TR>",$_SESSION['isMobile'] ,2);
   }
   Echo "</table>";
   displaySideColumn();
