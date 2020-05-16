@@ -194,8 +194,9 @@ $date = date('Y/m/d H:i:s', time());
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>");
         //if($_SESSION['isMobile'] == False){
-          newEcho("&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>",$_SESSION['isMobile'],1);
-          newEcho("<th>&nbsp% Change 1Hr</th><th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],1);
+          newEcho("&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>",$_SESSION['isMobile'],0);
+          newEcho("<th>&nbsp% Change 1Hr</th>",$_SESSION['isMobile'],2);
+          NewEcho("<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
         //}
         echo "<th>Price Trend 1</th><th>&nbspAmount</th><th>&nbspCost</th><th>&nbspProfit%</th><th>&nbspProfit BTC</th><th>&nbspManual Sell</th><tr>";
         for($x = 0; $x < $arrLengthSell; $x++) {
@@ -211,11 +212,12 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
             echo "<td>$livePrice</td>";
             //if($_SESSION['isMobile'] == False){
-              NewEcho("<td>$mrktCap</td>",$_SESSION['isMobile'],1);
-              NewEcho("<td>$volume</td>",$_SESSION['isMobile'],1);
-              NewEcho("<td>$sellOrders</td>",$_SESSION['isMobile'],1);
+              NewEcho("<td>$mrktCap</td>",$_SESSION['isMobile'],0);
+              NewEcho("<td>$volume</td>",$_SESSION['isMobile'],0);
+              NewEcho("<td>$sellOrders</td>",$_SESSION['isMobile'],0);
 
-              NewEcho("<td>".$pctChange1Hr."</td><td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],1);
+              NewEcho("<td>".$pctChange1Hr."</td>",$_SESSION['isMobile'],2);
+              NewEcho("<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
             //}
             $diffColour = 'Red';
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
