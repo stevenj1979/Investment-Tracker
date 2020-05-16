@@ -394,26 +394,40 @@ function getPriceTrendSell($id){
   return $tempAry;
 }
 
-function displayListBox($tempAry){
+function displayListBox($tempAry, $name, $enabled){
   $tempCount = count($tempAry);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' size='3' $readOnly>";
   for ($i=0; $i<$tempCount; $i++){
     $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
 
       echo "<option value='$result'>$result</option>";
   }
+  echo "</Select>";
 }
 
-function displayListBoxNormal($tempAry, $num){
+function displayListBoxNormal($tempAry, $num, $name, $enabled){
   $tempCount = count($tempAry);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' size='3' $readOnly>";
   for ($i=0; $i<$tempCount; $i++){
     $result = $tempAry[$i][$num]; //$symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
 
       echo "<option value='$result'>$result</option>";
   }
+  echo "</Select>";
 }
 
-function displaySymbols($symbolList,$num){
+function displaySymbols($symbolList,$num, $name, $enabled){
   $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
     //$name = str_replace('-1','Minus1',$name);
@@ -421,14 +435,19 @@ function displaySymbols($symbolList,$num){
   }
 }
 
-function displayTrendSymbols($symbolList){
+function displayTrendSymbols($symbolList, $name, $enabled){
   $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i];
     $num = $i-1;
     //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$num'>$symbol</option>";
   }
+  echo "</select>";
 }
 
 function getSymbols(){
@@ -529,21 +548,11 @@ function displayEdit($id){
   echo "<H3>New Sell Pattern</H3>";
   addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
   echo "<div class='settingsformCmbo'>";
-  Echo "<select name='selectCmboTrend1'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend2'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend3'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='selectCmboTrend4'>";
-  displayTrendSymbols($comboList);
-  echo "</select>";
-  Echo "<select name='listboxTrend' size='3'>";
-  displayListBoxNormal($priceTrendList,2);
-  echo "</select>";
+  displayTrendSymbols($comboList,'selectCmboTrend1',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend2',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend3',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend4',$formSettings[0][40]);
+  displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][40]);
   echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
 
 
@@ -558,14 +567,10 @@ function displayEdit($id){
   echo "<H3>New Coin Price Pattern</H3>";
   addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
   echo "<div class='settingsformCmbo'>";
-  Echo "<select name='select'>";
-  displaySymbols($symbolList,0);
-  echo "</select>";
+  displaySymbols($symbolList,0,'select',$formSettings[0][42]);
   addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
-  Echo "<select name='listbox' size='3'>";
-  displayListBox($pricePattern);
-  echo "</select>";
+  displayListBox($pricePattern,'listbox',$formSettings[0][42]);
   echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
 
