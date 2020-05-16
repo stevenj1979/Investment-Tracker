@@ -203,7 +203,7 @@ $date = date('Y/m/d H:i:s', time());
             //Variables
             //$roundNum = 2;
             //if($_SESSION['isMobile'] == False){$roundNum = 8;}
-            $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],$num); $pctChange1Hr = round($trackingSell[$x][8],$num);$pctChange24Hr = round($trackingSell[$x][12],$num);
+            $coin = $trackingSell[$x][1]; $mrktCap = round($trackingSell[$x][7],$num); $pctChange1Hr = round($trackingSell[$x][8],$num);$pctChange24Hr = round($trackingSell[$x][10],$num);
             $pctChange7D = $trackingSell[$x][13]; $livePrice = round($trackingSell[$x][16],$num); $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = round($trackingSell[$x][21],$num);
             $volume = round($trackingSell[$x][24],$num); $baseCurrency = $trackingSell[$x][25]; $amount = round($trackingSell[$x][26],$num);  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
             $profitPct = round($trackingSell[$x][33],$num);$cost = round($trackingSell[$x][28],$num); $realAmount = $trackingSell[$x][26];

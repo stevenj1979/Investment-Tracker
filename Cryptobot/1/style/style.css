@@ -228,6 +228,9 @@ input[type=text], select {
 .column.side {
     width: 15%;
 }
+.column.side.main {
+    width: 15%;
+}
 .side.smaller {
     width: 5%;
 }
