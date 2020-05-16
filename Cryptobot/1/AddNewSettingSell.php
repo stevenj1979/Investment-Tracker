@@ -567,7 +567,7 @@ function displayEdit($id){
 
 
   echo "<div class='settingsform'>";
-  echo "<H3>New Coin Price Pattern</H3>";
+  echo "<H3>New Coin Price Pattern</H3>".$formSettings[0][42];
   addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
   echo "<div class='settingsformCmbo'>";
   displaySymbols($symbolList,0,'select',$formSettings[0][42]);
