@@ -139,8 +139,9 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   displayHeader(8);
   $userID = $_SESSION['ID'];
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-  echo "<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th><TH>&nbspUserName</th><TH>&nbspEmail</th><TH>&nbspliveCoinPrice</th>
-  <TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>";
+  NewEcho("<h2>Coin Alerts!</h2><Table><th>Edit</th><th>&nbspID</th><TH>&nbspCoinID</th><TH>&nbspAction</th><TH>&nbspPrice</th><TH>&nbspSymbol</th>",$_SESSION['isMobile'] ,2);
+  newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,0);
+  newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getCoinAlertsUser($userID);
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
