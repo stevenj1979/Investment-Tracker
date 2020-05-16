@@ -152,7 +152,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$symbol</td>",$_SESSION['isMobile'] ,2);
-    NewEcho("<td>$userName</td><td>$email</td>",$_SESSION['isMobile'] ,1);
+    NewEcho("<td>$userName</td><td>$email</td>",$_SESSION['isMobile'] ,0);
     NewEcho("<td>$liveCoinPrice</td><td>$category</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$reocurring</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
