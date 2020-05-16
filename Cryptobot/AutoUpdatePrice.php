@@ -110,7 +110,7 @@ $coinStatsSize = count($coinStatsAry);
 
 for($x = 0; $x < $coinStatsSize; $x++) {
   calculateBuyPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
-  ,$coinStatsAry[$x][9],$coinStatsAry[$x][10],$coinStatsAry[$x][11],4);
+  ,$coinStatsAry[$x][9],4);
   //calculateSellPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
   //,$coinStatsAry[$x][9],$coinStatsAry[$x][10]);
   Echo "<BR><BR> NEW COIN!!! ------------------------------------------------------------";

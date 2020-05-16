@@ -171,6 +171,7 @@ $currentBTCPurchased = 0.00; $currentUSDTPurchased = 0.00; $currentETHPurchased 
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
+$btcPrice - 0.00; $ethPrice =0.00; $usdtPrice = 0.00;
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
 //$usdtPrice= getLiveCoinPriceUSD('USDT');
