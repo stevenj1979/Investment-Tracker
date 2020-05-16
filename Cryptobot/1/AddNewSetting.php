@@ -502,8 +502,8 @@ function getSymbols(){
 
 function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText, $enabled){
   $readOnly = "";
-  echo "<BR> ENABLED: ".$enabled;
-  if ($enabled == "No"){$readOnly = " readonly ";}
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " readonly ";}
   if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
   echo "<input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' $readOnly value='".$value."' tabindex='".$tabIndex."'>
   <label for='$idName'>".$RealName."</label>";
@@ -723,10 +723,10 @@ function displayEdit($id){
   echo "<H3>Admin</H3>";
     addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
-    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,"Yes");
-    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,"Yes");
-    addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,"Yes");
-    addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,"Yes");
+    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
+    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
+    addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,1);
+    addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,1);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
