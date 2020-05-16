@@ -127,7 +127,7 @@ input[type=button], input[type=submit], input[type=reset] {
 .column.side {
     width: 0%;
 }
-.column.side {
+.column.side.main {
     width: 15%;
 }
 .side.smaller {
