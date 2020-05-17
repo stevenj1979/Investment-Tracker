@@ -965,7 +965,7 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
-      echo "<BR> autoBuy($LiveCoinPrice,".$autoBuyPrice[$i][1].",".$autoBuyPrice[$i][2].",$autoBuyCoinEnabled);";
+      //echo "<BR> autoBuy($LiveCoinPrice,".$autoBuyPrice[$i][1].",".$autoBuyPrice[$i][2].",$autoBuyCoinEnabled);";
       $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled);
     }
   }
@@ -977,29 +977,29 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
-      echo "<BR> autoSell($LiveCoinPrice,".$autoBuyPrice[$i][1].",$autoBuyCoinEnabled); ";
+      //echo "<BR> autoSell($LiveCoinPrice,".$autoBuyPrice[$i][1].",$autoBuyCoinEnabled); ";
       $returnBool = autoSell($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyCoinEnabled);
-      echo $returnBool;
+      //echo $returnBool;
     }
   }
   return $returnBool;
 }
 
 function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
-  Echo "<BR> autoSell2($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled)";
+  //Echo "<BR> autoSell2($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled)";
   if ($autoBuyCoinEnabled == 0){
-      print_r("True $autoBuyCoinEnabled");
+      //print_r("True $autoBuyCoinEnabled");
       return True;
       exit;
   }elseif ($LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled == 1){
-      print_r("True $LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled ");
+      //print_r("True $LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled ");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False ");
+    //print_r("False ");
     return False;
   }
 }
