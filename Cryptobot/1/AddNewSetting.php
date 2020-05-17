@@ -530,6 +530,16 @@ function addNewThreeOption($RealName, $idName, $value){
     <label for='$idName'>$RealName</label>";
 }
 
+function displayAutoListBox($tempAry){
+  $tempCount = count($tempAry);
+  for ($i=0; $i<$tempCount; $i++){
+     $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1]; $bottomPrice = $tempAry[$i][2];
+     $result = $symbol.":".$topPrice.":".$bottomPrice;
+
+      echo "<option value='$symbol'>$result</option>";
+  }
+}
+
 function displayListBox($tempAry){
   $tempCount = count($tempAry);
   for ($i=0; $i<$tempCount; $i++){
@@ -584,7 +594,23 @@ function displayTrendSymbols($symbolList, $name, $enabled){
   echo "</select>";
 }
 
+function getAutoPrices(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
 
+  $sql = "SELECT `CoinID`,`AutoBuyPrice`,`AutoSellPrice`,`Symbol` FROM `CryptoAutoPrices`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['AutoBuyPrice'],$row['AutoSellPrice'],$row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 
 
 function displayEdit($id){
@@ -593,6 +619,7 @@ function displayEdit($id){
   $symbolList = getSymbols();
   $Hr1ChangeList = get1HrchangeBuy($id);
   $priceTrendList = getPriceTrendBuy($id);
+  $cryptoAutoPrices = getAutoPrices();
   $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
@@ -657,11 +684,16 @@ function displayEdit($id){
   addNewTwoOption('Buy Price Min Enabled: ', 'BuyPriceMinEnabled', $formSettings[0][43]);
   addNewText('Buy Price Min: ', 'BuyPriceMin', $formSettings[0][44], 44, 'Eg 7000', False,$formSettings[0][43]);
   echo "</div>";
+
   echo "<div class='settingsform'>";
   echo "<H3>Auto Buy</H3>";
   addNewTwoOption('Auto Buy Enabled: ', 'AutoBuyEnabled', $formSettings[0][46]);
-  addNewText('Auto Buy Price: ', 'AutoBuyPrice', $formSettings[0][47], 47, 'Eg 7000', False,$formSettings[0][46]);
+  //addNewText('Auto Buy Price: ', 'AutoBuyPrice', $formSettings[0][47], 47, 'Eg 7000', False,$formSettings[0][46]);
+  echo "<select name='listbox' size='3' readonly>";
+  displayAutoListBox($cryptoAutoPrices);
+  echo "</select>";
   echo "</div>";
+
   echo "<div class='settingsform'>";
   echo "<H3>Buy Amount Override</H3>";
   addNewTwoOption('Buy Amount Override Enabled: ', 'BuyAmountOverrideEnabled', $formSettings[0][48]);
