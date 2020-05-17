@@ -986,6 +986,7 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
 }
 
 function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
+  Echo "<BR> autoSell2($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled)";
   if ($autoBuyCoinEnabled == 0){
       print_r("True $autoBuyCoinEnabled");
       return True;
