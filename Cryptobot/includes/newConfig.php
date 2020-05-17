@@ -991,7 +991,7 @@ function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
       return True;
       exit;
   }elseif ($LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled == 1){
-      //print_r("True");
+      print_r("True $LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled ");
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
