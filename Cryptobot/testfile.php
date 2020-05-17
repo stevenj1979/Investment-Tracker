@@ -66,9 +66,10 @@ function SQLCommand(){
 
 }
 
+$autoBuyPrice = getAutoBuyPrices();
+echo "<BR> TEST: ".autoBuyMain(9497,$autoBuyPrice,1,84);
 
-echo "<BR> TEST: ".sellWithScore(999.0000,3.5000,3.187422823312,1);
-
+echo "<BR> TEST: ".autoBuy(9497,8870,6190,1);
 
 
 ?>
