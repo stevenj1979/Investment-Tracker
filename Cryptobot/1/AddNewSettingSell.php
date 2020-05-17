@@ -271,6 +271,7 @@ function updateEditedUser(){
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   $coinPricePatternEnabled = postDataYesNo($_POST['CoinPricePatternEnabled']);
   $coinPricePattern = $_POST['CoinPricePattern'];
+  $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -283,7 +284,7 @@ function updateEditedUser(){
   `7DChangeTop`=$PriceChange7DTop,`7DChangeBtm`=$PriceChange7DBtm,`ProfitPctEnabled`=$ProfitSaleEnable,`ProfitPctTop`=$ProfitSaleTop,`ProfitPctBtm`=$ProfitSaleBtm,`CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm,
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
   ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern'
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -560,11 +561,11 @@ function displayEdit($id){
   echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
 
 
-  //echo "<div class='settingsform'>";
-  //echo "<H3>Coin Price Pattern</H3>";
-  //addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$formSettings[0][42]);
+  echo "<div class='settingsform'>";
+  echo "<H3>Coin Price Pattern</H3>";
+  addNewTwoOption('Auto Sell Coin Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
-  //echo "</div>";
+  echo "</div>";
 
 
   echo "<div class='settingsform'>";
