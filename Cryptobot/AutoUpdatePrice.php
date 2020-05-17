@@ -6,7 +6,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 
-function getCoinPriceStats(){
+function getCoinPriceStatsSell(){
   $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -27,14 +27,14 @@ group by `CoinID`";
   $conn->close();
   return $tempAry;
 }
-function getCoinPriceStatsSell(){
+function getCoinPriceStats(){
   $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT Max(`Price`) as `Price`,`CoinID` FROM `CountOfCoinPrice` WHERE `Count of Price` > 30 and `Price` <> 0
+  $sql = "SELECT Max(`Price`) as `Price`,`CoinID` FROM `CountOfCoinPrice` WHERE `Count of Price` > 10 and `Price` <> 0
 group by `CoinID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
