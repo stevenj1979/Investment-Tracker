@@ -474,11 +474,40 @@ function getSymbols(){
   return $tempAry;
 }
 
+function displayAutoListBox($tempAry){
+  $tempCount = count($tempAry);
+  for ($i=0; $i<$tempCount; $i++){
+     $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1]; 
+     $result = $symbol.":".$topPrice;
+
+      echo "<option value='$symbol'>$result</option>";
+  }
+}
+
+function getAutoPrices(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `CoinID`,`AutoBuyPrice`,`AutoSellPrice`,`Symbol` FROM `CryptoAutoPrices`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['AutoBuyPrice'],$row['AutoSellPrice'],$row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function displayEdit($id){
   $formSettings = getRules($id);
   $pricePattern = getPricePatternSell($id);
   $priceTrendList = getPriceTrendSell($id);
   $symbolList = getSymbols();
+  $cryptoAutoPrices = getAutoPrices();
   $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
@@ -565,6 +594,9 @@ function displayEdit($id){
   echo "<H3>Auto Sell</H3>";
   addNewTwoOption('Auto Sell Coin Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
+  echo "<select name='listbox' size='3' readonly>";
+  displayAutoListBox($cryptoAutoPrices);
+  echo "</select>";
   echo "</div>";
 
 
