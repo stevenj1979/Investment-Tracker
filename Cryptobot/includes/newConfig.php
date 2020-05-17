@@ -965,6 +965,7 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
+      echo "<BR> autoBuy($LiveCoinPrice,".$autoBuyPrice[$i][1].",".$autoBuyPrice[$i][2].",$autoBuyCoinEnabled);";
       $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled);
     }
   }
@@ -976,8 +977,9 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
-      echo "<BR> autoSell($LiveCoinPrice,".$autoBuyPrice[$i][1].",$autoBuyCoinEnabled);";
+      echo "<BR> autoSell($LiveCoinPrice,".$autoBuyPrice[$i][1].",$autoBuyCoinEnabled); ";
       $returnBool = autoSell($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyCoinEnabled);
+      echo $returnBool;
     }
   }
   return $returnBool;
