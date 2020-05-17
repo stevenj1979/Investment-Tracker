@@ -987,7 +987,7 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
 
 function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
   if ($autoBuyCoinEnabled == 0){
-      //print_r("True");
+      print_r("True $autoBuyCoinEnabled");
       return True;
       exit;
   }elseif ($LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled == 1){
@@ -998,7 +998,7 @@ function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    //print_r("False ");
+    print_r("False ");
     return False;
   }
 }
