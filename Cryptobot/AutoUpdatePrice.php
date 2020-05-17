@@ -91,7 +91,7 @@ function calculateSellPrice($coinID, $Live1HrChange, $Live24HrChange, $CoinPrice
 
 }
 
-function updateBuyPrice($coinID, $newBuyPrice){
+function updateBuyPrice($newBuyPrice,$coinID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -107,7 +107,7 @@ function updateBuyPrice($coinID, $newBuyPrice){
   $conn->close();
 }
 
-function updateSellPrice($coinID, $newSellPrice){
+function updateSellPrice($newSellPrice,$coinID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
