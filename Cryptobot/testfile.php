@@ -69,7 +69,7 @@ function SQLCommand(){
 $autoBuyPrice = getAutoBuyPrices();
 echo "<BR> TEST: ".autoBuyMain(9497,$autoBuyPrice,1,84);
 
-echo "<BR> TEST: ".autoBuy(9497,8870,6190,1);
+echo "<BR> TEST: ".autoBuy(9497,9570,6190,1);
 
 
 ?>
