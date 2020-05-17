@@ -562,7 +562,7 @@ function displayEdit($id){
 
 
   echo "<div class='settingsform'>";
-  echo "<H3>Coin Price Pattern</H3>";
+  echo "<H3>Auto Sell</H3>";
   addNewTwoOption('Auto Sell Coin Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
   echo "</div>";
