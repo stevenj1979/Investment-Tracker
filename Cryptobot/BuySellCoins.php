@@ -193,7 +193,7 @@ while($completeFlag == False){
       $VolumeEnabled = $sellRules[$z][28]; $VolumeTop = $sellRules[$z][29]; $VolumeBtm = $sellRules[$z][30];
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
       $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
-      $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45];
+      $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45]; $autoSellCoinEnabled = $sellRules[$z][46];
       //$profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
       //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
@@ -231,6 +231,7 @@ while($completeFlag == False){
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
       $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
+      $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID);
       $sTest12 = $GLOBALS['allDisabled'];
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
 

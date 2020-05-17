@@ -179,7 +179,7 @@ function getUserSellRules(){
   $sql = "SELECT `ID`,`UserID`,`SellCoin`,`SendEmail`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,`1HrChangeTop`,
   `1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`ProfitPctEnabled`,`ProfitPctTop`,`ProfitPctBtm`,`CoinPriceEnabled`,
   `CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,`VolumeBtm`,`Email`,`UserName`,`APIKey`,`APISecret`, `SellCoinOffsetEnabled`,
-  `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`
+  `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`,`AutoSellCoinEnabled`
    FROM `UserSellRules`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -189,7 +189,7 @@ function getUserSellRules(){
     $row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],$row['ProfitPctBtm'],
     $row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],
     $row['APISecret'],$row['SellCoinOffsetEnabled'],$row['SellCoinOffsetPct'],$row['SellPriceMinEnabled'],$row['SellPriceMin'],$row['LimitToCoin'],$row['KEK'],$row['SellPatternEnabled'],$row['SellPattern'],$row['LimitToBuyRule'],
-    $row['CoinPricePatternEnabled'],$row['CoinPricePattern']);
+    $row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['AutoSellCoinEnabled']);
   }
   $conn->close();
   return $tempAry;
@@ -969,6 +969,35 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
     }
   }
   return $returnBool;
+}
+
+function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID){
+  $returnBool = False;
+  $coinPriceAryCount = count($autoBuyPrice);
+  for ($i = 0; $i<$coinPriceAryCount; $i++){
+    if ($coinID == $autoBuyPrice[$i][0]){
+      $returnBool = autoSell($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyCoinEnabled);
+    }
+  }
+  return $returnBool;
+}
+
+function autoSell($LiveCoinPrice, $autoBuyPriceTop, $autoBuyCoinEnabled){
+  if ($autoBuyCoinEnabled == 0){
+      //print_r("True");
+      return True;
+      exit;
+  }elseif ($LiveCoinPrice >= $autoBuyPriceTop && $autoBuyCoinEnabled == 1){
+      //print_r("True");
+      $GLOBALS['allDisabled'] = true;
+      return True;
+      exit;
+  }else {
+    $GLOBALS['allDisabled'] = true;
+    //print_r($buyTop >= $score);
+    //print_r("False ");
+    return False;
+  }
 }
 
 function autoBuy($LiveCoinPrice, $autoBuyPriceTop, $autoBuyPriceBtm, $autoBuyCoinEnabled){
