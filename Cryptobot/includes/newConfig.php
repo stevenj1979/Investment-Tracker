@@ -961,13 +961,14 @@ function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
 }
 
 function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID){
+  $returnBool = False;
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
-      $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled)
+      $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled);
     }
   }
-
+  return $returnBool;
 }
 
 function autoBuy($LiveCoinPrice, $autoBuyPriceTop, $autoBuyPriceBtm, $autoBuyCoinEnabled){
