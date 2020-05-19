@@ -893,7 +893,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x];
     if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0 && $buySell == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0&& $buySell == 1)){
-      if (newReturnPattern($livePattern,$pieces[$x][2])){ $testTrue = True; echo "<BR> LivePetern $livePattern TRUE";}
+      if (newReturnPattern($livePattern,$pieces[$x][2])){ $testTrue = True; }//echo "<BR> LivePetern $livePattern TRUE";}
     }
   }
     if ($pEnabled == 0){
@@ -1751,14 +1751,14 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
   if ($symbol == $liveSymbol){
     $symbolBool = True;
     if ($isGreater == 1){
-      Echo "<BR> Is Greater: $isGreater";
+      //Echo "<BR> Is Greater: $isGreater";
       if ($bitPrice >= $livePrice){$priceBool = True;}
 
-      echo "<BR> if ($livePrice > $bitPrice){";
+      //echo "<BR> if ($livePrice > $bitPrice){";
     }else{
-      Echo "<BR> Is Less Than: $isGreater";
+      //Echo "<BR> Is Less Than: $isGreater";
       if ($bitPrice <= $livePrice){$priceBool = True;}
-      echo "<BR> if ($livePrice < $bitPrice){";
+      //echo "<BR> if ($livePrice < $bitPrice){";
     }
   }
   if ($symbolBool == True && $priceBool == True) { return True;}
