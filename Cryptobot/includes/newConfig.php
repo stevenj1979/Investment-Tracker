@@ -1752,12 +1752,12 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
     $symbolBool = True;
     if ($isGreater == 1){
       Echo "<BR> Is Greater: $isGreater";
-      if ($livePrice > $bitPrice){$priceBool = True;}
+      if ($livePrice >= $bitPrice){$priceBool = True;}
 
       echo "<BR> if ($livePrice > $bitPrice){";
     }else{
       Echo "<BR> Is Less Than: $isGreater";
-      if ($bitPrice < $livePrice){$priceBool = True;}
+      if ($bitPrice <= $livePrice){$priceBool = True;}
       echo "<BR> if ($livePrice < $bitPrice){";
     }
   }
