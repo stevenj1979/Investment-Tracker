@@ -106,6 +106,8 @@ while($date <= $newTime){
       //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
+      update1HrPriceChange($statsForCoin[0][2],$coinID);
+      //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency);
       $coinVolData = getVolumeStats($bittrexStats);
       BittrexStatstoSQL($coinID, $coinVolData[0][0],$coinVolData[0][1],$coinVolData[0][2]);
@@ -125,16 +127,16 @@ while($date <= $newTime){
       copyWebTable($coinID);
       updateWebCoinStatsTable($coinID);
       coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()));
-      $Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
-      echo "<BR> get1HrChange($coinID,$Hr1Date);";
-      $Hr1Price = get1HrChange($coinID,$Hr1Date);
-      update1HrPriceChange($Hr1Price[0][0],$coinID);
-      $Hr8Date = date("Y-m-d H",strtotime("-1 Day"));
-      $Hr8Price = get1HrChange($coinID,$Hr8Date);
-      update8HrPriceChange($Hr8Price[0][0],$coinID);
-      $Hr24Date = date("Y-m-d H",strtotime("-1 Day"));
-      $Hr24Price = get1HrChange($coinID,$Hr24Date);
-      update24HrPriceChange($Hr24Price[0][0],$coinID);
+      //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
+      //echo "<BR> get1HrChange($coinID,$Hr1Date);";
+      //$Hr1Price = get1HrChange($coinID,$Hr1Date);
+      //update1HrPriceChange($Hr1Price[0][0],$coinID);
+      //$Hr8Date = date("Y-m-d H",strtotime("-1 Day"));
+      //$Hr8Price = get1HrChange($coinID,$Hr8Date);
+      //update8HrPriceChange($Hr8Price[0][0],$coinID);
+      //$Hr24Date = date("Y-m-d H",strtotime("-1 Day"));
+      //$Hr24Price = get1HrChange($coinID,$Hr24Date);
+      //update24HrPriceChange($Hr24Price[0][0],$coinID);
 
     }
 
