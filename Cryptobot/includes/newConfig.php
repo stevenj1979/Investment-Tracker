@@ -1757,7 +1757,7 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
       echo "<BR> if ($livePrice > $bitPrice){";
     }else{
       Echo "<BR> Is Less Than: $isGreater";
-      if ($livePrice < $bitPrice){$priceBool = True;}
+      if ($bitPrice < $livePrice){$priceBool = True;}
       echo "<BR> if ($livePrice < $bitPrice){";
     }
   }
