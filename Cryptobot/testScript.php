@@ -42,6 +42,16 @@ $test19 = coinMatchPattern($coinPriceMatch,8400,'BTC',0,1,14,0);//True
 $test20 = coinMatchPattern($coinPriceMatch,6100,'BTC',0,1,14,0);//FALSE
 $test21 = coinMatchPattern($coinPriceMatch,8400,'BTC',0,0,14,0);//True
 
+//isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater)
+$test22 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 0);//True
+$test23 = isCoinMatch(8300, 'BTC', 7100, 'BTC', 0);//FALSE
+$test24 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 0);//True
+
+$test25 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 1);//FALSE
+$test26 = isCoinMatch(8100, 'BTC', 7100, 'BTC', 1);//TRUE
+$test27 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 1);//TRUE
+
+
 Echo "<BR> TEST1 buyWithScore(10,5,6,1);";
 if ($test1) {Echo " :PASS";}//else{Echo "FAIL";}
 Echo "<BR> TEST2 buyWithScore(10,5,11,1);";
@@ -82,6 +92,18 @@ Echo "<BR> TEST20 coinMatchPattern('BTC:7200',6100,'BTC',0,1,14,0);";
 if ($test20 == False) {Echo " :PASS";}
 Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);";
 if ($test21 ) {Echo " :PASS";}
+Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0);";
+if ($test22 ) {Echo " :PASS";}
+Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0);";
+if ($test23 == False ) {Echo " :PASS";}
+Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0);";
+if ($test24 ) {Echo " :PASS";}
+Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1);";
+if ($test25 == False ) {Echo " :PASS";}
+Echo "<BR> TEST26 isCoinMatch(8100, 'BTC', 7100, 'BTC', 1);";
+if ($test26 ) {Echo " :PASS";}
+Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1);";
+if ($test27 ) {Echo " :PASS";}
 }
 
 function testSellCoins(){
