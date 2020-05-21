@@ -134,6 +134,7 @@ for($x = 0; $x < $coinStatsSize; $x++) {
   $newBuyPrice = $coinStatsAry[$x][0]; $coinID = $coinStatsAry[$x][1];
   updateBuyPrice($newBuyPrice,$coinID);
   Echo "<BR>Update Buy Price $newBuyPrice , $coinID";
+  logAction("Update Buy Price $newBuyPrice , $coinID",'AutoUpdatePrice');
 }
 $coinStatsSellAry = getCoinPriceStatsSell();
 $coinStatsSellSize = count($coinStatsSellAry);
@@ -141,6 +142,7 @@ for($x = 0; $x < $coinStatsSellSize; $x++) {
   $newSellPrice = $coinStatsSellAry[$x][0]; $coinID = $coinStatsSellAry[$x][1];
   updateSellPrice($newSellPrice,$coinID);
   Echo "<BR>Update Sell Price $newSellPrice , $coinID";
+  logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice');
 }
 ?>
 </html>
