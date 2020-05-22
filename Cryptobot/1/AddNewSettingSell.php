@@ -271,7 +271,7 @@ function updateEditedUser(){
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   $coinPricePatternEnabled = postDataYesNo($_POST['CoinPricePatternEnabled']);
   $coinPricePattern = $_POST['CoinPricePattern'];
-  $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
+  //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -477,7 +477,7 @@ function getSymbols(){
 function displayAutoListBox($tempAry){
   $tempCount = count($tempAry);
   for ($i=0; $i<$tempCount; $i++){
-     $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1]; 
+     $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1];
      $result = $symbol.":".$topPrice;
 
       echo "<option value='$symbol'>$result</option>";
@@ -621,8 +621,8 @@ function displayEdit($id){
   addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37, 'Eg 50', False,1);
 
   addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
-  addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
-  addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
+  //addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
+  //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
 
   //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
   echo "</div>";
