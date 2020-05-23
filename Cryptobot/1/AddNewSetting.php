@@ -110,22 +110,22 @@ function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
 
 function removePricePatternfromSQL($ruleID, $price){
   $splitPrice = explode(':',$price);
-  $newPrice = $splitPrice[1]; $symbol = $splitPrice[0];
+  $newPrice = $splitPrice[1]; $symbol = $splitPrice[0]; $lowPrice = $splitPrice[2];
   $userID = $_SESSION['ID'];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `BuyRuleID` = $ruleID and `CoinPriceMatchID` = (
-    select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `CoinID` = (
+    select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `LowPrice` = $lowPrice and `CoinID` = (
       SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
-  //echo $sql;
+  echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removeTrendPatternfromSQL($ruleID, $pattern){
