@@ -266,7 +266,9 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/Dashboard.php"> Dashboard </a>
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php?mins=+10_minutes"> Cryptobot Auto </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php"> Cryptobot Auto </a>
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testScript.php"> Test Script </a>
              <br>
 
 <?php
