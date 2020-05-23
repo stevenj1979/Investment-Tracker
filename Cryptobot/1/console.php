@@ -56,7 +56,7 @@ function getConsoleData($console){
   }
 
   $sql = "SELECT `DateTime`,`Subject`,`Comment` FROM `ActionLogView` WHERE `UserID` = 3 and $sql_option";
-  echo $sql;
+  //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
