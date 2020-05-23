@@ -88,18 +88,18 @@ Echo "<BR> TEST16 autoBuyMain(5300,'BTC:8870.00000000:6190.000000', 1,84);";
 if ($test16 == False) {Echo " :PASS";}
 Echo "<BR> TEST17 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 0,84);";
 if ($test17 ) {Echo " :PASS";}
-Echo "<BR> TEST18 coinMatchPattern('BTC:7200',9400,'BTC',0,1,14,0);";
-if ($test18 ) {Echo " :PASS";}
-Echo "<BR> TEST19 coinMatchPattern('BTC:7200',8400,'BTC',0,1,14,0);";
+Echo "<BR> TEST18 coinMatchPattern('BTC:7200:0',9400,'BTC',0,1,14,0);";
+if ($test18 == False) {Echo " :PASS";}
+Echo "<BR> TEST19 coinMatchPattern('BTC:7200:0',7100,'BTC',0,1,14,0);";
 if ($test19 ) {Echo " :PASS";}
-Echo "<BR> TEST20 coinMatchPattern('BTC:7200',6100,'BTC',0,1,14,0);";
-if ($test20 == False) {Echo " :PASS";}
+Echo "<BR> TEST20 coinMatchPattern('BTC:7200:0',6100,'BTC',0,1,14,0);";
+if ($test20) {Echo " :PASS";}
 Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);";
 if ($test21 ) {Echo " :PASS";}
 Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0, 0);";
-if ($test22 ) {Echo " :PASS";}
+if ($test22 == False) {Echo " :PASS";}
 Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0, 0);";
-if ($test23 == False ) {Echo " :PASS";}
+if ($test23 ) {Echo " :PASS";}
 Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0, 0);";
 if ($test24 ) {Echo " :PASS";}
 Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1, 0);";
