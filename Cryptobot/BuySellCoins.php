@@ -216,7 +216,7 @@ while($completeFlag == False){
     //$BuyRuleLength = $BuyRuleLength-$BuyRuleLength-$BuyRuleLength;
 
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
-
+      $sellResultAry = [];
       //Variables
       $BuyOrdersEnabled = $sellRules[$z][4]; $BuyOrdersTop = $sellRules[$z][5]; $BuyOrdersBtm = $sellRules[$z][6];
       $MarketCapEnabled = $sellRules[$z][7]; $MarketCapTop = $sellRules[$z][8];$MarketCapBtm= $sellRules[$z][9];
@@ -257,24 +257,37 @@ while($completeFlag == False){
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
       $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
+      $sellResultAry[] = Array($sTest1, "Market Cap $symbol", $MarketCapPctChange);
       $sTest2 = sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
+      $sellResultAry[] = Array($sTest2, "Volume $symbol", $VolumePctChange);
       $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
+      $sellResultAry[] = Array($sTest3, "Sell Orders $symbol", $SellOrdersPctChange);
       $sTest4 = sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
+      $sellResultAry[] = Array($sTest4, "1 Hour Price Change $symbol", $Hr1ChangePctChange);
       $sTest5 = sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
+      $sellResultAry[] = Array($sTest5, "24 Hour Price Change $symbol", $Hr24ChangePctChange);
       $sTest6 = sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled);
+      $sellResultAry[] = Array($sTest6, "7 Day Price Change $symbol", $D7ChangePctChange);
       $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
+      $sellResultAry[] = Array($sTest7, "Price Trend Pattern $symbol", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
+      $sellResultAry[] = Array($sTest8, "Minimum Price $symbol", $LiveCoinPrice);
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
+      $sellResultAry[] = Array($sTest9, "Profit Percentage $symbol", $profit);
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
+      $sellResultAry[] = Array($sTest10, "Minimum Sell Price $symbol", $CoinPricePctChange);
       $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
+      $sellResultAry[] = Array($sTest11, "Coin Price Match $symbol", $LiveCoinPrice);
       $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID);
+      $sellResultAry[] = Array($sTest12, "Auto Sell $symbol", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
 
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11+$sTest12+$sTest13;
       if ($totalScore_Sell >= 12){
-        logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit","SellScore");
-        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell", $userID);
+        $buyOutstanding = getOutStandingBuy($buyResultAry);
+        logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit $buyOutstanding","SellScore");
+        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $buyOutstanding", $userID);
       }
       Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit";
 

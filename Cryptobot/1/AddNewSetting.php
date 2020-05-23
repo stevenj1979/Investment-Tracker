@@ -23,7 +23,7 @@ if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
     Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
-    addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice']);
+    addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice'], $_POST['CPricebtm']);
   }elseif (!empty($_POST['remove'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
@@ -91,13 +91,13 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
-function addpricePatterntoSQL($ruleID, $symbol, $price){
+function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
   $userID = $_SESSION['ID'];
   echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID,0);";
+  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID,0,$lowPrice);";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -431,13 +431,13 @@ function getPricePatternBuy($id){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`UserID` FROM `CoinPriceMatchView` WHERE (`BuyRuleID` = $id )";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`UserID`,`LowPrice` FROM `CoinPriceMatchView` WHERE (`BuyRuleID` = $id )";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['UserID']);
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['UserID'],$row['LowPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -543,7 +543,8 @@ function displayAutoListBox($tempAry){
 function displayListBox($tempAry){
   $tempCount = count($tempAry);
   for ($i=0; $i<$tempCount; $i++){
-    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
+    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $lowPrice = = $tempAry[$i][5];
+    $result = $symbol.":".$price.":".$lowPrice;
 
       echo "<option value='$result'>$result</option>";
   }
@@ -725,7 +726,8 @@ function displayEdit($id){
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   echo "<div class='settingsformCmbo'>";
   displaySymbols($symbolList,0,'select',$formSettings[0][53]);
-  addNewText('Coin Price: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
+  addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
+  addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   Echo "<select name='listbox' size='3'>";
   displayListBox($pricePattern);
