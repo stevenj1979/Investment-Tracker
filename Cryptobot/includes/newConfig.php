@@ -1744,7 +1744,7 @@ function isMobile() {
 }
 
 
-function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
+function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater,$lowPrice){
   //echo "<BR> isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater)";
   $symbolBool = False; $priceBool = False;
   //Echo "<BR> $symbol : $liveSymbol";
@@ -1757,7 +1757,7 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater){
       //echo "<BR> if ($livePrice > $bitPrice){";
     }else{
       //Echo "<BR> Is Less Than: $isGreater";
-      if ($bitPrice <= $livePrice){$priceBool = True;}
+      if ($bitPrice <= $livePrice && $lowPrice >= $livePrice){$priceBool = True;}
       //echo "<BR> if ($livePrice < $bitPrice){";
     }
   }
@@ -1774,13 +1774,13 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
   for ($x = 0; $x < $piecesSize; $x++) {
     $buyRuleID = $coinPattern[$x][0]; $sellRuleID = $coinPattern[$x][1];
     //echo "<BR> pattern : ".$coinPattern[$x][2];
-    $coinPriceMatchPrice = $coinPattern[$x][3]; $coinPriceMatchSymbol = $coinPattern[$x][4];
+    $coinPriceMatchPrice = $coinPattern[$x][3]; $coinPriceMatchSymbol = $coinPattern[$x][4];$coinPriceMatchLowPrice = $coinPattern[$x][5];
     //Echo "<br> ".$pieces[$x];
     //$row = explode(":", $pieces[$x]);
     //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
     if (($buyRuleID == $ruleID && $sellRuleID == 0 && $buySell == 0) OR ($sellRuleID == $ruleID && $buyRuleID == 0 && $buySell == 1)){
       //echo "<BR> coinMatchPattern : $buyRuleID $sellRuleID $coinPriceMatchPrice $coinPriceMatchSymbol";
-      if (isCoinMatch((float)$coinPriceMatchPrice,$coinPriceMatchSymbol,$livePrice, $liveSymbol, $isGreater)){ $testTrue = True;}
+      if (isCoinMatch((float)$coinPriceMatchPrice,$coinPriceMatchSymbol,$livePrice, $liveSymbol, $isGreater,$coinPriceMatchLowPrice)){ $testTrue = True;}
     //echo "<BR>isCoinMatch((float)$row[1],$row[0],$livePrice, $liveSymbol, $isGreater)";
     }
   }
@@ -1978,12 +1978,12 @@ function getCoinPriceMatchList(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol` FROM `CoinPriceMatchView`";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `CoinPriceMatchView`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol']);
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice']);
   }
   $conn->close();
   return $tempAry;
