@@ -57,12 +57,23 @@ function getConsoleData(){
   return $tempAry;
 }
 
+function displayDropDown($headers){
+  $headerCount = count($headers);
+  echo "<form action='console.php?dropdown=Yes' method='post'>";
+  for ($i=0; $i<$headerCount; $i++){
+    $nText = $headers[$i][0];
+    Echo "<option  selected='selected' value='$nText'>$nText</option>";
+  }
+  echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
+}
+
 function main(){
   displayHeader(9);
-  //$headers = getHeaders();
+  $headers = getHeaders();
   $consoleData = getConsoleData();
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
+    displayDropDown($headers);
     echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";
