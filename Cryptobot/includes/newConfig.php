@@ -309,17 +309,23 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$buyCancelTime = strtotime( '+ 16 minute');
             bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
             addBuyRuletoSQL($bittrexRef,$ruleID);
+            logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
           logAction("Bittrex Status:  ".json_encode($obj), 'BuySell');
+          logToSQL("Bittrex", "Add Buy Coin Error: ".json_encode($obj), $userID);
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
-    }else{ echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount"; logAction("BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell');}
+    }else{
+      echo "<BR> BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount";
+      logAction("BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell');
+      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", $userID);
+    }
   //}
 }
 
@@ -1073,8 +1079,10 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       //writeBittrexAction($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice){
       //writeBittrexAction($coinID,$transactionID,$userID,"Sell",$bittrexRef, $date, $status,$bitPrice);
       bittrexSellAdd($coinID, $transactionID, $userID, 'Sell', $bittrexRef, $status, $bitPrice, $ruleID);
+      logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID);
     }
     logAction("SellCoins:  ".json_encode($obj), 'BuySell');
+    logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj), $userID);
   }
   if ($sendEmail==1 &&  $sellCoin ==0){
   //if ($sendEmail){
