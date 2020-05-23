@@ -53,6 +53,9 @@ $test27 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);//TRUE
 
 $test28 = coinMatchPattern($coinPriceMatch,212,'ETH',0,1,36,0);//True
 
+$test29 = coinMatchPattern($coinPriceMatch,209,'ETH',0,0,37,0);//True
+$test30 = coinMatchPattern($coinPriceMatch,209,'ETH',0,1,37,0);//True
+
 Echo "<BR> TEST1 buyWithScore(10,5,6,1);";
 if ($test1) {Echo " :PASS";}//else{Echo "FAIL";}
 Echo "<BR> TEST2 buyWithScore(10,5,11,1);";
@@ -108,6 +111,14 @@ if ($test27 ) {Echo " :PASS";}
 
 Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);";
 if ($test28 ) {Echo " :PASS";}
+}
+
+Echo "<BR> TEST29 coinMatchPattern('ETH:150',209,'ETH',0,0,37,0);";
+if ($test29 == False) {Echo " :PASS";}
+}
+
+Echo "<BR> TEST30 coinMatchPattern('ETH:150',209,'ETH',0,1,37,0);";
+if ($test30 ) {Echo " :PASS";}
 }
 
 function testSellCoins(){
