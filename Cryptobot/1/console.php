@@ -51,7 +51,7 @@ function getConsoleData(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['DateTime']." ".$row['Subject']." ".$row['Comment']);
+      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment']);
   }
   $conn->close();
   return $tempAry;
