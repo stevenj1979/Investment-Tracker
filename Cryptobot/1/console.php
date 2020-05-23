@@ -46,7 +46,7 @@ function getConsoleData(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`, `Subject`, `Comment` FROM `ActionLog` WHERE `UserID` = 3 order by `DateTime` desc limit 100";
+  $sql = "SELECT `DateTime`,`Subject`,`Comment` FROM `ActionLogView` WHERE `UserID` = 3";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
