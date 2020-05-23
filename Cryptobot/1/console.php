@@ -47,7 +47,7 @@ function getHeaders(){
 }
 
 function getConsoleData($console){
-  if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = $console";}
+  if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = '$console'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
