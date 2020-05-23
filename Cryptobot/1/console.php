@@ -60,6 +60,7 @@ function getConsoleData(){
 function displayDropDown($headers){
   $headerCount = count($headers);
   echo $headerCount;
+  var_dump($headers);
   echo "<form action='console.php?dropdown=Yes' method='post'>";
   for ($i=0; $i<$headerCount; $i++){
     $nText = $headers[$i][0];
