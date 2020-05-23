@@ -33,6 +33,19 @@ function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,
   if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
 }
 
+function getOutStandingBuy($tmpAry){
+  $tmpStr = "";
+  $tmpAryCount = count($tmpAry);
+  for ($i=0; $i<$tmpAryCount; $i++){
+    if ($tmpAry[$i][0] <> 1){ $tmpStr .= $tmpAry[$i][1].":".$tmpAry[$i][2].",";}
+  }
+  return rtrim($tmpStr,",");
+}
+
+function getOutStandingSell(){
+
+}
+
 
 //set time
 setTimeZone();
@@ -132,26 +145,40 @@ while($completeFlag == False){
       //echo "Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
       //echo "1: MarketCap buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)<br>";
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
+      $buyResultAry[] = Aray($test1, "Market Cap $symbol", $MarketCapPctChange);
       $test2 = buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
+      $buyResultAry[] = Aray($test2, "Volume $symbol", $VolumePctChange);
       $test3 = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled);
+      $buyResultAry[] = Aray($test3, "Buy Orders $symbol", $BuyOrdersPctChange);
       $test4 = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
+      $buyResultAry[] = Aray($test4, "1 Hour Price Change $symbol", $Hr1ChangePctChange);
       $test5 = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
+      $buyResultAry[] = Aray($test5, "24 Hour Price Change $symbol", $Hr24ChangePctChange);
       $test6 = buyWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled);
+      $buyResultAry[] = Aray($test6, "7 Day Price Change $symbol", $D7ChangePctChange);
       $test7 = buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
+      $buyResultAry[] = Aray($test7, "Coin Price $symbol", $CoinPricePctChange);
       $test8 = buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
+      $buyResultAry[] = Aray($test8, "Sell Orders $symbol", $SellOrdersPctChange);
       $test9 = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0);
+      $buyResultAry[] = Aray($test9, "Buy Price Pattern $symbol", $newPriceTrend);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
+      $buyResultAry[] = Aray($test10, "Buy Price Minimum $symbol", $LiveCoinPrice);
       $test11 = autoBuyMain($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
+      $buyResultAry[] = Aray($test11, "Auto Buy Price $symbol", $LiveCoinPrice);
       $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy,0);
+      $buyResultAry[] = Aray($test12, "Coin Price Pattern $symbol", $LiveCoinPrice);
       $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0);
+      $buyResultAry[] = Aray($test14, "1 Hour Price Pattern $symbol", $new1HrPriceChange);
       $test13 = $GLOBALS['allDisabled'];
       if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; Echo "<BR> 13: BuyAmountOverride set to : $buyAmountOverride";}
       //logAction("1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ", 'BuySell');
       //Echo "<BR> New Boolean Test! 1: $test1 2: $test2 3: $test3 4: $test4 5: $test5 6: $test6 7: $test7 8: $test8 9: $test9 10: $test10 11: $test11 12: $test12 ";
       $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13+$test14;
       if ($totalScore_Buy >= 13 ){
+        $buyOutstanding = getOutStandingBuy($buyResultAry);
         logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14","BuyScore");
-        logToSQL("BuyCoin", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy", $userID);
+        logToSQL("BuyCoin", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy $buyOutstanding", $userID);
       }
       Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14";
 
