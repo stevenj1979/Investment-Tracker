@@ -20,6 +20,7 @@ setStyle($_SESSION['isMobile']);
 
 if (!empty($_POST['submit'])){
   changeSetting($_POST['transSelect']);
+  main();
 }else{
   main();
 }
