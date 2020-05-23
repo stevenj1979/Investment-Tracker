@@ -57,7 +57,7 @@ function getConsoleData(){
   return $tempAry;
 }
 
-function displayDropDown($headers){
+function displayDropDown($headers,$selected){
   $headerCount = count($headers);
   //echo $headerCount;
   //var_dump($headers);
@@ -65,8 +65,9 @@ function displayDropDown($headers){
   echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
   for ($i=0; $i<$headerCount; $i++){
     $nText = $headers[$i][0];
-    Echo "<option value='$nText'>$nText</option>";
+    if ($selected == $nText){Echo "<option  selected='selected' value='$nText'>$nText</option>";}else{Echo "<option value='$nText'>$nText</option>";}
   }
+  if ($selected == 1){Echo "<option  selected='selected' value='1'>ALL</option>";}else{Echo "<option value='1'>ALL</option>";}
   echo "</select>";
   echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
 }
@@ -77,7 +78,7 @@ function main(){
   $consoleData = getConsoleData();
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
-    displayDropDown($headers);
+    displayDropDown($headers, $_SESSION['ConsoleSelected']);
     echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";

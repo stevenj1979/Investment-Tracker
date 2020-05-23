@@ -67,6 +67,7 @@ if(isset($_POST['submit'])){
       setStats();
       $_SESSION['TransListSelected'] = "Open";
       $_SESSION['BittrexListSelected'] = "1";
+      $_SESSION['ConsoleSelected'] = "1";
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
