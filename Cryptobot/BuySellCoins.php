@@ -84,6 +84,7 @@ while($completeFlag == False){
     //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
     //echo "<blockquote>";
     for($y = 0; $y < $buyRulesSize; $y++) {
+      $buyResultAry = [];
       //Variables
       $BuyOrdersEnabled = $buyRules[$y][1]; $BuyOrdersTop = $buyRules[$y][2]; $BuyOrdersBtm = $buyRules[$y][3];
       $MarketCapEnabled = $buyRules[$y][4]; $MarketCapTop = $buyRules[$y][5];$MarketCapBtm= $buyRules[$y][6];
