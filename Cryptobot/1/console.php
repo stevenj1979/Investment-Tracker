@@ -18,8 +18,15 @@ require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header
 include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
+if($_POST['transSelect'] <> ""){
 
-main();
+}else{
+  main();
+}
+
+function changeSetting(){
+  $_SESSION['ConsoleSelected'] = $_POST['transSelect'];
+}
 
 function getHeaders(){
   $conn = getSQLConn(rand(1,3));
@@ -39,14 +46,16 @@ function getHeaders(){
   return $tempAry;
 }
 
-function getConsoleData(){
+function getConsoleData($console){
+  if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = $console";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment` FROM `ActionLogView` WHERE `UserID` = 3";
+  $sql = "SELECT `DateTime`,`Subject`,`Comment` FROM `ActionLogView` WHERE `UserID` = 3 and $sql_option";
+  echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -75,7 +84,7 @@ function displayDropDown($headers,$selected){
 function main(){
   displayHeader(9);
   $headers = getHeaders();
-  $consoleData = getConsoleData();
+  $consoleData = getConsoleData($_SESSION['ConsoleSelected']);
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
     displayDropDown($headers, $_SESSION['ConsoleSelected']);
