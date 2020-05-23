@@ -19,13 +19,13 @@ include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
 if($_POST['transSelect'] <> ""){
-
+  changeSetting($_POST['transSelect']);
 }else{
   main();
 }
 
-function changeSetting(){
-  $_SESSION['ConsoleSelected'] = $_POST['transSelect'];
+function changeSetting($change){
+  $_SESSION['ConsoleSelected'] = $change;
 }
 
 function getHeaders(){
