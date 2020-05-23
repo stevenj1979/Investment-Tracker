@@ -66,11 +66,22 @@ function SQLCommand(){
 
 }
 
-$autoBuyPrice = getAutoBuyPrices();
-echo "<BR> TEST: ".autoSellMain(209,$autoBuyPrice,1,85);
+function getOutStandingBuy($tmpAry){
+  $tmpStr = "";
+  $tmpAryCount = count($tmpAry);
+  for ($i=0; $i<$tmpAryCount; $i++){
+    if ($tmpAry[$i][0] <> 1){ $tmpStr .= $tmpAry[$i][1].":".$tmpAry[$i][2].",";}
+  }
+  return rtrim($tmpStr,",");
+}
 
-echo "<BR> TEST: ".autoSell(209,213,1);
+$symbol = 'BTC';
 
+$buyResultAry[] = Array(True, "Market Cap $symbol", -1.0);
+$buyResultAry[] = Array(False, "volume $symbol", 0.5);
+$buyResultAry[] = Array(True, "Buy Price $symbol", 6500);
+$buyResultAry[] = Array(False, "Pattern $symbol", "-1-1-11");
 
+echo "<BR> getOutStandingBuy ".getOutStandingBuy($buyResultAry);
 ?>
 </html>
