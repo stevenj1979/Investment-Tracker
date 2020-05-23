@@ -1771,16 +1771,16 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater,$lo
   //Echo "<BR> $symbol : $liveSymbol";
   if ($symbol == $liveSymbol){
     $symbolBool = True;
-    if ($isGreater == 1){
+    //if ($isGreater == 1){
       //Echo "<BR> Is Greater: $isGreater";
-      if ($bitPrice >= $livePrice){$priceBool = True;}
+      if ( $livePrice <= $bitPrice  && $livePrice >= $lowPrice){$priceBool = True;}
 
       //echo "<BR> if ($livePrice > $bitPrice){";
-    }else{
+    //}else{
       //Echo "<BR> Is Less Than: $isGreater";
-      if ($bitPrice >= $livePrice && $lowPrice <= $livePrice){$priceBool = True;}
+      //if ($bitPrice >= $livePrice && $lowPrice <= $livePrice){$priceBool = True;}
       //echo "<BR> if ($livePrice < $bitPrice){";
-    }
+    //}
   }
   if ($symbolBool == True && $priceBool == True) { return True;}
   else{ return False; }
