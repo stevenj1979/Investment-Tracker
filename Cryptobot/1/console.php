@@ -64,7 +64,7 @@ function main(){
   $dataCount = count($consoleData);
     echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
-        echo $consoleData[$i][0]."/n";
+        echo nl2br($consoleData[$i][0]);
     }
     echo "</textarea>";
 
