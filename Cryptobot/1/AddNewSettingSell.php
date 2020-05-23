@@ -65,14 +65,14 @@ function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addNewCoinPriceMatchBuy(0,$price,'$symbol',$userID,$ruleID,$lowPrice);";
-  //echo $sql;
+  echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSettingSell.php?edit='.$ruleID);
+  //header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
