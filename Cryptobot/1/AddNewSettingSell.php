@@ -72,7 +72,7 @@ function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSettingSell.php?edit='.$ruleID);
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
