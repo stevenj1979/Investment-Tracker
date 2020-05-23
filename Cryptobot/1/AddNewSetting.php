@@ -543,7 +543,7 @@ function displayAutoListBox($tempAry){
 function displayListBox($tempAry){
   $tempCount = count($tempAry);
   for ($i=0; $i<$tempCount; $i++){
-    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $lowPrice = $tempAry[$i][5];
+    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $lowPrice = $tempAry[$i][6];
     $result = $symbol.":".$price.":".$lowPrice;
 
       echo "<option value='$result'>$result</option>";
