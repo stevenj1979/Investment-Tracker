@@ -58,10 +58,11 @@ function getConsoleData(){
 }
 
 function main(){
-  displayHeader(3);
+  displayHeader(9);
   //$headers = getHeaders();
   $consoleData = getConsoleData();
   $dataCount = count($consoleData);
+  print_r("<h2>Console</h2>");
     echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";
