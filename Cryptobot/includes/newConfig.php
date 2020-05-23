@@ -1536,6 +1536,19 @@ function logAction($log, $logFile){
   file_put_contents('./log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
 }
 
+function logToSQL($subject, $comments, $UserID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`) VALUES ($UserID,'$subject','$comments')";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+  }
+  $conn->close();
+}
+
 function displayHeader($n){
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","AdminSettings.php");
   $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Admin Settings");
