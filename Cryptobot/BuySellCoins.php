@@ -24,7 +24,11 @@ if (!empty($_GET['mins'])){
 }
 
 function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id){
-  if ($minutes < -30){ sendAlertEmail($email, $symbol, $price, $action, $userName); logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');}
+  if ($minutes < -30){
+    sendAlertEmail($email, $symbol, $price, $action, $userName);
+    logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');
+    logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID);
+  }
   //Close Alert
   if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
 }
@@ -463,52 +467,52 @@ while($completeFlag == False){
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
-    }
+
+      }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert <= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert >= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert <= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert >= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert <= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert >= $price) {
         actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
-        logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
+        //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     }
 
