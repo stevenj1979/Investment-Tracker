@@ -59,13 +59,15 @@ function getConsoleData(){
 
 function displayDropDown($headers){
   $headerCount = count($headers);
-  echo $headerCount;
-  var_dump($headers);
+  //echo $headerCount;
+  //var_dump($headers);
   echo "<form action='console.php?dropdown=Yes' method='post'>";
+  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
   for ($i=0; $i<$headerCount; $i++){
     $nText = $headers[$i];
     Echo "<option value='$nText'>$nText</option>";
   }
+  echo "</select>";
   echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
 }
 
