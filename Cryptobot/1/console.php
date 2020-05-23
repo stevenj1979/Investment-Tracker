@@ -18,7 +18,7 @@ require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header
 include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
-if($_POST['transSelect'] <> ""){
+if (!empty($_POST['submit'])){
   changeSetting($_POST['transSelect']);
 }else{
   main();
@@ -70,15 +70,13 @@ function displayDropDown($headers,$selected){
   $headerCount = count($headers);
   //echo $headerCount;
   //var_dump($headers);
-  echo "<form action='console.php?dropdown=Yes' method='post'>";
-  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
+
   for ($i=0; $i<$headerCount; $i++){
     $nText = $headers[$i][0];
     if ($selected == $nText){Echo "<option  selected='selected' value='$nText'>$nText</option>";}else{Echo "<option value='$nText'>$nText</option>";}
   }
   if ($selected == 1){Echo "<option  selected='selected' value='1'>ALL</option>";}else{Echo "<option value='1'>ALL</option>";}
-  echo "</select>";
-  echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
+
 }
 
 function main(){
@@ -87,7 +85,11 @@ function main(){
   $consoleData = getConsoleData($_SESSION['ConsoleSelected']);
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
+  echo "<form action='console.php?dropdown=Yes' method='post'>";
+  echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
     displayDropDown($headers, $_SESSION['ConsoleSelected']);
+    echo "</select>";
+    echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
     echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";
