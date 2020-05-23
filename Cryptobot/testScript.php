@@ -43,13 +43,13 @@ $test20 = coinMatchPattern($coinPriceMatch,6100,'BTC',0,1,14,0);//FALSE
 $test21 = coinMatchPattern($coinPriceMatch,8400,'BTC',0,0,14,0);//True
 
 //isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater)
-$test22 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 0);//True
-$test23 = isCoinMatch(8300, 'BTC', 7100, 'BTC', 0);//FALSE
-$test24 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 0);//True
+$test22 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 0, 0);//True
+$test23 = isCoinMatch(8300, 'BTC', 7100, 'BTC', 0, 0);//FALSE
+$test24 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 0, 0);//True
 
-$test25 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 1);//FALSE
-$test26 = isCoinMatch(8100, 'BTC', 7100, 'BTC', 1);//TRUE
-$test27 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 1);//TRUE
+$test25 = isCoinMatch(6100, 'BTC', 7100, 'BTC', 1, 0);//FALSE
+$test26 = isCoinMatch(8100, 'BTC', 7100, 'BTC', 1, 0);//TRUE
+$test27 = isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);//TRUE
 
 $test28 = coinMatchPattern($coinPriceMatch,212,'ETH',0,1,36,0);//True
 
@@ -93,17 +93,17 @@ Echo "<BR> TEST20 coinMatchPattern('BTC:7200',6100,'BTC',0,1,14,0);";
 if ($test20 == False) {Echo " :PASS";}
 Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);";
 if ($test21 ) {Echo " :PASS";}
-Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0);";
+Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0, 0);";
 if ($test22 ) {Echo " :PASS";}
-Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0);";
+Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0, 0);";
 if ($test23 == False ) {Echo " :PASS";}
-Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0);";
+Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0, 0);";
 if ($test24 ) {Echo " :PASS";}
-Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1);";
+Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1, 0);";
 if ($test25 == False ) {Echo " :PASS";}
-Echo "<BR> TEST26 isCoinMatch(8100, 'BTC', 7100, 'BTC', 1);";
+Echo "<BR> TEST26 isCoinMatch(8100, 'BTC', 7100, 'BTC', 1, 0);";
 if ($test26 ) {Echo " :PASS";}
-Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1);";
+Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);";
 if ($test27 ) {Echo " :PASS";}
 
 Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);";
