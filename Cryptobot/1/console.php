@@ -61,10 +61,12 @@ function main(){
   displayHeader(3);
   //$headers = getHeaders();
   $consoleData = getConsoleData();
-
-    echo "<textarea class='FormElement' name='term' id='term' style='width: 200px; height: 40px;'>".implode("\n", $consoleData)."</textarea>";
-
-
+  $dataCount = count($consoleData);
+    echo "<textarea class='FormElement' name='term' id='term' style='width: 200px; height: 40px;'>";
+    for ($i=0; $i<$dataCount; $i++){
+        echo $consoleData[$i][0];
+    }
+    echo "</textarea>";
 
   displaySideColumn();
 }
