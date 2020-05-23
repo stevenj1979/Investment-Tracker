@@ -64,7 +64,7 @@ function displayDropDown($headers){
   echo "<form action='console.php?dropdown=Yes' method='post'>";
   for ($i=0; $i<$headerCount; $i++){
     $nText = $headers[$i][0];
-    Echo "<option  selected='selected' value='$nText'>$nText</option>";
+    Echo "<option value='$nText'>$nText</option>";
   }
   echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
 }
