@@ -111,11 +111,11 @@ if ($test27 ) {Echo " :PASS";}
 
 Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);";
 if ($test28 ) {Echo " :PASS";}
-}
+
 
 Echo "<BR> TEST29 coinMatchPattern('ETH:150',209,'ETH',0,0,37,0);";
 if ($test29 == False) {Echo " :PASS";}
-}
+
 
 Echo "<BR> TEST30 coinMatchPattern('ETH:150',209,'ETH',0,1,37,0);";
 if ($test30 ) {Echo " :PASS";}

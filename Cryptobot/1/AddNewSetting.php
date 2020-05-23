@@ -552,7 +552,7 @@ function displayListBox($tempAry){
 
 function displayListBoxNormal($tempAry, $num, $name, $enabled){
   $tempCount = count($tempAry);
-  $symbolListCount = count($symbolList);
+  //$symbolListCount = count($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
