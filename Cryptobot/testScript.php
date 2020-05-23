@@ -90,8 +90,8 @@ Echo "<BR> TEST17 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 0,84);";
 if ($test17 ) {Echo " :PASS";}
 Echo "<BR> TEST18 coinMatchPattern('BTC:7200:0',9400,'BTC',0,1,14,0);";
 if ($test18 == False) {Echo " :PASS";}
-Echo "<BR> TEST19 coinMatchPattern('BTC:7200:0',7100,'BTC',0,1,14,0);";
-if ($test19 ) {Echo " :PASS";}
+Echo "<BR> TEST19 coinMatchPattern('BTC:7200:0',8400,'BTC',0,1,14,0);";
+if ($test19 == False) {Echo " :PASS";}
 Echo "<BR> TEST20 coinMatchPattern('BTC:7200:0',6100,'BTC',0,1,14,0);";
 if ($test20) {Echo " :PASS";}
 Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);";
@@ -110,7 +110,7 @@ Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);";
 if ($test27 ) {Echo " :PASS";}
 
 Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);";
-if ($test28 ) {Echo " :PASS";}
+if ($test28 == False) {Echo " :PASS";}
 
 
 Echo "<BR> TEST29 coinMatchPattern('ETH:150',209,'ETH',0,0,37,0);";
@@ -118,7 +118,7 @@ if ($test29 == False) {Echo " :PASS";}
 
 
 Echo "<BR> TEST30 coinMatchPattern('ETH:150',209,'ETH',0,1,37,0);";
-if ($test30 ) {Echo " :PASS";}
+if ($test30 == False) {Echo " :PASS";}
 }
 
 function testSellCoins(){
