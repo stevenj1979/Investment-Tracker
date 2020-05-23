@@ -64,7 +64,7 @@ function displayDropDown($headers){
   echo "<form action='console.php?dropdown=Yes' method='post'>";
   echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
   for ($i=0; $i<$headerCount; $i++){
-    $nText = $headers[$i];
+    $nText = $headers[$i][0];
     Echo "<option value='$nText'>$nText</option>";
   }
   echo "</select>";
