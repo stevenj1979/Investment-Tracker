@@ -122,7 +122,78 @@ if ($test30 == False) {Echo " :PASS";}
 }
 
 function testSellCoins(){
+  $coinPriceMatch = getCoinPriceMatchList();
+  $coinPricePatternList = getCoinPricePattenList();
+  $coin1HrPatternList = getCoin1HrPattenList();
+  $autoBuyPrice = getAutoBuyPrices();
+  $sTest1 = sellWithScore(1.5,1.0,0.9,1);//False
+  $sTest2 = sellWithScore(10.0,9.0,9.5,1);//True
+  $sTest3 = sellWithScore(-1.0,-6.0,-2.0,1);//True
+  $sTest4 = sellWithScore(1.5,1.0,0.9,0);//True disabled
+  $sTest5 = sellWithScore(10.0,9.0,8.0,1);//False
+  $sTest6 = sellWithScore(-1.0,-6.0,-2.0,1);//True
+  $sTest7 = sellWithScore(0,-5,-4,1);//True
+  $sTest8 = sellWithScore(10,8,9,1);//True
+  $sTest9 = sellWithScore(15,14,13,1);//False
+  $sTest10 = sellWithScore(10.0,1.0,3.0,1);//True
+  $sTest11 = sellWithScore(20.0,18.0,16.0,1);//False
+  $sTest12 = sellWithScore(-1,-20,-21,1);//False
 
+  $sTest19 = newBuywithPattern("111-1",$coinPricePatternList,1,8,1);//True
+  $sTest20 = newBuywithPattern("1111",$coinPricePatternList,1,8,1);//false
+  $sTest21 = newBuywithPattern("111-1",$coinPricePatternList,0,8,1);//True
+  $sTest22 = sellWithMin(1,9600,$LiveCoinPrice,$LiveBTCPrice);
+  $sTest23 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
+  $sTest24 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
+
+  $sTest31 = coinMatchPattern($coinPriceMatch,9600,'BTC',1,1,8,1);
+  $sTest32 = coinMatchPattern($coinPriceMatch,200,'ETH',1,1,8,1);
+  $sTest33 = coinMatchPattern($coinPriceMatch,8000,'BTC',1,1,8,1);
+  $sTest34 = autoSellMain(6600,$autoBuyPrice,1,84);
+  $sTest35 = autoSellMain(200,$autoBuyPrice,1,85);
+  $sTest36 = autoSellMain(9500,$autoBuyPrice,1,84);
+  Echo "<BR> Sell TEST1 sellWithScore(1.5,1.0,0.9,1);";
+  if ($sTest1 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST2 sellWithScore(10.0,9.0,9.5,1);";
+  if ($sTest2) {Echo " :PASS";}
+  Echo "<BR> Sell TEST3 sellWithScore(-1.0,-6.0,-2.0,1);";
+  if ($sTest3) {Echo " :PASS";}
+  Echo "<BR> Sell TEST4 sellWithScore(1.5,1.0,0.9,0);";
+  if ($sTest4) {Echo " :PASS";}
+  Echo "<BR> Sell TEST5 sellWithScore(10.0,9.0,8.0,1);";
+  if ($sTest5 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST6 sellWithScore(-1.0,-6.0,-2.0,1);";
+  if ($sTest6) {Echo " :PASS";}
+  Echo "<BR> Sell TEST7 sellWithScore(0,-5,-4,1);";
+  if ($sTest7) {Echo " :PASS";}
+  Echo "<BR> Sell TEST8 sellWithScore(10,8,9,1);";
+  if ($sTest8) {Echo " :PASS";}
+  Echo "<BR> Sell TEST9 sellWithScore(15,14,13,1);";
+  if ($sTest9 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST10 sellWithScore(10.0,1.0,3.0,1);";
+  if ($sTest10) {Echo " :PASS";}
+  Echo "<BR> Sell TEST11 sellWithScore(20.0,18.0,16.0,1);";
+  if ($sTest11 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST12 sellWithScore(-1,-20,-21,1);";
+  if ($sTest12 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST19 newBuywithPattern('111-1','111-1',1,8,1);";
+  if ($sTest19) {Echo " :PASS";}
+  Echo "<BR> Sell TEST20 newBuywithPattern('1111','111-1',1,8,1);";
+  if ($sTest20 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST21 newBuywithPattern('111-1','111-1',0,8,1);";
+  if ($sTest21) {Echo " :PASS";}
+  Echo "<BR> Sell TEST31 coinMatchPattern(20000:8200,9600,'BTC',1,1,8,1);";
+  if ($sTest31) {Echo " :PASS";}
+  Echo "<BR> Sell TEST32 coinMatchPattern(1000:260,200,'ETH',1,1,8,1);";
+  if ($sTest32 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST33 coinMatchPattern(20000:8200,8000,'BTC',1,1,8,1);";
+  if ($sTest33 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST34 autoSellMain(6600,9001:6600,1,84);";
+  if ($sTest34) {Echo " :PASS";}
+  Echo "<BR> Sell TEST35 autoSellMain(200,207:126,1,85);";
+  if ($sTest35) {Echo " :PASS";}
+  Echo "<BR> Sell TEST36 autoSellMain(9500,9001:6600,1,84);";
+  if ($sTest36 == False) {Echo " :PASS";}
 }
 
 function testBittrex(){
@@ -134,5 +205,6 @@ function testAlerts(){
 }
 
 testBuyCoins();
+testSellCoins();
 ?>
 </html>
