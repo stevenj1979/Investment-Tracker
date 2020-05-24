@@ -149,9 +149,9 @@ function testSellCoins(){
   $sTest31 = coinMatchPattern($coinPriceMatch,9600,'BTC',1,1,8,1);
   $sTest32 = coinMatchPattern($coinPriceMatch,200,'ETH',1,1,8,1);
   $sTest33 = coinMatchPattern($coinPriceMatch,8000,'BTC',1,1,8,1);
-  $sTest34 = autoSellMain(6600,$autoBuyPrice,1,84);
+  $sTest34 = autoSellMain(9002,$autoBuyPrice,1,84);
   $sTest35 = autoSellMain(200,$autoBuyPrice,1,85);
-  $sTest36 = autoSellMain(9500,$autoBuyPrice,1,84);
+  $sTest36 = autoSellMain(9000,$autoBuyPrice,1,84);
   Echo "<BR> Sell TEST1 sellWithScore(1.5,1.0,0.9,1);";
   if ($sTest1 == False) {Echo " :PASS";}
   Echo "<BR> Sell TEST2 sellWithScore(10.0,9.0,9.5,1);";
@@ -188,11 +188,11 @@ function testSellCoins(){
   if ($sTest32 == False) {Echo " :PASS";}
   Echo "<BR> Sell TEST33 coinMatchPattern(20000:8200,8000,'BTC',1,1,8,1);";
   if ($sTest33 == False) {Echo " :PASS";}
-  Echo "<BR> Sell TEST34 autoSellMain(6600,9001:6600,1,84);";
+  Echo "<BR> Sell TEST34 autoSellMain(9002,9001,1,84);";
   if ($sTest34) {Echo " :PASS";}
-  Echo "<BR> Sell TEST35 autoSellMain(200,207:126,1,85);";
-  if ($sTest35) {Echo " :PASS";}
-  Echo "<BR> Sell TEST36 autoSellMain(9500,9001:6600,1,84);";
+  Echo "<BR> Sell TEST35 autoSellMain(200,207,1,85);";
+  if ($sTest35 == False) {Echo " :PASS";}
+  Echo "<BR> Sell TEST36 autoSellMain(9000,9001,1,84);";
   if ($sTest36 == False) {Echo " :PASS";}
 }
 
