@@ -74,10 +74,9 @@ if(isset($_GET['coinTxt'])){
   //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
   header('Location: SellCoins.php');
 }
-
-if (isset($_GET['splitCoin'])){
-    echo $_GET['transactionID'];
-    echo $_GET['splitCoin'];
+elseif (isset($_GET['splitCoin'])){
+    echo "<BR> SPLITCOIN ".$_GET['transactionID'];
+    echo "<BR> SPLITCOIN ".$_GET['splitCoin'];
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
