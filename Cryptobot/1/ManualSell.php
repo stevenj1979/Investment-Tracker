@@ -77,10 +77,11 @@ if(isset($_GET['coinTxt'])){
 elseif (isset($_GET['splitCoin'])){
 
     $coin = $_GET['splitCoin']; $transactionID = $_GET['transactionID']; $ruleIDBTSell = "9999";
-    $amount = $_GET['amount']; $qtySold = $amount/2; $orderQtyRemaining = $amount-$qtySold;
-    $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell; 
+    $amount = $_GET['amount']; $qtySold = round($amount/2,8); $orderQtyRemaining = $amount-$qtySold;
+    $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
 
-    echo "bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);";
+    echo "bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,'$newOrderNo');";
+
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
