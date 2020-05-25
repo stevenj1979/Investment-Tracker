@@ -80,8 +80,8 @@ elseif (isset($_GET['splitCoin'])){
     $amount = $_GET['amount']; $qtySold = round($amount/2,8); $orderQtyRemaining = $amount-$qtySold;
     $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
 
-    echo "bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,'$newOrderNo');";
-
+    bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
+    header('Location: SellCoins.php');
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
