@@ -198,7 +198,7 @@ $date = date('Y/m/d H:i:s', time());
           newEcho("<th>&nbsp% Change 1Hr</th>",$_SESSION['isMobile'],2);
           NewEcho("<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
         //}
-        echo "<th>Price Trend 1</th><th>&nbspAmount</th><th>&nbspCost</th><th>&nbspProfit%</th><th>&nbspProfit BTC</th><th>&nbspManual Sell</th><tr>";
+        echo "<th>Price Trend 1</th><th>&nbspAmount</th><th>&nbspCost</th><th>&nbspProfit%</th><th>&nbspProfit BTC</th><th>&nbspManual Sell</th><th>&nbspSplit Sale</th><tr>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
@@ -233,6 +233,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
             echo "<td>".$profitBtc."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
+            echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<tr>";
         }
         print_r("</table>");

@@ -70,6 +70,10 @@ if(isset($_GET['coinTxt'])){
     $tempPrice = (($cost/100 )*20)+$cost;
     $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
+  elseif (isset($_GET['splitCoin'])){
+      echo $_GET['transactionID'];
+      echo $_GET['splitCoin'];
+  }
 
   sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
   //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
