@@ -209,7 +209,8 @@ while($completeFlag == False){
     $D7ChangePctChange = $sellCoins[$a][34]; $LiveCoinPrice = $sellCoins[$a][19]; $CoinPricePctChange = $sellCoins[$a][20];
     $BaseCurrency = $sellCoins[$a][36]; $orderNo = $sellCoins[$a][10]; $amount = $sellCoins[$a][5]; $cost = $sellCoins[$a][4];
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
-    $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
+    $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];\
+    //$symbol = $sellCoins[$a][11];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     //$BuyRuleLength = strlen($orderNo - 20);
@@ -257,29 +258,29 @@ while($completeFlag == False){
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
       $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
-      $sellResultAry[] = Array($sTest1, "Market Cap $symbol", $MarketCapPctChange);
+      $sellResultAry[] = Array($sTest1, "Market Cap $coin", $MarketCapPctChange);
       $sTest2 = sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
-      $sellResultAry[] = Array($sTest2, "Volume $symbol", $VolumePctChange);
+      $sellResultAry[] = Array($sTest2, "Volume $coin", $VolumePctChange);
       $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
-      $sellResultAry[] = Array($sTest3, "Sell Orders $symbol", $SellOrdersPctChange);
+      $sellResultAry[] = Array($sTest3, "Sell Orders $coin", $SellOrdersPctChange);
       $sTest4 = sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
-      $sellResultAry[] = Array($sTest4, "1 Hour Price Change $symbol", $Hr1ChangePctChange);
+      $sellResultAry[] = Array($sTest4, "1 Hour Price Change $coin", $Hr1ChangePctChange);
       $sTest5 = sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
-      $sellResultAry[] = Array($sTest5, "24 Hour Price Change $symbol", $Hr24ChangePctChange);
+      $sellResultAry[] = Array($sTest5, "24 Hour Price Change $coin", $Hr24ChangePctChange);
       $sTest6 = sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled);
-      $sellResultAry[] = Array($sTest6, "7 Day Price Change $symbol", $D7ChangePctChange);
+      $sellResultAry[] = Array($sTest6, "7 Day Price Change $coin", $D7ChangePctChange);
       $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
-      $sellResultAry[] = Array($sTest7, "Price Trend Pattern $symbol", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
+      $sellResultAry[] = Array($sTest7, "Price Trend Pattern $coin", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
-      $sellResultAry[] = Array($sTest8, "Minimum Price $symbol", $LiveCoinPrice);
+      $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
-      $sellResultAry[] = Array($sTest9, "Profit Percentage $symbol", $profit);
+      $sellResultAry[] = Array($sTest9, "Profit Percentage $coin", $profit);
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
-      $sellResultAry[] = Array($sTest10, "Minimum Sell Price $symbol", $CoinPricePctChange);
-      $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
-      $sellResultAry[] = Array($sTest11, "Coin Price Match $symbol", $LiveCoinPrice);
+      $sellResultAry[] = Array($sTest10, "Minimum Sell Price $coin", $CoinPricePctChange);
+      $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$coin,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
+      $sellResultAry[] = Array($sTest11, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID);
-      $sellResultAry[] = Array($sTest12, "Auto Sell $symbol", $LiveCoinPrice);
+      $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
       Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
 
@@ -298,7 +299,7 @@ while($completeFlag == False){
         //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
         sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
         logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell');
-        logAction("UserID: $userID | Coin : $symbol | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell');
+        logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell');
         logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID);
         //break;
         //addSellRuletoSQL()
