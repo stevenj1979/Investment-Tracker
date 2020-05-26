@@ -37,7 +37,7 @@ function getOutStandingBuy($tmpAry){
   $tmpStr = "";
   $tmpAryCount = count($tmpAry);
   for ($i=0; $i<$tmpAryCount; $i++){
-    Echo "<BR> getOutStandingBuy: "$tmpAry[$i][1].":".$tmpAry[$i][2].",";
+    Echo "<BR> getOutStandingBuy: ".$tmpAry[$i][1].":".$tmpAry[$i][2].",";
     if ($tmpAry[$i][0] <> 1){ $tmpStr .= $tmpAry[$i][1].":".$tmpAry[$i][2].",";}
   }
   return rtrim($tmpStr,",");
