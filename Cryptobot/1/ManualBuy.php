@@ -194,6 +194,7 @@ if(isset($_POST['coinTxt'])){
 
     buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);
     //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
+    logToSQL("Manual Buy", "Buy Coin: $bitPrice $btcBuyAmount $orderNo", $userID);
   }elseif (!empty($_POST['bypass'])){
     Echo "<BR>ByPASS!!";
 
@@ -210,13 +211,13 @@ if(isset($_POST['coinTxt'])){
 VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, 'ALL',0,0)";
     //addBuyRuletoSQL($bittrexRef,$ruleID);
     echo $sql;
-    //if ($conn->query($sql) === TRUE) {
-    //    echo "New record created successfully";
-    //} else {
-    //    echo "Error: " . $sql . "<br>" . $conn->error;
-    //}
-    //$conn->close();
-    logToSQL("Bittrex", "Manual Buy Coin Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    logToSQL("Manual Buy", "Buy Coin with Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
   }
   //header('Location: BuyCoins.php');
 }
