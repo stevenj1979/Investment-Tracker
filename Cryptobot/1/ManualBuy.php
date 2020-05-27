@@ -96,28 +96,32 @@ if($_GET['alert'] <> ""){
 }
 
 if(isset($_POST['coinAltTxt'])){
-  date_default_timezone_set('Asia/Dubai');
-  $date = date("Y-m-d H:i:s", time());
-  $userID = $_SESSION['ID'];
-  //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
-  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
-  $salePrice = $_POST['coinPriceAltTxt']; $category = $_POST['priceSelect'];
-  if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
-  //$reocurring = $_POST['reocurringChk'];
-  //$userConfig = getUserConfig($userID);
-  //$UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
-  //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
-  //$KEK = $userConfig[0][5];
-  //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
-  //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
-  $current_date = date('Y-m-d H:i');
-  $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
-  echo "<BR> ".$_POST['greaterThanSelect']." : ".$category;
-  Echo "<BR> $userID, $salePrice,$category,$reocurring,$newTime)";
-  if ($_POST['greaterThanSelect'] == "<"){
-    AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime);
-  }elseif ($_POST['greaterThanSelect'] == ">"){
-    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
+  if (!empty($_POST['submit'])){
+    date_default_timezone_set('Asia/Dubai');
+    $date = date("Y-m-d H:i:s", time());
+    $userID = $_SESSION['ID'];
+    //$coin = $_POST['coinAltTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+    $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
+    $salePrice = $_POST['coinPriceAltTxt']; $category = $_POST['priceSelect'];
+    if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
+    //$reocurring = $_POST['reocurringChk'];
+    //$userConfig = getUserConfig($userID);
+    //$UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $email = $userConfig[0][3];
+    //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
+    //$KEK = $userConfig[0][5];
+    //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
+    //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
+    $current_date = date('Y-m-d H:i');
+    $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
+    echo "<BR> ".$_POST['greaterThanSelect']." : ".$category;
+    Echo "<BR> $userID, $salePrice,$category,$reocurring,$newTime)";
+    if ($_POST['greaterThanSelect'] == "<"){
+      AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime);
+    }elseif ($_POST['greaterThanSelect'] == ">"){
+      AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
+    }
+  }elseif !empty($_POST['bypass'])){
+    Echo "<BR>ByPASS!!";
   }
   header('Location: CoinAlerts.php');
 }
@@ -265,6 +269,7 @@ function displayCoinForm(){
     CoinID: <input type="text" name="CoinIDTxt" value="<?php echo $GLOBALS['coinID']; ?>" style='color:Gray' readonly ><br>
     UserID: <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Buy Coin' class='settingsformsubmit' tabindex='36'>
+    <input type='submit' name='bypass' value='Transfer in Coin' class='settingsformsubmit' tabindex='36'>
   </form>
   <h2 align="center">Coin Price History</h2><?php
 }
