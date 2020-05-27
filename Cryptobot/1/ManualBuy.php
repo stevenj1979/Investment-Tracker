@@ -123,7 +123,7 @@ if(isset($_POST['coinAltTxt'])){
   }elseif (!empty($_POST['bypass'])){
     Echo "<BR>ByPASS!!";
   }
-  header('Location: CoinAlerts.php');
+  //header('Location: CoinAlerts.php');
 }
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
