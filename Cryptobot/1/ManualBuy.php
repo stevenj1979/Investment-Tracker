@@ -204,7 +204,7 @@ if(isset($_POST['coinTxt'])){
     //bittrexBuyAdd($coinID, $userID, 'Buy', 'NoRef', '1', 9999, $salePrice, $BTCBuyAmount, $orderNo,90);
     //bittrexBuyComplete($uuid, $transactionID, $finalPrice);
     $sql = "INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`)
-VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', '$nDate', '$nDate', $orderNo, 90, 90, '',0,0)";
+VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', '$nDate', '$nDate', $orderNo, 90, 90, 'ALL',0,0)";
     //addBuyRuletoSQL($bittrexRef,$ruleID);
     echo $sql;
     logToSQL("Bittrex", "Manual Buy Coin Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
