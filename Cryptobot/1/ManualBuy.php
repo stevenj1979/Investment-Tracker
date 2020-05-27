@@ -203,10 +203,19 @@ if(isset($_POST['coinTxt'])){
     $nDate = date("YmdHis", time());
     //bittrexBuyAdd($coinID, $userID, 'Buy', 'NoRef', '1', 9999, $salePrice, $BTCBuyAmount, $orderNo,90);
     //bittrexBuyComplete($uuid, $transactionID, $finalPrice);
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`)
 VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, 'ALL',0,0)";
     //addBuyRuletoSQL($bittrexRef,$ruleID);
     echo $sql;
+    //if ($conn->query($sql) === TRUE) {
+    //    echo "New record created successfully";
+    //} else {
+    //    echo "Error: " . $sql . "<br>" . $conn->error;
+    //}
+    //$conn->close();
     logToSQL("Bittrex", "Manual Buy Coin Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
   }
   //header('Location: BuyCoins.php');
