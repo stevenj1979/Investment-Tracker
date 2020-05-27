@@ -196,6 +196,18 @@ if(isset($_POST['coinTxt'])){
     //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
   }elseif (!empty($_POST['bypass'])){
     Echo "<BR>ByPASS!!";
+
+    $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
+    $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+    $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
+    $nDate = date("YmdHis", time());
+    //bittrexBuyAdd($coinID, $userID, 'Buy', 'NoRef', '1', 9999, $salePrice, $BTCBuyAmount, $orderNo,90);
+    //bittrexBuyComplete($uuid, $transactionID, $finalPrice);
+    $sql = "INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`)
+VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', '$nDate', '$nDate', $orderNo, 90, 90, '',0,0)";
+    //addBuyRuletoSQL($bittrexRef,$ruleID);
+    echo $sql;
+    logToSQL("Bittrex", "Manual Buy Coin Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
   }
   //header('Location: BuyCoins.php');
 }
