@@ -96,7 +96,7 @@ if($_GET['alert'] <> ""){
 }
 
 if(isset($_POST['coinAltTxt'])){
-  if (!empty($_POST['submit'])){
+
     date_default_timezone_set('Asia/Dubai');
     $date = date("Y-m-d H:i:s", time());
     $userID = $_SESSION['ID'];
@@ -120,10 +120,8 @@ if(isset($_POST['coinAltTxt'])){
     }elseif ($_POST['greaterThanSelect'] == ">"){
       AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
     }
-  }elseif (!empty($_POST['bypass'])){
-    Echo "<BR>ByPASS!!";
-  }
-  //header('Location: CoinAlerts.php');
+
+  header('Location: CoinAlerts.php');
 }
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
@@ -145,58 +143,61 @@ function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurrin
 }
 
 if(isset($_POST['coinTxt'])){
-//if($_POST['manualPrice'] == 'Yes'){
-  date_default_timezone_set('Asia/Dubai');
-  $date = date("Y-m-d H:i:s", time());
-  //$_SESSION['coin'] = $_post['coinTxt'];
-  $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
-  $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
-  $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
-  $BTCBuyAmount = $_POST['costTxt']; $cost = $_POST['coinPriceTxt'];
-  $userConfig = getUserConfig($userID);
-  $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
-  //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
-  $KEK = $userConfig[0][5];
-  if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
-  echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
-  if ($_POST['priceSelect'] == 'manual'){
-    $salePrice = $cost;
-  }elseif ($_POST['priceSelect'] == 0.25){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*0.25), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 0.5){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*0.5), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 1){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 1.5){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*1.5), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 2){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*2), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 2.5){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*2.5), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 3){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*3), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 5){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*5), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 10){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*10), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
-  }elseif ($_POST['priceSelect'] == 20){
-    $tmpPrice = number_format((float)$cost-(($cost/100 )*20), 8, '.', '');
-    $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+  if (!empty($_POST['submit'])){
+  //if($_POST['manualPrice'] == 'Yes'){
+    date_default_timezone_set('Asia/Dubai');
+    $date = date("Y-m-d H:i:s", time());
+    //$_SESSION['coin'] = $_post['coinTxt'];
+    $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
+    $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
+    $TimeToCancelBuyMins = $_POST['TimeToCancelBuyMinsTxt'];
+    $BTCBuyAmount = $_POST['costTxt']; $cost = $_POST['coinPriceTxt'];
+    $userConfig = getUserConfig($userID);
+    $UserName = $userConfig[0][0]; $APIKey = $userConfig[0][1]; $APISecret = $userConfig[0][2]; $Email = $userConfig[0][3];
+    //$AvgCoinPrice = $coinStats[0][1]; $MaxCoinPrice = $coinStats[0][2]; $MinCoinPrice = $coinStats[0][3];
+    $KEK = $userConfig[0][5];
+    if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
+    echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
+    if ($_POST['priceSelect'] == 'manual'){
+      $salePrice = $cost;
+    }elseif ($_POST['priceSelect'] == 0.25){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*0.25), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 0.5){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*0.5), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 1){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 1.5){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*1.5), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 2){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*2), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 2.5){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*2.5), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 3){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*3), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 5){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*5), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 10){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*10), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }elseif ($_POST['priceSelect'] == 20){
+      $tmpPrice = number_format((float)$cost-(($cost/100 )*20), 8, '.', '');
+      $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
+    }
+
+    buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);
+    //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
+  }elseif (!empty($_POST['bypass'])){
+    Echo "<BR>ByPASS!!";
   }
-
-  buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);
-  //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
-
-  header('Location: BuyCoins.php');
+  //header('Location: BuyCoins.php');
 }
 
 
