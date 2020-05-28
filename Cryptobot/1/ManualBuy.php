@@ -64,7 +64,7 @@ if($_GET['coin'] <> ""){
   $userConfig = getUserConfig($_SESSION['ID']);
   $btcBuyAmount = $userConfig[0][4];
   $coinStats = getCoinStats($_GET['coin']);
-  echo "Coin is set ".$_GET['coin'];
+  //echo "Coin is set ".$_GET['coin'];
   $coin = trim($_GET['coin']);
   $cost = trim($_GET['coinPrice']);
   $baseCurrency = trim($_GET['baseCurrency']);
