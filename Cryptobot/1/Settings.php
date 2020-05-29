@@ -179,7 +179,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         <option value='".$option2."'>".$option2."</option>
                         <option value='".$option3."'>".$option3."</option>
                         <option value='".$option4."'>".$option4."</option></select></div>";
-                        Echo "<select name='$name'>";
+                        Echo "<select name='$name' size='3'>";
                         for ($i=0; $i<$sequenceCount; $i++){
                           $sellRuleID = $sequence[$i][0]; $newSeq = $sequence[$i][1];
                           echo "<option value='$newSeq'>$sellRuleID</option>";
