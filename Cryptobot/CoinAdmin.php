@@ -121,6 +121,72 @@ function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
+function getSequenceData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `UserID`,`SellRuleID`,`Sequence` FROM `SellSequence` order by `UserID`,`Sequence` asc ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['Sequence']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getTransData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `ID`,`UserID`, `OrderNo`,`FixSellRule`, mod(datediff(curdate(),`OrderDate`),7) as DaysOver FROM `TransactionsView` WHERE `Status` = 'Open'";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['UserID'],$row['OrderNo'],$row['FixSellRule'],$row['DaysOver']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function updateFixSellRule($newFixRule, $transactionID){
+    $conn = getSQL();
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "UPDATE `Transaction` SET `FixSellRule`= $newFixRule WHERE `ID` = $transactionID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function checkSellSequence(){
+  //get sell sequesnce info
+  //get all open trans
+  $trans = getTransData();
+  $transcount = count($trans);
+
+  $sequence = getSequenceData();
+  $sequenceCount = count($sequence);
+  for($x = 0; $x < $transcount; $x++) {
+    if ($trans[$x][4] == 0){  //check if the buy Tran Mod 7 days = 0;
+      $userID = $trans[$x][1]; $fixSellRule = $trans[$x][3]; $transactionID = $trans[$x][0];
+      //get the current sequence number
+      //update the fixed sell ID
+      for($y = 0; $y < $sequenceCount; $y++) {
+        if ($sequence[$y][0] == $userID and $sequence[$y][1] == $fixSellRule){
+          updateFixSellRule($sequence[$y+1][1],$transactionID);
+        } 
+      }
+    }
+  }
+}
+
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
@@ -152,5 +218,6 @@ for($x = 0; $x < $confSize; $x++) {
 
 coinHistory(10);
 DeleteHistory(96);
+checkSellSequence();
 ?>
 </html>
