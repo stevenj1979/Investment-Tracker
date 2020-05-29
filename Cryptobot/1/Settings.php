@@ -91,9 +91,31 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
   $conn->close();
 }
 
+function getSequence($userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `SellRuleID`,`Sequence` FROM `SellSequence` WHERE `UserID` = $userID";
+	//echo $sql;
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['SellRuleID'],$row['Sequence']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 
 $userDetails = getUserIDs($_SESSION['ID']);
 //$userSettings = getConfig($_SESSION['ID']);
+  $sequence = getSequence($_SESSION['ID']);
+  $sequenceCount = count($sequence);
   displayHeader(7);
   $kek = $userDetails[0][13];
   $apisecret =Decrypt($kek,$userDetails[0][5]);
@@ -156,7 +178,15 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option>
                         <option value='".$option3."'>".$option3."</option>
-                        <option value='".$option4."'>".$option4."</option></select></div>";?>
+                        <option value='".$option4."'>".$option4."</option></select></div>";
+                        Echo "<select name='$name'>";
+                        for ($i=0; $i<$sequenceCount; $i++){
+                          $sellRuleID = $sequence[$i][0]; $newSeq = $sequence[$i][1];
+                          echo "<option value='$newSeq'>$sellRuleID</option>";
+                        }
+                        echo "</select>";
+                        echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'>";
+                        ?>
               <div class="form-group">
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="8">
               </div>
