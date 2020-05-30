@@ -34,7 +34,7 @@ function checkFirstTime($nameUser){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `FirstTimeLogin`,`DisableUntil` FROM `User` where `UserName` = '$nameUser'";
+  $sql = "SELECT `FirstTimeLogin`,`DisableUntil`,`ID` FROM `User` where `UserName` = '$nameUser'";
 	//echo $sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -68,6 +68,7 @@ if(isset($_POST['submit'])){
       $_SESSION['TransListSelected'] = "Open";
       $_SESSION['BittrexListSelected'] = "1";
       $_SESSION['ConsoleSelected'] = "1";
+      $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($temp[0][2]));
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
