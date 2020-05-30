@@ -2075,6 +2075,6 @@ function setTextColour($num){
   $colour = "";
   if ($num < -0.5 and $num > -0.75){ $colour = "background-color:Orange;";}
   elseif ($num < -0.76){$colour = "background-color:MediumSeaGreen;";}
-  return $colourl
+  return $colour;
 }
 ?>
