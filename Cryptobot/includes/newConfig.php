@@ -1,16 +1,18 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
 
-function getBittrexRequests(){
+function getBittrexRequests($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
+  $bittrexQueue = "";
+  if ($userID <> 0){$bittrexQueue = " and `UserID` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`, `Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`RuleID`,`DaysOutstanding`,`timeSinceAction`,`CoinID`,
-  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK` FROM `BittrexOutstandingRequests` WHERE `Status` = '1'";
+  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK` FROM `BittrexOutstandingRequests` WHERE `Status` = '1' $bittrexQueue";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -1559,6 +1561,7 @@ function logToSQL($subject, $comments, $UserID){
 
 function displayHeader($n){
   $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
+  $_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","AdminSettings.php");
   $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Console","Admin Settings");
   $headerLen = count($headers);
@@ -1569,15 +1572,16 @@ function displayHeader($n){
       <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th></Table><br>
      </div>
      <div class="topnav"> <?php
-     $active = ""; $sellQueue = "";
+     $active = ""; $sellQueue = ""; $bittrexQueue = "";
      echo "<ul>";
       for($x = 0; $x < $headerLen; $x++) {
         $h1 = $headers[$x];
         $r1 = $ref[$x];
+        if ($ref[$x] == "Bittrex Orders" and $_SESSION['bittrexQueue'] > 0) {$bittrexQueue = $_SESSION['bittrexQueue'];}
         if ($ref[$x] == "Sell Coins" and $_SESSION['sellCoinsQueue'] > 0){$sellQueue = $_SESSION['sellCoinsQueue']; }
         if ($n == $x) { $active = " class='active'";}
-        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
-        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
+        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue $bittrexQueue</a></li>";}
+        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue $bittrexQueue</a></li>";}
         $active = '';
       }
       echo "<ul>";

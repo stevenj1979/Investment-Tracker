@@ -69,6 +69,7 @@ if(isset($_POST['submit'])){
       $_SESSION['BittrexListSelected'] = "1";
       $_SESSION['ConsoleSelected'] = "1";
       $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($temp[0][2]));
+      $_SESSION['bittrexQueue'] = count(getBittrexRequests($temp[0][2]));
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
