@@ -1581,8 +1581,8 @@ function displayHeader($n){
         if ($ref[$x] == "Bittrex Orders" and $_SESSION['bittrexQueue'] > 0) {$sellQueue = $_SESSION['bittrexQueue'];}
         if ($ref[$x] == "Sell Coins" and $_SESSION['sellCoinsQueue'] > 0){$sellQueue = $_SESSION['sellCoinsQueue']; }
         if ($n == $x) { $active = " class='active'";}
-        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
-        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
+        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 ($sellQueue)</a></li>";}
+        else{Echo "<li><a href='$h1'$active>$r1 ($sellQueue)</a></li>";}
         //$active = '';
       }
       echo "<ul>";
