@@ -1572,17 +1572,18 @@ function displayHeader($n){
       <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th></Table><br>
      </div>
      <div class="topnav"> <?php
-     $active = ""; $sellQueue = ""; $bittrexQueue = "";
+
      echo "<ul>";
       for($x = 0; $x < $headerLen; $x++) {
+        $sellQueue = "";$active = "";
         $h1 = $headers[$x];
         $r1 = $ref[$x];
-        if ($ref[$x] == "Bittrex Orders" and $_SESSION['bittrexQueue'] > 0) {$bittrexQueue = $_SESSION['bittrexQueue'];}
+        if ($ref[$x] == "Bittrex Orders" and $_SESSION['bittrexQueue'] > 0) {$sellQueue = $_SESSION['bittrexQueue'];}
         if ($ref[$x] == "Sell Coins" and $_SESSION['sellCoinsQueue'] > 0){$sellQueue = $_SESSION['sellCoinsQueue']; }
         if ($n == $x) { $active = " class='active'";}
-        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue $bittrexQueue</a></li>";}
-        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue $bittrexQueue</a></li>";}
-        $active = '';
+        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
+        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
+        //$active = '';
       }
       echo "<ul>";
       //if ($n > $headerLen ){ $active = " class='active'"; }
