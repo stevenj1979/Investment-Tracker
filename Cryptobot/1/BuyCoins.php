@@ -174,12 +174,13 @@ displayHeader(3);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
 				print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-        if($_SESSION['isMobile'] == False){
-          echo "<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>";
-          echo "<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>";
-        }
+        //if($_SESSION['isMobile'] == False){
+          NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
+          echo "<TH>&nbsp% Change 1Hr</th>";
+          NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
+        //}
 
-        echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th>";
+        echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
         echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
         //$roundNum = 2;
 				for($x = 0; $x < $newArrLength; $x++) {
@@ -197,27 +198,30 @@ displayHeader(3);
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           echo "<td>".$bitPrice."</td>";
-          if ($_SESSION['isMobile'] == False){
-            echo "<td>$MarketCap</td>";
-            echo "<td>$volume</td>";
-            echo "<td>$buyOrders</td>";
-            echo "<td>".$Live24HrChange."</td>";
-            echo "<td>".$Live7DChange."</td>";
-          }
+          //if ($_SESSION['isMobile'] == False){
+            NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
+            NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
+            NewEcho( "<td>$buyOrders</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($Live1HrChange);
+            echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
+            NewEcho( "<td>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
+            NewEcho( "<td>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
+        //  }
           echo "<td>% $priceDiff1</td>";
           echo "<td>".$priceChange." ".$baseCurrency."</td>";
-          echo "<td>".$Live1HrChange."</td>";
-          if ($_SESSION['isMobile'] == False){
-            echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
-            echo "<td>$new1HrPriceChange</td>";
-            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>";
-            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>";
-          }else{
-            echo "<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>";
-            echo "<td>$new1HrPriceChange</td>";
-            echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>";
-            echo "<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>";
-          }
+
+          //if ($_SESSION['isMobile'] == False){
+            NewEcho("<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>",$_SESSION['isMobile'],0);
+
+            NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
+        //  }else{
+            NewEcho("<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td Style='$tdColour'>$new1HrPriceChange</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+            NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+        //  }
 
           echo "<tr>";
 				}//end for

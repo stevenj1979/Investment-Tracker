@@ -2070,4 +2070,11 @@ function getAutoBuyPrices(){
   $conn->close();
   return $tempAry;
 }
+
+function setTextColour($num){
+  $colour = "";
+  if ($num < -0.5 > -0.75){ $colour = "background-color:Orange;";}
+  elseif ($num < -0.76){$colour = "background-color:MediumSeaGreen;";}
+  return $colourl
+}
 ?>
