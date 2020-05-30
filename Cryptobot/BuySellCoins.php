@@ -343,7 +343,7 @@ while($completeFlag == False){
     Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
     echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$resultOrd["result"]["CancelInitiated"];
     updateBittrexQuantityFilled($qtySold,$uuid);
-    if ($orderQtyRemaining <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID);}
+    if ($qtySold <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID);}
     if ($resultOrd["success"] == 1){
       if ($type == "Buy"){
         if ($orderIsOpen != 1 && $resultOrd["result"]["CancelInitiated"] != 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
