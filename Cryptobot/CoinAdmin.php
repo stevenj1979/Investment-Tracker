@@ -181,7 +181,8 @@ function checkSellSequence(){
       for($y = 0; $y < $sequenceCount; $y++) {
         if ($sequence[$y][0] == $userID and $sequence[$y][1] == $fixSellRule){
           updateFixSellRule($sequence[$y+1][1],$transactionID);
-        } 
+          logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$y+1][1]." TransactionID: $transactionID", $userID);
+        }
       }
     }
   }
