@@ -218,7 +218,7 @@ displayHeader(3);
             NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
         //  }else{
             NewEcho("<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td Style='$tdColour'>$new1HrPriceChange</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],1);
             NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
             NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
         //  }
