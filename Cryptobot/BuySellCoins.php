@@ -73,8 +73,8 @@ while($completeFlag == False){
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
-    $BuyOrdersPctChange = $coins[$x][4]; $MarketCapPctChange = $coins[$x][7]; $Hr1ChangePctChange = $coins[$x][10];
-    $Hr24ChangePctChange = $coins[$x][13]; $D7ChangePctChange = $coins[$x][14]; $CoinPricePctChange = $coins[$x][19];
+    $BuyOrdersPctChange = $coins[$x][4]; $MarketCapPctChange = $coins[$x][7]; $Hr1ChangePctChange = $coins[$x][8];
+    $Hr24ChangePctChange = $coins[$x][11]; $D7ChangePctChange = $coins[$x][14]; $CoinPricePctChange = $coins[$x][19];
     $SellOrdersPctChange = $coins[$x][22]; $VolumePctChange = $coins[$x][25];
     $price4Trend = $coins[$x][27]; $price3Trend = $coins[$x][28]; $lastPriceTrend = $coins[$x][29];  $livePriceTrend = $coins[$x][30];
     $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
