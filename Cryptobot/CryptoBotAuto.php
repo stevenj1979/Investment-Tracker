@@ -97,6 +97,9 @@ while($date <= $newTime){
       echo "<BR> TimeTest: $timeTest";
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i", time());
+    }elseif (!isset($timeAry[$coinID])){
+      copyCoinPrice($coinID,$bitPrice);
+      $timeAry[$coinID] = date("Y-m-d H:i", time());
     }
 
     echo "<br>";
