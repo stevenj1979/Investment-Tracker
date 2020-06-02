@@ -92,12 +92,13 @@ while($date <= $newTime){
     echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');
     echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());
-    echo "<BR> TimeTest ".$timeAry[$coinID]." : $secondstoUpdate";
-    if (isset($timeAry[$coinID]) and timerReady($timeAry[$coinID],$secondstoUpdate){
+    $lastUpdateTime = $timeAry[$coinID];
+    echo "<BR> TimeTest $lastUpdateTime : $secondstoUpdate";
+    if (isset($lastUpdateTime) and timerReady($lastUpdateTime,$secondstoUpdate){
       //echo "<BR> TimeTest: $timeTest";
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i", time());
-    }elseif (!isset($timeAry[$coinID])){
+    }elseif (!isset($lastUpdateTime)){
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i", time());
     }
