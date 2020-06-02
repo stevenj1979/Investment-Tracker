@@ -21,8 +21,8 @@ if (!empty($_GET['mins'])){
 }
 
 function timerReady($start, $seconds){
-  $newDate = date("Y-m-d H:i",strtotime("+".$seconds." seconds", strtotime($start)));
-  $current_date = date('Y-m-d H:i', time());
+  $newDate = date("Y-m-d H:i:s",strtotime("+".$seconds." seconds", strtotime($start)));
+  $current_date = date('Y-m-d H:i:s', time());
   echo "<BR> NewDate $newDate :: current date $current_date";
   if ($newDate <= $current_date){return true;}else{return false;}
 
@@ -62,11 +62,11 @@ function findCoinStats($CMCStats, $symbol){
 
 //set time
 setTimeZone();
-$date = date("Y-m-d H:i", time());
-$current_date = date('Y-m-d H:i');
+$date = date("Y-m-d H:i:s", time());
+$current_date = date('Y-m-d H:i:s');
 $history_date = $current_date; $marketCap_Date = $current_date;
 //$newTime = date("Y-m-d H:i",strtotime("+5 minutes", strtotime($current_date)));
-$newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
+$newTime = date("Y-m-d H:i:s",strtotime($tmpTime, strtotime($current_date)));
 $coinStr = "";
 logAction('CryptoBotAuto Start','CoinPrice');
 $i = 0;
@@ -93,12 +93,12 @@ while($date <= $newTime){
     //Update Price
     echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');
-    echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());
+    echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i:s", time());
     $lastUpdateTime = $timeAry[$coinID];
-    echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
+    echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i:s", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
     if (timerReady($lastUpdateTime,$secondstoUpdate)){
       copyCoinPrice($coinID,$bitPrice);
-      $timeAry[$coinID] = date("Y-m-d H:i", time());
+      $timeAry[$coinID] = date("Y-m-d H:i:s", time());
     //}elseif (!isset($lastUpdateTime)){
     //  copyCoinPrice($coinID,$bitPrice);
     //  $timeAry[$coinID] = date("Y-m-d H:i", time());
