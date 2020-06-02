@@ -94,7 +94,7 @@ while($date <= $newTime){
     echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());
     $timeTest = (date("Y-m-d H:i", time())-$timeAry[$coinID])/60;
     if (isset($timeAry[$coinID]) and ($timeTest >= $secondstoUpdate){
-      echo "<BR> TimeTest: ".(date("Y-m-d H:i", time())-$timeAry[$coinID])/60;
+      echo "<BR> TimeTest: $timeTest";
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i", time());
     }
