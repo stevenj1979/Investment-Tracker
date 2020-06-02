@@ -78,19 +78,26 @@ $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;
 $bitPrice = 0.00;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
+$timeAry = [];
 while($date <= $newTime){
   echo "NEW LOOP ";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
+    $secondstoUpdate = $coins[$x][35];
     //LOG
     echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
 
     //Update Price
     echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
     $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');
-    echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());;
-    copyCoinPrice($coinID,$bitPrice);
+    echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i", time());
+    echo "<BR> TimeTest: ".date("Y-m-d H:i", time())-$timeAry[$coinID])/60;
+    if (isset($timeAry[$coinID]) and (date("Y-m-d H:i", time())-$timeAry[$coinID])/60 >= $secondstoUpdate){
+      copyCoinPrice($coinID,$bitPrice);
+      $timeAry[$coinID] = date("Y-m-d H:i", time());
+    }
+
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
