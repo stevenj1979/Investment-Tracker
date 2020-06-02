@@ -78,6 +78,7 @@ $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;
 $bitPrice = 0.00;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
+$firstTimeFlag = True;
 $timeAry = [];
 while($date <= $newTime){
   echo "NEW LOOP ";
@@ -85,6 +86,7 @@ while($date <= $newTime){
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
     $secondstoUpdate = $coins[$x][35];
+    if ($firstTimeFlag){$timeAry[$coinID] = $coins[$x][36];}
     //LOG
     echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
 
@@ -155,6 +157,7 @@ while($date <= $newTime){
     //sleep(1);
   }//loop Coins
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
+  $firstTimeFlag = False;
   $historyFlag = False; if ($marketCapStatsUpdateFlag == True) {$marketCapFlag = True;} else {$marketCapFlag = False;}
   sleep(60);
   //wait(10000000);

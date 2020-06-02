@@ -75,13 +75,23 @@ function getOutStandingBuy($tmpAry){
   return rtrim($tmpStr,",");
 }
 
-$symbol = 'BTC';
+$tmpTime = "+2 minutes";
+$date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
+$newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
+while($date <= $newTime){
 
-$buyResultAry[] = Array(True, "Market Cap $symbol", -1.0);
-$buyResultAry[] = Array(False, "volume $symbol", 0.5);
-$buyResultAry[] = Array(True, "Buy Price $symbol", 6500);
-$buyResultAry[] = Array(False, "Pattern $symbol", "-1-1-11");
+$timeAry = [];
 
-echo "<BR> getOutStandingBuy ".getOutStandingBuy($buyResultAry);
+$timeTest = (date("Y-m-d H:i", time())-$timeAry[$coinID])/60;
+if (isset($timeAry[$coinID]) and $timeTest >= $secondstoUpdate){
+  echo "<BR> TimeTest: $timeTest";
+  copyCoinPrice($coinID,$bitPrice);
+  $timeAry[$coinID] = date("Y-m-d H:i", time());
+}elseif (!isset($timeAry[$coinID])){
+  copyCoinPrice($coinID,$bitPrice);
+  $timeAry[$coinID] = date("Y-m-d H:i", time());
+}
+
+}
 ?>
 </html>
