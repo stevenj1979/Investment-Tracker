@@ -99,6 +99,7 @@ while($date <= $newTime){
     if (timerReady($lastUpdateTime,$secondstoUpdate)){
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i:s", time());
+      logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice');
     //}elseif (!isset($lastUpdateTime)){
     //  copyCoinPrice($coinID,$bitPrice);
     //  $timeAry[$coinID] = date("Y-m-d H:i", time());
