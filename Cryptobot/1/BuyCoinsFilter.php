@@ -222,7 +222,7 @@ displayHeader(3);
         echo "<TH>&nbsp% Change 1Hr</th>";
         NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
       //}
-
+print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
       echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
       echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
       //$roundNum = 2;

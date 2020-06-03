@@ -173,9 +173,10 @@ displayHeader(3);
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-				//print_r("<h2>Buy Coins</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+
         echo "<h3><a href='BuyCoins.php'>Buy Coina</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
         //if($_SESSION['isMobile'] == False){
+        print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
           NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
           echo "<TH>&nbsp% Change 1Hr</th>";
           NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
