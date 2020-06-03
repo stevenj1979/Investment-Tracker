@@ -192,10 +192,28 @@ $conn->close();
 return $tempAry;
 }
 
+function getBuyRulesIDs($userID){
+$conn = getSQLConn(rand(1,3));
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID";
+$result = $conn->query($sql);
+//$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);
+while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['RuleID'],);
+}
+$conn->close();
+return $tempAry;
+}
+
 function displayRules($buyRulesAry){
   $buyRulesAryCount = count($buyRulesAry);
   for ($i=0; $i<$buyRulesAryCount; $i++){
-    $ruleID = $buyRulesAry[$i][35];
+    $ruleID = $buyRulesAry[$i][0];
     echo "<Option value='$ruleID'>$ruleID</option>";
   }
 
@@ -211,9 +229,9 @@ displayHeader(3);
       //$user = getUserIDs($_SESSION['ID']);
       //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
       //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-      echo "<h3><a href='BuyCoins.php'>Buy Coina</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
+      echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
       //if($_SESSION['isMobile'] == False){
-      $buyRulesAry = getBuyRules($_SESSION['ID']);
+      $buyRulesAry = getBuyRulesIDs($_SESSION['ID']);
       Echo "<SELECT name='filterSelect'>";
       displayRules($buyRulesAry);
       Echo "</SELECT>";
