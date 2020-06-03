@@ -216,13 +216,13 @@ displayHeader(3);
       $buyRulesAry = getBuyRules($_SESSION['ID']);
       Echo "<SELECT name='filterSelect'>";
       displayRules($buyRulesAry);
-      Echo "<SELECT name='filterSelect'>";
-
+      Echo "</SELECT>";
+        print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
         echo "<TH>&nbsp% Change 1Hr</th>";
         NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
       //}
-print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+
       echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
       echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
       //$roundNum = 2;
