@@ -2079,8 +2079,8 @@ function setTextColour($num, $onOffFlag){
     elseif ($num < -0.76){$colour = "background-color:MediumSeaGreen;";}
 
   }else{
-    if ($num == False){ $colour = "background-color:Orange;";}
-    elseif ($num == True){$colour = "background-color:MediumSeaGreen;";}
+    if ($num == ""){ $colour = "background-color:Orange;";}
+    elseif ($num == "1"){$colour = "background-color:MediumSeaGreen;";}
     //return $colour;
   }
 return $colour;
