@@ -2077,13 +2077,13 @@ function setTextColour($num, $onOffFlag){
   if ($onOffFlag == False){
     if ($num < -0.5 and $num > -0.75){ $colour = "background-color:Orange;";}
     elseif ($num < -0.76){$colour = "background-color:MediumSeaGreen;";}
-    return $colour;
+
   }else{
     if ($num == False){ $colour = "background-color:Orange;";}
     elseif ($num == True){$colour = "background-color:MediumSeaGreen;";}
-    return $colour;
+    //return $colour;
   }
-
+return $colour;
 }
 
 function getBuyRulesIDs($userID){
