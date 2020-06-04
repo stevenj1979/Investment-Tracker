@@ -189,10 +189,10 @@ $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop']
-    ,$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop']
+    $tempAry[] = Array($row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'] //10
+    ,$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'] //22
     ,$row['VolumeBtm'],$row['BuyCoin'],$row['SendEmail'],$row['BTCAmount'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['DailyBTCLimit'],$row['EnableTotalBTCLimit'],$row['TotalBTCLimit'] //34
-    ,$row['RuleID'],$row['BuyCoinOffsetPct'],$row['BuyCoinOffsetEnabled'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase']
+    ,$row['RuleID'],$row['BuyCoinOffsetPct'],$row['BuyCoinOffsetEnabled'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'] //46
     ,$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'],$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['LimitToCoinID'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride']
     ,$row['NewBuyPattern'],$row['KEK'],$row['SellRuleFixed'],$row['OverrideDailyLimit'],$row['CoinOrder'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend']);
 }
@@ -223,9 +223,10 @@ function showMain(){
         $tracking = getTrackingCoins();
         $newArrLength = count($tracking);
         $buyRuleAry = getBuyRules($_SESSION['ID']);
+        $autoBuyPrice = getAutoBuyPrices();
         //save Rules
         $Hr1ChangeEnabled = $buyRuleAry[0][6];$Hr1ChangeTop = $buyRuleAry[0][7]; $Hr1ChangeBtm = $buyRuleAry[0][8];
-
+        $autoBuyCoinEnabled = $buyRuleAry[0][53];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
         //if($_SESSION['isMobile'] == False){
@@ -257,11 +258,13 @@ function showMain(){
           //TestRules
 
           $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
+          $priceTest = autoBuyMain($bitPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
-          echo "<td>".$bitPrice."</td>";
+          $tdColour = setTextColour($priceTest, True);
+          echo "<td Style='$tdColour'>".$bitPrice."</td>";
           //if ($_SESSION['isMobile'] == False){
             NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
