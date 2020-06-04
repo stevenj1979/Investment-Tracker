@@ -21,7 +21,7 @@ setStyle($_SESSION['isMobile']);
 
 if ($_POST['filterSelect'] <> ""){
   echo "<BR> Test".$_POST['filterSelect'];
-  $_SESSION['RuleIDSelected']; = $_POST['filterSelect'];
+  $_SESSION['RuleIDSelected'] = $_POST['filterSelect'];
   showMain();
 }else{
   showMain();
