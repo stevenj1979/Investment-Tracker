@@ -192,29 +192,18 @@ $conn->close();
 return $tempAry;
 }
 
-function getBuyRulesIDs($userID){
-$conn = getSQLConn(rand(1,3));
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
-$sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID";
-$result = $conn->query($sql);
-//$result = mysqli_query($link4, $query);
-//mysqli_fetch_assoc($result);
-while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['RuleID'],);
-}
-$conn->close();
-return $tempAry;
-}
 
 function displayRules($buyRulesAry){
+  $selectedRule = $_SESSION['RuleIDSelected'];
   $buyRulesAryCount = count($buyRulesAry);
   for ($i=0; $i<$buyRulesAryCount; $i++){
     $ruleID = $buyRulesAry[$i][0];
-    echo "<Option value='$ruleID'>$ruleID</option>";
+    if ($selectedRule == $ruleID){
+      echo "<Option selected='selected' value='$ruleID'>$ruleID</option>";
+    }else{
+      echo "<Option value='$ruleID'>$ruleID</option>";
+    }
   }
 
 }
@@ -232,9 +221,10 @@ displayHeader(3);
       echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
       //if($_SESSION['isMobile'] == False){
       $buyRulesAry = getBuyRulesIDs($_SESSION['ID']);
-      Echo "<SELECT name='filterSelect'>";
+      Echo "<form action='BuyCoinsFilter.php?dropdown=Yes' method='post'><SELECT name='filterSelect'>";
       displayRules($buyRulesAry);
       Echo "</SELECT>";
+      echo "<input></form type='submit' value='Update'/>";
         print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
         echo "<TH>&nbsp% Change 1Hr</th>";

@@ -2078,4 +2078,22 @@ function setTextColour($num){
   elseif ($num < -0.76){$colour = "background-color:MediumSeaGreen;";}
   return $colour;
 }
+
+function getBuyRulesIDs($userID){
+$conn = getSQLConn(rand(1,3));
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID";
+$result = $conn->query($sql);
+//$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);
+while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['RuleID'],);
+}
+$conn->close();
+return $tempAry;
+}
 ?>
