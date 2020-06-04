@@ -21,6 +21,8 @@ setStyle($_SESSION['isMobile']);
 
 if ($_POST['filterSelect'] <> ""){
   echo "<BR> Test".$_POST['filterSelect'];
+  $_SESSION['RuleIDSelected']; = $_POST['filterSelect'];
+  showMain();
 }else{
   showMain();
 }
@@ -169,6 +171,7 @@ return $tempAry;
 }
 
 function getBuyRules($userID){
+$selectedRule = $_POST['filterSelect'];
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
@@ -180,7 +183,7 @@ $sql = "SELECT
 ,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,`VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`Email`,`UserName`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`DailyBTCLimit`,`EnableTotalBTCLimit`,`TotalBTCLimit`
 ,`RuleID`,`BuyCoinOffsetPct`,`BuyCoinOffsetEnabled`,`PriceTrendEnabled`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`Active`,`DisableUntil`,`BaseCurrency`,`NoOfCoinPurchase`,`TimetoCancelBuy`,`BuyType`,`TimeToCancelBuyMins`,`BuyPriceMinEnabled`
 ,`BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`,`LimitToCoinID`,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
-FROM `UserBuyRules` WHERE `UserID` = $userID";
+FROM `UserBuyRules` WHERE `UserID` = $userID and `RuleID` = $selectedRule";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
@@ -218,16 +221,16 @@ function showMain(){
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         $tracking = getTrackingCoins();
         $newArrLength = count($tracking);
-        //echo $newArrLength;
-        //$userConfig = getConfig($_SESSION['ID']);
-        //$user = getUserIDs($_SESSION['ID']);
-        //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
+        $buyRuleAry = getBuyRules($_SESSION['ID']);
+        //save Rules
+        $Hr1ChangeEnabled = $buyRuleAry[0][6];$Hr1ChangeTop = $buyRuleAry[0][7]; $Hr1ChangeBtm = $buyRuleAry[0][8];
+
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
         //if($_SESSION['isMobile'] == False){
-        $buyRulesAry = getBuyRulesIDs($_SESSION['ID']);
+        $buyRulesIDAry = getBuyRulesIDs($_SESSION['ID']);
         Echo "<form action='BuyCoinsFilter.php?dropdown=Yes' method='post'><SELECT name='filterSelect'>";
-        displayRules($buyRulesAry);
+        displayRules($buyRulesIDAry);
         Echo "</SELECT>";
         echo "<input type='submit' value='Update'/></form>";
           print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
@@ -250,6 +253,8 @@ function showMain(){
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+          //TestRules
+          $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
@@ -258,7 +263,7 @@ function showMain(){
             NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$buyOrders</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColour($Live1HrChange);
+            $tdColour = setTextColour($Live1HrChange, True);
             echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
             NewEcho( "<td>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>".$Live7DChange."</td>",$_SESSION['isMobile'],0);

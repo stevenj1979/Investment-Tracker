@@ -204,7 +204,7 @@ displayHeader(3);
             NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$buyOrders</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColour($Live1HrChange);
+            $tdColour = setTextColour($Live1HrChange, False);
             echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
             NewEcho( "<td>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
