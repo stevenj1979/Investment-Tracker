@@ -20,7 +20,7 @@ $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 
 if ($_POST['filterSelect'] <> ""){
-  echo "<BR> Test".$_POST['filterSelect'];
+  //echo "<BR> Test".$_POST['filterSelect'];
   $_SESSION['RuleIDSelected'] = $_POST['filterSelect'];
   showMain();
 }else{
@@ -254,6 +254,7 @@ function showMain(){
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           //TestRules
+          echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);";
           $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
