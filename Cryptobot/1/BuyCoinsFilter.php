@@ -257,7 +257,7 @@ function showMain(){
           //TestRules
 
           $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
-          echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
+          //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
