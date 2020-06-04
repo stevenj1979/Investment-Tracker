@@ -300,7 +300,7 @@ function showMain(){
 
           //if ($_SESSION['isMobile'] == False){
             $tdColour = setTextColour($priceTrendtest, True);
-            NewEcho("<td Style='$tdColour'>$priceTrendDisplay</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td Style='$tdColour'>$newPriceTrend</td>",$_SESSION['isMobile'],0);
 
             NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],0);
             NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
