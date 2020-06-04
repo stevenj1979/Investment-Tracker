@@ -224,9 +224,17 @@ function showMain(){
         $newArrLength = count($tracking);
         $buyRuleAry = getBuyRules($_SESSION['ID']);
         $autoBuyPrice = getAutoBuyPrices();
+        $coinPricePatternList = getCoinPricePattenList();
         //save Rules
         $Hr1ChangeEnabled = $buyRuleAry[0][6];$Hr1ChangeTop = $buyRuleAry[0][7]; $Hr1ChangeBtm = $buyRuleAry[0][8];
-        $autoBuyCoinEnabled = $buyRuleAry[0][53];
+        $autoBuyCoinEnabled = $buyRuleAry[0][53]; $MarketCapTop = $buyRuleAry[0][4]; $MarketCapBtm = $buyRuleAry[0][5];$MarketCapEnabled = $buyRuleAry[0][3];
+        $VolumeTop = $buyRuleAry[0][23]; $VolumeBtm = $buyRuleAry[0][22]; $VolumeEnabled = $buyRuleAry[0][21]; $BuyOrdersTop = $buyRuleAry[0][1];
+        $BuyOrdersBtm = $buyRuleAry[0][2];$BuyOrdersEnabled = $buyRuleAry[0][0];
+        $Hr24ChangeEnabled = $buyRuleAry[0][9];$Hr24ChangeTop = $buyRuleAry[0][10];$Hr24ChangeBtm = $buyRuleAry[0][11];
+        $D7ChangeEnabled = $buyRuleAry[0][12];$D7ChangeTop = $buyRuleAry[0][13]; $D7ChangeBtm = $buyRuleAry[0][14];
+        $livePriceTrend = $buyRuleAry[0][42];$lastPriceTrend = $buyRuleAry[0][41];$price3Trend = $buyRuleAry[0][40];$price4Trend = $buyRuleAry[0][39];
+        $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend; $priceTrendEnabled = $buyRuleAry[0][38];
+        $ruleID = $buyRuleAry[0][35];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
         //if($_SESSION['isMobile'] == False){
@@ -255,10 +263,17 @@ function showMain(){
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+          //$priceTrendDisplay = $price4Trend.$price3Trend.$lastPriceTrend.$LivePriceTrend;
           //TestRules
 
           $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
           $priceTest = autoBuyMain($bitPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
+          $marketCaptest = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCap,$MarketCapEnabled);
+          $volumetest = buyWithScore($VolumeTop,$VolumeBtm,$volume,$VolumeEnabled);
+          $buyOrderstest = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$buyOrders,$BuyOrdersEnabled);
+          $Hr24test = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Live24HrChange,$Hr24ChangeEnabled);
+          $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$Live7DChange,$D7ChangeEnabled);
+          $priceTrendtest = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleID,0);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
@@ -266,19 +281,25 @@ function showMain(){
           $tdColour = setTextColour($priceTest, True);
           echo "<td Style='$tdColour'>".$bitPrice."</td>";
           //if ($_SESSION['isMobile'] == False){
-            NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
-            NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
-            NewEcho( "<td>$buyOrders</td>",$_SESSION['isMobile'],0);
+          $tdColour = setTextColour($marketCaptest, True);
+            NewEcho("<td Style='$tdColour'>$MarketCap</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($volumetest, True);
+            NewEcho( "<td Style='$tdColour'>$volume</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($buyOrderstest, True);
+            NewEcho( "<td Style='$tdColour'>$buyOrders</td>",$_SESSION['isMobile'],0);
             $tdColour = setTextColour($Hr1Test, True);
             echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
-            NewEcho( "<td>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
-            NewEcho( "<td>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($Hr24test, True);
+            NewEcho( "<td Style='$tdColour'>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($D7test, True);
+            NewEcho( "<td Style='$tdColour'>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
         //  }
           echo "<td>% $priceDiff1</td>";
           echo "<td>".$priceChange." ".$baseCurrency."</td>";
 
           //if ($_SESSION['isMobile'] == False){
-            NewEcho("<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>",$_SESSION['isMobile'],0);
+            $tdColour = setTextColour($priceTrendtest, True);
+            NewEcho("<td Style='$tdColour'>$priceTrendDisplay</td>",$_SESSION['isMobile'],0);
 
             NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],0);
             NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
