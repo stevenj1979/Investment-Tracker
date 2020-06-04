@@ -224,7 +224,7 @@ displayHeader(3);
       Echo "<form action='BuyCoinsFilter.php?dropdown=Yes' method='post'><SELECT name='filterSelect'>";
       displayRules($buyRulesAry);
       Echo "</SELECT>";
-      echo "<input></form type='submit' value='Update'/>";
+      echo "<input type='submit' value='Update'/></form>";
         print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
         echo "<TH>&nbsp% Change 1Hr</th>";
