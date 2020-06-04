@@ -266,7 +266,7 @@ function showMain(){
             NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$volume</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>$buyOrders</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColour($Live1HrChange, True);
+            $tdColour = setTextColour($Hr1Test, True);
             echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
             NewEcho( "<td>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
             NewEcho( "<td>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
