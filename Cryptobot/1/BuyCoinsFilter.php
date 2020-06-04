@@ -233,7 +233,8 @@ function showMain(){
         $Hr24ChangeEnabled = $buyRuleAry[0][9];$Hr24ChangeTop = $buyRuleAry[0][10];$Hr24ChangeBtm = $buyRuleAry[0][11];
         $D7ChangeEnabled = $buyRuleAry[0][12];$D7ChangeTop = $buyRuleAry[0][13]; $D7ChangeBtm = $buyRuleAry[0][14];
         $livePriceTrend = $buyRuleAry[0][42];$lastPriceTrend = $buyRuleAry[0][41];$price3Trend = $buyRuleAry[0][40];$price4Trend = $buyRuleAry[0][39];
-        $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend; $priceTrendEnabled = $buyRuleAry[0][38];
+        //$newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
+        $priceTrendEnabled = $buyRuleAry[0][38];
         $ruleID = $buyRuleAry[0][35];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
@@ -263,7 +264,7 @@ function showMain(){
           $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
           $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
-          //$priceTrendDisplay = $price4Trend.$price3Trend.$lastPriceTrend.$LivePriceTrend;
+          $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$LivePriceTrend;
           //TestRules
 
           $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
