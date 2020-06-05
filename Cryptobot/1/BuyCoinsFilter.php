@@ -226,6 +226,7 @@ function showMain(){
         $autoBuyPrice = getAutoBuyPrices();
         $coinPricePatternList = getCoinPricePattenList();
         $coin1HrPatternList = getCoin1HrPattenList();
+        $coinPriceMatch = getCoinPriceMatchList();
         //save Rules
         $Hr1ChangeEnabled = $buyRuleAry[0][6];$Hr1ChangeTop = $buyRuleAry[0][7]; $Hr1ChangeBtm = $buyRuleAry[0][8];
         $autoBuyCoinEnabled = $buyRuleAry[0][53]; $MarketCapTop = $buyRuleAry[0][4]; $MarketCapBtm = $buyRuleAry[0][5];$MarketCapEnabled = $buyRuleAry[0][3];
@@ -235,7 +236,7 @@ function showMain(){
         $D7ChangeEnabled = $buyRuleAry[0][12];$D7ChangeTop = $buyRuleAry[0][13]; $D7ChangeBtm = $buyRuleAry[0][14];
         $livePriceTrend = $buyRuleAry[0][42];$lastPriceTrend = $buyRuleAry[0][41];$price3Trend = $buyRuleAry[0][40];$price4Trend = $buyRuleAry[0][39];
         //$newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
-        $priceTrendEnabled = $buyRuleAry[0][38]; $Hr1ChangeTrendEnabled = $buyRuleAry[0][65];
+        $priceTrendEnabled = $buyRuleAry[0][38]; $Hr1ChangeTrendEnabled = $buyRuleAry[0][65]; $coinPricePatternEnabled = $buyRuleAry[0][63];
         $ruleID = $buyRuleAry[0][35];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a></h3>";
@@ -277,11 +278,16 @@ function showMain(){
           $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$Live7DChange,$D7ChangeEnabled);
           $priceTrendtest = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleID,0);
           $Hr1PriceTrendtest = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleID,0);
+          $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$bitPrice,$coin,0,$coinPricePatternEnabled,$ruleID,0);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
-          $tdColour = setTextColour($priceTest, True);
+          if ($autoBuyCoinEnabled == False){
+            $tdColour = setTextColour($coinMatchPatterntest, True);
+          }else{
+            $tdColour = setTextColour($priceTest, True);
+          }
           echo "<td Style='$tdColour'>".$bitPrice."</td>";
           //if ($_SESSION['isMobile'] == False){
           $tdColour = setTextColour($marketCaptest, True);
