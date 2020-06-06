@@ -308,16 +308,16 @@ function showMain(){
 
           //if ($_SESSION['isMobile'] == False){
             $tdColour = setTextColour($priceTrendtest, True);
-            NewEcho("<td Style='$tdColour'>$newPriceTrend</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td Style='$tdColour'>$newPriceTrend</td>",$_SESSION['isMobile'],2);
             $tdColour = setTextColour($Hr1PriceTrendtest, True);
-            NewEcho("<td Style='$tdColour'>$new1HrPriceChange</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td Style='$tdColour'>$new1HrPriceChange</td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
         //  }else{
-            NewEcho("<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
-            NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+            //NewEcho("<td>".$price4Trend."".$price3Trend."".$lastPriceTrend."".$LivePriceTrend."</td>",$_SESSION['isMobile'],1);
+          //  NewEcho("<td>$new1HrPriceChange</td>",$_SESSION['isMobile'],1);
+            //NewEcho("<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+            //NewEcho("<td><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
         //  }
 
           echo "<tr>";
