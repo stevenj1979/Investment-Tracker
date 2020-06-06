@@ -125,7 +125,7 @@ function removePricePatternfromSQL($ruleID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removeTrendPatternfromSQL($ruleID, $pattern){
@@ -134,14 +134,14 @@ function removeTrendPatternfromSQL($ruleID, $pattern){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "DELETE FROM `CoinPricePatternRules` WHERE `PatternID` = (SELECT `ID` FROM `CoinPricePattern` WHERE `CoinPattern` = '$pattern') and `BuyRuleID` = $ruleID and `UserID` = $userID";
-  //echo $sql;
+  echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function remove1HrPatternfromSQL($ruleID, $pattern){
