@@ -556,7 +556,7 @@ function displayListBoxNormal($tempAry, $num, $name, $enabled){
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
-  Echo "<select name='listbox1Hr' size='3' $readOnly>";
+  Echo "<select name='$name' size='3' $readOnly>";
   for ($i=0; $i<$tempCount; $i++){
     $result = $tempAry[$i][$num]; //$symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
 
