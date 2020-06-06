@@ -269,16 +269,16 @@ function showMain(){
           $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$LivePriceTrend;
           //TestRules
 
-          $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);
-          $priceTest = autoBuyMain($bitPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
-          $marketCaptest = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCap,$MarketCapEnabled);
-          $volumetest = buyWithScore($VolumeTop,$VolumeBtm,$volume,$VolumeEnabled);
-          $buyOrderstest = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$buyOrders,$BuyOrdersEnabled);
-          $Hr24test = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Live24HrChange,$Hr24ChangeEnabled);
-          $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$Live7DChange,$D7ChangeEnabled);
+          $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$tracking[$x][8],$Hr1ChangeEnabled);
+          $priceTest = autoBuyMain($tracking[$x][17],$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
+          $marketCaptest = buyWithScore($MarketCapTop,$MarketCapBtm,$tracking[$x][7],$MarketCapEnabled);
+          $volumetest = buyWithScore($VolumeTop,$VolumeBtm,$tracking[$x][25],$VolumeEnabled);
+          $buyOrderstest = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$tracking[$x][4],$BuyOrdersEnabled);
+          $Hr24test = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$tracking[$x][11],$Hr24ChangeEnabled);
+          $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$tracking[$x][14],$D7ChangeEnabled);
           $priceTrendtest = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleID,0);
           $Hr1PriceTrendtest = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleID,0);
-          $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$bitPrice,$coin,0,$coinPricePatternEnabled,$ruleID,0);
+          $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$tracking[$x][17],$coin,0,$coinPricePatternEnabled,$ruleID,0);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
