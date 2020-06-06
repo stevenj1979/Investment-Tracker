@@ -125,7 +125,7 @@ function removePricePatternfromSQL($ruleID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removeTrendPatternfromSQL($ruleID, $pattern){
@@ -141,7 +141,7 @@ function removeTrendPatternfromSQL($ruleID, $pattern){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function remove1HrPatternfromSQL($ruleID, $pattern){
