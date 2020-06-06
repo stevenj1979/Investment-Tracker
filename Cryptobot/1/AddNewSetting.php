@@ -32,7 +32,7 @@ if(!empty($_GET['editedUserReady'])){
       remove1HrPatternfromSQL($_GET['editedUserReady'],$_POST['listbox1Hr']);
   }elseif (!empty($_POST['removeTrend'])){
       Echo " RemoveTrend: ".$_POST['removeTrend']." listBoxTrend: ".$_POST['listboxTrend'];
-      //removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
+      removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
   }elseif (!empty($_POST['publishHr1'])){
       //Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
       if ($_POST['selectCmbo1Hr1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmbo1Hr2']; $temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
