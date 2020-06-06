@@ -31,7 +31,7 @@ if(!empty($_GET['editedUserReady'])){
       //Echo " ".$_POST['removeHr1'].$_POST['listbox1Hr'];
       remove1HrPatternfromSQL($_GET['editedUserReady'],$_POST['listbox1Hr']);
   }elseif (!empty($_POST['removeTrend'])){
-      Echo " ".$_POST['removeTrend'].$_POST['listboxTrend'];
+      Echo " RemoveTrend: ".$_POST['removeTrend']." listBoxTrend: ".$_POST['listboxTrend'];
       //removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
   }elseif (!empty($_POST['publishHr1'])){
       //Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
