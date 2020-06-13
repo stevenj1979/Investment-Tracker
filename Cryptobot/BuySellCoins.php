@@ -66,8 +66,33 @@ $coinPriceMatch = getCoinPriceMatchList();
 $coinPricePatternList = getCoinPricePattenList();
 $coin1HrPatternList = getCoin1HrPattenList();
 $autoBuyPrice = getAutoBuyPrices();
+
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
+  $newTrackingCoins = getNewTrackingCoins();
+  $newTrackingCoinsSize = count($newTrackingCoins);
+  echo "<BR> Tracking COINS!! ";
+  for($a = 0; $a < $newTrackingCoinsSize; $a++) {
+    $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
+    $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
+    $Email = $newTrackingCoins[$a][21];$userID = $newTrackingCoins[$a][7];$UserName = $newTrackingCoins[$a][22];
+    $SendEmail = $newTrackingCoins[$a][9];$BuyCoin = $newTrackingCoins[$a][10];$BTCAmount = $newTrackingCoins[$a][11];
+    $ruleIDBuy = $newTrackingCoins[$a][12];$coinID = $newTrackingCoins[$a][0];$CoinSellOffsetPct = $newTrackingCoins[$a][13];$CoinSellOffsetEnabled = $newTrackingCoins[$a][14];
+    $buyType = $newTrackingCoins[$a][15];$timeToCancelBuyMins = $newTrackingCoins[$a][16];$SellRuleFixed = $newTrackingCoins[$a][17];
+    $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
+
+    if ($pctProfit > 0.25){
+      //Buy
+      buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
+      closeNewTrackingCoin($newTrackingCoinID);
+    }elseif ($pctProfit < -5){
+      // set new price
+      setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
+      Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
+    }
+
+
+  }
   echo "<BR> BUY COINS!! ";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   for($x = 0; $x < $coinLength; $x++) {
@@ -191,7 +216,8 @@ while($completeFlag == False){
       $test11 == True && $test12 == True && $test13 == True && $test14 == True){
         $date = date("Y-m-d H:i:s", time());
         echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
-        buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
+        //buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
+        addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed);
         logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed)", 'BuySell');
         logToSQL("BuyCoin", "RuleID: $ruleIDBuy | Amount: $BTCAmount | TOTAL:  $totalScore_Buy", $userID);
         $buyCounter = $buyCounter + 1;
