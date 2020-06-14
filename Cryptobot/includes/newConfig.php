@@ -2125,7 +2125,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins');
 }
 
-function getNewTrackingCoins(){
+function getNewTrackingCoins($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -2133,8 +2133,9 @@ function getNewTrackingCoins(){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
   $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
-    ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID` FROM `TrackingCoinView`";
+    ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID` FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
