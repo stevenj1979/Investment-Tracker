@@ -80,15 +80,18 @@ while($completeFlag == False){
     $ruleIDBuy = $newTrackingCoins[$a][12];$coinID = $newTrackingCoins[$a][0];$CoinSellOffsetPct = $newTrackingCoins[$a][13];$CoinSellOffsetEnabled = $newTrackingCoins[$a][14];
     $buyType = $newTrackingCoins[$a][15];$timeToCancelBuyMins = $newTrackingCoins[$a][16];$SellRuleFixed = $newTrackingCoins[$a][17];
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
+    $minsFromDate = $newTrackingCoins[$a][24];
 
-    if ($pctProfit > 0.25){
+    if ($pctProfit > 0.25 && $minsFromDate >= 4 && $pctProfit < 1.25){
       //Buy
       buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
       closeNewTrackingCoin($newTrackingCoinID);
-    }elseif ($pctProfit < -5){
+    }elseif ($pctProfit < -5 && $minsFromDate >= 4){
       // set new price
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
+    }elseif ($pctProfit > 5 && $minsFromDate >= 4){
+      closeNewTrackingCoin($newTrackingCoinID);
     }
 
 
