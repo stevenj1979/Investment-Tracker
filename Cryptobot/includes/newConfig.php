@@ -1550,7 +1550,7 @@ function logAction($log, $logFile){
 function logToSQL($subject, $comments, $UserID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`) VALUES ($UserID,'$subject','$comments')";
+  $sql = "call LogToSQL($UserID,'$subject','$comments')";
   print_r("<br>".$sql);
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {
