@@ -192,6 +192,7 @@ $coinTrendSize = Count($coinTrend);
 
 for($x = 0; $x < $coinTrendSize; $x++) {
   $coinID = $coinTrend[$x][0]; $priceTrend = $coinTrend[$x][6]; $hr1Trend = $coinTrend[$x][11];
+  Echo "<BR> updateCoinTrend($coinID,$priceTrend,$hr1Trend);";
   updateCoinTrend($coinID,$priceTrend,$hr1Trend);
 }
 
