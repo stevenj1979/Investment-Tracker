@@ -125,7 +125,7 @@ function updateSellPrice($newSellPrice,$coinID){
 }
 
 function getCoinTrend(){
-  $conn = getHistorySQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
