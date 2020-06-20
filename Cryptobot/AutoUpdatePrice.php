@@ -27,6 +27,7 @@ group by `CoinID`";
   $conn->close();
   return $tempAry;
 }
+
 function getCoinPriceStats(){
   $conn = getHistorySQL(rand(1,3));
   // Check connection
@@ -123,6 +124,45 @@ function updateSellPrice($newSellPrice,$coinID){
   $conn->close();
 }
 
+function getCoinTrend(){
+  $conn = getHistorySQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`,`Symbol`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,(`Price4Trend`*1 +`Price3Trend`*1 +`LastPriceTrend`*1 +`LivePriceTrend`*1 ) as CoinPriceTrend
+  ,`1HrPriceChangeLive`,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`, (`1HrPriceChangeLive`*1 +`1HrPriceChangeLast`*1 +`1HrPriceChange3`*1 +`1HrPriceChange4`*1 ) as Hr1Trend FROM `CoinStatsView` ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  Echo "<BR>";
+  print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['Symbol'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['CoinPriceTrend']
+      ,$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'],$row['1HrPriceChange4'],$row['Hr1Trend']
+    );
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateCoinTrend($coinID, $priceTrend, $hr1Trend){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `AllCoinStatus` SET `CoinTrendPrice`= $priceTrend,`CoinTrend1Hr`= $hr1Trend WHERE `CoinID` = $coinID";
+  echo "<BR>";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H", time());
@@ -147,5 +187,13 @@ for($x = 0; $x < $coinStatsSellSize; $x++) {
   Echo "<BR>Update Sell Price $newSellPrice , $coinID";
   logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice');
 }
+$coinTrend = getCoinTrend();
+$coinTrendSize = Count($coinTrend);
+
+for($x = 0; $x < $coinTrendSize; $x++) {
+  $coinID = $coinTrend[$x][0]; $priceTrend = $coinTrend[$x][6]; $hr1Trend = $coinTrend[$x][11];
+  updateCoinTrend($coinID,$priceTrend,$hr1Trend);
+}
+
 ?>
 </html>
