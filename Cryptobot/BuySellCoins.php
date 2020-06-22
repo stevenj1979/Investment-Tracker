@@ -338,10 +338,16 @@ while($completeFlag == False){
         //break;
         //addSellRuletoSQL()
       }
-
       echo "<BR> NEXT RULE <BR>";
     }//Sell Rules
+    $newPricePattern = Array("**11");
+    if ($profit <= -10 && newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$newPricePattern,1,$ruleIDSell,1) ){
+      //Buy Coin
+      //addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule);
+      echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule);";
+      //Update ToMerge
 
+    }
   }//Sell Coin Loop
   //echo "</blockquote>";
     echo "<BR> CHECK BITTREX!! ";
