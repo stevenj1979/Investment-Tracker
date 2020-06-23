@@ -62,9 +62,13 @@ $sellRulesSize = count($sellRules);
 $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
+echo "<BR> coinPriceMatch";
 $coinPriceMatch = getCoinPriceMatchList();
+echo "<BR> coinPricePatternList";
 $coinPricePatternList = getCoinPricePattenList();
+echo "<BR> coin1HrPatternList";
 $coin1HrPatternList = getCoin1HrPattenList();
+echo "<BR> autoBuyPrice";
 $autoBuyPrice = getAutoBuyPrices();
 
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
