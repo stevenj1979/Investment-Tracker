@@ -79,7 +79,7 @@ $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 $bitPrice = 0.00;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $firstTimeFlag = True;
-$timeAry = [];
+$timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
 while($date <= $newTime){
   echo "NEW LOOP ";
   for($x = 0; $x < $coinLength; $x++) {
