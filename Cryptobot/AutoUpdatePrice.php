@@ -199,6 +199,7 @@ for($x = 0; $x < $coinTrendSize; $x++) {
 $sellTrackingCoins = getTrackingSellCoins();
 $sellTrackingCoinsSize = Count($sellTrackingCoins);
 $z = 0;$toMergeAry = []; $finalMergeAry = [][];
+echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
 for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
   $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4];

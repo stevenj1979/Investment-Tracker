@@ -2058,7 +2058,7 @@ function getCoin1HrPattenList(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` ";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` order by `BuyRuleID`,`SellRuleID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
