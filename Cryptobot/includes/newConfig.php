@@ -1984,6 +1984,10 @@ Function removeWildcard($tempStr){
         $returnUserIDStr .= $tempStr[$i][3].",";
     }
 	}
+  echo "<BR> $returnBuyRuleIDStr";
+  echo "<BR> $returnSellRuleIDStr";
+  echo "<BR> $returnStr";
+  echo "<BR> $returnUserIDStr";
   $finalReturnStr = stringsToArray(rtrim($returnBuyRuleIDStr,','),rtrim($returnSellRuleIDStr,','),rtrim($returnStr,','),rtrim($returnUserIDStr,','));
  return $finalReturnStr;
 }
