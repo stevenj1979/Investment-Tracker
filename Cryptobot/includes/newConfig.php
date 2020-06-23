@@ -1942,8 +1942,15 @@ function stringsToArray($str1, $str2, $str3, $str4){
   //echo "<BR> STR1 ".$str1;
   $tmpAry1 = explode(',',$str1); $tmpAry2 = explode(',',$str2);
   $tmpAry3 = explode(',',$str3); $tmpAry4 = explode(',',$str4);
+
   $aryCount = count($tmpAry1); $returnAry = [];
-  //echo "<BR> Count ".$aryCount;
+  echo "<BR> Count ".$aryCount;
+  $aryCount2 = count($tmpAry2);
+  echo "<BR> Count ".$aryCount2;
+  $aryCount3 = count($tmpAry3);
+  echo "<BR> Count ".$aryCount3;
+  $aryCount4 = count($tmpAry4);
+  echo "<BR> Count ".$aryCount4;
   for ($i=0; $i<$aryCount; $i++){
     //echo "<BR> B :".$tmpAry1[$i];
     $returnAry[$i][0] = $tmpAry1[$i];
@@ -1984,10 +1991,10 @@ Function removeWildcard($tempStr){
         $returnUserIDStr .= $tempStr[$i][3].",";
     }
 	}
-  echo "<BR> $returnBuyRuleIDStr";
-  echo "<BR> $returnSellRuleIDStr";
-  echo "<BR> $returnStr";
-  echo "<BR> $returnUserIDStr";
+  //echo "<BR> $returnBuyRuleIDStr";
+  //echo "<BR> $returnSellRuleIDStr";
+  //echo "<BR> $returnStr";
+  //echo "<BR> $returnUserIDStr";
   $finalReturnStr = stringsToArray(rtrim($returnBuyRuleIDStr,','),rtrim($returnSellRuleIDStr,','),rtrim($returnStr,','),rtrim($returnUserIDStr,','));
  return $finalReturnStr;
 }
