@@ -113,15 +113,16 @@ function getTrackingSellCoins($userID = 0){
 
   $sql = "SELECT `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,
   `LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
-  , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule` FROM `SellCoinStatsView` $whereclause";
+  , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge` FROM `SellCoinStatsView` $whereclause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
-    $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'],
-    $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange']
-    ,$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']);
+    $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
+    $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
+    ,$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
+    ,$row['ToMerge']);
   }
   $conn->close();
   return $tempAry;
@@ -2204,5 +2205,47 @@ function updateTrackingCoinToMerge($ID){
   }
   $conn->close();
   logAction("updateTrackingCoinToMerge: ".$sql, 'TrackingCoins');
+}
+
+function updateMergeAry($toMergeAry, $finalMergeAry){
+  $finalMergeArySize = Count($finalMergeAry);
+  $existing = False;
+  for ($j=0; $j<$finalMergeArySize; $j++){
+    if ($toMergeAry[0] == $finalMergeAry[$j][0] && $toMergeAry[1] == $finalMergeAry[$j][1]){
+      //User/Coin exist
+      $existing = True;
+      $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[4];
+      $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[5];
+      $finalMergeAry[$j][6] = $toMergeAry[3];
+      $finalMergeAry[$j][7] = $finalMergeAry[$j][7]+1;
+    }
+  }
+  if ($existing == False){
+    $finalMergeAry[$finalMergeArySize+1][0] = $toMergeAry[0];
+    $finalMergeAry[$finalMergeArySize+1][1] = $toMergeAry[1];
+    $finalMergeAry[$finalMergeArySize+1][2] = $toMergeAry[2];
+    $finalMergeAry[$finalMergeArySize+1][3] = $toMergeAry[3];
+    $finalMergeAry[$finalMergeArySize+1][4] = $toMergeAry[4];
+    $finalMergeAry[$finalMergeArySize+1][5] = $toMergeAry[5];
+    $finalMergeAry[$finalMergeArySize+1][6] = $toMergeAry[3];
+    $finalMergeAry[$finalMergeArySize+1][7] = 1;
+  }
+  return $finalMergeAry;
+}
+
+function mergeTransactions($transactionID, $amount, $avCost, $lastTransID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call MergeTransactions($avCost,$transactionID,$amount,$lastTransID);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("mergeTransactions($avCost,$transactionID,$amount,$lastTransID)",'TrackingCoins');
 }
 ?>
