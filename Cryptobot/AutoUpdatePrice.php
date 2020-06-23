@@ -204,7 +204,7 @@ for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
   $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4];
 
-  if ($toMerge == 1){
+  if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
     $toMergeAry[0] = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost);
     $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
   }
