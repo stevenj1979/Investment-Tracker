@@ -1944,13 +1944,13 @@ function stringsToArray($str1, $str2, $str3, $str4){
   $tmpAry3 = explode(',',$str3); $tmpAry4 = explode(',',$str4);
 
   $aryCount = count($tmpAry1); $returnAry = [];
-  echo "<BR> Count ".$aryCount;
+  echo "<BR> Count ".$aryCount." number 1 ".$tmpAry1[0];
   $aryCount2 = count($tmpAry2);
-  echo "<BR> Count ".$aryCount2;
+  echo "<BR> Count ".$aryCount2." number 1 ".$tmpAry2[0];
   $aryCount3 = count($tmpAry3);
-  echo "<BR> Count ".$aryCount3;
+  echo "<BR> Count ".$aryCount3." number 1 ".$tmpAry3[0];
   $aryCount4 = count($tmpAry4);
-  echo "<BR> Count ".$aryCount4;
+  echo "<BR> Count ".$aryCount4." number 1 ".$tmpAry4[0];
   for ($i=0; $i<$aryCount; $i++){
     //echo "<BR> B :".$tmpAry1[$i];
     $returnAry[$i][0] = $tmpAry1[$i];
