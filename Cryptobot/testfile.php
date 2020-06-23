@@ -78,20 +78,13 @@ function getOutStandingBuy($tmpAry){
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-while($date <= $newTime){
 
-$timeAry = [];
+$str1 = "8,8,8,8";
+$str2 = "24,24,24,24";
+$str3 = "0101,0001,0111,-1-1-11";
+$str4 = "3,3,3,3";
 
-$timeTest = (date("Y-m-d H:i", time())-$timeAry[$coinID])/60;
-if (isset($timeAry[$coinID]) and $timeTest >= $secondstoUpdate){
-  echo "<BR> TimeTest: $timeTest";
-  copyCoinPrice($coinID,$bitPrice);
-  $timeAry[$coinID] = date("Y-m-d H:i", time());
-}elseif (!isset($timeAry[$coinID])){
-  copyCoinPrice($coinID,$bitPrice);
-  $timeAry[$coinID] = date("Y-m-d H:i", time());
-}
+dump_ary(stringsToArray($str1,$str2,$str3,$str4));
 
-}
 ?>
 </html>
