@@ -84,7 +84,7 @@ $str2 = "24,24,24,24";
 $str3 = "0101,0001,0111,-1-1-11";
 $str4 = "3,3,3,3";
 
-dump_ary(stringsToArray($str1,$str2,$str3,$str4));
+var_dump(stringsToArray($str1,$str2,$str3,$str4));
 
 ?>
 </html>
