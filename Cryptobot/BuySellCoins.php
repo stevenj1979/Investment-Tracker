@@ -340,13 +340,13 @@ while($completeFlag == False){
       }
       echo "<BR> NEXT RULE <BR>";
     }//Sell Rules
-
-    if ($profit <= -10  ){
+    $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+    if ($profit <= -10  && $BTCBalance >= 20){
       //Buy Coin
-      //addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule);
+      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule);
       echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule);";
       //Update ToMerge
-
+      
     }
   }//Sell Coin Loop
   //echo "</blockquote>";
