@@ -247,6 +247,7 @@ while($completeFlag == False){
     $BaseCurrency = $sellCoins[$a][36]; $orderNo = $sellCoins[$a][10]; $amount = $sellCoins[$a][5]; $cost = $sellCoins[$a][4];
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
     $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
+    $lowPricePurchaseEnabled = $sellCoins[$a][45]; $noOfPurchases = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
     //$symbol = $sellCoins[$a][11];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
@@ -345,10 +346,10 @@ while($completeFlag == False){
       echo "<BR> NEXT RULE <BR>";
     }//Sell Rules
     $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
-    if ($profit <= -10  && $BTCBalance >= 20){
+    if ($profit <= $pctToPurchase  && $BTCBalance >= 20 && $lowPricePurchaseEnabled == 1){
       //Buy Coin
-      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule,1);
-      echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $BTCAmount, 999991, 0, 0, 0, 90, $fixSellRule, 1);";
+      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1);
+      echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule, 1);";
       //Update ToMerge
       updateTrackingCoinToMerge($transactionID);
     }
