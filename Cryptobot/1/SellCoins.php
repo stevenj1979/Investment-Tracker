@@ -220,7 +220,7 @@ $date = date('Y/m/d H:i:s', time());
               NewEcho("<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
             //}
             $diffColour = 'Red';
-            echo "<td bgcolor='".round(upAndDownColour($priceDiff1),$num)."'>$priceDiff1</td>";
+            echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>".round($priceDiff1,$num)."</td>";
 
             echo "<td>".round($amount,$num)."</td>";
             $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$num);
