@@ -231,7 +231,7 @@ $date = date('Y/m/d H:i:s', time());
               $profitColour = "Red";
             }
             echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
-            echo "<td>".round($profitBtc.,$num)."</td>";
+            echo "<td>".round($profitBtc,$num)."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<tr>";
