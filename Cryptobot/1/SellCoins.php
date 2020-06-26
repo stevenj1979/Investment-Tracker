@@ -220,7 +220,7 @@ $date = date('Y/m/d H:i:s', time());
               NewEcho("<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
             //}
             $diffColour = 'Red';
-            echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>$priceDiff1</td>";
+            echo "<td bgcolor='".round(upAndDownColour($priceDiff1),$num)."'>$priceDiff1</td>";
 
             echo "<td>".round($amount,$num)."</td>";
             $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$num);
@@ -230,7 +230,7 @@ $date = date('Y/m/d H:i:s', time());
             }else{
               $profitColour = "Red";
             }
-            echo "<td bgcolor='".getSellColour($profitPct,0)."'>$profitPct</td>";
+            echo "<td bgcolor='".getSellColour($profitPct)."'>".round($profitPct,$num)."</td>";
             echo "<td>".round($profitBtc,$num)."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
