@@ -65,7 +65,7 @@ function getTrackingSellCoinsLoc($userID){
   return $tempAry;
 }
 
-function getColour($ColourText, $target){
+function getColour($ColourText){
   if ($ColourText >= 0){
     $colour = "Green" ;
   }else {
@@ -73,7 +73,7 @@ function getColour($ColourText, $target){
   }
   return $colour;
 }
-function getSellColour($ColourText, $target){
+function getSellColour($ColourText){
   if ($ColourText > 0){
     $colour = "#D4EFDF" ;
   }elseif ($ColourText == 0 ){
