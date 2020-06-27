@@ -198,12 +198,12 @@ $date = date('Y/m/d H:i:s', time());
             //Variables
             //$roundNum = 2;
             //if($_SESSION['isMobile'] == False){$roundNum = 8;}
-            $coin = $trackingSell[$x][11]; $mrktCap = $trackingSell[$x][7]; $pctChange1Hr = $trackingSell[$x][8];$pctChange24Hr = $trackingSell[$x][10];
-            $pctChange7D = $trackingSell[$x][13]; $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $sellOrders = $trackingSell[$x][21];
-            $volume = $trackingSell[$x][24]; $baseCurrency = $trackingSell[$x][25]; $amount = $trackingSell[$x][26];  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
-            $profitPct = $trackingSell[$x][33];$cost = $trackingSell[$x][28]; $realAmount = $trackingSell[$x][26];
-            $priceDiff1 = number_format((float)$trackingSell[$x][16]-$trackingSell[$x][17], 10, '.', ''); $buyAmount = $trackingSell[$x][26] * $trackingSell[$x][28];
-            $sellAmount = $trackingSell[$x][16] * $trackingSell[$x][26]; $fee = ($sellAmount/100)*0.25; $profitBtc = number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', '');
+            $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
+            $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
+            $profitPct = $trackingSell[$x][33]; $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
+            $fee = (($livePrice* $amount)/100)*0.28;
+            $profit = ($purchaseCost * $amount)-($livePrice* $amount)-($fee);
+            $profitBtc = $profit/($purchaseCost * $amount);
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             NewEcho("<table id='t01' border=1>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
