@@ -5,8 +5,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
-google.load('visualization', '1', {packages: ['corechart']});
-google.load('visualization2', '1', {packages: ['corechart']});
+google.load('visualization', {packages:["imagesparkline"]});
 </script>
 <script type="text/javascript">
 function drawVisualization() {
