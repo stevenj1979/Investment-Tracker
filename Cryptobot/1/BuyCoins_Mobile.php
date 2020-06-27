@@ -8,23 +8,21 @@ google.charts.load("current", {packages:["imagesparkline"]});
 google.charts.setOnLoadCallback(drawVisualization);
 
 function drawVisualization() {
-  var jsonData = null;
-  var json = $.ajax({
-    url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinSparklineData.php", // make this url point to the data file
-    dataType: "json",
-    async: false,
-    success: (
-  function(data) {
-      jsonData = data;
-  })
-  }).responseText;
 
 
-
-  // Create and populate the data table.
-  var data = new google.visualization.DataTable(jsonData);
-
-
+  var data = google.visualization.arrayToDataTable([
+           ['Revenue', 'Licenses'],
+           [435, 132],
+           [438, 131],
+           [512, 137],
+           [460, 142],
+           [491, 140],
+           [487, 139],
+           [552, 147],
+           [511, 146],
+           [505, 151],
+           [509, 149]
+          ]);
   // Create and draw the visualization.
 //var chart= new google.visualization.LineChart(document.getElementById('visualization')).
 //      draw(data, {curveType: "function",
