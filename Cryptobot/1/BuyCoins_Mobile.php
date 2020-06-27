@@ -13,7 +13,7 @@ function drawVisualization() {
   var jsonData = null;
   var userID = "<?php echo $_SESSION['ID']; ?>";
   var json = $.ajax({
-    url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinSparklinesData.php", // make this url point to the data file
+    url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinSparklineData.php", // make this url point to the data file
     dataType: "json",
     async: false,
     success: (
@@ -35,12 +35,8 @@ function drawVisualization() {
 //                  }
 //          );
 var chart = new google.visualization.ImageSparkLine(document.getElementById('visualization')).
-draw(data, {curveType: "function",
-                  width: 120, height: 40,
-                  }
-          );
+chart.draw(data, {width: 120, height: 40, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
 }
-google.setOnLoadCallback(drawVisualization);
 </script>
 </head>
 <?php require('includes/config.php');
