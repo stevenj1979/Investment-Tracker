@@ -159,6 +159,8 @@ input[type=button], input[type=submit], input[type=reset] {
   text-align: left;
   padding: 30px
   vertical-align: middle;
+  table-layout: fixed;
+  overflow-wrap: break-word;
 }
 #tCnName {
   font-size: 52px
