@@ -26,7 +26,7 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = 'BTC')
   order by `ActionDate` asc ";
 
-
+  $temp[] = array($coinID);
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
       // each column needs to have data inserted via the $temp array
