@@ -204,7 +204,7 @@ $date = date('Y/m/d H:i:s', time());
             $fee = (($livePrice* $amount)/100)*0.28;
             $liveTotalCost = ($livePrice * $amount);
             $originalPurchaseCost = ($purchaseCost * $amount);
-            $profit = ($originalPurchaseCost - $liveTotalCost - $fee);
+            $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
             $profitBtc = $profit/($originalPurchaseCost)*100;
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
 
