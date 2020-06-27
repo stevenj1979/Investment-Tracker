@@ -6,8 +6,7 @@
 <script type="text/javascript">
 google.charts.load("current", {packages:["imagesparkline"]});
 google.charts.setOnLoadCallback(drawVisualization);
-</script>
-<script type="text/javascript">
+
 function drawVisualization() {
   var jsonData = null;
   var json = $.ajax({
