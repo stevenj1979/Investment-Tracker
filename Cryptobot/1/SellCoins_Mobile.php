@@ -218,6 +218,7 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td id='tCoin'>$profitPct</td>",$_SESSION['isMobile'],1);
 
             echo "</tr>";
+            echo "<hr color='DodgerBlue'>";
         }
         print_r("</table>");
 				displaySideColumn();
