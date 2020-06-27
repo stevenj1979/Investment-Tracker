@@ -159,14 +159,14 @@ input[type=button], input[type=submit], input[type=reset] {
   text-align: left;
 }
 #tCnName {
-  font-size: 32px
+  font-size: 52px
 }
 #tBitPrice {
-  font-size: 32px
+  font-size: 52px
 }
 #tCoin {
-  font-size: 16px
+  font-size: 32px
 }
 #tPriceChng{
-  font-size: 16px
+  font-size: 32px
 }
