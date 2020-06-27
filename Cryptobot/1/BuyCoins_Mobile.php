@@ -200,6 +200,7 @@ displayHeader(3);
           NewEcho("<td id='tPriceChng'><p style='color:$numCol'>$priceChange</p></td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
+        echo "<hr color='DodgerBlue'>";
       }//end for
       print_r("</table></Div>");
 
