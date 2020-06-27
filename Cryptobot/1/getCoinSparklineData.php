@@ -45,7 +45,7 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   while ($row = mysqli_fetch_assoc($result)){
 
       // each column needs to have data inserted via the $temp array
-      $temp[] = array((float) $row['LiveCoinPrice']);
+      $temp = array((float) $row['LiveCoinPrice']);
 
   }
 
