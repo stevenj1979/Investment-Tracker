@@ -19,7 +19,9 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 
-
+if ($_SESSION['isMobile']){
+  header('Location: BuyCoins_Mobile.php');
+}
 
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));

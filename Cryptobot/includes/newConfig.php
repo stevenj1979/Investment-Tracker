@@ -1890,14 +1890,26 @@ function getBase($selected, $statsAry){
     }
 }
 
-function NewEcho($textStr, $isMobile, $display){
+function NewEcho($textStr, $isMobile, $display, $round = 0){
   // display: 0 = desktop only; 1 = mobile only; 2 = mobile and desktop
   if ($display == 0 && $isMobile == 0){
-    Echo $textStr;
+    if ($round == 0){
+      Echo $textStr;
+    }else{
+      Echo round($textStr,$round);
+    }
   }elseif ($display == 1 && $isMobile == 1){
-    Echo $textStr;
+    if ($round == 0){
+      Echo $textStr;
+    }else{
+      Echo round($textStr,$round);
+    }
   }elseif ($display == 2){
-    Echo $textStr;
+    if ($round == 0){
+      Echo $textStr;
+    }else{
+      Echo round($textStr,$round);
+    }
   }
 }
 
