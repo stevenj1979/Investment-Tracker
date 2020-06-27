@@ -7,6 +7,8 @@ include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
+$logToSQLSetting = getLogToSQL();
+$logToFileSetting = getLogToFile();
 //$buyCancelTime = "01:0";
 //$noOfBuys = 5;
 $buyCounter = 0;
@@ -23,11 +25,11 @@ if (!empty($_GET['mins'])){
   //echo "<br> GETMINS: ".$_GET['mins'];
 }
 
-function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID){
+function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting){
   if ($minutes < -30){
     sendAlertEmail($email, $symbol, $price, $action, $userName);
-    logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert');
-    logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID);
+    logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
+    logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
   //Close Alert
   if ($reocurring == 0){closeCoinAlerts($id);}else{updateAlertTime($id);}
@@ -54,7 +56,7 @@ $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 $completeFlag = False;
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming');
+logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming', $logToFileSetting);
 $buyRules = getUserRules();
 $buyRulesSize = count($buyRules);
 $sellRules = getUserSellRules();
@@ -90,26 +92,26 @@ while($completeFlag == False){
       //Buy
       if ($noOfRisesInPrice == $totalRisesInPrice){
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
-        logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID);
+        logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
         closeNewTrackingCoin($newTrackingCoinID);
-        logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID);
+        logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
       }else
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
-        logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$noOfRisesInPrice+1.");", $userID);
+        logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$noOfRisesInPrice+1.");", $userID, $logToSQLSetting);
       }
 
     }elseif ($pctProfit < -5 && $minsFromDate >= 4){
       // set $noOfRisesInPrice to 0
       updateNoOfRisesInPrice($newTrackingCoinID, 0);
-      logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID);
+      logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID, $logToSQLSetting);
       // set new price
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
-      logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID);
+      logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }elseif ($pctProfit > 5 && $minsFromDate >= 4){
       closeNewTrackingCoin($newTrackingCoinID);
-      logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID);
+      logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
 
 
@@ -228,8 +230,8 @@ while($completeFlag == False){
       $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13+$test14;
       if ($totalScore_Buy >= 13 ){
         $buyOutstanding = getOutStandingBuy($buyResultAry);
-        logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14 $buyOutstanding","BuyScore");
-        logToSQL("TrackingCoins", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy $buyOutstanding", $userID);
+        logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14 $buyOutstanding","BuyScore", $logToFileSetting);
+        logToSQL("TrackingCoins", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy $buyOutstanding", $userID, $logToSQLSetting);
       }
       Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14";
 
@@ -240,7 +242,7 @@ while($completeFlag == False){
         //buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
         addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);
         //logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
-        logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);", $userID);
+        logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);", $userID, $logToSQLSetting);
         $buyCounter = $buyCounter + 1;
       }
 
@@ -341,8 +343,8 @@ while($completeFlag == False){
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11+$sTest12+$sTest13;
       if ($totalScore_Sell >= 12){
         $sellOutstanding = getOutStandingBuy($sellResultAry);
-        logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit $sellOutstanding","SellScore");
-        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $sellOutstanding", $userID);
+        logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit $sellOutstanding","SellScore", $logToFileSetting);
+        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $sellOutstanding", $userID, $logToSQLSetting);
       }
       Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit";
 
@@ -352,9 +354,9 @@ while($completeFlag == False){
         echo "<BR>Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
         //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
         sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
-        logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell');
-        logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell');
-        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID);
+        logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $logToFileSetting);
+        logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
+        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID, $logToSQLSetting);
         //break;
         //addSellRuletoSQL()
       }
@@ -365,10 +367,10 @@ while($completeFlag == False){
       //Buy Coin
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1,$noOfPurchases);
       echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule, 1);";
-      logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1,$noOfPurchases);", $userID);
+      logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1,$noOfPurchases);", $userID, $logToSQLSetting);
       //Update ToMerge
       updateTrackingCoinToMerge($transactionID,$noOfPurchases);
-      logToSQL("TrackingCoins", "updateTrackingCoinToMerge($transactionID,$noOfPurchases);", $userID);
+      logToSQL("TrackingCoins", "updateTrackingCoinToMerge($transactionID,$noOfPurchases);", $userID, $logToSQLSetting);
     }
   }//Sell Coin Loop
   //echo "</blockquote>";
@@ -402,7 +404,7 @@ while($completeFlag == False){
     Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
     echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$resultOrd["result"]["CancelInitiated"];
     updateBittrexQuantityFilled($qtySold,$uuid);
-    if ($qtySold <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID);}
+    if ($qtySold <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $logToSQLSetting);}
     if ($resultOrd["success"] == 1){
       if ($type == "Buy"){
         if ($orderIsOpen != 1 && $resultOrd["result"]["CancelInitiated"] != 1 && $resultOrd["result"]["QuantityRemaining"] == 0){
@@ -413,7 +415,7 @@ while($completeFlag == False){
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
-          logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID);
+          logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           continue;
@@ -425,16 +427,16 @@ while($completeFlag == False){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
-               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID);
+               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, $logToSQLSetting);
              }else{
-               logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex');
-               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID);
+               logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $logToFileSetting);
+               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $logToSQLSetting);
              }
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid);
             if ($result == 1){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
-              logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created", $userID);
+              logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created", $userID, $logToSQLSetting);
               if ($sendEmail){
                 $subject = "Coin Purchase1: ".$coin;
                 $from = 'Coin Purchase <purchase@investment-tracker.net>';
@@ -442,7 +444,7 @@ while($completeFlag == False){
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
-            }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex');}
+            }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $logToFileSetting);}
           }
           continue;
         }
@@ -461,7 +463,7 @@ while($completeFlag == False){
               sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
             }
             bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
-            logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID);
+            logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             continue;
         }
@@ -472,11 +474,11 @@ while($completeFlag == False){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
-              logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID);
+              logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $logToSQLSetting);
               continue;
             }else{
-              logAction("bittrexCancelSellOrder: ".$cancelRslt, 'Bittrex');
-              logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $cancelRslt", $userID);
+              logAction("bittrexCancelSellOrder: ".$cancelRslt, 'Bittrex', $logToFileSetting);
+              logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $cancelRslt", $userID, $logToSQLSetting);
             }
           }else{
              $result = bittrexCancel($apiKey,$apiSecret,$uuid);
@@ -485,7 +487,7 @@ while($completeFlag == False){
                //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
                bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
                bittrexSellComplete($uuid, $transactionID, $finalPrice);
-               logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo | Creating new Transaction", $userID);
+               logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo | Creating new Transaction", $userID, $logToSQLSetting);
                //Update QTY
                //bittrexUpdateSellQty($transactionID,$qtySold);
                //bittrexSellCancel($uuid, $transactionID);
@@ -497,8 +499,8 @@ while($completeFlag == False){
                }
                continue;
              }else{
-               logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');
-               logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $result", $userID);
+               logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $logToFileSetting);
+               logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
              }
           }
         }
@@ -508,11 +510,11 @@ while($completeFlag == False){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
-              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID);
+              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID, $logToSQLSetting);
               continue;
             }else{
-              logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');
-              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID);
+              logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $logToFileSetting);
+              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
             }
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid);
@@ -521,7 +523,7 @@ while($completeFlag == False){
               //sendtoSteven($transactionID,"QTYRemaining: ".$orderQtyRemaining."_QTYSold: ".$qtySold."_OrderQTY: ".$orderQty."_UUID: ".$uuid, "NewOrderNo: ".$newOrderNo."_OrderNo: ".$orderNo, "SELL - Less -2 Greater 2.5");
               bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
               bittrexSellComplete($uuid, $transactionID, $finalPrice);
-              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo | Creating new Transaction", $userID);
+              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo | Creating new Transaction", $userID, $logToSQLSetting);
               //Update QTY
               //bittrexUpdateSellQty($transactionID,$qtySold);
               //bittrexSellCancel($uuid, $transactionID);
@@ -534,15 +536,15 @@ while($completeFlag == False){
               }
               continue;
             }else{
-              logAction("bittrexCancelSellOrder: ".$result, 'Bittrex');
-              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID);
+              logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $logToFileSetting);
+              logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
             }
           }
         }
       } //end $type Buy Sell
     }else{
-      logAction("bittrexCheckOrder: ".$resultOrd["success"], 'Bittrex');
-      logToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$resultOrd["success"], $userID);
+      logAction("bittrexCheckOrder: ".$resultOrd["success"], 'Bittrex', $logToFileSetting);
+      logToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$resultOrd["success"], $userID, $logToSQLSetting);
     }//end bittrex order check
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
     echo "<br>Time Since Action ".substr($timeSinceAction,0,4);
@@ -571,52 +573,52 @@ while($completeFlag == False){
 
     if ($action == 'LessThan' && $category == "Price"){
       if ($liveCoinPrice <= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id, $logToFileSetting, $logToSQLSetting);
 
       }
     } elseif ($action == 'GreaterThan' && $category == "Price"){
       if ($liveCoinPrice >= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt <= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Pct Price in 1 Hour"){
       if ($Live1HrChangeAlrt >= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert <= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Market Cap Pct Change"){
       if ($liveMarketCapAlert >= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert <= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Buy Orders Pct Change"){
       if ($liveBuyOrderAlert >= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'LessThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert <= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     } elseif ($action == 'GreaterThan' && $category == "Sell Orders Pct Change"){
       if ($liveSellOrderAlert >= $price) {
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID);
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting);
         //logToSQL("Alerts", "Coin: $symbol $action $category $price | Live Price: $liveCoinPrice", $userID);
       }
     }
@@ -631,7 +633,7 @@ while($completeFlag == False){
   $date = date("Y-m-d H:i:s", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
-logAction("Buy Sell Coins End $date : $i", 'BuySellTiming');
+logAction("Buy Sell Coins End $date : $i", 'BuySellTiming', $logToFileSetting);
 //$to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'BuySell Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 echo "<br>EndTime ".date("Y-m-d H:i:s", time());

@@ -1561,21 +1561,25 @@ function sqltoSteven($errorSQL){
   mail($to, $subject, wordwrap($body,70),$headers);
 }
 
-function logAction($log, $logFile){
-  file_put_contents('./log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
+function logAction($log, $logFile, $enabled){
+  if ($enabled == 1){
+    file_put_contents('./log/log_'.$logFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$log.PHP_EOL, FILE_APPEND);
+  }
 }
 
-function logToSQL($subject, $comments, $UserID){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call LogToSQL($UserID,'$subject','$comments')";
-  print_r("<br>".$sql);
-  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
-  } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-    sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+function logToSQL($subject, $comments, $UserID, $enabled = 0;){
+  if ($enabled == 1){
+    $conn = getSQLConn(rand(1,3));
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "call LogToSQL($UserID,'$subject','$comments')";
+    print_r("<br>".$sql);
+    if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    }
+    $conn->close();
   }
-  $conn->close();
 }
 
 function displayHeader($n){

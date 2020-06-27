@@ -6,6 +6,7 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
+$logToFileSetting = getLogToFile();
 echo "<BR> API Secret: $apisecret";
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
@@ -68,7 +69,7 @@ $history_date = $current_date; $marketCap_Date = $current_date;
 //$newTime = date("Y-m-d H:i",strtotime("+5 minutes", strtotime($current_date)));
 $newTime = date("Y-m-d H:i:s",strtotime($tmpTime, strtotime($current_date)));
 $coinStr = "";
-logAction('CryptoBotAuto Start','CoinPrice');
+logAction('CryptoBotAuto Start','CoinPrice', $logToFileSetting);
 $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
@@ -99,7 +100,7 @@ while($date <= $newTime){
     if (timerReady($lastUpdateTime,$secondstoUpdate)){
       copyCoinPrice($coinID,$bitPrice);
       $timeAry[$coinID] = date("Y-m-d H:i:s", time());
-      logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice');
+      logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
     //}elseif (!isset($lastUpdateTime)){
     //  copyCoinPrice($coinID,$bitPrice);
     //  $timeAry[$coinID] = date("Y-m-d H:i", time());
@@ -108,7 +109,7 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
-      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC');}
+      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);}
       //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       //echo "<br> Count=".count($CMCStats);
@@ -131,7 +132,7 @@ while($date <= $newTime){
       //copyCoinSellOrders($coinID, $coinVolData[0][2]);
       echo "<br> Volume=".$coinVolData[0][0]." BuyOrders=".$coinVolData[0][1]." SellOrders=".$coinVolData[0][2];
       //$marketCapFlag = False; //$marketCapStatsUpdateFlag = True;
-      logAction('Market Cap Update Set','CoinPrice');
+      logAction('Market Cap Update Set','CoinPrice', $logToFileSetting);
     }
     //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
@@ -174,12 +175,12 @@ while($date <= $newTime){
   $i = $i+1;
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice');}
-  if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice');}
+  if (timerReady($history_date,120)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice', $logToFileSetting);}
+  if (timerReady($marketCap_date,300)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice', $logToFileSetting);}
 
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
-logAction('CryptoBotAuto End - Number of loops : '.$i,'CoinPrice');
+logAction('CryptoBotAuto End - Number of loops : '.$i,'CoinPrice', $logToFileSetting);
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 ?>
 </html>
