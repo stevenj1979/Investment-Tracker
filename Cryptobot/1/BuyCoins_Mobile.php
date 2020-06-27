@@ -3,36 +3,31 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-google.charts.load("current", {packages:["imagesparkline"]});
-google.charts.setOnLoadCallback(drawVisualization);
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["imagesparkline"]});
+      google.charts.setOnLoadCallback(drawChart);
 
-function drawVisualization() {
+      function drawChart() {
 
+        var data = google.visualization.arrayToDataTable([
+         ['Revenue', 'Licenses'],
+         [435, 132],
+         [438, 131],
+         [512, 137],
+         [460, 142],
+         [491, 140],
+         [487, 139],
+         [552, 147],
+         [511, 146],
+         [505, 151],
+         [509, 149]
+        ]);
 
-  var data = google.visualization.arrayToDataTable([
-           ['Revenue', 'Licenses'],
-           [435, 132],
-           [438, 131],
-           [512, 137],
-           [460, 142],
-           [491, 140],
-           [487, 139],
-           [552, 147],
-           [511, 146],
-           [505, 151],
-           [509, 149]
-          ]);
-  // Create and draw the visualization.
-//var chart= new google.visualization.LineChart(document.getElementById('visualization')).
-//      draw(data, {curveType: "function",
-//                  width: 900, height: 400,
-//                  }
-//          );
-var chart = new google.visualization.ImageSparkLine(document.getElementById('visualization')).
-chart.draw(data, {width: 120, height: 40, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
-}
-</script>
+        var chart = new google.visualization.ImageSparkLine(document.getElementById('chart_div'));
+
+        chart.draw(data, {width: 120, height: 40, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
+      }
+    </script>
 </head>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';
@@ -219,7 +214,7 @@ displayHeader(3);
           NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td id='cNchart' rowspan='2'>",$_SESSION['isMobile'],1);
-          ?> <div id="visualization" style="width: 120px; height: 40px;"></div><?php
+          ?> <div id="chart_div" style="width: 120px; height: 40px;"></div><?php
           newEcho("</td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
           NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
