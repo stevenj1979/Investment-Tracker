@@ -205,24 +205,23 @@ $date = date('Y/m/d H:i:s', time());
             $liveTotalCost = ($livePrice * $amount);
             $originalPurchaseCost = ($purchaseCost * $amount);
             $profit = ($originalPurchaseCost - $liveTotalCost - $fee);
-            $profitBtc = $profit/($purchaseCost * $amount);
+            $profitBtc = $profit/($originalPurchaseCost)*100;
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
 
-            echo "$liveTotalCost = ($livePrice * $amount);";
-            echo "$originalPurchaseCost = ($purchaseCost * $amount);";
-            echo "$profit = ($originalPurchaseCost - $liveTotalCost - $fee);";
-
-            NewEcho("<table id='t01' border=1>",$_SESSION['isMobile'],1);
+            NewEcho("<table id='t01'>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td id='cNchart' rowspan='2'>$liveTotalCost</td>",$_SESSION['isMobile'],1);
+            $profit = round($profit,2);
+            NewEcho("<td id='cNchart' rowspan='2'>$profit</td>",$_SESSION['isMobile'],1);
+            $livePrice = round($livePrice,3);
             NewEcho("<td id='tCnName'>$livePrice</td>",$_SESSION['isMobile'],1);
-
-            echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
-            echo "<td rowspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
+            echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
+            echo "<td rowspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "</tr><Tr>";
             NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td id='tCoin'>$profitBtc</td>",$_SESSION['isMobile'],1);
+            $numCol = getNumberColour($profitBtc);
+            $profitBtc = round($profitBtc,3);
+            NewEcho("<td id='tCoin'><p style='color:$numCol'>$profitBtc</p></td>",$_SESSION['isMobile'],1);
 
             echo "</tr>";
             echo "<hr color='DodgerBlue'>";
