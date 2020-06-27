@@ -61,11 +61,11 @@ return $tempAry;
 
 function getNumberColour($ColourText){
 if ($ColourText >= 0){
-  $colour = "#D4EFDF";
+  $colour = "#3cb371";
 }elseif ($ColourText == 0) {
-  $colour = "#FCF3CF";
+  $colour = "#ffa500";
 }else{
-  $colour = "#F1948A";
+  $colour = "#ff0000";
 }
 return $colour;
 }
