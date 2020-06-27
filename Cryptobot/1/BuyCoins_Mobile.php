@@ -25,7 +25,7 @@
 
         var chart = new google.visualization.ImageSparkLine(document.getElementById('chart_div'));
 
-        chart.draw(data, {width: 90, height: 60, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
+        chart.draw(data, {width: 90, height: 60, showAxisLines: false,  showValueLabels: false, labelPosition: 'none'});
       }
     </script>
 </head>
