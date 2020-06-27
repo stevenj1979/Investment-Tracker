@@ -39,13 +39,13 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
       // but you can change them if they are not
       array('label' => $coinID, 'type' => 'number')
   );
-  $temp[];
-  $temp = array($coinID);
+  //$temp[];
+  $temp[] = array($coinID);
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
 
       // each column needs to have data inserted via the $temp array
-      $temp = array((float) $row['LiveCoinPrice']);
+      $temp[] = array((float) $row['LiveCoinPrice']);
 
   }
 
