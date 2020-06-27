@@ -25,7 +25,7 @@
 
         var chart = new google.visualization.ImageSparkLine(document.getElementById('chart_div'));
 
-        chart.draw(data, {width: 90, height: 60, showAxisLines: false,  showValueLabels: false, labelPosition: 'none'});
+        chart.draw(data, {width: 150, height: 80, showAxisLines: false,  showValueLabels: false, labelPosition: 'none'});
       }
     </script>
 </head>
@@ -213,7 +213,7 @@ displayHeader(3);
           NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
-          NewEcho( "<td id='cNchart' rowspan='2'><div id='chart_div' style='width: 90px; height: 60px;'></div></td>",$_SESSION['isMobile'],1);
+          NewEcho( "<td id='cNchart' rowspan='2'><div id='chart_div' style='width: 150px; height: 80px;'></div></td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
           NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='cNicon' rowspan='2'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
