@@ -202,7 +202,7 @@ $date = date('Y/m/d H:i:s', time());
             $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
             $profitPct = $trackingSell[$x][33]; $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
             $fee = (($livePrice* $amount)/100)*0.28;
-            $profit = ($purchaseCost * $amount)-($livePrice* $amount)-($fee);
+            $profit = ($livePrice* $amount)-($purchaseCost * $amount)-($fee);
             $profitBtc = $profit/($purchaseCost * $amount);
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             NewEcho("<table id='t01' border=1>",$_SESSION['isMobile'],1);
