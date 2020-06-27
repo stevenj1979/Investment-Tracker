@@ -26,24 +26,24 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = 'BTC')
   order by `ActionDate` asc ";
 
-  
+
   //$temp[];
-  $i = 0;
-  $temp[$i] = array($coinID);
-  $i++;
+
+  $tempAry[] = array($coinID);
+
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
 
       // each column needs to have data inserted via the $temp array
-      $temp[$i] = array((float) $row['LiveCoinPrice']);
-      $i++;
+      $tempAry[] = array((float) $row['LiveCoinPrice']);
+
 
   }
 
   // populate the table with rows of data
 
   // encode the table as JSON
-  $jsonTable = json_encode($temp);
+  $jsonTable = json_encode($tempAry);
 
   // set up header; first two prevent IE from caching queries
   header('Cache-Control: no-cache, must-revalidate');
