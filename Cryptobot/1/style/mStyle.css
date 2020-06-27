@@ -157,6 +157,7 @@ input[type=button], input[type=submit], input[type=reset] {
 #t01 {
   width: 100%;
   text-align: left;
+  padding: 15px
 }
 #tCnName {
   font-size: 52px
