@@ -208,7 +208,7 @@ $date = date('Y/m/d H:i:s', time());
             $profitBtc = $profit/($originalPurchaseCost)*100;
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
 
-            NewEcho("<table id='t01'>",$_SESSION['isMobile'],1);
+            NewEcho("<div class='wrapper'><table id='t01'>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
             $profit = round($profit,2);
@@ -218,15 +218,15 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<td rowspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "</tr><Tr>";
-            NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tPriceChng'>$coin</td>",$_SESSION['isMobile'],1);
             $numCol = getNumberColour($profitBtc);
             $profitBtc = round($profitBtc,3);
-            NewEcho("<td id='tCoin'><p style='color:$numCol'>$profitBtc</p></td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tPriceChng'><p style='color:$numCol'>$profitBtc</p></td>",$_SESSION['isMobile'],1);
 
             echo "</tr>";
             echo "<hr color='DodgerBlue'>";
         }
-        print_r("</table>");
+        print_r("</table></Div>");
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
