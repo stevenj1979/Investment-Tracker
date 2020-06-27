@@ -204,13 +204,13 @@ $date = date('Y/m/d H:i:s', time());
             $fee = (($livePrice* $amount)/100)*0.28;
             $liveTotalCost = ($livePrice * $amount);
             $originalPurchaseCost = ($purchaseCost * $amount);
-            $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
+            $profit = ($originalPurchaseCost - $liveTotalCost - $fee);
             $profitBtc = $profit/($purchaseCost * $amount);
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             NewEcho("<table id='t01' border=1>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
-            NewEcho("<td id='cNchart' rowspan='2'>$originalPurchaseCost</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='cNchart' rowspan='2'>$profit</td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$livePrice</td>",$_SESSION['isMobile'],1);
 
             echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
