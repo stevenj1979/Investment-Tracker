@@ -184,16 +184,16 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
-          NewEcho("<table width=99%><tr>",$_SESSION['isMobile'],1);
-          NewEcho("<td>$name</td>",$_SESSION['isMobile'],1);
+          NewEcho("<table id='t01'><tr>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
-          NewEcho( "<td>$bitPrice</td>",$_SESSION['isMobile'],1);
+          NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
           echo "</tr><tr>";
-          NewEcho("<td>$coin</td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
           $priceChange = round($priceChange,2);
           $numCol = getNumberColour($priceChange);
-          NewEcho("<td color=$numCol>$priceChange</td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tPriceChng' color=$numCol>$priceChange</td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
       }//end for

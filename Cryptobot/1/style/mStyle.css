@@ -153,3 +153,19 @@ input[type=button], input[type=submit], input[type=reset] {
     display: table;
     clear: both;
 }
+
+#t01 {
+  width: 100%;
+}
+#tCnName {
+  font-size: 32px
+}
+#tBitPrice {
+  font-size: 32px
+}
+#tCoin {
+  font-size: 16px
+}
+#tPriceChng{
+  font-size: 16px
+}
