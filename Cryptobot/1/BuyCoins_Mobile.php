@@ -184,7 +184,7 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
-          NewEcho("<table border=1><tr>",$_SESSION['isMobile'],1);
+          NewEcho("<table border=1 width=99%><tr>",$_SESSION['isMobile'],1);
           NewEcho("<td>CoinName</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
