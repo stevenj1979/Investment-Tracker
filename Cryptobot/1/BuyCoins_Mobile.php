@@ -184,7 +184,7 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
-          NewEcho("<div class='wrapper'><table id='t01' border=1><tr>",$_SESSION['isMobile'],1);
+          NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td id='cNchart' rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
@@ -196,8 +196,8 @@ displayHeader(3);
           NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
           $priceChange = round($priceChange,2);
           $numCol = getNumberColour($priceChange);
-          echo "Test Colour: $numCol";
-          NewEcho("<td id='tPriceChng'><p color='$numCol'>$priceChange</p></td>",$_SESSION['isMobile'],1);
+          //echo "Test Colour: $numCol";
+          NewEcho("<td id='tPriceChng'><p style='color:$numCol'>$priceChange</p></td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
       }//end for
