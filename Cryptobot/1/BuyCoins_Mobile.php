@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-google.load('visualization', {packages:["imagesparkline"]});
+google.charts.load("current", {packages:["imagesparkline"]});
 google.charts.setOnLoadCallback(drawVisualization);
 </script>
 <script type="text/javascript">
