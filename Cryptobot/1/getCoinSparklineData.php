@@ -26,22 +26,10 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = 'BTC')
   order by `ActionDate` asc ";
 
-  $table = array();
-  $table['cols'] = array(
-      /* define your DataTable columns here
-       * each column gets its own array
-       * syntax of the arrays is:
-       * label => column label
-       * type => data type of column (string, number, date, datetime, boolean)
-       */
-      // I assumed your first column is a "string" type
-      // and your second column is a "number" type
-      // but you can change them if they are not
-      array('label' => $coinID, 'type' => 'number')
-  );
+  
   //$temp[];
   $i = 0;
-  $temp[$i] = array('label' => $coinID);
+  $temp[$i] = array($coinID);
   $i++;
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
