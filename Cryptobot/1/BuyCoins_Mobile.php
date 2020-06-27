@@ -184,7 +184,7 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
-          NewEcho("<table id='t01'><tr>",$_SESSION['isMobile'],1);
+          NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr><td id='cNimg'rowspan='2'><img src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
@@ -200,7 +200,7 @@ displayHeader(3);
 
         echo "</tr>";
       }//end for
-      print_r("</table>");
+      print_r("</table></Div>");
 
       displaySideColumn();
 

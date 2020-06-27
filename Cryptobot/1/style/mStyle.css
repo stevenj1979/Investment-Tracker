@@ -178,3 +178,7 @@ input[type=button], input[type=submit], input[type=reset] {
 #cNicon{
   vertical-align: middle;
 }
+.wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
