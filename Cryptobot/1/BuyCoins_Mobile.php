@@ -59,7 +59,7 @@ $conn->close();
 return $tempAry;
 }
 
-function getNumberColour($ColourText, $target){
+function getNumberColour($ColourText){
 if ($ColourText >= 0){
   $colour = "#D4EFDF";
 }elseif ($ColourText == 0) {
@@ -174,7 +174,7 @@ displayHeader(3);
 
       for($x = 0; $x < $newArrLength; $x++) {
         //Variables
-        $coin = $tracking[$x][1]; $buyOrders = $tracking[$x][4]; $MarketCap = $tracking[$x][7];
+        $coin = $tracking[$x][1]; $buyOrders = $tracking[$x][4]; $MarketCap = $tracking[$x][7]; $name = $tracking[$x][37];
         $Live1HrChange = $tracking[$x][8]; $Live24HrChange = $tracking[$x][11]; $Live7DChange = $tracking[$x][14];
         $bitPrice =  $tracking[$x][17] ; $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
         $volume =  $tracking[$x][25]; $baseCurrency = $tracking[$x][26];
@@ -184,15 +184,16 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
-          NewEcho("<table border=1 width=99%><tr>",$_SESSION['isMobile'],1);
-          NewEcho("<td>CoinName</td>",$_SESSION['isMobile'],1);
+          NewEcho("<table width=99%><tr>",$_SESSION['isMobile'],1);
+          NewEcho("<td>$name</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
           NewEcho( "<td>$bitPrice</td>",$_SESSION['isMobile'],1);
           echo "</tr><tr>";
           NewEcho("<td>$coin</td>",$_SESSION['isMobile'],1);
           $priceChange = round($priceChange,2);
-          NewEcho("<td>$priceChange</td>",$_SESSION['isMobile'],1);
+          $numCol = getNumberColour($priceChange);
+          NewEcho("<td color=$numCol>$priceChange</td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
       }//end for
