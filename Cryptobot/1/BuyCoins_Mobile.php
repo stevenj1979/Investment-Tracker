@@ -2,6 +2,46 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load('visualization', '1', {packages: ['corechart']});
+google.load('visualization2', '1', {packages: ['corechart']});
+</script>
+<script type="text/javascript">
+function drawVisualization() {
+  var jsonData = null;
+  var userID = "<?php echo $_SESSION['ID']; ?>";
+  var json = $.ajax({
+    url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinSparklinesData.php", // make this url point to the data file
+    dataType: "json",
+    async: false,
+    success: (
+  function(data) {
+      jsonData = data;
+  })
+  }).responseText;
+
+
+
+  // Create and populate the data table.
+  var data = new google.visualization.DataTable(jsonData);
+
+
+  // Create and draw the visualization.
+//var chart= new google.visualization.LineChart(document.getElementById('visualization')).
+//      draw(data, {curveType: "function",
+//                  width: 900, height: 400,
+//                  }
+//          );
+var chart = new google.visualization.ImageSparkLine(document.getElementById('visualization')).
+draw(data, {curveType: "function",
+                  width: 120, height: 40,
+                  }
+          );
+}
+google.setOnLoadCallback(drawVisualization);
+</script>
 </head>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';
@@ -187,7 +227,7 @@ displayHeader(3);
           NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
-          NewEcho( "<td id='cNchart' rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
+          NewEcho( "<td id='cNchart' rowspan='2'><div id='visualization'></div></td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
           NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='cNicon' rowspan='2'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
