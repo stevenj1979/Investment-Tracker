@@ -86,16 +86,6 @@ $conn->close();
 return $tempAry;
 }
 
-function getNumberColour($ColourText){
-if ($ColourText >= 0){
-  $colour = "#3cb371";
-}elseif ($ColourText == 0) {
-  $colour = "#ffa500";
-}else{
-  $colour = "#ff0000";
-}
-return $colour;
-}
 
 function upAndDownColour($direction){
 if ($direction == 'Up'){

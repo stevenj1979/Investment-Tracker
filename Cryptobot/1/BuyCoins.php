@@ -61,16 +61,6 @@ function getTrackingCoinsLoc(){
   return $tempAry;
 }
 
-function getNumberColour($ColourText, $target){
-  if ($ColourText >= 0){
-    $colour = "#D4EFDF";
-  }elseif ($ColourText == 0) {
-    $colour = "#FCF3CF";
-  }else{
-    $colour = "#F1948A";
-  }
-  return $colour;
-}
 
 function upAndDownColour($direction){
   if ($direction == 'Up'){

@@ -21,9 +21,7 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
 setStyle($_SESSION['isMobile']);
-if ($_SESSION['isMobile']){
-  header('Location: SellCoins_Mobile.php');
-}
+
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
@@ -191,16 +189,11 @@ $date = date('Y/m/d H:i:s', time());
 				<?php
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
-        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
+        $trackingSell = getTrackingSellCoins($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>");
-        //if($_SESSION['isMobile'] == False){
-          newEcho("&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>",$_SESSION['isMobile'],0);
-          newEcho("<th>&nbsp% Change 1Hr</th>",$_SESSION['isMobile'],2);
-          NewEcho("<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
-        //}
-        echo "<th>Price Trend 1</th><th>&nbspAmount</th><th>&nbspCost</th><th>&nbspProfit%</th><th>&nbspProfit BTC</th><th>&nbspManual Sell</th><th>&nbspSplit Sale</th><tr>";
+        print_r("<h2>Sell Some Coins Now!</h2>");
+
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
@@ -211,32 +204,20 @@ $date = date('Y/m/d H:i:s', time());
             $profitPct = $trackingSell[$x][33];$cost = $trackingSell[$x][28]; $realAmount = $trackingSell[$x][26];
             $priceDiff1 = number_format((float)$trackingSell[$x][16]-$trackingSell[$x][17], 10, '.', ''); $buyAmount = $trackingSell[$x][26] * $trackingSell[$x][28];
             $sellAmount = $trackingSell[$x][16] * $trackingSell[$x][26]; $fee = ($sellAmount/100)*0.25; $profitBtc = number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', '');
-            echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
-            echo "<td>".round($livePrice,$num)."</td>";
-            //if($_SESSION['isMobile'] == False){
-              NewEcho("<td>".round($mrktCap,$num)."</td>",$_SESSION['isMobile'],0);
-              NewEcho("<td>".round($volume,$num)."</td>",$_SESSION['isMobile'],0);
-              NewEcho("<td>".round($sellOrders,$num)."</td>",$_SESSION['isMobile'],0);
+            $name = $trackingSell[$x][37]; $image = $trackingSell[$x][38];
+            NewEcho("<table id='t01'><tr>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='cNimg'rowspan='2'><a href='Stats.php?coin=$coin'><img =src='$image'> </a></td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='cNchart' rowspan='2'>$profitBtc</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tCnName'>$livePrice</td>",$_SESSION['isMobile'],1);
 
-              NewEcho("<td>".$pctChange1Hr."</td>",$_SESSION['isMobile'],2);
-              NewEcho("<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
-            //}
-            $diffColour = 'Red';
-            echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>".round($priceDiff1,$num)."</td>";
-
-            echo "<td>".round($amount,$num)."</td>";
-            $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$num);
-            echo "<td>$cost</td>";
-            if ($profitPct > 0){
-              $profitColour = "Green";
-            }else{
-              $profitColour = "Red";
-            }
-            echo "<td bgcolor='".getSellColour($profitPct)."'>".round($profitPct,$num)."</td>";
-            echo "<td>".round($profitBtc,$num)."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
-            echo "<tr>";
+            echo "</tr><Tr>";
+            NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tCoin'>$profitPct</td>",$_SESSION['isMobile'],1);
+
+            echo "</tr>";
         }
         print_r("</table>");
 				displaySideColumn();
