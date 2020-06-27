@@ -162,9 +162,11 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 #tCnName {
   font-size: 52px
+  width: 25%
 }
 #tBitPrice {
   font-size: 52px
+  width: 20%
 }
 #tCoin {
   font-size: 32px
@@ -173,12 +175,20 @@ input[type=button], input[type=submit], input[type=reset] {
   font-size: 32px
 }
 #cNimg{
-  width: 90px
+  width: 10%
 }
 #cNicon{
   vertical-align: middle;
+    width: 10%
 }
 .wrapper {
   display: table-cell;
   vertical-align: middle;
+}
+
+#CnImg{
+  width: 90px
+}
+#cNchart{
+  width: 25%
 }

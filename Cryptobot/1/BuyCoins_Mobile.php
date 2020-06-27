@@ -185,9 +185,9 @@ displayHeader(3);
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
           NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
-          NewEcho("<tr><td id='cNimg'rowspan='2'><img src='$image'></img></td>",$_SESSION['isMobile'],1);
+          NewEcho("<tr><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
-          NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
+          NewEcho( "<td id='cNchart' rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
           NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
           echo "</tr><tr>";
