@@ -40,22 +40,19 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
       array('label' => $coinID, 'type' => 'number')
   );
 
-  $rows = array();
+  $temp = array($coinID);
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
-      $temp = array();
-      // each column needs to have data inserted via the $temp array
-      $temp[] = array('v' => (float) $row['LiveCoinPrice']);
 
-      // insert the temp array into $rows
-      $rows[] = array('c' => $temp);
+      // each column needs to have data inserted via the $temp array
+      $temp[] = array((float) $row['LiveCoinPrice']);
+
   }
 
   // populate the table with rows of data
-  $table['rows'] = $rows;
 
   // encode the table as JSON
-  $jsonTable = json_encode($table);
+  $jsonTable = json_encode($temp);
 
   // set up header; first two prevent IE from caching queries
   header('Cache-Control: no-cache, must-revalidate');
