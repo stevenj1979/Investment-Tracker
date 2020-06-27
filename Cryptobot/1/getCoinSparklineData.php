@@ -41,7 +41,7 @@ $query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   );
   //$temp[];
   $i = 0;
-  $temp[$i] = array($coinID);
+  $temp[$i] = array('label' => $coinID);
   $i++;
   $result = $conn->query($query);
   while ($row = mysqli_fetch_assoc($result)){
