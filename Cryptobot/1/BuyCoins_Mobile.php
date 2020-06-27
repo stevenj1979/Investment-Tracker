@@ -5,6 +5,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 google.load('visualization', {packages:["imagesparkline"]});
+google.charts.setOnLoadCallback(drawVisualization);
 </script>
 <script type="text/javascript">
 function drawVisualization() {
