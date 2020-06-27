@@ -171,3 +171,6 @@ input[type=button], input[type=submit], input[type=reset] {
 #tPriceChng{
   font-size: 32px
 }
+#cNimg{
+  width: 90px
+}
