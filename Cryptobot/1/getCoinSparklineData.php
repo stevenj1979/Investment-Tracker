@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
+$query = "SELECT `LiveCoinPrice` as LiveCoinPrice
   FROM `CoinBuyHistory`
   WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = 'BTC')
   order by `ActionDate` asc ";
@@ -36,7 +36,6 @@ $table['cols'] = array(
     // I assumed your first column is a "string" type
     // and your second column is a "number" type
     // but you can change them if they are not
-    array('label' => 'ActionDate', 'type' => 'string'),
     array('label' => 'LiveCoinPrice', 'type' => 'number')
 );
 
@@ -45,7 +44,6 @@ $result = $conn->query($query);
 while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
     // each column needs to have data inserted via the $temp array
-    $temp[] = array('v' => $row['ActionDate']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
     $temp[] = array('v' => (float) $row['LiveCoinPrice']);
     // insert the temp array into $rows
