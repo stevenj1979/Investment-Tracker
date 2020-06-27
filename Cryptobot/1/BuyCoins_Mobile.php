@@ -22,7 +22,7 @@
 
 
           // Create and populate the data table.
-          var data = new google.visualization.DataTable(jsonData);
+          var data = google.visualization.arrayToDataTable(jsonData);
 
         var chart = new google.visualization.ImageSparkLine(document.getElementById('chart_div'));
 
