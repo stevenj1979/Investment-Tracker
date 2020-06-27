@@ -10,22 +10,22 @@
       function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
-         ['Revenue', 'Licenses'],
-         [435, 132],
-         [438, 131],
-         [512, 137],
-         [460, 142],
-         [491, 140],
-         [487, 139],
-         [552, 147],
-         [511, 146],
-         [505, 151],
-         [509, 149]
+         ['Revenue'],
+         [435],
+         [438],
+         [512],
+         [460],
+         [491],
+         [487],
+         [552],
+         [511],
+         [505],
+         [509]
         ]);
 
         var chart = new google.visualization.ImageSparkLine(document.getElementById('chart_div'));
 
-        chart.draw(data, {width: 120, height: 40, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
+        chart.draw(data, {width: 90, height: 60, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
       }
     </script>
 </head>
