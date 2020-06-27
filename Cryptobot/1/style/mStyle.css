@@ -194,5 +194,5 @@ input[type=button], input[type=submit], input[type=reset] {
   width: 25%
 }
 tr.spaceUnder>td {
-  padding-bottom: 1em;
+  padding-top: 1.5em;
 }
