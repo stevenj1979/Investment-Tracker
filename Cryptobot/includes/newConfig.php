@@ -1567,7 +1567,7 @@ function logAction($log, $logFile, $enabled){
   }
 }
 
-function logToSQL($subject, $comments, $UserID, $enabled = 0;){
+function logToSQL($subject, $comments, $UserID, $enabled = 0){
   if ($enabled == 1){
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
