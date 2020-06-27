@@ -95,7 +95,7 @@ while($completeFlag == False){
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
         closeNewTrackingCoin($newTrackingCoinID);
         logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
-      }else
+      }else{
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
         logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$noOfRisesInPrice+1.");", $userID, $logToSQLSetting);
