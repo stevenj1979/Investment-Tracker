@@ -11,7 +11,6 @@ google.load('visualization2', '1', {packages: ['corechart']});
 <script type="text/javascript">
 function drawVisualization() {
   var jsonData = null;
-  var userID = "<?php echo $_SESSION['ID']; ?>";
   var json = $.ajax({
     url: "http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/getCoinSparklineData.php", // make this url point to the data file
     dataType: "json",
