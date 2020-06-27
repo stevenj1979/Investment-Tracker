@@ -186,11 +186,13 @@ displayHeader(3);
         //Table
           NewEcho("<table border=1><tr>",$_SESSION['isMobile'],1);
           NewEcho("<td>CoinName</td>",$_SESSION['isMobile'],1);
-          NewEcho( "<td>Chart</td>",$_SESSION['isMobile'],1);
-          NewEcho( "<td>$bitPrice</td>",$_SESSION['isMobile'],1,4);
+          NewEcho( "<td rowspan='2'>Chart</td>",$_SESSION['isMobile'],1);
+          $bitPrice = round($bitPrice,2);
+          NewEcho( "<td>$bitPrice</td>",$_SESSION['isMobile'],1);
           echo "</tr><tr>";
           NewEcho("<td>$coin</td>",$_SESSION['isMobile'],1);
-          NewEcho("<td>$priceChange</td>",$_SESSION['isMobile'],1,3);
+          $priceChange = round($priceChange,2);
+          NewEcho("<td>$priceChange</td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
       }//end for
