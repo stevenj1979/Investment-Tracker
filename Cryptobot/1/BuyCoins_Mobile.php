@@ -195,8 +195,8 @@ displayHeader(3);
           $priceChange = round($priceChange,2);
           $numCol = getNumberColour($priceChange);
           NewEcho("<td id='tPriceChng' color=$numCol>$priceChange</td>",$_SESSION['isMobile'],1);
-          NewEcho("<td rowspan='2'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
-          NewEcho("<td rowspan='2'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='cNicon' rowspan='2'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='cNicon' rowspan='2'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
       }//end for

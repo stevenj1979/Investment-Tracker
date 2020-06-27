@@ -174,3 +174,6 @@ input[type=button], input[type=submit], input[type=reset] {
 #cNimg{
   width: 90px
 }
+#cNicon{
+  vertical-align: middle;
+}
