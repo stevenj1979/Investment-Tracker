@@ -207,6 +207,11 @@ $date = date('Y/m/d H:i:s', time());
             $profit = ($originalPurchaseCost - $liveTotalCost - $fee);
             $profitBtc = $profit/($purchaseCost * $amount);
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+
+            echo "$liveTotalCost = ($livePrice * $amount);";
+            echo "$originalPurchaseCost = ($purchaseCost * $amount);";
+            echo "$profit = ($originalPurchaseCost - $liveTotalCost - $fee);";
+
             NewEcho("<table id='t01' border=1>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
