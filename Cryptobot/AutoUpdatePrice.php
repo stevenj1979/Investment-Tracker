@@ -214,7 +214,9 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
   $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
   $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7];
   $avCost = $cost/$count;
-  mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
+  if ($count > 2){
+    mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
+  }
 }
 
 ?>
