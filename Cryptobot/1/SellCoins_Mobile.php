@@ -205,7 +205,7 @@ $date = date('Y/m/d H:i:s', time());
             $priceDiff1 = number_format((float)$trackingSell[$x][16]-$trackingSell[$x][17], 10, '.', ''); $buyAmount = $trackingSell[$x][26] * $trackingSell[$x][28];
             $sellAmount = $trackingSell[$x][16] * $trackingSell[$x][26]; $fee = ($sellAmount/100)*0.25; $profitBtc = number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', '');
             $name = $trackingSell[$x][37]; $image = $trackingSell[$x][38];
-            NewEcho("<table id='t01'><tr>",$_SESSION['isMobile'],1);
+            NewEcho("<table id='t01' border=1><tr>",$_SESSION['isMobile'],1);
             NewEcho("<td id='cNimg'rowspan='2'><a href='Stats.php?coin=$coin'><img =src='$image'> </a></td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
             NewEcho("<td id='cNchart' rowspan='2'>$profitBtc</td>",$_SESSION['isMobile'],1);
