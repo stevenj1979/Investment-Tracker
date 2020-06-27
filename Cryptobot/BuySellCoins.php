@@ -90,20 +90,26 @@ while($completeFlag == False){
       //Buy
       if ($noOfRisesInPrice == $totalRisesInPrice){
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
+        logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID);
         closeNewTrackingCoin($newTrackingCoinID);
+        logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID);
       }else
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
+        logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$noOfRisesInPrice+1.");", $userID);
       }
 
     }elseif ($pctProfit < -5 && $minsFromDate >= 4){
       // set $noOfRisesInPrice to 0
       updateNoOfRisesInPrice($newTrackingCoinID, 0);
+      logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID);
       // set new price
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
+      logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID);
     }elseif ($pctProfit > 5 && $minsFromDate >= 4){
       closeNewTrackingCoin($newTrackingCoinID);
+      logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID);
     }
 
 
@@ -223,7 +229,7 @@ while($completeFlag == False){
       if ($totalScore_Buy >= 13 ){
         $buyOutstanding = getOutStandingBuy($buyResultAry);
         logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14 $buyOutstanding","BuyScore");
-        logToSQL("BuyCoin", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy $buyOutstanding", $userID);
+        logToSQL("TrackingCoins", "RuleID: $ruleIDBuy | Coin : $symbol | TOTAL:  $totalScore_Buy $buyOutstanding", $userID);
       }
       Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14";
 
@@ -233,8 +239,8 @@ while($completeFlag == False){
         echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
         //buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
         addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);
-        logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
-        logToSQL("BuyCoin", "RuleID: $ruleIDBuy | Amount: $BTCAmount | TOTAL:  $totalScore_Buy", $userID);
+        //logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
+        logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);", $userID);
         $buyCounter = $buyCounter + 1;
       }
 
@@ -359,8 +365,10 @@ while($completeFlag == False){
       //Buy Coin
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1,$noOfPurchases);
       echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule, 1);";
+      logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 0, 90, $fixSellRule,1,$noOfPurchases);", $userID);
       //Update ToMerge
       updateTrackingCoinToMerge($transactionID,$noOfPurchases);
+      logToSQL("TrackingCoins", "updateTrackingCoinToMerge($transactionID,$noOfPurchases);", $userID);
     }
   }//Sell Coin Loop
   //echo "</blockquote>";

@@ -216,6 +216,7 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
   $avCost = $cost/$count;
   if ($count > 2){
     mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
+    logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
   }
 }
 
