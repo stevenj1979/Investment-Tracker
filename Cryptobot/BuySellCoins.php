@@ -98,7 +98,8 @@ while($completeFlag == False){
       }else{
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
-        logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$noOfRisesInPrice+1.");", $userID, $logToSQLSetting);
+        $newNoOfRisesInPrice =  $noOfRisesInPrice+1;
+        logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$newNoOfRisesInPrice.");", $userID, $logToSQLSetting);
       }
 
     }elseif ($pctProfit < -5 && $minsFromDate >= 4){
