@@ -175,7 +175,6 @@ displayHeader(3);
       for($x = 0; $x < $newArrLength; $x++) {
         //Variables
         $coin = $tracking[$x][1]; $buyOrders = $tracking[$x][4]; $MarketCap = $tracking[$x][7];
-        $symbol = $tracking[$x][2];
         $Live1HrChange = $tracking[$x][8]; $Live24HrChange = $tracking[$x][11]; $Live7DChange = $tracking[$x][14];
         $bitPrice =  $tracking[$x][17] ; $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
         $volume =  $tracking[$x][25]; $baseCurrency = $tracking[$x][26];
@@ -190,7 +189,7 @@ displayHeader(3);
           NewEcho( "<td rowspan=2>Chart</td>",$_SESSION['isMobile'],1);
           NewEcho( "<td>$bitPrice</td>",$_SESSION['isMobile'],1,2);
           echo "<tr>";
-          NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],1);
+          NewEcho("<td>$coin</td>",$_SESSION['isMobile'],1);
           NewEcho("<td>$priceChange</td>",$_SESSION['isMobile'],1,2);
 
         echo "<tr>";
