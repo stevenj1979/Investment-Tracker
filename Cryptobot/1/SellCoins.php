@@ -220,7 +220,7 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td>".round($mrktCap,8)."</td>",$_SESSION['isMobile'],0);
             NewEcho("<td>".$pctChange1Hr."</td>",$_SESSION['isMobile'],2);
             echo "<td>".round($amount,8)."</td>";
-            echo "<td rowspan='2'>".round($profit,8)."</td>";
+            echo "<td rowspan='3'>".round($profit,8)."</td>";
             echo "<td rowspan='3'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
