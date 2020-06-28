@@ -311,10 +311,10 @@ input[type=text], select {
     }
 }
 #smallText{
-    font-size: 20px
+    font-size: 12px
 }
 #largeText{
-    font-size: 38px
+    font-size: 30px
 }
 #t01 {
   width: 100%;
