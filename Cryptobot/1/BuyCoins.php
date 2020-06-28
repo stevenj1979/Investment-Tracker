@@ -190,7 +190,7 @@ displayHeader(3);
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           $name = $tracking[$x][37]; $image = $tracking[$x][38];
           //Table
-          echo "<td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
+          echo "<table border=1><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
           echo "<td>".$name."</td>";
 
           NewEcho("<td>$MarketCap</td>",$_SESSION['isMobile'],0);
