@@ -203,18 +203,18 @@ displayHeader(3);
         //Table
           NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
-          NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tCnName'><p id='largeText'>$name</p></td>",$_SESSION['isMobile'],1);
           NewEcho( "<td id='cNchart' rowspan='2'><div id='chart_div' style='width: 150px; height: 80px;'></div></td>",$_SESSION['isMobile'],1);
           $bitPrice = round($bitPrice,2);
-          NewEcho( "<td id='tBitPrice'>$bitPrice</td>",$_SESSION['isMobile'],1);
+          NewEcho( "<td id='tBitPrice'><p id='largeText'>$bitPrice</p></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='cNicon' rowspan='2'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='cNicon' rowspan='2'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],1);
           echo "</tr><tr>";
-          NewEcho("<td id='tCoin'>$coin</td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tCoin'><p id='smallText'>$coin</p></td>",$_SESSION['isMobile'],1);
           $priceChange = round($priceChange,2);
           $numCol = getNumberColour($priceChange);
           //echo "Test Colour: $numCol";
-          NewEcho("<td id='tPriceChng'><p style='color:$numCol'>$priceChange</p></td>",$_SESSION['isMobile'],1);
+          NewEcho("<td id='tPriceChng'><p id='smallText' style='color:$numCol'>$priceChange</p></td>",$_SESSION['isMobile'],1);
 
         echo "</tr>";
         echo "<hr color='DodgerBlue'>";

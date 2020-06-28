@@ -199,3 +199,9 @@ input[type=button], input[type=submit], input[type=reset] {
 tr.spaceUnder>td {
   padding-top: 1.5em;
 }
+#smallText{
+    font-size: 20px
+}
+#largeText{
+    font-size: 52px
+}
