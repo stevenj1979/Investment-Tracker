@@ -224,7 +224,7 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
 $sparklineAry = getSparklineData('BTC');
-$data = implode(",",$sparklineAry);
+$data = dataToString(",",$sparklineAry);
 //$sparkline = new Davaxi\Sparkline();
 //$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
 //$sparkline->save('/home/stevenj1979/repositories/Sparkline/BTC');

@@ -2332,4 +2332,13 @@ function getSparklineData($coin){
     $conn->close();
     return $tempAry;
 }
+
+function dataToString($seperator, $array){
+  $num = count($array);
+  $returnStr = "";
+  for ($i=0; $i<$num; $i++){
+    $returnStr .= $array[$i];
+  }
+  return $returnStr;
+}
 ?>
