@@ -233,7 +233,7 @@ for ($j=0; $j<$coinSize; $j++){
   $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
   $data = dataToString(",",$sparklineAry);
   $savePath ="/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Images/";
-  saveImage('BTC',$url.$data.$url2,$savePath);
+  saveImage($trackingCoins[$j][1],$url.$data.$url2,$savePath);
 }
 
 //$sparkline = new Davaxi\Sparkline();
