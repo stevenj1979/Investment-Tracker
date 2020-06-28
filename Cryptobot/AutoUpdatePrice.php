@@ -6,7 +6,7 @@ require '/home/stevenj1979/repositories/Sparkline/autoload.php';
 include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
-
+$logToFileSetting = getLogToFile();
 function getCoinPriceStatsSell(){
   $conn = getHistorySQL(rand(1,3));
   // Check connection
@@ -177,7 +177,7 @@ for($x = 0; $x < $coinStatsSize; $x++) {
   $finalBitPrice = $newBuyPrice-$buyPricePct;
   updateBuyPrice($finalBitPrice,$coinID);
   Echo "<BR>Update Buy Price $finalBitPrice , $coinID";
-  logAction("Update Buy Price $finalBitPrice , $coinID",'AutoUpdatePrice');
+  logAction("Update Buy Price $finalBitPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
 }
 $coinStatsSellAry = getCoinPriceStatsSell();
 $coinStatsSellSize = count($coinStatsSellAry);
@@ -186,7 +186,7 @@ for($x = 0; $x < $coinStatsSellSize; $x++) {
   $sellPricePct = ($newSellPrice/100)*3;
   updateSellPrice($newSellPrice,$coinID);
   Echo "<BR>Update Sell Price $newSellPrice , $coinID";
-  logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice');
+  logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
 }
 $coinTrend = getCoinTrend();
 $coinTrendSize = Count($coinTrend);
