@@ -228,7 +228,7 @@ $url ="http://www.investment-tracker.net/Sparkline/sparkline.php?size=80x20&data
 $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
 $data = dataToString(",",$sparklineAry);
 $savePath ="/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/";
-saveImage('BTC',$url.$data.$url2,)
+saveImage('BTC',$url.$data.$url2,$savePath);
 //$sparkline = new Davaxi\Sparkline();
 //$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
 //$sparkline->save('/home/stevenj1979/repositories/Sparkline/BTC');
