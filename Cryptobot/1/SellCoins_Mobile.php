@@ -214,7 +214,7 @@ $date = date('Y/m/d H:i:s', time());
             $profit = round($profit,2);
             NewEcho("<td id='cNchart' rowspan='2'><p id='largeText'>$profit $baseCurrency</p></td>",$_SESSION['isMobile'],1);
             $livePrice = round($livePrice,3);
-            NewEcho("<td id='tCnName'>$livePrice</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tCnName'><p id='normalText'>$livePrice</p></td>",$_SESSION['isMobile'],1);
             echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "</tr><Tr>";

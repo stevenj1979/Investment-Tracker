@@ -217,25 +217,25 @@ $date = date('Y/m/d H:i:s', time());
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' style='color:#000000'>$name</p></td>";
             echo "<td rowspan='3'><p id='largeText' style='color:#000000'>".round($livePrice,8)."</p></td>";
-            NewEcho("<td>".round($mrktCap,8)."</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td>".$pctChange1Hr."</td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>".round($mrktCap,8)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".$pctChange1Hr."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' style='color:#000000'>".round($amount,8)." $coin</p></td>";
             echo "<td rowspan='3'><p id='largeText' style='color:#000000'>".round($profit,8)." $baseCurrency</p></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
             echo "</tr><tr>";
-            echo "<td><p  style='color:#000000'>$coin</p></td>";
-            NewEcho("<td>".round($volume,8)."</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td>".$pctChange24Hr."</td>",$_SESSION['isMobile'],2);
+            echo "<td><p  style='color:#000000' id='normalText'>$coin</p></td>";
+            NewEcho("<td><p id='normalText'>".round($volume,8)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".$pctChange24Hr."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-            echo "<td>$cost</td>";
+            echo "<td><p id='normalText'>$cost</p></td>";
 
             echo "</tr><tr>";
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,8)."</p></td>";
-            NewEcho("<td>".round($sellOrders,8)."</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($sellOrders,8)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".$pctChange7D."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
         }

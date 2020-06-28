@@ -196,27 +196,27 @@ displayHeader(3);
           NewEcho("<td>Market Cap: $MarketCap</td>",$_SESSION['isMobile'],0);
 
           $tdColour = setTextColour($Live1HrChange, False);
-          echo "<td> 1Hr Change: <p >".$Live1HrChange."</p></td>";
+          echo "<td> 1Hr Change: <p id='normalText'>".$Live1HrChange."</p></td>";
 
-          echo "<td rowspan='2'>".$priceChange." ".$baseCurrency."</td>";
+          echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
 
           NewEcho("<td rowspan='3'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td rowspan='3'>$new1HrPriceChange</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],0);
 
           NewEcho("<td rowspan='3'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
           NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
           echo "<td><p id='smallText'>".$coin."</p></td>";
-          NewEcho( "<td>Volume: $volume</td>",$_SESSION['isMobile'],0);
-          NewEcho( "<td>24 Hr Change: ".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
+          NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],0);
+          NewEcho( "<td><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
           $numCol = getNumberColour($priceDiff1);
           echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
-          NewEcho( "<td>Buy Orders: $buyOrders</td>",$_SESSION['isMobile'],0);
-          NewEcho( "<td>7 Day Change: ".$Live7DChange."</td>",$_SESSION['isMobile'],0);
-          echo "<td>".$baseCurrency."</td>";
+          NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],0);
+          NewEcho( "<td><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],0);
+          echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
 				}//end for
 				print_r("</tr></table>");
 

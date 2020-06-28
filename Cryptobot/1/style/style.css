@@ -314,7 +314,10 @@ input[type=text], select {
     font-size: 0.5vw
 }
 #largeText{
-    font-size: 1vw
+    font-size: 2vw
+}
+#normalText{
+  font-size: 1vw
 }
 #t01 {
   width: 100%;

@@ -201,6 +201,7 @@ displayHeader(3);
         $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         //Table
+        
           NewEcho("<div class='wrapper'><table id='t01'><tr>",$_SESSION['isMobile'],1);
           NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
           NewEcho("<td id='tCnName'><p id='largeText'>$name</p></td>",$_SESSION['isMobile'],1);
