@@ -2344,7 +2344,8 @@ function dataToString($seperator, $array){
 }
 
 function saveImage($coin, $url, $savePath){
-  echo $url;
+  echo "<BR>".$url;
+  echo "<BR>".$savePath.$coin.'.png';
   $ch = curl_init($url);
   $fp = fopen($savePath.$coin.'.png', 'wb');
   curl_setopt($ch, CURLOPT_FILE, $fp);
