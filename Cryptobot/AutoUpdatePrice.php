@@ -223,8 +223,9 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
-$trackingCoins = getNewTrackingCoins();
+$trackingCoins = getTrackingCoins();
 $coinSize = Count($trackingCoins);
+
 for ($j=0; $j<$coinSize; $j++){
   Echo "<BR> Fetching ".$trackingCoins[$j][3];
   $sparklineAry = getSparklineData($trackingCoins[$j][3]);
