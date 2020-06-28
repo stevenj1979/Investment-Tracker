@@ -190,7 +190,7 @@ displayHeader(3);
           $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
           $name = $tracking[$x][37]; $image = $tracking[$x][38];
           //Table
-          echo "<table border=1 id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
+          echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
           echo "<td><p id='largeText'>".$name."</p></td>";
           echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
           NewEcho("<td>Market Cap: $MarketCap</td>",$_SESSION['isMobile'],0);
@@ -207,7 +207,7 @@ displayHeader(3);
           NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
-          echo "<td>".$coin."</td>";
+          echo "<td><p id='smallText'>".$coin."</p></td>";
           NewEcho( "<td>Volume: $volume</td>",$_SESSION['isMobile'],0);
           NewEcho( "<td>24 Hr Change: ".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
 

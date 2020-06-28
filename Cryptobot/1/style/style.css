@@ -310,3 +310,16 @@ input[type=text], select {
         width: 100%;
     }
 }
+#smallText{
+    font-size: 20px
+}
+#largeText{
+    font-size: 38px
+}
+#t01 {
+  width: 100%;
+  text-align: left;
+  vertical-align: middle;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+}
