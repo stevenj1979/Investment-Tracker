@@ -223,12 +223,13 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
-//$sparklineAry = getSparklineData('BTC');
+$sparklineAry = getSparklineData('BTC');
+$data = implode(",",$sparklineAry);
 //$sparkline = new Davaxi\Sparkline();
 //$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
 //$sparkline->save('/home/stevenj1979/repositories/Sparkline/BTC');
 //$sparkline->display();
-Echo "<img src='http://www.investment-tracker.net/Sparkline/sparkline.php?size=80x20&data=2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16&back=fff&line=5bb763&fill=d5f7d8' />";
+Echo "<img src='http://www.investment-tracker.net/Sparkline/sparkline.php?size=80x20&data=$data&back=fff&line=5bb763&fill=d5f7d8' />";
 //phpinfo();
 ?>
 </html>
