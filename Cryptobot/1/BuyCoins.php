@@ -193,14 +193,14 @@ displayHeader(3);
           echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
           echo "<td><p id='largeText'>".$name."</p></td>";
           echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
-          NewEcho("<td>Market Cap: $MarketCap</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],0);
 
           $tdColour = setTextColour($Live1HrChange, False);
-          echo "<td> 1Hr Change: <p id='normalText'>".$Live1HrChange."</p></td>";
+          echo "<td><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
 
           echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
 
-          NewEcho("<td rowspan='3'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],0);
           NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],0);
 
           NewEcho("<td rowspan='3'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
