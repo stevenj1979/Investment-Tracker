@@ -2321,7 +2321,7 @@ function getSparklineData($coin){
 
   $sql = "SELECT `LiveCoinPrice` as LiveCoinPrice
     FROM `CoinBuyHistory`
-    WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = '$coin')
+    WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 15 MINUTE)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = '$coin')
     order by `ActionDate` asc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
@@ -2344,6 +2344,7 @@ function dataToString($seperator, $array){
 }
 
 function saveImage($coin, $url, $savePath){
+  echo $url;
   $ch = curl_init($url);
   $fp = fopen($savePath.$coin.'.png', 'wb');
   curl_setopt($ch, CURLOPT_FILE, $fp);
