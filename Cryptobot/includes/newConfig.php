@@ -2337,7 +2337,8 @@ function dataToString($seperator, $array){
   $num = count($array);
   $returnStr = "";
   for ($i=0; $i<$num; $i++){
-    $returnStr .= $array[$i];
+    echo "<BR> ".$array[$i][0];
+    $returnStr .= $array[$i][0];
   }
   return $returnStr;
 }
