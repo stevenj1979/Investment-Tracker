@@ -223,7 +223,7 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 
 echo "<BR> Generate sparkline Images";
 $sparklineAry = [];
-$sparklineAry = getSparklineData($coin)
+$sparklineAry = getSparklineData($coin);
 $sparkline = new Davaxi\Sparkline();
 $sparkline->setData($sparklineAry);
 $sparkline->save('/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Sparkline Img/');
