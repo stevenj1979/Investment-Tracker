@@ -232,7 +232,7 @@ $data = implode(",",$sparklineAry);
 echo "<BR> Test data : $data";
 $url ="http://www.investment-tracker.net/Sparkline/sparkline.php?size=80x20&data=";
 $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
-Echo "<img src='".$url.$data.$url2"' />";
+Echo "<img src='".$url.$data.$url2."' />";
 //phpinfo();
 ?>
 </html>
