@@ -227,8 +227,8 @@ $trackingCoins = getTrackingCoins();
 $coinSize = Count($trackingCoins);
 
 for ($j=0; $j<$coinSize; $j++){
-  Echo "<BR> Fetching ".$trackingCoins[$j][3];
-  $sparklineAry = getSparklineData($trackingCoins[$j][3]);
+  Echo "<BR> Fetching ".$trackingCoins[$j][1];
+  $sparklineAry = getSparklineData($trackingCoins[$j][1]);
   $url ="http://www.investment-tracker.net/Sparkline/sparkline.php?size=80x20&data=";
   $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
   $data = dataToString(",",$sparklineAry);
