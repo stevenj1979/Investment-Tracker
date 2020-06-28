@@ -232,10 +232,12 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td>$cost</td>";
 
             echo "</tr><tr>";
-            echo "<td><p id='smallText'>".round($priceDiff1,8)."</p></td>";
+            $numCol = getNumberColour($priceDiff1);
+            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,8)."</p></td>";
             NewEcho("<td>".round($sellOrders,8)."</td>",$_SESSION['isMobile'],0);
             NewEcho("<td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
-            echo "<td><p id='smallText'>".round($profitBtc,8)."</p></td>";
+            $numCol = getNumberColour($profitBtc);
+            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
         }
         print_r("</table>");
 				displaySideColumn();
