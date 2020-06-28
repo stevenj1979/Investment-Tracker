@@ -210,18 +210,18 @@ $date = date('Y/m/d H:i:s', time());
 
             NewEcho("<div class='wrapper'><table id='t01'>",$_SESSION['isMobile'],1);
             NewEcho("<tr class='spaceUnder'><td id='cNimg'rowspan='2'><img id='CnImg' src='$image'></img></td>",$_SESSION['isMobile'],1);
-            NewEcho("<td id='tCnName'>$name</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tCnName'><p id='largeText'>$name</p></td>",$_SESSION['isMobile'],1);
             $profit = round($profit,2);
-            NewEcho("<td id='cNchart' rowspan='2'>$profit $baseCurrency</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='cNchart' rowspan='2'><p id='largeText'>$profit $baseCurrency</p></td>",$_SESSION['isMobile'],1);
             $livePrice = round($livePrice,3);
             NewEcho("<td id='tCnName'>$livePrice</td>",$_SESSION['isMobile'],1);
             echo "<td rowspan='2'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "</tr><Tr>";
-            NewEcho("<td id='tPriceChng'>$coin</td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tPriceChng'><p id='smallText'>$coin</p></td>",$_SESSION['isMobile'],1);
             $numCol = getNumberColour($profitBtc);
             $profitBtc = round($profitBtc,3);
-            NewEcho("<td id='tPriceChng'><p style='color:$numCol'>$profitBtc %</p></td>",$_SESSION['isMobile'],1);
+            NewEcho("<td id='tPriceChng'><p id='smallText' style='color:$numCol'>$profitBtc %</p></td>",$_SESSION['isMobile'],1);
 
             echo "</tr>";
             echo "<hr color='DodgerBlue'>";
