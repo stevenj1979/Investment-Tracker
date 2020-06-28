@@ -2337,9 +2337,19 @@ function dataToString($seperator, $array){
   $num = count($array);
   $returnStr = "";
   for ($i=0; $i<$num; $i++){
-    echo "<BR> ".$array[$i][0];
-    $returnStr .= $array[$i][0];
+    //echo "<BR> ".$array[$i][0];
+    $returnStr .= round($array[$i][0],4);
   }
   return $returnStr;
+}
+
+function saveImage($coin, $url, $savePath){
+  $ch = curl_init($url);
+  $fp = fopen('$savePath/'.$coin.'.png', 'wb');
+  curl_setopt($ch, CURLOPT_FILE, $fp);
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_exec($ch);
+  curl_close($ch);
+  fclose($fp);
 }
 ?>
