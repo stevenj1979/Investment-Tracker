@@ -212,7 +212,8 @@ displayHeader(3);
           NewEcho( "<td>24 Hr Change: ".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
-          echo "<td><p id='smallText'>% $priceDiff1</p></td>";
+          $numCol = getNumberColour($priceDiff1);
+          echo "<td><p id='smallText' style='color:$numCol'>% $priceDiff1</p></td>";
           NewEcho( "<td>Buy Orders: $buyOrders</td>",$_SESSION['isMobile'],0);
           NewEcho( "<td>7 Day Change: ".$Live7DChange."</td>",$_SESSION['isMobile'],0);
           echo "<td>".$baseCurrency."</td>";
