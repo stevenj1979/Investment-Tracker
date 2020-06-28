@@ -52,7 +52,8 @@ function getTrackingSellCoinsLoc($userID){
   }
 
     $sql = "SELECT `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,
-`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Amount`,`OrderNo`, `CoinPrice`,`Profit`,`TransactionID`, `BittrexID`,`UserID`,`ProfitPct`,`Live1HrChange` FROM `WebOwnedCoinsStats` WHERE `UserID` = $userID ORDER BY `ProfitPct` Desc";
+`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Amount`,`OrderNo`, `CoinPrice`,`Profit`,`TransactionID`, `BittrexID`,`UserID`,`ProfitPct`,`Live1HrChange`,`Name`,`Image`
+FROM `WebOwnedCoinsStats` WHERE `UserID` = $userID ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
@@ -60,8 +61,8 @@ function getTrackingSellCoinsLoc($userID){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],
       $row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],
-      $row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Amount'],$row['OrderNo'],$row['CoinPrice'],$row['Profit'],$row['TransactionID'],$row['BittrexID'],$row['UserID'],$row['ProfitPct'],
-      $row['Live1HrChange']);
+      $row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Amount'],$row['OrderNo'],$row['CoinPrice'],$row['Profit'],$row['TransactionID'],$row['BittrexID'],$row['UserID'],$row['ProfitPct']
+      ,$row['Live1HrChange'],$row['Name'],$row['Image']);
   }
   $conn->close();
   return $tempAry;
@@ -191,27 +192,30 @@ $date = date('Y/m/d H:i:s', time());
 				<?php
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
-        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
+        $trackingSell = getTrackingSellCoins($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Sell Some Coins Now!</h2><Table><th>&nbspCoin</th><th>&nbspPrice</th>");
-        //if($_SESSION['isMobile'] == False){
-          newEcho("&nbsp<th>&nbspMarket Cap by %&nbsp</th>&nbsp<th>&nbspVolume by %</th>&nbsp<th>&nbspSell Orders by %</th>",$_SESSION['isMobile'],0);
-          newEcho("<th>&nbsp% Change 1Hr</th>",$_SESSION['isMobile'],2);
-          NewEcho("<th>&nbsp% Change 24Hr</th>&nbsp<th>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
-        //}
-        echo "<th>Price Trend 1</th><th>&nbspAmount</th><th>&nbspCost</th><th>&nbspProfit%</th><th>&nbspProfit BTC</th><th>&nbspManual Sell</th><th>&nbspSplit Sale</th><tr>";
+        print_r("<h2>Sell Some Coins Now!</h2>");
+
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
             //if($_SESSION['isMobile'] == False){$roundNum = 8;}
-            $coin = $trackingSell[$x][1]; $mrktCap = $trackingSell[$x][7]; $pctChange1Hr = $trackingSell[$x][8];$pctChange24Hr = $trackingSell[$x][10];
-            $pctChange7D = $trackingSell[$x][13]; $livePrice = $trackingSell[$x][16]; $LastCoinPrice = $trackingSell[$x][17]; $sellOrders = $trackingSell[$x][21];
-            $volume = $trackingSell[$x][24]; $baseCurrency = $trackingSell[$x][25]; $amount = $trackingSell[$x][26];  $orderNo = $trackingSell[$x][27]; $transactionID = $trackingSell[$x][30];
-            $profitPct = $trackingSell[$x][33];$cost = $trackingSell[$x][28]; $realAmount = $trackingSell[$x][26];
-            $priceDiff1 = number_format((float)$trackingSell[$x][16]-$trackingSell[$x][17], 10, '.', ''); $buyAmount = $trackingSell[$x][26] * $trackingSell[$x][28];
-            $sellAmount = $trackingSell[$x][16] * $trackingSell[$x][26]; $fee = ($sellAmount/100)*0.25; $profitBtc = number_format((float)$sellAmount - $buyAmount - $fee, 8, '.', '');
-            echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
+            $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
+            $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
+             $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
+            $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
+            $pctChange1Hr = $trackingSell[$x][28]; $pctChange24Hr = $trackingSell[$x][31]; $pctChange7D = $trackingSell[$x][34];
+            $priceDiff1 = $livePrice - $LastCoinPrice;
+            $fee = (($livePrice* $amount)/100)*0.28;
+            $liveTotalCost = ($livePrice * $amount);
+            $originalPurchaseCost = ($purchaseCost * $amount);
+            $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
+            $profitBtc = $profit/($originalPurchaseCost)*100;
+
+            $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+            echo "<td><a href='Stats.php?coin=$coin'><img src=''></a></td>";
+            $coin
             echo "<td>".round($livePrice,$num)."</td>";
             //if($_SESSION['isMobile'] == False){
               NewEcho("<td>".round($mrktCap,$num)."</td>",$_SESSION['isMobile'],0);
@@ -225,14 +229,10 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td bgcolor='".upAndDownColour($priceDiff1)."'>".round($priceDiff1,$num)."</td>";
 
             echo "<td>".round($amount,$num)."</td>";
-            $cost = round(number_format((float)$trackingSell[$x][28], 10, '.', ''),$num);
+            $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),$num);
             echo "<td>$cost</td>";
-            if ($profitPct > 0){
-              $profitColour = "Green";
-            }else{
-              $profitColour = "Red";
-            }
-            echo "<td bgcolor='".getSellColour($profitPct)."'>".round($profitPct,$num)."</td>";
+
+            echo "<td>".round($profit,$num)."</td>";
             echo "<td>".round($profitBtc,$num)."</td>";
             echo "<td><a href='ManualSell.php?coin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
             echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$realAmount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
