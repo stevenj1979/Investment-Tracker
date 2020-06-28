@@ -214,7 +214,8 @@ $date = date('Y/m/d H:i:s', time());
             $profitBtc = $profit/($originalPurchaseCost)*100;
 
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table border=1><td><a href='Stats.php?coin=$coin'><img src=''></a></td>";
+            echo "<table border=1><td><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+            echo "<td>$name</td>";
             echo "<td>$coin</td>";
             echo "<td>".round($livePrice,$num)."</td>";
 
