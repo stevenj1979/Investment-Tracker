@@ -192,7 +192,7 @@ displayHeader(3);
           //Table
           echo "<table border=1 id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
           echo "<td><p id='largeText'>".$name."</p></td>";
-
+          echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
           NewEcho("<td>Market Cap: $MarketCap</td>",$_SESSION['isMobile'],0);
 
           $tdColour = setTextColour($Live1HrChange, False);
@@ -207,12 +207,12 @@ displayHeader(3);
           NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
-          echo "<td>".$bitPrice."</td>";
+          echo "<td>".$coin."</td>";
           NewEcho( "<td>Volume: $volume</td>",$_SESSION['isMobile'],0);
           NewEcho( "<td>24 Hr Change: ".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
 
           echo "</tr><tr>";
-          echo "<td>% $priceDiff1</td>";
+          echo "<td><p id='smallText'>% $priceDiff1</p></td>";
           NewEcho( "<td>Buy Orders: $buyOrders</td>",$_SESSION['isMobile'],0);
           NewEcho( "<td>7 Day Change: ".$Live7DChange."</td>",$_SESSION['isMobile'],0);
           echo "<td>".$baseCurrency."</td>";
