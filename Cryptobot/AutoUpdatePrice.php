@@ -2,7 +2,7 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-require '/home/stevenj1979/repositories/Sparkline/autoload.php';
+//require '/home/stevenj1979/repositories/Sparkline/autoload.php';
 include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
@@ -222,13 +222,13 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 }
 
 echo "<BR> Generate sparkline Images";
-$sparklineAry = [];
-$sparklineAry = getSparklineData('BTC');
-$sparkline = new Davaxi\Sparkline();
-$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
+//$sparklineAry = [];
+//$sparklineAry = getSparklineData('BTC');
+//$sparkline = new Davaxi\Sparkline();
+//$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
 //$sparkline->save('/home/stevenj1979/repositories/Sparkline/BTC');
-$sparkline->display();
-
-phpinfo();
+//$sparkline->display();
+Echo "<img src='/home/stevenj1979/public_html/Sparkline/Sprakline.php?size=80x20&data=2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16&back=fff&line=5bb763&fill=d5f7d8' />";
+//phpinfo();
 ?>
 </html>
