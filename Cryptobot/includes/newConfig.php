@@ -2311,4 +2311,25 @@ function getNumberColour($ColourText){
   }
   return $colour;
 }
+
+function getSparklineData($coin){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `LiveCoinPrice` as LiveCoinPrice
+    FROM `CoinBuyHistory`
+    WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 1 Hour)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = '$coin')
+    order by `ActionDate` asc ";
+    $result = $conn->query($sql);
+    //$result = mysqli_query($link4, $query);
+    //mysqli_fetch_assoc($result);
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['LiveCoinPrice']);
+    }
+    $conn->close();
+    return $tempAry;
+}
 ?>

@@ -2,6 +2,7 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
+require '/home/stevenj1979/repositories/Sparkline/autoload.php';
 include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
@@ -219,6 +220,13 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
     logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
   }
 }
+
+echo "<BR> Generate sparkline Images";
+$sparklineAry = [];
+$sparklineAry = getSparklineData($coin)
+$sparkline = new Davaxi\Sparkline();
+$sparkline->setData($sparklineAry);
+$sparkline->save('/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Sparkline Img/');
 
 ?>
 </html>
