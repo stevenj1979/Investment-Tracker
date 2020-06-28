@@ -214,30 +214,28 @@ $date = date('Y/m/d H:i:s', time());
             $profitBtc = $profit/($originalPurchaseCost)*100;
 
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table border=1><td><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+            echo "<table border=1><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td>$name</td>";
-            echo "<td>$coin</td>";
-            echo "<td>".round($livePrice,$num)."</td>";
-
-            NewEcho("<td>".round($mrktCap,$num)."</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td>".round($volume,$num)."</td>",$_SESSION['isMobile'],0);
-            NewEcho("<td>".round($sellOrders,$num)."</td>",$_SESSION['isMobile'],0);
-
+            echo "<td rowspan='3'>".round($livePrice,8)."</td>";
+            NewEcho("<td>".round($mrktCap,8)."</td>",$_SESSION['isMobile'],0);
             NewEcho("<td>".$pctChange1Hr."</td>",$_SESSION['isMobile'],2);
-            NewEcho("<td>".$pctChange24Hr."</td><td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
-
-
-            echo "<td>".round($priceDiff1,$num)."</td>";
-
-            echo "<td>".round($amount,$num)."</td>";
-            $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),$num);
+            echo "<td>".round($amount,8)."</td>";
+            echo "<td rowspan='2'>".round($profit,8)."</td>";
+            echo "<td rowspan='3'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
+            echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
+            
+            echo "</tr><tr>";
+            echo "<td>$coin</td>";
+            NewEcho("<td>".round($volume,8)."</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td>".$pctChange24Hr."</td>",$_SESSION['isMobile'],2);
+            $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
             echo "<td>$cost</td>";
 
-            echo "<td>".round($profit,$num)."</td>";
-            echo "<td>".round($profitBtc,$num)."</td>";
-            echo "<td><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#F1948A'></i></a></td>";
-            echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:#F1948A'></i></a></td>";
-            echo "<tr>";
+            echo "</tr><tr>";
+            echo "<td>".round($priceDiff1,8)."</td>";
+            NewEcho("<td>".round($sellOrders,8)."</td>",$_SESSION['isMobile'],0);
+            NewEcho("<td>".$pctChange7D."</td>",$_SESSION['isMobile'],0);
+            echo "<td>".round($profitBtc,8)."</td>";
         }
         print_r("</table>");
 				displaySideColumn();
