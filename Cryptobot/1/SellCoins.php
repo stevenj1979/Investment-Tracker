@@ -216,7 +216,7 @@ $date = date('Y/m/d H:i:s', time());
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
-            echo "<td rowspan='3'><p id='largeText' >".round($livePrice,8)."</p></td>";
+            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,8)."</p></td>";
             NewEcho("<td><p id='normalText'>".round($mrktCap,8)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".$pctChange1Hr."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,8)." $coin</p></td>";
@@ -225,15 +225,22 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
             echo "</tr><tr>";
-            echo "<td><p   id='normalText'>$coin</p></td>";
+            echo "<td><p id='normalText'>$coin</p></td>";
             NewEcho("<td><p id='normalText'>".round($volume,8)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".$pctChange24Hr."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
             echo "<td><p id='normalText'>$cost</p></td>";
 
             echo "</tr><tr>";
+
+
+            $numCol = getNumberColour($profitBtc);
+            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
+
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,8)."</p></td>";
+
+
             NewEcho("<td><p id='normalText'>".round($sellOrders,8)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".$pctChange7D."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
