@@ -220,7 +220,7 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($mrktCap,8)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".$pctChange1Hr."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,8)." $coin</p></td>";
-            echo "<td rowspan='3'><p id='largeText' >".round($profit,8)." $baseCurrency</p></td>";
+
             echo "<td rowspan='3'><a href='ManualSell.php?coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
@@ -234,12 +234,12 @@ $date = date('Y/m/d H:i:s', time());
             echo "</tr><tr>";
 
 
-            $numCol = getNumberColour($profitBtc);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
+            //$numCol = getNumberColour($profitBtc);
+            //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,8)."</p></td>";
-
+            echo "<td><p id='largeText' >".round($profit,8)." $baseCurrency</p></td>";
 
             NewEcho("<td><p id='normalText'>".round($sellOrders,8)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".$pctChange7D."</p></td>",$_SESSION['isMobile'],0);
