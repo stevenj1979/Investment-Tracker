@@ -127,13 +127,13 @@ input[type=button], input[type=submit], input[type=reset] {
 
 /* Left and right column */
 .column.side {
-    width: 0%;
+    width: 2%;
 }
 .column.side.main {
-    width: 15%;
+    width: 11%;
 }
 .side.smaller {
-    width: 0%;
+    width: 2%;
 }
 .settingCol1{
   float: left;
