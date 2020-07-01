@@ -117,6 +117,39 @@ while($completeFlag == False){
 
 
   }
+  $newTrackingSellCoins = getNewTrackingSellCoins();
+  $newTrackingSellCoinsSize = count($newTrackingSellCoins);
+  for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
+    $CoinPrice = $newTrackingSellCoins[$b][1]; $TrackDate = $newTrackingSellCoins[$b][2];  $UserID = $newTrackingSellCoins[$b][3]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][4]; $TransactionID = $newTrackingSellCoins[$b][5];
+    $BuyRule = $newTrackingSellCoins[$b][6]; $FixSellRule = $newTrackingSellCoins[$b][7]; $OrderNo = $newTrackingSellCoins[$b][8]; $Amount = $newTrackingSellCoins[$b][9]; $CoinID = $newTrackingSellCoins[$b][10];
+    $APIKey = $newTrackingSellCoins[$b][11]; $APISecret = $newTrackingSellCoins[$b][12]; $KEK = $newTrackingSellCoins[$b][13]; $Email = $newTrackingSellCoins[$b][14]; $UserName = $newTrackingSellCoins[$b][15];
+    $BaseCurrency = $newTrackingSellCoins[$b][16]; $SendEmail = $newTrackingSellCoins[$b][17]; $SellCoin = $newTrackingSellCoins[$b][18]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][19]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][20];
+    $LiveCoinPrice = $newTrackingSellCoins[$b][21]; $minsFromDate = $newTrackingSellCoins[$b][22]; $profit = $newTrackingSellCoins[$b][23]; $fee = $newTrackingSellCoins[$b][24]; $ProfitPct = $newTrackingSellCoins[$b][25];
+    $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin =  $newTrackingSellCoins[$b][26];
+    if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25){
+      if ($noOfRisesInPrice == $totalRisesInPrice){
+        //Sell CoinS
+        $date = date("Y-m-d H:i:s", time());
+        sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
+        //CloseTrackingSellCoin
+        closeNewTrackingSellCoin($TransactionID);
+      }else{
+        //UpdatePrice
+        updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1);
+        //Add 1 to number of rises in price
+      }
+    }elseif ($ProfitPct > 5 && $minsFromDate >= 4){
+      //Update Rises in price
+      updateNoOfRisesInSellPrice($TransactionID, 0);
+      //Set new Tracking Price
+      setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
+    }elseif ($ProfitPct < -5 && $minsFromDate >= 4){
+      //Close tracking coin
+      closeNewTrackingSellCoin($TransactionID);
+    }
+
+  }
+
   echo "<BR> BUY COINS!! ";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   for($x = 0; $x < $coinLength; $x++) {
@@ -354,7 +387,8 @@ while($completeFlag == False){
         $date = date("Y-m-d H:i:s", time());
         echo "<BR>Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
         //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
-        sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
+        //sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
+        newTrackingSellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
         logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $logToFileSetting);
         logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
         logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID, $logToSQLSetting);

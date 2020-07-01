@@ -1,6 +1,6 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
-$logToFileSetting = getLogToFile();
+ 0 = getLogToFile();
 function getBittrexRequests($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -41,7 +41,7 @@ function deleteFromBittrexAction($bittrexRef){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("deleteFromBittrexAction: ".$sql, 'BuySell',$logToFileSetting);
+    logAction("deleteFromBittrexAction: ".$sql, 'BuySell', 0);
 }
 
 function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit){
@@ -60,7 +60,7 @@ function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit)
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("updateSQLSold: ".$sql, 'BuySell',$logToFileSetting);
+    logAction("updateSQLSold: ".$sql, 'BuySell', 0);
 }
 
 function bittrexOrder($apikey, $apisecret, $uuid){
@@ -321,7 +321,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
-          logAction("Bittrex Status:  ".json_encode($obj), 'BuySell',$logToFileSetting);
+          logAction("Bittrex Status:  ".json_encode($obj), 'BuySell', 0);
           logToSQL("Bittrex", "Add Buy Coin Error: ".json_encode($obj), $userID);
         }
         if ($sendEmail==1 && $buyCoin ==0){
@@ -330,7 +330,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         }
     }else{
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount";
-      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell',$logToFileSetting);
+      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell', 0);
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", $userID);
     }
   //}
@@ -368,7 +368,7 @@ function writeSQLTransBuy($type, $coinID,$userID, $cost,$amounttobuy, $date, $Bi
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("writeSQLTransBuy: ".$sql, 'BuySell',$logToFileSetting);
+    logAction("writeSQLTransBuy: ".$sql, 'BuySell', 0);
 }
 
 function writeBittrexActionBuy($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice,$ruleID){
@@ -387,7 +387,7 @@ function writeBittrexActionBuy($coinID,$transactionID,$userID,$type,$bittrexRef,
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("writeBittrexActionBuy: ".$sql, 'BuySell',$logToFileSetting);
+    logAction("writeBittrexActionBuy: ".$sql, 'BuySell', 0);
 }
 
 function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
@@ -487,7 +487,7 @@ function writeBittrexAction($coinID,$transactionID,$userID,$type,$bittrexRef,$da
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("writeBittrexAction: ".$sql, 'BuySell',$logToFileSetting);
+    logAction("writeBittrexAction: ".$sql, 'BuySell', 0);
 }
 
 function getCoinMarketCapStats(){
@@ -503,7 +503,7 @@ function getCoinMarketCapStats(){
       }
       $start = $start + $limit + 1;
     }
-    logAction("$cnmkt | ".json_decode($tmpCoinPrice),'CMC',$logToFileSetting);
+    logAction("$cnmkt | ".json_decode($tmpCoinPrice),'CMC', 0);
   return $tmpCoinPrice;
 }
 
@@ -591,7 +591,7 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7Change)",'CMC',$logToFileSetting);
+  logAction("CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7Change)",'CMC', 0);
 }
 
 function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
@@ -607,7 +607,7 @@ function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders)",'CMC',$logToFileSetting);
+  logAction("BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders)",'CMC', 0);
 }
 
 function copyNewMarketCap($coinID,$MarketCap){
@@ -1088,7 +1088,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       bittrexSellAdd($coinID, $transactionID, $userID, 'Sell', $bittrexRef, $status, $bitPrice, $ruleID);
       logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID);
     }
-    logAction("SellCoins:  ".json_encode($obj), 'BuySell',$logToFileSetting);
+    logAction("SellCoins:  ".json_encode($obj), 'BuySell', 0);
     logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj), $userID);
   }
   if ($sendEmail==1 &&  $sellCoin ==0){
@@ -1197,7 +1197,7 @@ function cancelBittrexSQL($id){
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  logAction("cancelBittrexSQL: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("cancelBittrexSQL: ".$sql, 'BuySell', 0);
 }
 
 function changeTransStatus($transactionID){
@@ -1214,7 +1214,7 @@ function changeTransStatus($transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("changeTransStatus: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("changeTransStatus: ".$sql, 'BuySell', 0);
 }
 
 function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $cost, $amount, $orderNo,$timeToCancelBuyMins){
@@ -1230,7 +1230,7 @@ function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexBuyAdd: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexBuyAdd: ".$sql, 'BuySell', 0);
 }
 
 function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
@@ -1246,7 +1246,7 @@ function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexAddNoOfPurchases: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexAddNoOfPurchases: ".$sql, 'BuySell', 0);
 }
 
 function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
@@ -1262,7 +1262,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexSellAdd: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexSellAdd: ".$sql, 'BuySell', 0);
 }
 
 function bittrexSellCancel($bittrexRef, $transactionID){
@@ -1278,7 +1278,7 @@ function bittrexSellCancel($bittrexRef, $transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexSellCancel: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexSellCancel: ".$sql, 'BuySell', 0);
 }
 
 function bittrexBuyCancel($bittrexRef, $transactionID){
@@ -1294,7 +1294,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexBuyCancel: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexBuyCancel: ".$sql, 'BuySell', 0);
 }
 
 function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
@@ -1310,7 +1310,7 @@ function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexBuyComplete: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexBuyComplete: ".$sql, 'BuySell', 0);
 }
 
 function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
@@ -1326,7 +1326,7 @@ function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexSellComplete: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexSellComplete: ".$sql, 'BuySell', 0);
 }
 
 function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
@@ -1342,7 +1342,7 @@ function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexBuyCompleteUpdateAmount: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexBuyCompleteUpdateAmount: ".$sql, 'BuySell', 0);
 }
 
 function bittrexSellCompleteUpdateAmount($transactionID, $amount){
@@ -1358,7 +1358,7 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("bittrexSellCompleteUpdateAmount: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexSellCompleteUpdateAmount: ".$sql, 'BuySell', 0);
 }
 
 function getTotalBTC($userID){
@@ -1504,7 +1504,7 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {echo "Error: " . $sql . "<br>" . $conn->error;}
   $conn->close();
-  logAction("bittrexUpdateBuyQty: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexUpdateBuyQty: ".$sql, 'BuySell', 0);
 }
 
 function bittrexUpdateSellQty($transactionID, $quantity){
@@ -1515,7 +1515,7 @@ function bittrexUpdateSellQty($transactionID, $quantity){
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {echo "Error: " . $sql . "<br>" . $conn->error;}
   $conn->close();
-  logAction("bittrexUpdateSellQty: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexUpdateSellQty: ".$sql, 'BuySell', 0);
 }
 
 function bittrexCopyTransNewAmount($transactionID, $oQuantity, $nQuantity, $orderNo){
@@ -1529,7 +1529,7 @@ function bittrexCopyTransNewAmount($transactionID, $oQuantity, $nQuantity, $orde
     sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
   }
   $conn->close();
-  logAction("bittrexCopyTransNewAmount: ".$sql, 'BuySell',$logToFileSetting);
+  logAction("bittrexCopyTransNewAmount: ".$sql, 'BuySell', 0);
 }
 
 function sendtoSteven($transactionID,$newOrderQtyRemaining,$newOrderNo, $errorText){
@@ -2153,7 +2153,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("AddTrackingCoin: ".$sql, 'TrackingCoins',$logToFileSetting);
+  logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
 }
 
 function getNewTrackingCoins($userID = 0){
@@ -2199,7 +2199,7 @@ function setNewTrackingPrice($coinPrice, $ID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins',$logToFileSetting);
+  logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
 }
 
 function closeNewTrackingCoin($ID){
@@ -2218,7 +2218,7 @@ function closeNewTrackingCoin($ID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("closeNewTrackingCoin: ".$sql, 'TrackingCoins',$logToFileSetting);
+  logAction("closeNewTrackingCoin: ".$sql, 'TrackingCoins', 0);
 }
 
 function updateTrackingCoinToMerge($ID, $noOfPurchases){
@@ -2237,7 +2237,7 @@ function updateTrackingCoinToMerge($ID, $noOfPurchases){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateTrackingCoinToMerge: ".$sql, 'TrackingCoins',$logToFileSetting);
+  logAction("updateTrackingCoinToMerge: ".$sql, 'TrackingCoins', 0);
 }
 
 function updateMergeAry($toMergeAry, $finalMergeAry){
@@ -2279,7 +2279,7 @@ function mergeTransactions($transactionID, $amount, $avCost, $lastTransID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("mergeTransactions($avCost,$transactionID,$amount,$lastTransID)",'TrackingCoins',$logToFileSetting);
+  logAction("mergeTransactions($avCost,$transactionID,$amount,$lastTransID)",'TrackingCoins', 0);
 }
 
 function updateNoOfRisesInPrice($newTrackingCoinID, $num){
@@ -2298,7 +2298,7 @@ function updateNoOfRisesInPrice($newTrackingCoinID, $num){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateNoOfRisesInPrice: ".$sql, 'TrackingCoins',$logToFileSetting);
+  logAction("updateNoOfRisesInPrice: ".$sql, 'TrackingCoins', 0);
 }
 
 function getNumberColour($ColourText){
@@ -2353,5 +2353,128 @@ function saveImage($coin, $url, $savePath){
   curl_exec($ch);
   curl_close($ch);
   fclose($fp);
+}
+
+function newTrackingSellCoins($APIKey, $APISecret,$coin, $Email, $userID, $score,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `TrackingCoins`(`CoinPrice`, `TrackDate`,`UserID`, `TransactionID`)
+  VALUES ($LiveCoinPrice,$date,$userID,$transactionID)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("newTrackingSellCoins: ".$sql, 'TrackingCoins', 0);
+}
+
+function getNewTrackingSellCoins($userID = 0){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+//12
+  $whereClause = "";
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
+  $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`BaseCurrency`
+  ,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE, NOW(), `TrackDate`) as MinsFromDate, (`CoinPrice`-`LiveCoinPrice`)*`Amount` as Profit
+  ,((`LiveCoinPrice`*`Amount`)/100)*0.28 as Fee, ((`CoinPrice`-`LiveCoinPrice`)*`Amount`)/`LiveCoinPrice` as ProfitPct, `TotalRisesInPrice`, `Coin`
+  FROM `TrackingSellCoinView`$whereClause";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinPrice'],$row['TrackDate'],$row['UserID'],$row['NoOfRisesInPrice'],$row['TransactionID'],$row['BuyRule'],$row['FixSellRule'],$row['OrderNo'],$row['Amount']
+    ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct']
+    ,$row['MinsFromDate'],$row['TotalRisesInPrice'],$row['Coin']);
+  }
+  $conn->close();
+  return $tempAry;
+
+}
+
+function closeNewTrackingSellCoin($ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `TransactionID` = $ID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("closeNewTrackingSellCoin: ".$sql, 'TrackingCoins', 0);
+}
+
+function setNewTrackingSellPrice($coinPrice, $ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `CoinPrice` = $coinPrice, `TrackDate` = CURRENT_TIMESTAMP() WHERE `TransactionID` = $ID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setNewTrackingSellPrice: ".$sql, 'TrackingCoins', 0);
+}
+
+function updateNoOfRisesInSellPrice($newTrackingCoinID, $num){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num WHERE `TransactionID` = $newTrackingCoinID ";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateNoOfRisesInSellPrice: ".$sql, 'TrackingCoins', 0);
+}
+
+function closeNewTrackingSellCoin($ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `TransactionID` = $ID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("closeNewTrackingSellCoin: ".$sql, 'TrackingCoins', 0);
 }
 ?>
