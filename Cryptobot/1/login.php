@@ -109,7 +109,7 @@ require('layout/header.php');
 
 			<form role="form" method="post" action="" autocomplete="off">
 				<h2 id='loginH2'>Please Login</h2>
-				<p><a href='/content/1/index.php'>Back to home page</a></p>
+				<p id='loginP'><a href='/content/1/index.php'>Back to home page</a></p>
 				<hr>
 
 				<?php
