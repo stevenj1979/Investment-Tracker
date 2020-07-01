@@ -87,7 +87,8 @@ input[type=button], input[type=submit], input[type=reset] {
 
 #username{
   width: 100%;
-  padding: 12px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 8px 0;
   box-sizing: border-box;
   height: 100px;
@@ -95,7 +96,8 @@ input[type=button], input[type=submit], input[type=reset] {
 
 #password{
   width: 100%;
-  padding: 12px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 8px 0;
   box-sizing: border-box;
   height: 100px;
@@ -103,7 +105,8 @@ input[type=button], input[type=submit], input[type=reset] {
 
 #submitLogin{
   width: 100%;
-  padding: 12px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: 8px 0;
   box-sizing: border-box;
   height: 100px;
@@ -210,17 +213,17 @@ tr.spaceUnder>td {
   padding-top: 1.5em;
 }
 #smallText{
-    font-size: 2.75vw
+    font-size: 2.75vw;
 }
 #largeText{
-    font-size: 3.75vw
+    font-size: 3.75vw;
 }
 #normalText{
-  font-size: 3.25vw
+  font-size: 3.25vw;
 }
 #loginH2{
-  padding-left: 70px
+  padding-left: 70px;
 }
 #loginP{
-  padding-left: 70px
+  padding-left: 70px;
 }
