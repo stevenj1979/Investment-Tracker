@@ -153,7 +153,7 @@ require('layout/header.php');
           <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" id="submitLogin" tabindex="5">
     </div>
     <div class="column side main">
-        <img src='Images/CBLogoSmall.png' width="150">
+        <img id='imageLogin' src='Images/CBLogoSmall.png' width="150">
     </div>
   </div>
 <?php
