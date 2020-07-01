@@ -190,6 +190,11 @@ input[type=button], input[type=submit], input[type=reset] {
   width: 100%;
 }
 
+.container{
+  padding-left: 50px
+  padding-right: 50px
+}
+
 #CnImg{
   width: 120px
 }
