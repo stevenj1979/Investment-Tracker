@@ -195,6 +195,11 @@ input[type=button], input[type=submit], input[type=reset] {
   padding-right: 50px
 }
 
+.row{
+  padding-left: 50px
+  padding-right: 50px
+}
+
 #CnImg{
   width: 120px
 }
