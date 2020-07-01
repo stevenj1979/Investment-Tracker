@@ -1,6 +1,6 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
- 0 = getLogToFile();
+
 function getBittrexRequests($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
