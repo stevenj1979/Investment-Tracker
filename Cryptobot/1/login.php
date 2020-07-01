@@ -108,7 +108,7 @@ require('layout/header.php');
       <div class="column middle">
 
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Please Login</h2>
+				<h2 id='loginH2'>Please Login</h2>
 				<p><a href='/content/1/index.php'>Back to home page</a></p>
 				<hr>
 
