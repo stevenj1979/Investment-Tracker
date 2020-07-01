@@ -137,7 +137,7 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 .settingCol1{
   float: left;
-  width: 100%;
+  width: 90%;
   padding-left: 60px;
 }
 
