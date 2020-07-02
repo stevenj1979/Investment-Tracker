@@ -2338,9 +2338,9 @@ function dataToString($seperator, $array){
   $returnStr = "";
   for ($i=0; $i<$num; $i++){
     //echo "<BR> ".$array[$i][0];
-    $returnStr .= round($array[$i][0],4);
+    $returnStr .= round($array[$i][0],4).",";
   }
-  return $returnStr;
+  return rtrim($returnStr,',');
 }
 
 function saveImage($coin, $url, $savePath){
