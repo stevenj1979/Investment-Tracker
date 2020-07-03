@@ -65,7 +65,7 @@ $conn->close();
 return $tempAry;
 }
 
-function getNumberColour($ColourText, $target){
+function getNumberColourLoc($ColourText, $target){
 if ($ColourText >= 0){
   $colour = "#D4EFDF";
 }elseif ($ColourText == 0) {
