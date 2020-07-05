@@ -201,6 +201,7 @@ if(isset($_POST['coinTxt'])){
     $coinID = $_POST['CoinIDTxt']; $userID = $_POST['UserIDTxt'];
     $salePrice = number_format((float)$_POST['coinPriceTxt'], 8, '.', ''); $coin = $_POST['coinTxt']; $baseCurrency = $_POST['BaseCurTxt'];
     $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
+    $BTCBuyAmount = $_POST['costTxt'];
     $nDate = date("YmdHis", time());
     //bittrexBuyAdd($coinID, $userID, 'Buy', 'NoRef', '1', 9999, $salePrice, $BTCBuyAmount, $orderNo,90);
     //bittrexBuyComplete($uuid, $transactionID, $finalPrice);
