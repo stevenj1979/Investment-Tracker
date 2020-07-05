@@ -2246,7 +2246,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
   for ($j=0; $j<$finalMergeArySize; $j++){
     if ($toMergeAry[0] == $finalMergeAry[$j][0] && $toMergeAry[1] == $finalMergeAry[$j][1]){
       //User/Coin exist
-      echo "<BR> EXISTING is TRUE ";
+      echo "<BR> EXISTING is TRUE ".$toMergeAry[0]."=".$finalMergeAry[$j][0]." & ".$toMergeAry[1]."=".$finalMergeAry[$j][1];
       $existing = True;
       $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[4];
       echo "<BR> adding ".$finalMergeAry[$j][4]."+".$toMergeAry[4];
