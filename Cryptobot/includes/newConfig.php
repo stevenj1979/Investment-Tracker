@@ -2245,16 +2245,16 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
   $existing = False;
   for ($j=0; $j<$finalMergeArySize; $j++){
     echo "<BR> TEST ".$toMergeAry[0]."=".$finalMergeAry[$j][0]." & ".$toMergeAry[1]."=".$finalMergeAry[$j][1];
-    if ($toMergeAry[0] == $finalMergeAry[$j][0] && $toMergeAry[1] == $finalMergeAry[$j][1]){
+    if ($toMergeAry[0][0] == $finalMergeAry[$j][0] && $toMergeAry[0][1] == $finalMergeAry[$j][1]){
       //User/Coin exist
-      echo "<BR> EXISTING is TRUE ".$toMergeAry[0]."=".$finalMergeAry[$j][0]." & ".$toMergeAry[1]."=".$finalMergeAry[$j][1];
+      echo "<BR> EXISTING is TRUE ".$toMergeAry[0][0]."=".$finalMergeAry[$j][0]." & ".$toMergeAry[0][1]."=".$finalMergeAry[$j][1];
       $existing = True;
-      $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[4];
-      echo "<BR> adding ".$finalMergeAry[$j][4]."+".$toMergeAry[4];
-      $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[5];
-      echo "<BR> adding ".$finalMergeAry[$j][5]."+".$toMergeAry[5];
-      $finalMergeAry[$j][6] = $toMergeAry[3];
-      echo "<BR> adding ".$toMergeAry[5];
+      $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[0][4];
+      echo "<BR> adding ".$finalMergeAry[$j][4]."+".$toMergeAry[0][4];
+      $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[0][5];
+      echo "<BR> adding ".$finalMergeAry[$j][5]."+".$toMergeAry[0][5];
+      $finalMergeAry[$j][6] = $toMergeAry[0][3];
+      echo "<BR> adding ".$toMergeAry[0][5];
       $finalMergeAry[$j][7] = $finalMergeAry[$j][7]+1;
       echo "<BR> adding ".$finalMergeAry[$j][7]."+1";
     }
@@ -2262,16 +2262,16 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
   if ($existing == False){
     echo "<BR> EXISTING is FALSE";
     if ($finalMergeArySize == 0) {$finalMergeArySize = $finalMergeArySize;} else {$finalMergeArySize = $finalMergeArySize+1;}
-    $finalMergeAry[$finalMergeArySize][0] = $toMergeAry[0];
-    echo "<BR> SETTING: ".$toMergeAry[0];
-    $finalMergeAry[$finalMergeArySize][1] = $toMergeAry[1];
-    echo "<BR> SETTING: ".$toMergeAry[1];
-    $finalMergeAry[$finalMergeArySize][2] = $toMergeAry[2];
-    echo "<BR> SETTING: ".$toMergeAry[2];
-    $finalMergeAry[$finalMergeArySize+1][3] = $toMergeAry[3];
-    $finalMergeAry[$finalMergeArySize+1][4] = $toMergeAry[4];
-    $finalMergeAry[$finalMergeArySize+1][5] = $toMergeAry[5];
-    $finalMergeAry[$finalMergeArySize+1][6] = $toMergeAry[3];
+    $finalMergeAry[$finalMergeArySize][0] = $toMergeAry[0][0];
+    echo "<BR> SETTING: ".$toMergeAry[0][0];
+    $finalMergeAry[$finalMergeArySize][1] = $toMergeAry[0][1];
+    echo "<BR> SETTING: ".$toMergeAry[0][1];
+    $finalMergeAry[$finalMergeArySize][2] = $toMergeAry[0][2];
+    echo "<BR> SETTING: ".$toMergeAry[0][2];
+    $finalMergeAry[$finalMergeArySize+1][3] = $toMergeAry[0][3];
+    $finalMergeAry[$finalMergeArySize+1][4] = $toMergeAry[0][4];
+    $finalMergeAry[$finalMergeArySize+1][5] = $toMergeAry[0][5];
+    $finalMergeAry[$finalMergeArySize+1][6] = $toMergeAry[0][3];
     $finalMergeAry[$finalMergeArySize+1][7] = 1;
   }
   return $finalMergeAry;
