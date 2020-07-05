@@ -2268,11 +2268,11 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
     echo "<BR> SETTING: ".$toMergeAry[0][1];
     $finalMergeAry[$finalMergeArySize][2] = $toMergeAry[0][2];
     echo "<BR> SETTING: ".$toMergeAry[0][2];
-    $finalMergeAry[$finalMergeArySize+1][3] = $toMergeAry[0][3];
-    $finalMergeAry[$finalMergeArySize+1][4] = $toMergeAry[0][4];
-    $finalMergeAry[$finalMergeArySize+1][5] = $toMergeAry[0][5];
-    $finalMergeAry[$finalMergeArySize+1][6] = $toMergeAry[0][3];
-    $finalMergeAry[$finalMergeArySize+1][7] = 1;
+    $finalMergeAry[$finalMergeArySize][3] = $toMergeAry[0][3];
+    $finalMergeAry[$finalMergeArySize][4] = $toMergeAry[0][4];
+    $finalMergeAry[$finalMergeArySize][5] = $toMergeAry[0][5];
+    $finalMergeAry[$finalMergeArySize][6] = $toMergeAry[0][3];
+    $finalMergeAry[$finalMergeArySize][7] = 1;
   }
   return $finalMergeAry;
 }
