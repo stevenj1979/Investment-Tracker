@@ -217,6 +217,7 @@ for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
     $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
   }
 }
+echo "<BR>".var_dump($finalMergeAry)."<BR>";
 $finalMergeArySize = Count($finalMergeAry);
 echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
 for($x = 0; $x < $finalMergeArySize; $x++) {
