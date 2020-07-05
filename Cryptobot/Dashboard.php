@@ -218,10 +218,12 @@ for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   }
 }
 $finalMergeArySize = Count($finalMergeAry);
+echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
 for($x = 0; $x < $finalMergeArySize; $x++) {
   $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
   $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7];
   $avCost = $cost/$count;
+  echo "<BR> Count: $count";
   if ($count >= 2){
     echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
     mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
