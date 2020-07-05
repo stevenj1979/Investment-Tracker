@@ -197,29 +197,7 @@ for($x = 0; $x < $coinTrendSize; $x++) {
   updateCoinTrend($coinID,$priceTrend,$hr1Trend);
 }
 
-$sellTrackingCoins = getTrackingSellCoins();
-$sellTrackingCoinsSize = Count($sellTrackingCoins);
-$z = 0;$toMergeAry = []; $finalMergeAry = [];
-echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
-for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
-  $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
-  $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4];
 
-  if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
-    $toMergeAry[0] = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost);
-    $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
-  }
-}
-$finalMergeArySize = Count($finalMergeAry);
-for($x = 0; $x < $finalMergeArySize; $x++) {
-  $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
-  $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7];
-  $avCost = $cost/$count;
-  if ($count > 2){
-    mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
-    logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
-  }
-}
 
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
