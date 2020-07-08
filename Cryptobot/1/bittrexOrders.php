@@ -78,7 +78,7 @@ function getBTTrackingCoins($userID){
   return $tempAry;
 }
 
-function getNumberColour($ColourText, $target){
+function getNumberColourLoc($ColourText, $target){
   if ($ColourText >= $target){
     $colour = "green";
   }else{
