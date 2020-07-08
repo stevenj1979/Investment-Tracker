@@ -129,7 +129,7 @@ while($completeFlag == False){
     $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26];
     echo "<BR> Checking $coin : $CoinPrice ; $NoOfRisesInPrice ! $ProfitPct | $minsFromDate";
     if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25){
-      echo "<BR> Option 1";
+      echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
       if ($noOfRisesInPrice == $totalRisesInPrice){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
