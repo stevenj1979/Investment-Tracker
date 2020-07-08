@@ -121,11 +121,11 @@ while($completeFlag == False){
   $newTrackingSellCoins = getNewTrackingSellCoins();
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
   for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
-    $CoinPrice = $newTrackingSellCoins[$b][1]; $TrackDate = $newTrackingSellCoins[$b][2];  $UserID = $newTrackingSellCoins[$b][3]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][4]; $TransactionID = $newTrackingSellCoins[$b][5];
-    $BuyRule = $newTrackingSellCoins[$b][6]; $FixSellRule = $newTrackingSellCoins[$b][7]; $OrderNo = $newTrackingSellCoins[$b][8]; $Amount = $newTrackingSellCoins[$b][9]; $CoinID = $newTrackingSellCoins[$b][10];
-    $APIKey = $newTrackingSellCoins[$b][11]; $APISecret = $newTrackingSellCoins[$b][12]; $KEK = $newTrackingSellCoins[$b][13]; $Email = $newTrackingSellCoins[$b][14]; $UserName = $newTrackingSellCoins[$b][15];
-    $BaseCurrency = $newTrackingSellCoins[$b][16]; $SendEmail = $newTrackingSellCoins[$b][17]; $SellCoin = $newTrackingSellCoins[$b][18]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][19]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][20];
-    $LiveCoinPrice = $newTrackingSellCoins[$b][21]; $minsFromDate = $newTrackingSellCoins[$b][22]; $profit = $newTrackingSellCoins[$b][23]; $fee = $newTrackingSellCoins[$b][24]; $ProfitPct = $newTrackingSellCoins[$b][25];
+    $CoinPrice = $newTrackingSellCoins[$b][0]; $TrackDate = $newTrackingSellCoins[$b][1];  $UserID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
+    $BuyRule = $newTrackingSellCoins[$b][5]; $FixSellRule = $newTrackingSellCoins[$b][6]; $OrderNo = $newTrackingSellCoins[$b][7]; $Amount = $newTrackingSellCoins[$b][8]; $CoinID = $newTrackingSellCoins[$b][9];
+    $APIKey = $newTrackingSellCoins[$b][10]; $APISecret = $newTrackingSellCoins[$b][11]; $KEK = $newTrackingSellCoins[$b][12]; $Email = $newTrackingSellCoins[$b][13]; $UserName = $newTrackingSellCoins[$b][14];
+    $BaseCurrency = $newTrackingSellCoins[$b][15]; $SendEmail = $newTrackingSellCoins[$b][16]; $SellCoin = $newTrackingSellCoins[$b][17]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][18]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][19];
+    $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26];
     echo "<BR> Checking $coin $CoinPrice $NoOfRisesInPrice";
     if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25){
