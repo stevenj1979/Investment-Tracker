@@ -133,6 +133,7 @@ while($completeFlag == False){
       if ($NoOfRisesInPrice >= $totalRisesInPrice && $ogPctProfit >= 0.25){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
+        reopenTransaction($TransactionID);
         sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
         //CloseTrackingSellCoin
         closeNewTrackingSellCoin($TransactionID);
