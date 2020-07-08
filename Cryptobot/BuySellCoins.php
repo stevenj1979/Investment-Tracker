@@ -91,6 +91,7 @@ while($completeFlag == False){
     if ($pctProfit > 0.25 && $minsFromDate >= 4 && $pctProfit < 1.25){
       //Buy
       if ($noOfRisesInPrice == $totalRisesInPrice){
+        if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
         closeNewTrackingCoin($newTrackingCoinID);
