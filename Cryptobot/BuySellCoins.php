@@ -136,6 +136,7 @@ while($completeFlag == False){
       }else{
         //UpdatePrice
         updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1);
+        echo "<BR> No of rises in price for $coin = ".$NoOfRisesInPrice+1;
         //Add 1 to number of rises in price
       }
     }elseif ($ProfitPct > 5 && $minsFromDate >= 4){
@@ -143,6 +144,7 @@ while($completeFlag == False){
       updateNoOfRisesInSellPrice($TransactionID, 0);
       //Set new Tracking Price
       setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
+      echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
     }elseif ($ProfitPct < -5 && $minsFromDate >= 4){
       //Close tracking coin
       closeNewTrackingSellCoin($TransactionID);
