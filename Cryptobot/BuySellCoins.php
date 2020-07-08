@@ -128,9 +128,9 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27];
     echo "<BR> Checking $coin : $CoinPrice ; $NoOfRisesInPrice ! $ProfitPct | $minsFromDate";
-    if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.75){
+    if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -2.75){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
-      if ($noOfRisesInPrice >= $totalRisesInPrice){
+      if ($noOfRisesInPrice >= $totalRisesInPrice && $ogPctProfit >= 0.25){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
         sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
@@ -138,14 +138,14 @@ while($completeFlag == False){
         closeNewTrackingSellCoin($TransactionID);
       }else{
         //UpdatePrice
-        updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1);
+        updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1, $LiveCoinPrice);
         echo "<BR> No of rises in price for $coin = ".$NoOfRisesInPrice+1;
         //Add 1 to number of rises in price
       }
-    }elseif ($ProfitPct > 5 && $minsFromDate >= 4){
+    }elseif ($ProfitPct > 0.25 && $minsFromDate >= 4){
       echo "<BR> Option 2";
       //Update Rises in price
-      updateNoOfRisesInSellPrice($TransactionID, 0);
+      updateNoOfRisesInSellPrice($TransactionID, 0, $LiveCoinPrice);
       //Set new Tracking Price
       setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";

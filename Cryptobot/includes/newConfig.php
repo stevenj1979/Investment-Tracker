@@ -2473,14 +2473,14 @@ function setNewTrackingSellPrice($coinPrice, $ID){
   logAction("setNewTrackingSellPrice: ".$sql, 'TrackingCoins', 0);
 }
 
-function updateNoOfRisesInSellPrice($newTrackingCoinID, $num){
+function updateNoOfRisesInSellPrice($newTrackingCoinID, $num, $price){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num WHERE `TransactionID` = $newTrackingCoinID ";
+  $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num, `CoinPrice` = $price WHERE `TransactionID` = $newTrackingCoinID ";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
