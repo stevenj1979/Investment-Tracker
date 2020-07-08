@@ -209,11 +209,11 @@ $z = 0;$toMergeAry = []; $finalMergeAry = [];
 echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
 for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
-  $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4];
-
+  $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
+  $noOfPurchases = $sellTrackingCoins[$x][49];
   if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
-    $toMergeAry[0] = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost);
-    echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost);";
+    $toMergeAry[0] = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
+    echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
     $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
   }
 }
@@ -222,10 +222,10 @@ $finalMergeArySize = Count($finalMergeAry);
 echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
 for($x = 0; $x < $finalMergeArySize; $x++) {
   $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
-  $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7];
-  $avCost = $cost/$count;
+  $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
+  $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
   echo "<BR> Count: $count";
-  if ($count >= 2){
+  if ($count >= 2 && $noOfPurchases <= $MaxCoinMerge){
     echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
     mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
     UpdateTransCount($count-1, $transactionID);
