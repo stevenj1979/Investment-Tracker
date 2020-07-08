@@ -153,6 +153,7 @@ while($completeFlag == False){
       echo "<BR> Option 3";
       //Close tracking coin
       closeNewTrackingSellCoin($TransactionID);
+      reopenTransaction($TransactionID);
     }
 
   }
