@@ -126,8 +126,8 @@ while($completeFlag == False){
     $APIKey = $newTrackingSellCoins[$b][11]; $APISecret = $newTrackingSellCoins[$b][12]; $KEK = $newTrackingSellCoins[$b][13]; $Email = $newTrackingSellCoins[$b][14]; $UserName = $newTrackingSellCoins[$b][15];
     $BaseCurrency = $newTrackingSellCoins[$b][16]; $SendEmail = $newTrackingSellCoins[$b][17]; $SellCoin = $newTrackingSellCoins[$b][18]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][19]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][20];
     $LiveCoinPrice = $newTrackingSellCoins[$b][21]; $minsFromDate = $newTrackingSellCoins[$b][22]; $profit = $newTrackingSellCoins[$b][23]; $fee = $newTrackingSellCoins[$b][24]; $ProfitPct = $newTrackingSellCoins[$b][25];
-    $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin =  $newTrackingSellCoins[$b][26];
-    echo "<BR> Checking $coin";
+    $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26];
+    echo "<BR> Checking $coin $CoinPrice $NoOfRisesInPrice";
     if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25){
       if ($noOfRisesInPrice == $totalRisesInPrice){
         //Sell CoinS
