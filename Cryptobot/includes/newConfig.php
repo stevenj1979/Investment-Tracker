@@ -2419,6 +2419,7 @@ function getNewTrackingSellCoins($userID = 0){
   ,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE, NOW(), `TrackDate`) as MinsFromDate, (`CoinPrice`-`LiveCoinPrice`)*`Amount` as Profit
   ,((`LiveCoinPrice`*`Amount`)/100)*0.28 as Fee, ((`CoinPrice`-`LiveCoinPrice`)*`Amount`)/`LiveCoinPrice` as ProfitPct, `TotalRisesInPrice`, `Symbol`
   FROM `TrackingSellCoinView`$whereClause";
+  echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
