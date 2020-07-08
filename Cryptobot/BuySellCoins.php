@@ -130,7 +130,7 @@ while($completeFlag == False){
     echo "<BR> Checking $coin : $CoinPrice ; $NoOfRisesInPrice ! $ProfitPct | $minsFromDate";
     if ($ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
-      if ($noOfRisesInPrice == $totalRisesInPrice){
+      if ($noOfRisesInPrice >= $totalRisesInPrice){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
         sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
