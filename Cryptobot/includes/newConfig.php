@@ -2490,21 +2490,22 @@ function updateNoOfRisesInSellPrice($newTrackingCoinID, $num){
   logAction("updateNoOfRisesInSellPrice: ".$sql, 'TrackingCoins', 0);
 }
 
-function reopenTransaction($id)
-$conn = getSQLConn(rand(1,3));
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+function reopenTransaction($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
 
-$sql = "UPDATE `Transaction` SET `Status`= 'Open' WHERE `ID` = $id";
+  $sql = "UPDATE `Transaction` SET `Status`= 'Open' WHERE `ID` = $id";
 
-print_r($sql);
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("reopenTransaction: ".$sql, 'TrackingCoins', 0);
 }
-$conn->close();
-logAction("reopenTransaction: ".$sql, 'TrackingCoins', 0);
 ?>
