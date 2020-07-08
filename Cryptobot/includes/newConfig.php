@@ -2417,7 +2417,7 @@ function getNewTrackingSellCoins($userID = 0){
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`BaseCurrency`
   ,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE,  `TrackDate`,NOW()) as MinsFromDate, ((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)) as Profit
-  ,((`LiveCoinPrice`*`Amount`)/100)*0.28 as Fee, ((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`)*100 as ProfitPct `TotalRisesInPrice`, `Symbol`
+  ,((`LiveCoinPrice`*`Amount`)/100)*0.28 as Fee, ((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`)*100 as ProfitPct, `TotalRisesInPrice`, `Symbol`
   FROM `TrackingSellCoinView`$whereClause";
   //echo $sql;
   $result = $conn->query($sql);
