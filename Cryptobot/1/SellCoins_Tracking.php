@@ -45,12 +45,12 @@ $date = date('Y/m/d H:i:s', time());
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a></h3>";
         echo "<table>";
         for($x = 0; $x < $arrLengthSell; $x++) {
-          $CoinPrice = $trackingSell[$x][1]; $TrackDate = $trackingSell[$x][2];  $UserID = $trackingSell[$x][3]; $NoOfRisesInPrice = $trackingSell[$x][4]; $TransactionID = $trackingSell[$x][5];
-          $BuyRule = $trackingSell[$x][6]; $FixSellRule = $trackingSell[$x][7]; $OrderNo = $trackingSell[$x][8]; $Amount = $trackingSell[$x][9]; $CoinID = $trackingSell[$x][10];
-          $APIKey = $trackingSell[$x][11]; $APISecret = $trackingSell[$x][12]; $KEK = $trackingSell[$x][13]; $Email = $trackingSell[$x][14]; $UserName = $trackingSell[$x][15];
-          $BaseCurrency = $trackingSell[$x][16]; $SendEmail = $trackingSell[$x][17]; $SellCoin = $trackingSell[$x][18]; $CoinSellOffsetEnabled = $trackingSell[$x][19]; $CoinSellOffsetPct = $trackingSell[$x][20];
-          $LiveCoinPrice = $trackingSell[$x][21]; $minsFromDate = $trackingSell[$x][22]; $profit = $trackingSell[$x][23]; $fee = $trackingSell[$x][24]; $ProfitPct = $trackingSell[$x][25];
-          $totalRisesInPrice =  $trackingSell[$x][25]; $coin =  $trackingSell[$x][26];
+          $CoinPrice = $newTrackingSellCoins[$b][0]; $TrackDate = $newTrackingSellCoins[$b][1];  $UserID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
+          $BuyRule = $newTrackingSellCoins[$b][5]; $FixSellRule = $newTrackingSellCoins[$b][6]; $OrderNo = $newTrackingSellCoins[$b][7]; $Amount = $newTrackingSellCoins[$b][8]; $CoinID = $newTrackingSellCoins[$b][9];
+          $APIKey = $newTrackingSellCoins[$b][10]; $APISecret = $newTrackingSellCoins[$b][11]; $KEK = $newTrackingSellCoins[$b][12]; $Email = $newTrackingSellCoins[$b][13]; $UserName = $newTrackingSellCoins[$b][14];
+          $BaseCurrency = $newTrackingSellCoins[$b][15]; $SendEmail = $newTrackingSellCoins[$b][16]; $SellCoin = $newTrackingSellCoins[$b][17]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][18]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][19];
+          $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
+          $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26];
           echo "<tr>";
           echo "<td>$coin</td>";
           echo "<td>$CoinPrice</td>";
