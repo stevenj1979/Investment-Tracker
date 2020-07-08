@@ -2277,6 +2277,23 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
   return $finalMergeAry;
 }
 
+
+function UpdateTransCount($count,$transactionID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call UpdateTransCount($count,$transactionID);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("UpdateTransCount($count,$transactionID)",'TrackingCoins', 0);
+}
+
 function mergeTransactions($transactionID, $amount, $avCost, $lastTransID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {

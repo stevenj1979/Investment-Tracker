@@ -142,7 +142,7 @@ while($completeFlag == False){
         echo "<BR> No of rises in price for $coin = ".$NoOfRisesInPrice+1;
         //Add 1 to number of rises in price
       }
-    }elseif ($ProfitPct > 0.25 && $minsFromDate >= 4){
+    }elseif ($ProfitPct > 0 && $minsFromDate >= 4){
       echo "<BR> Option 2";
       //Update Rises in price
       updateNoOfRisesInSellPrice($TransactionID, 0, $LiveCoinPrice);
