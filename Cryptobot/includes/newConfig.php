@@ -2386,6 +2386,25 @@ function newTrackingSellCoins($APIKey, $APISecret,$coin, $Email, $userID, $score
   logAction("newTrackingSellCoins: ".$sql, 'TrackingCoins', 0);
 }
 
+function setTransactionPending($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `Status`= 'Pending' WHERE `ID` = $id ";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
+}
+
 function getNewTrackingSellCoins($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
