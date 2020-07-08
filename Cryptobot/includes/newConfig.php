@@ -2421,7 +2421,7 @@ function getNewTrackingSellCoins($userID = 0){
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`
   FROM `TrackingSellCoinView`$whereClause";
-  echo $sql;
+  //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
