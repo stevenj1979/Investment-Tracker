@@ -49,6 +49,8 @@ if(!empty($_GET['editedUserReady'])){
       //elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
       //elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
       //Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
+      $temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];
+      $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];
       echo "<BR> Temps : ".$temp1.$temp2.$temp3.$temp4;
       $fullStr = str_replace("2","*",$temp1.$temp2.$temp3.$temp4);
       echo "<BR> FULL STR: $fullStr";
