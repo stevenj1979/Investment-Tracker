@@ -49,7 +49,7 @@ function showMain(){
         //}
 
         echo "<TH>&nbspTimeToCancelMins</th><TH>&nbspFixedSellRule</th>";
-        echo "<TH>&nbspLiveCoinPrice</th><TH>&nbspPctProfit</th><TH>&nbspMinutesFromBuy</th><tr>";
+        echo "<TH>&nbspLiveCoinPrice</th><TH>&nbspPctProfit</th><TH>&nbspMinutesFromBuy</th><TH>&nbspNoOfRisesInPrice</th><tr>";
         //$roundNum = 2;
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
@@ -60,7 +60,7 @@ function showMain(){
           $ruleIDBuy = $tracking[$x][12];$coinID = $tracking[$x][0];$CoinSellOffsetPct = $tracking[$x][13];$CoinSellOffsetEnabled = $tracking[$x][14];
           $buyType = $tracking[$x][15];$timeToCancelBuyMins = $tracking[$x][16];$SellRuleFixed = $tracking[$x][17];
           $pctProfit = $tracking[$x][6]; $newTrackingCoinID = $tracking[$x][23]; $liveCoinPrice = $tracking[$x][4];
-          $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1];
+          $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1]; $NoOfRisesInPrice = $tracking[$x][26];
           //TestRules
           Echo "<TR>";
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
@@ -77,6 +77,8 @@ function showMain(){
           NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$pctProfit</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$minsFromBuy</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$NoOfRisesInPrice</td>",$_SESSION['isMobile'],0);
+
           Echo "</TR>";
         }//end for
         print_r("</table>");
