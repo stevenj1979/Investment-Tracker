@@ -88,7 +88,7 @@ while($completeFlag == False){
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
 
-    if ($pctProfit > 0.25 && $minsFromDate <= -5 && $pctProfit < 1.25){
+    if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice > $totalRisesInPrice-1){
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
@@ -129,7 +129,7 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27];
     echo "<BR> Checking $coin : $CoinPrice ; $NoOfRisesInPrice ! $ProfitPct | $minsFromDate";
-    if ($ProfitPct < 0 && $minsFromDate <= 236 && $ProfitPct > -3){
+    if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
       if ($NoOfRisesInPrice > $totalRisesInPrice-1 && $ogPctProfit >= 0.25){
         //Sell CoinS
