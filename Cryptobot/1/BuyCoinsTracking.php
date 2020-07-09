@@ -65,6 +65,7 @@ function showMain(){
           Echo "<TR>";
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$BuyCoin</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$SendEmail</td>",$_SESSION['isMobile'],0);
