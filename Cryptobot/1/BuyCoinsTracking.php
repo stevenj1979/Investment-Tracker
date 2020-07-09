@@ -60,12 +60,12 @@ function showMain(){
           $ruleIDBuy = $tracking[$x][12];$coinID = $tracking[$x][0];$CoinSellOffsetPct = $tracking[$x][13];$CoinSellOffsetEnabled = $tracking[$x][14];
           $buyType = $tracking[$x][15];$timeToCancelBuyMins = $tracking[$x][16];$SellRuleFixed = $tracking[$x][17];
           $pctProfit = $tracking[$x][6]; $newTrackingCoinID = $tracking[$x][23]; $liveCoinPrice = $tracking[$x][4];
-          $minsFromBuy = $tracking[$x][24];
+          $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1];
           //TestRules
           Echo "<TR>";
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$coinPrice</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$BuyCoin</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$SendEmail</td>",$_SESSION['isMobile'],0);
