@@ -39,7 +39,7 @@ if(!empty($_GET['editedUserReady'])){
       //elseif ($_POST['selectCmbo1Hr2'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = '*';$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
       //elseif ($_POST['selectCmbo1Hr3'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = '*';$temp4 = $_POST['selectCmbo1Hr4'];}
       //elseif ($_POST['selectCmbo1Hr4'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = '*';}
-
+      $temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];
       //Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
       add1HrPatterntoSQL(str_replace("2","*",$temp1.$temp2.$temp3.$temp4), $_GET['editedUserReady']);
   }elseif (!empty($_POST['publishTrend'])){
