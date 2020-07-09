@@ -53,14 +53,14 @@ function showMain(){
         //$roundNum = 2;
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
-          $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
-          $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
-          $Email = $newTrackingCoins[$a][21];$userID = $newTrackingCoins[$a][7];$UserName = $newTrackingCoins[$a][22];
-          $SendEmail = $newTrackingCoins[$a][9];$BuyCoin = $newTrackingCoins[$a][10];$BTCAmount = $newTrackingCoins[$a][11];
-          $ruleIDBuy = $newTrackingCoins[$a][12];$coinID = $newTrackingCoins[$a][0];$CoinSellOffsetPct = $newTrackingCoins[$a][13];$CoinSellOffsetEnabled = $newTrackingCoins[$a][14];
-          $buyType = $newTrackingCoins[$a][15];$timeToCancelBuyMins = $newTrackingCoins[$a][16];$SellRuleFixed = $newTrackingCoins[$a][17];
-          $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
-          $minsFromBuy = $newTrackingCoins[$a][24];
+          $APIKey = $tracking[$a][18];$APISecret = $tracking[$a][19];$KEK = $tracking[$a][20];
+          $symbol = $tracking[$a][3];$baseCurrency = $tracking[$a][8];
+          $Email = $tracking[$a][21];$userID = $tracking[$a][7];$UserName = $tracking[$a][22];
+          $SendEmail = $tracking[$a][9];$BuyCoin = $tracking[$a][10];$BTCAmount = $tracking[$a][11];
+          $ruleIDBuy = $tracking[$a][12];$coinID = $tracking[$a][0];$CoinSellOffsetPct = $tracking[$a][13];$CoinSellOffsetEnabled = $tracking[$a][14];
+          $buyType = $tracking[$a][15];$timeToCancelBuyMins = $tracking[$a][16];$SellRuleFixed = $tracking[$a][17];
+          $pctProfit = $tracking[$a][6]; $newTrackingCoinID = $tracking[$a][23]; $liveCoinPrice = $tracking[$a][4];
+          $minsFromBuy = $tracking[$a][24];
           //TestRules
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
