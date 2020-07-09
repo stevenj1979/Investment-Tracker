@@ -94,7 +94,7 @@ function addTrendPatterntoSQL($pattern, $ruleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
