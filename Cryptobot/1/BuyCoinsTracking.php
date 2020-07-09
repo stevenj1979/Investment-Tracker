@@ -53,14 +53,14 @@ function showMain(){
         //$roundNum = 2;
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
-          $APIKey = $tracking[$a][18];$APISecret = $tracking[$a][19];$KEK = $tracking[$a][20];
-          $symbol = $tracking[$a][3];$baseCurrency = $tracking[$a][8];
-          $Email = $tracking[$a][21];$userID = $tracking[$a][7];$UserName = $tracking[$a][22];
-          $SendEmail = $tracking[$a][9];$BuyCoin = $tracking[$a][10];$BTCAmount = $tracking[$a][11];
-          $ruleIDBuy = $tracking[$a][12];$coinID = $tracking[$a][0];$CoinSellOffsetPct = $tracking[$a][13];$CoinSellOffsetEnabled = $tracking[$a][14];
-          $buyType = $tracking[$a][15];$timeToCancelBuyMins = $tracking[$a][16];$SellRuleFixed = $tracking[$a][17];
-          $pctProfit = $tracking[$a][6]; $newTrackingCoinID = $tracking[$a][23]; $liveCoinPrice = $tracking[$a][4];
-          $minsFromBuy = $tracking[$a][24];
+          $APIKey = $tracking[$x][18];$APISecret = $tracking[$x][19];$KEK = $tracking[$x][20];
+          $symbol = $tracking[$x][3];$baseCurrency = $tracking[$x][8];
+          $Email = $tracking[$x][21];$userID = $tracking[$x][7];$UserName = $tracking[$x][22];
+          $SendEmail = $tracking[$x][9];$BuyCoin = $tracking[$x][10];$BTCAmount = $tracking[$x][11];
+          $ruleIDBuy = $tracking[$x][12];$coinID = $tracking[$x][0];$CoinSellOffsetPct = $tracking[$x][13];$CoinSellOffsetEnabled = $tracking[$x][14];
+          $buyType = $tracking[$x][15];$timeToCancelBuyMins = $tracking[$x][16];$SellRuleFixed = $tracking[$x][17];
+          $pctProfit = $tracking[$x][6]; $newTrackingCoinID = $tracking[$x][23]; $liveCoinPrice = $tracking[$x][4];
+          $minsFromBuy = $tracking[$x][24];
           //TestRules
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
