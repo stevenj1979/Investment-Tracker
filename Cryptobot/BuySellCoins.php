@@ -88,9 +88,9 @@ while($completeFlag == False){
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
 
-    if ($pctProfit > 0.25 && $minsFromDate >= 4 && $pctProfit < 1.25){
+    if ($pctProfit > 0.25 && $minsFromDate <= 236 && $pctProfit < 1.25){
       //Buy
-      if ($noOfRisesInPrice == $totalRisesInPrice){
+      if ($noOfRisesInPrice > $totalRisesInPrice-1){
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
@@ -103,7 +103,7 @@ while($completeFlag == False){
         logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$newNoOfRisesInPrice.");", $userID, $logToSQLSetting);
       }
 
-    }elseif ($pctProfit < -5 && $minsFromDate >= 4){
+    }elseif ($pctProfit < -5 && $minsFromDate <= 236){
       // set $noOfRisesInPrice to 0
       updateNoOfRisesInPrice($newTrackingCoinID, 0);
       logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID, $logToSQLSetting);
@@ -111,7 +111,7 @@ while($completeFlag == False){
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
       logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif ($pctProfit > 5 && $minsFromDate >= 4){
+    }elseif ($pctProfit > 5 && $minsFromDate <= 236){
       closeNewTrackingCoin($newTrackingCoinID);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
@@ -129,9 +129,9 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][25]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27];
     echo "<BR> Checking $coin : $CoinPrice ; $NoOfRisesInPrice ! $ProfitPct | $minsFromDate";
-    if ($ProfitPct < 0 && $minsFromDate >= 4 && $ProfitPct > -3){
+    if ($ProfitPct < 0 && $minsFromDate <= 236 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
-      if ($NoOfRisesInPrice >= $totalRisesInPrice && $ogPctProfit >= 0.25){
+      if ($NoOfRisesInPrice > $totalRisesInPrice-1 && $ogPctProfit >= 0.25){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
         reopenTransaction($TransactionID);
@@ -147,14 +147,14 @@ while($completeFlag == False){
         echo "<BR> No of rises in price for $coin = ".$NoOfRisesInPrice+1;
         //Add 1 to number of rises in price
       }
-    }elseif ($ProfitPct > 0 && $minsFromDate >= 4){
+    }elseif ($ProfitPct > 0 && $minsFromDate <= 236){
       echo "<BR> Option 2";
       //Update Rises in price
       updateNoOfRisesInSellPrice($TransactionID, 0, $LiveCoinPrice);
       //Set new Tracking Price
       setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
-    }elseif ($ProfitPct < -5 && $minsFromDate >= 4 OR $ogPctProfit < 0){
+    }elseif ($ProfitPct < -5 && $minsFromDate <= 236 OR $ogPctProfit < 0){
       echo "<BR> Option 3";
       //Close tracking coin
       closeNewTrackingSellCoin($TransactionID);
