@@ -412,6 +412,10 @@ while($completeFlag == False){
       echo "<BR> NEXT RULE <BR>";
     }//Sell Rules
     $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+    $buyPrice = ($cost * $amount);
+    $sellPrice = ($LiveCoinPrice * $amount);
+    $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+    $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
     echo "<BR> TESTING: Profit $profit PctToPurchase $pctToPurchase LowPricePurchaseEnabled $lowPricePurchaseEnabled NoOfPurchases $noOfPurchases PurchaseLimit $purchaseLimit ToMerge $toMerge";
     if ($profit <= $pctToPurchase  && $BTCBalance >= 20 && $lowPricePurchaseEnabled == 1 && $noOfPurchases < $purchaseLimit && $toMerge == 0){
       //Buy Coin
