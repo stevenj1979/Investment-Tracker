@@ -62,6 +62,7 @@ function showMain(){
           $pctProfit = $tracking[$x][6]; $newTrackingCoinID = $tracking[$x][23]; $liveCoinPrice = $tracking[$x][4];
           $minsFromBuy = $tracking[$x][24];
           //TestRules
+          Echo "<TR>";
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$UserName</td>",$_SESSION['isMobile'],0);
@@ -75,7 +76,7 @@ function showMain(){
           NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$pctProfit</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$minsFromBuy</td>",$_SESSION['isMobile'],0);
-
+          Echo "</TR>";
         }//end for
         print_r("</table>");
 
