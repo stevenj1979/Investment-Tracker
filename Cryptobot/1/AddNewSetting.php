@@ -35,20 +35,21 @@ if(!empty($_GET['editedUserReady'])){
       removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
   }elseif (!empty($_POST['publishHr1'])){
       //Echo " ".$_POST['publishHr1'].$_POST['selectCmbo1Hr1'].$_POST['selectCmbo1Hr2'].$_POST['selectCmbo1Hr3'].$_POST['selectCmbo1Hr4'];
-      if ($_POST['selectCmbo1Hr1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmbo1Hr2']; $temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
-      elseif ($_POST['selectCmbo1Hr2'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = '*';$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
-      elseif ($_POST['selectCmbo1Hr3'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = '*';$temp4 = $_POST['selectCmbo1Hr4'];}
-      elseif ($_POST['selectCmbo1Hr4'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = '*';}
+      //if ($_POST['selectCmbo1Hr1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmbo1Hr2']; $temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
+      //elseif ($_POST['selectCmbo1Hr2'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = '*';$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = $_POST['selectCmbo1Hr4'];}
+      //elseif ($_POST['selectCmbo1Hr3'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = '*';$temp4 = $_POST['selectCmbo1Hr4'];}
+      //elseif ($_POST['selectCmbo1Hr4'] == 2){$temp1 = $_POST['selectCmbo1Hr1'];$temp2 = $_POST['selectCmbo1Hr2'];$temp3 = $_POST['selectCmbo1Hr3'];$temp4 = '*';}
+
       //Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
-      add1HrPatterntoSQL($temp1.$temp2.$temp3.$temp4, $_GET['editedUserReady']);
+      add1HrPatterntoSQL(str_replace("2","*",$temp1.$temp2.$temp3.$temp4), $_GET['editedUserReady']);
   }elseif (!empty($_POST['publishTrend'])){
       //Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
-      if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
-      elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
-      elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
-      elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
+      //if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
+      //elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
+      //elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
+      //elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
       //Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
-      addTrendPatterntoSQL($temp1.$temp2.$temp3.$temp4,$_GET['editedUserReady']);
+      addTrendPatterntoSQL(str_replace("2","*",$temp1.$temp2.$temp3.$temp4),$_GET['editedUserReady']);
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
