@@ -88,7 +88,7 @@ while($completeFlag == False){
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
 
-    if ($pctProfit > 0.25 && $minsFromDate <= 236 && $pctProfit < 1.25){
+    if ($pctProfit > 0.25 && $minsFromDate <= -5 && $pctProfit < 1.25){
       //Buy
       if ($noOfRisesInPrice > $totalRisesInPrice-1){
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
@@ -103,7 +103,7 @@ while($completeFlag == False){
         logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$newNoOfRisesInPrice.");", $userID, $logToSQLSetting);
       }
 
-    }elseif ($pctProfit < -5 && $minsFromDate <= 236){
+    }elseif ($pctProfit < -5 && $minsFromDate <= -5){
       // set $noOfRisesInPrice to 0
       updateNoOfRisesInPrice($newTrackingCoinID, 0);
       logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID, $logToSQLSetting);
@@ -111,7 +111,7 @@ while($completeFlag == False){
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
       logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif ($pctProfit > 5 && $minsFromDate <= 236){
+    }elseif ($pctProfit > 5 && $minsFromDate <= -5){
       closeNewTrackingCoin($newTrackingCoinID);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
@@ -147,14 +147,14 @@ while($completeFlag == False){
         echo "<BR> No of rises in price for $coin = ".$NoOfRisesInPrice+1;
         //Add 1 to number of rises in price
       }
-    }elseif ($ProfitPct > 0 && $minsFromDate <= 236){
+    }elseif ($ProfitPct > 0 && $minsFromDate <= -5){
       echo "<BR> Option 2";
       //Update Rises in price
       updateNoOfRisesInSellPrice($TransactionID, 0, $LiveCoinPrice);
       //Set new Tracking Price
       setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
-    }elseif ($ProfitPct < -5 && $minsFromDate <= 236 OR $ogPctProfit < 0){
+    }elseif ($ProfitPct < -5 && $minsFromDate <= -5 OR $ogPctProfit < 0){
       echo "<BR> Option 3";
       //Close tracking coin
       closeNewTrackingSellCoin($TransactionID);
