@@ -103,7 +103,7 @@ while($completeFlag == False){
         logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, ".$newNoOfRisesInPrice.");", $userID, $logToSQLSetting);
       }
 
-    }elseif ($pctProfit < -5 && $minsFromDate <= -5){
+    }elseif ($pctProfit < 0 && $minsFromDate <= -5){
       // set $noOfRisesInPrice to 0
       updateNoOfRisesInPrice($newTrackingCoinID, 0);
       logToSQL("TrackingCoins", "updateNoOfRisesInPrice($newTrackingCoinID, 0);", $userID, $logToSQLSetting);
