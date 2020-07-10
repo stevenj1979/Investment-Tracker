@@ -188,7 +188,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         }
                         echo "</select>";
                         echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'>";
-                        ?></div>
+                        ?>
                         <?php if ($userDetails[0][14] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                           <div class='settingsform'>
                             <b>Low Price Purchase Enabled: </b><br/><select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
@@ -196,17 +196,17 @@ $userDetails = getUserIDs($_SESSION['ID']);
                               <option value='".$option2."'>".$option2."</option></select></div>";?>
               <div class="form-group">
                   <b>Number of Purchases: </b><br/>
-                  <input type="text" name="NoOfPurchases" id="NoOfPurchases" class="form-control input-lg" placeholder="2" value="<?php echo $userDetails[0][15]; ?>" tabindex="5">
+                  <input type="text" name="NoOfPurchases" id="totalBTCLimit" class="form-control input-lg" placeholder="2" value="<?php echo $userDetails[0][15]; ?>" tabindex="5">
                   <p class="comments">Amount in BTC for each buy</p>
                 </div>
                 <div class="form-group">
                     <b>% to Purchase: </b><br/>
-                    <input type="text" name="PctToPurchase" id="PctToPurchase" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][16]; ?>" tabindex="5">
+                    <input type="text" name="PctToPurchase" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][16]; ?>" tabindex="5">
                     <p class="comments">Amount in BTC for each buy</p>
                   </div>
                   <div class="form-group">
                       <b>Total Rises In Price: </b><br/>
-                      <input type="text" name="TotalRisesInPrice" id="TotalRisesInPrice" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][17]; ?>" tabindex="5">
+                      <input type="text" name="TotalRisesInPrice" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][17]; ?>" tabindex="5">
                       <p class="comments">Amount in BTC for each buy</p>
                     </div>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="8">
