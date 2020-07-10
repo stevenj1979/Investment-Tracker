@@ -22,13 +22,21 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 if(isset($_POST['submit'])){
 
   if (!empty($_GET['user'])){
-    if(empty($_POST['BTCBuyAmount'])){$_POST['BTCBuyAmount'] = 0;}
-    if(empty($_POST['dailyBTCLimit'])){$_POST['dailyBTCLimit'] = 0;}
-    if(empty($_POST['enableDailyBTCLimit'])){$_POST['enableDailyBTCLimit'] = 0;}
-    if(empty($_POST['totalBTCLimit'])){$_POST['totalBTCLimit'] = 0;}
-    if(empty($_POST['enableTotalBTCLimit'])){$_POST['enableTotalBTCLimit'] = 0;}
+    $userID = $_SESSION['ID']; $userName = $_POST['newusername']; $email = $_POST['email']; $APIKey = $_POST['API_Key']; $APISecret = $_POST['API_Secret'];
+    $dailyBTCLimit = $_POST['dailyBTCLimit']; $totalBTCLimit = $_POST['totalBTCLimit']; $enableDailyBTCLimit = $_POST['enableDailyBTCLimit']; $enableTotalBTCLimit = $_POST['enableTotalBTCLimit'];
+    $btcBuyAmount = $_POST['BTCBuyAmount']; $baseCurrency = $_POST['userBaseCurrency']; $enableLowPurchasePrice = $_POST['lowPricePurchaseEnabled'];
+    $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];
+    if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
+    if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
+    if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
+    if(empty($_POST['totalBTCLimit'])){$totalBTCLimit = 0;}
+    if(empty($_POST['enableTotalBTCLimit'])){$enableTotalBTCLimit = 0;}
+    if(empty($_POST['lowPricePurchaseEnabled'])){$enableLowPurchasePrice = 0;}
+    if(empty($_POST['NoOfPurchases'])){$noOfPurchases = 0;}
+    if(empty($_POST['PctToPurchase'])){$pctToPurchase = 0;}
+    if(empty($_POST['TotalRisesInPrice'])){$totalRisesInPrice = 0;}
     echo "Here1!";
-    updateUser($_SESSION['ID'],$_POST['newusername'],$_POST['email'],$_POST['API_Key'],$_POST['API_Secret'],$_POST['dailyBTCLimit'],$_POST['totalBTCLimit'],$_POST['enableDailyBTCLimit'],$_POST['enableTotalBTCLimit'],$_POST['BTCBuyAmount'],$_POST['userBaseCurrency']);
+    updateUser($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice);
     echo "Here2!";
 
     //header('Location: Settings.php');
@@ -67,9 +75,10 @@ function getUserIDs($userID){
 }
 
 
-function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency){
+function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency, $lowPricePurchaseEnabled, $noOfPurchases, $pctToPurchase,$totalRisesInPrice){
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
+  if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -81,6 +90,7 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
   $enc_KEK = $encAry['secret'];
   $sql = "UPDATE `UserConfig` SET `APIKey`='$apikey', `APISecret`='$enc_apiSecret',`EnableDailyBTCLimit`=$enableDailyBTCLimitNum
          ,`EnableTotalBTCLimit`=$enableTotalBTCLimitNum,`DailyBTCLimit`=$dailyBTCLimit,`TotalBTCLimit`=$totalBTCLimit,`BTCBuyAmount`=$BTCBuyAmount, `BaseCurrency`='$userBaseCurrency',`KEK`='$enc_KEK'
+         ,`LowPricePurchaseEnabled` = $lowPricePurchaseEnabled, `NoOfPurchases` = $noOfPurchases,`PctToPurchase` = $pctToPurchase,`TotalRisesInPrice` = $totalRisesInPrice
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
   //print_r($sql);
@@ -188,10 +198,10 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         }
                         echo "</select>";
                         echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'>";
-                        ?></div>
+                        ?>
                         <?php if ($userDetails[0][14] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                           <div class='settingsform'>
-                            <b>Low Price Purchase Enabled: </b><br/><select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
+                            <b>Low Price Purchase Enabled: </b><br/><select name='lowPricePurchaseEnabled' id='enableDailyBTCLimit' class='enableTextBox'><?php
                               echo "<option value='".$option1."'>".$option1."</option>
                               <option value='".$option2."'>".$option2."</option></select></div>";?>
               <div class="form-group">
