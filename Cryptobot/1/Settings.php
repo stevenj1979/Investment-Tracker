@@ -188,7 +188,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         }
                         echo "</select>";
                         echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'>";
-                        ?>
+                        ?></div>
                         <?php if ($userDetails[0][14] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                           <div class='settingsform'>
                             <b>Low Price Purchase Enabled: </b><br/><select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
