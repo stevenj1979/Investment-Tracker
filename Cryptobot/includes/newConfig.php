@@ -2394,8 +2394,8 @@ function newTrackingSellCoins($APIKey, $APISecret,$coin, $Email, $userID, $score
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "INSERT INTO `TrackingSellCoins`(`CoinPrice`, `TrackDate`,`UserID`, `TransactionID`)
-  VALUES ($LiveCoinPrice,'$date',$userID,$transactionID)";
+  $sql = "INSERT INTO `TrackingSellCoins`(`CoinPrice`, `TrackDate`,`UserID`, `TransactionID`,`SellCoin`,`SendEmail`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`)
+  VALUES ($LiveCoinPrice,'$date',$userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
