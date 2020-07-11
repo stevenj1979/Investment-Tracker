@@ -50,7 +50,7 @@ $date = date('Y/m/d H:i:s', time());
           $APIKey = $trackingSell[$x][10]; $APISecret = $trackingSell[$x][11]; $KEK = $trackingSell[$x][12]; $Email = $trackingSell[$x][13]; $UserName = $trackingSell[$x][14];
           $BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           $LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
-          $totalRisesInPrice =  $trackingSell[$x][25]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];
+          $totalRisesInPrice =  $trackingSell[$x][30]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];
           echo "<tr>";
           echo "<td>$coin</td>";
           echo "<td>$CoinPrice</td>";
