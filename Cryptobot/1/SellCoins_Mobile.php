@@ -193,7 +193,7 @@ $date = date('Y/m/d H:i:s', time());
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
-
+        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a></h3>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;

@@ -63,21 +63,21 @@ function showMain(){
           $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1]; $NoOfRisesInPrice = $tracking[$x][26];
           //TestRules
           Echo "<TR>";
-          NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$coinPrice</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$coinPrice</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$BuyCoin</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$SendEmail</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$BTCAmount</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$BTCAmount</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$ruleIDBuy</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$buyType</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$timeToCancelBuyMins</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$SellRuleFixed</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$pctProfit</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$minsFromBuy</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>$NoOfRisesInPrice</td>",$_SESSION['isMobile'],0);
+          NewEcho("<td>$SellRuleFixed</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>$liveCoinPrice</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>$pctProfit</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>$minsFromBuy</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>$NoOfRisesInPrice</td>",$_SESSION['isMobile'],2);
 
           Echo "</TR>";
         }//end for
