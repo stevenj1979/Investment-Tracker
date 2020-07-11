@@ -90,7 +90,7 @@ while($completeFlag == False){
 
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
-      if ($noOfRisesInPrice > $totalRisesInPrice-1){
+      if ($noOfRisesInPrice >= $totalRisesInPrice){
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
         buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
@@ -131,7 +131,7 @@ while($completeFlag == False){
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice";
     if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
-      if ($NoOfRisesInPrice > $totalRisesInPrice-1 && $ogPctProfit >= 0.25){
+      if ($NoOfRisesInPrice >= $totalRisesInPrice && $ogPctProfit >= 0.25){
         //Sell CoinS
         $date = date("Y-m-d H:i:s", time());
         reopenTransaction($TransactionID);
