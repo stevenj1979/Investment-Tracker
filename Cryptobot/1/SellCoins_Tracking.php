@@ -52,7 +52,7 @@ $date = date('Y/m/d H:i:s', time());
           $LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
           $totalRisesInPrice =  $trackingSell[$x][30]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];
           echo "<tr>";
-          NewEcho ("<td>".Round($coin,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>$coin</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>".Round($CoinPrice,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>".Round($Amount,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>$NoOfRisesInPrice</td>",$_SESSION['isMobile'],2);
