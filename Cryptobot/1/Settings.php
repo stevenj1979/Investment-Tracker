@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
     $userID = $_SESSION['ID']; $userName = $_POST['newusername']; $email = $_POST['email']; $APIKey = $_POST['API_Key']; $APISecret = $_POST['API_Secret'];
     $dailyBTCLimit = $_POST['dailyBTCLimit']; $totalBTCLimit = $_POST['totalBTCLimit']; $enableDailyBTCLimit = $_POST['enableDailyBTCLimit']; $enableTotalBTCLimit = $_POST['enableTotalBTCLimit'];
     $btcBuyAmount = $_POST['BTCBuyAmount']; $baseCurrency = $_POST['userBaseCurrency']; $enableLowPurchasePrice = $_POST['lowPricePurchaseEnabled'];
-    $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];
+    $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];$totalRisesInPriceSell = $_POST['TotalRisesInPriceSell'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -35,8 +35,9 @@ if(isset($_POST['submit'])){
     if(empty($_POST['NoOfPurchases'])){$noOfPurchases = 0;}
     if(empty($_POST['PctToPurchase'])){$pctToPurchase = 0;}
     if(empty($_POST['TotalRisesInPrice'])){$totalRisesInPrice = 0;}
+    if(empty($_POST['TotalRisesInPriceSell'])){$totalRisesInPriceSell = 0;}
     echo "Here1!";
-    updateUser($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice);
+    updateUser($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell);
     echo "Here2!";
 
     //header('Location: Settings.php');
@@ -60,7 +61,7 @@ function getUserIDs($userID){
   }
 
   $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`,`KEK`
-  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`
+  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`
   FROM `UserConfigView` WHERE `ID` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -68,14 +69,15 @@ function getUserIDs($userID){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'],
-      $row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK'],$row['LowPricePurchaseEnabled'],$row['NoOfPurchases'],$row['PctToPurchase'],$row['TotalRisesInPrice']);
+      $row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK'],$row['LowPricePurchaseEnabled'],$row['NoOfPurchases'],$row['PctToPurchase']
+      ,$row['TotalRisesInPrice'],$row['TotalRisesInPriceSell']);
   }
   $conn->close();
   return $tempAry;
 }
 
 
-function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency, $lowPricePurchaseEnabled, $noOfPurchases, $pctToPurchase,$totalRisesInPrice){
+function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency, $lowPricePurchaseEnabled, $noOfPurchases, $pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell){
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -90,7 +92,7 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
   $enc_KEK = $encAry['secret'];
   $sql = "UPDATE `UserConfig` SET `APIKey`='$apikey', `APISecret`='$enc_apiSecret',`EnableDailyBTCLimit`=$enableDailyBTCLimitNum
          ,`EnableTotalBTCLimit`=$enableTotalBTCLimitNum,`DailyBTCLimit`=$dailyBTCLimit,`TotalBTCLimit`=$totalBTCLimit,`BTCBuyAmount`=$BTCBuyAmount, `BaseCurrency`='$userBaseCurrency',`KEK`='$enc_KEK'
-         ,`LowPricePurchaseEnabled` = $lowPricePurchaseEnabled, `NoOfPurchases` = $noOfPurchases,`PctToPurchase` = $pctToPurchase,`TotalRisesInPrice` = $totalRisesInPrice
+         ,`LowPricePurchaseEnabled` = $lowPricePurchaseEnabled, `NoOfPurchases` = $noOfPurchases,`PctToPurchase` = $pctToPurchase,`TotalRisesInPrice` = $totalRisesInPrice, `TotalRisesInPriceSell` = $totalRisesInPriceSell
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
   //print_r($sql);
@@ -219,6 +221,11 @@ $userDetails = getUserIDs($_SESSION['ID']);
                       <input type="text" name="TotalRisesInPrice" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][17]; ?>" tabindex="5">
                       <p class="comments">Amount in BTC for each buy</p>
                     </div>
+                    <div class="form-group">
+                        <b>Total Rises In Price Sell: </b><br/>
+                        <input type="text" name="TotalRisesInPriceSell" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][18]; ?>" tabindex="5">
+                        <p class="comments">Amount in BTC for each buy</p>
+                      </div>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="8">
               </div>
             </form><?php
