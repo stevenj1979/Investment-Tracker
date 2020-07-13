@@ -283,7 +283,9 @@ while($completeFlag == False){
       Echo "<BR> UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14  TOTAL: $totalScore_Buy / 14";
       $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
       $reservedAmount = getReservedAmount($baseCurrency,$userID);
-      Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
+      if ($reservedAmount <> False){
+        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
+      }
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True && $test13 == True && $test14 == True){
         $date = date("Y-m-d H:i:s", time());
