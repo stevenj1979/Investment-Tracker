@@ -2532,4 +2532,25 @@ function reopenTransaction($id){
   $conn->close();
   logAction("reopenTransaction: ".$sql, 'TrackingCoins', 0);
 }
+
+function getReservedAmount($baseCurrency, $userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+//12
+
+  $sql = "SELECT `CoinPrice` * `Quantity` as TotalReserved from `TrackingCoins` where `BaseCurrency` = $baseCurrency and `UserID` = $userID and `Status` = 'Open' ";
+  //echo $sql;
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['TotalReserved']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>
