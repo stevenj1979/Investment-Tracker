@@ -44,11 +44,11 @@ function getUserConfig(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Select `Active`, `DisableUntil`,`Email`, `UserName` FROM `UserConfigView`";
+  $sql = "Select `Active`, `DisableUntil`,`Email`, `UserName`,`ID` FROM `UserConfigView`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Active'],$row['DisableUntil'],$row['Email'],$row['UserName']);
+      $tempAry[] = Array($row['Active'],$row['DisableUntil'],$row['Email'],$row['UserName'],$row['ID']);
   }
   $conn->close();
   return $tempAry;
@@ -166,14 +166,17 @@ for($x = 0; $x < $coinLength; $x++) {
 
 $hr1ChangeSum = get1HrChangeSum();
 $userConfig = getUserConfig();
-echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
-if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 && $userConfig[0][1] < date("Y-m-d H:i", time())){
+$disabledEndTime = date("Y-m-d H:i",strtotime("-5 minutes", strtotime( $userConfig[0][1])));
+echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100."disabledEndTime : $disabledEndTime";
+
+if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 &&  date("Y-m-d H:i", time()) > $disabledEndTime){
     //disable for 6 hours
     echo "<BR> Disabling Users for 6 hours!";
     tempDisableUsers(360);
     emailUsersDisable($userConfig, "suspended", date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i')))));
 }
 echo "<BR> DisableUntil: ".$userConfig[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
+
 if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 > 50 && $userConfig[0][1] > date("Y-m-d H:i", time())){
     tempDisableUsers(20);
     emailUsersReenable($userConfig, "re-activated", date('Y-m-d H:i'));
