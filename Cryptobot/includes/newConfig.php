@@ -1587,6 +1587,9 @@ function logToSQL($subject, $comments, $UserID, $enabled = 0){
 function displayHeader($n){
   $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
   $_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
+  $_SESSION['DisableUntil'] = getUserDisabled($_SESSION['ID']);
+  if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
+
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","AdminSettings.php");
   $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Console","Admin Settings");
   $headerLen = count($headers);
@@ -1594,7 +1597,7 @@ function displayHeader($n){
   ?><div class="header">
     <table>
       <TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
-      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th></Table><br>
+      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th><tr><th><?php if ($_SESSION['isDisabled']){echo "Disabled Until : ".$_SESSION['DisableUntil'];} ?></th></tr></Table><br>
      </div>
      <div class="topnav"> <?php
 
@@ -2553,4 +2556,6 @@ function getReservedAmount($baseCurrency, $userID){
   $conn->close();
   return $tempAry;
 }
+
+
 ?>
