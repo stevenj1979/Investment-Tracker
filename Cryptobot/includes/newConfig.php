@@ -1597,8 +1597,8 @@ function displayHeader($n){
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
   ?><div class="header">
     <table>
-      <TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
-      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?></th><tr><th><?php if ($_SESSION['isDisabled']){echo "Disabled Until : ".$_SESSION['DisableUntil'];} ?></th></tr></Table><br>
+      <tr><TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
+      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?><?php if ($_SESSION['isDisabled']){echo " Disabled Until : ".$_SESSION['DisableUntil'];} ?></th></tr></Table><br>
      </div>
      <div class="topnav"> <?php
 
