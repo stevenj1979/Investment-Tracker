@@ -84,10 +84,10 @@ function update1HrAllCoin($coinID, $hr1Diff){
   $conn->close();
 }
 
-function tempDisableUsers($hours){
+function tempDisableUsers($mins){
   $date = date("Y-m-d H:i", time());
   if ($hours > 0){
-    $newDate = date('Y-m-d H:i', strtotime($date. " +$hours hours"));
+    $newDate = date('Y-m-d H:i', strtotime($date. " +$mins minutes"));
   }else{
     $newDate = $date;
   }
@@ -170,12 +170,12 @@ echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".($
 if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 && $userConfig[0][1] < date("Y-m-d H:i", time())){
     //disable for 6 hours
     echo "<BR> Disabling Users for 6 hours!";
-    tempDisableUsers(6);
+    tempDisableUsers(360);
     emailUsersDisable($userConfig, "suspended", date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i')))));
 }
 echo "<BR> DisableUntil: ".$userConfig[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
 if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 > 50 && $userConfig[0][1] > date("Y-m-d H:i", time())){
-    tempDisableUsers(1);
+    tempDisableUsers(20);
     emailUsersReenable($userConfig, "re-activated", date('Y-m-d H:i'));
 }
 
