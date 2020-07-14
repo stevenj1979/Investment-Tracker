@@ -61,7 +61,7 @@ function get1HrChangeSum(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`1HrDiff`) as Hr1Diff,count(`CoinID`) as noOfCoins FROM `AllCoinStatus`";
+  $sql = "SELECT `Hr1Diff`,`noOfCoins` FROM `AllCoinStatusView`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -175,7 +175,7 @@ if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 20 && $userConfig[0][1] < d
 }
 echo "<BR> DisableUntil: ".$userConfig[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
 if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 > 20 && $userConfig[0][1] > date("Y-m-d H:i", time())){
-    tempDisableUsers(0);
+    tempDisableUsers(1);
     emailUsersReenable($userConfig, "re-activated", date('Y-m-d H:i'));
 }
 
