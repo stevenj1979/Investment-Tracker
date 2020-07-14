@@ -167,14 +167,14 @@ for($x = 0; $x < $coinLength; $x++) {
 $hr1ChangeSum = get1HrChangeSum();
 $userConfig = getUserConfig();
 echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
-if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 25 && $userConfig[0][1] < date("Y-m-d H:i", time())){
+if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 && $userConfig[0][1] < date("Y-m-d H:i", time())){
     //disable for 6 hours
     echo "<BR> Disabling Users for 6 hours!";
     tempDisableUsers(6);
     emailUsersDisable($userConfig, "suspended", date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i')))));
 }
 echo "<BR> DisableUntil: ".$userConfig[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
-if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 > 25 && $userConfig[0][1] > date("Y-m-d H:i", time())){
+if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 > 50 && $userConfig[0][1] > date("Y-m-d H:i", time())){
     tempDisableUsers(1);
     emailUsersReenable($userConfig, "re-activated", date('Y-m-d H:i'));
 }
