@@ -167,7 +167,7 @@ for($x = 0; $x < $coinLength; $x++) {
 $hr1ChangeSum = get1HrChangeSum();
 $userConfig = getUserConfig();
 $disabledEndTime = date("Y-m-d H:i",strtotime("-5 minutes", strtotime( $userConfig[0][1])));
-echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100."disabledEndTime : $disabledEndTime";
+echo "<BR> SUM: ".$hr1ChangeSum[0][0]." Count: ".$hr1ChangeSum[0][1]." PCT: ".(($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100)."disabledEndTime : $disabledEndTime";
 
 if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 &&  date("Y-m-d H:i", time()) > $disabledEndTime){
     //disable for 6 hours
