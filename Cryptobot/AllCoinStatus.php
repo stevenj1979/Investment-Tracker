@@ -173,7 +173,7 @@ if (($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100 <= 50 &&  date("Y-m-d H:i", ti
     //disable for 6 hours
     echo "<BR> Disabling Users for 6 hours!";
     tempDisableUsers(360);
-    emailUsersDisable($userConfig, "suspended", date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i')))));
+    //emailUsersDisable($userConfig, "suspended", date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i')))));
 }
 echo "<BR> DisableUntil: ".$userConfig[0][1]." PCT: ".($hr1ChangeSum[0][0]/$hr1ChangeSum[0][1])*100;
 
