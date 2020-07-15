@@ -87,7 +87,8 @@ while($completeFlag == False){
     $buyType = $newTrackingCoins[$a][15];$timeToCancelBuyMins = $newTrackingCoins[$a][16];$SellRuleFixed = $newTrackingCoins[$a][17];
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
-
+    $disableUntil = $newTrackingCoins[$a][28];
+    if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $totalRisesInPrice){
@@ -111,7 +112,7 @@ while($completeFlag == False){
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
       logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif ($pctProfit > 5 && $minsFromDate <= -5){
+    }elseif ($pctProfit > 5 && $minsFromDate <= -5 Or $minsFromDate <= -500){
       closeNewTrackingCoin($newTrackingCoinID);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
@@ -288,9 +289,9 @@ while($completeFlag == False){
         $date = date("Y-m-d H:i:s", time());
         $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
-        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
-        if ($reservedAmount <> False){
 
+        if ($reservedAmount <> False){
+          Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
           $totalBal = $BTCBalance-$reservedAmount;
         } else{ $totalBal = $BTCBalance;}
         if ($totalBal > 20) {
