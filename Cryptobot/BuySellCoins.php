@@ -323,7 +323,7 @@ while($completeFlag == False){
     $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
     $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
     $lowPricePurchaseEnabled = $sellCoins[$a][45]; $purchaseLimit = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
-    $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44];
+    $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44]; $orderDate = $sellCoins[$a][7];
     //$symbol = $sellCoins[$a][11];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
@@ -419,6 +419,10 @@ while($completeFlag == False){
         logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
         logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID, $logToSQLSetting);
         //break;
+        $to_time = date("Y-m-d H:i:s", time());
+        $from_time = strtotime($orderDate);
+        $holdingMins =  round(abs($to_time - $from_time) / 60,2);
+        logHoldingTimeToSQL($coinID, $holdingMins);
         //addSellRuletoSQL()
       }
       echo "<BR> NEXT RULE <BR>";

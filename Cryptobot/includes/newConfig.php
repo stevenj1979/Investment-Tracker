@@ -2579,4 +2579,23 @@ function getUserDisabled($userID){
   return $tempAry;
 }
 
+function logHoldingTimeToSQL($coinID, $holdingMins){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `AverageCoinHolingTime`(`CoinID`, `MinsHolding`) VALUES ($coinID, $holdingMins)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("logHoldingTimeToSQL: ".$sql, 'SellCoins', 0);
+}
+
 ?>
