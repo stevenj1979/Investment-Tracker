@@ -222,7 +222,7 @@ while($completeFlag == False){
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
-      $totalBTCSpent = getTotalBTC($userID);
+      $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
 
       if (!empty($totalBTCSpent[0][0])){
         if ($totalBTCSpent[0][0] >= $TotalBTCLimit && $EnableTotalBTCLimit == 1){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}

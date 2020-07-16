@@ -1361,14 +1361,14 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
   logAction("bittrexSellCompleteUpdateAmount: ".$sql, 'BuySell', 0);
 }
 
-function getTotalBTC($userID){
+function getTotalBTC($userID, $baseCurrency){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `OpenBTC` FROM `AllTimeBTC` WHERE `UserID` = $userID";
+  $sql = "SELECT `AmountOpen` FROM `AllTimeBTC` WHERE `UserID` = $userID and `BaseCurrency` = $baseCurrency";
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['OpenBTC']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen']);}
   $conn->close();
   return $tempAry;
 }
