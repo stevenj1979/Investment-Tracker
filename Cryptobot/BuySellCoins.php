@@ -230,7 +230,7 @@ while($completeFlag == False){
 
       if ($overrideDailyLimit == 0){
         echo "<BR> DAILY LIMIT OVERRIDE OFF : $overrideDailyLimit";
-        $dailyBTCSpent = getDailyBTC($userID);
+        $dailyBTCSpent = getDailyBTC($userID,$baseCurrency);
         if (!empty($dailyBTCSpent[0][0])){
           if ($dailyBTCSpent[0][0] >= $DailyBTCLimit && $EnableDailyBTCLimit == 1){echo "<BR>EXIT: DAILY BTC SPENT";continue;}
         }

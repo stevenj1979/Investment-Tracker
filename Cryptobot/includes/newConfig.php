@@ -1373,14 +1373,14 @@ function getTotalBTC($userID, $baseCurrency){
   return $tempAry;
 }
 
-function getDailyBTC($userID){
+function getDailyBTC($userID, $baseCurrency){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `OpenBTC` FROM `DailyBTC` WHERE `UserID` = $userID";
+  $sql = "SELECT `OpenDaily` FROM `DailyBTC` WHERE `UserID` = $userID and `BaseCurrency` = $baseCurrency";
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['OpenBTC']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['OpenDaily']);}
   $conn->close();
   return $tempAry;
 }
