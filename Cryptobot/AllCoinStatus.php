@@ -152,7 +152,7 @@ $coinLength = Count($coins);
 
 
 echo "NEW LOOP ";
-
+// ***  UPDATE 1Hour Coin price
 for($x = 0; $x < $coinLength; $x++) {
   //variables
   if ($coins[$x][1] > 0){

@@ -167,7 +167,7 @@ function updateCoinTrend($coinID, $priceTrend, $hr1Trend){
 //set time
 setTimeZone();
 $date = date("Y-m-d H", time());
-
+// ***  UPDATE Buy price : for Autobuy
 $coinStatsAry = getCoinPriceStats();
 $coinStatsSize = count($coinStatsAry);
 
@@ -179,6 +179,7 @@ for($x = 0; $x < $coinStatsSize; $x++) {
   Echo "<BR>Update Buy Price $finalBitPrice , $coinID";
   logAction("Update Buy Price $finalBitPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
 }
+// ***  UPDATE Sell price : for Autosell
 $coinStatsSellAry = getCoinPriceStatsSell();
 $coinStatsSellSize = count($coinStatsSellAry);
 for($x = 0; $x < $coinStatsSellSize; $x++) {
@@ -188,6 +189,7 @@ for($x = 0; $x < $coinStatsSellSize; $x++) {
   Echo "<BR>Update Sell Price $newSellPrice , $coinID";
   logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
 }
+// ***  UPDATE Coin Trend
 $coinTrend = getCoinTrend();
 $coinTrendSize = Count($coinTrend);
 Echo "<BR> coinTrendSize: $coinTrendSize";
@@ -197,7 +199,7 @@ for($x = 0; $x < $coinTrendSize; $x++) {
   updateCoinTrend($coinID,$priceTrend,$hr1Trend);
 }
 
-
+// ***  Sparkline Images
 
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
