@@ -205,7 +205,7 @@ displayHeader(3);
 
           NewEcho("<td rowspan='3'><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
           NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
-
+          NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],0);
           echo "</tr><tr>";
           echo "<td><p id='smallText'>".$coin."</p></td>";
           NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],0);

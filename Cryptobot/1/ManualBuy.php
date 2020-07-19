@@ -83,6 +83,26 @@ if($_GET['coin'] <> ""){
       displayFooter();
 }
 
+if($_GET['track'] <> ""){
+  //collect values from the url
+  $userConfig = getUserConfig($_SESSION['ID']);
+  $btcBuyAmount = $userConfig[0][4];
+  $coinStats = getCoinStats($_GET['coin']);
+  //echo "Coin is set ".$_GET['coin'];
+  $coin = trim($_GET['coin']);
+  $cost = trim($_GET['coinPrice']);
+  $baseCurrency = trim($_GET['baseCurrency']);
+  $coinID = trim($_GET['coinID']);
+  $KEK = $userConfig[0][5]; $Email = $userConfig[0][3];
+  $apikey = $userConfig[0][1]; $apiSecret = $userConfig[0][2];
+  $userID = $_SESSION['ID']; $UserName = $userConfig[0][0];
+  if (!Empty($KEK)){$apiSecret = decrypt($KEK,$userConfig[0][2]);}
+  //$coinPrice = trim($_GET['coinPrice']);
+  //$active = trim($_GET['y']);
+  //addTrackingCoin($apikey,$apiSecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$btcBuyAmount,99999,$UserName,$coinID,0,0,1,90,'ALL',22);
+  addTrackingCoin($coinID, $cost, $userID, $baseCurrency, 1, 1, $btcBuyAmount, 9999, 0, 0, 1, 90, 22 , 0);
+}
+
 if($_GET['alert'] <> ""){
   displayHeader(3);
   displaySideColumn();
@@ -123,6 +143,7 @@ if(isset($_POST['coinAltTxt'])){
 
   header('Location: CoinAlerts.php');
 }
+
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
   //
