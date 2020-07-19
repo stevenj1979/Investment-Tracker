@@ -292,9 +292,9 @@ while($completeFlag == False){
         $date = date("Y-m-d H:i:s", time());
         $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
-        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
+        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | "; //.$BTCBalance-$reservedAmount
         //if ($reservedAmount <> 0){
-        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | ".$BTCBalance-$reservedAmount;
+        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | "; //.$BTCBalance-$reservedAmount
         $totalBal = $BTCBalance-$reservedAmount;
         //} else{ $totalBal = $BTCBalance;}
         if ($totalBal > 20) {
