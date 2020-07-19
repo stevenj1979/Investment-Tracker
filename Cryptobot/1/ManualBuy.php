@@ -59,7 +59,7 @@ google.setOnLoadCallback(drawVisualization);
 <Body><?php
 //getUrlVars()["coin"]
 
-if($_GET['coin'] <> ""){
+if($_GET['buy'] <> ""){
   //collect values from the url
   $userConfig = getUserConfig($_SESSION['ID']);
   $btcBuyAmount = $userConfig[0][4];
