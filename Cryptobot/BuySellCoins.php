@@ -292,10 +292,10 @@ while($completeFlag == False){
         $date = date("Y-m-d H:i:s", time());
         $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
-        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | "; //.$BTCBalance-$reservedAmount
+        Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         //if ($reservedAmount <> 0){
-        Echo "<BR> TEST BAL AND RES: $BTCBalance ; $reservedAmount | "; //.$BTCBalance-$reservedAmount
-        $totalBal = $BTCBalance-$reservedAmount;
+        Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
+        $totalBal = $BTCBalance-$reservedAmount[0][0];
         //} else{ $totalBal = $BTCBalance;}
         if ($totalBal > 20) {
           echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
