@@ -237,7 +237,7 @@ while($completeFlag == False){
         if (!empty($dailyBTCSpent[0][0])){
           if ($dailyBTCSpent[0][0] >= $DailyBTCLimit && $EnableDailyBTCLimit == 1){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
         }
-        if ($noOfBuys == $buyCounter){ echo "<BR>EXIT: Buy Counter Met!";continue;}
+        if ($noOfBuys == $buyCounter){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys $buyCounter";continue;}else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter $buyCounter ";}
       }
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
