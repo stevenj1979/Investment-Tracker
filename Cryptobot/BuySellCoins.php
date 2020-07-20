@@ -11,7 +11,7 @@ $logToSQLSetting = getLogToSQL();
 $logToFileSetting = getLogToFile();
 //$buyCancelTime = "01:0";
 //$noOfBuys = 5;
-$buyCounter = 0;
+$buyCounter = [];
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
   parse_str($argv[1], $params);
@@ -237,7 +237,7 @@ while($completeFlag == False){
         if (!empty($dailyBTCSpent[0][0])){
           if ($dailyBTCSpent[0][0] >= $DailyBTCLimit && $EnableDailyBTCLimit == 1){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
         }
-        if ($noOfBuys == $buyCounter){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys $buyCounter";continue;}else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter $buyCounter ";}
+        if ($noOfBuys == $buyCounter[$userID]){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID];continue;}else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$buyCounter[$userID];}
       }
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
@@ -304,7 +304,7 @@ while($completeFlag == False){
           addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);
           //logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
           logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);", $userID, $logToSQLSetting);
-          $buyCounter = $buyCounter + 1;
+          $buyCounter[$userID] = $buyCounter[$userID] + 1;
         }
       }
 
