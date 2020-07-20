@@ -56,6 +56,7 @@ function initiateAry($ary, $userID){
       echo "<BR> Set Key to 0 $userID";
     $ary[$userID] = 0;
   }
+  return $ary;
 }
 
 
@@ -221,7 +222,7 @@ while($completeFlag == False){
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];//$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
-      initiateAry($buyCounter,$userID);
+      $buyCounter = initiateAry($buyCounter,$userID);
       //if ($userID != ){ continue; }
       //echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
       //echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
