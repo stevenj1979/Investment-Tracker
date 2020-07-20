@@ -46,6 +46,7 @@ if($_POST['transSelect'] <> ""){
   //echo "1";
   updateMerge($_GET['SellRule']);
   //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
+  header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
