@@ -35,13 +35,17 @@ displayHeader(1);
 if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
-}elseif ($_GET['SellRule'] <> ""){
+}elseif ($_GET['changefixSell'] <> ""){
   //echo "1";
   displayChangeFix($_GET['FixSellRule'],$_GET['SellRule']);
 }elseif ($_POST['transID'] <> ""){
   //echo "2";
   updateSellRule();
   header('Location: Transactions.php');
+}elseif ($_GET['merge'] <> ""){
+  //echo "1";
+  updateMerge($_GET['SellRule']);
+  //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -79,6 +83,7 @@ function displayChangeFix($fixSellRule, $transID){
   echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
 }
 
+
 function updateSellRule(){
   $newID = $_POST['newSellID'];
   $transID = $_POST['transID'];
@@ -99,6 +104,24 @@ function updateSellRule(){
     $conn->close();
 }
 
+function updateMerge($transID){
+
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
 function getCoinsfromSQL($userID){
     global $sql_option;
     $status = $_SESSION['TransListSelected'];
@@ -109,7 +132,7 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
-    ,`FixSellRule`
+    ,`FixSellRule`,`ToMerge`
           FROM `TransactionsView` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
@@ -117,7 +140,7 @@ function getCoinsfromSQL($userID){
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge']);
     }
     $conn->close();
     return $tempAry;
@@ -158,12 +181,14 @@ function displayDefault(){
   print_r("<th>Purchase Price</th>");
   newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],0);
   print_r("<th>Status</th><th>FixSellRule</th>");
+  print_r("<th>To Merge</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
+  print_r("<th>Merge</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = round($coin[$x][3],$num); $amount  = round($coin[$x][4],$num); $status  = $coin[$x][5];
       $orderDate = $coin[$x][6];
-      $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16];
+      $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17];
       $purchasePrice = round($amount*$coinPrice,$num);
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],0);
@@ -172,7 +197,9 @@ function displayDefault(){
       print_r("<td>$purchasePrice</td>");
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],0);
       print_r("<td>$status</td><td>$fixSellRule</td>");
-      print_r("<td><a href='Transactions.php?SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
+      print_r("<td>$toMerge</td>");
+      print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
