@@ -50,7 +50,10 @@ function getOutStandingSell(){
 }
 
 function initiateAry($ary, $userID){
-  if (!array_key_exists($userID,$ary)){
+  if (array_key_exists($userID,$ary)){
+      echo "<BR> Key Exists";
+  }else
+      echo "<BR> Set Key to 0";
     $ary[$userID] = 0;
   }
 }
