@@ -2391,7 +2391,7 @@ function saveImage($coin, $url, $savePath){
   fclose($fp);
 }
 
-function newTrackingSellCoins($APIKey, $APISecret,$coin, $Email, $userID, $score,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice){
+function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
