@@ -50,7 +50,7 @@ function getOutStandingSell(){
 }
 
 function initiateAry($ary, $userID){
-  if (!exists($ary[$userID])){
+  if (!array_key_exists($userID,$ary){
     $ary[$userID] = 0;
   }
 }
