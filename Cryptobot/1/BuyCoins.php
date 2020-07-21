@@ -227,7 +227,7 @@ displayHeader(3);
           echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
 				}//end for
 				print_r("</tr></table>");
-        Echo "<a href='BuyCoins.php?noOverride=Yes'>View Desktop Page</a>";
+        Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>";
         displaySideColumn();
         //displayMiddleColumn();
 				//displayFarSideColumn();
