@@ -25,7 +25,11 @@ setStyle($_SESSION['isMobile']);
 date_default_timezone_set('Asia/Dubai');
 $date = date('Y/m/d H:i:s', time());
 
+if(isset($_GET['ID'])){
+  $TransactionID = $_GET['TransID'];
+  echo "<BR> Cancel Tracking ID: $TransactionID";
 
+}
 ?>
 
 <!--<div class="container">
@@ -65,6 +69,7 @@ $date = date('Y/m/d H:i:s', time());
           NewEcho ("<td>".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>$totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?ID=Yes&TransID=$TransactionID'></a><td>",$_SESSION['isMobile'],2);
           echo "</tr>";
         }
         print_r("</table>");
