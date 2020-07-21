@@ -7,7 +7,7 @@ include '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
-if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
+//if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
 if(isset($_GET['manSell'])){
   //collect values from the url
