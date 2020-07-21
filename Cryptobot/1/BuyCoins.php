@@ -27,6 +27,8 @@ if(isset($_GET['noOverride'])){
   if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
 }
 
+Echo "<BR> isMobile: ".$_SESSION['isMobile']." | MobOverride: ".$_SESSION['MobOverride'];
+
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] = False){
   header('Location: BuyCoins_Mobile.php');
 }
