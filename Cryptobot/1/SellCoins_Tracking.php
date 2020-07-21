@@ -25,11 +25,17 @@ setStyle($_SESSION['isMobile']);
 date_default_timezone_set('Asia/Dubai');
 $date = date('Y/m/d H:i:s', time());
 
-if(isset($_GET['ID'])){
+if(isset($_GET['CancelTrack'])){
   $TransactionID = $_GET['TransID'];
   echo "<BR> Cancel Tracking ID: $TransactionID";
-
+  cancelTrackingSell($TransactionID);
+  reopenTransaction($TransactionID);
 }
+if(isset($_GET['SellNow'])){
+  $TransactionID = $_GET['TransID'];
+  echo "<BR> Cancel Tracking ID: $TransactionID";
+}
+
 ?>
 
 <!--<div class="container">
@@ -69,7 +75,8 @@ if(isset($_GET['ID'])){
           NewEcho ("<td>".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>$totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?ID=Yes&TransID=$TransactionID'>Cancel</a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
           echo "</tr>";
         }
         print_r("</table>");

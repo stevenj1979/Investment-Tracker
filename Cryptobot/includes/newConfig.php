@@ -2599,4 +2599,23 @@ function logHoldingTimeToSQL($coinID, $holdingMins){
   logAction("logHoldingTimeToSQL: ".$sql, 'SellCoins', 0);
 }
 
+function cancelTrackingSell($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `Status`= 'Closed' WHERE `TransactionID` = $id";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("cancelTrackingSell: ".$sql, 'TrackingCoins', 0);
+}
+
 ?>
