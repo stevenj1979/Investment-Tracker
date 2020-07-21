@@ -34,6 +34,12 @@ if(isset($_GET['CancelTrack'])){
 if(isset($_GET['SellNow'])){
   $TransactionID = $_GET['TransID'];
   echo "<BR> Cancel Tracking ID: $TransactionID";
+  $transData = getNewTrackingSellCoinTrans($TransactionID);
+  $apikey = $transData[0][10]; $apiSecret = $transData[0][11]; $kek = $transData[0][12];$coin = $transData[0][26];$email= $transData[0][13];
+  $userID = $transData[0][2]; $baseCurrency = $transData[0][15]; $userName = $transData[0][14]; $orderNo = $transData[0][7];$amount = $transData[0][8]; $cost = $transData[0][29];
+  $coinID = $transData[0][9]; $salePrice = $transData[0][20];
+  sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  cancelTrackingSell($TransactionID);
 }
 
 ?>
@@ -75,8 +81,8 @@ if(isset($_GET['SellNow'])){
           NewEcho ("<td>".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>$totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
           echo "</tr>";
         }
         print_r("</table>");
