@@ -28,6 +28,7 @@ if(isset($_GET['merge'])){
   $salePrice = trim($_GET['salePrice']);
   $userID = trim($_GET['userID']);
   newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);
+  setTransactionPending($transactionID);
   header('Location: SellCoins.php');
 }
 
