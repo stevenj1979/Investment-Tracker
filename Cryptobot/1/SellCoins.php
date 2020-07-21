@@ -212,7 +212,7 @@ $date = date('Y/m/d H:i:s', time());
             $originalPurchaseCost = ($purchaseCost * $amount);
             $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
             $profitBtc = $profit/($originalPurchaseCost)*100;
-
+            $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
@@ -223,7 +223,7 @@ $date = date('Y/m/d H:i:s', time());
 
             echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yescoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?merge=Yes&coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
+            echo "<td rowspan='3'><a href='ManualSell.php?merge=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";

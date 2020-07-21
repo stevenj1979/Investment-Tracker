@@ -7,6 +7,7 @@ include '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
+if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
 if(isset($_GET['manSell'])){
   //collect values from the url
@@ -22,14 +23,10 @@ if(isset($_GET['manSell'])){
 }
 
 if(isset($_GET['merge'])){
-  $coin = trim($_GET['coin']);
-  $amount = trim($_GET['amount']);
-  $cost = trim($_GET['cost']);
   $baseCurrency = trim($_GET['baseCurrency']);
   $transactionID = trim($_GET['transactionID']);
-  $orderNo = trim($_GET['orderNo']);
   $salePrice = trim($_GET['salePrice']);
-  $userID = $_SESSION['ID'];
+  $userID = trim($_GET['userID']);
   newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);
 }
 
