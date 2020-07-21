@@ -69,7 +69,7 @@ if(isset($_GET['ID'])){
           NewEcho ("<td>".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>$totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?ID=Yes&TransID=$TransactionID'></a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?ID=Yes&TransID=$TransactionID'>Cancel</a><td>",$_SESSION['isMobile'],2);
           echo "</tr>";
         }
         print_r("</table>");
