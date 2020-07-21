@@ -19,7 +19,15 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 
-if ($_SESSION['isMobile']){
+if(isset($_GET['override'])){
+  $_SESSION['MobOverride'] = True;
+}
+
+if(isset($_GET['noOverride'])){
+  $_SESSION['MobOverride'] = False;
+}
+
+if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] = False){
   header('Location: BuyCoins_Mobile.php');
 }
 
@@ -219,7 +227,7 @@ displayHeader(3);
           echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
 				}//end for
 				print_r("</tr></table>");
-
+        Echo "<a href='BuyCoins.php?noOverride=Yes'>View Desktop Page</a>";
         displaySideColumn();
         //displayMiddleColumn();
 				//displayFarSideColumn();

@@ -222,7 +222,7 @@ displayHeader(3);
         echo "<hr color='DodgerBlue'>";
       }//end for
       print_r("</table></Div>");
-
+      Echo "<a href='BuyCoins.php?override=Yes'>View Desktop Page</a>";
       displaySideColumn();
 
 
