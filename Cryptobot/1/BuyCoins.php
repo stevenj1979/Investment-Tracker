@@ -20,11 +20,11 @@ $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 
 if(isset($_GET['override'])){
-  $_SESSION['MobOverride'] = True;
+  if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;}
 }
 
 if(isset($_GET['noOverride'])){
-  $_SESSION['MobOverride'] = False;
+  if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
 }
 
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] = False){
