@@ -21,7 +21,17 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
 setStyle($_SESSION['isMobile']);
-if ($_SESSION['isMobile']){
+
+
+if(isset($_GET['override'])){
+  if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;}
+}
+
+if(isset($_GET['noOverride'])){
+  if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
+}
+
+if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   header('Location: SellCoins_Mobile.php');
 }
 
@@ -248,6 +258,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
         }
         print_r("</table>");
+        Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 				displaySideColumn();
 //include header template
 require('layout/footer.php');

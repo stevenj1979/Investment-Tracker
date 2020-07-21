@@ -227,6 +227,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<hr color='DodgerBlue'>";
         }
         print_r("</table></Div>");
+        Echo "<a href='SellCoins.php?override=Yes'>View Desktop Page</a>";
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
