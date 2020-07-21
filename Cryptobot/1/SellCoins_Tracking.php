@@ -39,8 +39,10 @@ if(isset($_GET['SellNow'])){
   $userID = $transData[0][2]; $baseCurrency = $transData[0][15]; $userName = $transData[0][14]; $orderNo = $transData[0][7];$amount = $transData[0][8]; $cost = $transData[0][29];
   $coinID = $transData[0][9]; $salePrice = $transData[0][20];
   if (!Empty($kek)){$apiSecret = decrypt($kek,$transData[0][11]);}
-  sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
-  cancelTrackingSell($TransactionID);
+
+  echo "sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice)";
+  //sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  //cancelTrackingSell($TransactionID);
 }
 
 ?>
