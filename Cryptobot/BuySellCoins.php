@@ -381,9 +381,9 @@ while($completeFlag == False){
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }else{ Echo "<BR> CORRECT USER";}
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}else{ Echo "<BR>COIN CORRECT";}
-      $limitToBuyRuleTest = limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled);
-      Echo "Limit to Buy Rule : $limitToBuyRuleTest | $BuyRule | $limitToBuyRule | $limitToBuyRuleEnabled";
-      if ($limitToBuyRule != "ALL" && $limitToBuyRuleTest == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}else{ Echo "<BR>BUY RULE CORRECT";}
+      //$limitToBuyRuleTest = limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled);
+      //Echo "Limit to Buy Rule : $limitToBuyRuleTest | $BuyRule | $limitToBuyRule | $limitToBuyRuleEnabled";
+      //if ($limitToBuyRule != "ALL" && $limitToBuyRuleTest == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}else{ Echo "<BR>BUY RULE CORRECT";}
       Echo "<BR> Start of TEST!";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
