@@ -369,7 +369,7 @@ while($completeFlag == False){
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $limitToBuyRule = $sellRules[$z][43];
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echo "<BR>EXIT: Sell Rule Limited! $fixSellRule ; $ruleIDSell"; continue;}
+      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echo "<BR>EXIT: Sell Rule Limited! $fixSellRule ; $ruleIDSell"; continue;}else{ Echo "<BR> FIX SELL RULE Correct";}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -379,9 +379,9 @@ while($completeFlag == False){
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
-      if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
-      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
-      if ($limitToBuyRule != "ALL" && limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}
+      if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }else{ Echo "<BR> CORRECT USER";}
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}else{ Echo "<BR>COIN CORRECT";}
+      if ($limitToBuyRule != "ALL" && limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}else{ Echo "<BR>BUY RULE CORRECT";}
       Echo "<BR> Start of TEST!";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
