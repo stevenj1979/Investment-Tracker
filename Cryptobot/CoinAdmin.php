@@ -152,7 +152,7 @@ function getTransData(){
 }
 
 function updateFixSellRule($newFixRule, $transactionID){
-    $conn = getSQL();
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "UPDATE `Transaction` SET `FixSellRule`= $newFixRule WHERE `ID` = $transactionID";
