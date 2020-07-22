@@ -374,7 +374,7 @@ while($completeFlag == False){
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
 
-      //echo "<BR> RULE: ".$ruleIDSell;
+      echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
@@ -440,7 +440,7 @@ while($completeFlag == False){
         //addSellRuletoSQL()
       }
       echo "<BR> NEXT RULE <BR>";
-    }//Sell Rules
+    } //Sell Rules
     $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
     $buyPrice = ($cost * $amount);
     $sellPrice = ($LiveCoinPrice * $amount);
