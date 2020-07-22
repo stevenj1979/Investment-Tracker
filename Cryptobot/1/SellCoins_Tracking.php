@@ -44,8 +44,10 @@ if(isset($_GET['SellNow'])){
   $cost = number_format((float)round($transData[0][29],8, PHP_ROUND_HALF_UP), 8, '.', '');
   reopenTransaction($TransactionID);
   //echo "sellCoins($apikey, $apiSecret', $coin, $email, $userID, 0, '$date',$baseCurrency, 1, 1, 99999,'$userName', '$orderNo' ,$amount,$cost,$TransactionID,$coinID,0,0,$salePrice)";
-  sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$TransactionID,$coinID,0,0,$salePrice);
+  //sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$TransactionID,$coinID,0,0,$salePrice);
   cancelTrackingSell($TransactionID);
+  header("Location: ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$cost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$TransactionID&salePrice=$salePrice");
+
 }
 
 ?>
