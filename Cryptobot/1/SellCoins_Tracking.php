@@ -36,9 +36,12 @@ if(isset($_GET['SellNow'])){
   echo "<BR> Cancel Tracking ID: $TransactionID";
   $transData = getNewTrackingSellCoinTrans($TransactionID);
   $apikey = $transData[0][10]; $apiSecret = $transData[0][11]; $kek = $transData[0][12];$coin = $transData[0][26];$email= $transData[0][13];
-  $userID = $transData[0][2]; $baseCurrency = $transData[0][15]; $userName = $transData[0][14]; $orderNo = $transData[0][7];$amount = $transData[0][8]; $cost = $transData[0][29];
-  $coinID = $transData[0][9]; $salePrice = $transData[0][20];
+  $userID = $transData[0][2]; $baseCurrency = $transData[0][15]; $userName = $transData[0][14]; $orderNo = $transData[0][7];
+  $coinID = $transData[0][9];
   if (!Empty($kek)){$apiSecret = decrypt($kek,$transData[0][11]);}
+  $salePrice = number_format((float)round($transData[0][20],8, PHP_ROUND_HALF_UP), 8, '.', '');
+  $amount = number_format((float)round($transData[0][8],8, PHP_ROUND_HALF_UP), 8, '.', '');
+  $cost = number_format((float)round($transData[0][29],8, PHP_ROUND_HALF_UP), 8, '.', '');
   reopenTransaction($TransactionID);
   //echo "sellCoins($apikey, $apiSecret', $coin, $email, $userID, 0, '$date',$baseCurrency, 1, 1, 99999,'$userName', '$orderNo' ,$amount,$cost,$TransactionID,$coinID,0,0,$salePrice)";
   sellCoins($apikey, $apiSecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$TransactionID,$coinID,0,0,$salePrice);
