@@ -369,7 +369,7 @@ while($completeFlag == False){
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $limitToBuyRule = $sellRules[$z][43];
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echo "<BR>EXIT: Sell Rule Limited! $fixSellRule ; $ruleIDSell"; continue;}else{ Echo "<BR> FIX SELL RULE Correct";}
+      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -377,21 +377,21 @@ while($completeFlag == False){
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
-      echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
+      //echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
-      if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }else{ Echo "<BR> CORRECT USER";}
-      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}else{ Echo "<BR>COIN CORRECT";}
+      if ($userID != $sellCoinsUserID){ continue; }
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { continue;}
       //$limitToBuyRuleTest = limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled);
       //Echo "Limit to Buy Rule : $limitToBuyRuleTest | $BuyRule | $limitToBuyRule | $limitToBuyRuleEnabled";
       //if ($limitToBuyRule != "ALL" && $limitToBuyRuleTest == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}else{ Echo "<BR>BUY RULE CORRECT";}
-      Echo "<BR> Start of TEST!";
+      //Echo "<BR> Start of TEST!";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
       $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $sellResultAry[] = Array($sTest1, "Market Cap $coin", $MarketCapPctChange);
-      Echo "<BR> sTEST1: $sTest1";
+      //Echo "<BR> sTEST1: $sTest1";
       $sTest2 = sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
       $sellResultAry[] = Array($sTest2, "Volume $coin", $VolumePctChange);
       $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
@@ -413,10 +413,10 @@ while($completeFlag == False){
       $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$coin,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
       $sellResultAry[] = Array($sTest11, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID);
-      Echo "<BR> sTEST13: $sTest13";
+      //Echo "<BR> sTEST13: $sTest13";
       $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
-      Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
+      //Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
       //$sellOutstanding = getOutStandingBuy($sellResultAry);
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11+$sTest12+$sTest13;
       Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit";
