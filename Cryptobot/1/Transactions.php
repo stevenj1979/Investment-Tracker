@@ -212,7 +212,7 @@ function displayDefault(){
   }
   print_r("</Table>");
   if ($mobNum == 0){
-    Echo "<a href='SellCoins.php?override=Yes'>View Desktop Page</a>";
+    Echo "<a href='Transactions.php?override=Yes'>View Desktop Page</a>";
   } else{
     Echo "<a href='Transactions.php?noOverride=Yes'>View Mobile Page</a>";
   }
