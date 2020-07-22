@@ -25,11 +25,11 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 if(isset($_GET['override'])){
-  $globals['MobDisplay'] = 2;
+  $_SESSION['MobDisplay'] = 2;
 }
 
 if(isset($_GET['noOverride'])){
-  $globals['MobDisplay'] = 0;
+  $_SESSION['MobDisplay'] = 0;
 }
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
@@ -166,7 +166,7 @@ function displayOption($nText){
 
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
-  $mobNum = $globals['MobDisplay'];
+  $mobNum = $_SESSION['MobDisplay'];
   if ($_SESSION['isMobile']){
     $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";
   }else{
