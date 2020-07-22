@@ -373,18 +373,19 @@ while($completeFlag == False){
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
-
+      $buyPrice = ($cost * $amount);
+      $sellPrice = ($LiveCoinPrice * $amount);
+      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID != $sellCoinsUserID){ echo "<BR>EXIT: Wrong User!"; continue; }
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) {echo "<BR>EXIT: SELL Rule Limited to Coin! $limitToCoinSell ; $coin"; continue;}
       if ($limitToBuyRule != "ALL" && limitToBuyRule($BuyRule,$limitToBuyRule,$limitToBuyRuleEnabled) == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}
+      Echo "<BR> Start of TEST!";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
-      $buyPrice = ($cost * $amount);
-      $sellPrice = ($LiveCoinPrice * $amount);
-      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
-      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+
       //Echo "MarketCap $marketCapTop,$marketCapBtm,$marketCapbyPct,$marketCapEnable <BR>";
       $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $sellResultAry[] = Array($sTest1, "Market Cap $coin", $MarketCapPctChange);
