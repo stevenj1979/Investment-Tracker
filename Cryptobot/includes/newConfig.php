@@ -2129,7 +2129,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID";
+$sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID and `BuyCoin` = 1";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
