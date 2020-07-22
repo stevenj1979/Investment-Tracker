@@ -24,7 +24,13 @@ require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header
 include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
+if(isset($_GET['override'])){
+  $globals['MobDisplay'] = 2;
+}
 
+if(isset($_GET['noOverride'])){
+  $globals['MobDisplay'] = 0;
+}
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
 
@@ -160,6 +166,7 @@ function displayOption($nText){
 
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
+  $mobNum = $globals['MobDisplay'];
   if ($_SESSION['isMobile']){
     $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";
   }else{
@@ -176,11 +183,11 @@ function displayDefault(){
         echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
      </form>";
   print_r("<Table><th>ID</th>");
-  newEcho("<th>OrderNo</th>",$_SESSION['isMobile'],0);
+  newEcho("<th>OrderNo</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Symbol</th><th>Amount</th><th>Cost</th>");
-  newecho("<th>BaseCurrency</th>",$_SESSION['isMobile'],0);
+  newecho("<th>BaseCurrency</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Purchase Price</th>");
-  newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],0);
+  newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Status</th><th>FixSellRule</th>");
   print_r("<th>To Merge</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
@@ -192,11 +199,11 @@ function displayDefault(){
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17];
       $purchasePrice = round($amount*$coinPrice,$num);
       print_r("<td>$Id</td>");
-      NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],0);
+      NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td>");
-      newEcho("<td></td>",$_SESSION['isMobile'],0);
+      newEcho("<td></td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$purchasePrice</td>");
-      newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],0);
+      newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$status</td><td>$fixSellRule</td>");
       print_r("<td>$toMerge</td>");
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
@@ -204,7 +211,13 @@ function displayDefault(){
       print_r("<tr>");
   }
   print_r("</Table>");
+  if ($mobNum == 0){
+    Echo "<a href='SellCoins.php?override=Yes'>View Desktop Page</a>";
+  } else{
+    Echo "<a href='Transactions.php?noOverride=Yes'>View Mobile Page</a>";
+  }
 }
+
 
 
 				displaySideColumn();
