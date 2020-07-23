@@ -286,11 +286,11 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
 }
 
 clearDailtBTCTbl("`DailyBTCTbl`");
-runTransaction(`DailyBTCTbl`," and dayofmonth(`OrderDate`) = dayofmonth(now()) and month(`OrderDate`) = month(now()) and Year(`OrderDate`) = Year(now())");
-runTracking(`DailyBTCTbl`, " and dayofmonth(`TrackDate`) = dayofmonth(now()) and month(`TrackDate`) = month(now()) and Year(`TrackDate`) = Year(now())");
+runTransaction("`DailyBTCTbl`"," and dayofmonth(`OrderDate`) = dayofmonth(now()) and month(`OrderDate`) = month(now()) and Year(`OrderDate`) = Year(now())");
+runTracking("`DailyBTCTbl`", " and dayofmonth(`TrackDate`) = dayofmonth(now()) and month(`TrackDate`) = month(now()) and Year(`TrackDate`) = Year(now())");
 clearDailtBTCTbl("`AllTimeBTCTbl`");
-runTransaction(`AllTimeBTCTbl`,"");
-runTracking(`AllTimeBTCTbl`,"");
+runTransaction("`AllTimeBTCTbl`","");
+runTracking("`AllTimeBTCTbl`","");
 
 //coinHistory(10);
 //DeleteHistory(168);
