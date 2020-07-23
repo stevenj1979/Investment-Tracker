@@ -16,6 +16,58 @@ function getUserConfig(){
     return $tempAry;
 }
 
+function clearDailtBTCTbl($table){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM $table";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function runTransaction($table, $dateWhere){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO $table (select `Tr`.`UserID` AS `UserID`, sum((`Tr`.`Amount` * `Tr`.`CoinPrice`)) AS `AmountOpen`,`Cn`.`BaseCurrency` AS `BaseCurrency`
+from `Transaction` `Tr`
+	join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`))
+where `Tr`.`Status` in ('Open','Pending') $dateWhere
+group by `Tr`.`UserID`,`Cn`.`BaseCurrency`);";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function runTracking($table, $dateWhere){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO $table (select `Tc`.`UserID` AS `UserID`,sum((`Tc`.`Quantity` * `Tc`.`CoinPrice`)) AS `AmountOpen`,`Tc`.`BaseCurrency` AS `BaseCurrency`
+from `TrackingCoins` `Tc`
+where  `Tc`.`Status` in ('Open','Pending') $dateWhere
+group by `Tc`.`UserID`,`Tc`.`BaseCurrency`); ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function DeleteHistory($hours){
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -232,6 +284,14 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
     logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
   }
 }
+
+clearDailtBTCTbl("`DailyBTCTbl`");
+runTransaction(`DailyBTCTbl`," and dayofmonth(`OrderDate`) = dayofmonth(now()) and month(`OrderDate`) = month(now()) and Year(`OrderDate`) = Year(now())");
+runTracking(`DailyBTCTbl`, " and dayofmonth(`TrackDate`) = dayofmonth(now()) and month(`TrackDate`) = month(now()) and Year(`TrackDate`) = Year(now())");
+clearDailtBTCTbl("`AllTimeBTCTbl`");
+runTransaction(`AllTimeBTCTbl`,"");
+runTracking(`AllTimeBTCTbl`,"");
+
 //coinHistory(10);
 //DeleteHistory(168);
 ?>
