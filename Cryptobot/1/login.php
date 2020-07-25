@@ -74,6 +74,7 @@ if(isset($_POST['submit'])){
       $_SESSION['RuleIDSelected'] = $ruleID[0][0];
       $_SESSION['MobOverride'] = False;
       $_SESSION['MobDisplay'] = 0;
+      $_SESSION['roundVar'] = 8;
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;

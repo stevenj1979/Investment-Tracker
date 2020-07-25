@@ -2649,4 +2649,13 @@ function getNewTrackingSellCoinTrans($ID){
 
 }
 
+function setMobileVariables(){
+  if ($_SESSION['MobOverride'] == False && $_SESSION['isMobile']){
+    $_SESSION['MobDisplay'] = 0;
+  }elseif ($_SESSION['MobOverride']){
+    $_SESSION['MobDisplay'] = 2;
+  }
+}
+
+
 ?>

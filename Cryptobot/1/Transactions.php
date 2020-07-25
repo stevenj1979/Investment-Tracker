@@ -24,12 +24,18 @@ require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header
 include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
+
+setMobileVariables();
+
 if(isset($_GET['override'])){
   $_SESSION['MobDisplay'] = 2;
+  $_SESSION['roundVar'] = 8;
+
 }
 
 if(isset($_GET['noOverride'])){
   $_SESSION['MobDisplay'] = 0;
+  $_SESSION['roundVar'] = 3;
 }
 //$globals['sql_Option'] = "`Status` = 'Open'";
 //if(empty($globals['sql_Option'])){$globals['sql_Option']= "`Status` = 'Open'";}
@@ -167,6 +173,7 @@ function displayOption($nText){
 function displayDefault(){
   $coin = getCoinsfromSQL($_SESSION['ID']);
   $mobNum = $_SESSION['MobDisplay'];
+  $roundNum = $_SESSION['roundVar'];
   if ($_SESSION['isMobile']){
     $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";
   }else{
@@ -194,15 +201,15 @@ function displayDefault(){
   print_r("<th>Merge</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
-      $Id = $coin[$x][0]; $coinPrice = round($coin[$x][3],$num); $amount  = round($coin[$x][4],$num); $status  = $coin[$x][5];
+      $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5];
       $orderDate = $coin[$x][6];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17];
-      $purchasePrice = round($amount*$coinPrice,$num);
+      $purchasePrice = ($amount*$coinPrice);
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
-      print_r("<td>$symbol</td><td>$amount</td><td>$coinPrice</td>");
+      print_r("<td>$symbol</td><td>".round($amount,$roundNum)."</td><td>".round($coinPrice,$roundNum)."</td>");
       newEcho("<td></td>",$_SESSION['isMobile'],$mobNum);
-      print_r("<td>$purchasePrice</td>");
+      print_r("<td>".round($purchasePrice,$roundNum)."</td>");
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$status</td><td>$fixSellRule</td>");
       print_r("<td>$toMerge</td>");
