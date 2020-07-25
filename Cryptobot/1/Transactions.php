@@ -145,7 +145,7 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `ID`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,`BittrexStatus`,`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
-    ,`FixSellRule`,`ToMerge`
+    ,`FixSellRule`,`ToMerge`,`BaseCurrency`
           FROM `TransactionsView` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
@@ -153,7 +153,7 @@ function getCoinsfromSQL($userID){
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency']);
     }
     $conn->close();
     return $tempAry;
@@ -203,12 +203,12 @@ function displayDefault(){
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5];
       $orderDate = $coin[$x][6];
-      $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17];
+      $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
       $purchasePrice = ($amount*$coinPrice);
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$symbol</td><td>".round($amount,$roundNum)."</td><td>".round($coinPrice,$roundNum)."</td>");
-      newEcho("<td></td>",$_SESSION['isMobile'],$mobNum);
+      newEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>".round($purchasePrice,$roundNum)."</td>");
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$status</td><td>$fixSellRule</td>");
