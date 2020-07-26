@@ -26,6 +26,16 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
+if (!set($_GET['click'])){
+  if ($_GET['click'] = "changeNameSelection"){
+    setNameSelection($_GET['CoinPriceMatchNamesSelect']);
+  }
+}
+
+function setNameSelection($newSelected){
+  $_SESSION['coinPriceMatchNameSelected'] = $newSelected;
+}
+
 function getCoinPriceMatchNamesLocal($userID){
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -64,6 +74,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
   echo "<H3>Coin Price Match</H3>";
+  echo "<form action='Settings_Patterns.php?click=changeNameSelection' method='post'>";
   Echo "<select name='CoinPriceMatchNamesSelect'>";
   for ($i=0; $i<$coinPriceMatchNamesSize; $i++){
     $name = $coinPriceMatchNames[$i][0]; $nameID = $coinPriceMatchNames[$i][1];
@@ -73,7 +84,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
     echo "<option value='$nameID'>$name</option>";
   }
   echo "</select>";
-  Echo "<select name='CoinPriceMatchSelect' size='3'>";
+  Echo "<select name='CoinPriceMatchSelect' size='8'>";
   for ($l=0; $l<$coinPriceMatchSize; $l++){
       $name = $coinPriceMatch[$l][4]; $price = $coinPriceMatch[$l][1];
       $lowPrice = $coinPriceMatch[$l][3]; $symbol = $coinPriceMatch[$l][2]; $coinID = $coinPriceMatch[$l][0];
