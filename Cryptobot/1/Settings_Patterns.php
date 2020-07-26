@@ -84,14 +84,15 @@ $coin1HrPatternSize = count($coin1HrPattern);
     echo "<option value='$nameID'>$name</option>";
   }
   echo "</select>";
-  Echo "<select name='CoinPriceMatchSelect' size='8'>";
+  echo "<input type='submit' name='publishTrend' value='Refresh'>";
+  echo "<select name='CoinPriceMatchSelect' size='8'>";
   for ($l=0; $l<$coinPriceMatchSize; $l++){
       $name = $coinPriceMatch[$l][4]; $price = $coinPriceMatch[$l][1];
       $lowPrice = $coinPriceMatch[$l][3]; $symbol = $coinPriceMatch[$l][2]; $coinID = $coinPriceMatch[$l][0];
       echo "<option value='$coinID'>$symbol | $price | $lowPrice</option>";
   }
   echo "</select>";
-  echo "<input type='submit' name='publishTrend' value='+'>";
+
   echo "</form>";
   echo "<H3>Coin Price Pattern</H3><table>";
   for ($j=0; $j<$coinPricePatternSize; $j++){
