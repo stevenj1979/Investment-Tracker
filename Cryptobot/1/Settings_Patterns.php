@@ -27,11 +27,11 @@ $title = 'CryptoBot';
 require('layout/header.php');
 
 
-$coinPriceMatch = getCoinPriceMatchList($_SESSION['ID']);
+$coinPriceMatch = getCoinPriceMatchSettings();
 $coinPriceMatchSize = count($coinPriceMatch);
-$coinPricePattern = getCoinPricePattenList($_SESSION['ID']);
+$coinPricePattern = getCoinPricePattenSettings();
 $coinPricePatternSize = count($coinPricePattern);
-$coin1HrPattern = getCoin1HrPattenList($_SESSION['ID']);
+$coin1HrPattern = getCoin1HrPattenSettings();
 $coin1HrPatternSize = count($coin1HrPattern);
 
 
@@ -43,36 +43,36 @@ $coin1HrPatternSize = count($coin1HrPattern);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
   echo "<H3>Coin Price Match</H3><table>";
   for ($i=0; $i<$coinPriceMatchSize; $i++){
-    $buyRuleID = $coinPriceMatch[$i][0]; $sellRuleID = $coinPriceMatch[$i][1];
-    $coinID = $coinPriceMatch[$i][2];$price = $coinPriceMatch[$i][3];
-    $symbol = $coinPriceMatch[$i][4];$lowPrice = $coinPriceMatch[$i][5];
+    $name = $coinPriceMatch[$i][0];
+    $coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
+    $symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
     echo "<tr>";
-    echo "<td>$buyRuleID</td>";
-    echo "<td>$sellRuleID</td>";
+    //echo "<td>$buyRuleID</td>";
+    echo "<td>$name</td>";
     echo "<td>$coinID</td>";
     echo "<td>$symbol</td>";
+    echo "<td>$lowPrice</td>";
+    echo "<td>$price</td>";
     echo "</tr>";
   }
 
   echo "</table><H3>Coin Price Pattern</H3><table>";
   for ($j=0; $j<$coinPricePatternSize; $j++){
-    $buyRuleID = $coinPricePattern[$j][0]; $sellRuleID = $coinPricePattern[$j][1];
-    $coinPattern = $coinPricePattern[$j][2];$userID = $coinPricePattern[$j][3];
+    $name = $coinPricePattern[$j][0];
+    $coinPattern = $coinPricePattern[$j][1];
     echo "<tr>";
-    echo "<td>$buyRuleID</td>";
-    echo "<td>$sellRuleID</td>";
-    echo "<td>$userID</td>";
+    echo "<td>$name</td>";
+    echo "<td>$coinPattern</td>";
     echo "</tr>";
   }
 
   echo "</table><H3>Coin 1 Hour Pattern</H3><table>";
   for ($k=0; $k<$coin1HrPatternSize; $k++){
-    $buyRuleID = $coin1HrPattern[$k][0]; $sellRuleID = $coin1HrPattern[$k][1];
-    $coinPattern = $coin1HrPattern[$k][2];$userID = $coin1HrPattern[$k][3];
+    $name = $coin1HrPattern[$k][0];
+    $coinPattern = $coin1HrPattern[$k][1];
     echo "<tr>";
-    echo "<td>$buyRuleID</td>";
-    echo "<td>$sellRuleID</td>";
-    echo "<td>$userID</td>";
+    echo "<td>$name</td>";
+    echo "<td>$coinPattern</td>";
     echo "<tr>";
   }
   echo "</table>";

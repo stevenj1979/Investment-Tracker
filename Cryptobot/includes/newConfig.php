@@ -2055,6 +2055,26 @@ function getCoinPriceMatchList($userID = 0){
   return $tempAry;
 }
 
+function getCoinPriceMatchSettings(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['Name'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getCoinPricePattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -2075,6 +2095,26 @@ function getCoinPricePattenList($userID = 0){
   return $tempAry;
 }
 
+function getCoinPricePattenSettings(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Name`,`CoinPattern` FROM `NewCoinPricePatternSettingsView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Name'],$row['CoinPattern']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getCoin1HrPattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
   $whereClause = "";
@@ -2090,6 +2130,26 @@ function getCoin1HrPattenList($userID = 0){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['Pattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getCoin1HrPattenSettings(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Name`,`Pattern` FROM `NewCoin1HrPatternSettingsView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Name'],$row['Pattern'],$row['UserID']);
   }
   $conn->close();
   return $tempAry;
