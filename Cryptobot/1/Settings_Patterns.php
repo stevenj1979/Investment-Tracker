@@ -26,7 +26,7 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
-if (!set($_GET['click'])){
+if (!isset($_GET['click'])){
   if ($_GET['click'] = "changeNameSelection"){
     setNameSelection($_GET['CoinPriceMatchNamesSelect']);
   }
