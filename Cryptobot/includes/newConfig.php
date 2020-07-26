@@ -2035,14 +2035,16 @@ function getCoinList($coinStats, $num){
   return rtrim($returnStr,',');
 }
 
-function getCoinPriceMatchList(){
+function getCoinPriceMatchList($userID = 0){
   $conn = getSQLConn(rand(1,3));
+  $whereClause = "";
+  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `CoinPriceMatchView`";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `CoinPriceMatchView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -2053,14 +2055,16 @@ function getCoinPriceMatchList(){
   return $tempAry;
 }
 
-function getCoinPricePattenList(){
+function getCoinPricePattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
+  $whereClause = "";
+  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` ";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -2071,14 +2075,16 @@ function getCoinPricePattenList(){
   return $tempAry;
 }
 
-function getCoin1HrPattenList(){
+function getCoin1HrPattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
+  $whereClause = "";
+  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` order by `BuyRuleID`,`SellRuleID`";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `Coin1HrPatternView` $whereClause order by `BuyRuleID`,`SellRuleID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
