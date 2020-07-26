@@ -26,6 +26,8 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
+$coinPriceMatchNames = getCoinPriceMatchNames($_SESSION['ID']);
+$coinPriceMatchNamesSize = count($coinPriceMatchNames);
 
 $coinPriceMatch = getCoinPriceMatchSettings();
 $coinPriceMatchSize = count($coinPriceMatch);
@@ -41,22 +43,18 @@ $coin1HrPatternSize = count($coin1HrPattern);
 
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
-  echo "<H3>Coin Price Match</H3><table>";
-  for ($i=0; $i<$coinPriceMatchSize; $i++){
-    $name = $coinPriceMatch[$i][0];
-    $coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
-    $symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
-    echo "<tr>";
-    //echo "<td>$buyRuleID</td>";
-    echo "<td>$name</td>";
-    echo "<td>$coinID</td>";
-    echo "<td>$symbol</td>";
-    echo "<td>$lowPrice</td>";
-    echo "<td>$price</td>";
-    echo "</tr>";
+  echo "<H3>Coin Price Match</H3>";
+  Echo "<select name='$name'>";
+  for ($i=0; $i<$coinPriceMatchNamesSize; $i++){
+    $name = $coinPriceMatch[$i][0]; $nameID = $coinPriceMatch[$i][1];
+    //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
+    //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
+    
+    echo "<option value='$nameID'>$name</option>";
   }
+  echo "</select>";
 
-  echo "</table><H3>Coin Price Pattern</H3><table>";
+  echo "<H3>Coin Price Pattern</H3><table>";
   for ($j=0; $j<$coinPricePatternSize; $j++){
     $name = $coinPricePattern[$j][0];
     $coinPattern = $coinPricePattern[$j][1];
