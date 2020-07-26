@@ -2055,7 +2055,7 @@ function getCoinPriceMatchList($userID = 0){
   return $tempAry;
 }
 
-function getCoinPriceMatchSettings(){
+function getCoinPriceMatchSettings($whereClause = ""){
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
@@ -2064,7 +2064,7 @@ function getCoinPriceMatchSettings(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView`";
+  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
