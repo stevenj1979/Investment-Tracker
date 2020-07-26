@@ -46,10 +46,10 @@ $coin1HrPatternSize = count($coin1HrPattern);
   echo "<H3>Coin Price Match</H3>";
   Echo "<select name='$name'>";
   for ($i=0; $i<$coinPriceMatchNamesSize; $i++){
-    $name = $coinPriceMatch[$i][0]; $nameID = $coinPriceMatch[$i][1];
+    $name = $coinPriceMatchNames[$i][0]; $nameID = $coinPriceMatchNames[$i][1];
     //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
     //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
-    
+
     echo "<option value='$nameID'>$name</option>";
   }
   echo "</select>";
