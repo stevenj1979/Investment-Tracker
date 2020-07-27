@@ -215,7 +215,7 @@ $date = date('Y/m/d H:i:s', time());
             $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
              $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
             $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
-            $pctChange1Hr = $trackingSell[$x][28]; $pctChange24Hr = $trackingSell[$x][31]; $pctChange7D = $trackingSell[$x][34];
+            $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35];
             $priceDiff1 = $livePrice - $LastCoinPrice;
             $fee = (($livePrice* $amount)/100)*0.28;
             $liveTotalCost = ($livePrice * $amount);
