@@ -1456,8 +1456,9 @@ function get1HrChange($coinID){
 function update1HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
   Echo "<BR> Update1HrPriceChange : call Update1HrPriceChange($price,$coinID);";
+  $newPrice = Round($price,8);
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call NewUpdate1HrPriceChange($price,$coinID);";
+  $sql = "call Update1HrPriceChange2($newPrice,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -1497,9 +1498,10 @@ function get7DayChange($coinID){
 
 function update7DPriceChange($sevenDayPrice,$coinID){
   $conn = getSQLConn(rand(1,3));
-  echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID,$livePrice);";
+  echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
+  $newPrice = Round($sevenDayPrice,8);
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call Update7DPriceChange($sevenDayPrice,$coinID,$livePrice);";
+  $sql = "call Update7DPriceChange($newPrice,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -1512,8 +1514,9 @@ function update7DPriceChange($sevenDayPrice,$coinID){
 function update24HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));
   echo "<BR> Update24HrPriceChange : call Update24HrPriceChange($price,$coinID);";
+  $newPrice = Round($price,8);
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call Update24HrPriceChange($price,$coinID);";
+  $sql = "call Update24HrPriceChange2($newPrice,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
