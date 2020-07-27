@@ -85,7 +85,7 @@ while($date <= $newTime){
   echo "NEW LOOP ";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
-    $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
+    $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26]; $livePrice[$x][17];
     $secondstoUpdate = $coins[$x][35];
     if ($firstTimeFlag){$timeAry[$coinID] = $coins[$x][36];}
     //LOG
@@ -121,7 +121,10 @@ while($date <= $newTime){
       //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
-      update1HrPriceChange($statsForCoin[0][2],$coinID);
+
+      update1HrPriceChange(get1HrChange($coinID),$coinID);
+      update24HrPriceChange(get24HrChange($coinID),$coinID);
+      update7DPriceChange(get7DayChange($coinID),$coinID,$livePrice);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency);
       $coinVolData = getVolumeStats($bittrexStats);

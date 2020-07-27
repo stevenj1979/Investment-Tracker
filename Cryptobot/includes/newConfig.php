@@ -1439,12 +1439,11 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date){
   $conn->close();
 }
 
-function get1HrChange($coinID, $date){
+function get1HrChange($coinID){
   $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT Ph.`Price` from `PriceHistory` Ph
-    where `PriceDate` like '$date%' and CoinID = $coinID limit 1";
+  $sql = "SELECT `Price` FROM `OneHourPrice` WHERE `CoinID` = $coinID";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -1459,6 +1458,48 @@ function update1HrPriceChange($price,$coinID){
   Echo "<BR> Update1HrPriceChange : call Update1HrPriceChange($price,$coinID);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call call NewUpdate1HrPriceChange($price,$coinID);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function get24HrChange($coinID){
+  $tempAry = [];
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['Price']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function get7DayChange($coinID){
+  $tempAry = [];
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['Price']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function update7DPriceChange($sevenDayPrice,$coinID, $livePrice){
+  $conn = getSQLConn(rand(1,3));
+  echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID,$livePrice);";
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call Update7DPriceChange($sevenDayPrice,$coinID,$livePrice);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
