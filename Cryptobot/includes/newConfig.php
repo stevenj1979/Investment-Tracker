@@ -1495,7 +1495,7 @@ function get7DayChange($coinID){
   return $tempAry;
 }
 
-function update7DPriceChange($sevenDayPrice,$coinID, $livePrice){
+function update7DPriceChange($sevenDayPrice,$coinID){
   $conn = getSQLConn(rand(1,3));
   echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID,$livePrice);";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
