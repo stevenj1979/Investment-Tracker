@@ -258,7 +258,7 @@ function showMain(){
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
-          $Live1HrChange = round($tracking[$x][8],$num); $Live24HrChange = round($tracking[$x][11],$num); $Live7DChange = $tracking[$x][14];
+          $Live1HrChange = round($tracking[$x][10],$num); $Live24HrChange = round($tracking[$x][13],$num); $Live7DChange = $tracking[$x][16];
           $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
           $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
@@ -269,13 +269,13 @@ function showMain(){
           $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$LivePriceTrend;
           //TestRules
 
-          $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$tracking[$x][8],$Hr1ChangeEnabled);
+          $Hr1Test = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$tracking[$x][10],$Hr1ChangeEnabled);
           $priceTest = autoBuyMain($tracking[$x][17],$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
           $marketCaptest = buyWithScore($MarketCapTop,$MarketCapBtm,$tracking[$x][7],$MarketCapEnabled);
           $volumetest = buyWithScore($VolumeTop,$VolumeBtm,$tracking[$x][25],$VolumeEnabled);
           $buyOrderstest = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$tracking[$x][4],$BuyOrdersEnabled);
-          $Hr24test = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$tracking[$x][11],$Hr24ChangeEnabled);
-          $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$tracking[$x][14],$D7ChangeEnabled);
+          $Hr24test = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$tracking[$x][13],$Hr24ChangeEnabled);
+          $D7test = buyWithScore($D7ChangeTop,$D7ChangeBtm,$tracking[$x][16],$D7ChangeEnabled);
           $priceTrendtest = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleID,0);
           $Hr1PriceTrendtest = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleID,0);
           $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$tracking[$x][17],$coin,0,$coinPricePatternEnabled,$ruleID,0);
