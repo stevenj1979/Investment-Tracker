@@ -271,7 +271,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $bitPrice = $buyPriceCoin;
   }
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
-  $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);
+  $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
@@ -301,6 +301,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
+          $btcBuyAmount = round($btcBuyAmount,10);
+          $bitPrice = round($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           $bittrexRef = $obj["result"]["uuid"];
