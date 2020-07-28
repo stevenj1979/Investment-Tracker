@@ -142,7 +142,7 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][30]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32];
-    echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart";
+    echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID";
     if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
       if ($NoOfRisesInPrice >= $totalRisesInPrice && $ogPctProfit >= 0.25){
