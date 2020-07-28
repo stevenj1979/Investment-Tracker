@@ -24,14 +24,17 @@ setStyle($_SESSION['isMobile']);
 
 
 if(isset($_GET['override'])){
-  if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;}
+  if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;$_SESSION['roundVar'] = 8;}
+
 }
 
 if(isset($_GET['noOverride'])){
-  if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
+  if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;$_SESSION['roundVar'] = 2;}
+
 }
 
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
+  $_SESSION['roundVar'] = 2;
   header('Location: SellCoins_Mobile.php');
 }
 
@@ -204,6 +207,7 @@ $date = date('Y/m/d H:i:s', time());
         displayHeader(4);
         $trackingSell = getTrackingSellCoins($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
+        $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a></h3>";
@@ -226,10 +230,10 @@ $date = date('Y/m/d H:i:s', time());
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,8)."</p></td>";
-            NewEcho("<td><p id='normalText'>".round($mrktCap,8)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".$pctChange1Hr."</p></td>",$_SESSION['isMobile'],2);
-            echo "<td><p id='largeText' >".round($amount,8)." $coin</p></td>";
+            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
+            NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
 
             echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?split&Coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
@@ -237,8 +241,8 @@ $date = date('Y/m/d H:i:s', time());
 
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
-            NewEcho("<td><p id='normalText'>".round($volume,8)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".$pctChange24Hr."</p></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
             echo "<td><p id='normalText'>$cost</p></td>";
 
@@ -249,13 +253,13 @@ $date = date('Y/m/d H:i:s', time());
             //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
             $numCol = getNumberColour($priceDiff1);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,8)."</p></td>";
-            echo "<td><p id='largeText' >".round($profit,8)." $baseCurrency</p></td>";
+            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
+            echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
 
-            NewEcho("<td><p id='normalText'>".round($sellOrders,8)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".$pctChange7D."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
+            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
         }
         print_r("</table>");
         Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
