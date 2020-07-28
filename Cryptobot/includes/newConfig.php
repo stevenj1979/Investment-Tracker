@@ -1486,7 +1486,7 @@ function get7DayChange($coinID){
   $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
+  $sql = "SELECT `Price` FROM `SevenDayPrice` WHERE `CoinID` = $coinID";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
