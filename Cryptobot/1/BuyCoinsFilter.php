@@ -297,14 +297,14 @@ function showMain(){
             $tdColour = setTextColour($buyOrderstest, True);
             NewEcho( "<td Style='$tdColour'>$buyOrders</td>",$_SESSION['isMobile'],0);
             $tdColour = setTextColour($Hr1Test, True);
-            echo "<td Style='$tdColour'>".$Live1HrChange."</td>";
+            echo "<td Style='$tdColour'>".round($Live1HrChange,8)."</td>";
             $tdColour = setTextColour($Hr24test, True);
-            NewEcho( "<td Style='$tdColour'>".$Live24HrChange."</td>",$_SESSION['isMobile'],0);
+            NewEcho( "<td Style='$tdColour'>".round($Live24HrChange,8)."</td>",$_SESSION['isMobile'],0);
             $tdColour = setTextColour($D7test, True);
-            NewEcho( "<td Style='$tdColour'>".$Live7DChange."</td>",$_SESSION['isMobile'],0);
+            NewEcho( "<td Style='$tdColour'>".round($Live7DChange,8)."</td>",$_SESSION['isMobile'],0);
         //  }
-          echo "<td>% $priceDiff1</td>";
-          echo "<td>".$priceChange." ".$baseCurrency."</td>";
+          echo "<td>".round($priceDiff1,8)."</td>";
+          echo "<td>".round($priceChange,8)." ".$baseCurrency."</td>";
 
           //if ($_SESSION['isMobile'] == False){
             $tdColour = setTextColour($priceTrendtest, True);
