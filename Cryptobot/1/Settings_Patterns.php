@@ -79,7 +79,7 @@ function getCoinPriceMatchSettingsLocal($whereClause = ""){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`, `ID`,`CoinPriceMatchNameID` FROM `NewCoinPriceMatchSettingsView` $whereClause";
+  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`,`UserID`, `ID`,`CoinPriceMatchNameID` FROM `NewCoinPriceMatchSettingsView` $whereClause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
