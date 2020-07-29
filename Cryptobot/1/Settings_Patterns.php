@@ -28,6 +28,7 @@ require('layout/header.php');
 
 if (!isset($_GET['click'])){
   echo "<BR> click is ".$_GET['click'];
+  echo "<BR> coin price Match Names is ".$_GET['CoinPriceMatchNamesSelect'];
   if ($_GET['click'] == "changeNameSelection"){
     echo "<BR>  ID is ".$_GET['CoinPriceMatchNamesSelect'];
     setNameSelection($_GET['CoinPriceMatchNamesSelect']);
