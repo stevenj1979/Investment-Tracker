@@ -28,7 +28,7 @@ require('layout/header.php');
 
 if (isset($_POST['CoinPriceMatchNamesSelect'])){
     //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
-    echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
+    //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
 }
 
@@ -66,7 +66,7 @@ function getCoinPriceMatchSettingsLocal($whereClause = ""){
   }
 
   $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView` $whereClause";
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
