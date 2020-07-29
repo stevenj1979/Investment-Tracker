@@ -66,7 +66,7 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: Settings_Patterns.php');
+  //header('Location: Settings_Patterns.php');
 }
 
 function removePricePatternfromSQL($price){
