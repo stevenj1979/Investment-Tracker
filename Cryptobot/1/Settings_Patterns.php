@@ -26,17 +26,18 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
-if (isset($_POST['CoinPriceMatchNamesSelect'])){
+if (!empty($_POST['CoinPriceMatchNamesSelect'])){
     //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
     //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
-}elseif (isset($_POST['addPrice'])){
+}elseif (!empty($_POST['addPrice'])){
+    echo "<BR> Add Price!";
     if (!empty($_POST['addPriceBtn'])){
       $symbol = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
     }
     if (!empty($_POST['removePriceBtn'])){
-      $ID = $_POST['CoinPriceMatchSelect']; 
+      $ID = $_POST['CoinPriceMatchSelect'];
       echo "<br> Remove : ID : $ID";
     }
 }
