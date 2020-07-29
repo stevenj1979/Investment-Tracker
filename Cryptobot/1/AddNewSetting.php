@@ -741,8 +741,9 @@ function displayEdit($id){
   $coinPriceMatchID = $formSettings[0][59];
   $coinPriceMatchName = $formSettings[0][58];
   //$coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
-  //addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
-  //echo "<div class='settingsformCmbo'>";
+
+  echo "<div class='settingsformCmbo'>";
+  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   displaySymbols($coinPriceMatchNames,0,'coinPriceMatchCmb',$formSettings[0][53],1,$coinPriceMatchName);
   //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
@@ -750,7 +751,7 @@ function displayEdit($id){
   //Echo "<select name='listbox' size='3'>";
   //displayListBox($pricePattern);
   //echo "</select>";
-  //echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
   //echo "<div class='settingsform'>";
   //echo "<H3>1Hr Change Pattern</H3>";
