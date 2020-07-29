@@ -39,6 +39,10 @@ if (!empty($_POST['addPriceBtn'])){
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
 }
 
+if (!empty($_POST['addNewName'])){
+      echo "<BR> New Name : ".$_POST['newNameTxt'];
+}
+
 if (!empty($_POST['removePriceBtn'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
@@ -141,6 +145,10 @@ $coin1HrPatternSize = count($coin1HrPattern);
   }
   echo "</select>";
   echo "<input type='submit' name='publishTrend' value='Refresh'></form>";
+  echo "<form action='Settings_Patterns.php?addNewName=Y' method='post'>";
+  echo "<input type='text' name='newNameTxt' id='newNametxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
+  echo "<input type='submit' name='newNameBtn' value='Add New Name'>";
+  echo "</form></div>";
   echo "<form action='Settings_Patterns.php?addPrice=Y' method='post'>";
   echo "<select name='CoinPriceMatchSelect' size='8'>";
   for ($l=0; $l<$coinPriceMatchSize; $l++){
