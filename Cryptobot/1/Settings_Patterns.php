@@ -26,12 +26,12 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
-if (!isset($_GET['click'])){
-  echo "<BR> click is ".$_GET['click'];
-  echo "<BR> coin price Match Names is ".$_GET['CoinPriceMatchNamesSelect'];
-  if ($_GET['click'] == "changeNameSelection"){
-    echo "<BR>  ID is ".$_GET['CoinPriceMatchNamesSelect'];
-    setNameSelection($_GET['CoinPriceMatchNamesSelect']);
+if (!isset($_POST['click'])){
+  echo "<BR> click is ".$_POST['click'];
+  echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
+  if ($_POST['click'] == "changeNameSelection"){
+    echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
+    setNameSelection($_POST['CoinPriceMatchNamesSelect']);
   }
 }
 
