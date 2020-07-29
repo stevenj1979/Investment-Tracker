@@ -199,7 +199,7 @@ $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
     //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
     //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
     Echo "<BR> $name | $coinPriceMatchNameSelected";
-    if ($name == $coinPriceMatchNameSelected){
+    if ($nameID == $coinPriceMatchNameSelected){
       echo "<option value='$nameID' selected>$name</option>";
     }else{
       echo "<option value='$nameID'>$name</option>";
@@ -209,7 +209,7 @@ $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
   echo "</select>";
   echo "<input type='submit' name='publishTrend' value='Refresh'></form>";
   echo "<form action='Settings_Patterns.php?addNewName=Y' method='post'>";
-    echo "<input type='text' name='newNameTxt' id='newNametxt' class='form-control input-lg' placeholder='Name' value='$coinPriceMatchNameSelected' tabindex='1'>";
+    echo "<input type='text' name='newNameTxt' id='newNametxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
     echo "<input type='submit' name='newNameBtn' value='Add New Name'>";
   echo "</form>";
   echo "<form action='Settings_Patterns.php?addPrice=Y' method='post'>";
