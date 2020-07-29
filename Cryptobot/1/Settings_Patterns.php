@@ -187,7 +187,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
 
 
 
-
+$coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
 
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
@@ -198,7 +198,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
     $name = $coinPriceMatchNames[$i][0]; $nameID = $coinPriceMatchNames[$i][1];
     //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
     //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
-    Echo "<BR> $name | ".$_SESSION['coinPriceMatchNameSelected'];
+    Echo "<BR> $name | $coinPriceMatchNameSelected";
     if ($name == $_SESSION['coinPriceMatchNameSelected']){
       echo "<option value='$nameID' selected>$name</option>";
     }else{
