@@ -729,22 +729,22 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
-  echo "<div class='settingsformCmbo'>";
-  displaySymbols($symbolList,0,'select',$formSettings[0][53]);
-  addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
-  addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
+  //addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+  //echo "<div class='settingsformCmbo'>";
+  //displaySymbols($symbolList,0,'select',$formSettings[0][53]);
+  //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
+  //addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
-  Echo "<select name='listbox' size='3'>";
-  displayListBox($pricePattern);
-  echo "</select>";
-  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  //Echo "<select name='listbox' size='3'>";
+  //displayListBox($pricePattern);
+  //echo "</select>";
+  //echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
   //echo "<div class='settingsform'>";
   //echo "<H3>1Hr Change Pattern</H3>";
   //addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
   //addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
-  //echo "</div>";
+  echo "</div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>New 1Hr Change Pattern</H3>";
@@ -761,7 +761,7 @@ function displayEdit($id){
   echo "<H3>Admin</H3>";
     addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
-    addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
+    //addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
     addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
     addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,1);
     addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,1);

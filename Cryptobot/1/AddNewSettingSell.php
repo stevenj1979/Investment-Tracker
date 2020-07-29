@@ -603,16 +603,16 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-  $coinPricePatEnabled = $formSettings[0][42];
-  addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$coinPricePatEnabled);
-  echo "<div class='settingsformCmbo'>";
-  displaySymbols($symbolList,0,'select',$coinPricePatEnabled);
-  addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
-  addNewText('Coin Price: Bottom', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
+  //$coinPricePatEnabled = $formSettings[0][42];
+  //addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$coinPricePatEnabled);
+  //echo "<div class='settingsformCmbo'>";
+  //displaySymbols($symbolList,0,'select',$coinPricePatEnabled);
+  //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
+  //addNewText('Coin Price: Bottom', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
-  displayListBox($pricePattern,'listbox',$coinPricePatEnabled);
-  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
-
+  //displayListBox($pricePattern,'listbox',$coinPricePatEnabled);
+  //echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  echo "</div>";
 
   echo "<div class='settingsform'>";
   echo "<H3>Admin</H3>";
