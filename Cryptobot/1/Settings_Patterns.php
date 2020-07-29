@@ -177,6 +177,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
     $name = $coinPriceMatchNames[$i][0]; $nameID = $coinPriceMatchNames[$i][1];
     //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
     //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
+    Echo "<BR> $name | ".$_SESSION['coinPriceMatchNameSelected'];
     if ($name == $_SESSION['coinPriceMatchNameSelected']){
       echo "<option value='$nameID' selected>$name</option>";
     }else{
