@@ -26,7 +26,7 @@ $title = 'CryptoBot';
 //include header template
 require('layout/header.php');
 
-if (!isset($_POST['CoinPriceMatchNamesSelect'])){
+if (isset($_POST['CoinPriceMatchNamesSelect'])){
     //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
     echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
