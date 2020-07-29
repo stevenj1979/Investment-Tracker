@@ -59,14 +59,14 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addNewCoinPriceMatchBuy($price,$coinID,$userID,$lowPrice, $nameID);";
-  echo $sql;
+  //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: Settings_Patterns.php');
+  header('Location: Settings_Patterns.php');
 }
 
 function removePricePatternfromSQL($price){
@@ -221,7 +221,7 @@ $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
       echo "<option value='$ID+$coinMatchNameID+$userID'>$symbol | $price | $lowPrice</option>";
   }
   echo "</select>";
-  echo "<select name='symbol' size='2'>";
+  echo "<select name='symbol'>";
   for ($m = 0; $m<$coinsSize; $m++){
     $symbol = $coins[$m][0]; $coinID = $coins[$m][1];
     echo "<option value='$coinID'>$symbol</option>";
