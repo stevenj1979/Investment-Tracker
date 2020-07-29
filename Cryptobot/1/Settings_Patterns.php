@@ -33,6 +33,13 @@ if (!empty($_POST['CoinPriceMatchNamesSelect'])){
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
 }
 
+if (!empty($_POST['CoinPricePatternNamesSelect'])){
+    //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
+    //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
+    setNameSelectionPricePattern($_POST['CoinPricePatternNamesSelect']);
+}
+
+
 if (!empty($_POST['addPriceBtn'])){
       echo "<BR> addPriceBtn not empty";
       $coinID = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
@@ -89,6 +96,10 @@ function removePricePatternfromSQL($price){
 
 function setNameSelection($newSelected){
   $_SESSION['coinPriceMatchNameSelected'] = $newSelected;
+}
+
+function setNameSelectionPricePattern($newSelected){
+  $_SESSION['coinPricePatternNameSelected'] = $newSelected;
 }
 
 function getCoinPriceMatchSettingsLocal($whereClause = ""){
@@ -230,7 +241,10 @@ $comboList = Array('-1','0','1','*');
   echo "<input type='submit' name='addPriceBtn' value='+'>";
   echo "<input type='submit' name='removePriceBtn' value='-'>";
   echo "</form></div>";
+
+
   echo "<H3>Coin Price Pattern</H3>";
+  echo "<div><form action='Settings_Patterns.php?changeNameSelection=Y' method='post'>";
   Echo "<select name='CoinPricePatternNamesSelect'>";
   for ($i=0; $i<$coinPricePatternNamesSize; $i++){
     $name = $coinPricePatternNames[$i][0]; $nameID = $coinPricePatternNames[$i][1];
@@ -261,6 +275,9 @@ $comboList = Array('-1','0','1','*');
   echo "<input type='submit' name='addPriceBtn' value='+'>";
   echo "<input type='submit' name='removePriceBtn' value='-'>";
   echo "</form></div>";
+
+
+
   echo "</table><H3>Coin 1 Hour Pattern</H3><table>";
   for ($k=0; $k<$coin1HrPatternSize; $k++){
     $name = $coin1HrPattern[$k][0];
