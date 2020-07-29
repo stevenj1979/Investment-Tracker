@@ -100,7 +100,7 @@ function getCoinPricePattenSettingsLocal(){
 $coinPriceMatchNames = getCoinPriceMatchNamesLocal($_SESSION['ID']);
 $coinPriceMatchNamesSize = count($coinPriceMatchNames);
 
-$coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `Name` = '".$_SESSION['coinPriceMatchNameSelected']."'");
+$coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
 $coinPriceMatchSize = count($coinPriceMatch);
 
 $coinPricePattern = getCoinPricePattenSettingsLocal();
