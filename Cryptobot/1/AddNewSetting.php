@@ -735,10 +735,10 @@ function displayEdit($id){
   $coinPriceMatchNamesSize = count($coinPriceMatchNames);
   $coinPriceMatchID = $formSettings[0][59];
   $coinPriceMatchName = $formSettings[0][58];
-
+  //$coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
   //addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   //echo "<div class='settingsformCmbo'>";
-  displaySymbols($coinPriceMatchNames,0,'select',$formSettings[0][53],1);
+  displaySymbols($coinPriceMatchNames,0,$coinPriceMatchName,$formSettings[0][53],1);
   //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
