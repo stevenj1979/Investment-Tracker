@@ -35,7 +35,7 @@ if (!empty($_POST['CoinPriceMatchNamesSelect'])){
 
 if (!empty($_POST['addPriceBtn'])){
       echo "<BR> addPriceBtn not empty";
-      $coinID= $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
+      $coinID = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
       addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
 }
@@ -220,8 +220,8 @@ $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
       $ID = $coinPriceMatch[$l][6]; $coinMatchNameID = $coinPriceMatch[$l][7]; $userID = $coinPriceMatch[$l][5];
       echo "<option value='$ID+$coinMatchNameID+$userID'>$symbol | $price | $lowPrice</option>";
   }
-  echo "</select name='symbol' size='8'>";
-  echo "<select>";
+  echo "</select>";
+  echo "<select name='symbol' size='2'>";
   for ($m = 0; $m<$coinsSize; $m++){
     $symbol = $coins[$m][0]; $coinID = $coins[$m][1];
     echo "<option value='$coinID'>$symbol</option>";
