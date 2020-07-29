@@ -140,13 +140,13 @@ $coin1HrPatternSize = count($coin1HrPattern);
   }
   echo "</select>";
   echo "<input type='submit' name='publishTrend' value='Refresh'></form>";
-  echo "<form action='Settings_Patterns.php?addPrice=$userID' method='post'>";
+  echo "<form action='Settings_Patterns.php?addPrice=Y' method='post'>";
   echo "<select name='CoinPriceMatchSelect' size='8'>";
   for ($l=0; $l<$coinPriceMatchSize; $l++){
       $name = $coinPriceMatch[$l][4]; $price = $coinPriceMatch[$l][1];
       $lowPrice = $coinPriceMatch[$l][3]; $symbol = $coinPriceMatch[$l][2]; $coinID = $coinPriceMatch[$l][0];
       $ID = $coinPriceMatch[$l][6]; $coinMatchNameID = $coinPriceMatch[$l][7]; $userID = $coinPriceMatch[$l][5];
-      echo "<option value='$ID_$coinMatchNameID'>$symbol | $price | $lowPrice</option>";
+      echo "<option value='$ID_$coinMatchNameID_$userID'>$symbol | $price | $lowPrice</option>";
   }
   echo "</select>";
   echo "<input type='text' name='symbol' id='symbol' class='form-control input-lg' placeholder='BTC' value='' tabindex='1'>";
