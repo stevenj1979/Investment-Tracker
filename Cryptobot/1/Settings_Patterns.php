@@ -123,7 +123,7 @@ function getCoinPriceMatchSettingsLocal($whereClause = ""){
   return $tempAry;
 }
 
-function getCoinPricePattenSettingsLocal(){
+function getCoinPricePatternSettingsLocal($whereClause = ""){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   //$whereClause = "";
@@ -132,12 +132,12 @@ function getCoinPricePattenSettingsLocal(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Name`,`CoinPattern` FROM `NewCoinPricePatternSettingsView`";
+  $sql = "SELECT `Name`,`CoinPattern`,`CoinPricePatternNameID`,`ID`,`UserID` FROM `NewCoinPricePatternSettingsView` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Name'],$row['CoinPattern']);
+      $tempAry[] = Array($row['Name'],$row['CoinPattern'],$row['CoinPricePatternNameID'],$row['ID'],$row['UserID']);
   }
   $conn->close();
   return $tempAry;
@@ -187,7 +187,7 @@ $coinPriceMatchSize = count($coinPriceMatch);
 
 $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","");
 $coinPricePatternNamesSize = count($coinPricePatternNames);
-$coinPricePattern = getCoinPricePattenSettingsLocal();
+$coinPricePattern = getCoinPricePatternSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
 $coinPricePatternSize = count($coinPricePattern);
 $coin1HrPattern = getCoin1HrPattenSettings();
 $coin1HrPatternSize = count($coin1HrPattern);
@@ -272,6 +272,9 @@ $comboList = Array('-1','0','1','*');
   }
   echo "</select>";
   displayTrendSymbols($comboList,'selectCmbo1Hr1', 1);
+  displayTrendSymbols($comboList,'selectCmbo1Hr2', 1);
+  displayTrendSymbols($comboList,'selectCmbo1Hr3', 1);
+  displayTrendSymbols($comboList,'selectCmbo1Hr4', 1);
   echo "<input type='submit' name='addPriceBtn' value='+'>";
   echo "<input type='submit' name='removePriceBtn' value='-'>";
   echo "</form></div>";
