@@ -31,12 +31,14 @@ if (!empty($_POST['CoinPriceMatchNamesSelect'])){
     //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
 }elseif (!empty($_POST['addPrice'])){
-    echo "<BR> Add Price!";
+    echo "<BR> Add Price not empty!";
     if (!empty($_POST['addPriceBtn'])){
+      echo "<BR> addPriceBtn not empty";
       $symbol = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
     }
     if (!empty($_POST['removePriceBtn'])){
+      echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
       echo "<br> Remove : ID : $ID";
     }
@@ -75,13 +77,13 @@ function getCoinPriceMatchSettingsLocal($whereClause = ""){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`, `ID` FROM `NewCoinPriceMatchSettingsView` $whereClause";
+  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`, `ID`,`CoinPriceMatchNameID` FROM `NewCoinPriceMatchSettingsView` $whereClause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['Name'],$row['UserID'],$row['ID']);
+      $tempAry[] = Array($row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['Name'],$row['UserID'],$row['ID'],$row['CoinPriceMatchNameID']);
   }
   $conn->close();
   return $tempAry;
@@ -141,8 +143,8 @@ $coin1HrPatternSize = count($coin1HrPattern);
   for ($l=0; $l<$coinPriceMatchSize; $l++){
       $name = $coinPriceMatch[$l][4]; $price = $coinPriceMatch[$l][1];
       $lowPrice = $coinPriceMatch[$l][3]; $symbol = $coinPriceMatch[$l][2]; $coinID = $coinPriceMatch[$l][0];
-      $ID = $coinPriceMatch[$l][6];
-      echo "<option value='$ID'>$symbol | $price | $lowPrice</option>";
+      $ID = $coinPriceMatch[$l][6]; $coinMatchNameID = $coinPriceMatch[$l][7]; $userID = $coinPriceMatch[$l][5];
+      echo "<option value='$ID_$coinMatchNameID_$userID'>$symbol | $price | $lowPrice</option>";
   }
   echo "</select>";
   echo "<form action='Settings_Patterns.php?click=addPrice' method='post'>";
