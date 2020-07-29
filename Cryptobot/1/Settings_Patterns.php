@@ -152,13 +152,30 @@ function getCoinsLocal(){
   return $tempAry;
 }
 
-$coinPriceMatchNames = getCoinPriceMatchNames($_SESSION['ID']);
+function displayTrendSymbols($symbolList, $name, $enabled){
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
+  for ($i=0; $i<$symbolListCount; $i++){
+    $symbol = $symbolList[$i];
+    $num = $i-1;
+    //$name = str_replace('-1','Minus1',$name);
+    echo "<option value='$num'>$symbol</option>";
+  }
+  echo "</select>";
+}
+
+$coinPriceMatchNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPriceMatchName`","");
 $coinPriceMatchNamesSize = count($coinPriceMatchNames);
 $coins = getCoinsLocal();
 $coinsSize = count($coins);
 $coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
 $coinPriceMatchSize = count($coinPriceMatch);
 
+$coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","");
+$coinPricePatternNamesSize = count($coinPricePatternNames);
 $coinPricePattern = getCoinPricePattenSettingsLocal();
 $coinPricePatternSize = count($coinPricePattern);
 $coin1HrPattern = getCoin1HrPattenSettings();
@@ -166,9 +183,9 @@ $coin1HrPatternSize = count($coin1HrPattern);
 
 
 
-
 $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
-
+$coinPricePatternNameSelected = $_SESSION['coinPricePatternNameSelected'];
+$comboList = Array('-1','0','1','*');
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
   echo "<H3>Coin Price Match</H3>";
@@ -213,16 +230,37 @@ $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
   echo "<input type='submit' name='addPriceBtn' value='+'>";
   echo "<input type='submit' name='removePriceBtn' value='-'>";
   echo "</form></div>";
-  echo "<H3>Coin Price Pattern</H3><table>";
-  for ($j=0; $j<$coinPricePatternSize; $j++){
-    $name = $coinPricePattern[$j][0];
-    $coinPattern = $coinPricePattern[$j][1];
-    echo "<tr>";
-    echo "<td>$name</td>";
-    echo "<td>$coinPattern</td>";
-    echo "</tr>";
+  echo "<H3>Coin Price Pattern</H3>";
+  Echo "<select name='CoinPricePatternNamesSelect'>";
+  for ($i=0; $i<$coinPricePatternNamesSize; $i++){
+    $name = $coinPricePatternNames[$i][0]; $nameID = $coinPricePatternNames[$i][1];
+    //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
+    //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
+    Echo "<BR> $name | $coinPricePatternNameSelected";
+    if ($nameID == $coinPricePatternNameSelected){
+      echo "<option value='$nameID' selected>$name</option>";
+    }else{
+      echo "<option value='$nameID'>$name</option>";
+    }
   }
-
+  echo "</select>";
+  echo "<input type='submit' name='publishTrendPricePattern' value='Refresh'></form>";
+  echo "<form action='Settings_Patterns.php?addNewPricePatternName=Y' method='post'>";
+    echo "<input type='text' name='newNamePricePatterntxt' id='newNamePricePatterntxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
+    echo "<input type='submit' name='newNamePricePatternBtn' value='Add New Name'>";
+  echo "</form>";
+  echo "<form action='Settings_Patterns.php?addPricePattern=Y' method='post'>";
+  echo "<select name='CoinPricePatternSelect' size='8'>";
+  for ($j=0; $j<$coinPricePatternSize; $j++){
+    $name = $coinPricePattern[$j][0]; $pattern = $coinPricePattern[$j][1];
+    $nameID = $coinPricePattern[$j][2]; $patternID = $coinPricePattern[$j][3];
+    echo "<option value='$patternID'>$pattern</option>";
+  }
+  echo "</select>";
+  displayTrendSymbols($comboList,'selectCmbo1Hr1', 1);
+  echo "<input type='submit' name='addPriceBtn' value='+'>";
+  echo "<input type='submit' name='removePriceBtn' value='-'>";
+  echo "</form></div>";
   echo "</table><H3>Coin 1 Hour Pattern</H3><table>";
   for ($k=0; $k<$coin1HrPatternSize; $k++){
     $name = $coin1HrPattern[$k][0];

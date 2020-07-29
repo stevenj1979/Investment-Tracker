@@ -2792,7 +2792,7 @@ function setMobileVariables(){
 //  return $tempAry;
 //}
 
-function getCoinPriceMatchNames($userID){
+function getCoinPriceMatchNames($userID, $table, $limit){
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
@@ -2801,7 +2801,7 @@ function getCoinPriceMatchNames($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Name`,`ID` FROM `CoinPriceMatchName`";
+  $sql = "SELECT `Name`,`ID` FROM $table $limit";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
