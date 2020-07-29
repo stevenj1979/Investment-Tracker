@@ -116,7 +116,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
   echo "<H3>Coin Price Match</H3>";
-  echo "<form action='Settings_Patterns.php?click=changeNameSelection' method='post'>";
+  echo "<div><form action='Settings_Patterns.php?click=changeNameSelection' method='post'>";
   Echo "<select name='CoinPriceMatchNamesSelect'>";
   for ($i=0; $i<$coinPriceMatchNamesSize; $i++){
     $name = $coinPriceMatchNames[$i][0]; $nameID = $coinPriceMatchNames[$i][1];
@@ -135,7 +135,11 @@ $coin1HrPatternSize = count($coin1HrPattern);
   }
   echo "</select>";
 
-  echo "</form>";
+  echo "<input type='text' name='symbol' id='symbol' class='form-control input-lg' placeholder='-10' value='' tabindex='1'>";
+  echo "<input type='text' name='topPrice' id='topPrice' class='form-control input-lg' placeholder='-10' value='' tabindex='2'>";
+  echo "<input type='text' name='bttmPrice' id='bttmPrice' class='form-control input-lg' placeholder='-10' value='' tabindex='3'>";
+
+  echo "</form></div>";
   echo "<H3>Coin Price Pattern</H3><table>";
   for ($j=0; $j<$coinPricePatternSize; $j++){
     $name = $coinPricePattern[$j][0];
