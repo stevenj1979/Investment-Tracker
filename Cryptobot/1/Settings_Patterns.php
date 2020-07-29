@@ -91,26 +91,6 @@ function setNameSelection($newSelected){
   $_SESSION['coinPriceMatchNameSelected'] = $newSelected;
 }
 
-function getCoinPriceMatchNamesLocal($userID){
-  $conn = getSQLConn(rand(1,3));
-  //$whereClause = "";
-  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql = "SELECT `Name`,`ID` FROM `CoinPriceMatchName`";
-  $result = $conn->query($sql);
-  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Name'],$row['ID']);
-  }
-  $conn->close();
-  return $tempAry;
-}
-
 function getCoinPriceMatchSettingsLocal($whereClause = ""){
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -172,7 +152,7 @@ function getCoinsLocal(){
   return $tempAry;
 }
 
-$coinPriceMatchNames = getCoinPriceMatchNamesLocal($_SESSION['ID']);
+$coinPriceMatchNames = getCoinPriceMatchNames($_SESSION['ID']);
 $coinPriceMatchNamesSize = count($coinPriceMatchNames);
 $coins = getCoinsLocal();
 $coinsSize = count($coins);

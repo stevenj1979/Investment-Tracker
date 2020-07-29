@@ -2791,4 +2791,24 @@ function getCoinPriceMatchNames($userID = 0, $limit = ""){
   $conn->close();
   return $tempAry;
 }
+
+function getCoinPriceMatchNames($userID){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Name`,`ID` FROM `CoinPriceMatchName`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Name'],$row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>

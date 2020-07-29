@@ -411,6 +411,7 @@ function getRules($id){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
+,`CoinPriceMatchName`,`CoinPriceMatchID`
 FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -424,7 +425,7 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']//35
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']//44
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
-     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit']);//57
+     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID']);//59
   }
   $conn->close();
   return $tempAry;
@@ -571,17 +572,18 @@ function displayListBoxNormal($tempAry, $num, $name, $enabled){
   echo "</select>";
 }
 
-function displaySymbols($symbolList,$num, $name, $enabled){
+function displaySymbols($symbolList,$num, $name, $enabled, $num2){
   $symbolListCount = count($symbolList);
-  $symbolListCount = count($symbolList);
+  //$symbolListCount = count($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
   Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
     $symbol = $symbolList[$i][$num];
+    $ID = $symbolList[$i][$num2];
     //$name = str_replace('-1','Minus1',$name);
-    echo "<option value='$symbol'>$symbol</option>";
+    echo "<option value='$ID'>$symbol</option>";
   }
   Echo "</SELECT>";
 }
@@ -729,9 +731,14 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
+  $coinPriceMatchNames = getCoinPriceMatchNames($id);
+  $coinPriceMatchNamesSize = count($coinPriceMatchNames);
+  $coinPriceMatchID = $formSettings[0][59];
+  $coinPriceMatchName = $formSettings[0][58];
+
   //addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   //echo "<div class='settingsformCmbo'>";
-  //displaySymbols($symbolList,0,'select',$formSettings[0][53]);
+  displaySymbols($coinPriceMatchNames,0,'select',$formSettings[0][53],1);
   //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
