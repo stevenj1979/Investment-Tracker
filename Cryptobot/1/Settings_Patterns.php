@@ -28,6 +28,7 @@ require('layout/header.php');
 
 if (!isset($_GET['click'])){
   if ($_GET['click'] = "changeNameSelection"){
+    echo "<BR>  ID is ".$_GET['CoinPriceMatchNamesSelect'];
     setNameSelection($_GET['CoinPriceMatchNamesSelect']);
   }
 }
@@ -56,12 +57,54 @@ function getCoinPriceMatchNamesLocal($userID){
   return $tempAry;
 }
 
+function getCoinPriceMatchSettingsLocal($whereClause = ""){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView` $whereClause";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['Name'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getCoinPricePattenSettingsLocal(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Name`,`CoinPattern` FROM `NewCoinPricePatternSettingsView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Name'],$row['CoinPattern']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $coinPriceMatchNames = getCoinPriceMatchNamesLocal($_SESSION['ID']);
 $coinPriceMatchNamesSize = count($coinPriceMatchNames);
 
-$coinPriceMatch = getCoinPriceMatchSettings("Where `Name` = '".$_SESSION['coinPriceMatchNameSelected']."'");
+$coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `Name` = '".$_SESSION['coinPriceMatchNameSelected']."'");
 $coinPriceMatchSize = count($coinPriceMatch);
-$coinPricePattern = getCoinPricePattenSettings();
+
+$coinPricePattern = getCoinPricePattenSettingsLocal();
 $coinPricePatternSize = count($coinPricePattern);
 $coin1HrPattern = getCoin1HrPattenSettings();
 $coin1HrPatternSize = count($coin1HrPattern);
