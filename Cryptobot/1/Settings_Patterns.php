@@ -35,9 +35,9 @@ if (!empty($_POST['CoinPriceMatchNamesSelect'])){
 
 if (!empty($_POST['addPriceBtn'])){
       echo "<BR> addPriceBtn not empty";
-      $symbol = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
+      $coinID= $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
-      addpricePatterntoSQL($symbol, $topPrice, $bottomPrice);
+      addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
 }
 
 if (!empty($_POST['newNameBtn'])){
@@ -51,14 +51,14 @@ if (!empty($_POST['removePriceBtn'])){
       removePricePatternfromSQL($ID);
 }
 
-function addpricePatterntoSQL($symbol, $price, $lowPrice){
+function addpricePatterntoSQL($coinID, $price, $lowPrice){
   $userID = $_SESSION['ID'];
   $nameID = $_SESSION['coinPriceMatchNameSelected'];
   echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addNewCoinPriceMatchBuy($price,'$symbol',$userID,$lowPrice, $nameID);";
+  $sql = "call addNewCoinPriceMatchBuy($price,$coinID,$userID,$lowPrice, $nameID);";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -152,9 +152,30 @@ function getCoinPricePattenSettingsLocal(){
   return $tempAry;
 }
 
+function getCoinsLocal(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol`,`ID` FROM `Coin` where `buyCoin` = 1";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol'],$row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $coinPriceMatchNames = getCoinPriceMatchNamesLocal($_SESSION['ID']);
 $coinPriceMatchNamesSize = count($coinPriceMatchNames);
-
+$coins = getCoinsLocal();
+$coinsSize = count($coins);
 $coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
 $coinPriceMatchSize = count($coinPriceMatch);
 
@@ -199,8 +220,14 @@ $coin1HrPatternSize = count($coin1HrPattern);
       $ID = $coinPriceMatch[$l][6]; $coinMatchNameID = $coinPriceMatch[$l][7]; $userID = $coinPriceMatch[$l][5];
       echo "<option value='$ID+$coinMatchNameID+$userID'>$symbol | $price | $lowPrice</option>";
   }
+  echo "</select name='symbol' size='8'>";
+  echo "<select>";
+  for ($m = 0; $m<$coinsSize; $m++){
+    $symbol = $coins[$m][0]; $coinID = $coins[$m][1];
+    echo "<option value='$coinID'>$symbol</option>";
+    //echo "<input type='text' name='symbol' id='symbol' class='form-control input-lg' placeholder='BTC' value='' tabindex='1'>";
+  }
   echo "</select>";
-  echo "<input type='text' name='symbol' id='symbol' class='form-control input-lg' placeholder='BTC' value='' tabindex='1'>";
   echo "<input type='text' name='topPrice' id='topPrice' class='form-control input-lg' placeholder='8000.00' value='' tabindex='2'>";
   echo "<input type='text' name='bttmPrice' id='bttmPrice' class='form-control input-lg' placeholder='0.00' value='' tabindex='3'>";
   echo "<input type='submit' name='addPriceBtn' value='+'>";
