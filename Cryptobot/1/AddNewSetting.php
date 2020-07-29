@@ -22,8 +22,11 @@ if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
 if(!empty($_GET['editedUserReady'])){
   if (!empty($_POST['publish'])){
-    Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
-    addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice'], $_POST['CPricebtm']);
+    //Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
+    $ruleID = $_GET['editedUserReady']; $coinPriceMatchNameID = $_POST['coinPriceMatchCmb'];
+    echo "<BR> Test: $ruleID | $coinPriceMatchNameID";
+    updateNameIDtoRule($ruleID,$coinPriceMatchNameID);
+    //addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice'], $_POST['CPricebtm']);
   }elseif (!empty($_POST['remove'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
     removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
@@ -97,13 +100,13 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
-function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
-  $userID = $_SESSION['ID'];
-  echo "$ruleID $symbol $price $userID";
+function updateNameIDtoRule($ruleID, $nameID){
+  //$userID = $_SESSION['ID'];
+  //echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addNewCoinPriceMatchBuy($ruleID,$price,'$symbol',$userID,0,$lowPrice);";
+  $sql = "UPDATE `BuyRules` SET `CoinPriceMatchID` = $nameID WHERE `ID` = $ruleID;";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -751,7 +754,7 @@ function displayEdit($id){
   //Echo "<select name='listbox' size='3'>";
   //displayListBox($pricePattern);
   //echo "</select>";
-  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  echo "<input type='submit' name='publish' value='Apply'></div></div>";
 
   //echo "<div class='settingsform'>";
   //echo "<H3>1Hr Change Pattern</H3>";
