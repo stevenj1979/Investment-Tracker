@@ -751,7 +751,7 @@ function displayEdit($id){
   //Echo "<select name='listbox' size='3'>";
   //displayListBox($pricePattern);
   //echo "</select>";
-  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div>";
+  echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
 
   //echo "<div class='settingsform'>";
   //echo "<H3>1Hr Change Pattern</H3>";
