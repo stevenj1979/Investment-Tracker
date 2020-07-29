@@ -37,6 +37,7 @@ if (!empty($_POST['addPriceBtn'])){
       echo "<BR> addPriceBtn not empty";
       $symbol = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
       echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
+      addpricePatterntoSQL($symbol, $topPrice, $bottomPrice);
 }
 
 if (!empty($_POST['newNameBtn'])){
@@ -49,6 +50,41 @@ if (!empty($_POST['removePriceBtn'])){
       echo "<br> Remove : ID : $ID";
 }
 
+function addpricePatterntoSQL($symbol, $price, $lowPrice){
+  $userID = $_SESSION['ID'];
+  $nameID = $_SESSION['coinPriceMatchNameSelected'];
+  echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addNewCoinPriceMatchBuy($price,'$symbol',$userID,$lowPrice, $nameID);";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: Settings_Patterns.php');
+}
+
+function removePricePatternfromSQL($price){
+  $splitPrice = explode('+',$price);
+  $coinPriceMatchNameID = $splitPrice[1]; $coinPriceMatchID = $splitPrice[0]; $userID = $splitPrice[2];
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `CoinPriceMatchNameID` = $coinPriceMatchNameID and `CoinPriceMatchID` = $coinPriceMatchID ";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: Settings_Patterns.php');
+}
 
 function setNameSelection($newSelected){
   $_SESSION['coinPriceMatchNameSelected'] = $newSelected;
