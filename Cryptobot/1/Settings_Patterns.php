@@ -48,6 +48,7 @@ if (!empty($_POST['removePriceBtn'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
       echo "<br> Remove : ID : $ID";
+      removePricePatternfromSQL($ID);
 }
 
 function addpricePatterntoSQL($symbol, $price, $lowPrice){
