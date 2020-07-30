@@ -114,7 +114,7 @@ function updateNameIDtoRule($ruleID, $nameID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  //header('Location: AddNewSetting.php?edit='.$ruleID);
+  header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
@@ -414,7 +414,7 @@ function getRules($id){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
-,`CoinPriceMatchName`,`CoinPriceMatchID`
+,`CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `CoinPricePatternName`,`Coin1HrPatternID`,`Coin1HrPatternName`
 FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -428,7 +428,8 @@ FROM `UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']//35
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']//44
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
-     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID']);//59
+     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID']
+   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName']);//59
   }
   $conn->close();
   return $tempAry;
@@ -726,11 +727,19 @@ function displayEdit($id){
   echo "<H3>New Price Trend</H3>";
   addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
   echo "<div class='settingsformCmbo'>";
-  displayTrendSymbols($comboList,'selectCmboTrend1', $formSettings[0][31]);
-  displayTrendSymbols($comboList,'selectCmboTrend2', $formSettings[0][31]);
-  displayTrendSymbols($comboList,'selectCmboTrend3', $formSettings[0][31]);
-  displayTrendSymbols($comboList,'selectCmboTrend4', $formSettings[0][31]);
-  displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][31]);
+  $coinPricePatternNames = getCoinPriceMatchNames($id, "`CoinPricePatternName`","");
+  $coinPricePatternNamesSize = count($coinPricePatternNames);
+  $coinPricePatternID = $formSettings[0][60];
+  $coinPricePatternName = $formSettings[0][61];
+
+  echo "<div class='settingsformCmbo'>";
+  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+  displaySymbols($coinPricePatternNames,0,'coinPricePatternCmb',$formSettings[0][31],1,$coinPricePatternName);
+  //displayTrendSymbols($comboList,'selectCmboTrend1', $formSettings[0][31]);
+  //displayTrendSymbols($comboList,'selectCmboTrend2', $formSettings[0][31]);
+  //displayTrendSymbols($comboList,'selectCmboTrend3', $formSettings[0][31]);
+  //displayTrendSymbols($comboList,'selectCmboTrend4', $formSettings[0][31]);
+  //displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][31]);
   echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Coin Price Pattern</H3>";
@@ -746,7 +755,7 @@ function displayEdit($id){
   //$coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
 
   echo "<div class='settingsformCmbo'>";
-  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
+  addNewTwoOption('Coin Price Match Enabled: ', 'CoinPriceMatchEnabled', $formSettings[0][53]);
   displaySymbols($coinPriceMatchNames,0,'coinPriceMatchCmb',$formSettings[0][53],1,$coinPriceMatchName);
   //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
   //addNewText('Coin Price Bottom: ', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$formSettings[0][53]);
