@@ -67,14 +67,14 @@ function removePricePatternfromSQL($ruleID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "Delete FROM `CoinPricePatternRules` WHERE `PatternID` = $ruleID and `CoinPricePatternNameID` = $nameID";
-  //echo $sql;
+  echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: Settings_Patterns.php');
 }
 
 function addTrendPatterntoSQL($pattern){
