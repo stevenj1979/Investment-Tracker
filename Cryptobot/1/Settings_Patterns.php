@@ -43,6 +43,7 @@ if (!empty($_POST['addPricePatternBtn'])){
   $cmbo1 = $_POST['selectCmbo1Hr1'];$cmbo2 = $_POST['selectCmbo1Hr2'];
   $cmbo3 = $_POST['selectCmbo1Hr3']; $cmbo4 = $_POST['selectCmbo1Hr4'];
   $pattern = str_replace("2","*",$cmbo1.$cmbo2.$cmbo3.$cmbo4);
+  echo "<BR> $pattern";
   addTrendPatterntoSQL($pattern);
 }
 
