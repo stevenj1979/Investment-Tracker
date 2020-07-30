@@ -101,7 +101,7 @@ if (!empty($_POST['removePriceBtn'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
       echo "<br> Remove : ID : $ID";
-      removePricePatternfromSQL($ID);
+      removePricefromSQL($ID);
 }
 
 function addpricePatterntoSQL($coinID, $price, $lowPrice){
@@ -122,7 +122,7 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice){
   header('Location: Settings_Patterns.php');
 }
 
-function removePricePatternfromSQL($price){
+function removePricefromSQL($price){
   $splitPrice = explode('+',$price);
   $coinPriceMatchNameID = $splitPrice[1]; $coinPriceMatchID = $splitPrice[0]; $userID = $splitPrice[2];
   $userID = $_SESSION['ID'];
