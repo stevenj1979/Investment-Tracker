@@ -192,7 +192,7 @@ function getCoin1HrPatternSettingsLocal($whereClause = ""){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Name`,`CoinPattern`,`Coin1HrPatternNameID`,`ID`,`UserID` FROM `NewCoin1HrPatternSettingsView` $whereClause";
+  $sql = "SELECT `Name`,`Pattern`,`Coin1HrPatternNameID`,`ID`,`UserID` FROM `NewCoin1HrPatternSettingsView` $whereClause";
   $result = $conn->query($sql);
   echo $sql;
   //$result = mysqli_query($link4, $query);
