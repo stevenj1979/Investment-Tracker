@@ -198,7 +198,7 @@ function getCoin1HrPatternSettingsLocal($whereClause = ""){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Name'],$row['CoinPattern'],$row['Coin1HrPatternNameID'],$row['ID'],$row['UserID']);
+      $tempAry[] = Array($row['Name'],$row['Pattern'],$row['Coin1HrPatternNameID'],$row['ID'],$row['UserID']);
   }
   $conn->close();
   return $tempAry;
