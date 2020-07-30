@@ -25,7 +25,7 @@ if(!empty($_GET['editedUserReady'])){
     //Echo "this is a test".$_GET['editedUserReady'].$_POST['select'].$_POST['CPrice'];//displayEdit($_GET['editedUserReady']);
     $ruleID = $_GET['editedUserReady']; $coinPriceMatchNameID = $_POST['coinPriceMatchCmb'];
     echo "<BR> Test: $ruleID | $coinPriceMatchNameID";
-    updateNameIDtoRule($ruleID,$coinPriceMatchNameID);
+    updateNameIDtoRule($ruleID,$coinPriceMatchNameID,"`CoinPriceMatchID`");
     //addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice'], $_POST['CPricebtm']);
   }elseif (!empty($_POST['remove'])){
     //Echo "this is a remove test".$_GET['editedUserReady'].$_POST['listbox'];displayEdit($_GET['editedUserReady']);
@@ -46,18 +46,10 @@ if(!empty($_GET['editedUserReady'])){
       //Echo "$temp1 $temp2 $temp3 $temp4 ".$_GET['editedUserReady'];
       add1HrPatterntoSQL(str_replace("2","*",$temp1.$temp2.$temp3.$temp4), $_GET['editedUserReady']);
   }elseif (!empty($_POST['publishTrend'])){
-      //Echo " ".$_POST['publishTrend'].$_POST['selectCmboTrend1'].$_POST['selectCmboTrend2'].$_POST['selectCmboTrend3'].$_POST['selectCmboTrend4'];
-      //if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
-      //elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
-      //elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
-      //elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
-      //Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
-      $temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];
-      $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];
-      echo "<BR> Temps : ".$temp1.$temp2.$temp3.$temp4;
-      $fullStr = str_replace("2","*",$temp1.$temp2.$temp3.$temp4);
-      echo "<BR> FULL STR: $fullStr";
-      addTrendPatterntoSQL($fullStr,$_GET['editedUserReady']);
+      $coinPricePatternNameID = $_POST['coinPricePatternCmb'];
+      $ruleID = $_GET['editedUserReady'];
+      //addTrendPatterntoSQL($id,$_GET['editedUserReady']);
+      updateNameIDtoRule($ruleID,$coinPricePatternNameID,"`CoinPricePatternID`");
   }else{
     //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable']== "Yes"){ $mCapEnChk = 1;}else{$mCapEnChk = 00;}}
     updateEditedUser();
@@ -89,7 +81,7 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addPricePattern('$pattern', $ruleID, $userID, 0);";
+  $sql = ";";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -100,13 +92,13 @@ function addTrendPatterntoSQL($pattern, $ruleID){
   header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
-function updateNameIDtoRule($ruleID, $nameID){
+function updateNameIDtoRule($ruleID, $nameID, $table){
   //$userID = $_SESSION['ID'];
   //echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "UPDATE `BuyRules` SET `CoinPriceMatchID` = $nameID WHERE `ID` = $ruleID;";
+  $sql = "UPDATE `BuyRules` SET $table = $nameID WHERE `ID` = $ruleID;";
   echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -740,7 +732,7 @@ function displayEdit($id){
   //displayTrendSymbols($comboList,'selectCmboTrend3', $formSettings[0][31]);
   //displayTrendSymbols($comboList,'selectCmboTrend4', $formSettings[0][31]);
   //displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][31]);
-  echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
+  echo "<input type='submit' name='publishTrend' value='Apply'></div></div>";
   //echo "<div class='settingsform'>";
   //echo "<H3>Coin Price Pattern</H3>";
   //  addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
