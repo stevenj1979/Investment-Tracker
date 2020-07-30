@@ -114,7 +114,7 @@ function updateNameIDtoRule($ruleID, $nameID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: AddNewSetting.php?edit='.$ruleID);
+  //header('Location: AddNewSetting.php?edit='.$ruleID);
 }
 
 function removePricePatternfromSQL($ruleID, $price){
