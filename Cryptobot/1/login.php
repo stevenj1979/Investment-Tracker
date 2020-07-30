@@ -79,6 +79,8 @@ if(isset($_POST['submit'])){
       $_SESSION['coinPriceMatchNameSelected'] = $coinPriceMatchNames[0][1];
       $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","Limit 1");
       $_SESSION['coinPricePatternNameSelected'] = $coinPricePatternNames[0][1];
+      $coin1HrPatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`Coin1HrPatternName`","Limit 1");
+      $_SESSION['coin1HrPatternNameSelected'] = $coin1HrPatternNames[0][1];
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
