@@ -188,7 +188,7 @@ $coinPriceMatchSize = count($coinPriceMatch);
 
 $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","");
 $coinPricePatternNamesSize = count($coinPricePatternNames);
-$coinPricePattern = getCoinPricePatternSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
+$coinPricePattern = getCoinPricePatternSettingsLocal("Where `CoinPricePatternNameID` = '".$_SESSION['coinPricePatternNameSelected']."'");
 $coinPricePatternSize = count($coinPricePattern);
 $coin1HrPattern = getCoin1HrPattenSettings();
 $coin1HrPatternSize = count($coin1HrPattern);
