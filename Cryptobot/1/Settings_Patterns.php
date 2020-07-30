@@ -39,6 +39,52 @@ if (!empty($_POST['CoinPricePatternNamesSelect'])){
     setNameSelectionPricePattern($_POST['CoinPricePatternNamesSelect']);
 }
 
+if (!empty($_POST['addPricePatternBtn'])){
+  $cmbo1 = $_POST['selectCmbo1Hr1'];$cmbo2 = $_POST['selectCmbo1Hr2'];
+  $cmbo3 = $_POST['selectCmbo1Hr3']; $cmbo4 = $_POST['selectCmbo1Hr4'];
+  $pattern = str_replace("2","*",$cmbo1.$cmbo2.$cmbo3.$cmbo4);
+  addTrendPatterntoSQL($pattern)
+}
+
+if (!empty($_POST['removePricePatternBtn'])){
+  $ID = $_POST['CoinPricePatternSelect'];
+  echo "<BR> Test REmove ID $ID";
+}
+
+function removePricePatternfromSQL($ruleID){
+  $userID = $_SESSION['ID'];
+  $nameID = $_SESSION['coinPricePatternNameSelected'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSetting.php?edit='.$ruleID);
+}
+
+function addTrendPatterntoSQL($pattern){
+  $nameID = $_SESSION['coinPricePatternNameSelected'];
+  $userID = $_SESSION['ID'];
+  //echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addPricePattern('$pattern', $userID, $nameID);";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: Settings_Patterns.php');
+}
 
 if (!empty($_POST['addPriceBtn'])){
       echo "<BR> addPriceBtn not empty";
@@ -276,8 +322,8 @@ $comboList = Array('-1','0','1','*');
   displayTrendSymbols($comboList,'selectCmbo1Hr2', 1);
   displayTrendSymbols($comboList,'selectCmbo1Hr3', 1);
   displayTrendSymbols($comboList,'selectCmbo1Hr4', 1);
-  echo "<input type='submit' name='addPriceBtn' value='+'>";
-  echo "<input type='submit' name='removePriceBtn' value='-'>";
+  echo "<input type='submit' name='addPricePatternBtn' value='+'>";
+  echo "<input type='submit' name='removePricePatternBtn' value='-'>";
   echo "</form></div>";
 
 
