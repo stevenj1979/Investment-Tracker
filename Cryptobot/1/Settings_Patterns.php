@@ -259,6 +259,8 @@ $coin1HrPatternSize = count($coin1HrPattern);
 //$coin1HrPattern = getCoin1HrPattenSettings();
 //$coin1HrPatternSize = count($coin1HrPattern);
 
+Echo "<BR> 1Hr pattern size : $coin1HrPatternSize"; 
+
 $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
 $coinPricePatternNameSelected = $_SESSION['coinPricePatternNameSelected'];
 $coin1HrPatternNameSelected = $_SESSION['coin1HrPatternNameSelected'];
