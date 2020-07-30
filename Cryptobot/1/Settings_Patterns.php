@@ -259,7 +259,7 @@ $coin1HrPatternSize = count($coin1HrPattern);
 //$coin1HrPattern = getCoin1HrPattenSettings();
 //$coin1HrPatternSize = count($coin1HrPattern);
 
-Echo "<BR> 1Hr pattern size : $coin1HrPatternSize"; 
+Echo "<BR> 1Hr pattern size : $coin1HrPatternSize";
 
 $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
 $coinPricePatternNameSelected = $_SESSION['coinPricePatternNameSelected'];
@@ -353,7 +353,7 @@ $comboList = Array('-1','0','1','*');
   echo "</table><H3>Coin 1 Hour Pattern</H3><table>";
   echo "<div><form action='Settings_Patterns.php?changeHr1NameSelection=Y' method='post'>";
     Echo "<select name='Coin1HrPatternNamesSelect'>";
-    for ($k=0; $k<$coin1HrPatternSize; $k++){
+    for ($k=0; $k<$coin1HrPatternNamesSize; $k++){
       $name = $coin1HrPatternNames[$k][0]; $nameID = $coin1HrPatternNames[$k][1];
       //$coinID = $coinPriceMatch[$i][4];$price = $coinPriceMatch[$i][2];
       //$symbol = $coinPriceMatch[$i][3];$lowPrice = $coinPriceMatch[$i][1];
