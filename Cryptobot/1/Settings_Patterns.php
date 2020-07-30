@@ -194,7 +194,7 @@ function getCoin1HrPatternSettingsLocal($whereClause = ""){
 
   $sql = "SELECT `Name`,`CoinPattern`,`Coin1HrPatternNameID`,`ID`,`UserID` FROM `NewCoin1HrPatternSettingsView` $whereClause";
   $result = $conn->query($sql);
-  //echo $sql;
+  echo $sql;
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){

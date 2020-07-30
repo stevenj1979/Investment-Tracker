@@ -2802,6 +2802,7 @@ function getCoinPriceMatchNames($userID, $table, $limit){
   }
 
   $sql = "SELECT `Name`,`ID` FROM $table $limit";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
