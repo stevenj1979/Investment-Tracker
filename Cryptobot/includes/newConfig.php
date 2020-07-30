@@ -2196,7 +2196,7 @@ function getCoin1HrPattenSettings(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Name'],$row['Pattern'],$row['UserID']);
+      $tempAry[] = Array($row['Name'],$row['Pattern']);
   }
   $conn->close();
   return $tempAry;
