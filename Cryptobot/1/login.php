@@ -76,9 +76,9 @@ if(isset($_POST['submit'])){
       $_SESSION['MobDisplay'] = 0;
       $_SESSION['roundVar'] = 8;
       $coinPriceMatchNames = getCoinPriceMatchNames($temp[0][2], "`CoinPriceMatchName`","Limit 1");
-      $_SESSION['coinPriceMatchNameSelected'] = $coinPriceMatchNames[0][0];
+      $_SESSION['coinPriceMatchNameSelected'] = $coinPriceMatchNames[0][1];
       $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","Limit 1");
-      $_SESSION['coinPricePatternNameSelected'] = $coinPricePatternNames[0][0];
+      $_SESSION['coinPricePatternNameSelected'] = $coinPricePatternNames[0][1];
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
