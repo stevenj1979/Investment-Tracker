@@ -52,11 +52,40 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
       addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
 }elseif (!empty($_POST['newNameBtn']) && !empty($_GET['addNewName'])){
       echo "<BR> New Name : ".$_POST['newNameTxt'];
+      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$_Session['ID']);
 }elseif (!empty($_POST['removePriceBtn']) && !empty($_GET['addPrice'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
       echo "<br> Remove : ID : $ID";
       removePricefromSQL($ID);
+}elseif (!empty($_POST['Coin1HrPatternNamesSelect']) && !empty($_GET['changeHr1NameSelection'])){
+    setNameSelection1HrPattern($_POST['coin1HrPatternNameSelected']);
+}elseif (!empty($_POST['newName1HrPatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
+    addNewName(`Coin1HrPatternName`,$_POST['newName1HrPatterntxt'],$_Session['ID']);
+}elseif (!empty($_POST['newNamePricePatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
+    addNewName(`CoinPricePatternName`,$_POST['newNamePricePatterntxt'],$_Session['ID']);
+}elseif (!empty($_POST['add1HrPatternBtn']) && !empty($_GET['add1HrPattern'])){
+    $cmbo1 = $_POST['selectCmbo1Hr1New'];$cmbo2 = $_POST['selectCmbo1Hr2New'];
+    $cmbo3 = $_POST['selectCmbo1Hr3New']; $cmbo4 = $_POST['selectCmbo1Hr4New'];
+    $pattern = str_replace("2","*",$cmbo1.$cmbo2.$cmbo3.$cmbo4);
+    add1HrPatterntoSQL($pattern);
+}elseif (!empty($_POST['remove1HrPatternBtn']) && !empty($_GET['add1HrPattern'])){
+  $ID = $_POST['Coin1HrPatternSelect'];
+  remove1HrPatternfromSQL($ID);
+}
+
+function addNewName($table, $name, $userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO $table(`Name`, `UserID`, `BuySell`) VALUES ('$name',$userID,'Buy')";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
 }
 
 
@@ -85,6 +114,24 @@ function addTrendPatterntoSQL($pattern){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addPricePattern('$pattern', $userID, $nameID);";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: Settings_Patterns.php');
+}
+
+function add1HrPatterntoSQL($pattern){
+  $nameID = $_SESSION['coin1HrPatternNameSelected'];
+  $userID = $_SESSION['ID'];
+  //echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call add1HrPattern('$pattern', $userID, $nameID);";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -133,12 +180,33 @@ function removePricefromSQL($price){
   header('Location: Settings_Patterns.php');
 }
 
+function remove1HrPatternfromSQL(){
+  $userID = $_SESSION['ID'];
+  $nameID = $_SESSION['coinPricePatternNameSelected'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Delete FROM `Coin1HrPatternRules` WHERE `Coin1HrPatternID` = $ruleID and `Coin1HrPatternNameID` = $nameID";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: Settings_Patterns.php');
+}
+
 function setNameSelection($newSelected){
   $_SESSION['coinPriceMatchNameSelected'] = $newSelected;
 }
 
 function setNameSelectionPricePattern($newSelected){
   $_SESSION['coinPricePatternNameSelected'] = $newSelected;
+}
+
+function setNameSelection1HrPattern($newSelected){
+  $_SESSION['coin1HrPatternNameSelected'] = $newSelected;
 }
 
 function getCoinPriceMatchSettingsLocal($whereClause = ""){
