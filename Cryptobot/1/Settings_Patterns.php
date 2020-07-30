@@ -159,7 +159,7 @@ function getCoinPriceMatchSettingsLocal($whereClause = ""){
   }
 
   $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`,`UserID`, `ID`,`CoinPriceMatchNameID` FROM `NewCoinPriceMatchSettingsView` $whereClause";
-  echo "<BR> $sql";
+  //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -181,7 +181,7 @@ function getCoinPricePatternSettingsLocal($whereClause = ""){
 
   $sql = "SELECT `Name`,`CoinPattern`,`CoinPricePatternNameID`,`ID`,`UserID` FROM `NewCoinPricePatternSettingsView` $whereClause";
   $result = $conn->query($sql);
-  echo $sql;
+  //echo $sql;
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
