@@ -350,7 +350,7 @@ $comboList = Array('-1','0','1','*');
 
 
 
-  echo "</table><H3>Coin 1 Hour Pattern</H3><table>";
+  echo "<H3>Coin 1 Hour Pattern</H3>";
   echo "<div><form action='Settings_Patterns.php?changeHr1NameSelection=Y' method='post'>";
     Echo "<select name='Coin1HrPatternNamesSelect'>";
     for ($k=0; $k<$coin1HrPatternNamesSize; $k++){
@@ -367,7 +367,7 @@ $comboList = Array('-1','0','1','*');
     echo "</select>";
     echo "<input type='submit' name='publishTrend1HrPattern' value='Refresh'></form>";
     echo "<form action='Settings_Patterns.php?addNew1HrPatternName=Y' method='post'>";
-    echo "<input type='text' name='newName1HrPatterntxt' id='newNamePricePatterntxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
+    echo "<input type='text' name='newName1HrPatterntxt' id='newName1HrPatterntxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
     echo "<input type='submit' name='newName1HrPatternBtn' value='Add New Name'>";
     echo "</form>";
     echo "<form action='Settings_Patterns.php?add1HrPattern=Y' method='post'>";
