@@ -732,7 +732,7 @@ function displayEdit($id){
   $coinPricePatternID = $formSettings[0][60];
   $coinPricePatternName = $formSettings[0][61];
 
-  echo "<div class='settingsformCmbo'>";
+  //echo "<div class='settingsformCmbo'>";
   addNewTwoOption('Coin Price Pattern Enabled: ', 'CoinPricePatternEnabled', $formSettings[0][53]);
   displaySymbols($coinPricePatternNames,0,'coinPricePatternCmb',$formSettings[0][31],1,$coinPricePatternName);
   //displayTrendSymbols($comboList,'selectCmboTrend1', $formSettings[0][31]);
