@@ -290,7 +290,7 @@ $comboList = Array('-1','0','1','*');
     echo "<input type='submit' name='newNameBtn' value='Add New Name'>";
   echo "</form>";
   echo "<form action='Settings_Patterns.php?addPrice=Y' method='post'>";
-    echo "<select name='CoinPriceMatchSelect' size='8'>";
+    echo "<select name='CoinPriceMatchSelect' size='$coinPriceMatchSize'>";
     for ($l=0; $l<$coinPriceMatchSize; $l++){
         $name = $coinPriceMatch[$l][4]; $price = $coinPriceMatch[$l][1];
         $lowPrice = $coinPriceMatch[$l][3]; $symbol = $coinPriceMatch[$l][2]; $coinID = $coinPriceMatch[$l][0];
@@ -333,7 +333,7 @@ $comboList = Array('-1','0','1','*');
     echo "<input type='submit' name='newNamePricePatternBtn' value='Add New Name'>";
   echo "</form>";
   echo "<form action='Settings_Patterns.php?addPricePattern=Y' method='post'>";
-    echo "<select name='CoinPricePatternSelect' size='8'>";
+    echo "<select name='CoinPricePatternSelect' size='$coinPricePatternSize'>";
       for ($j=0; $j<$coinPricePatternSize; $j++){
         $name = $coinPricePattern[$j][0]; $pattern = $coinPricePattern[$j][1];
         $nameID = $coinPricePattern[$j][2]; $patternID = $coinPricePattern[$j][3];
@@ -371,7 +371,7 @@ $comboList = Array('-1','0','1','*');
     echo "<input type='submit' name='newName1HrPatternBtn' value='Add New Name'>";
     echo "</form>";
     echo "<form action='Settings_Patterns.php?add1HrPattern=Y' method='post'>";
-      echo "<select name='Coin1HrPatternSelect' size='8'>";
+      echo "<select name='Coin1HrPatternSelect' size='$coin1HrPatternSize'>";
         for ($n=0; $n<$coin1HrPatternSize; $n++){
           $name = $coin1HrPattern[$n][0]; $pattern = $coin1HrPattern[$n][1];
           $nameID = $coin1HrPattern[$n][2]; $patternID = $coin1HrPattern[$n][3];
