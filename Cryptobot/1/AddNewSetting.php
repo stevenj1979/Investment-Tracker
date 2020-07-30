@@ -739,7 +739,7 @@ function displayEdit($id){
   //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
-  $coinPriceMatchNames = getCoinPriceMatchNames($id);
+  $coinPriceMatchNames = getCoinPriceMatchNames($id, "`CoinPriceMatchName`","");
   $coinPriceMatchNamesSize = count($coinPriceMatchNames);
   $coinPriceMatchID = $formSettings[0][59];
   $coinPriceMatchName = $formSettings[0][58];
