@@ -31,27 +31,34 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
     //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
     //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelection($_POST['CoinPriceMatchNamesSelect']);
-}
-
-if (!empty($_POST['CoinPricePatternNamesSelect']) && !empty($_GET['changeNameSelection'])){
+}elseif (!empty($_POST['CoinPricePatternNamesSelect']) && !empty($_GET['changeNameSelection'])){
     //echo "<BR> coin price Match Names is ".$_POST['CoinPriceMatchNamesSelect'];
     //echo "<BR>  ID is ".$_POST['CoinPriceMatchNamesSelect'];
     setNameSelectionPricePattern($_POST['CoinPricePatternNamesSelect']);
-}
-
-if (!empty($_POST['addPricePatternBtn']) && !empty($_GET['addPricePattern'])){
+}elseif (!empty($_POST['addPricePatternBtn']) && !empty($_GET['addPricePattern'])){
   $cmbo1 = $_POST['selectCmbo1Hr1'];$cmbo2 = $_POST['selectCmbo1Hr2'];
   $cmbo3 = $_POST['selectCmbo1Hr3']; $cmbo4 = $_POST['selectCmbo1Hr4'];
   $pattern = str_replace("2","*",$cmbo1.$cmbo2.$cmbo3.$cmbo4);
   echo "<BR> $pattern";
   addTrendPatterntoSQL($pattern);
-}
-
-if (!empty($_POST['removePricePatternBtn']) && !empty($_GET['addPricePattern'])){
+}elseif (!empty($_POST['removePricePatternBtn']) && !empty($_GET['addPricePattern'])){
   $ID = $_POST['CoinPricePatternSelect'];
   //echo "<BR> Test REmove ID $ID";
   removePricePatternfromSQL($ID);
+}elseif (!empty($_POST['addPriceBtn']) && !empty($_GET['addPrice'])){
+      echo "<BR> addPriceBtn not empty";
+      $coinID = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
+      echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
+      addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
+}elseif (!empty($_POST['newNameBtn']) && !empty($_GET['addNewName'])){
+      echo "<BR> New Name : ".$_POST['newNameTxt'];
+}elseif (!empty($_POST['removePriceBtn']) && !empty($_GET['addPrice'])){
+      echo "<BR> removePriceBtn not empty";
+      $ID = $_POST['CoinPriceMatchSelect'];
+      echo "<br> Remove : ID : $ID";
+      removePricefromSQL($ID);
 }
+
 
 function removePricePatternfromSQL($ruleID){
   $userID = $_SESSION['ID'];
@@ -88,23 +95,7 @@ function addTrendPatterntoSQL($pattern){
   header('Location: Settings_Patterns.php');
 }
 
-if (!empty($_POST['addPriceBtn'])){
-      echo "<BR> addPriceBtn not empty";
-      $coinID = $_POST['symbol']; $topPrice = $_POST['topPrice']; $bottomPrice =  $_POST['bttmPrice'];
-      echo "<br> ADD : $symbol | Top : $topPrice | bttm: $bottomPrice";
-      addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
-}
 
-if (!empty($_POST['newNameBtn'])){
-      echo "<BR> New Name : ".$_POST['newNameTxt'];
-}
-
-if (!empty($_POST['removePriceBtn'])){
-      echo "<BR> removePriceBtn not empty";
-      $ID = $_POST['CoinPriceMatchSelect'];
-      echo "<br> Remove : ID : $ID";
-      removePricefromSQL($ID);
-}
 
 function addpricePatterntoSQL($coinID, $price, $lowPrice){
   $userID = $_SESSION['ID'];
