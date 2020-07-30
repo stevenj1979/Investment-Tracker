@@ -92,7 +92,7 @@ function addTrendPatterntoSQL($pattern){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: Settings_Patterns.php');
+  //header('Location: Settings_Patterns.php');
 }
 
 
