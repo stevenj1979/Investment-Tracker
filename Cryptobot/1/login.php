@@ -75,7 +75,7 @@ if(isset($_POST['submit'])){
       $_SESSION['MobOverride'] = False;
       $_SESSION['MobDisplay'] = 0;
       $_SESSION['roundVar'] = 8;
-      $coinPriceMatchNames = getCoinPriceMatchNames($temp[0][2],"Limit 1");
+      $coinPriceMatchNames = getCoinPriceMatchNames($temp[0][2], "`CoinPriceMatchName`","Limit 1");
       $_SESSION['coinPriceMatchNameSelected'] = $coinPriceMatchNames[0][0];
       $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","Limit 1");
       $_SESSION['coinPricePatternNameSelected'] = $coinPricePatternNames[0][0];
