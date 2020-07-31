@@ -159,7 +159,7 @@ function bittrexSellCancel($bittrexRef, $transactionID){
   logAction("bittrexSellCancel: ".$sql, 'BuySell');
 }
 
-function bittrexCancel($apikey, $apisecret, $uuid){
+function bittrexCancelLoc($apikey, $apisecret, $uuid){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
