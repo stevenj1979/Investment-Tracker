@@ -59,6 +59,7 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
       echo "<br> Remove : ID : $ID";
       removePricefromSQL($ID);
 }elseif (!empty($_POST['Coin1HrPatternNamesSelect']) && !empty($_GET['changeHr1NameSelection'])){
+    echo "<BR> Test 1Hr Refresh ".$_POST['coin1HrPatternNameSelected'];
     setNameSelection1HrPattern($_POST['coin1HrPatternNameSelected']);
 }elseif (!empty($_POST['newName1HrPatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
     addNewName(`Coin1HrPatternName`,$_POST['newName1HrPatterntxt'],$_Session['ID']);
@@ -435,8 +436,8 @@ $comboList = Array('-1','0','1','*');
     echo "</select>";
     echo "<input type='submit' name='publishTrend1HrPattern' value='Refresh'></form>";
     echo "<form action='Settings_Patterns.php?addNew1HrPatternName=Y' method='post'>";
-    echo "<input type='text' name='newName1HrPatterntxt' id='newName1HrPatterntxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
-    echo "<input type='submit' name='newName1HrPatternBtn' value='Add New Name'>";
+      echo "<input type='text' name='newName1HrPatterntxt' id='newName1HrPatterntxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
+      echo "<input type='submit' name='newName1HrPatternBtn' value='Add New Name'>";
     echo "</form>";
     echo "<form action='Settings_Patterns.php?add1HrPattern=Y' method='post'>";
       echo "<select name='Coin1HrPatternSelect' size='$coin1HrPatternSize'>";
