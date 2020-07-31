@@ -2,7 +2,8 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';?>
 <html>
 <style>
 <?php include 'style/style.css';
@@ -39,7 +40,7 @@ Echo "<BR> HERE 1 | ".$_GET['uuid'];
 if(!empty($_GET['uuid'])){
   Echo "<BR> HERE 2 | ";
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
-  logAction("bittrexOrder: ".$resultOrd, 'BuySell');
+  //logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
   if ($resultOrd == 1){
     Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"];
