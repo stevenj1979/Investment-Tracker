@@ -59,8 +59,8 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
       echo "<br> Remove : ID : $ID";
       removePricefromSQL($ID);
 }elseif (!empty($_POST['Coin1HrPatternNamesSelect']) && !empty($_GET['changeHr1NameSelection'])){
-    echo "<BR> Test 1Hr Refresh ".$_POST['coin1HrPatternNameSelected'];
-    setNameSelection1HrPattern($_POST['coin1HrPatternNameSelected']);
+    echo "<BR> Test 1Hr Refresh ".$_SESSION['coin1HrPatternNameSelected'];
+    setNameSelection1HrPattern($_SESSION['coin1HrPatternNameSelected']);
 }elseif (!empty($_POST['newName1HrPatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
     addNewName(`Coin1HrPatternName`,$_POST['newName1HrPatterntxt'],$_Session['ID']);
 }elseif (!empty($_POST['newNamePricePatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
