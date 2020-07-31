@@ -35,15 +35,19 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 <?php
 echo "UUID ".$_GET['uuid']." | ".$_GET['apikey']." | ".$_GET['apisecret']." | ".$_GET['transactionID'];
 //echo "<BR> EMPTY ".empty($_GET['uuid']);
+Echo "<BR> HERE 1 | ".$_GET['uuid'];
 if(!empty($_GET['uuid'])){
+  Echo "<BR> HERE 2 | ";
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
   logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
   if ($resultOrd == 1){
+    Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"];
     $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell');
     if ($orderQty == $orderQtyRemaining) {
       if ($_GET['type'] == 'Sell'){
+        Echo "<BR> HERE 4 | ";
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
