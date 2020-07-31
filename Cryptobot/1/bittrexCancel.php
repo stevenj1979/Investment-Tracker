@@ -96,7 +96,7 @@ if(!empty($_GET['uuid'])){
 }
 
 
-function bittrexBuyCancel($bittrexRef, $transactionID){
+function bittrexBuyCancelLoc($bittrexRef, $transactionID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -112,7 +112,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
   logAction("bittrexBuyCancel: ".$sql, 'BuySell');
 }
 
-function bittrexUpdateBuyQty($transactionID, $quantity){
+function bittrexUpdateBuyQtyLoc($transactionID, $quantity){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexBuyUpdateAmount($transactionID,$quantity);";
@@ -122,7 +122,7 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
   $conn->close();
 }
 
-function bittrexUpdateSellQty($transactionID, $quantity){
+function bittrexUpdateSellQtyLoc($transactionID, $quantity){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexSellUpdateAmount($transactionID,$quantity);";
@@ -132,7 +132,7 @@ function bittrexUpdateSellQty($transactionID, $quantity){
   $conn->close();
 }
 
-function bittrexCopyTransNewAmount($transactionID, $quantity){
+function bittrexCopyTransNewAmountLoc($transactionID, $quantity){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CopyTransNewAmount($transactionID,$quantity);";
@@ -143,7 +143,7 @@ function bittrexCopyTransNewAmount($transactionID, $quantity){
 }
 
 
-function bittrexSellCancel($bittrexRef, $transactionID){
+function bittrexSellCancelLoc($bittrexRef, $transactionID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -173,7 +173,7 @@ function bittrexCancelLoc($apikey, $apisecret, $uuid){
     logAction("bittrexCancel: ".$uri, 'BuySell');
 }
 
-function changeTransStatus($orderNo, $transactionID){
+function changeTransStatusLoc($orderNo, $transactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -192,7 +192,7 @@ function changeTransStatus($orderNo, $transactionID){
 
 }
 
-function deleteItem($id){
+function deleteItemLoc($id){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
