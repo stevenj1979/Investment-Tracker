@@ -173,7 +173,7 @@ while($completeFlag == False){
       //Close tracking coin
       closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
-    }elseif ($minsFromStart <= -60 &&  $ogPctProfit > 2.5){
+    }elseif ($minsFromStart <= -60 &&  $ogPctProfit > 1.5){
       $date = date("Y-m-d H:i:s", time());
       reopenTransaction($TransactionID);
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
