@@ -34,7 +34,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
     </div>
 <?php
 echo "UUID ".$_GET['uuid'];
-echo "<BR> EMPTY ".empty($_GET['uuid']);
+echo "<BR> EMPTY ".empty($_GET['uuid'])." | ".$_GET['apikey']." | ".$_GET['apisecret'];
 if(!empty($_GET['uuid'])){
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
   logAction("bittrexOrder: ".$resultOrd, 'BuySell');
