@@ -83,20 +83,21 @@ function getRules($userID){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
+,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`
 FROM `UserBuyRules` WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['UserID'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'],
-      $row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'],
-      $row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],
-      $row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['BuyCoin'],$row['SendEmail'],$row['BTCAmount'],$row['RuleID']
-      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']
-     ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']
-      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']
-      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend']);//35
+      $tempAry[] = Array($row['UserID'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'] //5
+      ,$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'] //12
+      ,$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'] //19
+      ,$row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['BuyCoin'],$row['SendEmail'],$row['BTCAmount'],$row['RuleID'] //28
+      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'] //35
+     ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
+      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
+      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName']);//59
   }
   $conn->close();
   return $tempAry;
@@ -184,11 +185,19 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
     <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
     <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
     <TH>&nbsp7DChangeBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH><TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH>
-    <TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspBuyCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBTCAmount</TH><TH>&nbspBuyCoinOffsetEnabled</TH><TH>&nbspBuyCoinOffsetPct</TH><TH>&nbspPriceTrendEnabled</TH><TH>&nbspPrice4Trend</TH>
-    <TH>&nbspPrice3Trend</TH><TH>&nbspLastPriceTrend</TH><TH>&nbspLivePriceTrend</TH>
+    <TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspBuyCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBTCAmount</TH><TH>&nbspBuyCoinOffsetEnabled</TH><TH>&nbspBuyCoinOffsetPct</TH><TH>&nbspPriceTrendEnabled</TH>
+    <!--<TH>&nbspPrice4Trend</TH><TH>&nbspPrice3Trend</TH><TH>&nbspLastPriceTrend</TH><TH>&nbspLivePriceTrend</TH>-->
+    <TH>CoinPriceMatchName</TH>
    <TH>&nbspActive</TH><TH>&nbspDisableUntil</TH><TH>&nbspBaseCurrency</TH><TH>&nbspNoOfCoinPurchase</TH><TH>&nbspTimetoCancelBuy</TH><TH>&nbspBuyType</TH><TH>&nbspTimeToCancelBuyMins</TH><TH>&nbspBuyPriceMinEnabled</TH><TH>&nbspBuyPriceMin</TH>
-   <TH>&nbspLimitToCoin</TH><TH>&nbspAutoBuyCoinEnabled</TH><TH>&nbspAutoBuyPrice</TH><TH>&nbspBuyAmountOverrideEnabled</TH><TH>&nbspBuyAmountOverride</TH><TH>&nbspNewBuyPattern</TH><TH>&nbspSellRuleFixed</TH><TH>&nbspCoinOrder</TH>
-   <TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH><TH>&nbsp1HrTrendEnabled</TH><TH>&nbsp1HrTrendPattern</TH>
+   <TH>&nbspLimitToCoin</TH><TH>&nbspAutoBuyCoinEnabled</TH><TH>&nbspAutoBuyPrice</TH><TH>&nbspBuyAmountOverrideEnabled</TH><TH>&nbspBuyAmountOverride</TH>
+   <TH>&nbspNewBuyPattern</TH>
+   <TH>&nbspSellRuleFixed</TH><TH>&nbspCoinOrder</TH>
+   <TH>&nbspCoinPricePatternEnabled</TH>
+   <!--<TH>&nbspCoinPricePattern</TH>-->
+   <TH>CoinPricePatternName</TH>
+   <TH>&nbsp1HrTrendEnabled</TH>
+   <!--<TH>&nbsp1HrTrendPattern</TH>-->
+   <TH>Coin1HrPatternName</TH>
     <tr>
  <?php
  for($x = 0; $x < $userSettingsLen; $x++) {
@@ -211,6 +220,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $buyAmountOverrideEnabled = $userSettings[$x][48];$buyAmountOverride = $userSettings[$x][49];$newBuyPattern = $userSettings[$x][50];
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
    $Hr1ChangeEnabled = $userSettings[$x][55];$Hr1ChangePattern = $userSettings[$x][56];
+   $coinPriceMatchName= $userSettings[$x][57];$coinPricePatternName= $userSettings[$x][58];$coin1HrPatternName= $userSettings[$x][59];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
    if ($buyCoin == $flag){
@@ -227,14 +237,18 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>".$sellOrdersEnabled."</td>";echo "<td>".$volumeTop."</td>";echo "<td>".$volumeEnabled."</td>";echo "<td>".$sellOrdersBtm."</td>";echo "<td>".$sellOrdersTop."</td>";
      echo "<td>".$volumeBtm."</td>";echo "<td>".$buyCoin."</td>";echo "<td>".$sendEmail."</td>";
      echo "<td>".$bTCAmount."</td><td>".$buyCoinOffsetEnabled."</td><td>".$buyCoinOffsetPct."</td>";
-     echo "<td>".$priceTrendEnabled."</td><td>".$price4Trend."</td><td>".$price3Trend."</td><td>".$lastPriceTrend."</td><td>".$livePriceTrend."</td>";
+     echo "<td>".$priceTrendEnabled."</td>"; //<td>".$price4Trend."</td><td>".$price3Trend."</td><td>".$lastPriceTrend."</td><td>".$livePriceTrend."</td>";
+     echo "<td>$coinPriceMatchName</td>";
      echo "<td>".$active."</td><td>".$disableUntil."</td><td>".$baseCurrency."</td><td>".$noOfCoinPurchase."</td><td>".$timetoCancelBuy."</td>";
      echo "<td>".$buyType."</td><td>".$timeToCancelBuyMins."</td><td>".$buyPriceMinEnabled."</td><td>".$buyPriceMin."</td>";
      echo "<td>".$limitToCoin."</td><td>".$autoBuyCoinEnabled."</td><td>".$autoBuyPrice."</td>";
      echo "<td>".$buyAmountOverrideEnabled."</td><td>".$buyAmountOverride."</td>";
-     echo "<td>".$newBuyPattern."</td><td><a href='AddNewSettingSell.php?edit=$sellRuleFixed'>".$sellRuleFixed."</a></td>";
+     //echo  "<td>".$newBuyPattern."</td>"
+     echo "<td>$coinPricePatternName</td>";
+     echo "<td><a href='AddNewSettingSell.php?edit=$sellRuleFixed'>".$sellRuleFixed."</a></td>";
      echo "<td>".$coinOrder."</td><td>".$coinPricePatternEnabled."</td><td>".$coinPricePattern."</td>";
-     Echo "<td>$Hr1ChangeEnabled</td><td>$Hr1ChangePattern</td>";
+     Echo "<td>$Hr1ChangeEnabled</td>"; // <td>$Hr1ChangePattern</td>";
+     echo "<td>$coin1HrPatternName</td>";
      echo "<tr>";
    }
  }
