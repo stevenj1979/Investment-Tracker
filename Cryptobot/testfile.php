@@ -158,7 +158,7 @@ $bal = 0; $pend =0;
 for ($k=0; $k<$runningBalSize; $k++){
   Echo $runningBal[$k][0]." | ".$runningBal[$k][1]." | ".$runningBal[$k][2];
   $bal = $bal + $runningBal[$k][1];
-  $pend = $pend + .$runningBal[$k][2];
+  $pend = $pend + $runningBal[$k][2];
 }
 echo "Total Balance = $bal";
 echo "Total Pending = $pend";
