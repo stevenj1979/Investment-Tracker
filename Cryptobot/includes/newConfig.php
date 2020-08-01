@@ -2060,10 +2060,10 @@ Function removeWildcard($tempStr){
         $returnUserIDStr .= $tempStr[$i][3].",";
     }
 	}
-  echo "<BR> returnBuyRuleIDStr $returnBuyRuleIDStr";
-  echo "<BR> returnSellRuleIDStr $returnSellRuleIDStr";
-  echo "<BR> returnStr $returnStr";
-  echo "<BR> returnUserIDStr $returnUserIDStr";
+  //echo "<BR> returnBuyRuleIDStr $returnBuyRuleIDStr";
+  //echo "<BR> returnSellRuleIDStr $returnSellRuleIDStr";
+  //echo "<BR> returnStr $returnStr";
+  //echo "<BR> returnUserIDStr $returnUserIDStr";
   $finalReturnStr = stringsToArray(rtrim($returnBuyRuleIDStr,','),rtrim($returnSellRuleIDStr,','),rtrim($returnStr,','),rtrim($returnUserIDStr,','));
  return $finalReturnStr;
 }
