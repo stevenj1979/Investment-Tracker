@@ -2090,7 +2090,7 @@ function getCoinPriceMatchList($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `CoinPriceMatchView`$whereClause";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `NewCoinPriceMatchView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
