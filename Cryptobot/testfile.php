@@ -6,7 +6,7 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
-//$apikey=getAPIKey();
+$apikey=getAPIKey();
 $apisecret=getAPISecret();
 //echo "<BR>API Secret is:  $apisecret";
 $tmpTime = "+5 seconds";
@@ -75,6 +75,19 @@ function getOutStandingBuy($tmpAry){
   return rtrim($tmpStr,",");
 }
 
+function bittrexTotalbalance($apikey, $apisecret, $base){
+    $nonce=time();
+    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
+    $sign=hash_hmac('sha512',$uri,$apisecret);
+    $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $execResult = curl_exec($ch);
+    $obj = json_decode($execResult, true);
+    //$balance = $obj["result"]["Available"];
+    return $obj;
+}
+
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
@@ -84,7 +97,8 @@ $str2 = "24,24,24,24";
 $str3 = "0101,0001,0111,-1-1-11";
 $str4 = "3,3,3,3";
 
-var_dump(stringsToArray($str1,$str2,$str3,$str4));
+$BittrexBal = bittrexTotalbalance($apikey,$apisecret, "USDT");
+var_dump($BittrexBal);
 
 ?>
 </html>
