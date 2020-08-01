@@ -2131,7 +2131,7 @@ function getCoinPricePattenList($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` $whereClause";
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `NewCoinPricePatternView` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
