@@ -97,9 +97,10 @@ function getOpenSymbols(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Cn`.`Symbol`
+  $sql = "SELECT `Cn`.`Symbol`, round(`Tr`.`Amount`*`Cp`.`LiveCoinPrice`,4) as `TotalPrice`
     FROM `Transaction` `Tr`
     join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
     where `Tr`.`Status` in  ('Open','Pending')  and `Cn`.`Symbol` not in ('BTC','ETH')";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -125,19 +126,32 @@ $symbols = getOpenSymbols();
 $symbolsSize = count($symbols);
 
 $runningBal = [];
-
+$j=0;
 for ($i=0; $i<$symbolsSize; $i++){
-
-
+  $BittrexBal = bittrexTotalbalance($apikey,$apisecret, $symbols[$i][0]);
+  $runningBal[$i][0] = $symbols[$i][0];
+  $runningBal[$i][1] = $BittrexBal["result"]["Available"];
+  $runningBal[$i][2] = $BittrexBal["result"]["Pending"];
+  $j++;
+  //$obj["result"]["Available"];
 }
 
 $BittrexBal = bittrexTotalbalance($apikey,$apisecret, "USDT");
-var_dump($BittrexBal);
+//var_dump($BittrexBal);
+$runningBal[$j][0] = "USDT";
+$runningBal[$j][1] = $BittrexBal["result"]["Available"];
+$j++;
 $BittrexBal2 = bittrexTotalbalance($apikey,$apisecret, "BTC");
-var_dump($BittrexBal2);
+//var_dump($BittrexBal2);
+$runningBal[$j][0] = "BTC";
+$runningBal[$j][1] = $BittrexBal2["result"]["Available"];
+$j++;
 $BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ETH");
-var_dump($BittrexBal3);
-$BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ADA");
-var_dump($BittrexBal3);
+//var_dump($BittrexBal3);
+$runningBal[$j][0] = "ETH";
+$runningBal[$j][1] = $BittrexBal3["result"]["Available"];
+$j++;
+
+var_dump($runningBal);
 ?>
 </html>
