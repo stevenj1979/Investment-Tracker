@@ -99,6 +99,9 @@ $str4 = "3,3,3,3";
 
 $BittrexBal = bittrexTotalbalance($apikey,$apisecret, "USDT");
 var_dump($BittrexBal);
-
+$BittrexBal2 = bittrexTotalbalance($apikey,$apisecret, "BTC");
+var_dump($BittrexBal2);
+$BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ETH");
+var_dump($BittrexBal3);
 ?>
 </html>
