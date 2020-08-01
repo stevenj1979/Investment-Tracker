@@ -128,10 +128,10 @@ $symbolsSize = count($symbols);
 $runningBal = [];
 $j=0;
 for ($i=0; $i<$symbolsSize; $i++){
-  $BittrexBal = bittrexTotalbalance($apikey,$apisecret, $symbols[$i][0]);
+  //$BittrexBal = bittrexTotalbalance($apikey,$apisecret, $symbols[$i][0]);
   $runningBal[$i][0] = $symbols[$i][0];
-  $runningBal[$i][1] = $BittrexBal["result"]["Available"];
-  $runningBal[$i][2] = $BittrexBal["result"]["Pending"];
+  $runningBal[$i][1] = $symbols[$i][1];
+  //$runningBal[$i][2] = $BittrexBal["result"]["Pending"];
   $j++;
   //$obj["result"]["Available"];
 }
