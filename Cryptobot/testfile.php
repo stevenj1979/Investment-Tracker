@@ -107,7 +107,7 @@ function getOpenSymbols(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Symbol']);
+      $tempAry[] = Array($row['Symbol'],$row['TotalPrice']);
   }
   $conn->close();
   return $tempAry;
