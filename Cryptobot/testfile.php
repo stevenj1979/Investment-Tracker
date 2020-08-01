@@ -88,6 +88,30 @@ function bittrexTotalbalance($apikey, $apisecret, $base){
     return $obj;
 }
 
+function getOpenSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Cn`.`Symbol`
+    FROM `Transaction` `Tr`
+    join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+    where `Tr`.`Status` in  ('Open','Pending')  and `Cn`.`Symbol` not in ('BTC','ETH')";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
@@ -97,11 +121,23 @@ $str2 = "24,24,24,24";
 $str3 = "0101,0001,0111,-1-1-11";
 $str4 = "3,3,3,3";
 
+$symbols = getOpenSymbols();
+$symbolsSize = count($symbols);
+
+$runningBal = [];
+
+for ($i=0; $i<$symbolsSize; $i++){
+
+
+}
+
 $BittrexBal = bittrexTotalbalance($apikey,$apisecret, "USDT");
 var_dump($BittrexBal);
 $BittrexBal2 = bittrexTotalbalance($apikey,$apisecret, "BTC");
 var_dump($BittrexBal2);
 $BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ETH");
+var_dump($BittrexBal3);
+$BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ADA");
 var_dump($BittrexBal3);
 ?>
 </html>
