@@ -67,19 +67,20 @@ function getRules($userID){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`
-  ,`AutoSellCoinEnabled`,`AutoSellPrice`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`
+  ,`AutoSellCoinEnabled`,`AutoSellPrice`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`
 FROM `UserSellRules` WHERE `UserID` = $userID";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['UserID'],$row['SellCoin'],$row['SendEmail'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],
-      $row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],
-      $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],
-      $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],
-      $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled'],$row['SellPriceMin']
-      ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']
+      $tempAry[] = Array($row['ID'],$row['UserID'],$row['SellCoin'],$row['SendEmail'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'] //6
+      ,$row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'] //13
+      ,$row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'] //20
+      ,$row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'] //27
+      ,$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled'],$row['SellPriceMin'] //36
+      ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern'] //43
+      ,$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //46
 );//35
   }
   $conn->close();
@@ -169,7 +170,14 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
     <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
     <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
     <TH>&nbspAPIKey</TH><TH>&nbspAPISecret</TH><TH>&nbspSellPriceMinEnabled</TH><TH>&nbspSellPriceMin</TH><TH>&nbspLimitToCoin</TH><TH>&nbspAutoSellCoinEnabled</TH><TH>&nbspAutoSellPrice</TH>
-    <TH>&nbspSellPatternEnabled</TH><TH>&nbspSellPattern</TH><TH>&nbspCoinPricePatternEnabled</TH><TH>&nbspCoinPricePattern</TH>
+    <!--<TH>&nbspcoinPriceMatchNameEnabled</TH>
+    <TH>&nbspcoinPriceMatchName</TH>-->
+    <TH>&nbspSellPatternEnabled</TH>
+    <TH>&nbspCoinPricePatternName</TH>
+    <!--<TH>&nbspSellPattern</TH>-->
+    <TH>&nbspCoinPricePatternEnabled</TH>
+    <!--<TH>&nbspCoinPricePattern</TH>-->
+    <TH>&nbspCoin1HrPatternName</TH>
     <TR>
  <?php
  //echo "<BR>".$userSettingsLen;
@@ -190,6 +198,7 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
    $sellPriceMinEnabled = $userSettings[$x][35];$sellPriceMin = $userSettings[$x][36];
    $limitToCoin = $userSettings[$x][37];$autoSellCoinEnabled = $userSettings[$x][38];$autoSellPrice = $userSettings[$x][39];
    $sellPatternEnabled = $userSettings[$x][40];$sellPattern = $userSettings[$x][41];$coinPricePatternEnabled = $userSettings[$x][42];$coinPricePattern = $userSettings[$x][43];
+   $coinPriceMatchName = $userSettings[$x][44];$coinPricePatternName = $userSettings[$x][45];$coin1HrPatternName = $userSettings[$x][46];
    //echo "$SellCoin == $flag";
    if ($SellCoin == $flag){
      echo "<td><a href='AddNewSettingSell.php?edit=".$iD."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
@@ -209,8 +218,14 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>".$aPIKey."</td>";echo "<td>".$aPISecret."</td>";
      echo "<td>".$sellPriceMinEnabled."</td>";echo "<td>".$sellPriceMin."</td>";echo "<td>".$limitToCoin."</td>";
      echo "<td>".$autoSellCoinEnabled."</td>";echo "<td>".$autoSellPrice."</td>";
-     echo "<td>".$sellPatternEnabled."</td>";echo "<td>".$sellPattern."</td>";
-     echo "<td>".$coinPricePatternEnabled."</td>";echo "<td>".$coinPricePattern."</td>";
+     //echo "<td></td>";
+     //echo "<td>$coinPriceMatchName</td>";
+     echo "<td>".$sellPatternEnabled."</td>";
+     //echo "<td>".$sellPattern."</td>";
+     echo "<td>$coinPricePatternName</td>";
+     echo "<td>".$coinPricePatternEnabled."</td>";
+     //echo "<td>".$coinPricePattern."</td>";
+     echo "<td>$coinPriceMatchName</td>";
      echo "<tr>";
    }
  }
