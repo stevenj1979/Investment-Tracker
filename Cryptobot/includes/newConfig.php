@@ -2036,7 +2036,7 @@ Function removeWildcard($tempStr){
 	$tempStrCount = count($tempStr);
   $returnStr = "";
 	for($i=0; $i < $tempStrCount; $i++){
-    echo "<BR> Test: ".$tempStr[$i][2]." | ".strpos($tempStr[$i][2], '*');
+    //echo "<BR> Test: ".$tempStr[$i][2]." | ".strpos($tempStr[$i][2], '*');
     if (strpos($tempStr[$i][2], '*') !== false) {
         $starCount =substr_count($tempStr[$i][2],"*");
         //$returntempStr = $tempStr[$i].",";
@@ -2060,10 +2060,10 @@ Function removeWildcard($tempStr){
         $returnUserIDStr .= $tempStr[$i][3].",";
     }
 	}
-  //echo "<BR> $returnBuyRuleIDStr";
-  //echo "<BR> $returnSellRuleIDStr";
-  //echo "<BR> $returnStr";
-  //echo "<BR> $returnUserIDStr";
+  echo "<BR> returnBuyRuleIDStr $returnBuyRuleIDStr";
+  echo "<BR> returnSellRuleIDStr $returnSellRuleIDStr";
+  echo "<BR> returnStr $returnStr";
+  echo "<BR> returnUserIDStr $returnUserIDStr";
   $finalReturnStr = stringsToArray(rtrim($returnBuyRuleIDStr,','),rtrim($returnSellRuleIDStr,','),rtrim($returnStr,','),rtrim($returnUserIDStr,','));
  return $finalReturnStr;
 }
