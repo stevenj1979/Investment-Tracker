@@ -152,6 +152,16 @@ $runningBal[$j][0] = "ETH";
 $runningBal[$j][1] = $BittrexBal3["result"]["Available"];
 $j++;
 
-var_dump($runningBal);
+//var_dump($runningBal);
+$runningBalSize = count($runningBal);
+$bal = 0; $pend =0;
+for ($k=0; $k<$runningBalSize; $k++){
+  Echo $runningBal[$k][0]." | ".$runningBal[$k][1]." | ".$runningBal[$k][2];
+  $bal = $bal + $runningBal[$k][1];
+  $pend = $pend + .$runningBal[$k][2];
+}
+echo "Total Balance = $bal";
+echo "Total Pending = $pend";
+
 ?>
 </html>
