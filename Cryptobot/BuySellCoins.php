@@ -284,6 +284,7 @@ while($completeFlag == False){
       $buyResultAry[] = Array($test7, "Coin Price $symbol", $CoinPricePctChange);
       $test8 = buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
       $buyResultAry[] = Array($test8, "Sell Orders $symbol", $SellOrdersPctChange);
+      echo "<BR> NEW Buy with Pattern1 : $newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
       $test9 = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0);
       $buyResultAry[] = Array($test9, "Buy Price Pattern $symbol", $newPriceTrend);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
@@ -293,6 +294,7 @@ while($completeFlag == False){
       $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy,0);
       $buyResultAry[] = Array($test12, "Coin Price Pattern $symbol", $LiveCoinPrice);
       //Echo "<BR> newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0);";
+      echo "<BR> NEW Buy with Pattern2 : $new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
       $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0);
       $buyResultAry[] = Array($test14, "1 Hour Price Pattern $symbol", $new1HrPriceChange);
       $test13 = $GLOBALS['allDisabled'];
