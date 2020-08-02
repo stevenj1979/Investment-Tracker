@@ -902,6 +902,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
   $pieces = removeWildcard($savedPattern);
   //echo "<BR> TempStr : ".$tmpStr;
   //$pieces = explode(",", $tmpStr);
+  var_dump($pieces);
   $piecesSize = count($pieces);
   $testTrue = False;
   //echo var_dump($pieces);
