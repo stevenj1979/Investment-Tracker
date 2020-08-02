@@ -2006,8 +2006,18 @@ function str_replace_first($search, $replace, $subject) {
 
 function returnWildcardStr($tempStr, $starCount){
   $returnStr = "";
-  for ($n=0; $n<$starCount; $n++){
-      $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
+  if ($starCount == 1){
+    for ($n=0; $n<3; $n++){
+        $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
+    }
+  }elseif ($starCount == 2){
+    for ($n=0; $n<9; $n++){
+        $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
+    }
+  }elseif ($starCount == 3){
+    for ($n=0; $n<27; $n++){
+        $returnStr .= $tempStr.",".$tempStr.",".$tempStr.",";
+    }
   }
   //echo "<BR> Test Return Str: $returnStr";
   return $returnStr;
