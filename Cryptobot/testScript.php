@@ -56,68 +56,68 @@ $test28 = coinMatchPattern($coinPriceMatch,212,'ETH',0,1,36,0);//True
 $test29 = coinMatchPattern($coinPriceMatch,209,'ETH',0,0,37,0);//True
 $test30 = coinMatchPattern($coinPriceMatch,209,'ETH',0,1,37,0);//True
 
-Echo "<BR> TEST1 buyWithScore(10,5,6,1);";
+Echo "<BR> TEST1 buyWithScore(10,5,6,1);$test1";
 if ($test1) {Echo " :PASS";}//else{Echo "FAIL";}
-Echo "<BR> TEST2 buyWithScore(10,5,11,1);";
+Echo "<BR> TEST2 buyWithScore(10,5,11,1);$test2";
 if ($test2 == FALSE) {Echo " :PASS";}
-Echo "<BR> TEST3 buyWithScore(10,5,4,1); ";
+Echo "<BR> TEST3 buyWithScore(10,5,4,1); $test3";
 if ($test3 == FALSE) {Echo " :PASS";}
-Echo "<BR> TEST4 buyWithScore(10,5,6,0);";
+Echo "<BR> TEST4 buyWithScore(10,5,6,0);$test4";
 if ($test4) {Echo " :PASS";}
-Echo "<BR> TEST6 newBuywithPattern('-1-1-11','*-1-11,*-101,*0-11,*001',1,14,0);";
+Echo "<BR> TEST6 newBuywithPattern('-1-1-11','*-1-11,*-101,*0-11,*001',1,14,0);$test6";
 if ($test6) {Echo " :PASS";}
-Echo "<BR> TEST7 newBuywithPattern('-10-11','*-1-11,*-101,*0-11,*001',1,14,0);";
+Echo "<BR> TEST7 newBuywithPattern('-10-11','*-1-11,*-101,*0-11,*001',1,14,0);$test7";
 if ($test7) {Echo " :PASS";}
-Echo "<BR> TEST8 newBuywithPattern('-1-100','*-1-11,*-101,*0-11,*001',1,14,0);";
+Echo "<BR> TEST8 newBuywithPattern('-1-100','*-1-11,*-101,*0-11,*001',1,14,0);$test8";
 if ($test8 == False) {Echo " :PASS";}
-Echo "<BR> TEST9 newBuywithPattern('-1-1-11','*-1-11,*-101,*0-11,*001',0,14,0);";
+Echo "<BR> TEST9 newBuywithPattern('-1-1-11','*-1-11,*-101,*0-11,*001',0,14,0);$test9";
 if ($test9 ) {Echo " :PASS";}
-Echo "<BR> TEST10 buyWithMin(1,8700,9600);";
+Echo "<BR> TEST10 buyWithMin(1,8700,9600);$test10";
 if ($test10 ) {Echo " :PASS";}
-Echo "<BR> TEST11 buyWithMin(1,8200,8100);";
+Echo "<BR> TEST11 buyWithMin(1,8200,8100);$test11";
 if ($test11 == False) {Echo " :PASS";}
-Echo "<BR> TEST12 buyWithMin(1,8200,8300);";
+Echo "<BR> TEST12 buyWithMin(1,8200,8300);$test12";
 if ($test12 ) {Echo " :PASS";}
-Echo "<BR> TEST13 buyWithMin(0,8200,8900);";
+Echo "<BR> TEST13 buyWithMin(0,8200,8900);$test13";
 if ($test13 ) {Echo " :PASS";}
-Echo "<BR> TEST14 autoBuyMain(10000,'BTC:8870.00000000:6190.000000', 1,84);";
+Echo "<BR> TEST14 autoBuyMain(10000,'BTC:8870.00000000:6190.000000', 1,84);$test14";
 if ($test14 == False) {Echo " :PASS";}
-Echo "<BR> TEST15 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 1,84);";
+Echo "<BR> TEST15 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 1,84);$test15";
 if ($test15) {Echo " :PASS";}
-Echo "<BR> TEST16 autoBuyMain(5300,'BTC:8870.00000000:6190.000000', 1,84);";
+Echo "<BR> TEST16 autoBuyMain(5300,'BTC:8870.00000000:6190.000000', 1,84);$test16";
 if ($test16 == False) {Echo " :PASS";}
-Echo "<BR> TEST17 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 0,84);";
+Echo "<BR> TEST17 autoBuyMain(8600,'BTC:8870.00000000:6190.000000', 0,84);$test17";
 if ($test17 ) {Echo " :PASS";}
-Echo "<BR> TEST18 coinMatchPattern('BTC:7200:0',9400,'BTC',0,1,14,0);";
+Echo "<BR> TEST18 coinMatchPattern('BTC:7200:0',9400,'BTC',0,1,14,0);$test18";
 if ($test18 == False) {Echo " :PASS";}
-Echo "<BR> TEST19 coinMatchPattern('BTC:7200:0',8400,'BTC',0,1,14,0);";
+Echo "<BR> TEST19 coinMatchPattern('BTC:7200:0',8400,'BTC',0,1,14,0);$test19";
 if ($test19 == False) {Echo " :PASS";}
-Echo "<BR> TEST20 coinMatchPattern('BTC:7200:0',6100,'BTC',0,1,14,0);";
+Echo "<BR> TEST20 coinMatchPattern('BTC:7200:0',6100,'BTC',0,1,14,0);$test20";
 if ($test20) {Echo " :PASS";}
-Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);";
+Echo "<BR> TEST21 coinMatchPattern('BTC:7200',8400,'BTC',0,0,14,0);$test21";
 if ($test21 ) {Echo " :PASS";}
-Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0, 0);";
+Echo "<BR> TEST22 isCoinMatch(6100, 'BTC', 7100, 'BTC', 0, 0);$test22";
 if ($test22 == False) {Echo " :PASS";}
-Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0, 0);";
+Echo "<BR> TEST23 isCoinMatch(8300, 'BTC', 7100, 'BTC', 0, 0);$test23";
 if ($test23 ) {Echo " :PASS";}
-Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0, 0);";
+Echo "<BR> TEST24 isCoinMatch(7100, 'BTC', 7100, 'BTC', 0, 0);$test24";
 if ($test24 ) {Echo " :PASS";}
-Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1, 0);";
+Echo "<BR> TEST25 isCoinMatch(6100, 'BTC', 7100, 'BTC', 1, 0);$test25";
 if ($test25 == False ) {Echo " :PASS";}
-Echo "<BR> TEST26 isCoinMatch(8100, 'BTC', 7100, 'BTC', 1, 0);";
+Echo "<BR> TEST26 isCoinMatch(8100, 'BTC', 7100, 'BTC', 1, 0);$test26";
 if ($test26 ) {Echo " :PASS";}
-Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);";
+Echo "<BR> TEST27 isCoinMatch(7100, 'BTC', 7100, 'BTC', 1, 0);$test27";
 if ($test27 ) {Echo " :PASS";}
 
-Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);";
+Echo "<BR> TEST28 coinMatchPattern('ETH:150',212,'ETH',0,1,36,0);$test28";
 if ($test28 == False) {Echo " :PASS";}
 
 
-Echo "<BR> TEST29 coinMatchPattern('ETH:150',209,'ETH',0,0,37,0);";
+Echo "<BR> TEST29 coinMatchPattern('ETH:150',209,'ETH',0,0,37,0);$test29";
 if ($test29) {Echo " :PASS";} //Disabled
 
 
-Echo "<BR> TEST30 coinMatchPattern('ETH:150',209,'ETH',1,1,37,0);";
+Echo "<BR> TEST30 coinMatchPattern('ETH:150',209,'ETH',1,1,37,0);$test30";
 if ($test30 == False) {Echo " :PASS";}
 }
 
