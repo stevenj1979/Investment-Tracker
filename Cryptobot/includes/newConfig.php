@@ -1960,7 +1960,7 @@ function replaceStars($tempStr,$starCount){
     for ($k = -1; $k<3-1; $k++){
       //echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
       $tempStr = str_replace_first("*",$k,$tempStr);
-      Echo "<BR> $tempStr";
+      //Echo "<BR> $tempStr";
     }
     $returnStr .= $tempStr;
   }elseif ($starCount == 2){
@@ -1991,6 +1991,7 @@ function replaceStars($tempStr,$starCount){
       }
     }
     $returnStr .= $tempStr;
+    echo "<BR> Return String: $returnStr";
   }
 return $returnStr;
 }
