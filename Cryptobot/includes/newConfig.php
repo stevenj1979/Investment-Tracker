@@ -1960,7 +1960,7 @@ function replaceStars($tempStr,$starCount){
     for ($k = -1; $k<3-1; $k++){
       //echo "<BR> $k ".str_replace_first("*",$k,$tempStr);
       $tempStr = str_replace_first("*",$k,$tempStr);
-      //Echo "<BR> $tempStr1";
+      Echo "<BR> $tempStr";
     }
     $returnStr .= $tempStr;
   }elseif ($starCount == 2){
@@ -2042,7 +2042,7 @@ Function removeWildcard($tempStr){
         $starCount =substr_count($tempStr[$i][2],"*");
         //$returntempStr = $tempStr[$i].",";
         for ($x=0; $x<$starCount; $x++){
-          echo "<BR> returnWildcardStr(".$tempStr[$i][2].",$starCount);";
+          //echo "<BR> returnWildcardStr(".$tempStr[$i][2].",$starCount);";
           $newStr = returnWildcardStr($tempStr[$i][2],$starCount);
           $returntempStr = replaceStars($newStr,$starCount);
           $buyRuleIDStr = returnWildcardStr($tempStr[$i][0],$starCount);
