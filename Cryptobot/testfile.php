@@ -135,33 +135,10 @@ for ($i=0; $i<$symbolsSize; $i++){
   $j++;
   //$obj["result"]["Available"];
 }
+$savedPattern = Array("*-1-11");
+$newPattern = removeWildcard($savedPattern);
 
-$BittrexBal = bittrexTotalbalance($apikey,$apisecret, "USDT");
-//var_dump($BittrexBal);
-$runningBal[$j][0] = "USDT";
-$runningBal[$j][1] = $BittrexBal["result"]["Available"];
-$j++;
-$BittrexBal2 = bittrexTotalbalance($apikey,$apisecret, "BTC");
-//var_dump($BittrexBal2);
-$runningBal[$j][0] = "BTC";
-$runningBal[$j][1] = $BittrexBal2["result"]["Available"];
-$j++;
-$BittrexBal3 = bittrexTotalbalance($apikey,$apisecret, "ETH");
-//var_dump($BittrexBal3);
-$runningBal[$j][0] = "ETH";
-$runningBal[$j][1] = $BittrexBal3["result"]["Available"];
-$j++;
-
-//var_dump($runningBal);
-$runningBalSize = count($runningBal);
-$bal = 0; $pend =0;
-for ($k=0; $k<$runningBalSize; $k++){
-  Echo $runningBal[$k][0]." | ".$runningBal[$k][1]." | ".$runningBal[$k][2]."<BR>";
-  $bal = $bal + $runningBal[$k][1];
-  $pend = $pend + $runningBal[$k][2];
-}
-echo "Total Balance = $bal <BR>";
-echo "Total Pending = $pend <BR>";
+var_dump($newPattern);
 
 ?>
 </html>
