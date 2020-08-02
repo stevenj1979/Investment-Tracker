@@ -136,8 +136,8 @@ for ($i=0; $i<$symbolsSize; $i++){
   //$obj["result"]["Available"];
 }
 $savedPattern = Array(14,0,"**-11",3);
-$newPattern = removeWildcard($savedPattern);
-//$newPattern = returnWildcardStr("*-1-11",1);
+//$newPattern = removeWildcard($savedPattern);
+$newPattern = returnWildcardStr("**-11",2);
 //$newPattern = replaceStars("**-11,**-11,**-11,**-11,**-11,**-11,",2);
 var_dump($newPattern);
 
