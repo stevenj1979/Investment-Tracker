@@ -2042,7 +2042,7 @@ Function removeWildcard($tempStr){
         $starCount =substr_count($tempStr[$i][2],"*");
         //$returntempStr = $tempStr[$i].",";
         for ($x=0; $x<$starCount; $x++){
-
+          echo "<BR> returnWildcardStr(".$tempStr[$i][2].",$starCount);"
           $newStr = returnWildcardStr($tempStr[$i][2],$starCount);
           $returntempStr = replaceStars($newStr,$starCount);
           $buyRuleIDStr = returnWildcardStr($tempStr[$i][0],$starCount);
