@@ -135,9 +135,9 @@ for ($i=0; $i<$symbolsSize; $i++){
   $j++;
   //$obj["result"]["Available"];
 }
-$savedPattern = Array(14,0,"*-1-11",3);
+$savedPattern = Array(14,0,"**-11",3);
 //$newPattern = removeWildcard($savedPattern);
-$newPattern = returnWildcardStr("*-1-11",1);
+$newPattern = returnWildcardStr("**-11",2);
 var_dump($newPattern);
 
 ?>
