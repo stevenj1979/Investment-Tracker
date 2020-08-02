@@ -1992,7 +1992,7 @@ function replaceStars($tempStr,$starCount){
     }
     $returnStr .= $tempStr;
   }
-  echo "<BR> Return String: $returnStr";
+  //echo "<BR> Return String: $returnStr";
 return $returnStr;
 }
 
