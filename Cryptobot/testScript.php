@@ -22,10 +22,10 @@ $test2 = buyWithScore(10,5,11,1); //False
 $test3 = buyWithScore(10,5,4,1); //false
 $test4 = buyWithScore(10,5,6,0); //True
 //$test5 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
-//$test6 = newBuywithPattern('-1-1-11',$coinPricePatternList,1,14,0);//True
+$test6 = newBuywithPattern('-1-1-11',$coinPricePatternList,1,14,0);//True
 $test7 = newBuywithPattern('-10-11',$coinPricePatternList,1,14,0);//True
-//$test8 = newBuywithPattern('-1-100',$coinPricePatternList,1,14,0);//false
-//$test9 = newBuywithPattern('-1-1-11',$coinPricePatternList,0,14,0);//True
+$test8 = newBuywithPattern('-1-100',$coinPricePatternList,1,14,0);//false
+$test9 = newBuywithPattern('-1-1-11',$coinPricePatternList,0,14,0);//True
 
 $test10 = buyWithMin(1,8700,9600);//True
 $test11 = buyWithMin(1,8200,8100);//False
