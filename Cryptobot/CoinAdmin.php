@@ -128,7 +128,7 @@ function getSequenceData(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `UserID`,`SellRuleID`,`Sequence` FROM `SellSequence` order by `UserID`,`Sequence` asc ";
+  $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder` FROM `SellRules` order by `UserID`,`CoinOrder` desc ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['Sequence']);}
@@ -170,7 +170,7 @@ function checkSellSequence(){
   //get all open trans
   $trans = getTransData();
   $transcount = count($trans);
-
+  $nFlag = False;
   $sequence = getSequenceData();
   $sequenceCount = count($sequence);
   for($x = 0; $x < $transcount; $x++) {
@@ -180,8 +180,14 @@ function checkSellSequence(){
       //update the fixed sell ID
       for($y = 0; $y < $sequenceCount; $y++) {
         if ($sequence[$y][0] == $userID and $sequence[$y][1] == $fixSellRule){
-          updateFixSellRule($sequence[$y+1][1],$transactionID);
-          logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$y+1][1]." TransactionID: $transactionID", $userID);
+          //$nFlag = True;
+          for ($z =$y+1; $z<$sequenceCount; $z ++ ){
+              if ( $sequence[$z][0] == $userID){
+                updateFixSellRule($sequence[$z][1],$transactionID);
+                logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID);
+              }
+          }
+
         }
       }
     }
