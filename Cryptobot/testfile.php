@@ -121,25 +121,11 @@ $str1 = "8,8,8,8";
 $str2 = "24,24,24,24";
 $str3 = "0101,0001,0111,-1-1-11";
 $str4 = "3,3,3,3";
+$coinPricePatternList = getCoinPricePattenList();
 
-$symbols = getOpenSymbols();
-$symbolsSize = count($symbols);
+$sTest7 = newBuywithPattern("1-11-1",$coinPricePatternList,1,8,1);
 
-$runningBal = [];
-$j=0;
-for ($i=0; $i<$symbolsSize; $i++){
-  //$BittrexBal = bittrexTotalbalance($apikey,$apisecret, $symbols[$i][0]);
-  $runningBal[$i][0] = $symbols[$i][0];
-  $runningBal[$i][1] = $symbols[$i][1];
-  //$runningBal[$i][2] = $BittrexBal["result"]["Pending"];
-  $j++;
-  //$obj["result"]["Available"];
-}
-$savedPattern = Array(14,0,"**-11",3);
-//$newPattern = removeWildcard($savedPattern);
-//$newPattern = returnWildcardStr("***1",3);
-$newPattern = replaceStars("*0-11,*0-11,*0-11,",1);
-var_dump($newPattern);
+Echo "<BR> Test is :$sTest7";
 
 ?>
 </html>
