@@ -123,7 +123,7 @@ $str3 = "0101,0001,0111,-1-1-11";
 $str4 = "3,3,3,3";
 $coinPricePatternList = getCoinPricePattenList();
 
-$sTest7 = newBuywithPattern("1-11-1",$coinPricePatternList,1,8,1);
+$sTest7 = newBuywithPattern("100-1",$coinPricePatternList,1,8,1);
 
 Echo "<BR> Test is :$sTest7";
 
