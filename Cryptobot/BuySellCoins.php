@@ -246,7 +246,7 @@ while($completeFlag == False){
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
       $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
-      //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";
+      echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit";
       if ($overrideDailyLimit == 0){
         if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
           if ($totalBTCSpent[0][0] >= $TotalBTCLimit && $EnableTotalBTCLimit == 1){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
@@ -300,7 +300,7 @@ while($completeFlag == False){
       $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy,0);
       $buyResultAry[] = Array($test12, "Coin Price Pattern $symbol", $LiveCoinPrice);
       //Echo "<BR> newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0);";
-      echo "<BR> NEW Buy with Pattern2 : $new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
+      //echo "<BR> NEW Buy with Pattern2 : $new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
       if ($Hr1ChangeTrendEnabled){
         $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0);
       }else{$test14 = True;}
