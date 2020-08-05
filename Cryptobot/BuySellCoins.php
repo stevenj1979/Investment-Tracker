@@ -245,10 +245,11 @@ while($completeFlag == False){
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
-      $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
-      echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
+
+      //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
+        $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
         //if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
         if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
         //}
