@@ -250,7 +250,7 @@ while($completeFlag == False){
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
         //if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
-          if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
+        if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
         //}
       }
 
