@@ -51,9 +51,9 @@ function getOutStandingSell(){
 
 function initiateAry($ary, $userID){
   if (array_key_exists($userID,$ary)){
-      echo "<BR> Key Exists $userID";
+      //echo "<BR> Key Exists $userID";
   }else{
-      echo "<BR> Set Key to 0 $userID";
+      //echo "<BR> Set Key to 0 $userID";
     $ary[$userID] = 0;
   }
   return $ary;
@@ -287,7 +287,7 @@ while($completeFlag == False){
       $buyResultAry[] = Array($test7, "Coin Price $symbol", $CoinPricePctChange);
       $test8 = buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
       $buyResultAry[] = Array($test8, "Sell Orders $symbol", $SellOrdersPctChange);
-      echo "<BR> NEW Buy with Pattern1 : $newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
+      //echo "<BR> NEW Buy with Pattern1 : $newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
       if ($priceTrendEnabled){
         $test9 = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0);
       }else{$test9 = True;}

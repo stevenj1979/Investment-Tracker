@@ -909,7 +909,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
   for ($x = 0; $x < $piecesSize; $x++) {
     //Echo "<br> ".$pieces[$x][0];
     if (($ruleID == $pieces[$x][0] && $pieces[$x][1] == 0 && $buySell == 0) OR ($ruleID == $pieces[$x][1] && $pieces[$x][0] == 0&& $buySell == 1)){
-      Echo "<br> ".$pieces[$x][0]." : ".$pieces[$x][1]." : ".$pieces[$x][2];
+      //Echo "<br> ".$pieces[$x][0]." : ".$pieces[$x][1]." : ".$pieces[$x][2];
       if (newReturnPattern($livePattern,$pieces[$x][2])){ $testTrue = True; }//echo "<BR> LivePetern $livePattern TRUE";}
     }
   }
