@@ -247,18 +247,18 @@ while($completeFlag == False){
       //Echo "<BR>Rule Limited to :  $limitToCoin";
       $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
       echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit";
-      if ($overrideDailyLimit == 1){
+      if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
-          if ($totalBTCSpent[0][0] >= $TotalBTCLimit && $EnableTotalBTCLimit == 1){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
+          if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
         }
       }
 
-      if ($overrideDailyLimit == 1){
+      if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
         echo "<BR> DAILY LIMIT OVERRIDE OFF : $overrideDailyLimit";
         $dailyBTCSpent = getDailyBTC($userID,$baseCurrency);
         //echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";
         if (!empty($dailyBTCSpent[0][0])){
-          if ($dailyBTCSpent[0][0] >= $DailyBTCLimit && $EnableDailyBTCLimit == 1){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
+          if ($dailyBTCSpent[0][0] >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
         }
         if ($noOfBuys == $buyCounter[$userID] && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID];continue;}else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$buyCounter[$userID];}
       }
