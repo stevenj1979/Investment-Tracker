@@ -248,13 +248,14 @@ while($completeFlag == False){
       $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
       echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
+        echo "<BR> Check if over total limit! ";
         if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
           if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
         }
       }
 
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
-        echo "<BR> DAILY LIMIT OVERRIDE OFF : $overrideDailyLimit";
+        echo "<BR> Check if over daily limit! ";
         $dailyBTCSpent = getDailyBTC($userID,$baseCurrency);
         //echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";
         if (!empty($dailyBTCSpent[0][0])){
