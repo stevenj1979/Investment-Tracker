@@ -247,8 +247,10 @@ while($completeFlag == False){
       //Echo "<BR>Rule Limited to :  $limitToCoin";
       $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";
-      if (!empty($totalBTCSpent[0][0])){
-        if ($totalBTCSpent[0][0] >= $TotalBTCLimit && $EnableTotalBTCLimit == 1){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
+      if ($overrideDailyLimit == 0){
+        if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
+          if ($totalBTCSpent[0][0] >= $TotalBTCLimit && $EnableTotalBTCLimit == 1){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
+        }
       }
 
       if ($overrideDailyLimit == 0){
@@ -423,7 +425,7 @@ while($completeFlag == False){
       if ($priceTrendEnabled){
           $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
       }else{ $sTest7 = True;}
-      
+
       $sellResultAry[] = Array($sTest7, "Price Trend Pattern $coin", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
       $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
