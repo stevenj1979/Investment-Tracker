@@ -128,7 +128,7 @@ function getSequenceData(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder` FROM `SellRules` order by `UserID`,`CoinOrder` desc ";
+  $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder` FROM `SellRules` order by `UserID`,`CoinOrder` asc ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['Sequence']);}
