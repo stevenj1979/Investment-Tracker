@@ -262,8 +262,10 @@ while($completeFlag == False){
         //if (!empty($dailyBTCSpent[0][0])){
           if ($dailyBTCSpent[0][0] >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
       //  }
-        if ($noOfBuys == $buyCounter[$userID] && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID];continue;}else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$buyCounter[$userID];}
       }
+
+      if ($noOfBuys == $buyCounter[$userID] && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID];continue;
+      }else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$buyCounter[$userID];}
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
