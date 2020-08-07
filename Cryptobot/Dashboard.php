@@ -279,8 +279,9 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
   echo "<BR> Count: $count";
   if ($count >= 2 && $noOfPurchases <= $MaxCoinMerge){
     echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
-    mergeTransactions($transactionID, $amount, $avCost, $lastTransID);
+    mergeTransactions($transactionID, $amount, $avCost);
     UpdateTransCount($count-1, $transactionID);
+    deleteOldTrans(rtrim($lastTransID, ','));
     logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
   }
 }

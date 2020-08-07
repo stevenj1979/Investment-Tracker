@@ -2383,7 +2383,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
       echo "<BR> adding ".$finalMergeAry[$j][4]."+".$toMergeAry[0][4];
       $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[0][5];
       echo "<BR> adding ".$finalMergeAry[$j][5]."+".$toMergeAry[0][5];
-      $finalMergeAry[$j][6] = $toMergeAry[0][3];
+      $finalMergeAry[$j][6] = $finalMergeAry[$j][6].$toMergeAry[0][3].",";
       echo "<BR> adding ".$toMergeAry[0][5];
       $finalMergeAry[$j][7] = $finalMergeAry[$j][7]+1;
       echo "<BR> adding ".$finalMergeAry[$j][7]."+1";
@@ -2403,7 +2403,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
     $finalMergeAry[$finalMergeArySize][3] = $toMergeAry[0][3];
     $finalMergeAry[$finalMergeArySize][4] = $toMergeAry[0][4];
     $finalMergeAry[$finalMergeArySize][5] = $toMergeAry[0][5];
-    $finalMergeAry[$finalMergeArySize][6] = $toMergeAry[0][3];
+    $finalMergeAry[$finalMergeArySize][6] = $toMergeAry[0][3].",";
     $finalMergeAry[$finalMergeArySize][7] = 1;
     $finalMergeAry[$finalMergeArySize][8] = $toMergeAry[0][8];
     $finalMergeAry[$finalMergeArySize][9] = $toMergeAry[0][9];
@@ -2428,12 +2428,12 @@ function UpdateTransCount($count,$transactionID){
   logAction("UpdateTransCount($count,$transactionID)",'TrackingCoins', 0);
 }
 
-function mergeTransactions($transactionID, $amount, $avCost, $lastTransID){
+function mergeTransactions($transactionID, $amount, $avCost){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call MergeTransactions($avCost,$transactionID,$amount,$lastTransID);";
+  $sql = "call MergeTransactions($avCost,$transactionID,$amount);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -2442,6 +2442,32 @@ function mergeTransactions($transactionID, $amount, $avCost, $lastTransID){
   }
   $conn->close();
   logAction("mergeTransactions($avCost,$transactionID,$amount,$lastTransID)",'TrackingCoins', 0);
+}
+
+function deleteOldTrans($lastTransID){
+  $piecesAry = explode(",",$lastTransID);
+  $piecesArySize = count($piecesAry);
+
+  for ($i=1; $i<$piecesArySize; $i++){
+    $oldTransID = $piecesAry[$i];
+    closeOldTransSQL($oldTransID);
+  }
+}
+
+function closeOldTransSQL($id){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "DELETE FROM `Transaction` WHERE `ID` = $id";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("closeOldTransSQL: $sql",'TrackingCoins', 0);
 }
 
 function updateNoOfRisesInPrice($newTrackingCoinID, $num){
