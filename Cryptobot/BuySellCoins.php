@@ -90,6 +90,7 @@ while($completeFlag == False){
   $newTrackingCoinsSize = count($newTrackingCoins);
 
   echo "<BR> Tracking COINS!! ";
+
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
     $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
     $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
@@ -99,8 +100,11 @@ while($completeFlag == False){
     $buyType = $newTrackingCoins[$a][15];$timeToCancelBuyMins = $newTrackingCoins[$a][16];$SellRuleFixed = $newTrackingCoins[$a][17];
     $pctProfit = $newTrackingCoins[$a][6]; $newTrackingCoinID = $newTrackingCoins[$a][23]; $liveCoinPrice = $newTrackingCoins[$a][4];
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
-    $disableUntil = $newTrackingCoins[$a][28];
+    $disableUntil = $newTrackingCoins[$a][28]; $noOfBuys = $newTrackingCoins[$a][29];
+    $trackCounter = initiateAry($trackCounter,$userID);
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
+    if ($noOfBuys == $trackCounter[$userID]){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID];continue;
+    }else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $totalRisesInPrice){
@@ -109,6 +113,7 @@ while($completeFlag == False){
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
         closeNewTrackingCoin($newTrackingCoinID);
         logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
+        $trackCounter[$userID] = $trackCounter[$userID] + 1;
       }else{
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
