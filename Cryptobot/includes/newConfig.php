@@ -559,6 +559,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
 
 function getMinTradeAmount($apisecret){
   $minTrade = getMinTrade($apisecret, 3);
+  $obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
   //$tradeArraySize = count($minTrade);
   //print_r($minTrade);
@@ -569,9 +570,9 @@ function getMinTradeAmount($apisecret){
     $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
 
     //for($y = 0; $y < $tradeArraySize; $y++) {
-    foreach ($minTrade as $trade){
-      if($trade['quoteCurrencySymbol']==$coin && $trade['baseCurrencySymbol']==$baseCurrency){
-        $minTradeAmount = $trade['minTradeSize'];
+    for ($y=0; $y<count($obj); $y++){
+      if($obj['quoteCurrencySymbol']==$coin && $obj['baseCurrencySymbol']==$baseCurrency){
+        $minTradeAmount = $obj['minTradeSize'];
         //return $minTradeAmount;
         echo "<BR> Coin Match: $coin Base: $baseCurrency ID: $coinID Min: $minTradeAmount";
         copyTradeAmountToSQL($coinID, $minTradeAmount);
