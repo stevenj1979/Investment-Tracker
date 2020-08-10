@@ -575,7 +575,7 @@ function getMinTradeAmount($apisecret){
         $minTradeAmount = $obj['minTradeSize'];
         //return $minTradeAmount;
         echo "<BR> Coin Match: $coin Base: $baseCurrency ID: $coinID Min: $minTradeAmount";
-        copyTradeAmountToSQL($coinID, $minTradeAmount);
+        //copyTradeAmountToSQL($coinID, $minTradeAmount);
         exit;
       }
     }
