@@ -563,7 +563,7 @@ function getMinTradeAmount($apisecret){
   //print_r($tradeArraySize);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
-  for ($x=0; $x<$coinsSize; $x++;){
+  for ($x=0; $x<$coinsSize; $x++){
     $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
 
     for($y = 0; $y < $tradeArraySize; $y++) {
