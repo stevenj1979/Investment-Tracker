@@ -560,7 +560,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
 function getMinTradeAmount($apisecret){
   $minTrade = getMinTrade($apisecret, 3);
   //$minTradeSize = count($minTrade);
-  $tradeArraySize = count($minTrade[0]);
+  $tradeArraySize = $minTrade->count();
   print_r($minTrade);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
