@@ -127,7 +127,7 @@ echo "<BR>";
 
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 foreach($brandNew as $trade){
-  echo "<BR> ".$trade["currencySymbol"];
+  echo "<BR> ".$trade[1];
 }
 //var_dump($brandNew);
 
@@ -135,7 +135,7 @@ foreach($brandNew as $trade){
 $newAgain = getMinTrade($apisecret, 3);
 echo "<BR>";
 foreach($newAgain as $trade){
-  echo "<BR> ".$trade["minTradeSize"];
+  echo "<BR> ".$trade[0];
 }
 
 //getMinTradeAmount($apisecret);
