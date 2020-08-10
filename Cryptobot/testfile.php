@@ -128,7 +128,7 @@ echo "<BR>";
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 $obj = json_decode($brandNew, true);
 for ($x=0; $x<count($obj); $x++){
-    echo "<br> :".$obj[$x][0];
+    echo "<br> :".$obj[$x]["currencySymbol"];
 }
 //}
 //var_dump($brandNew);
