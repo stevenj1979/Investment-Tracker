@@ -162,17 +162,39 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
     //$uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     if ($versionNum == 1){
       $uri='https://bittrex.com/api/v1.1/public/getmarketsummary?market='.$baseCurrency.'-'.$symbol;
+      print_r($uri);
+      $sign=hash_hmac('sha512',$uri,$apisecret);
+      $ch = curl_init($uri);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $execResult = curl_exec($ch);
+      $obj = json_decode($execResult, True);
     }elseif ($versionNum == 3){
-      $uri='https://bittrex.com/api/v1.1/public/getmarketsummary?market='.$baseCurrency.'-'.$symbol;
-    }
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/markets/{".$baseCurrency.'-'.$symbol."}/summary";
+      $method = "GET";
+      $content = "";
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
 
-    print_r($uri);
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, True);
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      $execResult = curl_exec($ch);
+      curl_close($ch);
+    }
     return $obj;
 }
 

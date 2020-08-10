@@ -121,5 +121,9 @@ $resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f6
 
 var_dump($resultOrd);
 
+$newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
+echo "<BR>";
+var_dump($newOrd);
+
 ?>
 </html>
