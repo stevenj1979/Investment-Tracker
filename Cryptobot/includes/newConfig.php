@@ -79,7 +79,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders";
       $method = "GET";
-      $content = "{'orderId' : '$uuid'}";
+      $content = '{'.$uuid.'}';
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
@@ -463,16 +463,51 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
     $nonce=time();
     if ($versionNum == 1){
       $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+      echo $uri."<BR>";
+      $sign=hash_hmac('sha512',$uri,$apisecret);
+      $ch = curl_init($uri);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $execResult = curl_exec($ch);
+      $obj = json_decode($execResult, true);
     }elseif ($versionNum == 3){
-      $uri='https://bittrex.com/api/v3/orders/NewOrder?apikey='.$apikey.'&marketSymbol='.$baseCurrency.'-'.$symbol.'&direction=BUY&type=LIMIT&quantity='.$quant.'&limit='.$rate.'&timeInForce=GOOD_TIL_CANCELLED&useAwards=TRUE&nonce='.$nonce;
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/orders";
+      $method = "POST";
+
+      $content = '{
+        "marketSymbol": "BTC-USDT",
+        "direction": "BUY",
+        "type": "LIMIT",
+        "quantity": "0.00276225",
+        "limit": "7226.00306482",
+        "timeInForce": "GOOD_TIL_CANCELLED"
+      }';
+
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      curl_setopt($ch, CURLOPT_POST, TRUE);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+      $obj = curl_exec($ch);
+      curl_close($ch);
     }
-    echo $uri."<BR>";
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, true);
+
     return $obj;
 }
 
