@@ -79,7 +79,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders";
       $method = "GET";
-      $content = '{'.$uuid.'}';
+      $content = '2663baf9-8c75-45de-a75f-6bc138f60caf';
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
