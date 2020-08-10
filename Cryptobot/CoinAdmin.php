@@ -226,5 +226,7 @@ for($x = 0; $x < $confSize; $x++) {
 coinHistory(10);
 DeleteHistory(96);
 checkSellSequence();
+$apisecret=getAPISecret();
+getMinTradeAmount($apisecret);
 ?>
 </html>
