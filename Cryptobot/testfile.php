@@ -119,19 +119,22 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
 $resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
 
-var_dump($resultOrd);
+//var_dump($resultOrd);
 
 $newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
 echo "<BR>";
-var_dump($newOrd);
+//var_dump($newOrd);
 
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
-echo "<BR>";
-var_dump($brandNew);
+echo "<BR> ".$brandNew[0]["currencySymbol"];
+echo "<BR> ".$brandNew[1]["currencySymbol"];
+echo "<BR> ".$brandNew[2]["currencySymbol"];
+//var_dump($brandNew);
+
 
 $newAgain = getMinTrade($apisecret, 3);
 echo "<BR>";
-print_r($newAgain);
+//print_r($newAgain);
 
 getMinTradeAmount($apisecret);
 
