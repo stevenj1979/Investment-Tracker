@@ -77,9 +77,9 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       //$balance = $obj["result"]["IsOpen"];
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/orders";
+      $url = "https://api.bittrex.com/v3/orders/{2663baf9-8c75-45de-a75f-6bc138f60caf}";
       $method = "GET";
-      $content = '2663baf9-8c75-45de-a75f-6bc138f60caf';
+      $content = '';
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
@@ -444,17 +444,39 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
     $nonce=time();
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
+        $sign=hash_hmac('sha512',$uri,$apisecret);
+        $ch = curl_init($uri);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $execResult = curl_exec($ch);
+        $obj = json_decode($execResult, true);
+        $balance = $obj["result"]["Available"];
     }elseif ($versionNum == 3){
-      $uri='https://bittrex.com/api/v3/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
-    }
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/balances";
+      $method = "GET";
+      $content = "";
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
 
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, true);
-    $balance = $obj["result"]["Available"];
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      $execResult = curl_exec($ch);
+      curl_close($ch);
+    }
     return $balance;
 }
 
