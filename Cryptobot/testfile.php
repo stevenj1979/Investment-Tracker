@@ -134,10 +134,9 @@ $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 
 
 $newAgain = getMinTrade($apisecret, 3);
-echo "<BR>";
-foreach($newAgain as $trade){
-  echo "<BR> ".$trade[0];
-}
+$json=json_decode( $newAgain );
+
+var_dump($json);
 
 //getMinTradeAmount($apisecret);
 
