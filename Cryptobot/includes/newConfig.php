@@ -193,7 +193,7 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      $execResult = curl_exec($ch);
+      $obj = curl_exec($ch);
       curl_close($ch);
     }
     return $obj;
