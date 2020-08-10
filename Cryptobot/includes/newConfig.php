@@ -571,8 +571,8 @@ function getMinTradeAmount($apisecret){
     //echo "<BR> COIN: $coin BASE: $baseCurrency ID: $coinID";
     //for($y = 0; $y < $tradeArraySize; $y++) {
     for ($y=0; $y<$tradeArraySize; $y++){
-      echo "<BR> Symbol: ".$obj[$y]['quoteCurrencySymbol']."|$coin BASE: ".$obj[$y]['baseCurrencySymbol']."|$baseCurrency Trade: ".$obj[$y]['minTradeSize'];
-      if($obj[$y]['quoteCurrencySymbol']==$coin && $obj[$y]['baseCurrencySymbol']==$baseCurrency){
+      echo "<BR> Symbol: ".$obj[$y]['symbol']."|$coin BASE: ".$obj[$y]['baseCurrencySymbol']."|$baseCurrency Trade: ".$obj[$y]['minTradeSize'];
+      if($obj[$y]['symbol']==$coin && $obj[$y]['baseCurrencySymbol']==$baseCurrency){
         $minTradeAmount = $obj[$y]['minTradeSize'];
         //return $minTradeAmount;
         echo "<BR> Coin Match: $coin Base: $baseCurrency ID: $coinID Min: $minTradeAmount";
