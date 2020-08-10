@@ -561,7 +561,7 @@ function getMinTradeAmount($apisecret){
   $minTrade = getMinTrade($apisecret, 3);
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($minTrade[0]);
-  //print_r($tradeArraySize);
+  print_r($minTrade);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
   echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
