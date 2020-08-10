@@ -117,7 +117,7 @@ $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
-$resultOrd = bittrexOrder($apiKey, $apiSecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
+$resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
 
 echo "<BR> Success = ".$resultOrd["success"]." CancelInitiated= ".$resultOrd["result"]["CancelInitiated"]." QTYRemaining= ".$resultOrd["result"]["QuantityRemaining"];
 
