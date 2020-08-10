@@ -565,19 +565,19 @@ function getMinTradeAmount($apisecret){
   print_r($obj);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
-  echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
+  //echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
   for ($x=0; $x<$coinsSize; $x++){
     $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
     //echo "<BR> COIN: $coin BASE: $baseCurrency ID: $coinID";
     //for($y = 0; $y < $tradeArraySize; $y++) {
     for ($y=0; $y<$tradeArraySize; $y++){
-      echo "<BR> Symbol: ".$obj[$y]['symbol']."|".$coin."-".$baseCurrency;
+      //echo "<BR> Symbol: ".$obj[$y]['symbol']."|".$coin."-".$baseCurrency;
       if($obj[$y]['symbol'] == $coin."-".$baseCurrency){
         $minTradeAmount = $obj[$y]['minTradeSize'];
         //return $minTradeAmount;
         echo "<BR> Coin Match: $coin Base: $baseCurrency ID: $coinID Min: $minTradeAmount";
         copyTradeAmountToSQL($coinID, $minTradeAmount);
-        exit;
+        continue;
       }
     }
   }
