@@ -128,10 +128,10 @@ echo "<BR>";
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 $obj = json_decode($brandNew, true);
 for ($x=0; $x<count($obj); $x++){
-    echo $obj[$x][0];
+    echo "<br> :".$obj[$x][0];
 }
 //}
-var_dump($brandNew);
+//var_dump($brandNew);
 
 
 $newAgain = getMinTrade($apisecret, 3);
