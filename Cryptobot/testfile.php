@@ -131,7 +131,7 @@ var_dump($brandNew);
 
 $newAgain = getMinTrade($apisecret, 3);
 echo "<BR>";
-var_dump($newAgain);
+print_r($newAgain);
 
 getMinTradeAmount($apisecret);
 
