@@ -133,5 +133,7 @@ $newAgain = getMinTrade($apisecret, 3);
 echo "<BR>";
 var_dump($newAgain);
 
+getMinTradeAmount($apisecret);
+
 ?>
 </html>

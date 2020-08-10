@@ -332,7 +332,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
-  $minTradeAmount = getMinTradeAmount($coin,$baseCurrency,$apisecret);
+  $minTradeAmount = getMinTradeFromSQL($coinID);
   if ($buyCoin) {
     $subject = "Coin Purchase: ".$coin;
     $from = 'Coin Purchase <purchase@investment-tracker.net>';
@@ -351,7 +351,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
     //if ($avgCoinPrice > $bitPrice){ return; }
     //$quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    if ($btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin){
+    if ($btcBuyAmount>$minTradeAmount[0] && $BTCBalance >= $buyMin){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
@@ -387,9 +387,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
     }else{
-      echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount";
-      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", 'BuySell', 0);
-      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>$minTradeAmount && $BTCBalance >= $buyMin", $userID);
+      echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0];
+      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0]." && $BTCBalance >= $buyMin", 'BuySell', 0);
+      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0]." && $BTCBalance >= $buyMin", $userID);
     }
   //}
 }
@@ -557,17 +557,54 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
     return $obj;
 }
 
-function getMinTradeAmount($coin, $baseCurrency, $apisecret){
-  $minTradeSize = getMinTrade($apisecret, 1);
+function getMinTradeAmount($apisecret){
+  $minTradeSize = getMinTrade($apisecret, 3);
   $tradeArraySize = count($minTradeSize['result']);
   //print_r($tradeArraySize);
-  for($y = 0; $y < $tradeArraySize; $y++) {
-    if($minTradeSize['result'][$y]['MarketCurrency']==$coin && $minTradeSize['result'][$y]['BaseCurrency']==$baseCurrency){
-      $minTradeAmount= $minTradeSize['result'][$y]['MinTradeSize'];
-      return $minTradeAmount;
-      exit;
+  $coins = getTrackingCoins();
+  $coinsSize = count($coins);
+  for ($x=0; $x<$coinsSize; $x++;){
+    $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
+
+    for($y = 0; $y < $tradeArraySize; $y++) {
+      if($minTradeSize['result'][$y]['quoteCurrencySymbol']==$coin && $minTradeSize['result'][$y]['baseCurrencySymbol']==$baseCurrency){
+        $minTradeAmount= $minTradeSize['result'][$y]['minTradeSize'];
+        //return $minTradeAmount;
+        copyTradeAmountToSQL($coinID, $minTradeAmount);
+        exit;
+      }
     }
   }
+
+}
+
+function getMinTradeFromSQL($coinID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` = $coinID";
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['MinTradeSize']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function copyTradeAmountToSQL($coinID, $minTradeAmount){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `Coin` SET `MinTradeSize`= $minTradeAmount WHERE `ID` = $coinID";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("copyTradeAmountToSQL: ".$sql, 'BuySell', 0);
 }
 
 function getMinTrade($apisecret, $versionNum){
