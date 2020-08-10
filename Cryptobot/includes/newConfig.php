@@ -171,7 +171,7 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
       $obj = json_decode($execResult, True);
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/markets/{".$baseCurrency.'_'.$symbol."}/summary";
+      $url = "https://api.bittrex.com/v3/markets/{".$symbol.'_'.$baseCurrency."}/summary";
       echo "<BR> $url";
       $method = "GET";
       $content = "";
