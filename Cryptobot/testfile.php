@@ -125,5 +125,8 @@ $newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
 echo "<BR>";
 var_dump($newOrd);
 
+$brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
+echo "<BR>";
+var_dump($brandNew);
 ?>
 </html>

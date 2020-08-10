@@ -497,7 +497,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      $execResult = curl_exec($ch);
+      $balance = curl_exec($ch);
       curl_close($ch);
     }
     return $balance;
