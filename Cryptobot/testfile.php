@@ -126,20 +126,20 @@ echo "<BR>";
 //var_dump($newOrd);
 
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
-$obj = json_decode($brandNew, true);
-for ($x=0; $x<count($obj); $x++){
-    echo "<br> :".$obj[$x]["currencySymbol"];
-}
+//$obj = json_decode($brandNew, true);
+//for ($x=0; $x<count($obj); $x++){
+//    echo "<br> :".$obj[$x]["currencySymbol"];
+//}
 //}
 //var_dump($brandNew);
 
 
-$newAgain = getMinTrade($apisecret, 3);
-$json=json_decode( $newAgain );
+//newAgain = getMinTrade($apisecret, 3);
+//$json=json_decode( $newAgain );
 
 //var_dump($json);
 
-//getMinTradeAmount($apisecret);
+getMinTradeAmount($apisecret);
 
 ?>
 </html>
