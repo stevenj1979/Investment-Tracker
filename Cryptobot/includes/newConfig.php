@@ -561,7 +561,7 @@ function getMinTradeAmount($apisecret){
   $minTrade = getMinTrade($apisecret, 3);
   $obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
-  //$tradeArraySize = count($minTrade);
+  $tradeArraySize = count($obj);
   //print_r($minTrade);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
@@ -570,7 +570,7 @@ function getMinTradeAmount($apisecret){
     $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
 
     //for($y = 0; $y < $tradeArraySize; $y++) {
-    for ($y=0; $y<count($obj); $y++){
+    for ($y=0; $y<$tradeArraySize; $y++){
       if($obj['quoteCurrencySymbol']==$coin && $obj['baseCurrencySymbol']==$baseCurrency){
         $minTradeAmount = $obj['minTradeSize'];
         //return $minTradeAmount;
