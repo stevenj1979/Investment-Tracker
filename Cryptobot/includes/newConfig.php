@@ -171,12 +171,12 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
       $obj = json_decode($execResult, True);
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/markets/{".$symbol.'_'.$baseCurrency."}/summary";
+      $url = "https://api.bittrex.com/v3/markets/{".$symbol.'-'.$baseCurrency."}/summary";
       echo "<BR> $url";
       $method = "GET";
       $content = "";
       $subaccountId = "";
-      $contentHash = hash('sha512', $content);
+      $contentHash = hash('sha512',  $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
       $signature = hash_hmac('sha512', $preSign, $apisecret);
 
