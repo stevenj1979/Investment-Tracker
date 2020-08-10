@@ -134,7 +134,9 @@ echo "<BR> ".$brandNew[2]["currencySymbol"];
 
 $newAgain = getMinTrade($apisecret, 3);
 echo "<BR>";
-var_dump(json_decode($newAgain, true));
+foreach($newAgain as $trade){
+  echo "<BR> ".$trade["minTradeSize"];
+}
 
 getMinTradeAmount($apisecret);
 
