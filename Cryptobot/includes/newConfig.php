@@ -77,7 +77,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       //$balance = $obj["result"]["IsOpen"];
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/orders/{2663baf9-8c75-45de-a75f-6bc138f60caf}";
+      $url = "https://api.bittrex.com/v3/orders/{".$uuid."}";
       $method = "GET";
       $content = '';
       $subaccountId = "";
