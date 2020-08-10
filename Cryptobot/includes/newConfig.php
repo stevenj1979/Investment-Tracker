@@ -2810,26 +2810,24 @@ function setMobileVariables(){
   }
 }
 
-//function getCoinPriceMatchNames($userID = 0, $limit = ""){
-//  $conn = getSQLConn(rand(1,3));
-//  $whereClause = "";
-//  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
-//  // Check connection
-//  if ($conn->connect_error) {
-//      die("Connection failed: " . $conn->connect_error);
-//  }/
+function updateSQLQuantity($uuid, $quantity){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
 
-//  $sql = "SELECT `Name`,`CoinPriceMatchNameID` FROM `NewCoinPriceMatchSettingsView` $whereClause $limit";
-//  $result = $conn->query($sql);
-//  echo "<BR> $sql";
-//  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);/
-//  while ($row = mysqli_fetch_assoc($result)){
-//      $tempAry[] = Array($row['Name']);
-//  }
-//  $conn->close();
-//  return $tempAry;
-//}
+  $sql = "UPDATE `Transaction` SET `Amount` = $quantity WHERE `BittrexRef` = '$uuid'";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSQLQuantity: ".$sql, 'BuyCoin', 0);
+}
 
 function getCoinPriceMatchNames($userID, $table, $limit){
   $conn = getSQLConn(rand(1,3));

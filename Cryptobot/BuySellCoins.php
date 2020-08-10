@@ -537,6 +537,8 @@ while($completeFlag == False){
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+          //updateAmount $uuid  $resultOrd["result"]["Quantity"]
+          updateSQLQuantity($uuid,$resultOrd["result"]["Quantity"]);
           logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
