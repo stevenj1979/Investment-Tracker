@@ -562,7 +562,7 @@ function getMinTradeAmount($apisecret){
   $obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
-  print_r($obj);
+  //print_r($obj);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
   //echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
@@ -660,16 +660,40 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       $nonce=time();
       if ($versionNum == 1){
           $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+          $sign=hash_hmac('sha512',$uri,$apisecret);
+          $ch = curl_init($uri);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $execResult = curl_exec($ch);
+          $obj = json_decode($execResult, true);
+          $balance = $obj["result"]["Last"];
       }elseif ($versionNum == 3){
-        $uri='https://bittrex.com/api/v3/public/getticker?market='.$baseCoin.'-'.$coin;
+        $timestamp = time()*1000;
+        $url = "https://api.bittrex.com/v3/markets/{".$coin."-".$baseCoin."}/ticker";
+        $method = "GET";
+        $content = "";
+        $subaccountId = "";
+        $contentHash = hash('sha512', $content);
+        $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+        $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+        $headers = array(
+        "Accept: application/json",
+        "Content-Type: application/json",
+        "Api-Key: ".$apikey."",
+        "Api-Signature: ".$signature."",
+        "Api-Timestamp: ".$timestamp."",
+        "Api-Content-Hash: ".$contentHash.""
+        );
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        $balance = curl_exec($ch);
+        curl_close($ch);
       }
-      $sign=hash_hmac('sha512',$uri,$apisecret);
-      $ch = curl_init($uri);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      $execResult = curl_exec($ch);
-      $obj = json_decode($execResult, true);
-      $balance = $obj["result"]["Last"];
+
       return $balance;
 }
 

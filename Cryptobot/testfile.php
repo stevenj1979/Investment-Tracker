@@ -139,7 +139,9 @@ $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 
 //var_dump($json);
 
-getMinTradeAmount($apisecret);
+$newObj = bittrexCoinPrice($apikey, $apisecret, "USDT", "BTC", 3){
+
+var_dump($newObj);
 
 ?>
 </html>
