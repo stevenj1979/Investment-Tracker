@@ -126,9 +126,9 @@ echo "<BR>";
 //var_dump($newOrd);
 
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
-$obj = json_decode($brandNew);
-foreach($obj as $key=>$value){
-    echo $key . "=>" . $value . "<br>";
+$obj = json_decode($brandNew, true);
+for ($x=0; $x<count($obj); $x++){
+    echo $obj[$x][0];
 }
 //}
 var_dump($brandNew);
