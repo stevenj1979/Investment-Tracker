@@ -568,10 +568,10 @@ function getMinTradeAmount($apisecret){
   echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
   for ($x=0; $x<$coinsSize; $x++){
     $baseCurrency = $coins[$x][26]; $coin = $coins[$x][1]; $coinID = $coins[$x][0];
-    echo "<BR> COIN: $coin BASE: $baseCurrency ID: $coinID";
+    //echo "<BR> COIN: $coin BASE: $baseCurrency ID: $coinID";
     //for($y = 0; $y < $tradeArraySize; $y++) {
     for ($y=0; $y<$tradeArraySize; $y++){
-      echo "<BR> Symbol: ".$obj['quoteCurrencySymbol']." BASE: ".$obj['baseCurrencySymbol']." Trade: ".$obj['minTradeSize'];
+      //echo "<BR> Symbol: ".$obj[$y]['quoteCurrencySymbol']." BASE: ".$obj[$y]['baseCurrencySymbol']." Trade: ".$obj[$y]['minTradeSize'];
       if($obj[$y]['quoteCurrencySymbol']==$coin && $obj[$y]['baseCurrencySymbol']==$baseCurrency){
         $minTradeAmount = $obj[$y]['minTradeSize'];
         //return $minTradeAmount;
