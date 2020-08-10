@@ -98,8 +98,9 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      $obj = curl_exec($ch);
+      $execResult = curl_exec($ch);
       curl_close($ch);
+      $obj = json_decode($execResult, true);
     }
 
     return $obj;
@@ -193,8 +194,9 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      $obj = curl_exec($ch);
+      $execResult = curl_exec($ch);
       curl_close($ch);
+      $obj = json_decode($execResult, True);
     }
     return $obj;
 }
@@ -497,8 +499,10 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      $balance = curl_exec($ch);
+      $execResult = curl_exec($ch);
       curl_close($ch);
+      $balance = json_decode($execResult, true);
+      //$balance
     }
     return $balance;
 }
@@ -550,16 +554,17 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
       curl_setopt($ch, CURLOPT_POST, TRUE);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
-      $obj = curl_exec($ch);
+      $execResult = curl_exec($ch);
       curl_close($ch);
+      $obj = json_decode($execResult, true);
     }
 
     return $obj;
 }
 
 function getMinTradeAmount($apisecret){
-  $minTrade = getMinTrade($apisecret, 3);
-  $obj = json_decode($minTrade, true);
+  $obj = getMinTrade($apisecret, 3);
+  //$obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
   //print_r($obj);
@@ -649,6 +654,7 @@ function getMinTrade($apisecret, $versionNum){
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
     $obj = curl_exec($ch);
     curl_close($ch);
+    $obj = json_decode($obj,true);
   }
 
 
@@ -692,6 +698,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
         $balance = curl_exec($ch);
         curl_close($ch);
+        $balance = json_decode($balance, true);
       }
 
       return $balance;
@@ -1334,16 +1341,53 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
     $nonce=time();
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+        echo "<BR>$uri<BR>";
+        $sign=hash_hmac('sha512',$uri,$apisecret);
+        $ch = curl_init($uri);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
     }elseif ($versionNum == 3){
-      $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/orders";
+      $method = "POST";
+
+      $content = '{
+        "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
+        "direction": "SELL",
+        "type": "LIMIT",
+        "quantity": "'.$quant.'",
+        "limit": "'.$rate.'",
+        "timeInForce": "GOOD_TIL_CANCELLED",
+        "useAwards": "True"
+      }';
+
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      curl_setopt($ch, CURLOPT_POST, TRUE);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+      //$execResult = curl_exec($ch);
+
     }
 
-    echo "<BR>$uri<BR>";
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $execResult = curl_exec($ch);
+    curl_close($ch);
     $obj = json_decode($execResult, true);
     return $obj;
 }
@@ -1407,13 +1451,37 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
     $nonce=time();
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
-    }elseif ($versionNum == 3){
-      $uri='https://bittrex.com/api/v3/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
-    }
-    $sign=hash_hmac('sha512',$uri,$apisecret);
-    $ch = curl_init($uri);
+        $sign=hash_hmac('sha512',$uri,$apisecret);
+        $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    }elseif ($versionNum == 3){
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/orders/".$uuid;
+      $method = "DELETE";
+      $content = '';
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      curl_setopt($ch, CURLOPT_POST, TRUE);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+    }
+
     $execResult = curl_exec($ch);
     $obj = json_decode($execResult, true);
     $balance = $obj["success"];
