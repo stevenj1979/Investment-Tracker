@@ -127,8 +127,10 @@ echo "<BR>";
 
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 foreach($brandNew as $trade){
-  echo "<BR> ".$trade->currencySymbol;
-  echo "<BR> ".$trade->total;
+  //echo "<BR> ".$trade->currencySymbol;
+  //echo "<BR> ".$trade->total;
+  echo $trade->currencySymbol,'<br />';
+  echo $trade->total,'<br />';
 }
 //var_dump($brandNew);
 
