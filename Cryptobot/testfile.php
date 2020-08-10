@@ -117,15 +117,9 @@ $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
-$str1 = "8,8,8,8";
-$str2 = "24,24,24,24";
-$str3 = "0101,0001,0111,-1-1-11";
-$str4 = "3,3,3,3";
-$coinPricePatternList = getCoinPricePattenList();
+$resultOrd = bittrexOrder($apiKey, $apiSecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
 
-$sTest7 = newBuywithPattern("100-1",$coinPricePatternList,1,8,1);
-
-Echo "<BR> Test is :$sTest7";
+echo "<BR> Success = ".$resultOrd["success"]." CancelInitiated= ".$resultOrd["result"]["CancelInitiated"]." QTYRemaining= ".$resultOrd["result"]["QuantityRemaining"];
 
 ?>
 </html>

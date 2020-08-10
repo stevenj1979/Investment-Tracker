@@ -274,7 +274,7 @@ while($completeFlag == False){
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
-      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
+      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',1)), 8, '.', '');
       //echo "<br> buyAmountOverride($buyAmountOverrideEnabled)) $BTCAmount = $buyAmountOverride; Echo <BR> 13: BuyAmountOverride set to : $buyAmountOverride;";
       //echo "Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
       //echo "1: MarketCap buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled)<br>";
@@ -330,7 +330,7 @@ while($completeFlag == False){
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True && $test13 == True && $test14 == True){
         $date = date("Y-m-d H:i:s", time());
-        $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+        $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, 1);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         //if ($reservedAmount <> 0){
@@ -400,7 +400,7 @@ while($completeFlag == False){
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
-      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC')), 8, '.', '');
+      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',1)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
       $buyPrice = ($cost * $amount);
       $sellPrice = ($LiveCoinPrice * $amount);
@@ -479,7 +479,7 @@ while($completeFlag == False){
       }
       echo "<BR> NEXT RULE <BR>";
     } //Sell Rules
-    $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+    $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, 1);
     $buyPrice = ($cost * $amount);
     $sellPrice = ($LiveCoinPrice * $amount);
     $fee = (($LiveCoinPrice * $amount)/100)*0.25;
@@ -514,7 +514,7 @@ while($completeFlag == False){
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
     if ($liveCoinPriceBit != 0 && $cost != 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
     echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
-    $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid);
+    $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, 1);
 
     $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
     $orderQty = $resultOrd["result"]["Quantity"]; $orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
@@ -548,7 +548,7 @@ while($completeFlag == False){
         if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
           echo "<BR>CANCEL time exceeded! CANCELLING!";
           if ($orderQty == $orderQtyRemaining){
-             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
+             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,1);
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
                logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, $logToSQLSetting);
@@ -557,7 +557,7 @@ while($completeFlag == False){
                logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $logToSQLSetting);
              }
           }else{
-            $result = bittrexCancel($apiKey,$apiSecret,$uuid);
+            $result = bittrexCancel($apiKey,$apiSecret,$uuid,1);
             if ($result == 1){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created", $userID, $logToSQLSetting);
@@ -595,7 +595,7 @@ while($completeFlag == False){
           echo "<BR>days from sale! $daysOutstanding CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
             //complete sell update amount
-            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
+            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,1);
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
               logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $logToSQLSetting);
@@ -605,7 +605,7 @@ while($completeFlag == False){
               logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $cancelRslt", $userID, $logToSQLSetting);
             }
           }else{
-             $result = bittrexCancel($apiKey,$apiSecret,$uuid);
+             $result = bittrexCancel($apiKey,$apiSecret,$uuid,1);
              if ($result == 1){
                $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
                //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
@@ -631,7 +631,7 @@ while($completeFlag == False){
         if ($pctFromSale <= -3 or $pctFromSale >= 4){
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
-            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid);
+            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,1);
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
               logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID, $logToSQLSetting);
@@ -641,7 +641,7 @@ while($completeFlag == False){
               logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
             }
           }else{
-            $result = bittrexCancel($apiKey,$apiSecret,$uuid);
+            $result = bittrexCancel($apiKey,$apiSecret,$uuid,1);
             if ($result == 1){
               $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
               //sendtoSteven($transactionID,"QTYRemaining: ".$orderQtyRemaining."_QTYSold: ".$qtySold."_OrderQTY: ".$orderQty."_UUID: ".$uuid, "NewOrderNo: ".$newOrderNo."_OrderNo: ".$orderNo, "SELL - Less -2 Greater 2.5");

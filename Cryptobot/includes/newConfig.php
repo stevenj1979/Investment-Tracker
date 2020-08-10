@@ -63,9 +63,13 @@ function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit)
     logAction("updateSQLSold: ".$sql, 'BuySell', 0);
 }
 
-function bittrexOrder($apikey, $apisecret, $uuid){
+function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/account/getorder?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    if ($versionNum == 1){
+      $uri='https://bittrex.com/api/v1.1/account/getorder?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    }elseif ($versionNum == 3){
+      $uri='https://api.bittrex.com/v3/orders/?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    }
     echo "<br>$uri<br>";
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
@@ -129,10 +133,15 @@ function getTrackingSellCoins($userID = 0){
   $conn->close();
   return $tempAry;
 }
-function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency){
+function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionNum){
     $nonce=time();
     //$uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
-    $uri='https://bittrex.com/api/v1.1/public/getmarketsummary?market='.$baseCurrency.'-'.$symbol;
+    if ($versionNum == 1){
+      $uri='https://bittrex.com/api/v1.1/public/getmarketsummary?market='.$baseCurrency.'-'.$symbol;
+    }elseif ($versionNum == 3){
+      $uri='https://bittrex.com/api/v1.1/public/getmarketsummary?market='.$baseCurrency.'-'.$symbol;
+    }
+
     print_r($uri);
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
@@ -245,7 +254,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$noOfPurchases = 0){
-  $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
+  $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, 1);
 
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
@@ -266,7 +275,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,1)), 8, '.', '');
   }else{
     $bitPrice = $buyPriceCoin;
   }
@@ -285,7 +294,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   //echo "<BR> btcwithCharge $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);";
   //if ($btcBuyAmount > $minTradeAmount) {
     echo "buy Coin - Balance Sufficient";
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,1)), 8, '.', '');
     if ($CoinSellOffsetEnabled == 1){
 
       $bitPrice = number_format((float)newPrice($bitPrice,$CoinSellOffsetPct, "Buy"), 8, '.', '');
@@ -303,7 +312,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         if ($buyCoin){
           $btcBuyAmount = round($btcBuyAmount,10);
           $bitPrice = round($bitPrice,8);
-          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency);
+          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           $bittrexRef = $obj["result"]["uuid"];
           $status = $obj["success"];
@@ -407,9 +416,14 @@ function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $us
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
-function bittrexbalance($apikey, $apisecret, $base ){
+function bittrexbalance($apikey, $apisecret, $base, $versionNum){
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
+    if ($versionNum == 1){
+        $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
+    }elseif ($versionNum == 3){
+      $uri='https://bittrex.com/api/v3/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
+    }
+
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -420,10 +434,14 @@ function bittrexbalance($apikey, $apisecret, $base ){
     return $balance;
 }
 
-function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency){
+function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $versionNum){
     Echo "bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency)";
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+    if ($versionNum == 1){
+      $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+    }elseif ($versionNum == 3){
+      $uri='https://bittrex.com/api/v3/orders/NewOrder?apikey='.$apikey.'&marketSymbol='.$baseCurrency.'-'.$symbol.'&direction=BUY&type=LIMIT&quantity='.$quant.'&limit='.$rate.'&timeInForce=GOOD_TIL_CANCELLED&useAwards=TRUE&nonce='.$nonce;
+    }
     echo $uri."<BR>";
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
@@ -435,7 +453,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency){
 }
 
 function getMinTradeAmount($coin, $baseCurrency, $apisecret){
-  $minTradeSize = getMinTrade($apisecret);
+  $minTradeSize = getMinTrade($apisecret, 1);
   $tradeArraySize = count($minTradeSize['result']);
   //print_r($tradeArraySize);
   for($y = 0; $y < $tradeArraySize; $y++) {
@@ -447,10 +465,15 @@ function getMinTradeAmount($coin, $baseCurrency, $apisecret){
   }
 }
 
-function getMinTrade($apisecret){
+function getMinTrade($apisecret, $versionNum){
   $nonce=time();
   //$uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
-  $uri="https://bittrex.com/api/v1.1/public/getmarkets";
+  if ($versionNum == 1){
+      $uri="https://bittrex.com/api/v1.1/public/getmarkets";
+  }elseif ($versionNum == 3){
+    $uri="https://bittrex.com/api/v1.1/public/getmarkets";
+  }
+
   $sign=hash_hmac('sha512',$uri,$apisecret);
   $ch = curl_init($uri);
       curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -461,9 +484,13 @@ function getMinTrade($apisecret){
   return $obj;
 }
 
-function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
+function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       $nonce=time();
-      $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+      if ($versionNum == 1){
+          $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+      }elseif ($versionNum == 3){
+        $uri='https://bittrex.com/api/v3/public/getticker?market='.$baseCoin.'-'.$coin;
+      }
       $sign=hash_hmac('sha512',$uri,$apisecret);
       $ch = curl_init($uri);
           curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -1074,7 +1101,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $subject = "Coin Sale: ".$coin."_".$ruleID;
     $from = 'Coin Sale <sale@investment-tracker.net>';
     echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
-    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency);
+    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency, 1);
     Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
     $bittrexRef = $obj["result"]["uuid"];
@@ -1107,9 +1134,14 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   }
 }
 
-function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency){
+function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum){
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+    if ($versionNum == 1){
+        $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+    }elseif ($versionNum == 3){
+      $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
+    }
+
     echo "<BR>$uri<BR>";
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
@@ -1175,9 +1207,13 @@ function sendSellEmailDebug($to, $symbol, $amount, $cost, $orderNo, $score, $pro
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
-function bittrexCancel($apikey, $apisecret, $uuid){
+function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
     $nonce=time();
-    $uri='https://bittrex.com/api/v1.1/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    if ($versionNum == 1){
+        $uri='https://bittrex.com/api/v1.1/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    }elseif ($versionNum == 3){
+      $uri='https://bittrex.com/api/v3/market/cancel?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+    }
     $sign=hash_hmac('sha512',$uri,$apisecret);
     $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
