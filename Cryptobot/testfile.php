@@ -128,5 +128,10 @@ var_dump($newOrd);
 $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 echo "<BR>";
 var_dump($brandNew);
+
+$newAgain = getMinTrade($apisecret, 3);
+echo "<BR>";
+var_dump($newAgain);
+
 ?>
 </html>
