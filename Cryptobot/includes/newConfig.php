@@ -562,7 +562,7 @@ function getMinTradeAmount($apisecret){
   $obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
-  //print_r($minTrade);
+  print_r($obj);
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
   echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
