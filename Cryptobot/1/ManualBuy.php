@@ -79,7 +79,7 @@ if($_GET['buy'] == 'Yes'){
       displaySideColumn();
       displayMiddleColumn();
       setGlobalVars();
-      echo "<BR> DisplayCoinForm";
+      //echo "<BR> DisplayCoinForm";
       displayCoinForm();
       displayFarSideColumn();
       ?>&nbsp<?php
