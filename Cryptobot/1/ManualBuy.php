@@ -285,7 +285,7 @@ function setGlobalVars(){
 
     $apikey = $GLOBALS['apikey']; $apiSecret = $GLOBALS['apiSecret'] ; $baseCurrency = $GLOBALS['baseCurrency']; $KEK = $GLOBALS['KEK'];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$apiSecret);}
-    $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency);
+    $BTCBalance = bittrexbalance($apikey, $apiSecret,$baseCurrency,1);
     $cost = $GLOBALS['cost'];
 }
 
