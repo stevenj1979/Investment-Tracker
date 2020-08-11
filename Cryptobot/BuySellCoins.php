@@ -129,7 +129,10 @@ while($completeFlag == False){
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
       logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif ($pctProfit > 5 && $minsFromDate <= -5 Or $minsFromDate <= -500){
+    }elseif ($pctProfit > 5 && $minsFromDate <= -5 ){
+      closeNewTrackingCoin($newTrackingCoinID);
+      logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
+    }elseif($minsFromDate <= -300){
       closeNewTrackingCoin($newTrackingCoinID);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
