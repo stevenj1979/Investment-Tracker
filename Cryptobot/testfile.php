@@ -117,15 +117,15 @@ $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
-$resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
+//$resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
 
 //var_dump($resultOrd);
 
-$newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
+//$newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
 echo "<BR>";
 //var_dump($newOrd);
 
-$brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
+//$brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 //$obj = json_decode($brandNew, true);
 //for ($x=0; $x<count($obj); $x++){
 //    echo "<br> :".$obj[$x]["currencySymbol"];
@@ -139,9 +139,13 @@ $brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
 
 //var_dump($json);
 
-$newObj = bittrexCoinPrice($apikey, $apisecret, "BTC","USDT", 3);
+//$newObj = bittrexCoinPrice($apikey, $apisecret, "USDT", "BTC", 3);
 
-var_dump($newObj);
+//var_dump($newObj);
+
+bittrexbuy($apikey, $apisecret, 'BTC', 0.01, 15853.58599999,'USDT', 3);
+
+
 
 ?>
 </html>
