@@ -143,9 +143,9 @@ echo "<BR>";
 
 //var_dump($newObj);
 
-bittrexbuy($apikey, $apisecret, 'BTC', 0.01, 15853.58599999,'USDT', 3);
+//bittrexbuy($apikey, $apisecret, 'BTC', 0.01, 15853.58599999,'USDT', 3);
 
-
+bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
 
 ?>
 </html>

@@ -533,7 +533,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
         "timeInForce": "GOOD_TIL_CANCELLED",
         "useAwards": "True"
       }';
-
+      echo "<BR>".$content;
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
@@ -1361,7 +1361,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
         "timeInForce": "GOOD_TIL_CANCELLED",
         "useAwards": "True"
       }';
-
+      echo "<BR>".$content;
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
