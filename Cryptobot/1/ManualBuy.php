@@ -78,6 +78,7 @@ if(isset($_GET['buy'])){
       displaySideColumn();
       displayMiddleColumn();
       setGlobalVars();
+      echo "<BR> DisplayCoinForm";
       displayCoinForm();
       displayFarSideColumn();
       ?>&nbsp<?php
