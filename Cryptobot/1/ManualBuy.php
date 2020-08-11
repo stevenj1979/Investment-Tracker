@@ -244,7 +244,7 @@ VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), 
   header('Location: BuyCoins.php');
 }
 
-if (!empty($_GET['buy'])){
+if (!empty($_POST['buy'])){
   displayCoinForm();
 }
 
