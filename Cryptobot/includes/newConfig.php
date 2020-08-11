@@ -2632,14 +2632,19 @@ function setNewTrackingPrice($coinPrice, $ID){
   logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
 }
 
-function closeNewTrackingCoin($ID){
+function closeNewTrackingCoin($ID, $deleteFlag = False){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
+  if ($deleteFlag == True){
+    $updateSQL = "DELETE from `TrackingCoins` ";
+  }else{
+    $updateSQL = "UPDATE `TrackingCoins` SET `Status` = 'Closed' ";
+  }
 
-  $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' WHERE `ID` = $ID";
+  $sql = "$updateSQL WHERE `ID` = $ID";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
