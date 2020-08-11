@@ -59,7 +59,8 @@ google.setOnLoadCallback(drawVisualization);
 <Body><?php
 //getUrlVars()["coin"]
 
-if($_GET['buy'] <> ""){
+if(isset($_GET['buy'])){
+//if($_GET[''] <> "" && $_GET['buy'] == 'Yes'){
   //collect values from the url
   $userConfig = getUserConfig($_SESSION['ID']);
   $btcBuyAmount = $userConfig[0][4];
@@ -83,7 +84,8 @@ if($_GET['buy'] <> ""){
       displayFooter();
 }
 
-if($_GET['track'] <> ""){
+if(isset($_GET['track'])){
+//if($_GET['track'] <> "" && $_GET['track'] = 'Yes'){
   //collect values from the url
   $userConfig = getUserConfig($_SESSION['ID']);
   $btcBuyAmount = $userConfig[0][4];
@@ -243,10 +245,7 @@ VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), 
   }
   header('Location: BuyCoins.php');
 }
-echo "<br> ".$_GET['buy'];
-if($_GET['buy'] <> ""){
-  displayCoinForm();
-}
+
 
 
 function getUserConfig($userID){
