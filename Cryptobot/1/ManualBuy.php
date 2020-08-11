@@ -58,7 +58,7 @@ google.setOnLoadCallback(drawVisualization);
 </script>
 <Body><?php
 //getUrlVars()["coin"]
-
+echo "<BR> isset Buy ".$_GET['buy'];
 if(isset($_GET['buy'])){
 //if($_GET[''] <> "" && $_GET['buy'] == 'Yes'){
   //collect values from the url
@@ -84,6 +84,7 @@ if(isset($_GET['buy'])){
       displayFooter();
 }
 
+echo "<BR> isset track ".$_GET['track'];
 if(isset($_GET['track'])){
 //if($_GET['track'] <> "" && $_GET['track'] = 'Yes'){
   //collect values from the url
@@ -105,6 +106,7 @@ if(isset($_GET['track'])){
   addTrackingCoin($coinID, $cost, $userID, $baseCurrency, 1, 1, $btcBuyAmount, 9999, 0, 0, 1, 90, 22 , 0);
 }
 
+echo "<BR> isset alert ".$_GET['alert'];
 if($_GET['alert'] <> ""){
   displayHeader(3);
   displaySideColumn();
@@ -117,6 +119,7 @@ if($_GET['alert'] <> ""){
   displayFooter();
 }
 
+echo "<BR> isset coinAltTxt ".$_POST['coinAltTxt'];
 if(isset($_POST['coinAltTxt'])){
 
     date_default_timezone_set('Asia/Dubai');
