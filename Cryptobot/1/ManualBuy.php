@@ -59,7 +59,7 @@ google.setOnLoadCallback(drawVisualization);
 <Body><?php
 //getUrlVars()["coin"]
 echo "<BR> isset Buy ".$_GET['buy'];
-if(isset($_GET['buy'])){
+if($_GET['buy'] == 'Yes'){
 //if($_GET[''] <> "" && $_GET['buy'] == 'Yes'){
   //collect values from the url
   Echo "<BR< HERE1";
