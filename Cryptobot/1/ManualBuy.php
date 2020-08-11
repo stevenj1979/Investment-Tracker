@@ -62,6 +62,7 @@ echo "<BR> isset Buy ".$_GET['buy'];
 if(isset($_GET['buy'])){
 //if($_GET[''] <> "" && $_GET['buy'] == 'Yes'){
   //collect values from the url
+  Echo "<BR< HERE1";
   $userConfig = getUserConfig($_SESSION['ID']);
   $btcBuyAmount = $userConfig[0][4];
   $coinStats = getCoinStats($_GET['coin']);
