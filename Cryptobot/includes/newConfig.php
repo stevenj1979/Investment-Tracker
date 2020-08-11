@@ -389,9 +389,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
         }
     }else{
-      echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0];
-      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0]." && $BTCBalance >= $buyMin", 'BuySell', 0);
-      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0]." && $BTCBalance >= $buyMin", $userID);
+      echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0];
+      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", 'BuySell', 0);
+      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", $userID);
     }
   //}
 }
