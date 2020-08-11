@@ -243,7 +243,7 @@ VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), 
   }
   header('Location: BuyCoins.php');
 }
-
+echo "<br> ".$_GET['buy'];
 if($_GET['buy'] <> ""){
   displayCoinForm();
 }
