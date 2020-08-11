@@ -248,7 +248,7 @@ VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), 
     $conn->close();
     logToSQL("Manual Buy", "Buy Coin with Bypass: $bitPrice $btcBuyAmount $orderNo", $userID);
   }
-  header('Location: BuyCoins.php');
+  //header('Location: BuyCoins.php');
 }
 
 
