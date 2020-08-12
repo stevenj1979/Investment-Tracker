@@ -175,7 +175,7 @@ echo "<BR>";
 //echo "<BR> volume: ".$statsTest['volume'];
 //echo "<BR> percentChange: ".$statsTest['percentChange'];
 
-$balTest = bittrexbalance($apikey, $apisecret, 'USDT', 3);
+$balTest = bittrexbalance($apikey, $apisecret, 'BTC', 3);
 echo "<BR> total: ".$balTest['total'];
 
 
