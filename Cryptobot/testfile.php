@@ -169,6 +169,11 @@ echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
 //echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
 //echo "<BR> commission: ".$getOrderTest['commission'];
 
+//$statsTest = bittrexCoinStats($apikey, $apisecret, 'BTC', 'USDT', 3);
+//echo "<BR> high: ".$statsTest['high'];
+//echo "<BR> low: ".$statsTest['low'];
+//echo "<BR> volume: ".$statsTest['volume'];
+//echo "<BR> percentChange: ".$statsTest['percentChange'];
 
 ?>
 </html>
