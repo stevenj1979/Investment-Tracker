@@ -160,7 +160,9 @@ echo "<BR>";
 //echo "<BR> status: ".$sellTest['status'];
 
 $cancelTest = bittrexCancel($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
-echo "<BR> ID: ".$cancelTest['status'];
+echo "<BR> Status: ".$cancelTest['status'];
+echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
+
 
 //$getOrderTest = bittrexOrder($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
 //echo "<BR> status: ".$getOrderTest['status'];
