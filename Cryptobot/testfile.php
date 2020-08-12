@@ -175,5 +175,10 @@ echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
 //echo "<BR> volume: ".$statsTest['volume'];
 //echo "<BR> percentChange: ".$statsTest['percentChange'];
 
+//$balTest = bittrexbalance($apikey, $apisecret, 'USDT', 3);
+//echo "<BR> total: ".$balTest['total'];
+
+
+
 ?>
 </html>
