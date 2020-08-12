@@ -397,7 +397,7 @@ while($completeFlag == False){
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
       $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
       $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45]; $autoSellCoinEnabled = $sellRules[$z][46];
-      $fallsInPrice = = $sellRules[$z][47];
+      $fallsInPrice = $sellRules[$z][47];
       //$profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
       //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
