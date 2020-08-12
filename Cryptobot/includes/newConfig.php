@@ -1466,6 +1466,7 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
       $url = "https://api.bittrex.com/v3/orders/{".$uuid."}";
       echo "<BR>".$url;
       $method = str_replace(".","","D.ELETE");
+      echo "<BR>".$method;
       $content = '';
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
