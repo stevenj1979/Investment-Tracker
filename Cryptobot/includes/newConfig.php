@@ -481,7 +481,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
         $balance = $obj["result"]["Available"];
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/balances";
+      $url = "https://api.bittrex.com/v3/balances/{".$base."}";
       $method = "GET";
       $content = "";
       $subaccountId = "";
