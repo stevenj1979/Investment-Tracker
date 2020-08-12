@@ -159,15 +159,16 @@ echo "<BR>";
 //echo "<BR> commission: ".$sellTest['commission'];
 //echo "<BR> status: ".$sellTest['status'];
 
-$getOrderTest = bittrexOrder($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
-echo "<BR> status: ".$getOrderTest['status'];
-echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
-echo "<BR> commission: ".$getOrderTest['commission'];
+//$getOrderTest = bittrexOrder($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
+//echo "<BR> status: ".$getOrderTest['status'];
+//echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
+//echo "<BR> commission: ".$getOrderTest['commission'];
 
 $cancelTest = bittrexCancel($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
 echo "<BR> Status: ".$cancelTest['status'];
 echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
-
+echo "<BR> quantity: ".$cancelTest['quantity'];
+echo "<BR> id: ".$cancelTest['orderToCancel']["id"];
 
 //$statsTest = bittrexCoinStats($apikey, $apisecret, 'BTC', 'USDT', 3);
 //echo "<BR> high: ".$statsTest['high'];
