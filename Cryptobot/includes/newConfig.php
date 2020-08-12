@@ -1458,9 +1458,13 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
         $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $execResult = curl_exec($ch);
+        $obj = json_decode($execResult, true);
+        $balance = $obj["success"];
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders/".$uuid;
+      echo "<BR>".$url;
       $method = "DELETE";
       $content = '';
       $subaccountId = "";
@@ -1483,11 +1487,9 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
       curl_setopt($ch, CURLOPT_POST, TRUE);
       curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+      $execResult = curl_exec($ch);
+      $balance = json_decode($execResult, true);
     }
-
-    $execResult = curl_exec($ch);
-    $obj = json_decode($execResult, true);
-    $balance = $obj["success"];
     return $balance;
 }
 
