@@ -1463,7 +1463,7 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
         $balance = $obj["success"];
     }elseif ($versionNum == 3){
       $timestamp = time()*1000;
-      $url = "https://api.bittrex.com/v3/orders/".$uuid;
+      $url = "https://api.bittrex.com/v3/orders/{".$uuid."}";
       echo "<BR>".$url;
       $method = str_replace(".","","D.ELETE");
       echo "<BR>".$method;
