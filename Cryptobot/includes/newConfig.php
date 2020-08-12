@@ -2655,10 +2655,10 @@ function closeNewTrackingCoin($ID, $deleteFlag = False){
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      //echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("closeNewTrackingCoin: ".$sql, 'TrackingCoins', 0);
+  logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
 }
 
 function updateTrackingCoinToMerge($ID, $noOfPurchases){

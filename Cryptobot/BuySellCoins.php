@@ -105,7 +105,7 @@ while($completeFlag == False){
     $trackCounter = initiateAry($trackCounter,$userID);
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     if ($noOfBuys == $trackCounter[$userID]){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID];continue;
-    }else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    }//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
