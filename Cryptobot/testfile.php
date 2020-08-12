@@ -143,11 +143,30 @@ echo "<BR>";
 
 //var_dump($newObj);
 
-bittrexbuy($apikey, $apisecret, 'BCH', 0.4, 288.0,'USDT', 3);
+//$buyTest = bittrexbuy($apikey, $apisecret, 'BCH', 0.4, 288.0,'USDT', 3);
 
-//bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
+//echo "<BR> ID: ".$buyTest['id'];
+//echo "<BR> quantity: ".$buyTest['quantity'];
+//echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
+//echo "<BR> commission: ".$buyTest['commission'];
+//echo "<BR> status: ".$buyTest['status'];
 
-//bittrexCancel($apikey, $apisecret, $uuid, 3);
+
+$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
+echo "<BR> ID: ".$sellTest['id'];
+echo "<BR> quantity: ".$sellTest['quantity'];
+echo "<BR> fillQuantity: ".$sellTest['fillQuantity'];
+echo "<BR> commission: ".$sellTest['commission'];
+echo "<BR> status: ".$sellTest['status'];
+
+//$cancelTest = bittrexCancel($apikey, $apisecret, $uuid, 3);
+//echo "<BR> ID: ".$cancelTest['status'];
+
+//$getOrderTest = bittrexOrder($apikey, $apisecret, $uuid, 3);
+//echo "<BR> status: ".$getOrderTest['status'];
+//echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
+//echo "<BR> commission: ".$getOrderTest['commission'];
+
 
 ?>
 </html>
