@@ -197,6 +197,7 @@ while($completeFlag == False){
 
   echo "<BR> BUY COINS!! ";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
+  $userProfit = getTotalProfit();
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -228,6 +229,7 @@ while($completeFlag == False){
       $Email = $buyRules[$y][28]; $UserName = $buyRules[$y][29]; $APIKey = $buyRules[$y][30];
       $APISecret = $buyRules[$y][31]; $coinPricePatternEnabled = $buyRules[$y][61]; $coinPricePattern = $buyRules[$y][62];
       $Hr1ChangeTrendEnabled = $buyRules[$y][63]; $Hr1ChangeTrend = $buyRules[$y][64]; $risesInPrice = $buyRules[$y][65];
+      $totalProfitPauseEnabled = $buyRules[$y][66]; $totalProfitPause = $buyRules[$y][67];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -248,6 +250,8 @@ while($completeFlag == False){
       //echo "<BR> Disable Until $disableUntil";
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
+      $profitNum = findUserProfit($userProfit,$userID);
+      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){ echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause "; continue;}
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
