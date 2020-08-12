@@ -152,20 +152,20 @@ echo "<BR>";
 //echo "<BR> status: ".$buyTest['status'];
 
 
-$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
-echo "<BR> ID: ".$sellTest['id'];
-echo "<BR> quantity: ".$sellTest['quantity'];
-echo "<BR> fillQuantity: ".$sellTest['fillQuantity'];
-echo "<BR> commission: ".$sellTest['commission'];
-echo "<BR> status: ".$sellTest['status'];
+//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
+//echo "<BR> ID: ".$sellTest['id'];
+//echo "<BR> quantity: ".$sellTest['quantity'];
+//echo "<BR> fillQuantity: ".$sellTest['fillQuantity'];
+//echo "<BR> commission: ".$sellTest['commission'];
+//echo "<BR> status: ".$sellTest['status'];
 
 //$cancelTest = bittrexCancel($apikey, $apisecret, $uuid, 3);
 //echo "<BR> ID: ".$cancelTest['status'];
 
-//$getOrderTest = bittrexOrder($apikey, $apisecret, $uuid, 3);
-//echo "<BR> status: ".$getOrderTest['status'];
-//echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
-//echo "<BR> commission: ".$getOrderTest['commission'];
+$getOrderTest = bittrexOrder($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
+echo "<BR> status: ".$getOrderTest['status'];
+echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
+echo "<BR> commission: ".$getOrderTest['commission'];
 
 
 ?>
