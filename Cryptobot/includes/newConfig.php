@@ -678,7 +678,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
           $balance = $obj["result"]["Last"];
       }elseif ($versionNum == 3){
         $timestamp = time()*1000;
-        $url = "https://api.bittrex.com/v3/markets/".$baseCoin."-".$coin."/ticker";
+        $url = "https://api.bittrex.com/v3/markets/".$coin."-".$baseCoin."/ticker";
         echo "<BR>".$url;
         $method = "GET";
         $content = "";
