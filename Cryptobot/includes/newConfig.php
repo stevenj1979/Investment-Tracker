@@ -306,8 +306,8 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$noOfPurchases = 0){
-  $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, 1);
-
+  $apiVersion = 1;
+  $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
   elseif ($baseCurrency == 'ETH'){ $buyMin = 0.148;}
@@ -327,7 +327,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,1)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,$apiVersion)), 8, '.', '');
   }else{
     $bitPrice = $buyPriceCoin;
   }
@@ -346,7 +346,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   //echo "<BR> btcwithCharge $btcwithCharge = $btcBuyAmount - (($btcBuyAmount/100)*0.28);";
   //if ($btcBuyAmount > $minTradeAmount) {
     echo "buy Coin - Balance Sufficient";
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,1)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,$apiVersion)), 8, '.', '');
     if ($CoinSellOffsetEnabled == 1){
 
       $bitPrice = number_format((float)newPrice($bitPrice,$CoinSellOffsetPct, "Buy"), 8, '.', '');
@@ -364,10 +364,13 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         if ($buyCoin){
           $btcBuyAmount = round($btcBuyAmount,10);
           $bitPrice = round($bitPrice,8);
-          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,1);
+          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
-          $bittrexRef = $obj["result"]["uuid"];
-          $status = $obj["success"];
+          if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
+          else{$bittrexRef = $obj["id"];
+            if ($obj['status'] == 'Open'){$status = 1; }else{$status = 0;} }
+
+
           if ($status == 1){
             echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo);";
             date_default_timezone_set('Asia/Dubai');
