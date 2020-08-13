@@ -504,8 +504,8 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
       $execResult = curl_exec($ch);
       curl_close($ch);
-      $balance = json_decode($execResult, true);
-      //$balance
+      $temp = json_decode($execResult, true);
+      $balance = $temp['total'];
     }
     return $balance;
 }
@@ -701,7 +701,8 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
         $balance = curl_exec($ch);
         curl_close($ch);
-        $balance = json_decode($balance, true);
+        $temp = json_decode($balance, true);
+        $balance = $temp
       }
 
       return $balance;
