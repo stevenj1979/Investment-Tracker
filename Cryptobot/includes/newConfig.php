@@ -1465,7 +1465,7 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders/{".$uuid."}";
       echo "<BR>".$url;
-      $method = str_replace(".","","D.ELETE");
+      $method = "DELETE";
       echo "<BR>".$method;
       $content = '';
       $subaccountId = "";
@@ -1473,22 +1473,39 @@ function bittrexCancel($apikey, $apisecret, $uuid, $versionNum){
       $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
       $signature = hash_hmac('sha512', $preSign, $apisecret);
 
-      $headers = array(
+      //$headers = array(
+      //"Accept: application/json",
+      //"Content-Type: application/json",
+      //"Api-Key: ".$apikey."",
+      //"Api-Signature: ".$signature."",
+      //"Api-Timestamp: ".$timestamp."",
+      //"Api-Content-Hash: ".$contentHash.""
+      //);
+
+      $curl = curl_init();
+
+      curl_setopt_array($curl, array(
+      CURLOPT_URL => "".$url,
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "DELETE",
+      CURLOPT_HTTPHEADER => array(
       "Accept: application/json",
-      "Content-Type: application/json",
       "Api-Key: ".$apikey."",
       "Api-Signature: ".$signature."",
       "Api-Timestamp: ".$timestamp."",
       "Api-Content-Hash: ".$contentHash.""
-      );
+      ),
+      ));
 
-      $ch = curl_init($url);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      curl_setopt($ch, CURLOPT_POST, TRUE);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
-      $execResult = curl_exec($ch);
+      $execResult = curl_exec($curl);
+
+      curl_close($curl);
+      //echo $response;
       $balance = json_decode($execResult, true);
     }
     return $balance;
