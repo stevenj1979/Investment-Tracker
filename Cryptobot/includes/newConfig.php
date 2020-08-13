@@ -679,6 +679,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       }elseif ($versionNum == 3){
         $timestamp = time()*1000;
         $url = "https://api.bittrex.com/v3/markets/".$baseCoin."-".$coin."/ticker";
+        echo "<BR>".$url;
         $method = "GET";
         $content = "";
         $subaccountId = "";
