@@ -1296,6 +1296,7 @@ function buyAmountOverride($buyAmountOverrideEnabled){
 }
 
 function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
+  $apiVersion = 1;
   echo "<BR>$apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost";
   $subject = "Coin Alert: ".$coin."_".$ruleID;
   $from = 'Coin Alert <alerts@investment-tracker.net>';
@@ -1312,13 +1313,15 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $subject = "Coin Sale: ".$coin."_".$ruleID;
     $from = 'Coin Sale <sale@investment-tracker.net>';
     echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
-    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency, 1);
-    Echo "<br>Here2";
+    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency, $apiVersion);
+    //Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
-    $bittrexRef = $obj["result"]["uuid"];
-    echo "<BR>BITTREXREF: $bittrexRef";
-    $status = $obj["success"];
-    echo "<br> STATUS: $status";
+    if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"]; $status = $obj["success"]; }
+    else{$bittrexRef = $obj["id"]; if ($obj["status"] == 'Open'){$status = 1;}else{$status = 0;}}
+
+    //echo "<BR>BITTREXREF: $bittrexRef";
+
+    //echo "<br> STATUS: $status";
     if ($status == 1){
       //$totalBTC = getTotalLimit($userID);
       Echo "<br>Here3";
