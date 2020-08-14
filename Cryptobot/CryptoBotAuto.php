@@ -78,6 +78,7 @@ echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
 $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;
 $bitPrice = 0.00;
+$apiVersion = 1;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $firstTimeFlag = True;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
@@ -129,7 +130,7 @@ while($date <= $newTime){
       update7DPriceChange($price7Day[0][0],$coinID);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,1);
-      $coinVolData = getVolumeStats($bittrexStats);
+      $coinVolData = getVolumeStats($bittrexStats, $apiVersion);
       BittrexStatstoSQL($coinID, $coinVolData[0][0],$coinVolData[0][1],$coinVolData[0][2]);
       //logAction("BittrexStatstoSQL($coinID, ".$coinVolData[0][0].",".$coinVolData[0][1].",".$coinVolData[0][2].")",'CMC');
       //copyCoinVolume($coinID, $coinVolData[0][0]);
