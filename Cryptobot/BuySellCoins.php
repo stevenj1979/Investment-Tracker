@@ -198,6 +198,7 @@ while($completeFlag == False){
   echo "<BR> BUY COINS!! ";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
+  echo "<BR> Coin Length: $coinLength";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
