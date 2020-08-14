@@ -213,6 +213,7 @@ while($completeFlag == False){
     //LOG
     //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
     //echo "<blockquote>";
+    echo "<BR> Rule Length: $buyRulesSize";
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
