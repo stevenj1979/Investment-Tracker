@@ -229,7 +229,8 @@ while($completeFlag == False){
       $Email = $buyRules[$y][28]; $UserName = $buyRules[$y][29]; $APIKey = $buyRules[$y][30];
       $APISecret = $buyRules[$y][31]; $coinPricePatternEnabled = $buyRules[$y][61]; $coinPricePattern = $buyRules[$y][62];
       $Hr1ChangeTrendEnabled = $buyRules[$y][63]; $Hr1ChangeTrend = $buyRules[$y][64]; $risesInPrice = $buyRules[$y][65];
-      $totalProfitPauseEnabled = $buyRules[$y][66]; $totalProfitPause = $buyRules[$y][67];
+      $totalProfitPauseEnabled = $buyRules[$y][66]; $totalProfitPause = $buyRules[$y][67]; $rulesPauseEnabled = $buyRules[$y][68];
+      $rulesPause = $buyRules[$y][69]; $rulesPauseHours = $buyRules[$y][70];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -251,7 +252,13 @@ while($completeFlag == False){
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
       $profitNum = findUserProfit($userProfit,$userID);
-      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){ echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause "; continue;}
+      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
+        if ($rulesPauseEnabled == 1){
+          echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
+          pauseRule($pauseRules);
+        }
+        echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
+        continue;}
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
@@ -538,7 +545,7 @@ while($completeFlag == False){
 
       $orderQtyRemaining = $orderQty-$qtySold;
       if ($resultOrd["status"] == 'Open'){$status = 1;$cancelInit = 1;$orderIsOpen = 1;}else{$status = 0; $cancelInit = 0;$orderIsOpen = 0;}
-      
+
     }
 
 
