@@ -257,7 +257,7 @@ while($completeFlag == False){
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
         if ($rulesPauseEnabled == 1){
           echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
-          pauseRule($pauseRules);
+          pauseRule($pauseRules, $rulesPauseHours);
         }
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}

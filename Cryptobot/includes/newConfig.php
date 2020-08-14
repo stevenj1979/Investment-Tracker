@@ -3239,14 +3239,14 @@ function findUserProfit($userProfit, $userID){
   }
 }
 
-function pauseRule($id){
+function pauseRule($id, $hours){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `BuyRules` SET `DisableUntil`= CONVERT_TZ(DATE_ADD(now(),interval 2 hour) ,'-08:00','+04:00')
+  $sql = "UPDATE `BuyRules` SET `DisableUntil`= CONVERT_TZ(DATE_ADD(now(),interval $hours hour) ,'-08:00','+04:00')
           WHERE `ID` in ($id)";
 
   print_r($sql);
