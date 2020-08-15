@@ -254,7 +254,7 @@ foreach ($bittrexBals as $value){
       Echo $value["available"];
       echo "<BR>";
       $price = bittrexCoinPrice($apikey,$apisecret,'USDT',$value["currencySymbol"], 3);
-      echo "Update BittrexBal: ".$value["currencySymbol"]." : "$value["total"]." : ".$price;
+      echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
     }
 }
 
