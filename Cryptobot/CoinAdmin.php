@@ -253,7 +253,11 @@ foreach ($bittrexBals as $value){
       Echo $value["total"];
       Echo $value["available"];
       echo "<BR>";
-      $price = bittrexCoinPrice($apikey,$apisecret,'USDT',$value["currencySymbol"], 3);
+      if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';}
+      elseif ($value["currencySymbol"] == 'BNT' or $value["currencySymbol"] == 'MANA' or $value["currencySymbol"] == 'MONA' or $value["currencySymbol"] == 'PAY'
+      or $value["currencySymbol"] == 'REPV2' or $value["currencySymbol"] == 'STEEM' or $value["currencySymbol"] == 'STRAT' ){$base = 'BTC';}
+      else { $base = 'USDT'; }
+      $price = bittrexCoinPrice($apikey,$apisecret,$base,$value["currencySymbol"], 3);
       echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
       updateBittrexBalances($value["currencySymbol"],$value["total"],$price);
     }
