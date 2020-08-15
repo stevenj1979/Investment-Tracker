@@ -251,7 +251,7 @@ for ($h=0; $h<$bittrexBalsSize; $h++){
     Echo $bittrexBals[$h][0];
     Echo $bittrexBals[$h][1];
     Echo $bittrexBals[$h][2];
-    echo "<BR>;"
+    echo "<BR>";
 }
 
 ?>
