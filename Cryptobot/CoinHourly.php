@@ -24,11 +24,11 @@ Group by `CoinID`,`UserID`";
 
 }
 
-function UpdateMerge($ID){
+function UpdateMerge($coinID,$userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `ID` = $ID";
+  $sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `CoinID` = $coinID and `UserID` = $userID and `Status` = 'Open'";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -48,7 +48,7 @@ for ($g=0; $g<$transStatsSize; $g++){
   $ID = $transStats[$g][4];
   if ($count>=2 && $mergeAllCoinsDaily == 1){
     //Update merge for $ID
-    UpdateMerge($ID);
+    UpdateMerge($coinID,$userID);
   }
 }
 
