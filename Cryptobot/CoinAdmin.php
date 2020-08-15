@@ -131,7 +131,7 @@ function getSequenceData(){
   $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder` FROM `SellRules` order by `UserID`,`CoinOrder` asc ";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['Sequence']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['CoinOrder']);}
   $conn->close();
   return $tempAry;
 }
