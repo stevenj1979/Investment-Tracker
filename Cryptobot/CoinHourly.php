@@ -11,7 +11,7 @@ function getTransStats(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `Tr`.`CoinID`,`Tr`.`UserID`, count(`Tr`.`CoinID`), `Usc`.`MergeAllCoinsDaily`, `Tr`.`ID`
+  $sql = "SELECT `Tr`.`CoinID`,`Tr`.`UserID`, count(`Tr`.`CoinID`) as Count, `Usc`.`MergeAllCoinsDaily`, `Tr`.`ID`
 FROM `Transaction` `Tr`
 join `UserConfig` `Usc` on `Usc`.`UserID` = `Tr`.`UserID`
 WHERE `Status` = 'Open'
