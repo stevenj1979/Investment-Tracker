@@ -102,10 +102,11 @@ while($completeFlag == False){
     $minsFromDate = $newTrackingCoins[$a][24]; $noOfPurchases = $newTrackingCoins[$a][25]; $noOfRisesInPrice = $newTrackingCoins[$a][26]; $totalRisesInPrice = $newTrackingCoins[$a][27];
     $disableUntil = $newTrackingCoins[$a][28]; $noOfBuys = $newTrackingCoins[$a][29]; $originalPrice = $newTrackingCoins[$a][30];
     $risesInPrice = $newTrackingCoins[$a][31];
-    $trackCounter = initiateAry($trackCounter,$userID);
+    $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
+    $trackCounter = initiateAry($trackCounter,$userID."-Total");
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
-    if ($noOfBuys == $trackCounter[$userID]){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID];continue;
-    }//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
@@ -114,7 +115,8 @@ while($completeFlag == False){
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit", $userID, $logToSQLSetting, $logToSQLSetting);
         closeNewTrackingCoin($newTrackingCoinID);
         logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
-        $trackCounter[$userID] = $trackCounter[$userID] + 1;
+        $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
+        $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
       }else{
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
@@ -246,7 +248,8 @@ while($completeFlag == False){
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];//$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
-      $buyCounter = initiateAry($buyCounter,$userID);
+      $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
+      $buyCounter = initiateAry($buyCounter,$userID."-Total");
       //if ($userID != ){ continue; }
       //echo "<BR> BUYCOINOFFSET Enabled: $CoinSellOffsetEnabled  - BUYCoinOffsetPct: $CoinSellOffsetPct";
       //echo "<BR> Buy PATTERN Enabled: $priceTrendEnabled - Buy Rule: $price4TrendTrgt : $price3TrendTrgt : $lastPriceTrendTrgt : $livePriceTrendTrgt";
@@ -286,8 +289,10 @@ while($completeFlag == False){
       //  }
       }
 
-      if ($noOfBuys == $buyCounter[$userID] && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID];continue;
-      }else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$buyCounter[$userID];}
+      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID];continue;
+      }else{ Echo "<BR> Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID];}
+      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"];continue;
+      }else{ Echo "<BR> Number of Total Buys: $noOfBuys BuyCounter ".$buyCounter[$userID."-Total"];}
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
@@ -361,7 +366,8 @@ while($completeFlag == False){
           addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice);
           //logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
           logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0);", $userID, $logToSQLSetting);
-          $buyCounter[$userID] = $buyCounter[$userID] + 1;
+          $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
+          $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
         }
       }
 
