@@ -165,6 +165,20 @@ function updateFixSellRule($newFixRule, $transactionID){
     $conn->close();
 }
 
+function updateBittrexBalances($symbol, $total, $price){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "Call AddBittrexBal($symbol,$total,$price);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
 function checkSellSequence(){
   //get sell sequesnce info
   //get all open trans
@@ -227,6 +241,18 @@ coinHistory(10);
 DeleteHistory(96);
 checkSellSequence();
 $apisecret=getAPISecret();
+$apikey=getAPIKey();
 getMinTradeAmount($apisecret);
+
+$bittrexBals = getDailyBalance($apikey,$apisecret);
+$bittrexBalsSize = count($bittrexBals);
+
+for ($h=0; $h<$bittrexBalsSize; $h++){
+    Echo $bittrexBals[$h][0];
+    Echo $bittrexBals[$h][1];
+    Echo $bittrexBals[$h][2];
+    echo "<BR>;"
+}
+
 ?>
 </html>
