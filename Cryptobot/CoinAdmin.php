@@ -248,10 +248,12 @@ $bittrexBals = getDailyBalance($apikey,$apisecret);
 $bittrexBalsSize = count($bittrexBals);
 echo "<BR> Array Size : $bittrexBalsSize";
 foreach ($bittrexBals as $value){
-    Echo $value["currencySymbol"];
-    Echo $value["total"];
-    Echo $value["available"];
-    echo "<BR>";
+    if ($value["total"] > 0){
+      Echo $value["currencySymbol"];
+      Echo $value["total"];
+      Echo $value["available"];
+      echo "<BR>";
+    }
 }
 
 ?>
