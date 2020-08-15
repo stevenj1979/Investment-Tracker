@@ -140,6 +140,41 @@ function emailUsersReenable($userConfig, $action, $disableUntil){
   }
 }
 
+function deleteTotalProfit(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$date = date('Y-m-d H:i', time());
+  $sql = "DELETE FROM `NewUserProfit`";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateTotalProfit(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$date = date('Y-m-d H:i', time());
+  $sql = "Insert into `NewUserProfit`
+        SELECT `Tv`.`CoinID`,`Tv`.`CoinPrice`,`Tv`.`Amount`,`Tv`.`Status`,`Tv`.`UserID`, `Cp`.`LiveCoinPrice`
+        , `Tv`.`CoinPrice`*`Tv`.`Amount`as PurchasePrice
+        ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as LivePrice
+        ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as Profit
+        FROM `TransactionsView` `Tv`
+        join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
+        WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
@@ -195,5 +230,7 @@ echo "<BR> NEWDATE plus 0: $newDate";
 echo "EndTime ".date("Y-m-d H:i", time());
 //tempDisableUsers(0);
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
+DeleteTotalProfit();
+updateTotalProfit();
 ?>
 </html>

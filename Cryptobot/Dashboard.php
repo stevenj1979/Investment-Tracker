@@ -68,41 +68,6 @@ group by `Tc`.`UserID`,`Tc`.`BaseCurrency`); ";
   $conn->close();
 }
 
-function deleteTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  //$date = date('Y-m-d H:i', time());
-  $sql = "DELETE FROM `NewUserProfit`";
-  //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}
-
-function updateTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  //$date = date('Y-m-d H:i', time());
-  $sql = "Insert into `NewUserProfit`
-        SELECT `Tv`.`CoinID`,`Tv`.`CoinPrice`,`Tv`.`Amount`,`Tv`.`Status`,`Tv`.`UserID`, `Cp`.`LiveCoinPrice`
-        , `Tv`.`CoinPrice`*`Tv`.`Amount`as PurchasePrice
-        ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as LivePrice
-        ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as Profit
-        FROM `TransactionsView` `Tv`
-        join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
-        WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
-  //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}
-
 function DeleteHistory($hours){
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -331,7 +296,5 @@ runTracking("`AllTimeBTCTbl`","");
 //coinHistory(10);
 //DeleteHistory(168);
 
-DeleteTotalProfit();
-updateTotalProfit();
 ?>
 </html>
