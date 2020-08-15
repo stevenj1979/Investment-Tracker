@@ -182,7 +182,7 @@ echo "<BR>";
 
 //$coinPrice = bittrexCoinPrice($apikey, $apisecret, 'USDT', 'BTC', 3);
 //echo "<BR> Status: ".$coinPrice;
-$dailyBal = getDailyBalance();
+$dailyBal = getDailyBalance($apikey, $apisecret);
 var_dump($dailyBal);
 
 ?>

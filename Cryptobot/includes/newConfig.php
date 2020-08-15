@@ -3259,7 +3259,7 @@ function pauseRule($id, $hours){
   logAction("pauseRule: ".$sql, 'BuyCoin', 0);
 }
 
-function getDailyBalance(){
+function getDailyBalance($apikey,$apisecret){
   $timestamp = time()*1000;
   $url = "https://api.bittrex.com/v3/balances/";
   $method = "GET";
