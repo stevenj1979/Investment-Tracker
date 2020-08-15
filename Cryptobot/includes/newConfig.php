@@ -3258,4 +3258,33 @@ function pauseRule($id, $hours){
   $conn->close();
   logAction("pauseRule: ".$sql, 'BuyCoin', 0);
 }
+
+function getDailyBalance(){
+  $timestamp = time()*1000;
+  $url = "https://api.bittrex.com/v3/balances/";
+  $method = "GET";
+  $content = "";
+  $subaccountId = "";
+  $contentHash = hash('sha512', $content);
+  $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+  $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+  $headers = array(
+  "Accept: application/json",
+  "Content-Type: application/json",
+  "Api-Key: ".$apikey."",
+  "Api-Signature: ".$signature."",
+  "Api-Timestamp: ".$timestamp."",
+  "Api-Content-Hash: ".$contentHash.""
+  );
+
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($ch, CURLOPT_HEADER, FALSE);
+  $execResult = curl_exec($ch);
+  curl_close($ch);
+  $temp = json_decode($execResult, true);
+  return $temp;
+}
 ?>

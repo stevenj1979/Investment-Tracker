@@ -180,9 +180,10 @@ echo "<BR>";
 //echo "<BR> total: ".$balTest['total'];
 
 
-$coinPrice = bittrexCoinPrice($apikey, $apisecret, 'USDT', 'BTC', 3);
-echo "<BR> Status: ".$coinPrice;
-
+//$coinPrice = bittrexCoinPrice($apikey, $apisecret, 'USDT', 'BTC', 3);
+//echo "<BR> Status: ".$coinPrice;
+$dailyBal = getDailyBalance();
+var_dump($dailyBal);
 
 ?>
 </html>
