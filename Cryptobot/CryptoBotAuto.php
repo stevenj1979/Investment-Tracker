@@ -86,7 +86,7 @@ while($date <= $newTime){
   echo "NEW LOOP ";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
-    $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26]; $livePrice[$x][17];
+    $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26]; $liveCoinPrice = $coins[$x][17];
     $secondstoUpdate = $coins[$x][35];
     if ($firstTimeFlag){$timeAry[$coinID] = $coins[$x][36];}
     //LOG
