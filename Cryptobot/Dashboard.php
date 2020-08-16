@@ -264,7 +264,7 @@ for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
   $noOfPurchases = $sellTrackingCoins[$x][49];
   if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
-    $toMergeAry[0] = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
+    $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
     echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
     $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
   }
