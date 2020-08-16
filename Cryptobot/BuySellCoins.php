@@ -27,7 +27,7 @@ if (!empty($_GET['mins'])){
 
 function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
   if ($minutes < -30){
-    sendAlertEmail($email, $symbol, $price, $action, $userName, $livePrice);
+    sendAlertEmailLocal($email, $symbol, $price, $action, $userName, $livePrice);
     logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
     logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
