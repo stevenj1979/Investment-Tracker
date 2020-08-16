@@ -44,15 +44,16 @@ if(!empty($_GET['uuid'])){
   echo "CANCEL ".$_GET['uuid'];
   var_dump($resultOrd);
   if ($resultOrd["success"] == 1){
-    Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"]." | Type: ".$_GET['type'];
+
     $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell');
+    Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"]." | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
     if ($orderQty == $orderQtyRemaining) {
       if ($_GET['type'] == 'Sell'){
         Echo "<BR> HERE 4 | ";
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexSellCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
         logAction("Bittrex Cancel 1 : ".json_encode($result), 'BuySell');
       }else{
         echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
