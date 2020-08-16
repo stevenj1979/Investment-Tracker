@@ -182,8 +182,15 @@ echo "<BR>";
 
 //$coinPrice = bittrexCoinPrice($apikey, $apisecret, 'USDT', 'BTC', 3);
 //echo "<BR> Status: ".$coinPrice;
-$dailyBal = getDailyBalance($apikey, $apisecret);
-var_dump($dailyBal);
+//$dailyBal = getDailyBalance($apikey, $apisecret);
+//var_dump($dailyBal);
+$finalMergeAry = [];
+$ary1 = ARRAY(3,89,"BSV",9102,4.68554547000000,217.84642888,4, 8);
+$finalMergeAry = updateMergeAry($ary1,$finalMergeAry);
+$ary2 = ARRAY(3,89,"BSV",9112,0.34416973000000,217.91573167,4, 1);
+$finalMergeAry = updateMergeAry($ary2,$finalMergeAry);
+
+var_dump($finalMergeAry);
 
 ?>
 </html>
