@@ -12,7 +12,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 </style>
 <body>
 <?php
-
+$apiVersion = 1;
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
@@ -39,7 +39,7 @@ echo "UUID ".$_GET['uuid']." | ".$_GET['apikey']." | ".$_GET['apisecret']." | ".
 Echo "<BR> HERE 1 | ".$_GET['uuid'];
 if(!empty($_GET['uuid'])){
   Echo "<BR> HERE 2 | ";
-  $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+  $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
   //logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
   if ($resultOrd == 1){
@@ -50,13 +50,13 @@ if(!empty($_GET['uuid'])){
       if ($_GET['type'] == 'Sell'){
         Echo "<BR> HERE 4 | ";
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
-        bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
+        bittrexSellCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
         $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
         logAction("Bittrex Cancel 1 : ".json_encode($result), 'BuySell');
       }else{
         echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
-        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
         logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell');
       }
     }else{
@@ -67,7 +67,7 @@ if(!empty($_GET['uuid'])){
         //bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
         //New Transaction
         //$result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
         if ($result == 1){
           $newOrderNo = "ORD".$coin.date("YmdHis", time())."0";
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
@@ -87,7 +87,7 @@ if(!empty($_GET['uuid'])){
       }else {
         bittrexUpdateBuyQty($_GET['transactionID'], $orderQty-$orderQtyRemaining);
         bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
         logAction("Bittrex Cancel 4 : ".json_encode($result), 'BuySell');
       }
     }
