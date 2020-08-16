@@ -277,7 +277,7 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
   $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
   $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
   echo "<BR> Count: $count";
-  if ($count >= 2 && $noOfPurchases <= $MaxCoinMerge){
+  if ($count >= 2){
     echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
     mergeTransactions($transactionID, $amount, $avCost);
     UpdateTransCount($count-1, $transactionID);
