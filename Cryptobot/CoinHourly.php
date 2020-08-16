@@ -29,7 +29,7 @@ function UpdateMerge($coinID,$userID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `CoinID` = $coinID and `UserID` = $userID and `Status` = 'Open'";
-  //print_r($sql);
+  print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -47,6 +47,7 @@ for ($g=0; $g<$transStatsSize; $g++){
   $count = $transStats[$g][2]; $mergeAllCoinsDaily = $transStats[$g][3];
   $ID = $transStats[$g][4];
   if ($count>=2 && $mergeAllCoinsDaily == 1){
+    Echo "<BR> $coinID $userID $count $mergeAllCoinsDaily $ID";
     //Update merge for $ID
     UpdateMerge($coinID,$userID);
   }
