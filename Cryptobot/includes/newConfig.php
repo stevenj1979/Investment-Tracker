@@ -585,9 +585,10 @@ function getMinTradeAmount($apisecret){
       //echo "<BR> Symbol: ".$obj[$y]['symbol']."|".$coin."-".$baseCurrency;
       if($obj[$y]['symbol'] == $coin."-".$baseCurrency){
         $minTradeAmount = $obj[$y]['minTradeSize'];
+        $precision = $obj[$y]['precision'];
         //return $minTradeAmount;
         echo "<BR> Coin Match: $coin Base: $baseCurrency ID: $coinID Min: $minTradeAmount";
-        copyTradeAmountToSQL($coinID, $minTradeAmount);
+        copyTradeAmountToSQL($coinID, $minTradeAmount,$precision);
         continue;
       }
     }
@@ -607,13 +608,13 @@ function getMinTradeFromSQL($coinID){
   return $tempAry;
 }
 
-function copyTradeAmountToSQL($coinID, $minTradeAmount){
+function copyTradeAmountToSQL($coinID, $minTradeAmount, $precision){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `Coin` SET `MinTradeSize`= $minTradeAmount WHERE `ID` = $coinID";
+  $sql = "UPDATE `Coin` SET `MinTradeSize`= $minTradeAmount, `CoinPrecision` = $precision WHERE `ID` = $coinID";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
