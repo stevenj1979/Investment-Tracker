@@ -42,6 +42,7 @@ if(!empty($_GET['uuid'])){
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
   //logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
+  var_dump($resultOrd);
   if ($resultOrd == 1){
     Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"];
     $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
