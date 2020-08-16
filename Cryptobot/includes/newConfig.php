@@ -2749,7 +2749,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
   }
   if ($existing == False){
     echo "<BR> EXISTING is FALSE";
-    if ($finalMergeArySize == 0) {$finalMergeArySize = $finalMergeArySize;} else {$finalMergeArySize = $finalMergeArySize+1;}
+    //if ($finalMergeArySize == 0) {$finalMergeArySize = $finalMergeArySize;} else {$finalMergeArySize = $finalMergeArySize+1;}
     $finalMergeAry[$finalMergeArySize][0] = $toMergeAry[0];
     echo "<BR> SETTING: ".$toMergeAry[0];
     $finalMergeAry[$finalMergeArySize][1] = $toMergeAry[1];
