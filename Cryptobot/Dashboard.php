@@ -281,7 +281,7 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
     echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
     mergeTransactions($transactionID, $amount, $avCost);
     UpdateTransCount($count-1, $transactionID);
-    deleteOldTrans(rtrim($lastTransID, ','));
+    closeOldTransSQL(rtrim($lastTransID, ','));
     logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
   }
 }

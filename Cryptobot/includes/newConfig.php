@@ -2815,7 +2815,7 @@ function closeOldTransSQL($id){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "DELETE FROM `Transaction` WHERE `ID` = $id";
+  $sql = "DELETE FROM `Transaction` WHERE `ID` in ($id)";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
