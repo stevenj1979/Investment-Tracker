@@ -27,10 +27,10 @@ if(isset($_GET['trackCoin'])){
   $transactionID = trim($_GET['transactionID']);
   $salePrice = trim($_GET['salePrice']);
   $userID = trim($_GET['userID']);
-  echo "<BR> newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);";
-  //newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);
-  //setTransactionPending($transactionID);
-  //header('Location: SellCoins.php');
+  //echo "<BR> newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);";
+  newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);
+  setTransactionPending($transactionID);
+  header('Location: SellCoins.php');
 }
 
 if(isset($_GET['coinTxt'])){
