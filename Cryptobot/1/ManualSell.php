@@ -22,14 +22,15 @@ if(isset($_GET['manSell'])){
   //$active = trim($_GET['y']);
 }
 
-if(isset($_GET['merge'])){
+if(isset($_GET['trackCoin'])){
   $baseCurrency = trim($_GET['baseCurrency']);
   $transactionID = trim($_GET['transactionID']);
   $salePrice = trim($_GET['salePrice']);
   $userID = trim($_GET['userID']);
-  newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);
-  setTransactionPending($transactionID);
-  header('Location: SellCoins.php');
+  echo "<BR> newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);";
+  //newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0);
+  //setTransactionPending($transactionID);
+  //header('Location: SellCoins.php');
 }
 
 if(isset($_GET['coinTxt'])){

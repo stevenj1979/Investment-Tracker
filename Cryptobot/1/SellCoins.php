@@ -236,8 +236,8 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
 
             echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?split&Coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?merge=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
+            echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
+            echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
