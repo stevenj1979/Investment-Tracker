@@ -105,7 +105,7 @@ if(isset($_GET['track'])){
   //$coinPrice = trim($_GET['coinPrice']);
   //$active = trim($_GET['y']);
   //addTrackingCoin($apikey,$apiSecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$btcBuyAmount,99999,$UserName,$coinID,0,0,1,90,'ALL',22);
-  addTrackingCoin($coinID, $cost, $userID, $baseCurrency, 1, 1, $btcBuyAmount, 9999, 0, 0, 1, 90, 22 , 0);
+  addTrackingCoin($coinID, $cost, $userID, $baseCurrency, 1, 1, $btcBuyAmount, 9999, 0, 0, 1, 90, 22 , 0,0,2);
 }
 
 echo "<BR> isset alert ".$_GET['alert'];
