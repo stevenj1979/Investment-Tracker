@@ -2527,7 +2527,7 @@ function getCoinPricePattenSettings(){
 function getCoin1HrPattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
   $whereClause = "";
-  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
