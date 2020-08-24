@@ -246,7 +246,7 @@ function getUserSellRules(){
   `1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`ProfitPctEnabled`,`ProfitPctTop`,`ProfitPctBtm`,`CoinPriceEnabled`,
   `CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,`VolumeBtm`,`Email`,`UserName`,`APIKey`,`APISecret`, `SellCoinOffsetEnabled`,
   `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`,`AutoSellCoinEnabled`
-  ,`SellFallsInPrice`
+  ,`SellFallsInPrice`,`MarketDropStopEnabled`,`MarketDropStopPct`
    FROM `UserSellRules`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -256,7 +256,7 @@ function getUserSellRules(){
     ,$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],$row['ProfitPctBtm']  //21
     ,$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'] //33
     ,$row['APISecret'],$row['SellCoinOffsetEnabled'],$row['SellCoinOffsetPct'],$row['SellPriceMinEnabled'],$row['SellPriceMin'],$row['LimitToCoin'],$row['KEK'],$row['SellPatternEnabled'],$row['SellPattern'],$row['LimitToBuyRule'] //43
-    ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['AutoSellCoinEnabled'],$row['SellFallsInPrice']);
+    ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['AutoSellCoinEnabled'],$row['SellFallsInPrice'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct']);
   }
   $conn->close();
   return $tempAry;
@@ -3240,15 +3240,17 @@ function findUserProfit($userProfit, $userID){
   }
 }
 
-function pauseRule($id, $hours){
+function pauseRule($id, $hours, $userID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
+  $whereClause = "";
+  if ($userID <> 0){ $whereClause = " and `UserID` = $userID "}
 
   $sql = "UPDATE `BuyRules` SET `DisableUntil`= CONVERT_TZ(DATE_ADD(now(),interval $hours hour) ,'-08:00','+04:00')
-          WHERE `ID` in ($id)";
+          WHERE `ID` in ($id) $whereClause";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -3287,5 +3289,45 @@ function getDailyBalance($apikey,$apisecret){
   curl_close($ch);
   $temp = json_decode($execResult, true);
   return $temp;
+}
+
+function pauseTracking($userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingCoins` SET `BuyCoin` = 0 WHERE `Status` = 'Open' and `UserID` = $userID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("pauseTracking: ".$sql, 'BuyCoin', 0);
+}
+
+function getMarketProfit(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `5MinProfitPct`,`1HrProfitPct` FROM `MarketProfitPct` ";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['5MinProfitPct'],$row['1HrProfitPct']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 ?>
