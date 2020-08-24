@@ -216,6 +216,7 @@ while($completeFlag == False){
   echo "<BR> BUY COINS!! ";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
+  $marketProfit = getMarketProfit();
   echo "<BR> Coin Length: $coinLength";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
@@ -264,6 +265,7 @@ while($completeFlag == False){
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];//$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
+      $MarketDropStopEnabled = $buyRules[$y][72]; $marketDropStopPct = $buyRules[$y][72];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
       //if ($userID != ){ continue; }
@@ -272,6 +274,7 @@ while($completeFlag == False){
       //echo "<BR> Disable Until $disableUntil";
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
+      echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
       $profitNum = findUserProfit($userProfit,$userID);
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
         if ($rulesPauseEnabled == 1){
@@ -396,7 +399,6 @@ while($completeFlag == False){
   //echo "<blockquote>";
   $sellCoins = getTrackingSellCoins();
   $sellCoinsLength = count($sellCoins);
-  $marketProfit = getMarketProfit();
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -429,7 +431,7 @@ while($completeFlag == False){
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
       $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
       $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45]; $autoSellCoinEnabled = $sellRules[$z][46];
-      $fallsInPrice = $sellRules[$z][47]; $MarketDropStopEnabled = $sellRules[$z][48]; $marketDropStopPct = $sellRules[$z][49];
+      $fallsInPrice = $sellRules[$z][47];
       //$profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
       //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
@@ -438,7 +440,7 @@ while($completeFlag == False){
       $KEKSell = $sellRules[$z][40];
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $limitToBuyRule = $sellRules[$z][43];
-      echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
+
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
