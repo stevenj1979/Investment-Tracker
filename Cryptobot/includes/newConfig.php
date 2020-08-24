@@ -3330,4 +3330,23 @@ function getMarketProfit(){
   $conn->close();
   return $tempAry;
 }
+
+function assignNewSellID($transID, $sellRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `FixSellRule` = $sellRuleID WHERE `Status` = 'Open' and `ID` = $transID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("assignNewSellID: ".$sql, 'BuyCoin', 0);
+}
 ?>
