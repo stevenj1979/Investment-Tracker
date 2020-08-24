@@ -217,7 +217,7 @@ while($completeFlag == False){
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
   $marketProfit = getMarketProfit();
-  $pauseRulesFlag = True;
+  //$pauseRulesFlag = True;
   echo "<BR> Coin Length: $coinLength";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
@@ -286,11 +286,11 @@ while($completeFlag == False){
       }
 
       $profitNum = findUserProfit($userProfit,$userID);
-      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause and $pauseRulesFlag = True){
+      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
         if ($rulesPauseEnabled == 1){
           echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
           pauseRule($rulesPause, $rulesPauseHours);
-          $pauseRulesFlag = False;
+          //$pauseRulesFlag = False;
         }
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}
