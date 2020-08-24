@@ -265,7 +265,7 @@ while($completeFlag == False){
       $limitToCoin = $buyRules[$y][52]; $autoBuyCoinEnabled = $buyRules[$y][53];//$autoBuyPrice = $buyRules[$y][54];
       $buyAmountOverrideEnabled = $buyRules[$y][55]; $buyAmountOverride = $buyRules[$y][56];
       $newBuyPattern = $buyRules[$y][57];
-      $MarketDropStopEnabled = $buyRules[$y][72]; $marketDropStopPct = $buyRules[$y][72];
+      $MarketDropStopEnabled = $buyRules[$y][71]; $marketDropStopPct = $buyRules[$y][72];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
       //if ($userID != ){ continue; }
