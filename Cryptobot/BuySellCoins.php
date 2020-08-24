@@ -278,8 +278,8 @@ while($completeFlag == False){
       echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
       if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct){
         logToSQL("MarketDropStop", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0], $userID);
-        pauseRule($ruleIDBuy,120, $userID);
-        pauseTracking($userID);
+        //pauseRule($ruleIDBuy,120, $userID);
+        //pauseTracking($userID);
 
       }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 2.0){
         pauseRule($ruleIDBuy,1, $userID);
