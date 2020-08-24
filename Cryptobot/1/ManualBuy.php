@@ -220,7 +220,7 @@ if(isset($_POST['coinTxt'])){
       $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
     }
 
-    buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);
+    buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'8',$salePrice);
     //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
     logToSQL("Manual Buy", "Buy Coin: $bitPrice $btcBuyAmount $orderNo", $userID);
   }elseif (!empty($_POST['bypass'])){
@@ -237,7 +237,7 @@ if(isset($_POST['coinTxt'])){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`)
-VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, 'ALL',0,0)";
+VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, '8',0,0)";
     //addBuyRuletoSQL($bittrexRef,$ruleID);
     echo $sql;
     if ($conn->query($sql) === TRUE) {
