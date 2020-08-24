@@ -513,7 +513,7 @@ while($completeFlag == False){
       if ($totalScore_Sell >= 12){
         $sellOutstanding = getOutStandingBuy($sellResultAry);
         logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit $sellOutstanding","SellScore", $logToFileSetting);
-        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $sellOutstanding", $userID, $logToSQLSetting);
+        logToSQL("SellCoins", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $sellOutstanding", $userID, $logToSQLSetting);
       }
 
 
@@ -527,7 +527,7 @@ while($completeFlag == False){
         setTransactionPending($transactionID);
         logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $logToFileSetting);
         logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
-        logToSQL("SellCoin", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID, $logToSQLSetting);
+        logToSQL("SellCoins", "RuleID: $ruleIDSell | Coin : $coin | Amount: $amount | Cost: $cost TOTAL: $totalScore_Sell", $userID, $logToSQLSetting);
         //break;
         $to_time = date("Y-m-d H:i:s", time());
         $from_time = strtotime($orderDate);
