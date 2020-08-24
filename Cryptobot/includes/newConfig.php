@@ -3247,7 +3247,7 @@ function pauseRule($id, $hours, $userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
   $whereClause = "";
-  if ($userID <> 0){ $whereClause = " and `UserID` = $userID "}
+  if ($userID <> 0){ $whereClause = " and `UserID` = $userID ";}
 
   $sql = "UPDATE `BuyRules` SET `DisableUntil`= CONVERT_TZ(DATE_ADD(now(),interval $hours hour) ,'-08:00','+04:00')
           WHERE `ID` in ($id) $whereClause";
