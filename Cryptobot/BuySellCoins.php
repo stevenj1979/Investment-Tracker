@@ -406,6 +406,7 @@ while($completeFlag == False){
   //echo "<blockquote>";
   $sellCoins = getTrackingSellCoins();
   $sellCoinsLength = count($sellCoins);
+  $userProfit = getTotalProfit();
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -448,8 +449,8 @@ while($completeFlag == False){
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $limitToBuyRule = $sellRules[$z][43];
       $sellAllCoinsEnabled = $sellRules[$z][48]; $sellAllCoinsPct = $sellRules[$z][49];
-
-      echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct";
+      $profitNum = findUserProfit($userProfit,$userID);
+      echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct ProfitNum: $profitNum";
 
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
