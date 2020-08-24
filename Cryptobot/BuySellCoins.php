@@ -106,7 +106,7 @@ while($completeFlag == False){
   $newTrackingCoinsSize = count($newTrackingCoins);
 
   echo "<BR> Tracking COINS!! ";
-
+  sleep(1);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
     $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
     $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
@@ -161,6 +161,7 @@ while($completeFlag == False){
   echo "<BR> Tracking SELL COINS!! ";
   $newTrackingSellCoins = getNewTrackingSellCoins();
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
+  sleep(1);
   for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
     $CoinPrice = $newTrackingSellCoins[$b][0]; $TrackDate = $newTrackingSellCoins[$b][1];  $userID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
     $BuyRule = $newTrackingSellCoins[$b][5]; $FixSellRule = $newTrackingSellCoins[$b][6]; $OrderNo = $newTrackingSellCoins[$b][7]; $Amount = $newTrackingSellCoins[$b][8]; $CoinID = $newTrackingSellCoins[$b][9];
@@ -219,6 +220,7 @@ while($completeFlag == False){
   $marketProfit = getMarketProfit();
   //$pauseRulesFlag = True;
   echo "<BR> Coin Length: $coinLength";
+  sleep(1);
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -413,6 +415,7 @@ while($completeFlag == False){
   $sellCoins = getTrackingSellCoins();
   $sellCoinsLength = count($sellCoins);
   $userProfit = getTotalProfit();
+  sleep(1);
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -562,6 +565,7 @@ while($completeFlag == False){
   echo "<blockquote>";
   $BittrexReqs = getBittrexRequests();
   $BittrexReqsSize = count($BittrexReqs);
+  sleep(1);
   for($b = 0; $b < $BittrexReqsSize; $b++) {
     //Variables
     $type = $BittrexReqs[$b][0]; $uuid = $BittrexReqs[$b][1]; $date = $BittrexReqs[$b][2]; $status = $BittrexReqs[$b][4];   $bitPrice = $BittrexReqs[$b][5]; $userName = $BittrexReqs[$b][6];
@@ -761,6 +765,7 @@ while($completeFlag == False){
   $coinAlertsLength = count($coinAlerts);
   echo "<BR> CHECK Alerts!! ";
   //logAction("Check Alerts Start", 'BuySellTiming');
+  sleep(1);
   for($d = 0; $d < $coinAlertsLength; $d++) {
     $id = $coinAlerts[$d][0];
     $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
