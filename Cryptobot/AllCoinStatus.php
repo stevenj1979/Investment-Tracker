@@ -175,6 +175,24 @@ function updateTotalProfit(){
   $conn->close();
 }
 
+function updateAllCoinRunningPrice(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$date = date('Y-m-d H:i', time());
+  $sql = "Insert into `AllCoinRunningPrice` (`Price`)
+          SELECT sum(`Cp`.`LiveCoinPrice`)
+          FROM `CoinPrice` `Cp`
+          join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
+          WHERE `Cn`.`BuyCoin` = 1 ";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
@@ -232,5 +250,6 @@ echo "EndTime ".date("Y-m-d H:i", time());
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
 DeleteTotalProfit();
 updateTotalProfit();
+updateAllCoinRunningPrice();
 ?>
 </html>
