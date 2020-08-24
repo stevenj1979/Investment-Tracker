@@ -2488,7 +2488,7 @@ function getCoinPricePattenList($userID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   $whereClause = "";
-  if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
