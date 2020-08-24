@@ -3311,6 +3311,7 @@ function pauseTracking($userID){
 }
 
 function getMarketProfit(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
