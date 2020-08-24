@@ -217,6 +217,7 @@ while($completeFlag == False){
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
   $marketProfit = getMarketProfit();
+  $pauseRulesFlag = True;
   echo "<BR> Coin Length: $coinLength";
   for($x = 0; $x < $coinLength; $x++) {
     //variables
@@ -275,9 +276,11 @@ while($completeFlag == False){
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
       echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
-      if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct){
+      if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $pauseRulesFlag = True){
+        logToSQL("MarketDropStop", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0], $userID);
         pauseRule($ruleIDBuy,120, $userID);
         pauseTracking($userID);
+        $pauseRulesFlag = False;
       }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 2.0){
         pauseRule($ruleIDBuy,1, $userID);
       }

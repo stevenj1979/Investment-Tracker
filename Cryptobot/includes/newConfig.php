@@ -3252,7 +3252,7 @@ function pauseRule($id, $hours, $userID = 0){
   $sql = "UPDATE `BuyRules` SET `DisableUntil`= CONVERT_TZ(DATE_ADD(now(),interval $hours hour) ,'-08:00','+04:00')
           WHERE `ID` in ($id) $whereClause";
 
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
