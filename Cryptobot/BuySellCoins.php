@@ -278,6 +278,8 @@ while($completeFlag == False){
       if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct){
         pauseRule($ruleIDBuy,120, $userID);
         pauseTracking($userID);
+      }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 2.0){
+        pauseRule($ruleIDBuy,1, $userID);
       }
 
       $profitNum = findUserProfit($userProfit,$userID);
@@ -445,6 +447,9 @@ while($completeFlag == False){
       $KEKSell = $sellRules[$z][40];
       $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
       $limitToBuyRule = $sellRules[$z][43];
+      $sellAllCoinsEnabled = $sellRules[$z][48]; $sellAllCoinsPct = $sellRules[$z][49];
+
+      echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct";
 
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
