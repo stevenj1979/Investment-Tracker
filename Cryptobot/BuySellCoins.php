@@ -275,6 +275,11 @@ while($completeFlag == False){
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
       echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
+      if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct){
+        pauseRule($ruleIDBuy,120, $userID);
+        pauseTracking($userID);
+      }
+
       $profitNum = findUserProfit($userProfit,$userID);
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
         if ($rulesPauseEnabled == 1){
