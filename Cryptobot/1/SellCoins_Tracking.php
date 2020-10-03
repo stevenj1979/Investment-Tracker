@@ -66,7 +66,7 @@ if(isset($_GET['SellNow'])){
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Tracking Sell Coins</h2>");
-        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a></h3>";
+        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Sell Coins Saving</a></h3>";
         echo "<table>";
         for($x = 0; $x < $arrLengthSell; $x++) {
           $CoinPrice = $trackingSell[$x][0]; $TrackDate = $trackingSell[$x][1];  $UserID = $trackingSell[$x][2]; $NoOfRisesInPrice = $trackingSell[$x][3]; $TransactionID = $trackingSell[$x][4];
