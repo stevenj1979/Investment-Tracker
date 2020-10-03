@@ -3350,4 +3350,23 @@ function assignNewSellID($transID, $sellRuleID){
   $conn->close();
   logAction("assignNewSellID: ".$sql, 'BuyCoin', 0);
 }
+
+function setTransStatus($status,$transID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `Status` = $status WHERE `ID` = $transID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setTransStatus: ".$sql, 'SellCoin', 0);
+}
 ?>

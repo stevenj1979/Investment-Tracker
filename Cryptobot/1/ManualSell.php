@@ -22,6 +22,20 @@ if(isset($_GET['manSell'])){
   //$active = trim($_GET['y']);
 }
 
+if(isset($_GET['manSave'])){
+  $transactionID = trim($_GET['transactionID']);
+  setTransStatus("Open",$transactionID);
+  header('Location: SellCoins.php');
+}
+
+if(isset($_GET['manReopen'])){
+  $transactionID = trim($_GET['transactionID']);
+  setTransStatus("Saving",$transactionID);
+  header('Location: SellCoins_Saving.php');
+}
+
+
+
 if(isset($_GET['trackCoin'])){
   $baseCurrency = trim($_GET['baseCurrency']);
   $transactionID = trim($_GET['transactionID']);
