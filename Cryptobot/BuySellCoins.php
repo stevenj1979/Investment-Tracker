@@ -290,7 +290,7 @@ while($completeFlag == False){
       }
 
       $profitNum = findUserProfit($userProfit,$userID);
-      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause){
+      if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
         if ($rulesPauseEnabled == 1){
           echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
           pauseRule($rulesPause, $rulesPauseHours);
