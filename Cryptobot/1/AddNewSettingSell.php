@@ -528,13 +528,13 @@ function displayEdit($id){
   addNewText('VolumeBtm: ','VolumeBtm',$formSettings[0][30],37, 'Eg 50', False,$formSettings[0][28]);
 
   echo "</div>";
-  echo "<div class='settingsform'>";
-  echo "<H3>Sell Orders</H3>";
-  addNewTwoOption('SellOrdersEnabled: ','VolumeEnable',$formSettings[0][25]);
-  addNewText('SellOrdersTop: ','BuyOrdersTop',$formSettings[0][26],37, 'Eg 50', False,$formSettings[0][25]);
-  addNewText('SellOrdersBtm: ','BuyOrdersBtm',$formSettings[0][27],37, 'Eg 50', False,$formSettings[0][25]);
+  //echo "<div class='settingsform'>";
+  //echo "<H3>Sell Orders</H3>";
+  //addNewTwoOption('SellOrdersEnabled: ','VolumeEnable',$formSettings[0][25]);
+  //addNewText('SellOrdersTop: ','BuyOrdersTop',$formSettings[0][26],37, 'Eg 50', False,$formSettings[0][25]);
+  //addNewText('SellOrdersBtm: ','BuyOrdersBtm',$formSettings[0][27],37, 'Eg 50', False,$formSettings[0][25]);
 
-  echo "</div>";
+  //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>1 Hour Price</H3>";
   addNewTwoOption('1HrEnable: ','1HrEnable',$formSettings[0][10]);

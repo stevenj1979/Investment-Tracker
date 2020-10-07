@@ -646,12 +646,12 @@ function displayEdit($id){
   addNewText('VolumeTop: ', 'VolumeTop', $formSettings[0][23], 5, 'Eg 50', False,$formSettings[0][22]);
   addNewText('VolumeBtm: ', 'VolumeBtm', $formSettings[0][24], 6, 'Eg 50', False,$formSettings[0][22]);
   echo "</div>";
-  echo "<div class='settingsform'>";
-  echo "<H3>Buy Orders</H3>";
-  addNewTwoOption('BuyOrdersEnabled: ', 'BuyOrdersEnabled', $formSettings[0][1]);
-  addNewText('BuyOrdersTop: ', 'BuyOrdersTop', $formSettings[0][2], 8, 'Eg 50', False,$formSettings[0][1]);
-  addNewText('BuyOrdersBtm: ', 'BuyOrdersBtm', $formSettings[0][3], 9, 'Eg 50', False,$formSettings[0][1]);
-  echo "</div>";
+  //echo "<div class='settingsform'>";
+  ///echo "<H3>Buy Orders</H3>";
+  //addNewTwoOption('BuyOrdersEnabled: ', 'BuyOrdersEnabled', $formSettings[0][1]);
+  //addNewText('BuyOrdersTop: ', 'BuyOrdersTop', $formSettings[0][2], 8, 'Eg 50', False,$formSettings[0][1]);
+  //addNewText('BuyOrdersBtm: ', 'BuyOrdersBtm', $formSettings[0][3], 9, 'Eg 50', False,$formSettings[0][1]);
+  //echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>1 Hour Price</H3>";
   addNewTwoOption('1HrEnable: ', '1HrEnable', $formSettings[0][7]);
