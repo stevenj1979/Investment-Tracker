@@ -97,7 +97,7 @@ FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
       ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'] //35
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
-      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName']
+      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //59
       ,$row['HoursDisabled']);//59
   }
   $conn->close();
@@ -223,7 +223,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
    $Hr1ChangeEnabled = $userSettings[$x][55];$Hr1ChangePattern = $userSettings[$x][56];
    $coinPriceMatchName= $userSettings[$x][57];$coinPricePatternName= $userSettings[$x][58];$coin1HrPatternName= $userSettings[$x][59];
-   $hoursDisabled = $userSettings[$x][68];
+   $hoursDisabled = $userSettings[$x][60];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
    if ($buyCoin == $flag){
