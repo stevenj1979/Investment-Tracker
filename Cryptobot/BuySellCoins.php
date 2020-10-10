@@ -285,6 +285,7 @@ while($completeFlag == False){
           pauseTracking($userID);
 
         }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 2.0){
+          logToSQL("MarketDropStart", "pauseRule($ruleIDBuy,1, $userID);| MarketProfit: ".$marketProfit[0][1], $userID);
           pauseRule($ruleIDBuy,1, $userID);
         }
       }
@@ -293,6 +294,7 @@ while($completeFlag == False){
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
         if ($rulesPauseEnabled == 1){
           echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
+          logToSQL("RulesPause", "pauseRule($rulesPause, $rulesPauseHours);", $userID);
           pauseRule($rulesPause, $rulesPauseHours);
           //$pauseRulesFlag = False;
         }
