@@ -194,7 +194,7 @@ while($completeFlag == False){
       //Update Rises in price
       updateNoOfRisesInSellPrice($TransactionID, 0, $LiveCoinPrice);
       //Set new Tracking Price
-      setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
+      //setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
     }elseif ($ProfitPct < -5 && $minsFromDate <= -5 OR $ogPctProfit < 0){
       echo "<BR> Option 3";
