@@ -69,7 +69,7 @@ function getUserIDs($userID){
   return $tempAry;
 }
 
-function getRules($userID){
+function getRules($userID, $tableName){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -83,8 +83,8 @@ function getRules($userID){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
-,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`
-FROM `UserBuyRules` WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
+,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`,`HoursDisabled`
+FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -97,7 +97,8 @@ FROM `UserBuyRules` WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
       ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'] //35
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
-      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName']);//59
+      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName']
+      ,$row['HoursDisabled']);//59
   }
   $conn->close();
   return $tempAry;
@@ -198,6 +199,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    <TH>&nbsp1HrTrendEnabled</TH>
    <!--<TH>&nbsp1HrTrendPattern</TH>-->
    <TH>Coin1HrPatternName</TH>
+   <TH>HoursDisabled</TH>
     <tr>
  <?php
  for($x = 0; $x < $userSettingsLen; $x++) {
@@ -221,6 +223,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
    $Hr1ChangeEnabled = $userSettings[$x][55];$Hr1ChangePattern = $userSettings[$x][56];
    $coinPriceMatchName= $userSettings[$x][57];$coinPricePatternName= $userSettings[$x][58];$coin1HrPatternName= $userSettings[$x][59];
+   $hoursDisabled = $userSettings[$x][68];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
    if ($buyCoin == $flag){
@@ -249,6 +252,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>".$coinOrder."</td><td>".$coinPricePatternEnabled."</td><td>".$coinPricePattern."</td>";
      Echo "<td>$Hr1ChangeEnabled</td>"; // <td>$Hr1ChangePattern</td>";
      echo "<td>$coin1HrPatternName</td>";
+     echo "<td>$hoursDisabled</td>";
      echo "<tr>";
    }
  }
@@ -257,8 +261,10 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
 
 
-$userSettings = getRules($_SESSION['ID']);
+$userSettings = getRules($_SESSION['ID'],`UserBuyRules`);
 $userSettingsLen = count($userSettings);
+$userSettingsDisabled = getRules($_SESSION['ID'],`UserBuyRulesDisabled`);
+$userSettingsDisabledLen = count($userSettings);
 //echo $userDetails[0][1];
 
 displayHeader(7);?>
@@ -267,7 +273,7 @@ displayHeader(7);?>
 
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
-          showBuyRules($userSettings, "Disabled Rules", 0,$userSettingsLen);
+          showBuyRules($userSettingsDisabled, "Disabled Rules", 0,$userSettingsDisabledLen);
 
           displaySideColumn();?>
 
