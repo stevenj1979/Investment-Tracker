@@ -88,7 +88,7 @@ FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
-  print_r($sql);
+  //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['UserID'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'] //5
       ,$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'] //12
@@ -98,7 +98,7 @@ FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
       ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //59
-      ,$row['HoursDisabled']);//59
+      ,$row['HoursDisabled']);//60
   }
   $conn->close();
   return $tempAry;
@@ -226,7 +226,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $hoursDisabled = $userSettings[$x][60];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
-   if ($buyCoin == $flag){
+   //if ($buyCoin == $flag){
      echo "<td><a href='AddNewSetting.php?edit=".$ruleID."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSetting.php?copyRule=".$ruleID."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSetting.php?delete=".$ruleID."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
@@ -254,7 +254,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td>$coin1HrPatternName</td>";
      echo "<td>$hoursDisabled</td>";
      echo "<tr>";
-   }
+  // }
  }
  echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
 }
