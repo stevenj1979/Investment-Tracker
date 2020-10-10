@@ -264,7 +264,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 $userSettings = getRules($_SESSION['ID'],"`UserBuyRules`");
 $userSettingsLen = count($userSettings);
 $userSettingsDisabled = getRules($_SESSION['ID'],"`UserBuyRulesDisabled`");
-$userSettingsDisabledLen = count($userSettings);
+$userSettingsDisabledLen = count($userSettingsDisabled);
 //echo $userDetails[0][1];
 
 displayHeader(7);?>
