@@ -88,7 +88,9 @@ if(isset($_POST['coin_ID'])){
   $transID = $_POST['Transaction_ID'];
   $amount = $_POST['Coin_Amount'];
   $userID = $_POST['User_ID'];
-  Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
+  //Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
+  updateCoinAmount($transID,$amount);
+  header('Location: Transactions.php');
 }
 
 function changeSelection(){
@@ -134,6 +136,24 @@ function updateSellRule(){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "UPDATE `Transaction` SET `FixSellRule`= $newID WHERE `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function updateCoinAmount($transID,$amount){
+
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `Amount` = $amount where `ID` =  $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
