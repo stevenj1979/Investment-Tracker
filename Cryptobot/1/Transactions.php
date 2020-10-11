@@ -59,11 +59,37 @@ if($_POST['transSelect'] <> ""){
   updateMerge($_GET['SellRule']);
   //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
   header('Location: Transactions.php');
+}elseif ($_GET['fixCoinAmount'] <> ""){
+  //echo "1";
+  $transID = $_GET['SellRule'];
+  $userID = $_GET['UserID'];
+  $amount = $_GET['Amount'];
+  $coinID = $_GET['CoinID'];
+
+  //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
+  //header('Location: Transactions.php');
+  ?>
+  <form action='Transactions.php?updateCoinAmount=Yes' method='post'>
+    CoinID: <input type="text" name="coin_ID" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><br>
+    TransactionID: <input type="text" name="Transaction_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
+    Amount: <input type="text" name="Coin_Amount" value="<?php echo $amount; ?>"><br>
+    UserID: <input type="text" name="User_ID" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <?php
+
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
 }
 
+if(isset($_POST['coin_ID'])){
+  $coinID = $_POST['coin_ID'];
+  $transID = $_POST['Transaction_ID'];
+  $amount = $_POST['Coin_Amount'];
+  $userID = $_POST['User_ID'];
+  Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
+}
 
 function changeSelection(){
   //global $sql_option;
@@ -199,9 +225,10 @@ function displayDefault(){
   print_r("<th>To Merge</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<th>Merge</th>");
+  print_r("<th>Fix Coin Amount</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
-      $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5];
+      $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
       $orderDate = $coin[$x][6];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
       $purchasePrice = ($amount*$coinPrice);
@@ -215,6 +242,7 @@ function displayDefault(){
       print_r("<td>$toMerge</td>");
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coin&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
