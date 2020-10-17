@@ -17,7 +17,7 @@ function getPrice($coinID, $time1, $time2, $isMax){
           WHERE `CoinID` = $coinID
           and `PriceDate` > (SELECT DATE_SUB(Max(`PriceDate`), INTERVAL $time2 MINUTE) FROM `PriceHistory`)
           and `PriceDate` < (SELECT DATE_SUB(Max(`PriceDate`), INTERVAL $time1 MINUTE) FROM `PriceHistory`)";
-  echo "<BR>".$sql;
+  //echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['Price']);
@@ -33,7 +33,7 @@ function writePrice($coinID, $price, $isMax, $nColumn){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "UPDATE $nTable SET $nColumn = $price
           WHERE `CoinID` = $coinID";
-  print_r("<BR>".$sql);
+  //print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -46,7 +46,7 @@ function getCoins(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
-  echo "<BR>".$sql;
+  //echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID']);
