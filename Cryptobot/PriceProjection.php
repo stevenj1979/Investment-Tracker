@@ -62,7 +62,7 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addNewCoinPriceMatchBuy($price,$coinID,$userID,$lowPrice, $nameID);";
+  $sql = "call PriceProjectionUpdatePrice($price,$coinID,$userID,$lowPrice, $nameID);";
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
