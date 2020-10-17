@@ -42,17 +42,17 @@ function writePrice($coinID, $price, $isMax, $nColumn){
   $conn->close();
 }
 
-$tempAry = getPrice(84,0,15,True);
-echo "<br>".$tempAry[0][0];
-writePrice(84,$tempAry[0][0],True);
-$tempAry2 = getPrice(84,0,15,False);
-echo "<br>".$tempAry2[0][0];
-writePrice(84,$tempAry2[0][0],False);
+//$tempAry = getPrice(84,0,15,True);
+//echo "<br>".$tempAry[0][0];
+//writePrice(84,$tempAry[0][0],True);
+//$tempAry2 = getPrice(84,0,15,False);
+//echo "<br>".$tempAry2[0][0];
+//writePrice(84,$tempAry2[0][0],False);
 
 for ($i=1; $i<5; $i++){
   $lastNum = ($i-1)*15;
   $tempAry = getPrice(84,$lastNum,($i*15),True);
-  writePrice(84,$tempAry[0][0],True,$lastNum."Min");
+  writePrice(84,$tempAry[0][0],True,"`".$lastNum."Min`");
   $tempAry2 = getPrice(84,$lastNum,($i*15),False);
   writePrice(84,$tempAry2[0][0],False,"`".$lastNum."Min`");
 
