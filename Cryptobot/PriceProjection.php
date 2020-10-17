@@ -70,7 +70,7 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  header('Location: Settings_Patterns.php');
+  //header('Location: Settings_Patterns.php');
 }
 
 function getPriceMatchID(){
