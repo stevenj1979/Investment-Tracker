@@ -53,7 +53,7 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
 }elseif (!empty($_POST['newNameBtn']) && !empty($_GET['addNewName'])){
       echo "<BR> New Name : ".$_POST['newNameTxt'];
       $userID = $_POST['User_ID'];
-      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$userID);
+      addNewName("`CoinPriceMatchName`",$_POST['newNameTxt'],$userID);
 }elseif (!empty($_POST['removePriceBtn']) && !empty($_GET['addPrice'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
@@ -63,9 +63,9 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
     echo "<BR> Test 1Hr Refresh ".$_SESSION['coin1HrPatternNameSelected'];
     setNameSelection1HrPattern($_SESSION['coin1HrPatternNameSelected']);
 }elseif (!empty($_POST['newName1HrPatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
-    addNewName(`Coin1HrPatternName`,$_POST['newName1HrPatterntxt'],$_Session['ID']);
+    addNewName("`Coin1HrPatternName`",$_POST['newName1HrPatterntxt'],$_Session['ID']);
 }elseif (!empty($_POST['newNamePricePatternBtn']) && !empty($_GET['addNew1HrPatternName'])){
-    addNewName(`CoinPricePatternName`,$_POST['newNamePricePatterntxt'],$_Session['ID']);
+    addNewName("`CoinPricePatternName`",$_POST['newNamePricePatterntxt'],$_Session['ID']);
 }elseif (!empty($_POST['add1HrPatternBtn']) && !empty($_GET['add1HrPattern'])){
     $cmbo1 = $_POST['selectCmbo1Hr1New'];$cmbo2 = $_POST['selectCmbo1Hr2New'];
     $cmbo3 = $_POST['selectCmbo1Hr3New']; $cmbo4 = $_POST['selectCmbo1Hr4New'];
