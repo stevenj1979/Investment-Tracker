@@ -52,8 +52,8 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
       addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
 }elseif (!empty($_POST['newNameBtn']) && !empty($_GET['addNewName'])){
       echo "<BR> New Name : ".$_POST['newNameTxt'];
-      $UserID = $_Session['ID'];
-      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$UserID);
+      $userID = $_POST['User_ID'];
+      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$userID);
 }elseif (!empty($_POST['removePriceBtn']) && !empty($_GET['addPrice'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
@@ -334,7 +334,7 @@ Echo "<BR> 1Hr pattern size : $coin1HrPatternSize";
 $coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
 $coinPricePatternNameSelected = $_SESSION['coinPricePatternNameSelected'];
 $coin1HrPatternNameSelected = $_SESSION['coin1HrPatternNameSelected'];
-
+$readOnly = " style='color:Gray' readonly ";
 $comboList = Array('-1','0','1','*');
   displayHeader(7);
   ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
@@ -358,6 +358,7 @@ $comboList = Array('-1','0','1','*');
   echo "<form action='Settings_Patterns.php?addNewName=Y' method='post'>";
     echo "<input type='text' name='newNameTxt' id='newNametxt' class='form-control input-lg' placeholder='Name' value='' tabindex='1'>";
     echo "<input type='submit' name='newNameBtn' value='Add New Name'>";
+    echo "<input type='text' name='User_ID' $readOnly value='".$_SESSION['ID']."' tabindex='2'>";
   echo "</form>";
   echo "<form action='Settings_Patterns.php?addPrice=Y' method='post'>";
     echo "<select name='CoinPriceMatchSelect' size='$coinPriceMatchSize'>";
