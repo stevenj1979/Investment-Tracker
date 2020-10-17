@@ -9,7 +9,7 @@ $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
 
 function getPrice($coinID, $time1, $time2, $isMax){
-  if ($isMax = True) { $nGroup = "max(`Price`) as Price ";}
+  if ($isMax == True) { $nGroup = "max(`Price`) as Price ";}
   else {$nGroup = "min(`Price`)  as Price ";}
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
