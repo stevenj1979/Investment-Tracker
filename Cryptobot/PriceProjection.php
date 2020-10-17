@@ -44,10 +44,10 @@ function writePrice($coinID, $price, $isMax){
 
 $tempAry = getPrice(84,0,15,True);
 echo "<br>".$tempAry[0][0];
-writePrice(84,$tempAry[0][0],True)
+writePrice(84,$tempAry[0][0],True);
 $tempAry2 = getPrice(84,0,15,False);
 echo "<br>".$tempAry2[0][0];
-writePrice(84,$tempAry2[0][0],False)
+writePrice(84,$tempAry2[0][0],False);
 
 ?>
 </html>
