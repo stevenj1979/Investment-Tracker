@@ -25,8 +25,10 @@ function getPrice($coinID, $time1, $time2, $isMax){
 return $tempAry;
 }
 
-echo "<br>".getPrice(84,0,15,True);
-echo "<br>".getPrice(84,0,15,False);
+$tempAry = getPrice(84,0,15,True);
+echo "<br>".$tempAry(0);
+$tempAry2 = getPrice(84,0,15,False);
+echo "<br>".$tempAry2(0);
 
 ?>
 </html>
