@@ -26,10 +26,28 @@ function getPrice($coinID, $time1, $time2, $isMax){
 return $tempAry;
 }
 
+function writePrice($coinID, $price, $isMax){
+  if ($isMax == True) { $nTable = "`ProjectedPriceMax`";}
+  else {$nTable = "`ProjectedPriceMin`";}
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE $nTable SET `0Min`= $price
+          WHERE `CoinID` = $coinID";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 $tempAry = getPrice(84,0,15,True);
 echo "<br>".$tempAry[0][0];
+writePrice(84,$tempAry[0][0],True)
 $tempAry2 = getPrice(84,0,15,False);
 echo "<br>".$tempAry2[0][0];
+writePrice(84,$tempAry2[0][0],False)
 
 ?>
 </html>
