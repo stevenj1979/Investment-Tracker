@@ -26,9 +26,9 @@ return $tempAry;
 }
 
 $tempAry = getPrice(84,0,15,True);
-echo "<br>".$tempAry[0];
+echo "<br>".$tempAry[0][0];
 $tempAry2 = getPrice(84,0,15,False);
-echo "<br>".$tempAry2[0];
+echo "<br>".$tempAry2[0][0];
 
 ?>
 </html>
