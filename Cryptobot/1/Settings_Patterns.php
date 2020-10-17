@@ -52,7 +52,8 @@ if (!empty($_POST['CoinPriceMatchNamesSelect']) && !empty($_GET['changeNameSelec
       addpricePatterntoSQL($coinID, $topPrice, $bottomPrice);
 }elseif (!empty($_POST['newNameBtn']) && !empty($_GET['addNewName'])){
       echo "<BR> New Name : ".$_POST['newNameTxt'];
-      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$_Session['ID']);
+      $UserID = $_Session['ID'];
+      addNewName(`CoinPriceMatchName`,$_POST['newNameTxt'],$UserID);
 }elseif (!empty($_POST['removePriceBtn']) && !empty($_GET['addPrice'])){
       echo "<BR> removePriceBtn not empty";
       $ID = $_POST['CoinPriceMatchSelect'];
