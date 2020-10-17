@@ -42,21 +42,36 @@ function writePrice($coinID, $price, $isMax, $nColumn){
   $conn->close();
 }
 
+function getCoins(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+$coin = getCoins();
+$coinSize = count($coin);
 //$tempAry = getPrice(84,0,15,True);
 //echo "<br>".$tempAry[0][0];
 //writePrice(84,$tempAry[0][0],True);
 //$tempAry2 = getPrice(84,0,15,False);
 //echo "<br>".$tempAry2[0][0];
 //writePrice(84,$tempAry2[0][0],False);
+for ($j=0; $j<$coinSize; $j++){
+  for ($i=1; $i<7; $i++){
+    $lastNum = ($i-1)*15;
+    $tempAry = getPrice($coin[$j][0],$lastNum,($i*15),True);
+    writePrice($coin[$j][0],$tempAry[0][0],True,"`".$lastNum."Min`");
+    $tempAry2 = getPrice($coin[$j][0],$lastNum,($i*15),False);
+    writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
 
-for ($i=1; $i<7; $i++){
-  $lastNum = ($i-1)*15;
-  $tempAry = getPrice(84,$lastNum,($i*15),True);
-  writePrice(84,$tempAry[0][0],True,"`".$lastNum."Min`");
-  $tempAry2 = getPrice(84,$lastNum,($i*15),False);
-  writePrice(84,$tempAry2[0][0],False,"`".$lastNum."Min`");
-
+  }
 }
-
 ?>
 </html>
