@@ -105,7 +105,7 @@ for ($j=0; $j<$coinSize; $j++){
     writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
     for ($k=0; $k<$priceMatchSize; $k++){
       addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1]);
-      echo "addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1]).";";
+      echo "addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].");";
     }
 
   }
