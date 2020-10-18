@@ -76,11 +76,11 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID){
 function getPriceMatchID(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `UserID`,`ID` FROM `PriceProjectionUpdate`";
+  $sql = "SELECT `UserID`,`ID`,`BuySell` FROM `PriceProjectionUpdate`";
   //echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['UserID'],$row['ID']);
+    $tempAry[] = Array($row['UserID'],$row['ID'],$row['BuySell']);
   }
   $conn->close();
 return $tempAry;
@@ -104,8 +104,15 @@ for ($j=0; $j<$coinSize; $j++){
     $tempAry2 = getPrice($coin[$j][0],$lastNum,($i*15),False);
     writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
     for ($k=0; $k<$priceMatchSize; $k++){
-      addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1]);
-      echo "addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].");";
+      if ($priceMatch[$k][2] == "Buy"){
+        addpricePatterntoSQL($tempAry2[0][0],$coin[$j][0],$priceMatch[$k][0],0,$priceMatch[$k][1]);
+        echo "BUY: addpricePatterntoSQL(".$tempAry2[0][0].",".$coin[$j][0].",".$priceMatch[$k][0].",0,"$priceMatch[$k][1].");";
+      }else{
+        $newPrice = $tempAry[0][0]*10;
+        addpricePatterntoSQL($newPrice,$coin[$j][0],$tempAry[0][0],$priceMatch[$k][0],$priceMatch[$k][1]);
+        echo "Sell: addpricePatterntoSQL($newPrice,".$coin[$j][0].",".$tempAry[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].");";
+      }
+
     }
 
   }
