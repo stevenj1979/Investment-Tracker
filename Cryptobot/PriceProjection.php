@@ -106,7 +106,7 @@ for ($j=0; $j<$coinSize; $j++){
     for ($k=0; $k<$priceMatchSize; $k++){
       if ($priceMatch[$k][2] == "Buy"){
         addpricePatterntoSQL($tempAry2[0][0],$coin[$j][0],$priceMatch[$k][0],0,$priceMatch[$k][1]);
-        echo "BUY: addpricePatterntoSQL(".$tempAry2[0][0].",".$coin[$j][0].",".$priceMatch[$k][0].",0,"$priceMatch[$k][1].");";
+        echo "BUY: addpricePatterntoSQL(".$tempAry2[0][0].",".$coin[$j][0].",".$priceMatch[$k][0].",0,".$priceMatch[$k][1].");";
       }else{
         $newPrice = $tempAry[0][0]*10;
         addpricePatterntoSQL($newPrice,$coin[$j][0],$tempAry[0][0],$priceMatch[$k][0],$priceMatch[$k][1]);
