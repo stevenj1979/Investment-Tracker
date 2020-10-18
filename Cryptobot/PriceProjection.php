@@ -111,12 +111,12 @@ for ($j=0; $j<$coinSize; $j++){
     writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
     for ($k=0; $k<$priceMatchSize; $k++){
       if ($priceMatch[$k][2] == "Buy"){
-        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],0,$priceMatch[$k][1],"Buy");
-        echo "BUY: addpricePatterntoSQL(".$tempAry2[0][0].",".$coin[$j][0].",".$priceMatch[$k][0].",0,".$priceMatch[$k][1].");";
+        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1],$priceMatch[$k][2]);
+        echo "BUY: addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].",".$priceMatch[$k][2].");";
       }else{
         $newPrice = $tempAry[0][0]*10;
-        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],0,$priceMatch[$k][1],"Sell");
-        echo "Sell: addpricePatterntoSQL($newPrice,".$coin[$j][0].",".$tempAry[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].");";
+        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1],$priceMatch[$k][2]);
+        echo "Sell: addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].",".$priceMatch[$k][2].");";
       }
 
     }
