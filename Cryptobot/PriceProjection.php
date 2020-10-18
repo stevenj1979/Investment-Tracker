@@ -69,7 +69,7 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID, $buyS
     $sql = "call PriceProjectionUpdatePrice($newPrice,$coinID,$userID,$price,$nameID);";
   }
 
-  echo "<BR>".$sql;
+  echo "<BR>".$sql." : ".$buySell."<BR>";
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
