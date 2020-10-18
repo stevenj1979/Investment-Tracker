@@ -55,14 +55,20 @@ function getCoins(){
 return $tempAry;
 }
 
-function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID){
+function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID, $buySell){
   //$userID = $_SESSION['ID'];
   //$nameID = $_SESSION['coinPriceMatchNameSelected'];
   //echo "$ruleID $symbol $price $userID";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call PriceProjectionUpdatePrice($price,$coinID,$userID,$lowPrice, $nameID);";
+  if ($buySell == "Buy"){
+      $sql = "call PriceProjectionUpdatePrice($lowPrice,$coinID,$userID,0,$nameID);";
+  }else{
+    $newPrice = $price * 10;
+    $sql = "call PriceProjectionUpdatePrice($newPrice,$coinID,$userID,$price,$nameID);";
+  }
+
   //echo $sql;
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -105,11 +111,11 @@ for ($j=0; $j<$coinSize; $j++){
     writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
     for ($k=0; $k<$priceMatchSize; $k++){
       if ($priceMatch[$k][2] == "Buy"){
-        addpricePatterntoSQL($tempAry2[0][0],$coin[$j][0],$priceMatch[$k][0],0,$priceMatch[$k][1]);
+        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],0,$priceMatch[$k][1],"Buy");
         echo "BUY: addpricePatterntoSQL(".$tempAry2[0][0].",".$coin[$j][0].",".$priceMatch[$k][0].",0,".$priceMatch[$k][1].");";
       }else{
         $newPrice = $tempAry[0][0]*10;
-        addpricePatterntoSQL($newPrice,$coin[$j][0],$tempAry[0][0],$priceMatch[$k][0],$priceMatch[$k][1]);
+        addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],0,$priceMatch[$k][1],"Sell");
         echo "Sell: addpricePatterntoSQL($newPrice,".$coin[$j][0].",".$tempAry[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].");";
       }
 
