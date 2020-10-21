@@ -382,13 +382,13 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
             bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);
             addBuyRuletoSQL($bittrexRef,$ruleID);
-            logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID);
+            logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID,1);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
             if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
           }
           logAction("Bittrex Status:  ".json_encode($obj), 'BuySell', 0);
-          logToSQL("Bittrex", "Add Buy Coin Error: ".json_encode($obj), $userID);
+          logToSQL("Bittrex", "Add Buy Coin Error: ".json_encode($obj), $userID,1);
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
@@ -397,7 +397,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     }else{
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0];
       logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", 'BuySell', 0);
-      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", $userID);
+      logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", $userID,1);
     }
   //}
 }
@@ -1966,7 +1966,7 @@ function logAction($log, $logFile, $enabled){
   }
 }
 
-function logToSQL($subject, $comments, $UserID, $enabled = 1){
+function logToSQL($subject, $comments, $UserID, $enabled){
   if ($enabled == 1){
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
