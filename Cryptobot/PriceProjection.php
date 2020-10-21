@@ -34,7 +34,8 @@ function getPricePctIncrease($coinID){
   //echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['CoinID'],$row['OneHourPricePct'],$row['TwentyFourHourPricePct'],$row['SevenDayPricePct'],$row['PriceDate']);
+    $tempAry[] = Array($row['CoinID'],$row['OneHourPricePct'],$row['TwentyFourHourPricePct'],$row['SevenDayPricePct'],$row['PriceDate'],$row['TenMinsPricePct']
+    ,$row['TwentyMinsPricePct'],$row['ThirtyMinsPricePct']);
   }
   $conn->close();
 return $tempAry;
@@ -100,7 +101,7 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date, $price4,$pri
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`, `PriceDate`)
+  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`, `PriceDate`, `TenMinsPct`, `TwentyMinsPct`, `ThirtyMinsPct`)
   VALUES ($coinID, $price1,$price2,$price3,'$date',$price4,$price5,$price6)";
 
   if ($conn->query($sql) === TRUE) {
