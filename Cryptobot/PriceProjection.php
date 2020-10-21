@@ -26,6 +26,19 @@ function getPrice($coinID, $time1, $time2, $isMax){
 return $tempAry;
 }
 
+function getPricePctIncrease($coinID){
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,`OneHourPricePct`,`TwentyFourHourPricePct`,`SevenDayPricePct`,`PriceDate` FROM `CoinPricePctIncrease` WHERE `CoinID` = $coinID";
+  //echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['OneHourPricePct'],$row['TwentyFourHourPricePct'],$row['SevenDayPricePct'],$row['PriceDate']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
 function writePrice($coinID, $price, $isMax, $nColumn){
   if ($isMax == True) { $nTable = "`ProjectedPriceMax`";}
   else {$nTable = "`ProjectedPriceMin`";}
@@ -79,6 +92,24 @@ function addpricePatterntoSQL($coinID, $price, $lowPrice, $userID,$nameID, $buyS
   //header('Location: Settings_Patterns.php');
 }
 
+function writePctIncrease($coinID, $price1, $price2, $price3,$date){
+  //$userID = $_SESSION['ID'];
+  //$nameID = $_SESSION['coinPriceMatchNameSelected'];
+  //echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`) VALUES ($coinID, $price1,$price2,$price3,'$date')";
+
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  //header('Location: Settings_Patterns.php');
+}
+
 function getPriceMatchID(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
@@ -123,5 +154,11 @@ for ($j=0; $j<$coinSize; $j++){
 
   }
 }
+$coinPricePct = getPricePctIncrease(84);
+$coinPricePctSize = count($coinPricePct);
+for ($i=0; $i<$coinPricePctSize; $i++){
+  writePctIncrease($coinPricePct[$i][0],$coinPricePct[$i][1],$coinPricePct[$i][2],$coinPricePct[$i][3],$coinPricePct[$i][4]);
+}
+
 ?>
 </html>
