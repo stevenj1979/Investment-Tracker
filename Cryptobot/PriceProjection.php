@@ -99,7 +99,7 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`) VALUES ($coinID, $price1,$price2,$price3,'$date')";
+  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`, `PriceDate`) VALUES ($coinID, $price1,$price2,$price3,'$date')";
 
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
