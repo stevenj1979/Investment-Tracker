@@ -15,10 +15,10 @@ function getLastMonthCoinPrice($minMax){
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   if ($minMax == "Max"){ $sql = "SELECT `CoinID`,`MonthHighPrice`,`Month`,`Year` FROM `LastMonthHighPrice` "; }
   else{ $sql = "SELECT `CoinID`,`MonthHighPrice`,`Month`,`Year` FROM `LastMonthMinPrice` ";}
-  //echo "<BR>".$sql;
+  echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Price']);
+    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year']);
   }
   $conn->close();
 return $tempAry;
