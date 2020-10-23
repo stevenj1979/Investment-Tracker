@@ -122,7 +122,7 @@ function getRules($userID, $tableName){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
-,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`,`HoursDisabled`
+,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`,`HoursDisabled`,`RuleName`
 FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -137,7 +137,7 @@ FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
       ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //59
-      ,$row['HoursDisabled']);//60
+      ,$row['HoursDisabled'],$row['RuleName']);//60
   }
   $conn->close();
   return $tempAry;
@@ -222,7 +222,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
   echo "<H3>$title</H3>"; ?>
   <table>
-    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><th>&nbspTimer</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
+    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><th>&nbspTimer</th><TH>&nbspRuleID</TH>TH>&nbspRuleName</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
     <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
     <TH>&nbsp7DChangeBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH><TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH>
     <TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspBuyCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBTCAmount</TH><TH>&nbspBuyCoinOffsetEnabled</TH><TH>&nbspBuyCoinOffsetPct</TH><TH>&nbspPriceTrendEnabled</TH>
@@ -262,7 +262,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
    $sellRuleFixed = $userSettings[$x][51];$coinOrder = $userSettings[$x][52];$coinPricePatternEnabled = $userSettings[$x][53];$coinPricePattern = $userSettings[$x][54];
    $Hr1ChangeEnabled = $userSettings[$x][55];$Hr1ChangePattern = $userSettings[$x][56];
    $coinPriceMatchName= $userSettings[$x][57];$coinPricePatternName= $userSettings[$x][58];$coin1HrPatternName= $userSettings[$x][59];
-   $hoursDisabled = $userSettings[$x][60];
+   $hoursDisabled = $userSettings[$x][60]; $ruleName = $userSettings[$x][61];
    //addBuyTableLine($userSettings[$x][28],$userSettings[$x][0],$userSettings[$x][1],$userSettings[$x][2],$userSettings[$x][3])
    //echo "$buyCoin == $flag";
    //if ($buyCoin == $flag){
@@ -275,7 +275,9 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      }else{
        echo "<td><a href='BuySettings.php?resetTimer=Yes&id=$ruleID'><i class='fas fa-stop-circle' style='font-size:22px;color:DodgerBlue'></i></a></td>";
      }
-     echo "<td>".$ruleID."</td>";echo "<td>".$userID."</td>";
+     echo "<td>".$ruleID."</td>";
+     echo "<td>".$ruleName."</td>";
+     echo "<td>".$userID."</td>";
      echo "<td>".$buyOrdersEnabled."</td>";echo "<td>".$buyOrdersTop."</td>";echo "<td>".$buyOrdersBtm."</td>";
      echo "<td>".$marketCapEnabled."</td>";echo "<td>".$marketCapTop."</td>";echo "<td>".$marketCapBtm."</td>";
      echo "<td>".$hr1ChangeEnabled."</td>";echo "<td>".$hr1ChangeTop."</td>";echo "<td>".$hr1ChangeBtm."</td>";
