@@ -152,7 +152,10 @@ echo "<BR>";
 //echo "<BR> status: ".$buyTest['status'];
 
 
-//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.01, 11790.0, 'USDT', 3);
+$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00193663, 12947.69149, 'USDT', 3);
+//
+//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00178577, 12919.11753, 'USDT', 3);
+//
 //echo "<BR> ID: ".$sellTest['id'];
 //echo "<BR> quantity: ".$sellTest['quantity'];
 //echo "<BR> fillQuantity: ".$sellTest['fillQuantity'];
