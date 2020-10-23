@@ -143,18 +143,19 @@ echo "<BR>";
 
 //var_dump($newObj);
 
-//$buyTest = bittrexbuy($apikey, $apisecret, 'BCH', 0.4, 288.0,'USDT', 3);
+$buyTest = bittrexbuy($apikey, $apisecret, 'BTC', 0.00178577, 12940.9671,'USDT', 3);
 
-//echo "<BR> ID: ".$buyTest['id'];
-//echo "<BR> quantity: ".$buyTest['quantity'];
-//echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
-//echo "<BR> commission: ".$buyTest['commission'];
-//echo "<BR> status: ".$buyTest['status'];
+echo "<BR> ID: ".$buyTest['id'];
+echo "<BR> quantity: ".$buyTest['quantity'];
+echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
+echo "<BR> commission: ".$buyTest['commission'];
+echo "<BR> status: ".$buyTest['status'];
 
 
 //$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00193663, 12947.69149, 'USDT', 3);
 //
-$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00178577, 12919.11753, 'USDT', 3);
+//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00178577, 12919.11753, 'USDT', 3);
+
 //
 //echo "<BR> ID: ".$sellTest['id'];
 //echo "<BR> quantity: ".$sellTest['quantity'];
