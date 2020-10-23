@@ -58,11 +58,35 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
 function start_Timer($id){
-  echo "UPDATE `BuyRules` SET `DisableUntil`= date_add(now(), INTERVAL 1 HOUR) WHERE `ID` = 14";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyRules` SET `DisableUntil`= date_add(now(), INTERVAL 1 HOUR) WHERE `ID` = $id";
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+  $conn->close();
 }
 
 function reset_Timer($id){
-  echo "UPDATE `BuyRules` SET `DisableUntil`= date_sub(now(), INTERVAL 10 HOUR) WHERE `ID` = 14";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyRules` SET `DisableUntil`= date_sub(now(), INTERVAL 10 HOUR) WHERE `ID` = $id";
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+  $conn->close();
 }
 
 function getUserIDs($userID){
