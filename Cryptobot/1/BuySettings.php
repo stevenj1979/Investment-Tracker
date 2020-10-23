@@ -314,7 +314,7 @@ $userSettingsDisabledLen = count($userSettingsDisabled);
 
 displayHeader(7);?>
 
-           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3><?php
+           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3> <?php
 
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
