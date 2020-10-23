@@ -68,6 +68,7 @@ function getRules($userID){
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`
   ,`AutoSellCoinEnabled`,`AutoSellPrice`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`
+  ,`RuleName`
 FROM `UserSellRules` WHERE `UserID` = $userID";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -80,7 +81,7 @@ FROM `UserSellRules` WHERE `UserID` = $userID";
       ,$row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'] //27
       ,$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled'],$row['SellPriceMin'] //36
       ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern'] //43
-      ,$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //46
+      ,$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'],$row['RuleName'] //46
 );//35
   }
   $conn->close();
@@ -165,7 +166,7 @@ function drawSellCheckbox($checked){
 function showSellRules($userSettings, $title, $flag, $userSettingsLen){
   echo "<H3>$title</H3>"; ?>
   <table>
-    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
+    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspRuleName</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
     <TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH><TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH>
     <TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH><TH>&nbsp7DChangeBtm</TH><TH>&nbspProfitPctEnabled</TH><TH>&nbspProfitPctTop</TH><TH>&nbspProfitPctBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH>
     <TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH><TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspEmail</TH><TH>&nbspUserName</TH>
@@ -199,12 +200,14 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
    $limitToCoin = $userSettings[$x][37];$autoSellCoinEnabled = $userSettings[$x][38];$autoSellPrice = $userSettings[$x][39];
    $sellPatternEnabled = $userSettings[$x][40];$sellPattern = $userSettings[$x][41];$coinPricePatternEnabled = $userSettings[$x][42];$coinPricePattern = $userSettings[$x][43];
    $coinPriceMatchName = $userSettings[$x][44];$coinPricePatternName = $userSettings[$x][45];$coin1HrPatternName = $userSettings[$x][46];
+   $ruleName = $userSettings[$x][47];
    //echo "$SellCoin == $flag";
    if ($SellCoin == $flag){
      echo "<td><a href='AddNewSettingSell.php?edit=".$iD."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?copyRule=".$iD."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?delete=".$iD."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
      echo "<td>".$iD."</td>";
+     echo "<td>".$ruleName."</td>";
      echo "<td>".$userID."</td>";echo "<td>".$SellCoin."</td>";echo "<td>".$SendEmail."</td>";//Market Cap
      echo "<td>".$buyOrdersEnabled."</td>";echo "<td>".$buyOrdersTop."</td>";echo "<td>".$buyOrdersBtm."</td>";//Volume
      echo "<td>".$marketCapEnabled."</td>";echo "<td>".$marketCapTop."</td>";echo "<td>".$marketCapBtm."</td>";//Buy Orders
