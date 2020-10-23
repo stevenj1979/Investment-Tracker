@@ -246,10 +246,10 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      echo "<td><a href='AddNewSetting.php?copyRule=".$ruleID."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSetting.php?delete=".$ruleID."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
      if ($title == "Enabled Rules"){
-       echo "<td rowspan='3'><a href='BuySettings.php?startTimer=Yes&id=$ruleID'><i class='fas fa-play-circle' style='font-size:60px;color:DodgerBlue'></i></a></td>";
+       echo "<td rowspan='3'><a href='BuySettings.php?startTimer=Yes&id=$ruleID'><i class='fas fa-play-circle' style='font-size:30px;color:DodgerBlue'></i></a></td>";
 
      }else{
-       echo "<td rowspan='3'><a href='BuySettings.php?resetTimer=Yes&id=$ruleID'><i class='fas fa-stop-circle' style='font-size:60px;color:DodgerBlue'></i></a></td>";
+       echo "<td rowspan='3'><a href='BuySettings.php?resetTimer=Yes&id=$ruleID'><i class='fas fa-stop-circle' style='font-size:30px;color:DodgerBlue'></i></a></td>";
      }
      echo "<td>".$ruleID."</td>";echo "<td>".$userID."</td>";
      echo "<td>".$buyOrdersEnabled."</td>";echo "<td>".$buyOrdersTop."</td>";echo "<td>".$buyOrdersBtm."</td>";
