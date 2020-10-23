@@ -629,7 +629,7 @@ while($completeFlag == False){
         if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
           echo "<BR>CANCEL time exceeded! CANCELLING!";
           if ($orderQty == $orderQtyRemaining){
-             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,1);
+             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
                logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, $logToSQLSetting);
@@ -638,7 +638,7 @@ while($completeFlag == False){
                logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $logToSQLSetting);
              }
           }else{
-            $result = bittrexCancel($apiKey,$apiSecret,$uuid,1);
+            $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             if ($result == 1){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
               logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created", $userID, $logToSQLSetting);
@@ -676,7 +676,7 @@ while($completeFlag == False){
           echo "<BR>days from sale! $daysOutstanding CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
             //complete sell update amount
-            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,1);
+            $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             if ($cancelRslt == 1){
               bittrexSellCancel($uuid, $transactionID);
               logToSQL("Bittrex", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $logToSQLSetting);
