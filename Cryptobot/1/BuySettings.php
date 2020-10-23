@@ -222,7 +222,7 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
   echo "<H3>$title</H3>"; ?>
   <table>
-    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><th>&nbspTimer</th><TH>&nbspRuleID</TH>TH>&nbspRuleName</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
+    <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><th>&nbspTimer</th><TH>&nbspRuleID</TH><TH>&nbspRuleName</TH><TH>&nbspUserID</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH><TH>&nbspMarketCapTop</TH><TH>&nbspMarketCapBtm</TH>
     <TH>&nbsp1HrChangeEnabled</TH><TH>&nbsp1HrChangeTop</TH><TH>&nbsp1HrChangeBtm</TH><TH>&nbsp24HrChangeEnabled</TH><TH>&nbsp24HrChangeTop</TH><TH>&nbsp24HrChangeBtm</TH><TH>&nbsp7DChangeEnabled</TH><TH>&nbsp7DChangeTop</TH>
     <TH>&nbsp7DChangeBtm</TH><TH>&nbspCoinPriceEnabled</TH><TH>&nbspCoinPriceTop</TH><TH>&nbspCoinPriceBtm</TH><TH>&nbspSellOrdersEnabled</TH><TH>&nbspSellOrdersTop</TH><TH>&nbspSellOrdersBtm</TH><TH>&nbspVolumeEnabled</TH>
     <TH>&nbspVolumeTop</TH><TH>&nbspVolumeBtm</TH><TH>&nbspBuyCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBTCAmount</TH><TH>&nbspBuyCoinOffsetEnabled</TH><TH>&nbspBuyCoinOffsetPct</TH><TH>&nbspPriceTrendEnabled</TH>
