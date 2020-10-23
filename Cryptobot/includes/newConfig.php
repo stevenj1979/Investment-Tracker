@@ -306,7 +306,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$noOfPurchases = 0){
-  $apiVersion = 1;
+  $apiVersion = 3;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
@@ -1314,7 +1314,7 @@ function buyAmountOverride($buyAmountOverrideEnabled){
 }
 
 function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
-  $apiVersion = 1;
+  $apiVersion = 3;
   echo "<BR>$apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost";
   $subject = "Coin Alert: ".$coin."_".$ruleID;
   $from = 'Coin Alert <alerts@investment-tracker.net>';
