@@ -45,9 +45,9 @@ if(isset($_POST['submit'])){
 
 }//end if submit
 
-if (isset($_POST['startTimer'])){
+if (isset($_GET['startTimer'])){
   start_Timer($_GET['id']);
-}else if (isset($_POST['resetTimer'])){
+}else if (isset($_GET['resetTimer'])){
   reset_Timer($_GET['id']);
 }
 //define page title
