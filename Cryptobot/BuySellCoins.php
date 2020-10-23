@@ -284,9 +284,9 @@ while($completeFlag == False){
           pauseRule($ruleIDBuy,4, $userID);
           pauseTracking($userID);
 
-        }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 2.0){
-          logToSQL("MarketDropStart", "pauseRule($ruleIDBuy,1, $userID);| MarketProfit: ".$marketProfit[0][1], $userID,1);
-          pauseRule($ruleIDBuy,1, $userID);
+        }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 0.3){
+          logToSQL("MarketDropStart", "pauseRule($ruleIDBuy,0, $userID);| MarketProfit: ".$marketProfit[0][1], $userID,1);
+          pauseRule($ruleIDBuy,0, $userID);
         }
       }
 
