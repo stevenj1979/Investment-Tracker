@@ -195,10 +195,10 @@ $sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00193663, 12947.69149, 'US
 
 //var_dump($finalMergeAry);
 
-$marketProfit = getMarketProfit();
+//$marketProfit = getMarketProfit();
 
-echo "<BR> Profit1: ".$marketProfit[0][0];
-echo "<BR> Profit2: ".$marketProfit[0][1];
+//echo "<BR> Profit1: ".$marketProfit[0][0];
+//echo "<BR> Profit2: ".$marketProfit[0][1];
 
 
 ?>
