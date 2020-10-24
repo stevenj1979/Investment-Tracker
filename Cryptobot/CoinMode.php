@@ -13,7 +13,7 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$highPrice,$lowPrice,$buyAmount,$enable,$type,$sellRuleID);";
 
-  //print_r("<BR>".$sql);
+  print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -30,6 +30,7 @@ function isBuyMode($coinAry){
       $buyPrice = $coinAry[$i][9]; $livePrice = $coinAry[$i][10]; $projectedMaxPrice = $coinAry[$i][12]; $projectedMinPrice = $coinAry[$i][13];
       $ruleIDSell = $coinAry[$i][8];
       $t1 = False; $t2 = False; $t3 = False;
+      echo "<BR> Checking Buy Mode: $coinID";
       //24 Hour price is down
       if ($Hr24Price <= -5.0){ $t1 = True;}
       //7Day Price is down
@@ -37,6 +38,7 @@ function isBuyMode($coinAry){
       //Average is flat
       if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
       //if all = yes = calculate Buy Amount
+      echo "<BR> Checking Buy Mode: $t1 | $t2 | $t3 ";
       if ($t1 == True and $t2 == True and $t3 == True){
         //Calculate Buy Price
         $pctToBuy = (($livePrice/$month6LowPrice)*100)/($month6HighPrice-$month6LowPrice);
@@ -55,12 +57,14 @@ function isBuyMode($coinAry){
         $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
         $projectedMaxPrice = $coinAry[$i][12]; $projectedMinPrice = $coinAry[$i][13]; $ruleID = $coinAry[$i][1];
         $t1 = False; $t2 = False; $t3 = False;
+        echo "<BR> Checking Sell Mode: $coinID";
         //24 Hour price is up
         if ($Hr24Price >= 10){$t1 = True;}
         //7Day Price is Up
         if ($D7Price >= 10){ $t2 = True;}
         //Average is flat
         if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
+        echo "<BR> Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True){
           //Calculate Sell Price
 
@@ -77,9 +81,10 @@ function isBuyMode($coinAry){
           $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
           $ruleID = $coinAry[$i][1];
           $t3 = False;
-
+          echo "<BR> Checking Flat Mode: $coinID";
           //Average is Increasing
           if ($Hr1AveragePrice >= 0.5 and $Hr1AveragePrice <= -0.5){ $t3 = True;}
+          echo "<BR> Checking Flat Mode: $t3 ";
           if ($t3 == True){
             //Calculate Sell Price
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
@@ -111,6 +116,7 @@ function isBuyMode($coinAry){
       }
 
   $coinsAry = getCoins();
+  echo "<BR> Checking Coin Mode:";
   isBuyMode($coinsAry);
   isSellMode($coinsAry);
   isFlatMode($coinsAry);
