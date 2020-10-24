@@ -32,9 +32,13 @@ function isBuyMode($coinAry){
       $t1 = False; $t2 = False; $t3 = False;
       echo "<BR> Checking Buy Mode: $coinID";
       //24 Hour price is down
-      if ($Hr24Price <= -5.0){ $t1 = True;}
+      $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
+      echo "<BR> 24HourPrice: $pctInc24Hours";
+      if ($pctInc24Hours <= -5.0){ $t1 = True;}
       //7Day Price is down
-      if ($D7Price <= -5.0){ $t2 = True;}
+      $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
+      echo "<BR> 7DayPrice: $pctInc7Day";
+      if ($pctInc7Day <= -5.0){ $t2 = True;}
       //Average is flat
       if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
       //if all = yes = calculate Buy Amount
