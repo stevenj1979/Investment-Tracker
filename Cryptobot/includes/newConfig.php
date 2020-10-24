@@ -1352,10 +1352,10 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       //writeBittrexAction($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice){
       //writeBittrexAction($coinID,$transactionID,$userID,"Sell",$bittrexRef, $date, $status,$bitPrice);
       bittrexSellAdd($coinID, $transactionID, $userID, 'Sell', $bittrexRef, $status, $bitPrice, $ruleID);
-      logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID);
+      logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID,1);
     }
     logAction("SellCoins:  ".json_encode($obj), 'BuySell', 0);
-    logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj), $userID);
+    logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj), $userID,1);
   }
   if ($sendEmail==1 &&  $sellCoin ==0){
   //if ($sendEmail){

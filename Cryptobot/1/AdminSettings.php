@@ -252,23 +252,29 @@ $userSubSize = count($userSub);
              ?>
 
              <br>Quick Links<br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/BuySellCoins.php"> BuySellCoins </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/BuySellCoins.php"> BuySellCoins </a> 10 mins
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testfile.php"> Test </a>
              <br>
              <a href="https://n1plcpnl0035.prod.ams1.secureserver.net:2083/logout/?locale=en"> cPanel </a>
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AutoUpdatePrice.php"> Auto Update Price </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AutoUpdatePrice.php"> Auto Update Price </a> 15 mins
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AllCoinStatus.php"> All Coin Status </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AllCoinStatus.php"> All Coin Status </a> 5 Mins
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinAdmin.php"> Coin Admin </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinAdmin.php"> Coin Admin </a> once per day,  20:45
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/Dashboard.php"> Dashboard </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/Dashboard.php"> Dashboard </a> 15 mins
              <br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php"> Cryptobot Auto </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php"> Cryptobot Auto </a> 10 mins
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testScript.php"> Test Script </a>
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/PriceProjection.php"> Price Projection </a> 15 mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/MonthlyHighLow.php"> Monthly HighLow </a> 1st of every month
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinHourly.php"> Coin Hourly </a> 2 mins past every hour
              <br>
 
 <?php
