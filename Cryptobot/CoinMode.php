@@ -105,7 +105,7 @@ function isBuyMode($coinAry){
           //Average is Increasing
           if ($Hr1AveragePrice >= 0.5 and $Hr1AveragePrice <= -0.5){ $t3 = True;}
           echo "<BR> Checking Flat Mode: $t3 ";
-          if ($t3 == True){
+          if ($t1 == True and $t2 == True and $t3 == True){
             //Calculate Sell Price
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
             //Disable Rule
