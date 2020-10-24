@@ -54,17 +54,20 @@ function isBuyMode($coinAry){
   function isSellMode($coinAry){
     $coinArySize = Count($coinAry);
     for ($i=0; $i<$coinArySize; $i++){
-        $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
+        $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6]; $livePrice = $coinAry[$i][10];
         $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
         $projectedMaxPrice = $coinAry[$i][12]; $projectedMinPrice = $coinAry[$i][13]; $ruleID = $coinAry[$i][1];
         $t1 = False; $t2 = False; $t3 = False;
         echo "<BR> Checking Sell Mode: $coinID";
         //24 Hour price is up
-        echo "<BR> 24HourPrice: $Hr24Price";
-        if ($Hr24Price >= 10){$t1 = True;}
+
+        $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
+        echo "<BR> 24HourPrice: $pctInc24Hours";
+        if ($pctInc24Hours >= 10){$t1 = True;}
         //7Day Price is Up
-        echo "<BR> 7DayPrice: $D7Price";
-        if ($D7Price >= 10){ $t2 = True;}
+        $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
+        echo "<BR> 7DayPrice: $pctInc7Day";
+        if ($pctInc7Day >= 10){ $t2 = True;}
         //Average is flat
         echo "<BR> 1hourAvgPrice : $Hr1AveragePrice";
         if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
