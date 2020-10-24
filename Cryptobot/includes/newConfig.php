@@ -367,7 +367,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
-          else{$bittrexRef = $obj["id"];
+          else{$bittrexRef = $obj["ID"];
             if ($obj['status'] == 'OPEN'){$status = 1; }else{$status = 0;} }
 
 
@@ -1336,7 +1336,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     //$bittrexRef = $obj['result'][0]['uuid'];
     if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"]; $status = $obj["success"]; }
     else{
-      $bittrexRef = $obj["id"];
+      $bittrexRef = $obj["ID"];
       if ($obj["direction"] == 'SELL'){$status = 1;}else{$status = 0;}
     }
 
