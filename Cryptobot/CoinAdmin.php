@@ -255,6 +255,33 @@ for($x = 0; $x < $confSize; $x++) {
   }
 }
 
+function getCurrentMonthMinMax(){
+  $conn = getHistorySQL(rand(1,4));
+  $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MonthLowPrice`
+  FROM `CurrentMonthHighPrice` `Cmhp`
+	join `CurrentMonthLowPrice` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function writePrice($coinID, $price, $month, $year, $minPrice){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateMonthlyMinMaxPrice($coinID,$minPrice,$price,$month,$year);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 coinHistory(10);
 DeleteHistory(96);
 checkSellSequence();
@@ -287,5 +314,13 @@ for ($j=0; $j<$userConfigSize; $j++){
       }
   }
 }
+
+$minMaxPrice = getCurrentMonthMinMax();
+$minMaxPriceSize = count($minMaxPrice);
+
+for ($i=0; $i<$minMaxPriceSize; $i++){
+  writePrice($maxPrices[$i][0],$maxPrices[$i][1],$maxPrices[$i][2],$maxPrices[$i][3],$maxPrices[$i][4]);
+}
+
 ?>
 </html>
