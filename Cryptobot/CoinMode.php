@@ -48,8 +48,10 @@ function isBuyMode($coinAry){
         $pctToBuy = (($livePrice/$month6LowPrice)*100)/($month6HighPrice-$month6LowPrice);
         $buyAmount = ($buyPrice/100)*$pctToBuy;
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
+        echo "<BR> Activate BUY MODE";
         WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 0, 1,$ruleIDSell);
       }else{
+        echo "<BR> Activate FLAT MODE";
         WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
       }
 
@@ -80,10 +82,11 @@ function isBuyMode($coinAry){
         echo "<BR> Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True){
           //Calculate Sell Price
-
+          echo "<BR> Activate SELL MODE";
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
           WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 0, 2,$ruleIDSell);
         }else{
+          echo "<BR> Activate FLAT MODE";
           WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
         }
     }
@@ -111,6 +114,7 @@ function isBuyMode($coinAry){
           echo "<BR> Checking Flat Mode: $t1 | $t2 | $t3 ";
           if ($t1 == True and $t2 == True and $t3 == True){
             //Calculate Sell Price
+            echo "<BR> Activate FLAT MODE";
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
             //Disable Rule
           }
