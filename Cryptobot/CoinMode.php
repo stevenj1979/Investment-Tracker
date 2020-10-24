@@ -49,6 +49,7 @@ function isBuyMode($coinAry){
 
 
   }
+}
 
   function isSellMode($coinAry){
     $coinArySize = Count($coinAry);
@@ -72,6 +73,7 @@ function isBuyMode($coinAry){
           WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 0, 2,$ruleIDSell);
         }
     }
+  }
 
 
     function isFlatMode($coinAry){
@@ -92,6 +94,7 @@ function isBuyMode($coinAry){
           }
 
       }
+    }
 
       function getCoins(){
         $conn = getSQLConn(rand(1,3));
@@ -120,7 +123,7 @@ function isBuyMode($coinAry){
   isBuyMode($coinsAry);
   isSellMode($coinsAry);
   isFlatMode($coinsAry);
-}
+
 
 ?>
 </html>
