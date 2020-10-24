@@ -168,6 +168,8 @@ echo "<BR> status: ".$getOrderTest['status'];
 echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
 echo "<BR> commission: ".$getOrderTest['commission'];
 
+echo "<BR> direction: ".$getOrderTest['direction'];
+
 //$cancelTest = bittrexCancel($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
 //echo "<BR> Status: ".$cancelTest['status'];
 //echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
