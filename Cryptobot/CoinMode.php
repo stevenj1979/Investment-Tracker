@@ -60,10 +60,13 @@ function isBuyMode($coinAry){
         $t1 = False; $t2 = False; $t3 = False;
         echo "<BR> Checking Sell Mode: $coinID";
         //24 Hour price is up
+        echo "<BR> 24HourPrice: $Hr24Price";
         if ($Hr24Price >= 10){$t1 = True;}
         //7Day Price is Up
+        echo "<BR> 7DayPrice: $D7Price";
         if ($D7Price >= 10){ $t2 = True;}
         //Average is flat
+        echo "<BR> 1hourAvgPrice : $Hr1AveragePrice";
         if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True){
