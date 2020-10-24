@@ -9,27 +9,26 @@ $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
 
 
-function getLastMonthCoinPrice($minMax){
+function getLastMonthCoinPrice(){
 
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
-  if ($minMax == "Max"){ $sql = "SELECT `CoinID`,`MonthHighPrice`,`Month`,`Year` FROM `LastMonthHighPrice` "; }
-  else{ $sql = "SELECT `CoinID`,`MonthHighPrice`,`Month`,`Year` FROM `LastMonthMinPrice` ";}
+  $sql = "SELECT `Lmhp`.`CoinID`,`Lmhp`.`MonthHighPrice` as MonthHighPrice,`Lmhp`.`Month`,`Lmhp`.`Year`,  `Lmmp`.`MonthLowPrice` as MonthLowPrice
+  FROM `LastMonthHighPrice` `Lmhp`
+	join `LastMonthLowPrice` `Lmmp` on `Lmmp`.`CoinID` = `Lmhp`.`CoinID` and `Lmmp`.`Month` = `Lmhp`.`Month` and `Lmmp`.`Year` = `Lmhp`.`Year` ";
   echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year']);
+    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
   }
   $conn->close();
 return $tempAry;
 }
 
-function writePrice($coinID, $price, $month, $year, $isMax){
-  if ($isMax == True) { $nTable = "`MonthlyMaxPrices`"; $maxMin = "MaxPrice";}
-  else {$nTable = "`MonthlyMinPrices`";$maxMin = "MinPrice";}
+function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "INSERT INTO $nTable (`CoinID`, `$maxMin`, `Month`, `Year`) VALUES ($coinID,$price,$month ,$year)";
+  $sql = "call UpdateMonthlyMinMaxPrice($coinID,$minPrice,$price,$month,$year);";
   //print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -39,19 +38,14 @@ function writePrice($coinID, $price, $month, $year, $isMax){
   $conn->close();
 }
 
-$maxPrices = getLastMonthCoinPrice("Max");
+$maxPrices = getLastMonthCoinPrice();
 $maxPricesSize = Count($maxPrices);
 
 for ($i=0; $i<$maxPricesSize; $i++){
-  writePrice($maxPrices[$i][0],$maxPrices[$i][1],$maxPrices[$i][2],$maxPrices[$i][3],True);
+  writePrice($maxPrices[$i][0],$maxPrices[$i][1],$maxPrices[$i][2],$maxPrices[$i][3],$maxPrices[$i][4]);
 }
 
-$minPrices = getLastMonthCoinPrice("Max");
-$minPricesSize = count($minPrices);
 
-for ($j=0; $j<$minPricesSize; $j++){
-  writePrice($minPrices[$j][0],$minPrices[$j][1],$minPrices[$j][2],$minPrices[$j][3], False);
-}
 
 ?>
 </html>
