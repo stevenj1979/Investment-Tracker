@@ -216,7 +216,7 @@ function checkSellSequence(){
           for ($z =$y+1; $z<$sequenceCount; $z ++ ){
               if ( $sequence[$z][0] == $userID){
                 updateFixSellRule($sequence[$z][1],$transactionID);
-                logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID);
+                logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID,1);
               }
           }
 
