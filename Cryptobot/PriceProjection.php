@@ -23,11 +23,11 @@ function getPrice(){
 return $tempAry;
 }
 
-function getPricePctIncrease($coinID){
+function getPricePctIncrease(){
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `CoinID`,`OneHourPricePct`,`TwentyFourHourPricePct`,`SevenDayPricePct`,`PriceDate`,`TenMinsPricePct`,`TwentyMinsPricePct`,`ThirtyMinsPricePct`
-  FROM `CoinPricePctIncrease` WHERE `CoinID` = $coinID";
+  FROM `CoinPricePctIncrease`";
   //echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -96,8 +96,7 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date, $price4,$pri
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "INSERT INTO `CoinPricePctIncrease`(`CoinID`, `OneHourPct`, `TwentyFourHourPct`, `SevenDayPct`, `PriceDate`, `TenMinsPct`, `TwentyMinsPct`, `ThirtyMinsPct`)
-  VALUES ($coinID, $price1,$price2,$price3,'$date',$price4,$price5,$price6)";
+  $sql = "call WritePricePctIncrease($coinID, $price1,$price2,$price3,'$date',$price4,$price5,$price6)";
 
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -160,7 +159,7 @@ return $tempAry;
 
   //}
 //}
-$coinPricePct = getPricePctIncrease(84);
+$coinPricePct = getPricePctIncrease();
 $coinPricePctSize = count($coinPricePct);
 for ($i=0; $i<$coinPricePctSize; $i++){
   writePctIncrease($coinPricePct[$i][0],$coinPricePct[$i][1],$coinPricePct[$i][2],$coinPricePct[$i][3],$coinPricePct[$i][4],$coinPricePct[$i][5],$coinPricePct[$i][6],$coinPricePct[$i][7]);
