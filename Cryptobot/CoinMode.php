@@ -91,7 +91,7 @@ function isBuyMode($coinAry){
       for ($i=0; $i<$coinArySize; $i++){
           $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
           $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
-          $ruleID = $coinAry[$i][1];
+          $ruleID = $coinAry[$i][1]; $livePrice = $coinAry[$i][10];
           $t1 = False; $t2 = False; $t3 = False;
           echo "<BR> Checking Flat Mode: $coinID";
           $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
@@ -101,7 +101,7 @@ function isBuyMode($coinAry){
           $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
           echo "<BR> 7DayPrice: $pctInc7Day";
           if ($pctInc7Day > -5.0 and $pctInc7Day < 10.0){ $t2 = True;}
-          
+
           //Average is Increasing
           if ($Hr1AveragePrice >= 0.5 and $Hr1AveragePrice <= -0.5){ $t3 = True;}
           echo "<BR> Checking Flat Mode: $t3 ";
