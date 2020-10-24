@@ -1336,7 +1336,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     //$bittrexRef = $obj['result'][0]['uuid'];
     if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"]; $status = $obj["success"]; }
     else{
-      $bittrexRef = $obj["ID"];
+      $bittrexRef = $obj["id"];
       if ($obj["direction"] == 'SELL'){$status = 1;}else{$status = 0;}
     }
 
