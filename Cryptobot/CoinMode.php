@@ -28,7 +28,7 @@ function isBuyMode($coinAry){
       $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
       $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleID = $coinAry[$i][1];
       $buyPrice = $coinAry[$i][9]; $livePrice = $coinAry[$i][10]; $projectedMaxPrice = $coinAry[$i][12]; $projectedMinPrice = $coinAry[$i][13];
-      $ruleIDSell = $coinAry[$i][8];
+      $ruleIDSell = $coinAry[$i][8]; $userID = $coinAry[$i][14]; $modeID = $coinAry[$i][15];
       $t1 = False; $t2 = False; $t3 = False;
       echo "<BR> Checking Buy Mode: $coinID";
       //24 Hour price is down
@@ -50,9 +50,11 @@ function isBuyMode($coinAry){
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         echo "<BR> Activate BUY MODE";
         WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 0, 1,$ruleIDSell);
+        if ($modeID <> 1){ logToSQL("CoinMode","Change Coin mode to 1 for $coinID", $userID, 1);}
       }else{
         echo "<BR> Activate FLAT MODE";
         WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
+        if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for $coinID", $userID, 1);}
       }
 
 
@@ -65,6 +67,7 @@ function isBuyMode($coinAry){
         $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6]; $livePrice = $coinAry[$i][10];
         $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
         $projectedMaxPrice = $coinAry[$i][12]; $projectedMinPrice = $coinAry[$i][13]; $ruleID = $coinAry[$i][1];
+        $userID = $coinAry[$i][14]; $modeID = $coinAry[$i][15];
         $t1 = False; $t2 = False; $t3 = False;
         echo "<BR> Checking Sell Mode: $coinID";
         //24 Hour price is up
@@ -85,9 +88,11 @@ function isBuyMode($coinAry){
           echo "<BR> Activate SELL MODE";
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
           WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 0, 2,$ruleIDSell);
+          if ($modeID <> 2){ logToSQL("CoinMode","Change Coin mode to 2 for $coinID", $userID, 1);}
         }else{
           echo "<BR> Activate FLAT MODE";
           WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
+          if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for $coinID", $userID, 1);}
         }
     }
   }
@@ -99,6 +104,7 @@ function isBuyMode($coinAry){
           $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
           $Hr1AveragePrice = $coinAry[$i][11]; $month6HighPrice = $coinAry[$i][2]; $month6LowPrice = $coinAry[$i][3]; $ruleIDSell = $coinAry[$i][8];
           $ruleID = $coinAry[$i][1]; $livePrice = $coinAry[$i][10];
+          $userID = $coinAry[$i][14]; $modeID = $coinAry[$i][15];
           $t1 = False; $t2 = False; $t3 = False;
           echo "<BR> Checking Flat Mode: $coinID";
           $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
@@ -116,6 +122,7 @@ function isBuyMode($coinAry){
             //Calculate Sell Price
             echo "<BR> Activate FLAT MODE";
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
+            if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for $coinID", $userID, 1);}
             //Disable Rule
           }
 
@@ -132,13 +139,13 @@ function isBuyMode($coinAry){
         }
 
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
-        ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin` FROM `CoinModePricesView`";
+        ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID` FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
         //mysqli_fetch_assoc($result);
         while ($row = mysqli_fetch_assoc($result)){
-            $tempAry[] = Array($row['CoinID'],$row['RuleID'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange']
-          ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin']);
+            $tempAry[] = Array($row['CoinID'],$row['RuleID'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'] //7
+          ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID']); //15
         }
         $conn->close();
         return $tempAry;
