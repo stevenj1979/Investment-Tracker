@@ -319,7 +319,7 @@ $minMaxPrice = getCurrentMonthMinMax();
 $minMaxPriceSize = count($minMaxPrice);
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
-  writePrice($maxPrices[$i][0],$maxPrices[$i][1],$maxPrices[$i][2],$maxPrices[$i][3],$maxPrices[$i][4]);
+  writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
 }
 
 ?>
