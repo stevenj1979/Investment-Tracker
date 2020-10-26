@@ -96,7 +96,7 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date, $price4,$pri
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call WritePricePctIncrease($coinID, $price1,$price2,$price3,'$date',$price4,$price5,$price6)";
+  $sql = "call WritePricePctIncrease($coinID, $price1,$price2,$price3,$date,$price4,$price5,$price6)";
 
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
