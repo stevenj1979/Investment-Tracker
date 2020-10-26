@@ -34,13 +34,13 @@ function isBuyMode($coinAry){
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
       echo "<BR> 24HourPrice: $pctInc24Hours";
-      if ($pctInc24Hours <= -5.0){ $t1 = True;}
+      if ($pctInc24Hours <= -3.0){ $t1 = True;}
       //7Day Price is down
       $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
       echo "<BR> 7DayPrice: $pctInc7Day";
-      if ($pctInc7Day <= -5.0){ $t2 = True;}
+      if ($pctInc7Day <= -3.0){ $t2 = True;}
       //Average is flat
-      if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
+      if ($Hr1AveragePrice <= 0.2 and $Hr1AveragePrice >= -0.2){ $t3 = True;}
       //if all = yes = calculate Buy Amount
       echo "<BR> Checking Buy Mode: $t1 | $t2 | $t3 ";
       if ($t1 == True and $t2 == True and $t3 == True){
@@ -74,14 +74,14 @@ function isBuyMode($coinAry){
 
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
         echo "<BR> 24HourPrice: $pctInc24Hours";
-        if ($pctInc24Hours >= 10){$t1 = True;}
+        if ($pctInc24Hours >= 3){$t1 = True;}
         //7Day Price is Up
         $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
         echo "<BR> 7DayPrice: $pctInc7Day";
-        if ($pctInc7Day >= 10){ $t2 = True;}
+        if ($pctInc7Day >= 3){ $t2 = True;}
         //Average is flat
         echo "<BR> 1hourAvgPrice : $Hr1AveragePrice";
-        if ($Hr1AveragePrice <= 0.5 and $Hr1AveragePrice >= -0.5){ $t3 = True;}
+        if ($Hr1AveragePrice <= 0.2 and $Hr1AveragePrice >= -0.2){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True){
           //Calculate Sell Price
@@ -109,14 +109,14 @@ function isBuyMode($coinAry){
           echo "<BR> Checking Flat Mode: $coinID";
           $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
           echo "<BR> 24HourPrice: $pctInc24Hours";
-          if ($pctInc24Hours > -5.0 and $pctInc24Hours < 10.0){$t1 = True;}
+          if ($pctInc24Hours > -3.0 and $pctInc24Hours < 3.0){$t1 = True;}
 
           $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
           echo "<BR> 7DayPrice: $pctInc7Day";
-          if ($pctInc7Day > -5.0 and $pctInc7Day < 10.0){ $t2 = True;}
+          if ($pctInc7Day > -3.0 and $pctInc7Day < 3.0){ $t2 = True;}
 
           //Average is Increasing
-          if ($Hr1AveragePrice >= 0.5 and $Hr1AveragePrice <= -0.5){ $t3 = True;}
+          if ($Hr1AveragePrice >= 0.2 and $Hr1AveragePrice <= -0.2){ $t3 = True;}
           echo "<BR> Checking Flat Mode: $t1 | $t2 | $t3 ";
           if ($t1 == True and $t2 == True and $t3 == True){
             //Calculate Sell Price
