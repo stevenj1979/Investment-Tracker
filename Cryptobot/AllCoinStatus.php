@@ -159,13 +159,14 @@ function updateTotalProfit(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$date = date('Y-m-d H:i', time());
   $sql = "Insert into `NewUserProfit`
-        SELECT `Tv`.`CoinID`,`Tv`.`CoinPrice`,`Tv`.`Amount`,`Tv`.`Status`,`Tv`.`UserID`, `Cp`.`LiveCoinPrice`
-        , `Tv`.`CoinPrice`*`Tv`.`Amount`as PurchasePrice
-        ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as LivePrice
-        ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as Profit
-        FROM `TransactionsView` `Tv`
-        join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
-        WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
+  SELECT `Tv`.`CoinID`,`Tv`.`CoinPrice`,`Tv`.`Amount`,`Tv`.`Status`,`Tv`.`UserID`, `Cp`.`LiveCoinPrice`
+  , `Tv`.`CoinPrice`*`Tv`.`Amount`as PurchasePrice
+  ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as LivePrice
+  ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as Profit
+  ,`Tv`.`BuyRule` as `RuleID`
+  FROM `TransactionsView` `Tv`
+  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
+  WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
