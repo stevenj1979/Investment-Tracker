@@ -18,8 +18,8 @@ function getUserConfig(){
 function DeleteHistory($hours){
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $date = date('Y-m-d H:i', time());
-  $sql = "call Update1HrPriceChange($hours,$date);";
+  //$date = date('Y-m-d H:i', time());
+  $sql = "call NewDeleteHistory($hours);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -283,7 +283,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
 }
 
 coinHistory(10);
-DeleteHistory(96);
+DeleteHistory(168);
 checkSellSequence();
 $apisecret=getAPISecret();
 //$apikey=getAPIKey();
