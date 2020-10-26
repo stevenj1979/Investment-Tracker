@@ -276,6 +276,8 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinHourly.php"> Coin Hourly </a> 2 mins past every hour
              <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinMode.php"> Coin Mode </a> every 5 mins
+             <br>
 
 <?php
   displaySideColumn();
