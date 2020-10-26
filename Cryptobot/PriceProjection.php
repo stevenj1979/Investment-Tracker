@@ -162,6 +162,7 @@ return $tempAry;
 $coinPricePct = getPricePctIncrease();
 $coinPricePctSize = count($coinPricePct);
 for ($i=0; $i<$coinPricePctSize; $i++){
+  echo "<BR> Update Price ".$coinPricePct[$i][0];
   writePctIncrease($coinPricePct[$i][0],$coinPricePct[$i][1],$coinPricePct[$i][2],$coinPricePct[$i][3],$coinPricePct[$i][4],$coinPricePct[$i][5],$coinPricePct[$i][6],$coinPricePct[$i][7]);
 }
 
