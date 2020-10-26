@@ -283,7 +283,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
 }
 
 coinHistory(10);
-DeleteHistory(168);
+DeleteHistory(2500);
 checkSellSequence();
 $apisecret=getAPISecret();
 //$apikey=getAPIKey();
