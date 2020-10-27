@@ -47,6 +47,7 @@ function isBuyMode($coinAry){
         //Calculate Buy Price
         $pctToBuy = ($livePrice-$month6LowPrice)/($month6HighPrice-$month6LowPrice);
         $buyAmount = ($buyPrice/100)*$pctToBuy;
+        echo "<BR> Buy AMOUNT: $buyAmount";
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         echo "<BR> Activate BUY MODE";
         WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
