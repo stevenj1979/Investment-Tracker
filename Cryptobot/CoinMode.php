@@ -49,7 +49,7 @@ function isBuyMode($coinAry){
         $buyAmount = ($buyPrice/100)*$pctToBuy;
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         echo "<BR> Activate BUY MODE";
-        WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 0, 1,$ruleIDSell);
+        WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
         if ($modeID <> 1){ logToSQL("CoinMode","Change Coin mode to 1 for $coinID", $userID, 1);}
       }else{
         echo "<BR> Activate FLAT MODE";
@@ -87,7 +87,7 @@ function isBuyMode($coinAry){
           //Calculate Sell Price
           echo "<BR> Activate SELL MODE";
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
-          WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 0, 2,$ruleIDSell);
+          WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2){ logToSQL("CoinMode","Change Coin mode to 2 for $coinID", $userID, 1);}
         }else{
           echo "<BR> Activate FLAT MODE";
