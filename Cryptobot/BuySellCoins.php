@@ -218,6 +218,7 @@ while($completeFlag == False){
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
   $marketProfit = getMarketProfit();
+  $ruleProfit = getRuleProfit();
   //$pauseRulesFlag = True;
   echo "<BR> Coin Length: $coinLength";
   sleep(1);
@@ -254,7 +255,8 @@ while($completeFlag == False){
       $APISecret = $buyRules[$y][31]; $coinPricePatternEnabled = $buyRules[$y][61]; $coinPricePattern = $buyRules[$y][62];
       $Hr1ChangeTrendEnabled = $buyRules[$y][63]; $Hr1ChangeTrend = $buyRules[$y][64]; $risesInPrice = $buyRules[$y][65];
       $totalProfitPauseEnabled = $buyRules[$y][66]; $totalProfitPause = $buyRules[$y][67]; $rulesPauseEnabled = $buyRules[$y][68];
-      $rulesPause = $buyRules[$y][69]; $rulesPauseHours = $buyRules[$y][70];
+      $rulesPause = $buyRules[$y][69]; $rulesPauseHours = $buyRules[$y][70]; $overrideDisableRule = $buyRules[$y][73];
+      $limitBuyAmountEnabled = $buyRules[$y][74]; $limitBuyAmount = $buyRules[$y][75];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -277,14 +279,20 @@ while($completeFlag == False){
       //echo "<BR> Disable Until $disableUntil";
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
+      if ($limitBuyAmountEnabled == 1){
+        $ruleProfitSize = count($ruleProfit);
+        for ($g=0; $g<$ruleProfitSize; $g++){
+          if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyAmount){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
+        }
+      }
       echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
       if (isset($marketProfit[0][0])){
-        if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct){
+        if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $overrideDisableRule == 0){
           logToSQL("MarketDropStop", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0]." | RuleID $ruleIDBuy", $userID,1);
           pauseRule($ruleIDBuy,4, $userID);
           pauseTracking($userID);
 
-        }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 0.3){
+        }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 0.3 and $overrideDisableRule == 0){
           logToSQL("MarketDropStart", "pauseRule($ruleIDBuy,0, $userID);| MarketProfit: ".$marketProfit[0][1], $userID,1);
           pauseRule($ruleIDBuy,0, $userID);
         }
