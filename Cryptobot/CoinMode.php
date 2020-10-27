@@ -49,7 +49,8 @@ function isBuyMode($coinAry){
       echo "<BR> Checking Buy Mode: $t1 | $t2 | $t3 ";
       if ($t1 == True and $t2 == True and $t3 == True){
         //Calculate Buy Price
-        if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice =$month6LowPrice; }
+        if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
+        if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
         $pctToBuy = ($livePrice-$new6MonthLowPrice)/($month6HighPrice-$new6MonthLowPrice);
         $buyAmount = ($buyPrice/100)*(100-$pctToBuy);
         echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
