@@ -43,7 +43,7 @@ function isBuyMode($coinAry){
       if ($Hr1AveragePrice <= 0.2 and $Hr1AveragePrice >= -0.2){ $t3 = True;}
       if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice =$month6LowPrice; }
       $pctToBuy = ($livePrice-$new6MonthLowPrice)/($month6HighPrice-$new6MonthLowPrice);
-      $buyAmount = ($buyPrice/100)*$pctToBuy;
+      $buyAmount = ($buyPrice/100)*(100-$pctToBuy);
       echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
       //if all = yes = calculate Buy Amount
       echo "<BR> Checking Buy Mode: $t1 | $t2 | $t3 ";
@@ -51,7 +51,7 @@ function isBuyMode($coinAry){
         //Calculate Buy Price
         if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice =$month6LowPrice; }
         $pctToBuy = ($livePrice-$new6MonthLowPrice)/($month6HighPrice-$new6MonthLowPrice);
-        $buyAmount = ($buyPrice/100)*$pctToBuy;
+        $buyAmount = ($buyPrice/100)*(100-$pctToBuy);
         echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         if ($buyAmount >= 20.0){
