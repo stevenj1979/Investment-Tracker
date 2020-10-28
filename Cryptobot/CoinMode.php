@@ -55,7 +55,7 @@ function isBuyMode($coinAry){
         $buyAmount = ($buyPrice/100)*$pctToBuy;
         echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
-        if ($buyAmount >= 20.0){
+        if ($buyAmount >= 10.0){
           echo "<BR> Activate BUY MODE";
           WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){ logToSQL("CoinMode","Change Coin mode to 1 for $coinID", $userID, 1);}
