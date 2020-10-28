@@ -52,7 +52,7 @@ function isBuyMode($coinAry){
         if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
         if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
         $pctToBuy = ($livePrice-$new6MonthLowPrice)/($month6HighPrice-$new6MonthLowPrice);
-        $buyAmount = ($buyPrice/100)*(100-$pctToBuy);
+        $buyAmount = ($buyPrice/100)*$pctToBuy;
         echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         if ($buyAmount >= 20.0){
