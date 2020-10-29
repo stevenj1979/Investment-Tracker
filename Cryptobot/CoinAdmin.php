@@ -286,8 +286,8 @@ coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
 $apisecret=getAPISecret();
-//$apikey=getAPIKey();
-getMinTradeAmount($apisecret);
+$apikey=getAPIKey();
+getMinTradeAmount($apikey,$apisecret);
 $userConfig = getUserData();
 $userConfigSize = count($userConfig);
 for ($j=0; $j<$userConfigSize; $j++){

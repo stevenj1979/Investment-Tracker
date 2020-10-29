@@ -569,8 +569,8 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
     return $obj;
 }
 
-function getMinTradeAmount($apisecret){
-  $obj = getMinTrade($apisecret, 3);
+function getMinTradeAmount($apiKey, $apisecret){
+  $obj = getMinTrade($apiKey, $apisecret, 3);
   //$obj = json_decode($minTrade, true);
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
@@ -626,7 +626,7 @@ function copyTradeAmountToSQL($coinID, $minTradeAmount, $precision){
   logAction("copyTradeAmountToSQL: ".$sql, 'BuySell', 0);
 }
 
-function getMinTrade($apisecret, $versionNum){
+function getMinTrade($apikey, $apisecret, $versionNum){
   $nonce=time();
   //$uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
   if ($versionNum == 1){
