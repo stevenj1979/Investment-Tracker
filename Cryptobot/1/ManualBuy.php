@@ -219,8 +219,8 @@ if(isset($_POST['coinTxt'])){
       $tmpPrice = number_format((float)$cost-(($cost/100 )*20), 8, '.', '');
       $salePrice = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
     }
-
-    buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'8',$salePrice);
+    $sellRuleID = $_POST['fixedSellRuleID'];
+    buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,$sellRuleID,$salePrice);
     //echo "buyCoins($APIKey,$APISecret,$coin,$Email,$userID,$date,$baseCurrency,1,1,$BTCBuyAmount,99999,$UserName,$coinID,0,0,1,$TimeToCancelBuyMins,'ALL',$salePrice);";
     logToSQL("Manual Buy", "Buy Coin: $bitPrice $btcBuyAmount $orderNo", $userID);
   }elseif (!empty($_POST['bypass'])){
