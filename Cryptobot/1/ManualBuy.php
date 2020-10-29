@@ -231,13 +231,14 @@ if(isset($_POST['coinTxt'])){
     $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
     $BTCBuyAmount = $_POST['costTxt'];
     $nDate = date("YmdHis", time());
+    $sellRuleID = $_POST['fixedSellRuleID'];
     //bittrexBuyAdd($coinID, $userID, 'Buy', 'NoRef', '1', 9999, $salePrice, $BTCBuyAmount, $orderNo,90);
     //bittrexBuyComplete($uuid, $transactionID, $finalPrice);
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`)
-VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, '8',0,0)";
+VALUES ('Sell',$coinID,  $userID, $salePrice, $BTCBuyAmount, 'Open', curdate(), curdate(), '$orderNo', 90, 90, $sellRuleID,0,0)";
     //addBuyRuletoSQL($bittrexRef,$ruleID);
     echo $sql;
     if ($conn->query($sql) === TRUE) {
@@ -310,6 +311,7 @@ function displayCoinForm(){
       <option value="20" name='twentyPctOpt'>20%</option>
     Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
     Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
+    Sell Rule ID: <input type="text" name="fixedSellRuleID" value=90> <br>
     <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
       $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
       $cost = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
