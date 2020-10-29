@@ -167,7 +167,9 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
   for ($x=0; $x<$coinsArySize; $x++){
     Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinAry[$x][0];
     $buyFlag = isBuyMode($coinsAry[$x],10.0, 0.2, -0.2, -3.0, -3.0);
+    echo " || $buyFlag";
     $sellFlag = isSellMode($coinsAry[$x], 0.2, -0.2, 3.0, 3.0);
+    echo " || $sellFlag";
     if ($buyFlag == False AND $sellFlag == False){
       isFlatMode($coinsAry[$x], 0.2, -0.2, 3.0, -3.0, 3.0, -3.0, 1);
     }else{
