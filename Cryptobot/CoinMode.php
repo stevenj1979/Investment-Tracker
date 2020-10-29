@@ -9,9 +9,11 @@ $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
 
 function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable, $type, $sellRuleID){
+  $newHighPrice = round($highPrice,8);
+  $newLowPrice = round($lowPrice,8);
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$highPrice,$lowPrice,$buyAmount,$enable,$type,$sellRuleID);";
+  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$newHighPrice,$newLowPrice,$buyAmount,$enable,$type,$sellRuleID);";
 
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
