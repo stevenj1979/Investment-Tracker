@@ -125,7 +125,7 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
           if ($pctInc7Day > $d7TargetBtm and $pctInc7Day < $d7TargetTop){ $t2 = True;}
 
           //Average is Increasing
-          if ($Hr1AveragePrice >= $hr1Top and $Hr1AveragePrice <= $hr1Btm){ $t3 = True;}
+          if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
           echo "<BR> Checking Flat Mode: $coinID | 24HourPrice: $pctInc24Hours| 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Flat Mode: $t1 | $t2 | $t3 ";
           if ($t1 == True and $t2 == True and $t3 == True or $forceFlat = 1){
             //Calculate Sell Price
