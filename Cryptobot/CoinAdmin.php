@@ -130,7 +130,7 @@ function getSequenceData(){
   //$result = $conn->query($query);
   $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder`
     FROM `SellRules`
-    where `SellCoin` = 1 and `ProfitPctBtm` <> 0
+    where `SellCoin` = 1 and `ProfitPctBtm` <> 0 and `CoinModeRule` = 0
     order by `UserID`,`ProfitPctBtm` desc ";
   //print_r($sql);
   $result = $conn->query($sql);
