@@ -172,8 +172,6 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
     echo " || $sellFlag";
     if ($buyFlag == False AND $sellFlag == False){
       isFlatMode($coinsAry[$x], 0.2, -0.2, 3.0, -3.0, 3.0, -3.0, 1);
-    }else{
-      isFlatMode($coinsAry[$x], 0.2, -0.2, 3.0, -3.0, 3.0, -3.0, 0);
     }
   }
 
