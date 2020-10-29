@@ -22,7 +22,7 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
   $conn->close();
 }
 
-function isBuyMode($coinAry){
+function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Target){
   $coinArySize = Count($coinAry);
   for ($i=0; $i<$coinArySize; $i++){
       $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
@@ -34,13 +34,13 @@ function isBuyMode($coinAry){
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
 
-      if ($pctInc24Hours <= -3.0){ $t1 = True;}
+      if ($pctInc24Hours <= $hr24Target){ $t1 = True;}
       //7Day Price is down
       $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
 
-      if ($pctInc7Day <= -3.0){ $t2 = True;}
+      if ($pctInc7Day <= $d7Target){ $t2 = True;}
       //Average is flat
-      if ($Hr1AveragePrice <= 0.2 and $Hr1AveragePrice >= -0.2){ $t3 = True;}
+      if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
 
       echo "<BR> Checking Buy Mode: $coinID | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | Avg 1Hr Price: $Hr1AveragePrice | Checking Buy Mode: $t1 | $t2 | $t3 ";
       if ($t1 == True and $t2 == True and $t3 == True){
@@ -51,11 +51,11 @@ function isBuyMode($coinAry){
         $buyAmount = ($buyPrice/100)*$pctToBuy;
         echo "<BR> Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
-        if ($buyAmount >= 10.0){
+        if ($buyAmount >= $minBuyAmount){
           echo "<BR> Activate BUY MODE";
           WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){ logToSQL("CoinMode","Change Coin mode to 1 for $coinID", $userID, 1);}
-        }
+        }else{ echo "<BR> EXIT: Amount less than $minBuyAmount";}
       }else{
         echo "<BR> Activate FLAT MODE";
         WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
@@ -66,7 +66,7 @@ function isBuyMode($coinAry){
   }
 }
 
-  function isSellMode($coinAry){
+  function isSellMode($coinAry,$hr1Top, $hr1Btm, $hr24Target, $d7Target){
     $coinArySize = Count($coinAry);
     for ($i=0; $i<$coinArySize; $i++){
         $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6]; $livePrice = $coinAry[$i][10];
@@ -77,13 +77,13 @@ function isBuyMode($coinAry){
 
         //24 Hour price is up
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-        if ($pctInc24Hours >= 3){$t1 = True;}
+        if ($pctInc24Hours >= $hr24Target){$t1 = True;}
         //7Day Price is Up
         $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
 
-        if ($pctInc7Day >= 3){ $t2 = True;}
+        if ($pctInc7Day >= $d7Target){ $t2 = True;}
         //Average is flat
-        if ($Hr1AveragePrice <= 0.2 and $Hr1AveragePrice >= -0.2){ $t3 = True;}
+        if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $coinID | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True){
           //Calculate Sell Price
@@ -100,7 +100,7 @@ function isBuyMode($coinAry){
   }
 
 
-    function isFlatMode($coinAry){
+    function isFlatMode($coinAry,$hr1Top, $hr1Btm, $hr24TargetTop, $hr24TargetBtm, $d7TargetTop, $d7TargetBtm){
       $coinArySize = Count($coinAry);
       for ($i=0; $i<$coinArySize; $i++){
           $coinID = $coinAry[$i][0]; $Hr24Price = $coinAry[$i][4]; $D7Price = $coinAry[$i][6];
@@ -111,12 +111,12 @@ function isBuyMode($coinAry){
 
           $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
 
-          if ($pctInc24Hours > -3.0 and $pctInc24Hours < 3.0){$t1 = True;}
+          if ($pctInc24Hours > $hr24TargetBtm and $pctInc24Hours < $hr24TargetTop){$t1 = True;}
           $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
-          if ($pctInc7Day > -3.0 and $pctInc7Day < 3.0){ $t2 = True;}
+          if ($pctInc7Day > $d7TargetBtm and $pctInc7Day < $d7TargetTop){ $t2 = True;}
 
           //Average is Increasing
-          if ($Hr1AveragePrice >= 0.2 and $Hr1AveragePrice <= -0.2){ $t3 = True;}
+          if ($Hr1AveragePrice >= $hr1Top and $Hr1AveragePrice <= $hr1Btm){ $t3 = True;}
           echo "<BR> Checking Flat Mode: $coinID | 24HourPrice: $pctInc24Hours| 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Flat Mode: $t1 | $t2 | $t3 ";
           if ($t1 == True and $t2 == True and $t3 == True){
             //Calculate Sell Price
@@ -153,9 +153,9 @@ function isBuyMode($coinAry){
 
   $coinsAry = getCoins();
   echo "<BR> Checking Coin Mode:";
-  isBuyMode($coinsAry);
-  isSellMode($coinsAry);
-  isFlatMode($coinsAry);
+  isBuyMode($coinsAry,10.0, 0.2, -0.2, -3.0, -3.0);
+  isSellMode($coinsAry, 0.2, -0.2, 3.0, 3.0);
+  isFlatMode($coinsAry, 0.2, -0.2, 3.0, -3.0, 3.0, -3.0);
 
 
 ?>
