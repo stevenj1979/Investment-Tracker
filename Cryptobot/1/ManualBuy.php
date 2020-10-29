@@ -311,7 +311,7 @@ function displayCoinForm(){
       <option value="20" name='twentyPctOpt'>20%</option>
     Coin Price: <input type="text" name="coinPriceTxt" value="<?php echo $GLOBALS['cost']; ?>"> <br>
     Time To Cancel in Mins: <input type="text" name="TimeToCancelBuyMinsTxt" value=90> <br>
-    Sell Rule ID: <input type="text" name="fixedSellRuleID" value=90> <br>
+    Sell Rule ID: <input type="text" name="fixedSellRuleID" value=8> <br>
     <p>Average Coin Price = <?php echo $GLOBALS['AvgCoinPrice'];
       $tmpPrice = number_format((float)$cost-(($cost/100 )*1), 8, '.', '');
       $cost = round($tmpPrice,8, PHP_ROUND_HALF_DOWN);
