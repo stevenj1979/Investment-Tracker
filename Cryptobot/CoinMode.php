@@ -58,7 +58,7 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
         if ($buyAmount >= $minBuyAmount){
           echo "<BR> Activate BUY MODE";
           WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
-          if ($modeID <> 1){ logToSQL("CoinMode","Change Coin mode to 1 for $coinID", $userID, 1);}
+          if ($modeID <> 1){ logToSQL("CoinModeBuy","Change Coin mode to 1 for $coinID | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);}
 
         }else{ echo "<BR> EXIT: Amount less than $minBuyAmount";}
         return True;
@@ -97,7 +97,7 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
           echo "<BR> Activate SELL MODE";
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
           WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 1, 2,$ruleIDSell);
-          if ($modeID <> 2){ logToSQL("CoinMode","Change Coin mode to 2 for $coinID", $userID, 1);}
+          if ($modeID <> 2){ logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);}
           return True;
         }else{
           //echo "<BR> Activate FLAT MODE";
