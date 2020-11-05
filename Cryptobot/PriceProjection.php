@@ -43,7 +43,7 @@ function writePrice($coinID, $maxPrice1,$maxPrice2,$maxPrice3,$maxPrice4,$maxPri
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call WritePriceProjection($coinID,$maxPrice1,$minPrice1,$maxPrice2,$minPrice2,$maxPrice3,$minPrice3,$maxPrice4,$minPrice4,$maxPrice5,$minPrice5,$maxPrice6,$minPrice6);";
-  //print_r("<BR>".$sql);
+  print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
