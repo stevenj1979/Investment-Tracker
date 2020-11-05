@@ -93,10 +93,16 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date, $price4,$pri
   //$userID = $_SESSION['ID'];
   //$nameID = $_SESSION['coinPriceMatchNameSelected'];
   //echo "$ruleID $symbol $price $userID";
+  $nPrice1 = round($price1,8);
+  $nPrice2 = round($price2,8);
+  $nPrice3 = round($price3,8);
+  $nPrice4 = round($price4,8);
+  $nPrice5 = round($price5,8);
+  $nPrice6 = round($price6,8);
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call WritePricePctIncrease($coinID, $price1,$price2,$price3,'$date',$price4,$price5,$price6)";
+  $sql = "call WritePricePctIncrease($coinID, $nPrice1,$nPrice2,$nPrice3,'$date',$nPrice4,$nPrice5,$nPrice6)";
   echo "<BR>$sql";
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
