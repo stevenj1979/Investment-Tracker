@@ -145,18 +145,18 @@ echo "<BR>";
 
 $buyTest = bittrexbuy($apikey, $apisecret, 'XRP', 98.38, 0.2541,'USDT', 3);
 
-echo "<BR> ID: ".$buyTest['id'];
-echo "<BR> quantity: ".$buyTest['quantity'];
-echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
-echo "<BR> commission: ".$buyTest['commission'];
-echo "<BR> status: ".$buyTest['status'];
-echo "<BR> direction: ".$buyTest['direction'];
+//echo "<BR> ID: ".$buyTest['id'];
+//echo "<BR> quantity: ".$buyTest['quantity'];
+//echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
+//echo "<BR> commission: ".$buyTest['commission'];
+//echo "<BR> status: ".$buyTest['status'];
+//echo "<BR> direction: ".$buyTest['direction'];
 
 
 //$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00193663, 12947.69149, 'USDT', 3);
 //
-//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00178577, 12919.11753, 'USDT', 3);
-
+//$sellTest = bittrexsell($apikey, $apisecret, 'ETH', 0.00178577, 12919.11753, 'USDT', 3);
+sellCoins($apikey, $apisecret, 'ETH', "stevenj1979@gmail.com", 3, 0, $date,'USDT', 1, 1, 14,"stevenj1979", "ORDETH2020102418462114",0.06032765110000,414.40366945,9177,85,0,0,434.14508206){
 //
 //echo "<BR> ID: ".$sellTest['id'];
 //echo "<BR> quantity: ".$sellTest['quantity'];
