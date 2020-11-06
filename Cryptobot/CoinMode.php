@@ -24,13 +24,14 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
   $conn->close();
 }
 
-function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Target){
+function isBuyMode($coinAry, $minBuyAmount){
   //$coinArySize = Count($coinAry);
   //for ($i=0; $i<$coinArySize; $i++){
       $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6];
       $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleID = $coinAry[1];
       $buyPrice = $coinAry[9]; $livePrice = $coinAry[10]; $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13];
       $ruleIDSell = $coinAry[8]; $userID = $coinAry[14]; $modeID = $coinAry[15];
+      $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[19]; $d7Target = $coinAry[21];
       $t1 = False; $t2 = False; $t3 = False;
 
       //24 Hour price is down
@@ -73,13 +74,14 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
   //}
 }
 
-  function isSellMode($coinAry,$hr1Top, $hr1Btm, $hr24Target, $d7Target){
+  function isSellMode($coinAry){
     //$coinArySize = Count($coinAry);
   //  for ($i=0; $i<$coinArySize; $i++){
         $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6]; $livePrice = $coinAry[10];
         $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
         $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13]; $ruleID = $coinAry[1];
         $userID = $coinAry[14]; $modeID = $coinAry[15];
+        $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[18]; $d7Target = $coinAry[20];
         $t1 = False; $t2 = False; $t3 = False;
 
         //24 Hour price is up
@@ -109,13 +111,14 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
   }
 
 
-    function isFlatMode($coinAry,$hr1Top, $hr1Btm, $hr24TargetTop, $hr24TargetBtm, $d7TargetTop, $d7TargetBtm, $forceFlat){
+    function isFlatMode($coinAry, $forceFlat){
       //$coinArySize = Count($coinAry);
       //for ($i=0; $i<$coinArySize; $i++){
           $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6];
           $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
           $ruleID = $coinAry[1]; $livePrice = $coinAry[10];
           $userID = $coinAry[14]; $modeID = $coinAry[15];
+          $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24TargetTop = $coinAry[18]; $hr24TargetBtm = $coinAry[19]; $d7TargetTop = $coinAry[20]; $d7TargetBtm = $coinAry[21];
           $t1 = False; $t2 = False; $t3 = False;
 
           $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
@@ -148,13 +151,15 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
         }
 
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
-        ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID` FROM `CoinModePricesView`";
+        ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
+        ,`D7Top`,`D7Btm` FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
         //mysqli_fetch_assoc($result);
         while ($row = mysqli_fetch_assoc($result)){
             $tempAry[] = Array($row['CoinID'],$row['RuleID'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'] //7
-          ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID']); //15
+          ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
+        ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm']); //21
         }
         $conn->close();
         return $tempAry;
@@ -166,12 +171,12 @@ function isBuyMode($coinAry, $minBuyAmount, $hr1Top, $hr1Btm, $hr24Target, $d7Ta
   //echo "<BR> Checking Coin Mode:";
   for ($x=0; $x<$coinsArySize; $x++){
     Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinAry[$x][0];
-    $buyFlag = isBuyMode($coinsAry[$x],10.0, 0.2, -0.2, -3.0, -3.0);
+    $buyFlag = isBuyMode($coinsAry[$x],10.0);
     echo " || $buyFlag";
-    $sellFlag = isSellMode($coinsAry[$x], 0.2, -0.2, 3.0, 3.0);
+    $sellFlag = isSellMode($coinsAry[$x]);
     echo " || $sellFlag";
     if ($buyFlag == False AND $sellFlag == False){
-      isFlatMode($coinsAry[$x], 0.2, -0.2, 3.0, -3.0, 3.0, -3.0, 1);
+      isFlatMode($coinsAry[$x], 1);
     }
   }
 
