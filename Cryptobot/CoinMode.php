@@ -58,7 +58,9 @@ function isBuyMode($coinAry, $minBuyAmount){
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         if ($buyAmount >= $minBuyAmount){
           echo "<BR> Activate BUY MODE";
-          WritetoRule($coinID, $ruleID, $projectedMaxPrice,$projectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
+          if ($pctInc7Day <= -15){$newProjectedMaxPrice = $new6MonthHighPrice; $newProjectedMinPrice = $new6MonthLowPrice;}
+          else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
+          WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){ logToSQL("CoinModeBuy","Change Coin mode to 1 for $coinID | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);}
 
         }else{ echo "<BR> EXIT: Amount less than $minBuyAmount";}
