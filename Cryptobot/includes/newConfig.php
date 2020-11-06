@@ -1345,7 +1345,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     //echo "<BR>BITTREXREF: $bittrexRef";
 
     //echo "<br> STATUS: $status";
-    if ($status == 1){
+    if ($status == 1 AND $bittrexRef <> ""){
       //$totalBTC = getTotalLimit($userID);
       Echo "<br>Here3";
       echo "<br>updateSQL($baseCurrency,$transactionID,$bittrexRef)";
