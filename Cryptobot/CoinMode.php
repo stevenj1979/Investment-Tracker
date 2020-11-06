@@ -97,8 +97,10 @@ function isBuyMode($coinAry, $minBuyAmount){
         if ($t1 == True and $t2 == True and $t3 == True){
           //Calculate Sell Price
           echo "<BR> Activate SELL MODE";
+          if ($pctInc7Day >= 15.0){ $newProjectedMaxPrice = $month6HighPrice; $newProjectedMinPrice = $month6LowPrice;}
+          else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
-          WritetoRule($coinID,$ruleID,$projectedMaxPrice,$projectedMinPrice, 0, 1, 2,$ruleIDSell);
+          WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2){ logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);}
           return True;
         }else{
