@@ -3400,4 +3400,23 @@ function setTransStatus($status,$transID){
   $conn->close();
   logAction("setTransStatus: ".$sql, 'SellCoin', 0);
 }
+
+function setCustomisedSellRule($buyRule, $sellRule, $coinID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Call CustomisedSellRule($sellRule,$buyRule,$coinID);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setCustomisedSellRule: ".$sql, 'SellCoin', 0);
+}
 ?>
