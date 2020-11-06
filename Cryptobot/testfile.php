@@ -143,7 +143,7 @@ echo "<BR>";
 
 //var_dump($newObj);
 
-$buyTest = bittrexbuy($apikey, $apisecret, 'XRP', 98.38, 0.2541,'USDT', 3);
+//$buyTest = bittrexbuy($apikey, $apisecret, 'XRP', 98.38, 0.2541,'USDT', 3);
 
 //echo "<BR> ID: ".$buyTest['id'];
 //echo "<BR> quantity: ".$buyTest['quantity'];
