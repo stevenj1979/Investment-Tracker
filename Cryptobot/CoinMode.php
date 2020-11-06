@@ -84,7 +84,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13]; $ruleID = $coinAry[1];
         $userID = $coinAry[14]; $modeID = $coinAry[15];
         $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[18]; $d7Target = $coinAry[20];
-        $secondarySellRulesAry = split($coinAry[22],',');
+        $secondarySellRulesAry = explode(',',$coinAry[22]);
         $secondarySellRulesSize = Count($secondarySellRulesAry);
         $t1 = False; $t2 = False; $t3 = False;
 
@@ -128,7 +128,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           $ruleID = $coinAry[1]; $livePrice = $coinAry[10];
           $userID = $coinAry[14]; $modeID = $coinAry[15];
           $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24TargetTop = $coinAry[18]; $hr24TargetBtm = $coinAry[19]; $d7TargetTop = $coinAry[20]; $d7TargetBtm = $coinAry[21];
-          $secondarySellRulesAry = split($coinAry[22],',');
+          $secondarySellRulesAry = explode(',',$coinAry[22]);
           $secondarySellRulesSize = Count($secondarySellRulesAry);
           $t1 = False; $t2 = False; $t3 = False;
 
