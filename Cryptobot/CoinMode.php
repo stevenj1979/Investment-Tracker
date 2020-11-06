@@ -105,7 +105,9 @@ function isBuyMode($coinAry, $minBuyAmount){
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
           for ($i=0; $i<$secondarySellRulesSize; $i++){
-            WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$secondarySellRulesAry[$i]);
+            if ($secondarySellRulesAry[$i] <> ""){
+              WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$secondarySellRulesAry[$i]);
+            }
           }
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2){ logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);}
@@ -144,7 +146,9 @@ function isBuyMode($coinAry, $minBuyAmount){
           if ($t1 == True and $t2 == True and $t3 == True or $forceFlat = 1){
             //Calculate Sell Price
             for ($i=0; $i<$secondarySellRulesSize; $i++){
-              WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i]);
+              if ($secondarySellRulesAry[$i] <> ""){
+                WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i]);
+              }
             }
             echo "<BR> Activate FLAT MODE";
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
