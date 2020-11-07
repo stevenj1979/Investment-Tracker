@@ -282,6 +282,31 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn->close();
 }
 
+function getSecondaryRules(){
+  $conn = getSQLConn(rand(1,3));
+  $sql = "select `SecondarySellRules` from `CoinModeRules`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SecondarySellRules']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function checkRuleIsOpen($id){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call deleteSecondaryRules($id);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
@@ -320,6 +345,19 @@ $minMaxPriceSize = count($minMaxPrice);
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
+}
+
+$secondarySellRulesAry = getSecondaryRules();
+$secondarySellRulesSize = count($secondarySellRulesAry);
+
+for ($j=0; $j<$secondarySellRulesSize; $j++){
+  $smallerAry = explode(',',$secondarySellRulesAry[$j][0]);
+  $smallerArySize = count($smallerAry);
+  for ($k=0; $k<$smallerArySize; $k++){
+    if ($smallerAry[$k] <> ""){
+      checkRuleIsOpen($smallerAry[$k]);
+    }
+  }
 }
 
 ?>
