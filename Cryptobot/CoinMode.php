@@ -135,7 +135,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2){
             logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);
-            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName)
+            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName);
           }
           return True;
         }else{
