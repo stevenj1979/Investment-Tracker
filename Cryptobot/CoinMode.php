@@ -25,11 +25,11 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
 }
 
 
-function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user){
+function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user, $mode){
     $from = 'Coin Alert <alert@investment-tracker.net>';
     $date = date("Y-m-d H:i", time());
     $body = "Dear ".$user.", <BR/>";
-    $body .= "Buy Mode is activated for $symbol at $date"."<BR/>";
+    $body .= "$mode is activated for $symbol at $date"."<BR/>";
     $body .= "1 Hour Price: $hr1Price <BR/>";
     $body .= "24 Hour Price: $hr24Price <BR/>";
     $body .= "7 Days Price: $d7Price <BR/>";
@@ -82,7 +82,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for $coinID | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
-            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName);
+            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode");
           }
 
         }else{ echo "<BR> EXIT: Amount less than $minBuyAmount";}
@@ -135,7 +135,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2){
             logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);
-            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName);
+            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode");
           }
           return True;
         }else{
