@@ -212,12 +212,12 @@ for ($i=0; $i<$coinSize; $i++ ){
   //$tmp .= $coins[$i][0].":".$coins[$i][1].",";
   //getArrayPrice()
 }
-$tmp = getArrayPrice($coinAry,"BTC","USDT");
-echo "<BR> String Test : $tmp";
+//$tmp = getArrayPrice($coinAry,"BTC","USDT");
+//echo "<BR> String Test : $tmp";
 
 
 
-//var_dump($coinAry);
+var_dump($coinAry);
 
 ?>
 </html>
