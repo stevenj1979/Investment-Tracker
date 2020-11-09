@@ -82,7 +82,9 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for $coinID | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
-            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode");
+            if ($coinModeEmailsEnabled == 1){
+              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode");
+            }
           }
 
         }else{ echo "<BR> EXIT: Amount less than $minBuyAmount";}
@@ -133,9 +135,11 @@ function isBuyMode($coinAry, $minBuyAmount){
             }
           }
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
-          if ($modeID <> 2){
+          if ($modeID <> 2 ){
             logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);
-            sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode");
+            if ($coinModeEmailsEnabled == 1){
+              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode");
+            }
           }
           return True;
         }else{
