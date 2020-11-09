@@ -146,9 +146,14 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 echo "<BR>";
 //var_dump($newOrd);
 
-$coins = implode(",",getSymbols());
+$coins = getSymbols();
+$coinSize = Count($coins);
+$tmp="";
+for ($i=0; $i<$coinSize; $i++ ){
+  $tmp .= $coins[$i][0].":".$coins[$i][0].",";
+}
 
-echo "<BR> String Test : $coins";
+echo "<BR> String Test : $tmp";
 
 
 
