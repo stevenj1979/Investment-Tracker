@@ -82,6 +82,20 @@ function getSymbols(){
   return $tempAry;
 }
 
+function getArrayPrice($coinAry, $symbol, $baseCurrency){
+  $coinArySize = count($coinAry);
+  echo "<BR> Size : $coinArySize";
+  $nPrice = 0.0;
+  for ($j=0; $j<$coinArySize; $j++){
+    if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
+      echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
+      $nPrice = $coinAry[$j]['askRate'];
+      break;
+    }
+  }
+  return $nPrice;
+}
+
 function testBittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       $nonce=time();
       if ($versionNum == 1){
