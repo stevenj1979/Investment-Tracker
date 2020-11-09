@@ -183,7 +183,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j][0] == $symbol."-".$baseCurrency){
-      $nPrice = $coinAry[$j][3]
+      $nPrice = $coinAry[$j][3];
       break;
     }
   }
