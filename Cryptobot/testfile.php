@@ -113,6 +113,50 @@ function getOpenSymbols(){
   return $tempAry;
 }
 
+function testBittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
+      $nonce=time();
+      if ($versionNum == 1){
+          $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+          $sign=hash_hmac('sha512',$uri,$apisecret);
+          $ch = curl_init($uri);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $execResult = curl_exec($ch);
+          $obj = json_decode($execResult, true);
+          $balance = $obj["result"]["Last"];
+      }elseif ($versionNum == 3){
+        $timestamp = time()*1000;
+        $url = "https://api.bittrex.com/v3/markets/tickers";
+        echo "<BR>".$url;
+        $method = "GET";
+        $content = "";
+        $subaccountId = "";
+        $contentHash = hash('sha512', $content);
+        $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+        $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+        $headers = array(
+        "Accept: application/json",
+        "Content-Type: application/json",
+        "Api-Key: ".$apikey."",
+        "Api-Signature: ".$signature."",
+        "Api-Timestamp: ".$timestamp."",
+        "Api-Content-Hash: ".$contentHash.""
+        );
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        $balance = curl_exec($ch);
+        curl_close($ch);
+        $temp = json_decode($balance, true);
+        //$balance = $temp['lastTradeRate'];
+      }
+
+      return $temp;
+}
+
 function getSymbols(){
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -150,12 +194,14 @@ $coins = getSymbols();
 $coinSize = Count($coins);
 $tmp="";
 for ($i=0; $i<$coinSize; $i++ ){
-  $tmp .= $coins[$i][0].":".$coins[$i][0].",";
+  $tmp .= $coins[$i][0].":".$coins[$i][1].",";
 }
 
 echo "<BR> String Test : $tmp";
 
+$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
 
+var_dump($coinAry);
 
 ?>
 </html>
