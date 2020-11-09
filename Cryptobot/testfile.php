@@ -113,6 +113,27 @@ function getOpenSymbols(){
   return $tempAry;
 }
 
+function getSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol'],$row['BaseCurrency']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
@@ -125,83 +146,10 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 echo "<BR>";
 //var_dump($newOrd);
 
-//$brandNew = bittrexbalance($apikey, $apisecret, 'USDT', 3);
-//$obj = json_decode($brandNew, true);
-//for ($x=0; $x<count($obj); $x++){
-//    echo "<br> :".$obj[$x]["currencySymbol"];
-//}
-//}
-//var_dump($brandNew);
+$coins = implode(",",getSymbols());
 
+echo "<BR> String Test : $coins";
 
-//newAgain = getMinTrade($apisecret, 3);
-//$json=json_decode( $newAgain );
-
-//var_dump($json);
-
-//$newObj = bittrexCoinPrice($apikey, $apisecret, "USDT", "BTC", 3);
-
-//var_dump($newObj);
-
-//$buyTest = bittrexbuy($apikey, $apisecret, 'XRP', 98.38, 0.2541,'USDT', 3);
-
-//echo "<BR> ID: ".$buyTest['id'];
-//echo "<BR> quantity: ".$buyTest['quantity'];
-//echo "<BR> fillQuantity: ".$buyTest['fillQuantity'];
-//echo "<BR> commission: ".$buyTest['commission'];
-//echo "<BR> status: ".$buyTest['status'];
-//echo "<BR> direction: ".$buyTest['direction'];
-
-
-//$sellTest = bittrexsell($apikey, $apisecret, 'BTC', 0.00193663, 12947.69149, 'USDT', 3);
-//
-//$sellTest = bittrexsell($apikey, $apisecret, 'ETH', 0.00178577, 12919.11753, 'USDT', 3);
-sellCoins($apikey, $apisecret, 'ETH', "stevenj1979@gmail.com", 3, 0, $date,'USDT', 1, 1, 14,"stevenj1979", "ORDETH2020102418462114",0.06032765110000,414.40366945,9177,85,0,0,434.14508206);
-//
-//echo "<BR> ID: ".$sellTest['id'];
-//echo "<BR> quantity: ".$sellTest['quantity'];
-//echo "<BR> fillQuantity: ".$sellTest['fillQuantity'];
-//echo "<BR> commission: ".$sellTest['commission'];
-//echo "<BR> status: ".$sellTest['status'];
-
-//$getOrderTest = bittrexOrder($apikey, $apisecret, 'fee0a384-7f97-4af5-8f73-f60680998463', 3);
-//echo "<BR> status: ".$getOrderTest['status'];
-//echo "<BR> fillQuantity: ".$getOrderTest['fillQuantity'];
-//echo "<BR> commission: ".$getOrderTest['commission'];
-//echo "<BR> direction: ".$getOrderTest['direction'];
-
-//$cancelTest = bittrexCancel($apikey, $apisecret, '34b51110-be0e-4967-84eb-9fe475f85120', 3);
-//echo "<BR> Status: ".$cancelTest['status'];
-//echo "<BR> fillQuantity: ".$cancelTest['fillQuantity'];
-//echo "<BR> quantity: ".$cancelTest['quantity'];
-//echo "<BR> id: ".$cancelTest['orderToCancel']["id"];
-
-//$statsTest = bittrexCoinStats($apikey, $apisecret, 'BTC', 'USDT', 3);
-//echo "<BR> high: ".$statsTest['high'];
-//echo "<BR> low: ".$statsTest['low'];
-//echo "<BR> volume: ".$statsTest['volume'];
-//echo "<BR> percentChange: ".$statsTest['percentChange'];
-
-//$balTest = bittrexbalance($apikey, $apisecret, 'BTC', 3);
-//echo "<BR> total: ".$balTest['total'];
-
-
-//$coinPrice = bittrexCoinPrice($apikey, $apisecret, 'USDT', 'BTC', 3);
-//echo "<BR> Status: ".$coinPrice;
-//$dailyBal = getDailyBalance($apikey, $apisecret);
-//var_dump($dailyBal);
-//$finalMergeAry = [];
-//$ary1 = ARRAY(3,89,"BSV",9102,4.68554547000000,217.84642888,4, 8);
-//$finalMergeAry = updateMergeAry($ary1,$finalMergeAry);
-//$ary2 = ARRAY(3,89,"BSV",9112,0.34416973000000,217.91573167,4, 1);
-//$finalMergeAry = updateMergeAry($ary2,$finalMergeAry);
-
-//var_dump($finalMergeAry);
-
-//$marketProfit = getMarketProfit();
-
-//echo "<BR> Profit1: ".$marketProfit[0][0];
-//echo "<BR> Profit2: ".$marketProfit[0][1];
 
 
 ?>
