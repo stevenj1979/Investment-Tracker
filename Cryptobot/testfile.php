@@ -180,11 +180,12 @@ function getSymbols(){
 
 function getArrayPrice($coinAry, $symbol, $baseCurrency){
   $coinArySize = count($coinAry);
+  echo "<BR> Size : $coinArySize";
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
-    if ($coinAry[$j][0] == $symbol."-".$baseCurrency){
-      echo "<BR> ".$coinAry[$j][0]." == $symbol."-".$baseCurrency";
-      $nPrice = $coinAry[$j][3];
+    if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
+      echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
+      $nPrice = $coinAry[$j]['askRate'];
       break;
     }
   }
