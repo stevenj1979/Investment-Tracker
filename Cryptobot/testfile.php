@@ -178,6 +178,18 @@ function getSymbols(){
   return $tempAry;
 }
 
+function getArrayPrice($coinAry, $symbol, $baseCurrency){
+  $coinArySize = count($coinAry);
+  $nPrice = 0.0;
+  for ($j=0; $j<$coinArySize; $j++){
+    if ($coinAry[$j][0] == $symbol."-".$baseCurrency){
+      $nPrice = $coinAry[$j][3]
+      break;
+    }
+  }
+  return $nPrice;
+}
+
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
@@ -192,14 +204,16 @@ echo "<BR>";
 
 $coins = getSymbols();
 $coinSize = Count($coins);
-$tmp="";
+$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
+$tmp= 0.0;
 for ($i=0; $i<$coinSize; $i++ ){
-  $tmp .= $coins[$i][0].":".$coins[$i][1].",";
+  //$tmp .= $coins[$i][0].":".$coins[$i][1].",";
+  //getArrayPrice()
 }
-
+$tmp = getArrayPrice($coinAry,"BTC","USDT");
 echo "<BR> String Test : $tmp";
 
-$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
+
 
 var_dump($coinAry);
 
