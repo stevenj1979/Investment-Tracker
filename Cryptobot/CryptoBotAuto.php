@@ -61,6 +61,70 @@ function findCoinStats($CMCStats, $symbol){
   return $tempStats;
 }
 
+function getSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol'],$row['BaseCurrency']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function testBittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
+      $nonce=time();
+      if ($versionNum == 1){
+          $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
+          $sign=hash_hmac('sha512',$uri,$apisecret);
+          $ch = curl_init($uri);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $execResult = curl_exec($ch);
+          $obj = json_decode($execResult, true);
+          $balance = $obj["result"]["Last"];
+      }elseif ($versionNum == 3){
+        $timestamp = time()*1000;
+        $url = "https://api.bittrex.com/v3/markets/tickers";
+        echo "<BR>".$url;
+        $method = "GET";
+        $content = "";
+        $subaccountId = "";
+        $contentHash = hash('sha512', $content);
+        $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+        $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+        $headers = array(
+        "Accept: application/json",
+        "Content-Type: application/json",
+        "Api-Key: ".$apikey."",
+        "Api-Signature: ".$signature."",
+        "Api-Timestamp: ".$timestamp."",
+        "Api-Content-Hash: ".$contentHash.""
+        );
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        $balance = curl_exec($ch);
+        curl_close($ch);
+        $temp = json_decode($balance, true);
+        //$balance = $temp['lastTradeRate'];
+      }
+      return $temp;
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i:s", time());
@@ -78,12 +142,13 @@ echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
 $historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;
 $bitPrice = 0.00;
-$apiVersion = 1;
+$apiVersion = 3;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $firstTimeFlag = True;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
 while($date <= $newTime){
   echo "NEW LOOP ";
+  $coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", $apiVersion);
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26]; $liveCoinPrice = $coins[$x][17];
@@ -92,19 +157,25 @@ while($date <= $newTime){
     //LOG
     echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
 
-    //Update Price
-    echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol,3)), 8, '.', '');
-    echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i:s", time());
-    $lastUpdateTime = $timeAry[$coinID];
-    echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i:s", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
-    if (timerReady($lastUpdateTime,$secondstoUpdate)){
+    if ($apiVersion == 1){
+      //Update Price
+      echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
+      $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol,$apiVersion)), 8, '.', '');
+      echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i:s", time());
+      $lastUpdateTime = $timeAry[$coinID];
+      echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i:s", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
+      if (timerReady($lastUpdateTime,$secondstoUpdate)){
+        copyCoinPrice($coinID,$bitPrice);
+        $timeAry[$coinID] = date("Y-m-d H:i:s", time());
+        logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
+      //}elseif (!isset($lastUpdateTime)){
+      //  copyCoinPrice($coinID,$bitPrice);
+      //  $timeAry[$coinID] = date("Y-m-d H:i", time());
+      }
+    }else{
+      $bitPrice = getArrayPrice($coinAry,$symbol,$baseCurrency);
       copyCoinPrice($coinID,$bitPrice);
-      $timeAry[$coinID] = date("Y-m-d H:i:s", time());
       logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
-    //}elseif (!isset($lastUpdateTime)){
-    //  copyCoinPrice($coinID,$bitPrice);
-    //  $timeAry[$coinID] = date("Y-m-d H:i", time());
     }
 
     echo "<br>";
@@ -166,7 +237,7 @@ while($date <= $newTime){
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
   $firstTimeFlag = False;
   $historyFlag = False; if ($marketCapStatsUpdateFlag == True) {$marketCapFlag = True;} else {$marketCapFlag = False;}
-  sleep(60);
+  sleep(45);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
   $pauseStart = date("Y-m-d H:i", time());
