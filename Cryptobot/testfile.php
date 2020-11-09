@@ -183,6 +183,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j][0] == $symbol."-".$baseCurrency){
+      echo "<BR> ".$coinAry[$j][0]." == $symbol."-".$baseCurrency";
       $nPrice = $coinAry[$j][3];
       break;
     }
@@ -215,7 +216,7 @@ echo "<BR> String Test : $tmp";
 
 
 
-var_dump($coinAry);
+//var_dump($coinAry);
 
 ?>
 </html>
