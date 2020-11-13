@@ -8,13 +8,13 @@ $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
 
-function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable, $type, $sellRuleID,$numOfRisesInPrice){
+function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable, $type, $sellRuleID,$numOfRisesInPrice, $minsToCancel){
   $newHighPrice = round($highPrice,8);
   $newLowPrice = round($lowPrice,8);
   $numOfRisesInPrice = round($numOfRisesInPrice,0,PHP_ROUND_HALF_DOWN);
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$newHighPrice,$newLowPrice,$buyAmount,$enable,$type,$sellRuleID,$numOfRisesInPrice);";
+  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$newHighPrice,$newLowPrice,$buyAmount,$enable,$type,$sellRuleID,$numOfRisesInPrice,$minsToCancel);";
 
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
@@ -86,7 +86,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           $numOfRisesInPrice = (10*$pctToBuy);
 
-          WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice);
+          WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,15);
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
@@ -142,10 +142,10 @@ function isBuyMode($coinAry, $minBuyAmount){
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
           for ($i=0; $i<$secondarySellRulesSize; $i++){
             if ($secondarySellRulesAry[$i] <> ""){
-              WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice);
+              WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,15);
             }
           }
-          WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice);
+          WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,15);
           if ($modeID <> 2 ){
             logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
@@ -188,11 +188,11 @@ function isBuyMode($coinAry, $minBuyAmount){
             //Calculate Sell Price
             for ($i=0; $i<$secondarySellRulesSize; $i++){
               if ($secondarySellRulesAry[$i] <> ""){
-                WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i],0);
+                WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i],0,15);
               }
             }
             echo "<BR> Activate FLAT MODE";
-            WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell,0);
+            WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell,0,15);
             if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for: $symbol ($coinID)", $userID, 1);}
             //Disable Rule
           }
