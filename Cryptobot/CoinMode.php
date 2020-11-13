@@ -81,7 +81,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           WritetoRule($coinID, $ruleID, $newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell);
           if ($modeID <> 1){
-            logToSQL("CoinModeBuy","Change Coin mode to 1 for $coinID | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
+            logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
               sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode");
             }
@@ -136,7 +136,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           }
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newProjectedMinPrice, 0, 1, 2,$ruleIDSell);
           if ($modeID <> 2 ){
-            logToSQL("CoinModeSell","Change Coin mode to 2 for $coinID | $livePrice", $userID, 1);
+            logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
               sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode");
             }
@@ -182,7 +182,7 @@ function isBuyMode($coinAry, $minBuyAmount){
             }
             echo "<BR> Activate FLAT MODE";
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell);
-            if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for $coinID", $userID, 1);}
+            if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for: $symbol ($coinID)", $userID, 1);}
             //Disable Rule
           }
 
