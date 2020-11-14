@@ -85,7 +85,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           echo "<BR> Activate BUY MODE";
           if ($pctInc7Day <= -15){$newProjectedMaxPrice = $new6MonthHighPrice; $newProjectedMinPrice = $new6MonthLowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
-          $numOfRisesInPrice = (10*$pctToBuy);
+          $numOfRisesInPrice = 10-(10*$pctToBuy);
           $newHighPrice = ($newProjectedMaxPrice-($newProjectedMaxPrice/50))*$pctToBuy;
           WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,15);
           if ($modeID <> 1){
