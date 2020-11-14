@@ -141,7 +141,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           if ($pctInc7Day >= 15.0){ $newProjectedMaxPrice = $month6HighPrice; $newProjectedMinPrice = $month6LowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           //Write Coin, High Price Limit, Low Price Limit  - To Rule and Enable
-          $newLowPrice = ($newProjectedMinPrice+($newProjectedMinPrice/50))*$pctToBuy;
+          $newLowPrice = ($newProjectedMinPrice+($newProjectedMinPrice/50))*(1-$pctToBuy);
           for ($i=0; $i<$secondarySellRulesSize; $i++){
             if ($secondarySellRulesAry[$i] <> ""){
               WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,15);
