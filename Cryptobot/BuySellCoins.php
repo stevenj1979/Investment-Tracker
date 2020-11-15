@@ -283,9 +283,11 @@ while($completeFlag == False){
       //echo "<BR> Disable Until $disableUntil";
       //echo "<BR>RULE: $ruleIDBuy USER: $userID API $APIKey Sectret: $APISecret ";
       //echo "<BR> BASE: $baseCurrency USERBASE: $userBaseCurrency ";
+
       if ($limitBuyAmountEnabled == 1){
         $ruleProfitSize = count($ruleProfit);
         for ($g=0; $g<$ruleProfitSize; $g++){
+          echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$g][4]." | $ruleIDBuy | ".$ruleProfit[$g][1]." | $limitBuyAmount";
           if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyAmount){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
         }
       }
