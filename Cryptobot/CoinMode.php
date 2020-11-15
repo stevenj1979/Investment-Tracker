@@ -26,7 +26,7 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
 }
 
 
-function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user, $mode, $pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice){
+function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user, $mode, $pctToBuy,$numOfRisesInPrice,$new6MonthHighPrice,$new6MonthLowPrice,$livePrice,$newProjectedMaxPrice,$newProjectedMinPrice){
     $from = 'Coin Alert <alert@investment-tracker.net>';
     $date = date("Y-m-d H:i", time());
     $body = "Dear ".$user.", <BR/>";
@@ -36,9 +36,11 @@ function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subje
     $body .= "7 Days Price: $d7Price <BR/>";
     $body .= "Pct To Buy: $pctToBuy <BR/>";
     $body .= "No Of Rises: $numOfRisesInPrice <BR/>";
-    $body .= "6 Month High: $newProjectedMaxPrice <BR/>";
-    $body .= "6 Month Low: $newProjectedMinPrice <BR/>";
+    $body .= "6 Month High: $new6MonthHighPrice <BR/>";
+    $body .= "6 Month Low: $new6MonthLowPrice <BR/>";
     $body .= "Live Price: $livePrice <BR/>";
+    $body .= "Projected Sell Price High: $newProjectedMaxPrice <BR/>";
+    $body .= "Projected Sell Price Low: $newProjectedMinPrice <BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -76,9 +78,10 @@ function isBuyMode($coinAry, $minBuyAmount){
         //Calculate Buy Price
         if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
         if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
-        $pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
+        //$pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
+        $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
         echo "<BR> pctToBuy: ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice)";
-        $buyAmount = ($buyPrice*$pctToBuy);
+        $buyAmount = ($buyPrice*(1-$pctToBuy));
         echo "<BR> buyAmount: ($buyPrice*$pctToBuy)";
         echo "<BR> Total Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
 
@@ -87,13 +90,13 @@ function isBuyMode($coinAry, $minBuyAmount){
           echo "<BR> Activate BUY MODE";
           if ($pctInc7Day <= -15){$newProjectedMaxPrice = $new6MonthHighPrice; $newProjectedMinPrice = $new6MonthLowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
-          $numOfRisesInPrice = 10-(10*$pctToBuy);
+          $numOfRisesInPrice = (10*$pctToBuy);
           $newHighPrice = ($newProjectedMaxPrice-($newProjectedMaxPrice/50))*$pctToBuy;
           WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy);
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
-              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice);
+              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode",$pctToBuy,$numOfRisesInPrice,$new6MonthHighPrice,$new6MonthLowPrice,$livePrice,$newProjectedMaxPrice,$newProjectedMinPrice);
             }
           }
 
@@ -138,8 +141,8 @@ function isBuyMode($coinAry, $minBuyAmount){
           //Calculate Sell Price
           if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
           if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
-          $pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
-          $numOfRisesInPrice = 10 - (10*$pctToBuy);
+          $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
+          $numOfRisesInPrice = (10*(1-$pctToBuy));
           echo "<BR> Activate SELL MODE";
           if ($pctInc7Day >= 15.0){ $newProjectedMaxPrice = $month6HighPrice; $newProjectedMinPrice = $month6LowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
