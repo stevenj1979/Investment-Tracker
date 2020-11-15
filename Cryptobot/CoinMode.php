@@ -26,7 +26,7 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
 }
 
 
-function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user, $mode, $pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice){
+function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subject, $user, $mode, $pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice){
     $from = 'Coin Alert <alert@investment-tracker.net>';
     $date = date("Y-m-d H:i", time());
     $body = "Dear ".$user.", <BR/>";
@@ -38,6 +38,7 @@ function sendCoinModeEmail($to, $symbol, $hr1Price, $hr24Price, $d7Price, $subje
     $body .= "No Of Rises: $numOfRisesInPrice <BR/>";
     $body .= "6 Month High: $newProjectedMaxPrice <BR/>";
     $body .= "6 Month Low: $newProjectedMinPrice <BR/>";
+    $body .= "Live Price: $livePrice <BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -92,7 +93,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
-              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice);
+              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice);
             }
           }
 
@@ -153,7 +154,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           if ($modeID <> 2 ){
             logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
-              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice);
+              sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice);
             }
           }
           return True;
