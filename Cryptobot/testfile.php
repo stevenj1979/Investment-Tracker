@@ -5,6 +5,11 @@ require('includes/newConfig.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Authentication.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Client.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Configuration.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/HttpClient.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Pagination.php');
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
@@ -204,20 +209,34 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 echo "<BR>";
 //var_dump($newOrd);
 
-$coins = getSymbols();
-$coinSize = Count($coins);
-$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
-$tmp= 0.0;
-for ($i=0; $i<$coinSize; $i++ ){
+//$coins = getSymbols();
+//$coinSize = Count($coins);
+//$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
+//$tmp= 0.0;
+//for ($i=0; $i<$coinSize; $i++ ){
   //$tmp .= $coins[$i][0].":".$coins[$i][1].",";
   //getArrayPrice()
-}
+//}
 //$tmp = getArrayPrice($coinAry,"BTC","USDT");
 //echo "<BR> String Test : $tmp";
+$cbAPIKey = getCoinBaseAPIKey();
+$cbAPISecret = getCoinBaseAPISecret();
+$cbAPIPassphrase = getCoinBaseAPIPassphrase();
+$configuration = Configuration::apiKey($cbAPIKey, $cbAPISecret, $cbAPIPassphrase);
+$client = Client::create($configuration);
 
+//var_dump($coinAry);
+$pagination = Pagination::create($before, null, $limit);
 
+$client->setPagination($pagination);
 
-var_dump($coinAry);
+$pagination->setEndingBefore(null);
+$pagination->setStartingAfter($after);
+
+$client->getAccounts();
+
+var_dump($client);
+
 
 ?>
 </html>
