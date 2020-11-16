@@ -39,6 +39,7 @@ displayHeader(10);
 				$tracking = getCoinMode($_SESSION['ID']);
 				$newArrLength = count($tracking);
         echo "<TABLE><TH>Symbol</TH><TH>Mode</TH><TH>Buy Rule</TH><TH>Sell Rule</TH><TH>Secondary Sell Rules</TH><TH>1 Hr Avg Price</TH><TH>24 Hr Avg Price</TH><TH>7 Day Avg Price</TH>";
+        echo "<TR>";
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $symbol = $tracking[$x][36]; $coinMode = $tracking[$x][25]; $buyRule = $tracking[$x][0]; $sellRule = $tracking[$x][19];
@@ -52,9 +53,9 @@ displayHeader(10);
           else{Echo "<TD>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
           Echo "<TD>$Hr1AveragePrice</TD>";Echo "<TD>$pctInc24Hours</TD>";Echo "<TD>$pctInc7Day</TD>";
-
+          echo "<TR>";
 				}//end for
-				print_r("</tr></table>");
+				print_r("</table>");
 
         displaySideColumn();
         //displayMiddleColumn();
