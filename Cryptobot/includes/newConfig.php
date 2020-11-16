@@ -1994,8 +1994,8 @@ function displayHeader($n){
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
 
-  $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","AdminSettings.php");
-  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Console","Admin Settings");
+  $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","CoinMode.php","AdminSettings.php");
+  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Console","CoinMode","Admin Settings");
   $headerLen = count($headers);
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
   ?><div class="header">
@@ -3460,5 +3460,33 @@ function coinSwapSell($livePrice, $transactionID,$coinID,$buyRule, $buyAmount){
   }
   $conn->close();
   logAction("coinSwapSell: ".$sql, 'SellCoin', 0);
+}
+
+function getCoinMode($userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `RuleID`, `CoinID`, `LiveCoinPrice`, `Avg6MonthMax`, `Avg6MonthMin`, `0MinsMin`, `15MinsMin`, `30MinsMin`, `45MinsMin`, `0MinsMax`, `15MinsMax`, `30MinsMax`
+  , `45MinsMax`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `RuleIDSell`, `USDBuyAmount`, `1HourAvgPrice`, `ProjectedPriceMax`
+  , `ProjectedPriceMin`, `UserID`, `ModeID`, `Hr1Top`, `Hr1Btm`, `Hr24Top`, `Hr24Btm`, `D7Top`, `D7Btm`, `SecondarySellRules`, `CoinModeEmails`, `Email`, `UserName`, `Symbol`
+  , `CoinModeEmailsSell`, `CoinModeMinsToCancelBuy` FROM `CoinModePricesView` WHERE `UserID` = $userID ";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['RuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['0MinsMin'],$row['15MinsMin'],$row['30MinsMin'],$row['45MinsMin'],$row['0MinsMax'],$row['15MinsMax']
+      ,$row['30MinsMax'],$row['45MinsMax'],$row['Live1HrChange'],$row['Last1HrChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'],$row['RuleIDSell'],$row['USDBuyAmount']
+      ,$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'],$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules']
+      ,$row['CoinModeEmails'],$row['Email'],$row['UserName'],$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 ?>

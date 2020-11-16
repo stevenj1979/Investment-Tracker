@@ -2,14 +2,14 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-set_include_path('/home/stevenj1979/repositories/gdax/src/');
+//set_include_path('/home/stevenj1979/repositories/gdax/src/Configuration.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 //include_once ('/home/stevenj1979/repositories/gdax/');
-//include_once ('/home/stevenj1979/repositories/gdax/src/Client.php');
-//include_once ('/home/stevenj1979/repositories/gdax/src/Configuration.php');
-//include_once ('/home/stevenj1979/repositories/gdax/src/HttpClient.php');
-//include_once ('/home/stevenj1979/repositories/gdax/src/Pagination.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Client.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Configuration.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/HttpClient.php');
+include_once ('/home/stevenj1979/repositories/gdax/src/Pagination.php');
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
