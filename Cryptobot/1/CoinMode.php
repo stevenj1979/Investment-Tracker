@@ -49,8 +49,8 @@ displayHeader(10);
           $pctInc24Hours = round((($livePrice - $Hr24Price)/$Hr24Price)*100,3);
           $pctInc7Day = round((($livePrice - $D7Price)/$D7Price)*100,3);
           //Table
-          echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD>Sell Mode</TD>";}
-          else{Echo "<TD>Flat Mode</TD>";}
+          echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD bgcolor='green'>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD bgcolor='red'>Sell Mode</TD>";}
+          else{Echo "<TD bgcolor='Yellow'>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
           Echo "<TD>$Hr1AveragePrice</TD>";Echo "<TD>$pctInc24Hours</TD>";Echo "<TD>$pctInc7Day</TD>";
           echo "<TR>";
