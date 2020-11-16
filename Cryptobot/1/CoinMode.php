@@ -44,10 +44,10 @@ displayHeader(10);
           //Variables
           $symbol = $tracking[$x][36]; $coinMode = $tracking[$x][25]; $buyRule = $tracking[$x][0]; $sellRule = $tracking[$x][19];
           $secondarySellRules = $tracking[$x][32];$livePrice = $tracking[$x][2]; $Hr24Price = $tracking[$x][15];$D7Price= $tracking[$x][17];
-          $Hr1AveragePrice = $tracking[$x][21];
+          $Hr1AveragePrice = round($tracking[$x][21],3);
           //Calculations
-          $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-          $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
+          $pctInc24Hours = round((($livePrice - $Hr24Price)/$Hr24Price)*100,3);
+          $pctInc7Day = round((($livePrice - $D7Price)/$D7Price)*100,3);
           //Table
           echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD>Sell Mode</TD>";}
           else{Echo "<TD>Flat Mode</TD>";}
