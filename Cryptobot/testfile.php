@@ -2,7 +2,7 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-set_include_path('/home/stevenj1979/repositories/gdax/');
+set_include_path('/home/stevenj1979/repositories/gdax/src/');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 //include_once ('/home/stevenj1979/repositories/gdax/');
