@@ -450,6 +450,7 @@ while($completeFlag == False){
     $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
     $lowPricePurchaseEnabled = $sellCoins[$a][45]; $purchaseLimit = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
     $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44]; $orderDate = $sellCoins[$a][7];
+    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53];
     //$symbol = $sellCoins[$a][11];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
@@ -483,6 +484,7 @@ while($completeFlag == False){
       $limitToBuyRule = $sellRules[$z][43];
       $sellAllCoinsEnabled = $sellRules[$z][48]; $sellAllCoinsPct = $sellRules[$z][49];
       $profitNum = findUserProfit($userProfit,$userID);
+      $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
       echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct ProfitNum: $profitNum";
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
@@ -502,6 +504,19 @@ while($completeFlag == False){
       //Echo "Limit to Buy Rule : $limitToBuyRuleTest | $BuyRule | $limitToBuyRule | $limitToBuyRuleEnabled";
       //if ($limitToBuyRule != "ALL" && $limitToBuyRuleTest == False){echo "<BR>EXIT: Limited to Buy rule $limitToBuyRule : $BuyRule"; continue;}else{ Echo "<BR>BUY RULE CORRECT";}
       //Echo "<BR> Start of TEST!";
+      $current_date = date('Y-m-d H:i');
+      $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
+      if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek < $noOfCoinSwapsThisWeek){
+        if ($profit< -4 and $orderDate > $threeWeeksAgoDate){
+          //lookup if any Coin in Buy Mode currently
+          $coinSwapBuyCoinID = coinSwapBuyModeLookup();
+          $$coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
+          if ($$coinSwapBuyCoinIDSize > 0){
+            //CoinSwap
+            coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);
+          }
+        }
+      }
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
@@ -676,7 +691,7 @@ while($completeFlag == False){
           }
           continue;
         }
-      }else{ // $type Sell
+      }elseif ($type == "Sell"){ // $type Sell
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           echo "<BR>SELL Order COMPLETE!";
             $profitPct = ($finalPrice-$cost)/$cost*100;
@@ -690,8 +705,17 @@ while($completeFlag == False){
               $from = 'Coin Sale <sale@investment-tracker.net>';
               sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
             }
-            bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
-            logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
+            //if ($type == "CoinSwapSell"){
+              //update transaction to new Coin ID and amount
+            //  $coinSwapBuyCoinID = coinSwapBuyModeLookup();
+              //Initiate buy
+
+
+            //}else{
+              bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
+              logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
+            //}
+
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             continue;
         }
