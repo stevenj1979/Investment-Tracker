@@ -39,7 +39,7 @@ header('Location: CoinMode_Mobile.php');
 function textColour($nText,$nTop, $nBttm){
   if ($nText > $nTop){ echo "<td style='color:green;'>$nText</td>";}
   elseif ($nText < $nBttm){ echo "<td style='color:red;'>$nText</td>";}
-  else{echo "<td style='color:amber;'>$nText</td>";}
+  else{echo "<td style='color:orange;'>$nText</td>";}
 }
 
 displayHeader(10);
