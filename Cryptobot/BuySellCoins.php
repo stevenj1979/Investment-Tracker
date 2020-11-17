@@ -159,7 +159,7 @@ while($completeFlag == False){
     }elseif ($pctProfit > 5 && $minsFromDate <= -5 ){
       closeNewTrackingCoin($newTrackingCoinID, True);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif($minsFromDate <= -300){
+    }elseif($minsFromDate <= -45){
       closeNewTrackingCoin($newTrackingCoinID, True);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
