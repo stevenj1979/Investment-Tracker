@@ -125,6 +125,7 @@ while($completeFlag == False){
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    if($minsFromDate <= -45){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);continue;}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
@@ -160,10 +161,11 @@ while($completeFlag == False){
     }elseif ($pctProfit > 5 && $minsFromDate <= -5 ){
       closeNewTrackingCoin($newTrackingCoinID, True);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif($minsFromDate <= -45){
-      closeNewTrackingCoin($newTrackingCoinID, True);
-      logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
+    //elseif($minsFromDate <= -45){
+    //  closeNewTrackingCoin($newTrackingCoinID, True);
+    //  logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
+    //}
 
 
   }
