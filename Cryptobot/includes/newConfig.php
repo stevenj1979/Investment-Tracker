@@ -385,7 +385,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);
             addBuyRuletoSQL($bittrexRef,$ruleID,$SellRuleFixed);
             logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID,1);
-            CustomisedSellRule($ruleID,$SellRuleFixed,$coinID);
+            //CustomisedSellRule($ruleID,$SellRuleFixed,$coinID);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
             //if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
 
