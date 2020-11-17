@@ -307,6 +307,32 @@ function checkRuleIsOpen($id){
   $conn->close();
 }
 
+function getSellRules(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`,`LimitToCoinID`,`UserID` FROM `SellRules` WHERE `CoinModeRule` = 1 ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['LimitToCoinID'],$row['UserID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function clearOrphanedRules($sellRule, $coinID, $userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call OrphanedCoinModeSellRules($sellRule, $coinID, $userID);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
@@ -358,6 +384,13 @@ for ($j=0; $j<$secondarySellRulesSize; $j++){
       checkRuleIsOpen($smallerAry[$k]);
     }
   }
+}
+
+$orphanRules = getSellRules();
+$orphanRulesSize = count($orphanRules);
+
+for ($k=0; $k<$orphanRulesSize; $k++){
+    clearOrphanedRules($orphanRules[$k][0],$orphanRules[$k][1],$orphanRules[$k][2]);
 }
 
 ?>
