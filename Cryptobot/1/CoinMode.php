@@ -39,7 +39,7 @@ displayHeader(10);
 				$tracking = getCoinMode($_SESSION['ID']);
 				$newArrLength = count($tracking);
         echo "<TABLE><TH>Symbol</TH><TH>Mode</TH><TH>Buy Rule</TH><TH>Sell Rule</TH><TH>Secondary Sell Rules</TH><TH>1 Hr Avg Price</TH><TH>24 Hr Avg Price</TH><TH>7 Day Avg Price</TH>";
-        echo "<TH>Live Price</TH><TH>6 Month High</TH><TH>6 Month Low</TH>";
+        echo "<TH>Live Price</TH><TH>6 Month High</TH><TH>6 Month Low</TH><TH>% to Buy</TH>";
         echo "<TR>";
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
@@ -50,12 +50,18 @@ displayHeader(10);
           //Calculations
           $pctInc24Hours = round((($livePrice - $Hr24Price)/$Hr24Price)*100,3);
           $pctInc7Day = round((($livePrice - $D7Price)/$D7Price)*100,3);
+          if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
+          if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
+          //$pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
+          $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
           //Table
           echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD bgcolor='green'>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD bgcolor='red'>Sell Mode</TD>";}
           else{Echo "<TD bgcolor='Yellow'>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
           Echo "<TD>$Hr1AveragePrice</TD>";Echo "<TD>$pctInc24Hours</TD>";Echo "<TD>$pctInc7Day</TD>";
           Echo "<TD>$livePrice</TD>";Echo "<TD>$month6HighPrice</TD>";Echo "<TD>$month6LowPrice</TD>";
+          $pctToBuy=$pctToBuy*100;
+          Echo "<TD>$pctToBuy</TD>";
           echo "<TR>";
 				}//end for
 				print_r("</table>");
