@@ -509,7 +509,7 @@ while($completeFlag == False){
       if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek < $noOfCoinSwapsThisWeek){
         if ($profit< -4 and $orderDate > $threeWeeksAgoDate){
           //lookup if any Coin in Buy Mode currently
-          $coinSwapBuyCoinID = coinSwapBuyModeLookup();
+          $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
           $$coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
           if ($$coinSwapBuyCoinIDSize > 0){
             //CoinSwap

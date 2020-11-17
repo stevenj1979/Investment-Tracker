@@ -3421,7 +3421,7 @@ function setCustomisedSellRule($buyRule, $sellRule, $coinID){
   logAction("setCustomisedSellRule: ".$sql, 'SellCoin', 0);
 }
 
-function coinSwapBuyModeLookup(){
+function coinSwapBuyModeLookup($coinID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -3431,7 +3431,7 @@ function coinSwapBuyModeLookup(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `CoinID` FROM `CoinModeRules` WHERE `ModeID` = 1 limit 1 ";
+  $sql = "SELECT `CoinID` FROM `CoinModeRules` WHERE `CoinID` != $coinID and `ModeID` = 1  limit 1 ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3481,9 +3481,9 @@ function getCoinMode($userID){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['RuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['0MinsMin'],$row['15MinsMin'],$row['30MinsMin'],$row['45MinsMin'],$row['0MinsMax'],$row['15MinsMax']
-      ,$row['30MinsMax'],$row['45MinsMax'],$row['Live1HrChange'],$row['Last1HrChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'],$row['RuleIDSell'],$row['USDBuyAmount']
-      ,$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'],$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules']
+      $tempAry[] = Array($row['RuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['0MinsMin'],$row['15MinsMin'],$row['30MinsMin'],$row['45MinsMin'],$row['0MinsMax'],$row['15MinsMax'] //10
+      ,$row['30MinsMax'],$row['45MinsMax'],$row['Live1HrChange'],$row['Last1HrChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'],$row['RuleIDSell'],$row['USDBuyAmount'] //20
+      ,$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'],$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'] //32
       ,$row['CoinModeEmails'],$row['Email'],$row['UserName'],$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy']);
   }
   $conn->close();
