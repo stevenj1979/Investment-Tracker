@@ -3,6 +3,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
+<STYLE>
+
+</STYLE>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';
 
@@ -33,6 +36,12 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 header('Location: CoinMode_Mobile.php');
 }
 
+function textColour($nText,$nTop, $nBttm){
+  if ($nText > $nTop){ echo "<p style='color:green;'>$nText</p>";}
+  elseif ($nText < $nBttm){ echo "<p style='color:red;'>$nText</p>";}
+  else{echo "<p style='color:amber;'>$nText</p>";}
+}
+
 displayHeader(10);
 
         if ($_SESSION['isMobile']){ $num = 1; $fontSize = "font-size:60px"; }else{$num = 3;$fontSize = "font-size:32px"; }
@@ -58,7 +67,7 @@ displayHeader(10);
           echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD bgcolor='green'>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD bgcolor='red'>Sell Mode</TD>";}
           else{Echo "<TD bgcolor='Yellow'>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
-          Echo "<TD>$Hr1AveragePrice</TD>";Echo "<TD>$pctInc24Hours</TD>";Echo "<TD>$pctInc7Day</TD>";
+          Echo "<TD>".textColour($Hr1AveragePrice,0.2,-0.2)."</TD>";Echo "<TD>".textColour($pctInc24Hours,3,-3)."</TD>";Echo "<TD>".textColour($pctInc7Day,3,-3)."</TD>";
           Echo "<TD>".round($livePrice,$num)."</TD>";Echo "<TD>".round($month6HighPrice,$num)."</TD>";Echo "<TD>".round($month6LowPrice,$num)."</TD>";
           $pctToBuy= round($pctToBuy*100,$num);
           Echo "<TD>$pctToBuy</TD>";
