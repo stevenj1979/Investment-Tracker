@@ -30,7 +30,7 @@ if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
 //Echo "<BR> isMobile: ".$_SESSION['isMobile']." | MobOverride: ".$_SESSION['MobOverride'];
 
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
-header('Location: CoinMode_Mobile.php');
+  //header('Location: BuyCoins_Mobile.php');
 }
 
 displayHeader(10);
@@ -59,7 +59,7 @@ displayHeader(10);
           else{Echo "<TD bgcolor='Yellow'>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
           Echo "<TD>$Hr1AveragePrice</TD>";Echo "<TD>$pctInc24Hours</TD>";Echo "<TD>$pctInc7Day</TD>";
-          Echo "<TD>$livePrice</TD>";Echo "<TD>$month6HighPrice</TD>";Echo "<TD>$month6LowPrice</TD>";
+          //Echo "<TD>$livePrice</TD>";Echo "<TD>$month6HighPrice</TD>";Echo "<TD>$month6LowPrice</TD>";
           $pctToBuy=$pctToBuy*100;
           Echo "<TD>$pctToBuy</TD>";
           echo "<TR>";
