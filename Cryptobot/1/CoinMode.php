@@ -37,9 +37,9 @@ header('Location: CoinMode_Mobile.php');
 }
 
 function textColour($nText,$nTop, $nBttm){
-  if ($nText > $nTop){ echo "<p style='color:green;'>$nText</p>";}
-  elseif ($nText < $nBttm){ echo "<p style='color:red;'>$nText</p>";}
-  else{echo "<p style='color:amber;'>$nText</p>";}
+  if ($nText > $nTop){ echo "<td style='color:green;'>$nText</td>";}
+  elseif ($nText < $nBttm){ echo "<td style='color:red;'>$nText</td>";}
+  else{echo "<td style='color:amber;'>$nText</td>";}
 }
 
 displayHeader(10);
@@ -67,7 +67,7 @@ displayHeader(10);
           echo "<td>$symbol</td>"; if ($coinMode == 1){ Echo "<TD bgcolor='green'>Buy Mode</TD>";} elseif ($coinMode == 2) {Echo "<TD bgcolor='red'>Sell Mode</TD>";}
           else{Echo "<TD bgcolor='Yellow'>Flat Mode</TD>";}
           Echo "<TD>$buyRule</TD>";Echo "<TD>$sellRule</TD>";Echo "<TD>$secondarySellRules</TD>";
-          Echo "<TD>".textColour($Hr1AveragePrice,0.2,-0.2)."</TD>";Echo "<TD>".textColour($pctInc24Hours,3,-3)."</TD>";Echo "<TD>".textColour($pctInc7Day,3,-3)."</TD>";
+          textColour($Hr1AveragePrice,0.2,-0.2); textColour($pctInc24Hours,3,-3); textColour($pctInc7Day,3,-3);
           Echo "<TD>".round($livePrice,$num)."</TD>";Echo "<TD>".round($month6HighPrice,$num)."</TD>";Echo "<TD>".round($month6LowPrice,$num)."</TD>";
           $pctToBuy= round($pctToBuy*100,$num);
           Echo "<TD>$pctToBuy</TD>";
