@@ -520,7 +520,7 @@ while($completeFlag == False){
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
           $$coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
-          echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinSwapBuyCoinIDSize";
+          echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize";
           if ($coinSwapBuyCoinIDSize > 0){
             //CoinSwap
             echo "<BR>coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);";
