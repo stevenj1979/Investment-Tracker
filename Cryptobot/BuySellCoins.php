@@ -519,7 +519,7 @@ while($completeFlag == False){
         if ($profit < -4 and $daysSinceCoinPurchase > 21){
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
-          $$coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
+          $coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
           echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize";
           if ($coinSwapBuyCoinIDSize > 0){
             //CoinSwap
