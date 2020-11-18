@@ -510,7 +510,7 @@ while($completeFlag == False){
       $current_date = date('Y-m-d H:i');
       $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
       echo "<BR>COIN Swap: $coinSwapEnabled $noOfCoinSwapsPerWeek $noOfCoinSwapsThisWeek";
-      if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek < $noOfCoinSwapsThisWeek){
+      if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek > $noOfCoinSwapsThisWeek){
         echo "<BR>COIN Swap: $profit $orderDate $threeWeeksAgoDate";
         if ($profit < -4 and $orderDate > $threeWeeksAgoDate){
           //lookup if any Coin in Buy Mode currently
