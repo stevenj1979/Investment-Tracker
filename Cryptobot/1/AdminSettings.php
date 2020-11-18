@@ -200,7 +200,7 @@ $userSubSize = count($userSub);
 
 //echo $userDetails[0][1];
 
-    displayHeader(10) ?>
+    displayHeader(11) ?>
            Renew Subscription
            <table><th>Action</th><th>Username</th><th>SubscriptionLength</th><th>Date</th><th>TransactionID</th><tr>
            <?php
