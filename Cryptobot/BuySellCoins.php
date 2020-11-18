@@ -516,12 +516,12 @@ while($completeFlag == False){
         $datediff = $now - $your_date;
         $daysSinceCoinPurchase = round($datediff / (60 * 60 * 24));
         echo "<BR>COIN Swap: $profit $orderDate $threeWeeksAgoDate $daysSinceCoinPurchase";
-        if ($profit < -4 and $orderDate < $threeWeeksAgoDate){
+        if ($profit < -4 and $daysSinceCoinPurchase > 21){
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
           $$coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
-          echo "<BR> COIN SWAP: No of coins in Buy Mode: $$coinSwapBuyCoinIDSize";
-          if ($$coinSwapBuyCoinIDSize > 0){
+          echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinSwapBuyCoinIDSize";
+          if ($coinSwapBuyCoinIDSize > 0){
             //CoinSwap
             echo "<BR>coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);";
             coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);
