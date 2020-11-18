@@ -15,7 +15,8 @@ function getLastMonthCoinPrice(){
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `Lmhp`.`CoinID`,`Lmhp`.`MonthHighPrice` as MonthHighPrice,`Lmhp`.`Month`,`Lmhp`.`Year`,  `Lmmp`.`MonthLowPrice` as MonthLowPrice
   FROM `LastMonthHighPrice` `Lmhp`
-	join `LastMonthLowPrice` `Lmmp` on `Lmmp`.`CoinID` = `Lmhp`.`CoinID` and `Lmmp`.`Month` = `Lmhp`.`Month` and `Lmmp`.`Year` = `Lmhp`.`Year` ";
+	join `LastMonthLowPrice` `Lmmp` on `Lmmp`.`CoinID` = `Lmhp`.`CoinID` and `Lmmp`.`Month` = `Lmhp`.`Month` and `Lmmp`.`Year` = `Lmhp`.`Year`
+  where `Lmhp`.`MonthHighPrice` <> 0 and `Lmmp`.`MonthLowPrice` <> 0  ";
   echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
