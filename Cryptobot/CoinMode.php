@@ -180,7 +180,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           $ruleID = $coinAry[1]; $livePrice = $coinAry[10];
           $userID = $coinAry[14]; $modeID = $coinAry[15];
           $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24TargetTop = $coinAry[18]; $hr24TargetBtm = $coinAry[19]; $d7TargetTop = $coinAry[20]; $d7TargetBtm = $coinAry[21];
-          $minsToCancelBuy = $coinAry[28];
+          $minsToCancelBuy = $coinAry[28]; $coinModeBuyRuleEnabled = $coinAry[29];$coinModeSellRuleEnabled = $coinAry[30];
           $secondarySellRulesAry = explode(',',$coinAry[22]);
           $secondarySellRulesSize = Count($secondarySellRulesAry);
           $t1 = False; $t2 = False; $t3 = False;
@@ -198,7 +198,8 @@ function isBuyMode($coinAry, $minBuyAmount){
             //Calculate Sell Price
             for ($i=0; $i<$secondarySellRulesSize; $i++){
               if ($secondarySellRulesAry[$i] <> ""){
-                WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i],0,$minsToCancelBuy,0,0);
+                if ($coinModeSellRuleEnabled == 0){$newMoinModeSellRuleEnabled = 1;}else{$newMoinModeSellRuleEnabled = 0;}
+                WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i],0,$minsToCancelBuy,0,$newMoinModeSellRuleEnabled);
               }
             }
             echo "<BR> Activate FLAT MODE";
