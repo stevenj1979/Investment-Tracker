@@ -8,13 +8,13 @@ $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
 
-function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable, $type, $sellRuleID,$numOfRisesInPrice, $minsToCancel,$hr1Top){
+function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable, $type, $sellRuleID,$numOfRisesInPrice, $minsToCancel,$hr1Top,$newMoinModeSellRuleEnabled){
   $newHighPrice = round($highPrice,8);
   $newLowPrice = round($lowPrice,8);
   $numOfRisesInPrice = round($numOfRisesInPrice,0,PHP_ROUND_HALF_DOWN);
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$newHighPrice,$newLowPrice,$buyAmount,$enable,$type,$sellRuleID,$numOfRisesInPrice,$minsToCancel,$hr1Top);";
+  $sql = "call UpdateRulesforCoinMode($coinD,$ruleID,$newHighPrice,$newLowPrice,$buyAmount,$enable,$type,$sellRuleID,$numOfRisesInPrice,$minsToCancel,$hr1Top,$newMoinModeSellRuleEnabled);";
 
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
