@@ -60,7 +60,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       $ruleIDSell = $coinAry[8]; $userID = $coinAry[14]; $modeID = $coinAry[15];
       $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[19]; $d7Target = $coinAry[21];
       $coinModeEmailsEnabled = $coinAry[23]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
-      $minsToCancelBuy = $coinAry[28];
+      $minsToCancelBuy = $coinAry[28]; $coinModeBuyRuleEnabled = $coinAry[29];
       $t1 = False; $t2 = False; $t3 = False;
 
       //24 Hour price is down
@@ -87,7 +87,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         echo "<BR> Total Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
 
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
-        if ($buyAmount >= $minBuyAmount){
+        if ($buyAmount >= $minBuyAmount AND $coinModeBuyRuleEnabled == 1){
           echo "<BR> Activate BUY MODE";
           if ($pctInc7Day <= -15){$newProjectedMaxPrice = $new6MonthHighPrice; $newProjectedMinPrice = $new6MonthLowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
@@ -125,7 +125,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $secondarySellRulesAry = explode(',',$coinAry[22]);
         $secondarySellRulesSize = Count($secondarySellRulesAry);
         $coinModeEmailsEnabled = $coinAry[27]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
-        $minsToCancelBuy = $coinAry[28];
+        $minsToCancelBuy = $coinAry[28];$coinModeSellRuleEnabled = $coinAry[30];
         $t1 = False; $t2 = False; $t3 = False;
 
         //24 Hour price is up
@@ -138,7 +138,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         //Average is flat
         if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Sell Mode: $t1 | $t2 | $t3 ";
-        if ($t1 == True and $t2 == True and $t3 == True){
+        if ($t1 == True and $t2 == True and $t3 == True AND $coinModeSellRuleEnabled == 1){
           //Calculate Sell Price
           if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
           if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
@@ -221,7 +221,9 @@ function isBuyMode($coinAry, $minBuyAmount){
 
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
         ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
-        ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy` FROM `CoinModePricesView`";
+        ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
+        ,`CoinModeSellRuleEnabled`
+        FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
         //mysqli_fetch_assoc($result);
@@ -229,7 +231,7 @@ function isBuyMode($coinAry, $minBuyAmount){
             $tempAry[] = Array($row['CoinID'],$row['RuleID'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'] //7
           ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
         ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'],$row['CoinModeEmails'],$row['Email'],$row['UserName']
-      ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy']); //21
+      ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled']); //21
         }
         $conn->close();
         return $tempAry;
