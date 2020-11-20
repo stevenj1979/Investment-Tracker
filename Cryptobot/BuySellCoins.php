@@ -121,11 +121,11 @@ while($completeFlag == False){
     $risesInPrice = $newTrackingCoins[$a][31]; $limitBuyAmountEnabled = $newTrackingCoins[$a][32]; $limitBuyAmount = $newTrackingCoins[$a][33];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
-
+    $minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
-    if($minsFromDate <= -45){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);continue;}
+    if($minsFromDate <= $minusMinsToCancel){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);continue;}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
@@ -268,6 +268,7 @@ while($completeFlag == False){
       $totalProfitPauseEnabled = $buyRules[$y][66]; $totalProfitPause = $buyRules[$y][67]; $rulesPauseEnabled = $buyRules[$y][68];
       $rulesPause = $buyRules[$y][69]; $rulesPauseHours = $buyRules[$y][70]; $overrideDisableRule = $buyRules[$y][73];
       $limitBuyAmountEnabled = $buyRules[$y][74]; $limitBuyAmount = $buyRules[$y][75];
+      $limitBuyTransactionsEnabled = $buyRules[$y][78]; $limitBuyTransactions = $buyRules[$y][79];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -299,8 +300,15 @@ while($completeFlag == False){
         $ruleProfitSize = count($ruleProfit);
         for ($g=0; $g<$ruleProfitSize; $g++){
           echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$g][4]." | $ruleIDBuy | ".$ruleProfit[$g][1]." | $limitBuyAmount";
-          if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyAmount){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
+          if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
         }
+      }
+      if ($limitBuyTransactionsEnabled == 1){
+          $ruleProfitSize = count($ruleProfit);
+          for ($h=0; $h<$ruleProfitSize; $h++){
+            echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; continue;}
+          }
       }
       echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
       if (isset($marketProfit[0][0])){

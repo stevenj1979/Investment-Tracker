@@ -3352,6 +3352,7 @@ function getRuleProfit(){
   $sql = "SELECT sum(`LivePrice`) as TotalLivePrice,sum(`PurchasePrice`) as TotalPurchasePrice, sum(`Profit`) as TotalProfit
         , if (sum(`Profit`)<0, -1*abs(sum(`Profit`))/sum(`PurchasePrice`)*100 , abs(sum(`Profit`))/sum(`PurchasePrice`)*100) as ProfitPct
         ,`RuleID`
+        ,count(`RuleID`)
         FROM `NewUserProfit`
         group by `RuleID`";
   //echo "<BR> $sql";
