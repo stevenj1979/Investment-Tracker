@@ -203,15 +203,17 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
 //sellCoins("714f3f7873a2481c9f89b7c1f3801f2d", ,MKR, stevenj1979@gmail.com, 3, 0,2020-11-21 15:24:17, USDT,1,1, 11,stevenj1979,ORDMKR2020111714511551,0.09560156000000,552.0990000000,9200,96,0,0.000,552.0890000000)
 
-$obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "MKR" ,0.09560156, 552.09900, "USDT", 3, False);
+//$obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "MKR" ,0.09560156, 552.09900, "USDT", 3, False);
 
-$bittrexRef = $obj["id"];
-Echo "<BR> API V3 Bittrex Ref:".$obj["id"];
-Echo "<BR> Direction : ".$obj["direction"];
-Echo "<BR> Comission: ".$obj["commission"];
-Echo "<BR> Status: ".$obj["status"];
-Echo "<BR> Closed At: ".$obj["closedAt"];
+//$bittrexRef = $obj["id"];
+//Echo "<BR> API V3 Bittrex Ref:".$obj["id"];
+//Echo "<BR> Direction : ".$obj["direction"];
+//Echo "<BR> Comission: ".$obj["commission"];
+//Echo "<BR> Status: ".$obj["status"];
+//Echo "<BR> Closed At: ".$obj["closedAt"];
 
+newTrackingSellCoins(552.089,3, 9203,1, 1,0,0.0,2);
+setTransactionPending(9203);
 
 ?>
 </html>
