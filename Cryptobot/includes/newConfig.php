@@ -1334,7 +1334,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $subject = "Coin Sale: ".$coin."_".$ruleID;
     $from = 'Coin Sale <sale@investment-tracker.net>';
     echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
-    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency, $apiVersion);
+    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), round($bitPrice,8), $baseCurrency, $apiVersion, False);
     //Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
     if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"]; $status = $obj["success"]; }
