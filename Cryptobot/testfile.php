@@ -207,6 +207,8 @@ $obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a7
 
 $bittrexRef = $obj["id"];
 Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
+Echo "<BR> Comission: ".$obj["commission"];
+
 
 ?>
 </html>
