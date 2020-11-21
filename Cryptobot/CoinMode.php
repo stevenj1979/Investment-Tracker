@@ -94,6 +94,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           $numOfRisesInPrice = (10*$pctToBuy);
           $newHighPrice = ($newProjectedMaxPrice-($newProjectedMaxPrice/50))*$pctToBuy;
           WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);
+          echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
@@ -152,9 +153,11 @@ function isBuyMode($coinAry, $minBuyAmount){
           for ($i=0; $i<$secondarySellRulesSize; $i++){
             if ($secondarySellRulesAry[$i] <> ""){
               WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$minsToCancelBuy,0,0);
+              Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$minsToCancelBuy,0,0);";
             }
           }
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,0,0);
+          Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,0,0);";
           if ($modeID <> 2 ){
             logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
@@ -200,10 +203,12 @@ function isBuyMode($coinAry, $minBuyAmount){
               if ($secondarySellRulesAry[$i] <> ""){
                 if ($coinModeSellRuleEnabled == 0){$newMoinModeSellRuleEnabled = 1;}else{$newMoinModeSellRuleEnabled = 0;}
                 WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, $secondarySellRulesAry[$i],0,$minsToCancelBuy,0,$newMoinModeSellRuleEnabled);
+                Echo "<BR>WritetoRule($coinID,$ruleID,0,0, 0, 0, 3, ".$secondarySellRulesAry[$i].",0,$minsToCancelBuy,0,$newMoinModeSellRuleEnabled);";
               }
             }
             echo "<BR> Activate FLAT MODE";
             WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell,0,$minsToCancelBuy,0,0);
+            Echo "<BR>WritetoRule($coinID,$ruleID,0,0, 0, 0, 3,$ruleIDSell,0,$minsToCancelBuy,0,0);";
             if ($modeID <> 3){ logToSQL("CoinMode","Change Coin mode to 3 for: $symbol ($coinID)", $userID, 1);}
             //Disable Rule
           }
