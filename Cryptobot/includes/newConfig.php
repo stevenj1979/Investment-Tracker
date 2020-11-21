@@ -1318,6 +1318,7 @@ function buyAmountOverride($buyAmountOverrideEnabled){
 
 function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
   $apiVersion = 3;
+  $retSell = Flase;
   echo "<BR>$apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost";
   $subject = "Coin Alert: ".$coin."_".$ruleID;
   $from = 'Coin Alert <alerts@investment-tracker.net>';
@@ -1349,6 +1350,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     //echo "<br> STATUS: $status";
     if ($status == 1 AND $bittrexRef <> ""){
       //$totalBTC = getTotalLimit($userID);
+      $retSell = True;
       Echo "<br>Here3";
       echo "<br>updateSQL($baseCurrency,$transactionID,$bittrexRef)";
       //updateSQL($baseCurrency,$transactionID,$bittrexRef);
@@ -1371,6 +1373,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $profit = $bitPrice - $buyPrice - $fee;
     sendSellEmail($email, $coin, $amount, $bitPrice, $orderNo.$ruleID, $score,$profitPct,$profit,$subject,$userName,$from);
   }
+  return $retSell;
 }
 
 function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards){
