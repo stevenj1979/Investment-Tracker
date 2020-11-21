@@ -212,8 +212,9 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //Echo "<BR> Status: ".$obj["status"];
 //Echo "<BR> Closed At: ".$obj["closedAt"];
 
-newTrackingSellCoins(552.089,3, 9203,1, 1,0,0.0,2);
-setTransactionPending(9203);
-
+newTrackingSellCoins(552.089,3, 9201,1, 1,0,0.0,2);
+setTransactionPending(9200);
+newTrackingSellCoins(552.089,3, 9201,1, 1,0,0.0,2);
+setTransactionPending(9200);
 ?>
 </html>
