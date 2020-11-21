@@ -309,6 +309,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$noOfPurchases = 0){
   $apiVersion = 3;
+  $retBuy = False;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
@@ -374,6 +375,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 
           if ($status == 1){
+            $retBuy = True;
             echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo);";
             date_default_timezone_set('Asia/Dubai');
             //$tmpTime = $timeToCancelBuyMins;
@@ -403,6 +405,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$minTradeAmount[0][0]." && $BTCBalance >= $buyMin", $userID,1);
     }
   //}
+  return $retBuy;
 }
 
 function writeFixedSellRule($SellRuleFixed,$bittrexRef){
