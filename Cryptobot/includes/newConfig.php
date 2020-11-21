@@ -1373,7 +1373,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   }
 }
 
-function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum){
+function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards){
     $nonce=time();
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
@@ -1395,7 +1395,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
         "quantity": "'.$quant.'",
         "limit": "'.$rate.'",
         "timeInForce": "GOOD_TIL_CANCELLED",
-        "useAwards": "True"
+        "useAwards": "'.$useAwards.'"
       }';
       echo "<BR>".$content;
       $subaccountId = "";
