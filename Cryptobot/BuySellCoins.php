@@ -190,6 +190,20 @@ while($completeFlag == False){
     $totalRisesInPrice =  $newTrackingSellCoins[$b][30]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
+    if ($ProfitPct < -5 && $minsFromDate <= -5 OR $ogPctProfit < 0){
+      closeNewTrackingSellCoin($TransactionID);
+      reopenTransaction($TransactionID);
+    }
+    if ($minsFromStart <= -60 &&  $ogPctProfit > 1.5){
+      $date = date("Y-m-d H:i:s", time());
+      reopenTransaction($TransactionID);
+      if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
+      logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", 'SellCoins', 1);
+      logToSQL("SellCoins", "sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", $userID, $logToSQLSetting);
+      sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
+      //CloseTrackingSellCoin
+      closeNewTrackingSellCoin($TransactionID);
+    }
     if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
       if ($NoOfRisesInPrice >= $fallsInPrice && $ogPctProfit >= 0.25){
@@ -215,20 +229,6 @@ while($completeFlag == False){
       //Set new Tracking Price
       //setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
-    }elseif ($ProfitPct < -5 && $minsFromDate <= -5 OR $ogPctProfit < 0){
-      echo "<BR> Option 3";
-      //Close tracking coin
-      closeNewTrackingSellCoin($TransactionID);
-      reopenTransaction($TransactionID);
-    }elseif ($minsFromStart <= -60 &&  $ogPctProfit > 1.5){
-      $date = date("Y-m-d H:i:s", time());
-      reopenTransaction($TransactionID);
-      if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
-      logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", 'SellCoins', 1);
-      logToSQL("SellCoins", "sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", $userID, $logToSQLSetting);
-      sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
-      //CloseTrackingSellCoin
-      closeNewTrackingSellCoin($TransactionID);
     }
 
   }
