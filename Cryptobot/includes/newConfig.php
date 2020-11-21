@@ -2976,14 +2976,14 @@ function getNewTrackingSellCoins($userID = 0){
 
 }
 
-function closeNewTrackingSellCoin($ID){
+function closeNewTrackingSellCoin($ID,$num){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `TransactionID` = $ID";
+  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed'.$num WHERE `TransactionID` = $ID";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
