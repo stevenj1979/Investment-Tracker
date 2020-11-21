@@ -366,7 +366,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         if ($buyCoin){
           $btcBuyAmount = round($btcBuyAmount,10);
           $bitPrice = round($bitPrice,8);
-          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion);
+          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,False);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
           else{$bittrexRef = $obj["id"];
@@ -516,7 +516,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
     return $balance;
 }
 
-function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $versionNum){
+function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $versionNum, $useAwards){
     Echo "bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency)";
     $nonce=time();
     if ($versionNum == 1){
@@ -540,7 +540,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
         "quantity": "'.$quant.'",
         "limit": "'.$rate.'",
         "timeInForce": "GOOD_TIL_CANCELLED",
-        "useAwards": "True"
+        "useAwards": "'.$useAwards.'"
       }';
       echo "<BR>".$content;
       $subaccountId = "";
