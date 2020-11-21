@@ -212,8 +212,10 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //Echo "<BR> Status: ".$obj["status"];
 //Echo "<BR> Closed At: ".$obj["closedAt"];
 
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "df08efad-5743-427d-aa9c-c3f9139ae812", 3);
 
-newTrackingSellCoins(552.089,3, 9200,1, 1,0,0.0,2);
-setTransactionPending(9200);
+echo "<BR>".$resultOrd["status"];
+echo "<BR>".$resultOrd["id"];
+
 ?>
 </html>
