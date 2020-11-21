@@ -3355,11 +3355,12 @@ function getRuleProfit(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`LivePrice`) as TotalLivePrice,sum(`PurchasePrice`) as TotalPurchasePrice, sum(`Profit`) as TotalProfit
-        , if (sum(`Profit`)<0, -1*abs(sum(`Profit`))/sum(`PurchasePrice`)*100 , abs(sum(`Profit`))/sum(`PurchasePrice`)*100) as ProfitPct
-        ,`RuleID`
-        ,count(`RuleID`)
-        FROM `NewUserProfit`
+  $sql = "SELECT sum(`Nup`.`LivePrice`) as TotalLivePrice,sum(`Nup`.`PurchasePrice`) as TotalPurchasePrice, sum(`Nup`.`Profit`) as TotalProfit
+        , if (sum(`Nup`.`Profit`)<0, -1*abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100 , abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100) as ProfitPct
+        ,`Br`.`ID` as RuleID
+        ,count(`Nup`.`RuleID`)
+        FROM `NewUserProfit` `Nup`
+        right join `BuyRules` `Br` on `Br`.`ID` =  `Nup`.`RuleID`
         group by `RuleID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
