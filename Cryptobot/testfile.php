@@ -201,42 +201,12 @@ $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
-//$resultOrd = bittrexOrder($apikey, $apisecret, '2663baf9-8c75-45de-a75f-6bc138f60caf', 3);
+//sellCoins("714f3f7873a2481c9f89b7c1f3801f2d", ,MKR, stevenj1979@gmail.com, 3, 0,2020-11-21 15:24:17, USDT,1,1, 11,stevenj1979,ORDMKR2020111714511551,0.09560156000000,552.0990000000,9200,96,0,0.000,552.0890000000)
 
-//var_dump($resultOrd);
+$obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "MKR" ,0.09560156, 552.09900000, "USDT", 3);
 
-//$newOrd = bittrexCoinStats($apikey, $apisecret, "BTC", "USDT", 3);
-echo "<BR>";
-//var_dump($newOrd);
-
-//$coins = getSymbols();
-//$coinSize = Count($coins);
-//$coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", 3);
-//$tmp= 0.0;
-//for ($i=0; $i<$coinSize; $i++ ){
-  //$tmp .= $coins[$i][0].":".$coins[$i][1].",";
-  //getArrayPrice()
-//}
-//$tmp = getArrayPrice($coinAry,"BTC","USDT");
-//echo "<BR> String Test : $tmp";
-$cbAPIKey = getCoinBaseAPIKey();
-$cbAPISecret = getCoinBaseAPISecret();
-$cbAPIPassphrase = getCoinBaseAPIPassphrase();
-$configuration = Configuration::apiKey($cbAPIKey, $cbAPISecret, $cbAPIPassphrase);
-$client = Client::create($configuration);
-
-//var_dump($coinAry);
-$pagination = Pagination::create($before, null, $limit);
-
-$client->setPagination($pagination);
-
-$pagination->setEndingBefore(null);
-$pagination->setStartingAfter($after);
-
-$client->getAccounts();
-
-var_dump($client);
-
+$bittrexRef = $obj["id"];
+Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
 
 ?>
 </html>

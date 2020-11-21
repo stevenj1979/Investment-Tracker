@@ -1341,7 +1341,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     else{
       $bittrexRef = $obj["id"];
       Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
-      if ($obj["direction"] == 'SELL'){$status = 1;}else{$status = 0;}
+      if ($bittrexRef <> ""){$status = 1;}else{$status = 0;}
     }
 
     //echo "<BR>BITTREXREF: $bittrexRef";
