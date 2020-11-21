@@ -217,5 +217,23 @@ $resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb
 echo "<BR>".$resultOrd["status"];
 echo "<BR>".$resultOrd["id"];
 
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "26b72888-8456-44a7-8b4e-2f2a96b7c37e", 3);
+
+echo "<BR>".$resultOrd["status"];
+echo "<BR>".$resultOrd["id"];
+
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "c0010b63-e515-4088-b50f-497cdc57a1da", 3);
+
+echo "<BR>".$resultOrd["status"];
+echo "<BR>".$resultOrd["id"];
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "a66941f7-a15f-439d-b802-807d07bda37e", 3);
+
+echo "<BR>".$resultOrd["status"];
+echo "<BR>".$resultOrd["id"];
+
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "1217f3e7-0170-4013-abaf-b38826a65108", 3);
+
+echo "<BR>".$resultOrd["status"];
+echo "<BR>".$resultOrd["id"];
 ?>
 </html>
