@@ -193,7 +193,7 @@ while($completeFlag == False){
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     if ($ProfitPct < -5 && $minsFromDate <= -5 OR $ogPctProfit < 0){
-      closeNewTrackingSellCoin($TransactionID,1);
+      closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
     }
     if ($minsFromStart <= -60 &&  $ogPctProfit > 1.5){
@@ -204,7 +204,7 @@ while($completeFlag == False){
       logToSQL("TrackingSellCoins", "sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", $userID, 1);
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
       //CloseTrackingSellCoin
-      if ($checkSell){closeNewTrackingSellCoin($TransactionID,2);}
+      if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
     }
     if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
@@ -217,7 +217,7 @@ while($completeFlag == False){
         logToSQL("TrackingSellCoins", "sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", $userID, 1);
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
         //CloseTrackingSellCoin
-        if ($checkSell){closeNewTrackingSellCoin($TransactionID,3);}
+        if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
       }else{
         //UpdatePrice
         updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1, $LiveCoinPrice);
