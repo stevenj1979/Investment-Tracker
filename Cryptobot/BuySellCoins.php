@@ -706,6 +706,7 @@ while($completeFlag == False){
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTSell,$ruleIDBTBuy,$coinID);
+          updateBuyAmount($transactionID,$resultOrd['quantity']);
           continue;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
