@@ -94,8 +94,9 @@ function isBuyMode($coinAry, $minBuyAmount){
           $numOfRisesInPrice = (10*$pctToBuy);
           if ($pctToBuy <= 0.2){ $coinModeOverridePriceEnabled = 1; $coinPricePatternEnabled = 0;  }else{$coinModeOverridePriceEnabled = 0;$coinPricePatternEnabled = 1;}
           $newHighPrice = ($newProjectedMaxPrice-($newProjectedMaxPrice/50))*$pctToBuy;
-          WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
-          echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
+          $newMinsToCancelBuy = (60 * (1-$pctToBuy))+$minsToCancelBuy;
+          WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
+          echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
@@ -146,7 +147,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           if ($livePrice > $month6HighPrice){ $new6MonthHighPrice = $livePrice;} else {$new6MonthHighPrice = $month6HighPrice; }
           $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
           $numOfRisesInPrice = (10*(1-$pctToBuy));
-
+          $newMinsToCancelSell = (60*$pctToBuy)+$minsToCancelBuy;
           echo "<BR> Activate SELL MODE";
           if ($pctInc7Day >= 15.0){ $newProjectedMaxPrice = $month6HighPrice; $newProjectedMinPrice = $month6LowPrice; $coinPricePatternEnabled = 0;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice; $coinPricePatternEnabled = 1;}
@@ -154,12 +155,12 @@ function isBuyMode($coinAry, $minBuyAmount){
           $newLowPrice = ($newProjectedMinPrice+($newProjectedMinPrice/50))*(1-$pctToBuy);
           for ($i=0; $i<$secondarySellRulesSize; $i++){
             if ($secondarySellRulesAry[$i] <> ""){
-              WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$minsToCancelBuy,0,0,0,$coinPricePatternEnabled);
-              Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$minsToCancelBuy,0,0);";
+              WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$newMinsToCancelSell,0,0,0,$coinPricePatternEnabled);
+              Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$secondarySellRulesAry[$i],$numOfRisesInPrice,$newMinsToCancelSell,0,0);";
             }
           }
-          WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,0,0,0,$coinPricePatternEnabled);
-          Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$minsToCancelBuy,0,0);";
+          WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelSell,0,0,0,$coinPricePatternEnabled);
+          Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelSell,0,0);";
           if ($modeID <> 2 ){
             logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
