@@ -88,7 +88,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
-      echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
+      //echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
       $nPrice = $coinAry[$j]['askRate'];
       break;
     }
