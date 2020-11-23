@@ -214,7 +214,7 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
 $price7Day = get7DayChange($coinID);
 
-echo "<BR> 7 Day Change: ".$price7Day[0][0];
+echo "<BR> 7 Day Change: ".$price7Day[0];
 
 ?>
 </html>
