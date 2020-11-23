@@ -935,6 +935,7 @@ function copyCoinVolume($coinID,$CoinVolume){
 }
 
 function getVolumeStats($stats, $apiVersion){
+  $volume = 0.0; $symbol = "";  $high = 0.0; $low = 0.0;
   foreach($stats['result'] as $item) {
     if ($apiVersion == 1){
       //print $item['MarketName'];
