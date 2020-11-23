@@ -1321,7 +1321,7 @@ function buyAmountOverride($buyAmountOverrideEnabled){
 
 function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice){
   $apiVersion = 3;
-  $retSell = Flase;
+  $retSell = False;
   echo "<BR>$apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost";
   $subject = "Coin Alert: ".$coin."_".$ruleID;
   $from = 'Coin Alert <alerts@investment-tracker.net>';
