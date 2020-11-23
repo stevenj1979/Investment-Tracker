@@ -251,7 +251,7 @@ function isBuyMode($coinAry, $minBuyAmount){
   $coinsArySize = count($coinsAry);
   //echo "<BR> Checking Coin Mode:";
   for ($x=0; $x<$coinsArySize; $x++){
-    Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinAry[$x][0];
+    Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinsAry[$x][0];
     $buyFlag = isBuyMode($coinsAry[$x],10.0);
     echo " || $buyFlag";
     $sellFlag = isSellMode($coinsAry[$x]);
