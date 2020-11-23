@@ -153,7 +153,7 @@ function updateCoinAmount($transID,$amount){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `Amount` = $amount where `ID` =  $transID";
+    $sql = "call FixCoinAmount($amount,$transID);";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
