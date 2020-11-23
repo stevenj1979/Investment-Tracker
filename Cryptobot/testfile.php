@@ -212,9 +212,9 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //Echo "<BR> Status: ".$obj["status"];
 //Echo "<BR> Closed At: ".$obj["closedAt"];
 
-$price7Day = get7DayChange($coinID);
+$price7Day = get7DayChange(84);
 
-echo "<BR> 7 Day Change: ".$price7Day[0];
+echo "<BR> 7 Day Change: ".$price7Day[0][0];
 
 ?>
 </html>
