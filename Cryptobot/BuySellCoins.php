@@ -706,7 +706,7 @@ while($completeFlag == False){
           logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
-          setCustomisedSellRule($ruleIDBTSell,$ruleIDBTBuy,$coinID);
+          setCustomisedSellRule($ruleIDBTBuy,$coinID);
           updateBuyAmount($transactionID,$resultOrd['quantity']);
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTSell,$ruleIDBTBuy,$coinID);", $userID, 1);
           continue;
