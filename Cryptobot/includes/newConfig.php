@@ -3519,4 +3519,23 @@ function updateBuyAmount($transactionID, $amount){
   $conn->close();
   logAction("updateBuyAmount: ".$sql, 'BuyCoin', 0);
 }
+
+function cancelTrackingBuy($ruleId){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' where `RuleIDBuy` = $ruleId";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("cancelTrackingBuy: ".$sql, 'BuyCoin', 0);
+}
 ?>
