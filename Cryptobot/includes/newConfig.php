@@ -3357,8 +3357,8 @@ function getRuleProfit(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`Nup`.`LivePrice`) as TotalLivePrice,sum(`Nup`.`PurchasePrice`) as TotalPurchasePrice, sum(`Nup`.`Profit`) as TotalProfit
-        , if (sum(`Nup`.`Profit`)<0, -1*abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100 , abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100) as ProfitPct
+  $sql = "SELECT IFNULL(sum(`Nup`.`LivePrice`),0) as TotalLivePrice,IFNULL(sum(`Nup`.`PurchasePrice`),0) as TotalPurchasePrice, IFNULL(sum(`Nup`.`Profit`),0) as TotalProfit
+        , IFNULL(if (sum(`Nup`.`Profit`)<0, -1*abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100 , abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100),0) as ProfitPct
         ,`Br`.`ID` as RuleID
         ,count(`Nup`.`RuleID`)
         FROM `NewUserProfit` `Nup`
