@@ -3420,7 +3420,7 @@ function setCustomisedSellRule($buyRule, $sellRule, $coinID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Call CustomisedSellRule($sellRule,$buyRule,$coinID);";
+  $sql = "Call CustomisedSellRule($buyRule,$coinID);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
