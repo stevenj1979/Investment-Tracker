@@ -140,7 +140,7 @@ while($completeFlag == False){
     }
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
-    if($minsFromDate <= $minusMinsToCancel){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);continue;}
+    if($minsFromDate <= $minusMinsToCancel){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
     if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
