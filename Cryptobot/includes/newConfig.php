@@ -3360,7 +3360,7 @@ function getRuleProfit(){
   $sql = "SELECT IFNULL(sum(`Nup`.`LivePrice`),0) as TotalLivePrice,IFNULL(sum(`Nup`.`PurchasePrice`),0) as TotalPurchasePrice, IFNULL(sum(`Nup`.`Profit`),0) as TotalProfit
         , IFNULL(if (sum(`Nup`.`Profit`)<0, -1*abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100 , abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100),0) as ProfitPct
         ,`Br`.`ID` as RuleID
-        ,count(`Nup`.`RuleID`)
+        ,count(`Nup`.`RuleID`) as RuleIDCount
         FROM `NewUserProfit` `Nup`
         right join `BuyRules` `Br` on `Br`.`ID` =  `Nup`.`RuleID`
         group by `RuleID`";
@@ -3369,7 +3369,7 @@ function getRuleProfit(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['RuleID']);
+      $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['RuleID'],$row['RuleIDCount']);
   }
   $conn->close();
   return $tempAry;
