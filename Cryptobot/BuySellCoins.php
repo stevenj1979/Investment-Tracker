@@ -127,7 +127,7 @@ while($completeFlag == False){
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
-        if ($limitBuyAmountEnabled == 1){
+        if ($limitBuyAmountEnabled == 1 and $limitBuyTransactionsEnabled == 0 and $coinModeOverridePriceEnabled == 0){
           echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
         }elseif ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
