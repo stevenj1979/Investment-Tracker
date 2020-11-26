@@ -3413,7 +3413,7 @@ function setTransStatus($status,$transID){
   logAction("setTransStatus: ".$sql, 'SellCoin', 0);
 }
 
-function setCustomisedSellRule($buyRule, $sellRule, $coinID){
+function setCustomisedSellRule($buyRule, $coinID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
