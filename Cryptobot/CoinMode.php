@@ -93,7 +93,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
           $numOfRisesInPrice = (10*$pctToBuy);
           if ($pctToBuy <= 0.2){ $coinModeOverridePriceEnabled = 1; $coinPricePatternEnabled = 0;  }else{$coinModeOverridePriceEnabled = 0;$coinPricePatternEnabled = 1;}
-          $newHighPrice = ($newProjectedMaxPrice-($newProjectedMaxPrice/50))*$pctToBuy;
+          $newHighPrice = $newProjectedMaxPrice-(($newProjectedMaxPrice/100)*$pctToBuy);
           $newMinsToCancelBuy = (60 * (1-$pctToBuy))+$minsToCancelBuy;
           WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
           echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
