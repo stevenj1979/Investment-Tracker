@@ -419,6 +419,7 @@ while($completeFlag == False){
 
       $buyResultAry[] = Array($test9, "Buy Price Pattern $symbol", $newPriceTrend);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
+      Echo "<BR> TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10"; 
       $buyResultAry[] = Array($test10, "Buy Price Minimum $symbol", $LiveCoinPrice);
       $test11 = autoBuyMain($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
       $buyResultAry[] = Array($test11, "Auto Buy Price $symbol", $LiveCoinPrice);
