@@ -127,13 +127,13 @@ while($completeFlag == False){
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
-        if ($limitBuyAmountEnabled == 1 and $limitBuyTransactionsEnabled == 0 and $coinModeOverridePriceEnabled == 0){
+        if ($limitBuyAmountEnabled == 1){
           echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
-        }elseif ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
+        }elseif ($limitBuyTransactionsEnabled == 1){
           echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; continue;}
-        }elseif($coinModeOverridePriceEnabled == 1 and $limitBuyAmountEnabled == 1){
+        }elseif($coinModeOverridePriceEnabled == 1 ){
           echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
           if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! "; continue;}
         }
