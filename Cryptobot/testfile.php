@@ -221,9 +221,9 @@ $bittrexStatsCount = count($bittrexStats);
 echo "<BR> Count: $bittrexStatsCount";
 //foreach($bittrexStats['result'] as $item) {
 for ($i=0; $i<$bittrexStatsCount; $i++){
-  echo "<BR> Symbol: ".$item[$i]["symbol"];
-  echo "<BR> high: ".$item[$i]["high"];
-  echo "<BR> low: ".$item[$i]["low"];
+  echo "<BR> Symbol: ".$bittrexStats[$i]["symbol"];
+  echo "<BR> high: ".$bittrexStats[$i]["high"];
+  echo "<BR> low: ".$bittrexStats[$i]["low"];
 }
 
 ?>
