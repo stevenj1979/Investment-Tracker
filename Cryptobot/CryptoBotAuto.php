@@ -214,7 +214,7 @@ while($date <= $newTime){
       $price7Day = get7DayChange($coinID);
       update7DPriceChange($price7Day[0][0],$coinID);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
-      $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,1);
+      $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,$apiVersion);
       $coinVolData = getVolumeStats($bittrexStats, $apiVersion);
       BittrexStatstoSQL($coinID, $coinVolData[0][0],$coinVolData[0][1],$coinVolData[0][2]);
       //logAction("BittrexStatstoSQL($coinID, ".$coinVolData[0][0].",".$coinVolData[0][1].",".$coinVolData[0][2].")",'CMC');
