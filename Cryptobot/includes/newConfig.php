@@ -1365,7 +1365,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID,1);
     }
     logAction("SellCoins:  ".json_encode($obj), 'BuySell', 0);
-    logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj), $userID,1);
+    logToSQL("Bittrex", "Sell Coin Error: ".json_encode($obj)."|".$coin."|".$amount."|".$transactionID, $userID,1);
   }
   if ($sendEmail==1 &&  $sellCoin ==0){
   //if ($sendEmail){
