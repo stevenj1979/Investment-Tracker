@@ -217,6 +217,7 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //echo "<BR> 7 Day Change: ".$price7Day[0][0];
 $bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
 var_dump($bittrexStats);
+echo "<BR> Count".count($bittrexStats);
 foreach($bittrexStats['result'] as $item) {
   echo "<BR> Symbol: ".$item["symbol"];
   echo "<BR> high: ".$item["high"];
