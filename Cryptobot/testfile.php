@@ -219,11 +219,11 @@ $bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
 var_dump($bittrexStats);
 $bittrexStatsCount = count($bittrexStats);
 echo "<BR> Count: $bittrexStatsCount";
-//foreach($bittrexStats['result'] as $item) {
-for ($i=0; $i<$bittrexStatsCount; $i++){
-  echo "<BR> Symbol: ".$bittrexStats[$i][0];
-  echo "<BR> high: ".$bittrexStats[$i][1];
-  echo "<BR> low: ".$bittrexStats[$i][2];
+foreach($bittrexStats as $item) {
+//for ($i=0; $i<$bittrexStatsCount; $i++){
+  echo "<BR> Symbol: ".$item["symbol"];
+  echo "<BR> high: ".$item["high"];
+  echo "<BR> low: ".$item["low"];
 }
 
 ?>
