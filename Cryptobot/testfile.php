@@ -215,16 +215,16 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //$price7Day = get7DayChange(84);
 
 //echo "<BR> 7 Day Change: ".$price7Day[0][0];
-$bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',1);
+$bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
 var_dump($bittrexStats);
 $bittrexStatsCount = count($bittrexStats);
 echo "<BR> Count: $bittrexStatsCount";
-//foreach($bittrexStats[] as $item) {
-for ($i=0; $i<$bittrexStatsCount; $i++){
-  echo "<BR> Symbol: ".$bittrexStats[$i][0];
-  //echo "<BR> high: ".$item["high"];
-  //echo "<BR> low: ".$item["low"];
-}
+//foreach($bittrexStats as $item) {
+//for ($i=0; $i<$bittrexStatsCount; $i++){
+  echo "<BR> Symbol: ".$bittrexStats["symbol"];
+  echo "<BR> high: ".$bittrexStats["high"];
+  echo "<BR> low: ".$bittrexStats["low"];
+//}
 
 ?>
 </html>
