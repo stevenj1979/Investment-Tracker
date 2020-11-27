@@ -937,23 +937,25 @@ function copyCoinVolume($coinID,$CoinVolume){
 
 function getVolumeStats($stats, $apiVersion){
   $volume = 0.0; $symbol = "";  $high = 0.0; $low = 0.0;
-  foreach($stats['result'] as $item) {
+  $OpenBuyOrders = 0; $OpenSellOrders = 0;
     if ($apiVersion == 1){
-      //print $item['MarketName'];
-      $mktSym = explode("-",$item['MarketName']);
-      $symbol = $mktSym[1];
-      $market = $mktSym[0];
-      $high = $item["High"];
-      $low = $item["Low"];
-      $volume = $item["Volume"];
-      $last = $item["Last"];
-      $BaseVolume = $item["BaseVolume"];
-      $TimeStamp = $item["TimeStamp"];
-      $Bid = $item["Bid"];
-      $Ask = $item["Ask"];
-      $OpenBuyOrders = $item["OpenBuyOrders"];
-      $OpenSellOrders = $item["OpenSellOrders"];
-      $PrevDay = $item["PrevDay"];
+      foreach($stats['result'] as $item) {
+        //print $item['MarketName'];
+        $mktSym = explode("-",$item['MarketName']);
+        $symbol = $mktSym[1];
+        $market = $mktSym[0];
+        $high = $item["High"];
+        $low = $item["Low"];
+        $volume = $item["Volume"];
+        $last = $item["Last"];
+        $BaseVolume = $item["BaseVolume"];
+        $TimeStamp = $item["TimeStamp"];
+        $Bid = $item["Bid"];
+        $Ask = $item["Ask"];
+        $OpenBuyOrders = $item["OpenBuyOrders"];
+        $OpenSellOrders = $item["OpenSellOrders"];
+        $PrevDay = $item["PrevDay"];
+      }
     }else{
       //$mktSym = explode("-",$item['MarketName']);
       $symbol = $stats["symbol"];
@@ -971,7 +973,6 @@ function getVolumeStats($stats, $apiVersion){
       //$PrevDay = $item["PrevDay"];
     }
 
-  }
   $tempVolStats[] = Array($volume,$OpenBuyOrders,$OpenSellOrders);
   return $tempVolStats;
 }
