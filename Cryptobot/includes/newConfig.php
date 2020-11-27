@@ -956,11 +956,11 @@ function getVolumeStats($stats, $apiVersion){
       $PrevDay = $item["PrevDay"];
     }else{
       //$mktSym = explode("-",$item['MarketName']);
-      $symbol = $item["symbol"];
+      $symbol = $stats["symbol"];
       //$market = $mktSym[0];
-      $high = $item["high"];
-      $low = $item["low"];
-      $volume = $item["volume"];
+      $high = $stats["high"];
+      $low = $stats["low"];
+      $volume = $stats["volume"];
       //$last = $item["Last"];
       //$BaseVolume = $item["BaseVolume"];
       //$TimeStamp = $item["TimeStamp"];
