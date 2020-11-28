@@ -710,7 +710,7 @@ while($completeFlag == False){
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
           updateBuyAmount($transactionID,$resultOrd['quantity']);
-          logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTSell,$ruleIDBTBuy,$coinID);", $userID, 1);
+          logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
           continue;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){

@@ -374,7 +374,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           else{$bittrexRef = $obj["id"];
             if ($obj['status'] == 'OPEN'){$status = 1; }else{$status = 0;} }
 
-
+          logToSQL("AddBuyCoin", "$bittrexRef $status ".$obj['status']." $coinID $bitPrice $btcBuyAmount $orderNo", $userID,1);
           if ($status == 1){
             $retBuy = True;
             echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo);";
@@ -3422,7 +3422,7 @@ function setCustomisedSellRule($buyRule, $coinID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Call CustomisedSellRule($buyRule,$coinID);";
+    $sql = "Call CustomisedSellRule($buyRule,$coinID);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
