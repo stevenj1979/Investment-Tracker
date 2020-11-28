@@ -162,6 +162,7 @@ while($completeFlag == False){
         logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
         $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
         $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
+        break;
         //}
       }else{
         //add 1 $noOfRisesInPrice
