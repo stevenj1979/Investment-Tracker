@@ -3540,4 +3540,24 @@ function cancelTrackingBuy($ruleId){
   $conn->close();
   logAction("cancelTrackingBuy: ".$sql, 'BuyCoin', 0);
 }
+
+function UpdateProfit(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call UpdateNewUserProfit();";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("UpdateProfit: ".$sql, 'BuyCoin', 0);
+
+}
 ?>

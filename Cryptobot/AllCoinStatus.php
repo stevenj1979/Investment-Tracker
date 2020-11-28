@@ -249,8 +249,8 @@ echo "<BR> NEWDATE plus 0: $newDate";
 echo "EndTime ".date("Y-m-d H:i", time());
 //tempDisableUsers(0);
 //sendEmail('stevenj1979@gmail.com',$i,0,$date,0,'CryptoAuto Loop Finished', 'stevenj1979', 'Coin Purchase <purchase@investment-tracker.net>');
-DeleteTotalProfit();
-updateTotalProfit();
-updateAllCoinRunningPrice();
+//DeleteTotalProfit();
+//updateTotalProfit();
+//updateAllCoinRunningPrice();
 ?>
 </html>

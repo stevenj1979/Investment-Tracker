@@ -155,13 +155,14 @@ while($completeFlag == False){
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit | CheckBuy: $checkBuy", $userID, $logToSQLSetting);
-        if ($checkBuy){
+        UpdateProfit();
+        //if ($checkBuy){
 
-          closeNewTrackingCoin($newTrackingCoinID);
-          logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
-          $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
-          $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
-        }
+        closeNewTrackingCoin($newTrackingCoinID);
+        logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID);", $userID, $logToSQLSetting);
+        $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
+        $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
+        //}
       }else{
         //add 1 $noOfRisesInPrice
         updateNoOfRisesInPrice($newTrackingCoinID, $noOfRisesInPrice+1);
