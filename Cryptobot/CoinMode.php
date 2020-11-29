@@ -233,7 +233,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
         ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
         ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
-        ,`CoinModeSellRuleEnabled`
+        ,`CoinModeSellRuleEnabled`,`PctToBuy`
         FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
@@ -242,7 +242,7 @@ function isBuyMode($coinAry, $minBuyAmount){
             $tempAry[] = Array($row['CoinID'],$row['RuleID'],$row['Avg6MonthMax'],$row['Avg6MonthMin'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Live7DChange'],$row['Last7DChange'] //7
           ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
         ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'],$row['CoinModeEmails'],$row['Email'],$row['UserName']
-      ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled']); //21
+      ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled'],$row['PctToBuy']); //21
         }
         $conn->close();
         return $tempAry;

@@ -765,6 +765,7 @@ while($completeFlag == False){
 
             //}else{
               bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
+              extendPctToBuy($coinID,$userID);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
             //}
 

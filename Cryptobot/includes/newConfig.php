@@ -3560,4 +3560,23 @@ function UpdateProfit(){
   logAction("UpdateProfit: ".$sql, 'BuyCoin', 0);
 
 }
+
+function extendPctToBuy($coinID, $userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "Call AddToPct($coinID,$userID, 0.5);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("extendPctToBuy: ".$sql, 'SellCoin', 0);
+}
 ?>
