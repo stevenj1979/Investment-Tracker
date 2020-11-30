@@ -52,6 +52,21 @@ function userHistory($userID){
     return $tempAry;
 }
 
+function getOpenTransactions(){
+    $tempAry = [];
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //$query = "SET time_zone = 'Asia/Dubai';";
+    //$result = $conn->query($query);
+    $sql = "SELECT `ID`, `CoinID`, `UserID`, `DaysFromPurchase`, `PctToBuy`, `ProfitPctBtm` FROM `CoinModeRuleOpenTransactions`";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm']);}
+    $conn->close();
+    return $tempAry;
+}
+
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH){
     //set time
     setTimeZone();
@@ -283,6 +298,19 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn->close();
 }
 
+function subPctFromProfit($coinID,$userID,$pctToSub){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call SubFromPct($coinID, $userID, $pctToSub);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function getSecondaryRules(){
   $conn = getSQLConn(rand(1,3));
   $sql = "select `SecondarySellRules` from `CoinModeRules`";
@@ -394,5 +422,16 @@ for ($k=0; $k<$orphanRulesSize; $k++){
     clearOrphanedRules($orphanRules[$k][0],$orphanRules[$k][1],$orphanRules[$k][2]);
 }
 
+$openTrans = getOpenTransactions();
+$openTransSize = Count($openTrans);
+
+for ($l=0; $l<$openTransSize; $l++){
+  $days = $openTrans[$l][3];$coinID = $openTrans[$l][1]; $userID = $openTrans[$l][2];
+  if ($days >= 3){
+    if ($days % 2 == 0){
+        subPctFromProfit($coinID,$userID, 0.2);
+    }
+  }
+}
 ?>
 </html>
