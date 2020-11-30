@@ -59,10 +59,10 @@ function getOpenTransactions(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `ID`, `CoinID`, `UserID`, `DaysFromPurchase`, `PctToBuy`, `ProfitPctBtm` FROM `CoinModeRuleOpenTransactions`";
+    $sql = "SELECT `ID`, `CoinID`, `UserID`, `DaysFromPurchase`, `PctToBuy`, `ProfitPctBtm`,`SellRuleID` FROM `CoinModeRuleOpenTransactions`";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID']);}
     $conn->close();
     return $tempAry;
 }
@@ -298,10 +298,10 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn->close();
 }
 
-function subPctFromProfit($coinID,$userID,$pctToSub){
+function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call SubFromPct($coinID, $userID, $pctToSub);";
+  $sql = "call SubFromPct($coinID, $userID, $pctToSub,$sellRuleID);";
   //print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -426,10 +426,10 @@ $openTrans = getOpenTransactions();
 $openTransSize = Count($openTrans);
 
 for ($l=0; $l<$openTransSize; $l++){
-  $days = $openTrans[$l][3];$coinID = $openTrans[$l][1]; $userID = $openTrans[$l][2];
+  $days = $openTrans[$l][3];$coinID = $openTrans[$l][1]; $userID = $openTrans[$l][2]; $sellRuleID = $openTrans[$l][6];
   if ($days >= 3){
     if ($days % 2 == 0){
-        subPctFromProfit($coinID,$userID, 0.2);
+        subPctFromProfit($coinID,$userID, 0.2, $sellRuleID);
     }
   }
 }
