@@ -130,7 +130,8 @@ while($completeFlag == False){
         if ($limitBuyAmountEnabled == 1){
           echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
-        }elseif ($limitBuyTransactionsEnabled == 1){
+        }
+        if ($limitBuyTransactionsEnabled == 1){
           echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
         }elseif($coinModeOverridePriceEnabled == 1 ){
@@ -331,7 +332,8 @@ while($completeFlag == False){
           if ($limitBuyAmountEnabled == 1){
             echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
             if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
-          }elseif ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
+          }
+          if ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
             echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
             if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; continue;}
           }elseif($coinModeOverridePriceEnabled == 1 and $limitBuyAmountEnabled == 1){
