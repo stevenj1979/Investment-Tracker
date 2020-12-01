@@ -384,7 +384,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$current_date = date('Y-m-d H:i:s');
             //$newTime = date("Y-m-d H:i:s",strtotime('+'.$timeToCancelBuyMins.'Mins', strtotime($current_date)));
             //$buyCancelTime = strtotime( '+ 16 minute');
-            bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
+            bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
             bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);
             addBuyRuletoSQL($bittrexRef,$ruleID,$SellRuleFixed);
             logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID,1);
