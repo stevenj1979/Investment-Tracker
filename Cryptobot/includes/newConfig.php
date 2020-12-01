@@ -375,7 +375,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             if ($obj['status'] == 'OPEN'){$status = 1; }else{$status = 0;} }
 
           logToSQL("AddBuyCoin", "$bittrexRef $status ".$obj['status']." $coinID $bitPrice $btcBuyAmount $orderNo", $userID,1);
-          if ($status == 1){
+          if ($bittrexRef <> ""){
             $retBuy = True;
             echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo);";
             date_default_timezone_set('Asia/Dubai');
