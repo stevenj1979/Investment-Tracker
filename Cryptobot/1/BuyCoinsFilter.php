@@ -237,7 +237,7 @@ function showMain(){
         $livePriceTrend = $buyRuleAry[0][42];$lastPriceTrend = $buyRuleAry[0][41];$price3Trend = $buyRuleAry[0][40];$price4Trend = $buyRuleAry[0][39];
         //$newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
         $priceTrendEnabled = $buyRuleAry[0][38]; $Hr1ChangeTrendEnabled = $buyRuleAry[0][65]; $coinPricePatternEnabled = $buyRuleAry[0][63];
-        $ruleID = $buyRuleAry[0][35];
+        $ruleID = $buyRuleAry[0][35]; $limitToCoinID = $buyRuleAry[0][52]; $limitToCoin = $buyRuleAry[0][49];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a></h3>";
         //if($_SESSION['isMobile'] == False){
@@ -281,6 +281,7 @@ function showMain(){
           $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$tracking[$x][17],$coin,0,$coinPricePatternEnabled,$ruleID,0);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
+          if ($coinID <> $limitToCoinID and $limitToCoin <> "All"){ continue;}
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           if ($autoBuyCoinEnabled == False){
