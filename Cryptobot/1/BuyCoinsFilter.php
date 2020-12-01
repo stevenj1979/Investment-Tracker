@@ -281,6 +281,7 @@ function showMain(){
           $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$tracking[$x][17],$coin,0,$coinPricePatternEnabled,$ruleID,0);
           //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
+          echo "<BR> Limit to Coin : $coinID | $limitToCoinID | $limitToCoin";
           if ($coinID <> $limitToCoinID and $limitToCoin <> "All"){ continue;}
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
