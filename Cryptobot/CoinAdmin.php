@@ -362,6 +362,58 @@ function clearOrphanedRules($sellRule, $coinID, $userID){
   $conn->close();
 }
 
+function getCoinHigh(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,max(`MaxPrice`) as MaxPrice  FROM `MonthlyMaxPrices` group by `CoinID`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MaxPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function getCoinLow(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,Min(`MinPrice`) as MinPrice FROM `MonthlyMinPrices` group by `CoinID`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MinPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function writeHigh($coinID, $price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call AddAllTimeHigh($coinID, 'High', $price);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function writeLow($coinID, $price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call AddAllTimeLow($coinID, 'Low', $price);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
@@ -433,5 +485,20 @@ for ($l=0; $l<$openTransSize; $l++){
     }
   }
 }
+
+$coinHigh = getCoinHigh();
+$coinHighSize = count($coinHigh);
+for ($q=0; $q<$coinHighSize; $q++){
+    $coinID = $coinHigh[$q][0]; $price = $coinHigh[$q][1];
+    writeHigh($coinID,$price);
+}
+
+$coinLow = getCoinLow();
+$coinLowSize = count($coinLow);
+for ($w=0; $w<$coinLowSize; $w++){
+  $coinID = $coinLow[$w][0]; $price = $coinLow[$w][1];
+  writeLow($coinID,$price);
+}
+
 ?>
 </html>
