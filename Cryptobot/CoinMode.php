@@ -101,6 +101,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       $coinModeEmailsEnabled = $coinAry[23]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
       $minsToCancelBuy = $coinAry[28]; $coinModeBuyRuleEnabled = $coinAry[29];$coinModeSellRuleEnabled = $coinAry[30];
       $countForBuyMode = $coinAry[32]; $buyModeCount = $coinAry[33];
+      $allTimeHigh =$coinAry[34]; $allTimeLow = $coinAry[35]; $pctOfAllTimeHigh = $coinAry[36];
       $t1 = False; $t2 = False; $t3 = False;
 
       //24 Hour price is down
@@ -122,13 +123,17 @@ function isBuyMode($coinAry, $minBuyAmount){
         //$pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
         $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
         echo "<BR> pctToBuy: ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice)";
-        $buyAmount = ($buyPrice*(1-$pctToBuy));
+        if ($pctOfAllTimeHigh <= 20){
+          $buyAmount = (($buyPrice*2)*(1-$pctToBuy));
+        }else{
+          $buyAmount = ($buyPrice*(1-$pctToBuy));
+        }
         echo "<BR> buyAmount: ($buyPrice*$pctToBuy)";
         echo "<BR> Total Buy AMOUNT: $buyAmount | $buyPrice | $pctToBuy | $livePrice | $month6HighPrice | $new6MonthLowPrice";
         if ($coinModeSellRuleEnabled == 0){$newMoinModeSellRuleEnabled = 1;}else{$newMoinModeSellRuleEnabled = 0;}
         //Write Coin, High Price Limit, Low Price Limit, Buy Amount - To Rule and Enable
         addBuyCount($buyModeCount,$ruleID,$coinID);
-        if ($buyAmount >= $minBuyAmount AND $coinModeBuyRuleEnabled == 1 AND $countForBuyMode >= $buyModeCount AND $buyModeCount <> 0){
+        if ($buyAmount >= $minBuyAmount AND $coinModeBuyRuleEnabled == 1 AND $countForBuyMode >= $buyModeCount AND $buyModeCount <> 0 AND $pctOfAllTimeHigh <= 80.0){
           echo "<BR> Activate BUY MODE";
           if ($pctInc7Day <= -15){$newProjectedMaxPrice = $new6MonthHighPrice; $newProjectedMinPrice = $new6MonthLowPrice;}
           else{ $newProjectedMaxPrice = $projectedMaxPrice; $newProjectedMinPrice = $projectedMinPrice;}
@@ -274,7 +279,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
         ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
         ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
-        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`
+        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`
         FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
@@ -284,7 +289,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
         ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'],$row['CoinModeEmails'],$row['Email'],$row['UserName'] //25
         ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled'],$row['PctToBuy'],$row['CountToActivateBuyMode'] //32
-        ,$row['BuyModeCount']); //33
+        ,$row['BuyModeCount'],$row['AllTimeHighPrice'],$row['AllTimeLowPrice'],$row['PctOfAllTimeHigh']); //33
         }
         $conn->close();
         return $tempAry;
