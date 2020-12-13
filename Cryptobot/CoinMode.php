@@ -123,10 +123,11 @@ function isBuyMode($coinAry, $minBuyAmount){
         //$pctToBuy = ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice);
         $pctToBuy = ($livePrice-$new6MonthLowPrice)/($new6MonthHighPrice-$new6MonthLowPrice);
         echo "<BR> pctToBuy: ($new6MonthHighPrice-$livePrice)/($new6MonthHighPrice-$new6MonthLowPrice)";
+        $multiplier = 2.5-(2.5/$pctOfAllTimeHigh);
         if ($pctOfAllTimeHigh <= 20){
-          $buyAmount = (($buyPrice*2)*(1-$pctToBuy));
+          $buyAmount = (($buyPrice*$multiplier)*(1-$pctToBuy));
         }elseif ($pctOfAllTimeHigh >= 60){
-          $buyAmount = (($buyPrice/2)*(1-$pctToBuy));
+          $buyAmount = (($buyPrice*$multiplier)*(1-$pctToBuy));
         else{
           $buyAmount = ($buyPrice*(1-$pctToBuy));
         }
