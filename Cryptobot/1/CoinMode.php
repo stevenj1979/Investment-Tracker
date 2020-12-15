@@ -53,7 +53,7 @@ displayHeader(10);
 				$tracking = getCoinMode($_SESSION['ID']);
 				$newArrLength = count($tracking);
         echo "<TABLE><TH>Symbol</TH><TH>Mode</TH><TH>Buy Rule</TH><TH>Sell Rule</TH><TH>Secondary Sell Rules</TH><TH>1 Hr Avg Price</TH><TH>24 Hr Avg Price</TH><TH>7 Day Avg Price</TH>";
-        echo "<TH>Live Price</TH><TH>6 Month High</TH><TH>6 Month Low</TH><TH>% to Buy</TH><TH>% to Sell(Profit)</TH>";
+        echo "<TH>Live Price</TH><TH>6 Month High</TH><TH>6 Month Low</TH><TH>% to Buy</TH><TH>% to Sell(Profit)</TH><TH>% of All Time High</TH>";
         echo "<TR>";
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
@@ -61,7 +61,7 @@ displayHeader(10);
           $secondarySellRules = $tracking[$x][32];$livePrice = $tracking[$x][2]; $Hr24Price = $tracking[$x][15];$D7Price= $tracking[$x][17];
           $month6LowPrice = $tracking[$x][4]; $month6HighPrice = $tracking[$x][3];
           $Hr1AveragePrice = round($tracking[$x][21],$num);
-          $pctOfProfitToSell = $tracking[$x][39];
+          $pctOfProfitToSell = $tracking[$x][39]; $pctOfAllTimeHigh = $tracking[$x][40];
           //Calculations
           $pctInc24Hours = round((($livePrice - $Hr24Price)/$Hr24Price)*100,$num);
           $pctInc7Day = round((($livePrice - $D7Price)/$D7Price)*100,$num);
@@ -78,6 +78,7 @@ displayHeader(10);
           $pctToBuy= round($pctToBuy*100,$num);
           Echo "<TD>$pctToBuy</TD>";
           Echo "<TD>$pctOfProfitToSell</TD>";
+          Echo "<TD>$pctOfAllTimeHigh</TD>";
           echo "<TR>";
 				}//end for
 				print_r("</table>");
