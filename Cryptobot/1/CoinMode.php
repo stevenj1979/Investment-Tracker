@@ -77,8 +77,8 @@ displayHeader(10);
           Echo "<TD>".round($livePrice,$num)."</TD>";Echo "<TD>".round($month6HighPrice,$num)."</TD>";Echo "<TD>".round($month6LowPrice,$num)."</TD>";
           $pctToBuy= round($pctToBuy*100,$num);
           Echo "<TD>$pctToBuy</TD>";
-          Echo "<TD>$pctOfProfitToSell</TD>";
-          Echo "<TD>$pctOfAllTimeHigh</TD>";
+          Echo "<TD>".round($pctOfProfitToSell,$num)."</TD>";
+          Echo "<TD>".round($pctOfAllTimeHigh,$num)."</TD>";
           echo "<TR>";
 				}//end for
 				print_r("</table>");
