@@ -594,6 +594,7 @@ while($completeFlag == False){
       $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
       $sellResultAry[] = Array($sTest9, "Profit Percentage $coin", $profit);
+      Echo "<BR>TEST Sell Price: $CoinPriceTop | $CoinPriceBtm | $CoinPricePctChange | $CoinPriceEnabled";
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
       $sellResultAry[] = Array($sTest10, "Minimum Sell Price $coin", $CoinPricePctChange);
       $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$coin,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
