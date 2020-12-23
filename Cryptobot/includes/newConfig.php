@@ -1800,7 +1800,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date){
   $conn = getHistorySQL(rand(1,4));
   Echo "<BR> UpdateHistoryPrice : call UpdateHistoryPrice($coinID,$price,'$baseCurrency','$date');";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateHistoryPrice($coinID,$price,'$baseCurrency','$date');";
+  $sql = "call NewUpdatePriceHistory($coinID,$price,'$baseCurrency','$date');";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
