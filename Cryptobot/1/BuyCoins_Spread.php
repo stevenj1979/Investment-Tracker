@@ -16,7 +16,7 @@ header( "Refresh: 120; URL=$current_url" );
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
-$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
+$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins_Spread.php";
 setStyle($_SESSION['isMobile']);
 
 if(isset($_GET['override'])){
@@ -30,7 +30,7 @@ if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
 //Echo "<BR> isMobile: ".$_SESSION['isMobile']." | MobOverride: ".$_SESSION['MobOverride'];
 
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
-header('Location: BuyCoins_Mobile.php');
+header('Location: BuyCoins_SpreadMobile.php');
 }
 
 function getCoinsfromSQL(){
@@ -169,7 +169,7 @@ return $tempAry;
 displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-      $tracking = getTrackingCoins();
+      $tracking = getTrackingCoinsLoc();
       $newArrLength = count($tracking);
       //echo $newArrLength;
       //$userConfig = getConfig($_SESSION['ID']);
