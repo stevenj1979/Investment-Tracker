@@ -154,6 +154,7 @@ while($completeFlag == False){
           }
         }
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
+        $date = date("Y-m-d H:i:s", time());
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit | CheckBuy: $checkBuy", $userID, $logToSQLSetting);
         UpdateProfit();
@@ -699,7 +700,7 @@ while($completeFlag == False){
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $logToSQLSetting);}
     if ($status == 1){
-      if ($type == "Buy"){
+      if ($type == "Buy" or $type == "Spread"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
@@ -715,6 +716,7 @@ while($completeFlag == False){
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
           updateBuyAmount($transactionID,$resultOrd['quantity']);
+          if ($type == 'Spread'){updateToSpreadSell($transactionID);}
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
           continue;
         }
@@ -940,8 +942,60 @@ while($completeFlag == False){
     }
 
   }
+  $spread = getSpreadBetData();
+  $spreadSize = count($spread);
+  echo "<BR> CHECK Spread Bet!! ";
+  for ($y=0; $y<$spreadSize; $y++){
+    $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
+    $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];
+    Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
+    if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
+    if ($Hr24ChangePctChange <= -5 and $d7ChangePctChange <= -5 and $Hr1ChangePctChange >= 0.2){
 
+      //GetCoinData
+      $spreadCoins = getSpreadCoinData($ID);
+      $spreadCoinsSize = count($spreadCoins);
+      Echo "<BR> Buy Spread Coins : $spreadCoinsSize ";
+      //How much to buy
+       $spreadBetToBuy = getCoinAllocation($UserID)/$spreadCoinsSize;
+       $BTCAmount =  $spreadBetToBuy[0];
+      for ($t=0; $t<$spreadCoinsSize; $t++){
+        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28]; $UserName= $spreadCoins[$t][29];
+        $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
+        $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
+        //BuyCoins
+        echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
+        $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
+        //update Transaction to Spread
+        updateTransToSpread($ID,$coinID,$UserID);
+      }
+    }
+  }
 
+  $sellSpread = getSpreadBetSellData();
+  $sellSpreadSize = count($sellSpread);
+  echo "<BR> CHECK Sell Spread Bet!! ";
+  for ($w=0; $w<$sellSpreadSize; $w++){
+    $CoinPrice = $sellSpread[$w][3]; $Amount = $sellSpread[$w][4]; $LiveCoinPrice = $sellSpread[$w][15];
+    $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
+    $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
+    $purchasePrice = $CoinPrice * $Amount; $currentPrice = $LiveCoinPrice * $Amount;
+    $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
+    echo "<BR> Checking $ID | $profitPct ";
+    if ($profitPct >= 0.6){
+      //get coin data
+      $spreadSellCoins = getSpreadCoinSellData($ID);
+      $spreadSellCoinsSize = count($spreadSellCoins);
+      echo "<BR> Sell Spread Coins | $spreadSellCoinsSize";
+      for ($q=0; $q<$spreadSellCoinsSize; $q++){
+        $coin = $spreadSellCoins[$q][11];  $BaseCurrency =  $spreadSellCoins[$q][36]; $TransactionID = $spreadSellCoins[$q][0];
+        $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10];
+        $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
+        echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);";
+        $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
+      }
+    }
+  }
   echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   sleep(15);
