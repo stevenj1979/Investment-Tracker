@@ -342,7 +342,7 @@ while($completeFlag == False){
             if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! "; continue;}
           }
       }
-      echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
+      //echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
       if (isset($marketProfit[0][0])){
         if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $overrideDisableRule == 0){
           logToSQL("MarketDropStop", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0]." | RuleID $ruleIDBuy", $userID,1);
@@ -366,10 +366,10 @@ while($completeFlag == False){
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}
       $GLOBALS['allDisabled'] = false;
-      if (empty($APIKey) && empty($APISecret)){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
-      if ($APIKey=="NA" && $APISecret == "NA"){echo "<BR>EXIT: API KEY NOT SET! "; continue;}
-      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){echo "<BR>EXIT: Wrong Base Currency! "; continue;}
-      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {echo "<BR>EXIT: Rule Limited to Coin! $limitToCoin ; $symbol"; continue;}
+      if (empty($APIKey) && empty($APISecret)){ continue;}
+      if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
+      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){ continue;}
+      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
 
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
