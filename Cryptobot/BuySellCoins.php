@@ -426,7 +426,7 @@ while($completeFlag == False){
 
       $buyResultAry[] = Array($test9, "Buy Price Pattern $symbol", $newPriceTrend);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice);
-      Echo "<BR> TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10";
+      //Echo "<BR> TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10";
       $buyResultAry[] = Array($test10, "Buy Price Minimum $symbol", $LiveCoinPrice);
       $test11 = autoBuyMain($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID);
       $buyResultAry[] = Array($test11, "Auto Buy Price $symbol", $LiveCoinPrice);
@@ -529,7 +529,7 @@ while($completeFlag == False){
       $sellAllCoinsEnabled = $sellRules[$z][48]; $sellAllCoinsPct = $sellRules[$z][49];
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
-      echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct ProfitNum: $profitNum";
+      //echo "<BR> SellAllCoinsEnabled: $sellAllCoinsEnabled SellAllCoinsPct: $sellAllCoinsPct ProfitNum: $profitNum";
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
@@ -550,13 +550,13 @@ while($completeFlag == False){
       //Echo "<BR> Start of TEST!";
       $current_date = date('Y-m-d H:i');
       $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
-      echo "<BR>COIN Swap: $coinSwapEnabled $noOfCoinSwapsPerWeek $noOfCoinSwapsThisWeek";
+      //echo "<BR>COIN Swap: $coinSwapEnabled $noOfCoinSwapsPerWeek $noOfCoinSwapsThisWeek";
       if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek > $noOfCoinSwapsThisWeek){
         $now = time();
         $your_date = strtotime($orderDate);
         $datediff = $now - $your_date;
         $daysSinceCoinPurchase = round($datediff / (60 * 60 * 24));
-        echo "<BR>COIN Swap: $profit $orderDate $threeWeeksAgoDate $daysSinceCoinPurchase";
+        //echo "<BR>COIN Swap: $profit $orderDate $threeWeeksAgoDate $daysSinceCoinPurchase";
         if ($profit < -4 and $daysSinceCoinPurchase > 21){
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
@@ -595,7 +595,7 @@ while($completeFlag == False){
       $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
       $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
       $sellResultAry[] = Array($sTest9, "Profit Percentage $coin", $profit);
-      Echo "<BR>TEST Sell Price: $CoinPriceTop | $CoinPriceBtm | $CoinPricePctChange | $CoinPriceEnabled";
+      //Echo "<BR>TEST Sell Price: $CoinPriceTop | $CoinPriceBtm | $CoinPricePctChange | $CoinPriceEnabled";
       $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
       $sellResultAry[] = Array($sTest10, "Minimum Sell Price $coin", $CoinPricePctChange);
       $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$coin,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
@@ -641,7 +641,7 @@ while($completeFlag == False){
     $sellPrice = ($LiveCoinPrice * $amount);
     $fee = (($LiveCoinPrice * $amount)/100)*0.25;
     $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
-    echo "<BR> TESTING: Profit $profit PctToPurchase $pctToPurchase LowPricePurchaseEnabled $lowPricePurchaseEnabled NoOfPurchases $noOfPurchases PurchaseLimit $purchaseLimit ToMerge $toMerge";
+    //echo "<BR> TESTING: Profit $profit PctToPurchase $pctToPurchase LowPricePurchaseEnabled $lowPricePurchaseEnabled NoOfPurchases $noOfPurchases PurchaseLimit $purchaseLimit ToMerge $toMerge";
     if ($profit <= $pctToPurchase  && $BTCBalance >= 20 && $lowPricePurchaseEnabled == 1 && $noOfPurchases < $purchaseLimit && $toMerge == 0 && $mergeCoinEnabled = 1){
       //Buy Coin
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 1, 90, $fixSellRule,1,$noOfPurchases,1);
@@ -957,8 +957,8 @@ while($completeFlag == False){
       $spreadCoinsSize = count($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize ";
       //How much to buy
-       $spreadBetToBuy = getCoinAllocation($UserID)/$spreadCoinsSize;
-       $BTCAmount =  $spreadBetToBuy[0];
+       $spreadBetToBuy = getCoinAllocation($UserID);
+       $BTCAmount =  $spreadBetToBuy[0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28]; $UserName= $spreadCoins[$t][29];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
