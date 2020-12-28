@@ -90,13 +90,13 @@ $sellRulesSize = count($sellRules);
 $i = 0;
 $coins = getTrackingCoins();
 $coinLength = Count($coins);
-echo "<BR> coinPriceMatch";
+//echo "<BR> coinPriceMatch";
 $coinPriceMatch = getCoinPriceMatchList();
-echo "<BR> coinPricePatternList";
+//echo "<BR> coinPricePatternList";
 $coinPricePatternList = getCoinPricePattenList();
-echo "<BR> coin1HrPatternList";
+//echo "<BR> coin1HrPatternList";
 $coin1HrPatternList = getCoin1HrPattenList();
-echo "<BR> autoBuyPrice";
+//echo "<BR> autoBuyPrice";
 $autoBuyPrice = getAutoBuyPrices();
 $apiVersion = 1;
 
@@ -254,7 +254,7 @@ while($completeFlag == False){
   $marketProfit = getMarketProfit();
   $ruleProfit = getRuleProfit();
   //$pauseRulesFlag = True;
-  echo "<BR> Coin Length: $coinLength";
+  //echo "<BR> Coin Length: $coinLength";
   sleep(1);
   for($x = 0; $x < $coinLength; $x++) {
     //variables
@@ -270,7 +270,7 @@ while($completeFlag == False){
     //LOG
     //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
     //echo "<blockquote>";
-    echo "<BR> Rule Length: $buyRulesSize";
+    //echo "<BR> Rule Length: $buyRulesSize";
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
