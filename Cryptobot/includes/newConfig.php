@@ -1881,6 +1881,21 @@ function update7DPriceChange($sevenDayPrice,$coinID){
   }
   $conn->close();
 }
+function s($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
+  $conn = getSQLConn(rand(1,3));
+  echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
+  $newPrice = Round($sevenDayPrice,8);
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateCoinPctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 
 function update24HrPriceChange($price,$coinID){
   $conn = getSQLConn(rand(1,3));

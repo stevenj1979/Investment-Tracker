@@ -208,11 +208,12 @@ while($date <= $newTime){
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
       $price1Hr = get1HrChange($coinID);
-      update1HrPriceChange($price1Hr[0][0],$coinID);
+      //update1HrPriceChange($price1Hr[0][0],$coinID);
       $price24Hr = get24HrChange($coinID);
-      update24HrPriceChange($price24Hr[0][0],$coinID);
+      //update24HrPriceChange($price24Hr[0][0],$coinID);
       $price7Day = get7DayChange($coinID);
-      update7DPriceChange($price7Day[0][0],$coinID);
+      //update7DPriceChange($price7Day[0][0],$coinID);
+      updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,$apiVersion);
       $coinVolData = getVolumeStats($bittrexStats, $apiVersion);
