@@ -666,6 +666,7 @@ while($completeFlag == False){
     $email = $BittrexReqs[$b][13]; $orderNo = $BittrexReqs[$b][14];$transactionID = $BittrexReqs[$b][15]; $totalScore = 0; $baseCurrency = $BittrexReqs[$b][16]; $ruleIDBTBuy = $BittrexReqs[$b][17];
     $sendEmail = 1; $daysOutstanding = $BittrexReqs[$b][18]; $timeSinceAction = $BittrexReqs[$b][19]; $coinID = $BittrexReqs[$b][20]; $ruleIDBTSell = $BittrexReqs[$b][21];
     $liveCoinPriceBit = $BittrexReqs[$b][22]; $buyCancelTime = substr($BittrexReqs[$b][23],0,strlen($BittrexReqs[$b][23])-1); $sellFlag = false;
+    $coinModeRule = $BittrexReqs[$b][27];
     $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
@@ -748,7 +749,7 @@ while($completeFlag == False){
           }
           continue;
         }
-      }elseif ($type == "Sell"){ // $type Sell
+      }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           echo "<BR>SELL Order COMPLETE!";
             $profitPct = ($finalPrice-$cost)/$cost*100;
@@ -771,6 +772,9 @@ while($completeFlag == False){
             //}else{
               bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
               extendPctToBuy($coinID,$userID);
+              $allocationType = 'Standard';
+              if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
+              addProfitToAllocation($userID, $profit,$allocationType);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
             //}
 
@@ -970,7 +974,10 @@ while($completeFlag == False){
         updateTransToSpread($ID,$coinID,$UserID);
       }
     }
+    //add new number in SpreadBetTransactions
+    if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
   }
+
 
   $sellSpread = getSpreadBetSellData();
   $sellSpreadSize = count($sellSpread);
@@ -996,6 +1003,7 @@ while($completeFlag == False){
       }
     }
   }
+
   echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   sleep(15);
