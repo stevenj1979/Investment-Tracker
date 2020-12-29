@@ -198,19 +198,7 @@ function updateFixSellRule($newFixRule, $transactionID){
     $conn->close();
 }
 
-function updateBittrexBalances($symbol, $total, $price, $userID){
-    $conn = getSQLConn(rand(1,3));
-    // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "Call AddBittrexBal('$symbol',$total,$price, $userID);";
-    //print_r($sql);
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    $conn->close();
-}
+
 
 function checkSellSequence(){
   //get sell sequesnce info

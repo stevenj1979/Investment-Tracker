@@ -161,6 +161,7 @@ while($completeFlag == False){
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         logToSQL("BuyCoin", "Symbol: $symbol | Amount: $BTCAmount | Profit:  $pctProfit | CheckBuy: $checkBuy", $userID, $logToSQLSetting);
         UpdateProfit();
+        subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
         //if ($checkBuy){
 
         closeNewTrackingCoin($newTrackingCoinID);
@@ -221,6 +222,7 @@ while($completeFlag == False){
       logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", 'SellCoins', 1);
       logToSQL("TrackingSellCoins", "sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);", $userID, 1);
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice);
+      addUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
       //CloseTrackingSellCoin
       if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
     }
@@ -737,6 +739,7 @@ while($completeFlag == False){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
+
                logToSQL("Bittrex", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, $logToSQLSetting);
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $logToFileSetting);
@@ -756,6 +759,7 @@ while($completeFlag == False){
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $logToFileSetting);}
           }
+          addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           continue;
         }
       }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
@@ -828,6 +832,7 @@ while($completeFlag == False){
                logToSQL("Bittrex", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
              }
           }
+          subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
         if ($pctFromSale <= -3 or $pctFromSale >= 4){
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
@@ -869,6 +874,7 @@ while($completeFlag == False){
               logToSQL("Bittrex", "Sell Order 3% Less or 4% above. Error cancelling OrderNo: $orderNo : $result", $userID, $logToSQLSetting);
             }
           }
+          subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
       } //end $type Buy Sell
     }else{

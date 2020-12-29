@@ -3311,6 +3311,48 @@ function getDailyBalance($apikey,$apisecret){
   return $temp;
 }
 
+function updateBittrexBalances($symbol, $total, $price, $userID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "Call AddBittrexBal('$symbol',$total,$price, $userID);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function addUSDTBalance($symbol, $usdtPurchase, $price, $userID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "Call UpdateUSDTBal('$symbol',$usdtPurchase, $userID, $price);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function subUSDTBalance($symbol, $usdtPurchase, $price, $userID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "Call subUSDTBal('$symbol',$usdtPurchase, $userID, $price);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
 function pauseTracking($userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
