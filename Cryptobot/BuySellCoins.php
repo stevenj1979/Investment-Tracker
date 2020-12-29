@@ -104,8 +104,8 @@ $apiVersion = 1;
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
   $newTrackingCoinsSize = count($newTrackingCoins);
-
   echo "<BR> Tracking COINS!! ";
+  echo "<blockquote>";
   sleep(1);
   $ruleProfit = getRuleProfit();
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
@@ -192,7 +192,9 @@ while($completeFlag == False){
 
 
   }
+  echo "</blockquote>";
   echo "<BR> Tracking SELL COINS!! ";
+  echo "<blockquote>";
   $newTrackingSellCoins = getNewTrackingSellCoins();
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
   sleep(1);
@@ -247,8 +249,9 @@ while($completeFlag == False){
     }
 
   }
-
+  echo "</blockquote>";
   echo "<BR> BUY COINS!! ";
+  echo "<blockquote>";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
   $userProfit = getTotalProfit();
   $marketProfit = getMarketProfit();
@@ -477,7 +480,9 @@ while($completeFlag == False){
     }//Rule Loop
     //echo "</blockquote>";
   }//Coin Loop
+  echo "</blockquote>";
   echo "<BR> SELL COINS!! ";
+  echo "<blockquote>";
   //logAction("Check Sell Coins Start", 'BuySellTiming');
   //echo "<blockquote>";
   $sellCoins = getTrackingSellCoins();
@@ -653,6 +658,7 @@ while($completeFlag == False){
     }
   }//Sell Coin Loop
   //echo "</blockquote>";
+  echo "</blockquote>";
     echo "<BR> CHECK BITTREX!! ";
     //logAction("Check Bittrex Orders Start", 'BuySellTiming');
   echo "<blockquote>";
@@ -874,7 +880,9 @@ while($completeFlag == False){
 
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
+  echo "</blockquote>";
   echo "<BR> CHECK Alerts!! ";
+  echo "<blockquote>";
   //logAction("Check Alerts Start", 'BuySellTiming');
   sleep(1);
   for($d = 0; $d < $coinAlertsLength; $d++) {
@@ -948,7 +956,9 @@ while($completeFlag == False){
   }
   $spread = getSpreadBetData();
   $spreadSize = count($spread);
+  echo "</blockquote>";
   echo "<BR> CHECK Spread Bet!! ";
+  echo "<blockquote>";
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];
@@ -981,7 +991,9 @@ while($completeFlag == False){
 
   $sellSpread = getSpreadBetSellData();
   $sellSpreadSize = count($sellSpread);
+  echo "</blockquote>";
   echo "<BR> CHECK Sell Spread Bet!! ";
+  echo "<blockquote>";
   for ($w=0; $w<$sellSpreadSize; $w++){
     $CoinPrice = $sellSpread[$w][3]; $Amount = $sellSpread[$w][4]; $LiveCoinPrice = $sellSpread[$w][15];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
