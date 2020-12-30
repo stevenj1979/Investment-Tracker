@@ -213,7 +213,7 @@ while($date <= $newTime){
       //update24HrPriceChange($price24Hr[0][0],$coinID);
       $price7Day = get7DayChange($coinID);
       //update7DPriceChange($price7Day[0][0],$coinID);
-      updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
+      updatePctChange($coinID,$price7Day[0][0],$price24Hr[0][0],$price1Hr[0][0]);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,$apiVersion);
       $coinVolData = getVolumeStats($bittrexStats, $apiVersion);
