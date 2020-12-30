@@ -215,16 +215,22 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //$price7Day = get7DayChange(84);
 
 //echo "<BR> 7 Day Change: ".$price7Day[0][0];
-$bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
-var_dump($bittrexStats);
-$bittrexStatsCount = count($bittrexStats);
-echo "<BR> Count: $bittrexStatsCount";
+//$bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
+//var_dump($bittrexStats);
+//$bittrexStatsCount = count($bittrexStats);
+//echo "<BR> Count: $bittrexStatsCount";
 //foreach($bittrexStats as $item) {
-//for ($i=0; $i<$bittrexStatsCount; $i++){
-  echo "<BR> Symbol: ".$bittrexStats["symbol"];
-  echo "<BR> high: ".$bittrexStats["high"];
-  echo "<BR> low: ".$bittrexStats["low"];
+//for ($i=0; $i<$bittrexStatsCount; $i++){/
+//  echo "<BR> Symbol: ".$bittrexStats["symbol"];
+//  echo "<BR> high: ".$bittrexStats["high"];
+//  echo "<BR> low: ".$bittrexStats["low"];
 //}
+$coinID = 84;
+$price1Hr = get1HrChange($coinID);
+$price24Hr = get24HrChange($coinID);
+$price7Day = get7DayChange($coinID);
+Echo "<BR> updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);";
+updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
 
 ?>
 </html>
