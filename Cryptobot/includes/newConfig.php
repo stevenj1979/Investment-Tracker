@@ -1881,7 +1881,7 @@ function update7DPriceChange($sevenDayPrice,$coinID){
   }
   $conn->close();
 }
-function s($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
+function updatePctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
   $conn = getSQLConn(rand(1,3));
   echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
   $newPrice = Round($sevenDayPrice,8);
