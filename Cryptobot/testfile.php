@@ -229,8 +229,9 @@ $coinID = 84;
 $price[0] = get1HrChange($coinID);
 $price[1] = get24HrChange($coinID);
 $price[2] = get7DayChange($coinID);
+$price7Day = $price[2]; $price24Hr = $price[1]; $price1Hr = $price[0];
 Echo "<BR> updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);";
-updatePctChange($coinID,$price[2],$price[1],$price[0]);
+updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
 
 ?>
 </html>
