@@ -226,11 +226,11 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
 $coinID = 84;
-$price1Hr = get1HrChange($coinID);
-$price24Hr = get24HrChange($coinID);
-$price7Day = get7DayChange($coinID);
+$price[0] = get1HrChange($coinID);
+$price[1] = get24HrChange($coinID);
+$price[2] = get7DayChange($coinID);
 Echo "<BR> updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);";
-updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
+updatePctChange($coinID,$price[2],$price[1],$price[0]);
 
 ?>
 </html>
