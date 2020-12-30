@@ -230,7 +230,7 @@ $price1Hr = get1HrChange($coinID);
 $price24Hr = get24HrChange($coinID);
 $price7Day = get7DayChange($coinID);
 //$price7Day = $price[2]; $price24Hr = $price[1]; $price1Hr = $price[0];
-Echo "<BR> updatePctChange($coinID,".$price7Day[0].",".$price24Hr[0].",".$price1Hr[0].");";
+Echo "<BR> updatePctChange($coinID,".$price7Day[0][0].",".$price24Hr[0][0].",".$price1Hr[0][0].");";
 //updatePctChange($coinID,$price7Day,$price24Hr,$price1Hr);
 
 ?>
