@@ -142,6 +142,7 @@ while($completeFlag == False){
     $coinAllocation = getCoinAllocation($userID);
     if ($coinMode > 0){if ($coinAllocation[2]== 0){ echo "<BR> CoinAllocation : ".$coinAllocation[2]." EXIT";continue;}}
     if ($coinMode == 0){if ($coinAllocation[0]== 0){ echo "<BR> CoinAllocation : ".$coinAllocation[0]." EXIT";continue;}}
+    if ($coinMode > 0){ if ($coinAllocation[2]<$BTCAmount){$BTCAmount = $coinAllocation[2]; }}elseif ($coinMode == 0){if ($coinAllocation[0]<$BTCAmount){$BTCAmount = $coinAllocation[0]; }}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if($minsFromDate <= $minusMinsToCancel){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
