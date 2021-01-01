@@ -993,9 +993,10 @@ while($completeFlag == False){
         //update Transaction to Spread
         updateTransToSpread($ID,$coinID,$UserID);
       }
+      //add new number in SpreadBetTransactions
+      if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
     }
-    //add new number in SpreadBetTransactions
-    if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
+
   }
 
 
