@@ -3652,7 +3652,7 @@ function getSpreadBetData(){
 
   $sql = "SELECT `ID`, `Name`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`, `Live7DChange`, `Last7DChange`
   , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
-  , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName` FROM `SpreadBetCoinStatsView` ";
+  , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID` FROM `SpreadBetCoinStatsView` ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3660,7 +3660,7 @@ function getSpreadBetData(){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'], $row['Name'], $row['`Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
-      , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName']);
+      , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID']);
   }
   $conn->close();
   return $tempAry;
@@ -3678,8 +3678,8 @@ function getSpreadCoinData($ID){
 
   $sql = "SELECT `ID`, `Symbol`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`
   , `Live7DChange`, `Last7DChange`, `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `BaseCurrency`, `Price4Trend`
-  , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`, `CMCID`, `SecondstoUpdate`, `LastUpdated`, `Name`, `Image`, `SpreadBetRuleID`
-  FROM `SpreadBetCoinStatsCoinView` where `SpreadBetRuleID` = $ID";
+  , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`, `CMCID`, `SecondstoUpdate`, `LastUpdated`, `Name`, `Image`, `SpreadBetRuleID`,`SpreadBetTransactionID`
+  FROM `SpreadBetCoinStatsCoinView` where `SpreadBetTransactionID` = $ID";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3689,7 +3689,7 @@ function getSpreadCoinData($ID){
       , $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange'], $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange']
       , $row['LiveSellOrders'], $row['LastSellOrders'], $row['SellOrdersPctChange'], $row['LiveVolume'], $row['LastVolume'], $row['VolumePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend']
       , $row['LivePriceTrend'], $row['AutoBuyPrice'], $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['CMCID'], $row['SecondstoUpdate'], $row['LastUpdated'], $row['Name'], $row['Image']
-      , $row['SpreadBetRuleID']);
+      , $row['SpreadBetRuleID'], $row['SpreadBetTransactionID']);
   }
   $conn->close();
   return $tempAry;
@@ -3724,14 +3724,14 @@ function getCoinAllocation($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`RuleBasedAvailable`,`CoinModeAvailable`,`SpreadBetAvailable` FROM `CoinAmountsAvailableToBuy`
+  $sql = "SELECT `RuleBasedAvailable`,`CoinModeAvailable`,`SpreadBetAvailable`,`ID` FROM `CoinAmountsAvailableToBuy`
           where `ID` = $userID";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetAvailable'],$row['RuleBasedAvailable'],$row['CoinModeAvailable']);
+      $tempAry[] = Array($row['SpreadBetAvailable'],$row['RuleBasedAvailable'],$row['CoinModeAvailable'],$row['ID']);
   }
   $conn->close();
   return $tempAry;

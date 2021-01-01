@@ -128,14 +128,14 @@ while($completeFlag == False){
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1){
-          echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
+          //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
         }
         if ($limitBuyTransactionsEnabled == 1){
-          echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
+          //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
           if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
         }elseif($coinModeOverridePriceEnabled == 1 ){
-          echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
+          //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
           if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); continue;}
         }
     }
@@ -152,7 +152,7 @@ while($completeFlag == False){
         if ($limitBuyAmountEnabled == 1){
           $ruleProfitSize = count($ruleProfit);
           for ($g=0; $g<$ruleProfitSize; $g++){
-            echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$g][4]." | $ruleIDBuy | ".$ruleProfit[$g][1]." | $limitBuyAmount";
+            //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$g][4]." | $ruleIDBuy | ".$ruleProfit[$g][1]." | $limitBuyAmount";
             logToSQL("TrackingCoins", "limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$g][4]." | $ruleIDBuy | ".$ruleProfit[$g][1]." | $limitBuyAmount", $userID, 1);
             if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyAmount){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
           }
@@ -971,20 +971,21 @@ while($completeFlag == False){
   echo "<blockquote>";
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
-    $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];
+    $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spreadCoins[$y][29];
+    $spreadBetTransID = $spreadCoins[$y][30];
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($Hr24ChangePctChange <= -5 and $d7ChangePctChange <= -5 and $Hr1ChangePctChange >= 0.2){
 
       //GetCoinData
-      $spreadCoins = getSpreadCoinData($ID);
+      $spreadCoins = getSpreadCoinData($spreadBetTransID);
       $spreadCoinsSize = count($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize ";
       //How much to buy
        $spreadBetToBuy = getCoinAllocation($UserID);
        $BTCAmount =  $spreadBetToBuy[0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
-        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28]; $UserName= $spreadCoins[$t][29];
+        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
         //BuyCoins
