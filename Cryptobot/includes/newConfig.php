@@ -3680,7 +3680,7 @@ function getSpreadCoinData($ID){
   , `Live7DChange`, `Last7DChange`, `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `BaseCurrency`, `Price4Trend`
   , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`, `CMCID`, `SecondstoUpdate`, `LastUpdated`, `Name`, `Image`, `SpreadBetRuleID`,`SpreadBetTransactionID`
   FROM `SpreadBetCoinStatsCoinView` where `SpreadBetTransactionID` = $ID";
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
