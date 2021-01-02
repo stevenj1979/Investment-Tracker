@@ -3695,14 +3695,14 @@ function getSpreadCoinData($ID){
   return $tempAry;
 }
 
-function updateTransToSpread($transSpreadID,$coinID, $userID){
+function updateTransToSpread($transSpreadRuleID,$coinID, $userID,$spreadBetTransID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "Call UpdateTransToSpread($transSpreadID,$coinID,$userID);";
+    $sql = "Call UpdateTransToSpread($transSpreadRuleID,$coinID,$userID,$spreadBetTransID);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {

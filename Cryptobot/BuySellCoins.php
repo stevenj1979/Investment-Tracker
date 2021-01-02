@@ -992,7 +992,7 @@ while($completeFlag == False){
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         //update Transaction to Spread
-        updateTransToSpread($ID,$coinID,$UserID);
+        updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
       }
       //add new number in SpreadBetTransactions
       if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
@@ -1012,6 +1012,7 @@ while($completeFlag == False){
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
     $purchasePrice = $CoinPrice * $Amount; $currentPrice = $LiveCoinPrice * $Amount;
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
+    if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
     if ($profitPct >= 0.6){
       //get coin data
