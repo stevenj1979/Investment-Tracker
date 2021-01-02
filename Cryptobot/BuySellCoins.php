@@ -1007,10 +1007,10 @@ while($completeFlag == False){
   echo "<BR> CHECK Sell Spread Bet!! ";
   echo "<blockquote>";
   for ($w=0; $w<$sellSpreadSize; $w++){
-    $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4];
+    $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4]; $LiveCoinPriceTot = $sellSpread[$w][15];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
-    $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPrice * $TotAmount;
+    $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
