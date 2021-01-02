@@ -1007,7 +1007,7 @@ while($completeFlag == False){
   echo "<BR> CHECK Sell Spread Bet!! ";
   echo "<blockquote>";
   for ($w=0; $w<$sellSpreadSize; $w++){
-    $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4]; $LiveCoinPrice = $sellSpread[$w][15];
+    $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
     $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPrice * $TotAmount;
@@ -1021,7 +1021,7 @@ while($completeFlag == False){
       echo "<BR> Sell Spread Coins | $spreadSellCoinsSize";
       for ($q=0; $q<$spreadSellCoinsSize; $q++){
         $coin = $spreadSellCoins[$q][11];  $BaseCurrency =  $spreadSellCoins[$q][36]; $TransactionID = $spreadSellCoins[$q][0];
-        $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10];
+        $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
         $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
         $type = $spreadSellCoins[$q][1];
