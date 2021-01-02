@@ -1625,7 +1625,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call AddBittrexSell($coinID, $transactionID, $userID, '$type', '$bittrexRef', '$status', $bitPrice, $ruleID);";
+  $sql = "call NewAddBittrexSell($coinID, $transactionID, $userID, '$type', '$bittrexRef', '$status', $bitPrice, $ruleID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
