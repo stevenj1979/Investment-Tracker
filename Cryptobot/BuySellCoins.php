@@ -972,7 +972,7 @@ while($completeFlag == False){
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spread[$y][29];
-    $spreadBetTransID = $spread[$y][30];
+    $spreadBetTransID = $spread[$y][30];$Email =  $spread[$y][28];
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($Hr24ChangePctChange <= -5 and $d7ChangePctChange <= -5 and $Hr1ChangePctChange >= 0.2){
@@ -985,7 +985,7 @@ while($completeFlag == False){
        $spreadBetToBuy = getCoinAllocation($UserID);
          $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
-        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28];
+        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
         //BuyCoins
