@@ -983,7 +983,7 @@ while($completeFlag == False){
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
        $spreadBetToBuy = getCoinAllocation($UserID);
-       $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
+         $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $Email = $spreadCoins[$t][28];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
