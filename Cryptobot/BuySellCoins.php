@@ -980,7 +980,7 @@ while($completeFlag == False){
       //GetCoinData
       $spreadCoins = getSpreadCoinData($spreadBetTransID);
       $spreadCoinsSize = count($spreadCoins);
-      Echo "<BR> Buy Spread Coins : $spreadCoinsSize ";
+      Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
        $spreadBetToBuy = getCoinAllocation($UserID);
        $BTCAmount =  $spreadBetToBuy[0]/$spreadCoinsSize;
