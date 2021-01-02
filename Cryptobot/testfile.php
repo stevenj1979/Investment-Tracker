@@ -225,7 +225,7 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-$coinAllocation = getCoinAllocation($userID);
+$coinAllocation = getCoinAllocation(3);
 echo "<BR> CoinAllocation: ".$coinAllocation[0][2];
 
 ?>
