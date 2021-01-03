@@ -972,7 +972,7 @@ while($completeFlag == False){
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spread[$y][29];
-    $spreadBetTransID = $spread[$y][30];$Email =  $spread[$y][28];
+    $spreadBetTransID = $spread[$y][30]; $Email =  $spread[$y][28];
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($Hr24ChangePctChange <= -5 and $d7ChangePctChange <= -5 and $Hr1ChangePctChange >= 0.2){
@@ -988,6 +988,11 @@ while($completeFlag == False){
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
+        $openCoins = getOpenSpreadCoins();
+        $openCoinsSize = count($openCoins);
+        for ($v=0; $v<$openCoinsSize; $v++){
+          if ($openCoins[$v][0] == $ID){ continue;}
+        }
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
@@ -1014,7 +1019,7 @@ while($completeFlag == False){
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
-    if ($profitPct >= 0.6){
+    if ($profitPct >= 0.8){
       //get coin data
       $spreadSellCoins = getSpreadCoinSellData($ID);
       $spreadSellCoinsSize = count($spreadSellCoins);

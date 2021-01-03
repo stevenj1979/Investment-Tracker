@@ -3861,4 +3861,26 @@ function addProfitToAllocation($UserID, $totalProfit, $type){
   $conn->close();
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
 }
+
+function getOpenSpreadCoins(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID` FROM `SellCoinsSpreadView`";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>
