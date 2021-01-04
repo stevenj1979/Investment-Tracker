@@ -194,6 +194,21 @@ function updateAllCoinRunningPrice(){
   $conn->close();
 }
 
+
+function ConsolidatePriceHostory(){
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$date = date('Y-m-d H:i', time());
+  $sql = "call PriceHistoryConsolidate(date_sub(now(),INTERVAL 5 Minute),now())";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
