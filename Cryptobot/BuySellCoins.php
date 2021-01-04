@@ -973,9 +973,12 @@ while($completeFlag == False){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spread[$y][29];
     $spreadBetTransID = $spread[$y][30]; $Email =  $spread[$y][28];
+    $Hr1BuyPrice = $spread[$y][31];
+    $Hr24BuyPrice = $spread[$y][32];
+    $D7BuyPrice = $spread[$y][33];
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
-    if ($Hr24ChangePctChange <= -5 and $d7ChangePctChange <= -5 and $Hr1ChangePctChange >= 0.2){
+    if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
 
       //GetCoinData
       $spreadCoins = getSpreadCoinData($spreadBetTransID);
@@ -1016,10 +1019,11 @@ while($completeFlag == False){
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
     $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
+    $spreadBetPctProfitSell = $sellSpread[$w][55];
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
-    if ($profitPct >= 0.8){
+    if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
       $spreadSellCoins = getSpreadCoinSellData($ID);
       $spreadSellCoinsSize = count($spreadSellCoins);
