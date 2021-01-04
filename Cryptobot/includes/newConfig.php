@@ -907,7 +907,7 @@ function addSellRuletoSQL($transactionID, $sellRule){
 
 function copyNewPctChange($coinID,$PctChange1Hr, $PctChange24Hr, $PctChange7D){
   $conn = getSQLConn(rand(1,3));
-  Echo "<BR> call UpdatePctChange($coinID, $PctChange1Hr, $PctChange24Hr, $PctChange7D);";
+  Echo "<BR> call newUpdatePctChange($coinID, $PctChange1Hr, $PctChange24Hr, $PctChange7D);";
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
