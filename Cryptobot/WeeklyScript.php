@@ -28,8 +28,112 @@ function clearWeeklyCoinSwaps(){
   logAction("clearWeeklyCoinSwaps: ".$sql, 'SellCoin', 0);
 }
 
+function getSpreadBetSettings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
 
+  $sql = "SELECT `ID`, `SpreadBetRuleID`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`, `NextReviewDate`, `PctProfitSell`, `NoOfTransactions`, `LowestPctProfit`, `AvgTimeToSell`
+  FROM `SpreadBetSettings`";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['SpreadBetRuleID'],$row['Hr1BuyPrice'],$row['Hr24BuyPrice'],$row['D7BuyPrice'],$row['NextReviewDate'],$row['PctProfitSell'],$row['NoOfTransactions']
+      ,$row['LowestPctProfit'],$row['AvgTimeToSell']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateSpreadBetSettings($Hr24BuyPrice,$D7BuyPrice, $pctProfitSell,$ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `SpreadBetSettings` SET `Hr24BuyPrice`= $Hr24BuyPrice,`D7BuyPrice`= $D7BuyPrice,`NextReviewDate`= date_add(now(),INTERVAL 1 MONTH),`PctProfitSell`= $pctProfitSell
+  WHERE `SpreadBetRuleID` = $ID;";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetSettings: ".$sql, 'SellCoin', 0);
+}
+
+function resetSpreadBetSettings(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `SpreadBetSettings` SET `NoOfTransactions`= 0,`LowestPctProfit`= 0,`AvgTimeToSell`= 0 ";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("resetSpreadBetSettings: ".$sql, 'SellCoin', 0);
+}
+
+function spreadBetSettingsUpdate(){
+  $spreadBet = getSpreadBetSettings();
+  $spreadBetSize = count($spreadBet);
+  $resetFlag = False;
+  for ($i=0;$i<$spreadBetSize; $i++){
+    $ID = $spreadBet[$i][0]; $spreadBetRuleID  = $spreadBet[$i][1]; $nextReviewDate = $spreadBet[$i][5]; $pctProfitSell = $spreadBet[$i][6]; $noOfTrans = $spreadBet[$i][7];
+    $lowestPctProfit  = $spreadBet[$i][8]; $avgTimeToSell  = $spreadBet[$i][9]; $Hr24BuyPrice = $spreadBet[$i][3]; $D7BuyPrice = $spreadBet[$i][4];
+    if ($noOfTrans == 0){
+      //Raise Pct to Buy
+      if ($Hr24BuyPrice < -0.5 and $D7BuyPrice < -0.5){
+        $Hr24BuyPrice = $Hr24BuyPrice + 0.25;
+        $D7BuyPrice = $D7BuyPrice + 0.25;
+      }
+    }elseif ($nextReviewDate >= today()){
+        $resetFlag = True;
+        if ($lowestPctProfit <= -9){
+          //Lower 24 and 7D Pct to Buy
+          if ($Hr24BuyPrice > -10 and $D7BuyPrice > -10){
+            $Hr24BuyPrice = $Hr24BuyPrice - 0.25;
+            $D7BuyPrice = $D7BuyPrice - 0.25;
+          }
+        }elseif ($avgTimeToSell >= 20200){
+          //lower Pct to Sell
+          if ($pctProfitSell > 0.5){
+            $pctProfitSell = $pctProfitSell - 0.25;
+          }
+        }
+    }
+    updateSpreadBetSettings($Hr24BuyPrice,$D7BuyPrice, $pctProfitSell,$ID);
+  }
+
+  if ($resetFlag){
+    //Reset AvgTime and No of Transactions
+    $avgTimeToSell = 0; $lowestPctProfit = 0; $noOfTrans = 0;
+    resetSpreadBetSettings();
+  }
+}
+
+// MAIN PROGRAMME
 clearWeeklyCoinSwaps();
+spreadBetSettingsUpdate();
+
+
 
 ?>
 </html>
