@@ -1001,6 +1001,7 @@ while($completeFlag == False){
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         //update Transaction to Spread
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
+        updateSpreadBuy();
       }
       //add new number in SpreadBetTransactions
       if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
@@ -1019,10 +1020,11 @@ while($completeFlag == False){
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
     $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
-    $spreadBetPctProfitSell = $sellSpread[$w][55];
+    $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56];
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
+    updateSpreadProfit($spreadBetRuleID,$profitPct);
     if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
       $spreadSellCoins = getSpreadCoinSellData($ID);
@@ -1033,9 +1035,11 @@ while($completeFlag == False){
         $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
         $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
+        $orderDate = $spreadSellCoins[$q][7];
         $type = $spreadSellCoins[$q][1];
         echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
+        updateSpreadSell($spreadBetRuleID,$orderDate);
       }
     }
   }

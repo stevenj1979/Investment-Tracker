@@ -3772,6 +3772,7 @@ function getSpreadBetSellData(){
   , `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`, `Hr1PctChange`
   , `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`
   , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`PctProfitSell`
+  ,`SpreadBetRuleID`
   FROM `SellCoinsSpreadGroupView`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -3783,7 +3784,7 @@ function getSpreadBetSellData(){
       ,$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'] //29
       ,$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']//40
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
-      ,$row['Email'],$row['UserName'],$row['PctProfitSell']); //55
+      ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID']); //56
   }
   $conn->close();
   return $tempAry;
@@ -3885,5 +3886,65 @@ function getOpenSpreadCoins(){
   }
   $conn->close();
   return $tempAry;
+}
+
+function updateSpreadBuy($spreadBetRuleID){
+  $savingUsdt = $totalProfit * 0.1;
+  $typeUsdt = $totalProfit - $savingUsdt;
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `SpreadBetSettings` SET `NoOfTransactions` = (`NoOfTransactions` + 1) WHERE `SpreadBetRuleID` = $spreadBetRuleID;";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBuy: ".$sql, 'BuyCoin', 0);
+}
+
+function updateSpreadProfit($spreadBetRuleID, $pctProfit){
+  $savingUsdt = $totalProfit * 0.1;
+  $typeUsdt = $totalProfit - $savingUsdt;
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call updateSpreadProfit($spreadBetRuleID,$pctProfit);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadProfit: ".$sql, 'BuyCoin', 0);
+}
+
+function updateSpreadSell($spreadBetRuleID, $orderDate){
+  $savingUsdt = $totalProfit * 0.1;
+  $typeUsdt = $totalProfit - $savingUsdt;
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call updateSpreadSell($spreadBetRuleID,'$orderDate');";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadSell: ".$sql, 'BuyCoin', 0);
 }
 ?>
