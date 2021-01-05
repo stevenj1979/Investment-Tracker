@@ -1872,7 +1872,7 @@ function update7DPriceChange($sevenDayPrice,$coinID){
   echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
   $newPrice = Round($sevenDayPrice,8);
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call Update7DPriceChange($coinID,$newPrice);";
+  $sql = "Update `CoinPctChange` SET `Live7DChange` = $newPrice where `CoinID` = $coinID;";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
