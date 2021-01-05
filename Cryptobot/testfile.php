@@ -225,8 +225,15 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-$coinAllocation = getCoinAllocation(3);
-echo "<BR> CoinAllocation: ".$coinAllocation[0][2];
+$coinID = 84;
+$price1Hr = get1HrChange($coinID);
+//update1HrPriceChange($price1Hr[0][0],$coinID);
+$price24Hr = get24HrChange($coinID);
+//update24HrPriceChange($price24Hr[0][0],$coinID);
+$price7Day = get7DayChange($coinID);
+//update7DPriceChange($price7Day[0][0],$coinID);
+echo "<BR> updatePctChange($coinID,$price7Day[0][0],$price24Hr[0][0],$price1Hr[0][0]);";
+updatePctChange($coinID,$price7Day[0][0],$price24Hr[0][0],$price1Hr[0][0]);
 
 ?>
 </html>
