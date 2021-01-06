@@ -505,7 +505,7 @@ while($completeFlag == False){
     $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
     $lowPricePurchaseEnabled = $sellCoins[$a][45]; $purchaseLimit = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
     $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44]; $orderDate = $sellCoins[$a][7];
-    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53];
+    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][54];
     //$symbol = $sellCoins[$a][11];
 
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
@@ -528,7 +528,7 @@ while($completeFlag == False){
       $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
       $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
       $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45]; $autoSellCoinEnabled = $sellRules[$z][46];
-      $fallsInPrice = $sellRules[$z][47]; $mergeCoinEnabled = $sellRules[$z][53];
+      $fallsInPrice = $sellRules[$z][47]; $mergeCoinEnabled = $sellRules[$z][53]; $coinModeRule = $sellRules[$z][54];
       //$profit = ((($amount*$liveCoinPrice)-($amount*$cost))/($amount*$cost))*100;
       //$APISecret = $sellRules[$z][34];
       $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
@@ -551,6 +551,16 @@ while($completeFlag == False){
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+      if ($captureTrend == 0 and $profit >= 0.5){
+        //Capture 1Hr / 24Hr and 7D trend
+        if ($coinModeRule > 0){
+            //Update Coin ModeRule
+            updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDSell);
+        }else{
+            //Update Buy Rule
+            updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
+        }
+      }
       //echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
       //echo "<BR> SellCOINOFFSET Enabled: $sellCoinOffsetEnabled  - SellCoinOffsetPct: $sellCoinOffsetPct";
       if ($userID != $sellCoinsUserID){ continue; }
@@ -1018,13 +1028,16 @@ while($completeFlag == False){
   for ($w=0; $w<$sellSpreadSize; $w++){
     $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4]; $LiveCoinPriceTot = $sellSpread[$w][15];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
-    $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54];
+    $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54]; $captureTrend = $sellSpread[$w][57];
     $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
     $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56];
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     echo "<BR> Checking $ID | $profitPct ";
     updateSpreadProfit($spreadBetRuleID,$profitPct);
+    if ($captureTrend == 0 and $profitPct >= 0.5){
+      updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID);
+    }
     if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
       $spreadSellCoins = getSpreadCoinSellData($ID);
