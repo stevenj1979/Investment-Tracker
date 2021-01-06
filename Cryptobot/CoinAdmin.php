@@ -405,7 +405,20 @@ function writeLow($coinID, $price){
 function updateCoinPct($coinID,$buyRuleID, $mode){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateCoinModeRules($coinID, $buyRuleID, $mode);";
+  $sql = "call UpdateCoinModeRules($coinID, $buyRuleID, '$mode');";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateSpreadBetRules($coinID,$spreadBetRuleID,'$mode')";
   //print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -425,6 +438,16 @@ function updateCoinModeBuyPct(){
 
 }
 
+function updateSpreadBetBuyPct(){
+  $SpreadBetAry = getSpreadBetData();
+  $SpreadBetArySize = count($SpreadBetAry);
+  for ($t=0; $t<$SpreadBetArySize; $t++){
+    $spreadBetRuleID = $SpreadBetAry[$t][0];
+    updateSpreadPct(0, $spreadBetRuleID, 'SpreadBet');
+  }
+
+}
+
 function getCoinModeData(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -433,6 +456,19 @@ function getCoinModeData(){
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['CoinID'],$row['RuleID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function getSpreadBetData(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID` FROM `SpreadBetCoinStatsView` ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID']);
   }
   $conn->close();
 return $tempAry;
