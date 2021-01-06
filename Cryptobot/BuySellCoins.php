@@ -555,7 +555,7 @@ while($completeFlag == False){
         //Capture 1Hr / 24Hr and 7D trend
         if ($coinModeRule > 0){
             //Update Coin ModeRule
-            updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDSell);
+            updateBuyTrend($coinID, $transactionID, 'CoinMode', $BuyRule);
         }else{
             //Update Buy Rule
             updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
