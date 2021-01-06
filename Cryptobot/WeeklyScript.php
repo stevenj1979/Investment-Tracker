@@ -79,7 +79,7 @@ function resetSpreadBetSettings(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `SpreadBetSettings` SET `NoOfTransactions`= 0,`LowestPctProfit`= 0,`AvgTimeToSell`= 0 ";
+  $sql = "UPDATE `SpreadBetSettings` SET `NoOfTransactions`= 0,`LowestPctProfit`= 0,`AvgTimeToSell`= 0, `NextReviewDate`= date_add(`NextReviewDate`, INTERVAL 1 MONTH)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
