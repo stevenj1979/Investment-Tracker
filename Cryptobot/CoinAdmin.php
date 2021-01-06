@@ -402,6 +402,42 @@ function writeLow($coinID, $price){
   $conn->close();
 }
 
+function updateCoinPct($coinID,$buyRuleID, $mode){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateCoinModeRules($coinID, $buyRuleID, $mode);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateCoinModeBuyPct(){
+  $coinModeAry = getCoinModeData();
+  $coinModeArySize = count($coinModeAry);
+  for ($t=0; $t<$coinModeArySize; $t++){
+    $coinID = $coinModeAry[$t][0];$buyRuleID = $coinModeAry[$t][1];
+    updateCoinPct($coinID, $buyRuleID, 'CoinMode');
+  }
+
+}
+
+function getCoinModeData(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,`RuleID` FROM `CoinModeRules` ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['RuleID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
 coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
@@ -487,6 +523,8 @@ for ($w=0; $w<$coinLowSize; $w++){
   $coinID = $coinLow[$w][0]; $price = $coinLow[$w][1];
   writeLow($coinID,$price);
 }
+
+updateCoinModeBuyPct();
 
 ?>
 </html>
