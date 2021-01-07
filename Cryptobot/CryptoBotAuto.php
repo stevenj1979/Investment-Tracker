@@ -250,7 +250,6 @@ while($date <= $newTime){
       //$Hr24Date = date("Y-m-d H",strtotime("-1 Day"));
       //$Hr24Price = get1HrChange($coinID,$Hr24Date);
       //update24HrPriceChange($Hr24Price[0][0],$coinID);
-
     }
 
     //sleep(1);

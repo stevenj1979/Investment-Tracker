@@ -1032,7 +1032,9 @@ while($completeFlag == False){
     $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
     $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56];
     $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
+    $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
+    coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
     echo "<BR> Checking $ID | $profitPct ";
     updateSpreadProfit($spreadBetRuleID,$profitPct);
     if ($captureTrend == 0 and $profitPct >= 0.5){
