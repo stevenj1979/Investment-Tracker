@@ -86,7 +86,7 @@ function update1HrAllCoin($coinID, $hr1Diff){
 
 function tempDisableUsers($mins){
   $date = date("Y-m-d H:i", time());
-  if ($hours > 0){
+  if ($mins > 0){
     $newDate = date('Y-m-d H:i', strtotime($date. " +$mins minutes"));
   }else{
     $newDate = $date;

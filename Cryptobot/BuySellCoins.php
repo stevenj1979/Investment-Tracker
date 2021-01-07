@@ -1011,7 +1011,7 @@ while($completeFlag == False){
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         //update Transaction to Spread
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
-        updateSpreadBuy();
+        updateSpreadBuy($ID);
       }
       //add new number in SpreadBetTransactions
       if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
