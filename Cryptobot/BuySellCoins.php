@@ -555,10 +555,10 @@ while($completeFlag == False){
         //Capture 1Hr / 24Hr and 7D trend
         if ($coinModeRule > 0){
             //Update Coin ModeRule
-            updateBuyTrend($coinID, $transactionID, 'CoinMode', $BuyRule);
+            //updateBuyTrend($coinID, $transactionID, 'CoinMode', $BuyRule);
         }else{
             //Update Buy Rule
-            updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
+            //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
       //echo "<BR> RULE: $ruleIDSell Coin: $coin FixSellRule: $fixSellRule Profit: $profit";
@@ -1036,7 +1036,7 @@ while($completeFlag == False){
     echo "<BR> Checking $ID | $profitPct ";
     updateSpreadProfit($spreadBetRuleID,$profitPct);
     if ($captureTrend == 0 and $profitPct >= 0.5){
-      updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID);
+      //updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID);
     }
     if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
