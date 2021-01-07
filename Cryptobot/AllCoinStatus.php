@@ -220,8 +220,9 @@ function update1Hr_24Hr_7DPct(){
     update24HrPriceChange($price24Hr[0][0],$coinID);
     $price7Day = get7DayChange($coinID);
     update7DPriceChange($price7Day[0][0],$coinID);
-    echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,".date("Y-m-d H:i:s", time()).",".$price1Hr[0][0].",".$price24Hr[0][0].",".$price7Day[0][0]).";";
-    coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$price1Hr[0][0],$price24Hr[0][0],$price7Day[0][0]);
+    $nDate = date("Y-m-d H:i:s", time()); $hr1_Pct = $price1Hr[0][0]; $hr24_Pct = $price24Hr[0][0]; $d7_Pct = $price7Day[0][0];
+    echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$hr1_Pct,$hr24_Pct,$d7_Pct";
+    coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,,$hr1_Pct,$hr24_Pct,$d7_Pct);
   }
 
 }
