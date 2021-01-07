@@ -225,9 +225,9 @@ function update1Hr_24Hr_7DPct(){
     //$tmpPrice = (($price7Day[0][0]-$bitPrice)/$price7Day[0][0])*100;
     update7DPriceChange($price7Day[0][0],$coinID);
     $nDate = date("Y-m-d H:i:s", time());
-    $newhr1_Pct = (($newhr1_Pct-$bitPrice)/$newhr1_Pct)*100;
-    $newhr24_Pct = (($newhr24_Pct-$bitPrice)/$newhr24_Pct)*100;
-    $newd7_Pct = (($newd7_Pct-$bitPrice)/$newd7_Pct)*100;
+    //$newhr1_Pct = (($newhr1_Pct-$bitPrice)/$newhr1_Pct)*100;
+    //$newhr24_Pct = (($newhr24_Pct-$bitPrice)/$newhr24_Pct)*100;
+    //$newd7_Pct = (($newd7_Pct-$bitPrice)/$newd7_Pct)*100;
     echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$newhr1_Pct,$newhr24_Pct,$newd7_Pct";
     coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$newhr1_Pct,$newhr24_Pct,$newd7_Pct);
   }
