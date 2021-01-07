@@ -239,8 +239,8 @@ while($date <= $newTime){
       //$hr24Pct = (($bitPrice-$price24Hr[0][0])/$price24Hr[0][0])*100;
       //$price7Day = get7DayChange($coinID);
       //$d7Pct = (($bitPrice-$price7Day[0][0])/$price7Day[0][0])*100;
-      logAction("coinPriceHistory($coinID,$bitPrice,$baseCurrency,".date("Y-m-d H:i:s", time()).",$Hr1Pct,$Hr24Pct,$D7Pct); ",'CryptoBoyAuto', 1);
-      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
+      //logAction("coinPriceHistory($coinID,$bitPrice,$baseCurrency,".date("Y-m-d H:i:s", time()).",$Hr1Pct,$Hr24Pct,$D7Pct); ",'CryptoBoyAuto', 1);
+      //coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
       //$Hr1Price = get1HrChange($coinID,$Hr1Date);

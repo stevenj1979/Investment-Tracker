@@ -213,13 +213,15 @@ function update1Hr_24Hr_7DPct(){
   $coins = getTrackingCoins();
   $coinsSize = count($coins);
   for ($u=0; $u<$coinsSize;$u++){
-    $coinID = $coins[$u][0];
+    $coinID = $coins[$u][0]; $bitPrice = $coins[$u][17]; $baseCurrency = $coins[$u][26];
     $price1Hr = get1HrChange($coinID);
     update1HrPriceChange($price1Hr[0][0],$coinID);
     $price24Hr = get24HrChange($coinID);
     update24HrPriceChange($price24Hr[0][0],$coinID);
     $price7Day = get7DayChange($coinID);
     update7DPriceChange($price7Day[0][0],$coinID);
+    echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,".date("Y-m-d H:i:s", time()).",".$price1Hr[0][0].",".$price24Hr[0][0].",".$price7Day[0][0]).";";
+    coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$price1Hr[0][0],$price24Hr[0][0],$price7Day[0][0]);
   }
 
 }
