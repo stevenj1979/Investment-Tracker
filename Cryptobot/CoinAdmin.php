@@ -474,6 +474,20 @@ function getSpreadBetDataLoc(){
 return $tempAry;
 }
 
+function updateSpreadBetCoinHistory(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call RefreshSpreadBetCoins();";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+
 coinHistory(10);
 DeleteHistory(2500);
 checkSellSequence();
@@ -561,6 +575,7 @@ for ($w=0; $w<$coinLowSize; $w++){
 }
 
 updateCoinModeBuyPct();
+updateSpreadBetCoinHistory();
 
 ?>
 </html>
