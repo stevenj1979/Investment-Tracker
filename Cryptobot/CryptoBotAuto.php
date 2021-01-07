@@ -233,7 +233,13 @@ while($date <= $newTime){
       copyBuyHistory($coinID);
       copyWebTable($coinID);
       updateWebCoinStatsTable($coinID);
-      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()));
+      $price1Hr = get1HrChange($coinID);
+      $hr1Pct = (($bitPrice-$price1Hr[0][0])/$price1Hr[0][0])*100;
+      $price24Hr = get24HrChange($coinID);
+      $hr24Pct = (($bitPrice-$price24Hr[0][0])/$price24Hr[0][0])*100;
+      $price7Day = get7DayChange($coinID);
+      $d7Pct = (($bitPrice-$price7Day[0][0])/$price7Day[0][0])*100;
+      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
       //$Hr1Price = get1HrChange($coinID,$Hr1Date);
