@@ -166,7 +166,7 @@ while($date <= $newTime){
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26]; $liveCoinPrice = $coins[$x][17];
-    $secondstoUpdate = $coins[$x][35];
+    $secondstoUpdate = $coins[$x][35]; $Hr1Pct = $coins[$x][10]; $Hr24Pct = $coins[$x][13]; $D7Pct = $coins[$x][16];
     if ($firstTimeFlag){$timeAry[$coinID] = $coins[$x][36];}
     //LOG
     echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
@@ -233,13 +233,13 @@ while($date <= $newTime){
       copyBuyHistory($coinID);
       copyWebTable($coinID);
       updateWebCoinStatsTable($coinID);
-      $price1Hr = get1HrChange($coinID);
-      $hr1Pct = (($bitPrice-$price1Hr[0][0])/$price1Hr[0][0])*100;
-      $price24Hr = get24HrChange($coinID);
-      $hr24Pct = (($bitPrice-$price24Hr[0][0])/$price24Hr[0][0])*100;
-      $price7Day = get7DayChange($coinID);
-      $d7Pct = (($bitPrice-$price7Day[0][0])/$price7Day[0][0])*100;
-      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
+      //$price1Hr = get1HrChange($coinID);
+      //$hr1Pct = (($bitPrice-$price1Hr[0][0])/$price1Hr[0][0])*100;
+      //$price24Hr = get24HrChange($coinID);
+      //$hr24Pct = (($bitPrice-$price24Hr[0][0])/$price24Hr[0][0])*100;
+      //$price7Day = get7DayChange($coinID);
+      //$d7Pct = (($bitPrice-$price7Day[0][0])/$price7Day[0][0])*100;
+      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
       //$Hr1Price = get1HrChange($coinID,$Hr1Date);
