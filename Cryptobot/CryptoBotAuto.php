@@ -207,12 +207,12 @@ while($date <= $newTime){
       //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
       CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
       //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
-      //$price1Hr = get1HrChange($coinID);
-      //update1HrPriceChange($price1Hr[0][0],$coinID);
-      //$price24Hr = get24HrChange($coinID);
-      //update24HrPriceChange($price24Hr[0][0],$coinID);
-      //$price7Day = get7DayChange($coinID);
-      //update7DPriceChange($price7Day[0][0],$coinID);
+      $price1Hr = get1HrChange($coinID);
+      update1HrPriceChange($price1Hr[0][0],$coinID);
+      $price24Hr = get24HrChange($coinID);
+      update24HrPriceChange($price24Hr[0][0],$coinID);
+      $price7Day = get7DayChange($coinID);
+      update7DPriceChange($price7Day[0][0],$coinID);
       //updatePctChange($coinID,$price7Day[0][0],$price24Hr[0][0],$price1Hr[0][0]);
       //update24HrPriceChange($statsForCoin[0][3],$coinID);
       $bittrexStats = bittrexCoinStats($apikey,$apisecret,$symbol,$baseCurrency,$apiVersion);
@@ -240,7 +240,7 @@ while($date <= $newTime){
       //$price7Day = get7DayChange($coinID);
       //$d7Pct = (($bitPrice-$price7Day[0][0])/$price7Day[0][0])*100;
       //logAction("coinPriceHistory($coinID,$bitPrice,$baseCurrency,".date("Y-m-d H:i:s", time()).",$Hr1Pct,$Hr24Pct,$D7Pct); ",'CryptoBoyAuto', 1);
-      //coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
+      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
       //$Hr1Price = get1HrChange($coinID,$Hr1Date);

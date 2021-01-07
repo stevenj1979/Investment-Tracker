@@ -299,7 +299,7 @@ echo "EndTime ".date("Y-m-d H:i", time());
 //updateTotalProfit();
 //updateAllCoinRunningPrice();
 
-update1Hr_24Hr_7DPct();
+//update1Hr_24Hr_7DPct();
 
 ?>
 </html>
