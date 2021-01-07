@@ -439,7 +439,7 @@ function updateCoinModeBuyPct(){
 }
 
 function updateSpreadBetBuyPct(){
-  $SpreadBetAry = getSpreadBetData();
+  $SpreadBetAry = getSpreadBetDataLoc();
   $SpreadBetArySize = count($SpreadBetAry);
   for ($t=0; $t<$SpreadBetArySize; $t++){
     $spreadBetRuleID = $SpreadBetAry[$t][0];
@@ -461,7 +461,7 @@ function getCoinModeData(){
 return $tempAry;
 }
 
-function getSpreadBetData(){
+function getSpreadBetDataLoc(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID` FROM `SpreadBetCoinStatsView` ";
