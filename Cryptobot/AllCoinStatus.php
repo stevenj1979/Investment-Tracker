@@ -216,15 +216,17 @@ function update1Hr_24Hr_7DPct(){
     $coinID = $coins[$u][0]; $bitPrice = $coins[$u][17]; $baseCurrency = $coins[$u][26]; $newhr1_Pct = $coins[$u][10]; $newhr24_Pct = $coins[$u][13];
     $newd7_Pct = $coins[$u][16];
     $price1Hr = get1HrChange($coinID);
-    update1HrPriceChange($price1Hr[0][0],$coinID);
+    $tmpPrice = (($price1Hr[0][0]-$bitPrice)/$price1Hr[0][0])*100;
+    update1HrPriceChange($tmpPrice,$coinID);
     $price24Hr = get24HrChange($coinID);
-    update24HrPriceChange($price24Hr[0][0],$coinID);
+    $tmpPrice = (($price24Hr[0][0]-$bitPrice)/$price24Hr[0][0])*100;
+    update24HrPriceChange($tmpPrice,$coinID);
     $price7Day = get7DayChange($coinID);
-    update7DPriceChange($price7Day[0][0],$coinID);
-    $nDate = date("Y-m-d H:i:s", time()); $hr1_Pct = ($newhr1_Pct-$bitPrice)/$newhr1_Pct)*100; $hr24_Pct = ($newhr24_Pct-$bitPrice)/$newhr24_Pct)*100;
-    $d7_Pct = ($newd7_Pct-$bitPrice)/$newd7_Pct)*100;
-    echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$hr1_Pct,$hr24_Pct,$d7_Pct";
-    coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$hr1_Pct,$hr24_Pct,$d7_Pct);
+    $tmpPrice = (($price7Day[0][0]-$bitPrice)/$price7Day[0][0])*100;
+    update7DPriceChange($tmpPrice,$coinID);
+    $nDate = date("Y-m-d H:i:s", time()); 
+    echo "<BR> coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$newhr1_Pct,$newhr24_Pct,$newd7_Pct";
+    coinPriceHistory($coinID,$bitPrice,$baseCurrency,$nDate,$newhr1_Pct,$newhr24_Pct,$newd7_Pct);
   }
 
 }
