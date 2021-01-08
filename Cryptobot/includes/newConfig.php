@@ -3963,13 +3963,13 @@ function updateSpreadSell($spreadBetRuleID, $orderDate){
   logAction("updateSpreadSell: ".$sql, 'BuyCoin', 0);
 }
 
-function updateBuyTrend($coinID, $transactionID, $mode, $ID, $buyDate){
+function updateBuyTrend($coinID, $transactionID, $mode, $ID, $hr1, $hr24, $d7){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call UpdateBuyTrend($coinID, $transactionID, '$mode', $ID,'$buyDate',now());";
+  $sql = "call UpdateBuyTrend($coinID, $transactionID, '$mode', $ID,$hr1, $hr24, $d7);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -4007,8 +4007,8 @@ function updateBuyTrendHistorySB($coinID, $buyDate){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < '$buyDate' and `Price` =
-  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < '$buyDate' and `Price` <> 0.0)";
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` > '$buyDate' and `Price` =
+  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
