@@ -245,8 +245,8 @@ function updateBuyTrendLocal($coinID, $transactionID, $mode, $ID, $buyDate){
 
 //updateBuyTrendLocal(98, 9414, 'CoinMode', 53,'2021-01-02 22:02:41');
 $buyTrendPct = updateBuyTrendHistory(98,'2021-01-07 22:02:41');
-
-Echo "<BR> ".$buyTrendPct[0][0]." | ".$buyTrendPct[0][1]." | ".$buyTrendPct[0][2];
+$Hr1 = $buyTrendPct[0][0]; $Hr24 = $buyTrendPct[0][1]; $d7 = $buyTrendPct[0][2];
+Echo "<BR> $Hr1 | $Hr24 | $d7";
 
 ?>
 </html>
