@@ -3980,4 +3980,44 @@ function updateBuyTrend($coinID, $transactionID, $mode, $ID, $buyDate){
   $conn->close();
   logAction("updateBuyTrend: ".$sql, 'BuyCoin', 0);
 }
+
+function updateBuyTrendHistory($coinID, $buyDate){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` < $buyDate and `Price` =
+  (SELECT Min(`Price`) FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` < $buyDate and `Price` <> 0.0)";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateBuyTrendHistorySB($coinID, $buyDate){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < $buyDate and `Price` =
+  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < $buyDate and `Price` <> 0.0)";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>
