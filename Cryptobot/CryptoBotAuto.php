@@ -153,7 +153,7 @@ $coins = getTrackingCoins();
 $coinLength = Count($coins);
 $coinStr = getCoinList(getStats(),3);
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
-$historyFlag = False; $marketCapFlag = false; $marketCapStatsUpdateFlag = True;
+$historyFlag = True; $marketCapFlag = True; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;
 $bitPrice = 0.00;
 $apiVersion = 3;
