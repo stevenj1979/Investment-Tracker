@@ -802,10 +802,14 @@ while($completeFlag == False){
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
               if ($coinModeRule > 0){
                   //Update Coin ModeRule
-                  updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $orderDate);
+                  $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
+                  $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
+                  updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
               }else{
                   //Update Buy Rule
-                  updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $orderDate);
+                  $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
+                  $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
+                  updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
               }
             //}
 
@@ -1062,7 +1066,9 @@ while($completeFlag == False){
         echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
         updateSpreadSell($spreadBetRuleID,$orderDate);
-        updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $orderDate);
+        $buyTrendPct = updateBuyTrendHistorySB($coinID,$orderDate);
+        $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
+        updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
       }
     }
   }
