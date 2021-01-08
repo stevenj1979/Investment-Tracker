@@ -225,16 +225,25 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-$coinID = 84;
-$price1Hr = get1HrChange($coinID);
-echo "<BR> update1HrPriceChange(".$price1Hr[0][0].",$coinID);";
-update1HrPriceChange($price1Hr[0][0],$coinID);
-$price24Hr = get24HrChange($coinID);
-echo "<BR> update24HrPriceChange(".$price24Hr[0][0].",$coinID);";
-update24HrPriceChange($price24Hr[0][0],$coinID);
-$price7Day = get7DayChange($coinID);
-echo "<BR> update7DPriceChange(".round($price7Day[0][0],8).",$coinID);";
-update7DPriceChange($price7Day[0][0],$coinID);
+function updateBuyTrendLocal($coinID, $transactionID, $mode, $ID, $buyDate){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call UpdateBuyTrend($coinID, $transactionID, '$mode', $ID,'$buyDate',now());";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateBuyTrend: ".$sql, 'BuyCoin', 0);
+}
+
+updateBuyTrendLocal(98, 9414, 'CoinMode', 53,'2021-01-02 22:02:41');
 
 ?>
 </html>
