@@ -3990,7 +3990,7 @@ function updateBuyTrendHistory($coinID, $buyDate){
   $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > $buyDate and `Price` =
   (SELECT Min(`Price`) FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > $buyDate and `Price` <> 0.0)";
 
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
