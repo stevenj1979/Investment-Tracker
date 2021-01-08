@@ -3982,7 +3982,7 @@ function updateBuyTrend($coinID, $transactionID, $mode, $ID, $buyDate){
 }
 
 function updateBuyTrendHistory($coinID, $buyDate){
-  $conn = getSQLConn(rand(1,3));
+  $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -4002,7 +4002,7 @@ function updateBuyTrendHistory($coinID, $buyDate){
 }
 
 function updateBuyTrendHistorySB($coinID, $buyDate){
-  $conn = getSQLConn(rand(1,3));
+  $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
