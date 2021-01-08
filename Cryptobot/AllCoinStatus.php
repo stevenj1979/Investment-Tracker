@@ -218,7 +218,7 @@ function update1Hr_24Hr_7DPct(){
     $price1Hr = get1HrChange($coinID);
     //$tmpPrice = (($price1Hr[0][0]-$bitPrice)/$price1Hr[0][0])*100;
     $Hr1PriceTmp = $price1Hr[0][0];
-    Echo "<BR> update1HrPriceChange($Hr1PriceTmp,$coinID);"
+    Echo "<BR> update1HrPriceChange($Hr1PriceTmp,$coinID);";
     update1HrPriceChange($Hr1PriceTmp,$coinID);
     $price24Hr = get24HrChange($coinID);
     //$tmpPrice = (($price24Hr[0][0]-$bitPrice)/$price24Hr[0][0])*100;
