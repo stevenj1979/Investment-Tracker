@@ -3987,8 +3987,8 @@ function updateBuyTrendHistory($coinID, $buyDate){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > $buyDate and `Price` =
-  (SELECT Min(`Price`) FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > $buyDate and `Price` <> 0.0)";
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > '$buyDate' and `Price` =
+  (SELECT Min(`Price`) FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -4007,8 +4007,8 @@ function updateBuyTrendHistorySB($coinID, $buyDate){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < $buyDate and `Price` =
-  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < $buyDate and `Price` <> 0.0)";
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < '$buyDate' and `Price` =
+  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` < '$buyDate' and `Price` <> 0.0)";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
