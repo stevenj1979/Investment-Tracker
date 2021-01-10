@@ -104,7 +104,7 @@ function spreadBetSettingsUpdate(){
         $Hr24BuyPrice = $Hr24BuyPrice + 0.25;
         $D7BuyPrice = $D7BuyPrice + 0.25;
       }
-    }elseif ($nextReviewDate >= today()){
+    }elseif ($nextReviewDate <= today()){
         $resetFlag = True;
         if ($lowestPctProfit <= -9){
           //Lower 24 and 7D Pct to Buy
