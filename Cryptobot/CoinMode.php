@@ -97,7 +97,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleID = $coinAry[1];
       $buyPrice = $coinAry[9]; $livePrice = $coinAry[10]; $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13];
       $ruleIDSell = $coinAry[8]; $userID = $coinAry[14]; $modeID = $coinAry[15];
-      $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[19]; $d7Target = $coinAry[21];
+      $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[18]; $d7Target = $coinAry[20];
       $coinModeEmailsEnabled = $coinAry[23]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
       $minsToCancelBuy = $coinAry[28]; $coinModeBuyRuleEnabled = $coinAry[29];$coinModeSellRuleEnabled = $coinAry[30];
       $countForBuyMode = $coinAry[32]; $buyModeCount = $coinAry[33];
