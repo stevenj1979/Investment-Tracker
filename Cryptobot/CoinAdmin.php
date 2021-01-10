@@ -418,7 +418,10 @@ function updateCoinPct($coinID,$buyRuleID, $mode){
 function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call UpdateSpreadBetRules($coinID,$spreadBetRuleID,'$mode')";
+  $sql = "UPDATE `CoinModeRules` SET `Hr1Btm` = Get1HrPct($coinID,$spreadBetRuleID,'$mode'), `Hr1Top` = (Get1HrPct($coinID,$spreadBetRuleID,'$mode') + 0.8)
+  , `Hr24Btm` = -99.9, `Hr24Top` = Get24HrPct($coinID,$spreadBetRuleID,'$mode'), `D7Btm` = -99.9, `D7Top` = Get7DPct($coinID,$spreadBetRuleID,'$mode')
+  WHERE `CoinID` = $coinID and `RuleID` = $spreadBetRuleID; ";
+  //$sql = "call UpdateSpreadBetRules($coinID,$spreadBetRuleID,'$mode')";
   //print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
