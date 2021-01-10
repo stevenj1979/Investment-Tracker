@@ -106,7 +106,7 @@ function isBuyMode($coinAry, $minBuyAmount){
 
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-
+      Echo "<BR> 24 Hour Price Test: $pctInc24Hours | $hr24Target";
       if ($pctInc24Hours <= $hr24Target){ $t1 = True;}
       //7Day Price is down
       $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
