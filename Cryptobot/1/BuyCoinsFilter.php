@@ -239,7 +239,7 @@ function showMain(){
         $priceTrendEnabled = $buyRuleAry[0][38]; $Hr1ChangeTrendEnabled = $buyRuleAry[0][65]; $coinPricePatternEnabled = $buyRuleAry[0][63];
         $ruleID = $buyRuleAry[0][35]; $limitToCoinID = $buyRuleAry[0][55]; $limitToCoin = $buyRuleAry[0][52];
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-        echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a></h3>";
+        echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a> &nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins SpreadBet</a></h3>";
         //if($_SESSION['isMobile'] == False){
         $buyRulesIDAry = getBuyRulesIDs($_SESSION['ID']);
         Echo "<form action='BuyCoinsFilter.php?dropdown=Yes' method='post'><SELECT name='filterSelect'>";

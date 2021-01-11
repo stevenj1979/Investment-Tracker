@@ -187,7 +187,7 @@ displayHeader(3);
       $tracking = getTrackingCoins();
       $newArrLength = count($tracking);
 
-      echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a></h3>";
+      echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a> &nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins SpreadBet</a></h3>";
 
       for($x = 0; $x < $newArrLength; $x++) {
         //Variables
