@@ -212,7 +212,7 @@ $date = date('Y/m/d H:i:s', time());
         $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
-        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Sell Coins Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Sell Coins Spread Bet</a></h3>";
+        echo "<h3><a href='SellCoins_Mobile.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Sell Coins Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Sell Coins Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Sell Coins SpreadBet</a></h3>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
