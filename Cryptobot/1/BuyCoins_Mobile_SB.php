@@ -206,7 +206,7 @@ displayHeader(3);
         NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],0);
 
         $tdColour = setTextColour($Live1HrChange, False);
-        echo "<td><p id='normalText'>1H: ".$Live1HrChange."</p></td>";
+        echo "<td><p id='normalText'>1H: ".round($Live1HrChange,2)."</p></td>";
 
         echo "<td rowspan='2'><p id='normalText'>".$priceChange."</p></td>";
 
@@ -219,13 +219,13 @@ displayHeader(3);
         echo "</tr><tr>";
 
         NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],0);
-        NewEcho( "<td><p id='normalText'>24H: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+        NewEcho( "<td><p id='normalText'>24H: ".round($Live24HrChange,2)."</p></td>",$_SESSION['isMobile'],2);
 
         echo "</tr><tr>";
         $numCol = getNumberColour($priceDiff1);
         echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
         NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],0);
-        NewEcho( "<td><p id='normalText'>7D : ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+        NewEcho( "<td><p id='normalText'>7D : ".round($Live7DChange,2)."</p></td>",$_SESSION['isMobile'],2);
         NewEcho("<td><p id='normalText'>".$baseCurrency."</p></td>",$_SESSION['isMobile'],0);
       }//end for
       print_r("</tr></table>");
