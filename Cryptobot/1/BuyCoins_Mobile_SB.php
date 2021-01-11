@@ -62,10 +62,10 @@ if ($conn->connect_error) {
    //echo $sql.getHost();
 $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange']
-    ,$row['Last1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice']
-    ,$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency']
-  ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name']);
+    $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'] //8
+    ,$row['Last1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'] //17
+    ,$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'] //26
+  ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name']);  //31
 }
 $conn->close();
 return $tempAry;
@@ -189,26 +189,26 @@ displayHeader(3);
       //$roundNum = 2;
       for($x = 0; $x < $newArrLength; $x++) {
         //Variables
-        $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
+        $coin = $tracking[$x][31]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
         $Live1HrChange = round($tracking[$x][10],$num); $Live24HrChange = round($tracking[$x][13],$num); $Live7DChange = $tracking[$x][16];
         $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
         $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
         $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
         $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
         $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
-        $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
-        $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+        //$Hr1LivePriceChange = $tracking[$x][30];$Hr1LastPriceChange = $tracking[$x][29]; $Hr1PriceChange3 = $tracking[$x][28];$Hr1PriceChange4 = $tracking[$x][27];
+        //$new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
         $name = $tracking[$x][37]; $image = $tracking[$x][38];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
-      echo "<td><p id='smallText'>".$coin."</p></td>";
+        echo "<td><p id='smallText'>".$coin."</p></td>";
         echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
         NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],0);
 
         $tdColour = setTextColour($Live1HrChange, False);
         echo "<td><p id='normalText'>1: ".$Live1HrChange."</p></td>";
 
-        echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
+        echo "<td rowspan='2'><p id='normalText'>".$priceChange."</p></td>";
 
         NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],0);
         NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
