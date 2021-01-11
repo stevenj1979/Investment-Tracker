@@ -208,10 +208,10 @@ displayHeader(3);
         $tdColour = setTextColour($Live1HrChange, False);
         echo "<td><p id='normalText'>1H: ".round($Live1HrChange,2)."</p></td>";
 
-        echo "<td rowspan='2'><p id='normalText'>".$priceChange."</p></td>";
+
 
         NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],0);
-        NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
+        //NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
 
         NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
         NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
@@ -227,6 +227,7 @@ displayHeader(3);
         NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],0);
         NewEcho( "<td><p id='normalText'>7D : ".round($Live7DChange,2)."</p></td>",$_SESSION['isMobile'],2);
         NewEcho("<td><p id='normalText'>".$baseCurrency."</p></td>",$_SESSION['isMobile'],0);
+        echo "<td><p id='normalText'>".$priceChange."</p></td>";
       }//end for
       print_r("</tr></table>");
       Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
