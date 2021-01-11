@@ -223,11 +223,12 @@ displayHeader(3);
 
         echo "</tr><tr>";
         $numCol = getNumberColour($priceDiff1);
+        echo "<td><p id='normalText'>".$priceChange."</p></td>";
         echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
         NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],0);
         NewEcho( "<td><p id='normalText'>7D : ".round($Live7DChange,2)."</p></td>",$_SESSION['isMobile'],2);
         NewEcho("<td><p id='normalText'>".$baseCurrency."</p></td>",$_SESSION['isMobile'],0);
-        echo "<td><p id='normalText'>".$priceChange."</p></td>";
+
       }//end for
       print_r("</tr></table>");
       Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
