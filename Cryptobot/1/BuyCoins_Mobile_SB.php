@@ -202,11 +202,11 @@ displayHeader(3);
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'>$coin</a></td>"; //change
         //echo "<td><p id='smallText'>".$coin."</p></td>";
-        echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
+        echo "<td rowspan='2'><p id='largeText'>".$bitPrice."</p></td>";
         NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],0);
 
         $tdColour = setTextColour($Live1HrChange, False);
-        echo "<td><p id='normalText'>1: ".$Live1HrChange."</p></td>";
+        echo "<td><p id='normalText'>1H: ".$Live1HrChange."</p></td>";
 
         echo "<td rowspan='2'><p id='normalText'>".$priceChange."</p></td>";
 
