@@ -4020,4 +4020,22 @@ function updateBuyTrendHistorySB($coinID, $buyDate){
   $conn->close();
   return $tempAry;
 }
+
+function updateSpreadBetPctAmount($spreadBetRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` + 0.25) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` <= 15.0;";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetPctAmount: ".$sql, 'BuyCoin', 0);
+}
 ?>

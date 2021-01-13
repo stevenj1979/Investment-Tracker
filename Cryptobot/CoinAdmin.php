@@ -67,6 +67,21 @@ function getOpenTransactions(){
     return $tempAry;
 }
 
+function getOpenTransactionsSB(){
+    $tempAry = [];
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //$query = "SET time_zone = 'Asia/Dubai';";
+    //$result = $conn->query($query);
+    $sql = "SELECT `ID`, 'CoinID', `UserID`, datediff(`OrderDate`, now()) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID' FROM `SellCoinsSpreadGroupView`";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID']);}
+    $conn->close();
+    return $tempAry;
+}
+
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH){
     //set time
     setTimeZone();
@@ -299,6 +314,19 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
   $conn->close();
 }
 
+function subPctFromProfitSB($spreadBetRuleID,$pctToSub){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` - $pctToSub) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` >= 0.5;";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function getSecondaryRules(){
   $conn = getSQLConn(rand(1,3));
   $sql = "select `SecondarySellRules` from `CoinModeRules`";
@@ -490,6 +518,21 @@ function updateSpreadBetCoinHistory(){
   $conn->close();
 }
 
+function subPctFromOpenSpreadBetTransactions(){
+  $openTransSB = getOpenTransactionsSB();
+  $openTransSBSize = Count($openTransSB);
+
+  for ($l=0; $l<$openTransSBSize; $l++){
+    $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][0]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
+    if ($days >= 3){
+      if ($days % 2 == 0){
+          subPctFromProfitSB($spreadBetRuleID, 0.2);
+      }
+    }
+  }
+
+}
+
 
 coinHistory(10);
 DeleteHistory(2500);
@@ -579,6 +622,8 @@ for ($w=0; $w<$coinLowSize; $w++){
 
 updateCoinModeBuyPct();
 updateSpreadBetCoinHistory();
+
+subPctFromOpenSpreadBetTransactions();
 
 ?>
 </html>
