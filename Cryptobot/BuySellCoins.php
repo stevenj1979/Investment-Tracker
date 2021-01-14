@@ -800,21 +800,20 @@ while($completeFlag == False){
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
               addProfitToAllocation($userID, $profit,$allocationType);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
-
-              if ($coinModeRule > 0){
-                  //Update Coin ModeRule
-                  $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
-                  $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
-                  logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
-                  updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
+              if (is_null($coinModeRule)){
+                //Update Buy Rule
+                $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
+                $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
+                logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
+                updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
               }else{
-                  //Update Buy Rule
-                  $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
-                  $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
-                  logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
-                  updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
+                //Update Coin ModeRule
+                $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
+                $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
+                logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
+                updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
               }
-            //}
+
 
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             continue;
