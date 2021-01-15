@@ -1019,6 +1019,7 @@ while($completeFlag == False){
         $openCoins = getOpenSpreadCoins();
         $openCoinsSize = count($openCoins);
         for ($v=0; $v<$openCoinsSize; $v++){
+          Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
           if ($openCoins[$v][0] == $ID){ continue;}
         }
         //BuyCoins
