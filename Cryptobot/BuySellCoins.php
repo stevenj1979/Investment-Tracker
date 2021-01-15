@@ -688,7 +688,7 @@ while($completeFlag == False){
     $email = $BittrexReqs[$b][13]; $orderNo = $BittrexReqs[$b][14];$transactionID = $BittrexReqs[$b][15]; $totalScore = 0; $baseCurrency = $BittrexReqs[$b][16]; $ruleIDBTBuy = $BittrexReqs[$b][17];
     $sendEmail = 1; $daysOutstanding = $BittrexReqs[$b][18]; $timeSinceAction = $BittrexReqs[$b][19]; $coinID = $BittrexReqs[$b][20]; $ruleIDBTSell = $BittrexReqs[$b][21]; $orderDate = $BittrexReqs[$b][28];
     $liveCoinPriceBit = $BittrexReqs[$b][22]; $buyCancelTime = substr($BittrexReqs[$b][23],0,strlen($BittrexReqs[$b][23])-1); $sellFlag = false;
-    $coinModeRule = $BittrexReqs[$b][27];
+    $coinModeRule = $BittrexReqs[$b][27]; $pctToSave = $BittrexReqs[$b][29];
     $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
@@ -798,7 +798,8 @@ while($completeFlag == False){
               extendPctToBuy($coinID,$userID);
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
-              addProfitToAllocation($userID, $profit,$allocationType);
+              $pctToSave = $pctToSave / 100;
+              addProfitToAllocation($userID, $profit,$allocationType, $pctToSave);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
               if (is_null($coinModeRule)){
                 //Update Buy Rule
@@ -1063,7 +1064,7 @@ while($completeFlag == False){
         $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
         $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
-        $orderDate = $spreadSellCoins[$q][7];
+        $orderDate = $spreadSellCoins[$q][7]; $pctToSave = $spreadSellCoins[$q][55];
         $type = $spreadSellCoins[$q][1];
         echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
@@ -1072,6 +1073,13 @@ while($completeFlag == False){
         $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
         updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
         updateSpreadBetPctAmount($spreadBetRuleID);
+        $profitPct = ($LiveCoinPrice-$CoinPrice)/$CoinPrice*100;
+        $sellPrice = ($LiveCoinPrice*$Amount);
+        $buyPrice = $CoinPrice*$Amount;
+        $fee = (($sellPrice)/100)*0.25;
+        $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
+        $pctToSave = $pctToSave / 100;
+        addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave);
       }
     }
   }
