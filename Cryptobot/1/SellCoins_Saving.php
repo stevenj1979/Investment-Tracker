@@ -222,6 +222,7 @@ $date = date('Y/m/d H:i:s', time());
              $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
             $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
             $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35];
+            $sellRule = $trackingSell[$x][42]; $coinID = $trackingSell[$x][2];
             $priceDiff1 = $livePrice - $LastCoinPrice;
             $fee = (($livePrice* $amount)/100)*0.28;
             $liveTotalCost = ($livePrice * $amount);
@@ -240,7 +241,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='ManualSell.php?manSave=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
             //echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
             //echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
-
+            echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$sellRule&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
             NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
