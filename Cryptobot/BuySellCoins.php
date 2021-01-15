@@ -1020,7 +1020,7 @@ while($completeFlag == False){
         $openCoinsSize = count($openCoins);
         for ($v=0; $v<$openCoinsSize; $v++){
           Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
-          if ($openCoins[$v][0] == $ID){ continue;}
+          if ($openCoins[$v][0] == $ID){ continue 2;}
         }
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
