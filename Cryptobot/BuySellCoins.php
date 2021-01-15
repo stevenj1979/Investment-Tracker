@@ -1028,11 +1028,10 @@ while($completeFlag == False){
         //update Transaction to Spread
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
         updateSpreadBuy($ID);
+        //add new number in SpreadBetTransactions
+        if ($t == $spreadCoinsSize-1){newSpreadTransactionID($UserID,$spreadBetRuleID);}
       }
-      //add new number in SpreadBetTransactions
-      if ($t == $spreadCoinsSize-1){newSpreadTransactionID($UserID,$spreadBetRuleID);}
     }
-
   }
 
 
