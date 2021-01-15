@@ -1013,7 +1013,7 @@ while($completeFlag == False){
        $spreadBetToBuy = getCoinAllocation($UserID);
          $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
-        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1];
+        $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
         $openCoins = getOpenSpreadCoins();
@@ -1023,13 +1023,13 @@ while($completeFlag == False){
         }
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
-        //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
+        $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         //update Transaction to Spread
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
         updateSpreadBuy($ID);
       }
       //add new number in SpreadBetTransactions
-      if ($y == $spreadSize-1){newSpreadTransactionID($UserID);}
+      if ($t == $spreadCoinsSize-1){newSpreadTransactionID($UserID,$spreadBetRuleID);}
     }
 
   }
