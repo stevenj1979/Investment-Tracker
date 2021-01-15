@@ -1058,6 +1058,7 @@ while($completeFlag == False){
     }
     if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
+      echo "<BR> getSpreadCoinSellData($ID);";
       $spreadSellCoins = getSpreadCoinSellData($ID);
       $spreadSellCoinsSize = count($spreadSellCoins);
       echo "<BR> Sell Spread Coins | $spreadSellCoinsSize";
