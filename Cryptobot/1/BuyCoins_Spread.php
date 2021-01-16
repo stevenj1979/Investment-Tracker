@@ -214,7 +214,7 @@ displayHeader(3);
         $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
         $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
-        //$hr1Colour = getTargetColour($Live1HrChange,$hr1Target);
+        $hr1Colour = getTargetColour($Live1HrChange,$hr1Target);
         //$hr24Colour = getTargetColour($Live24HrChange,$hr24Target);
         //$d7Colour = getTargetColour($Live7DChange,$d7Target);
         $name = $tracking[$x][37]; $image = $tracking[$x][38];
@@ -225,7 +225,7 @@ displayHeader(3);
         NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
 
         $tdColour = setTextColour($Live1HrChange, False);
-        echo "<td><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
+        echo "<td $hr1Colour><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
 
         echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
 
