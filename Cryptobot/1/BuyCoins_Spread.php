@@ -135,6 +135,20 @@ logAction("$cnmkt",'CMC');
 return $tmpCoinPrice;
 }
 
+function getTargetColour($num, $target){
+  $fivePctTarget = ($num/100)*5;
+  $nColour = "style='background-color:LightGreen;'";
+  if ($num < ($target - $fivePctTarget)){
+    $nColour = "style='background-color:Crimson;'";
+  }
+  elseif ($num > ($target - $fivePctTarget)) {
+      if ($num < ($target + $fivePctTarget)){
+        $nColour = "style='background-color:DarkOrange;'";
+      }
+  }
+  return $nColour;
+}
+
 function bittrexCoinPriceLoc($apikey, $apisecret, $baseCoin, $coin){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
