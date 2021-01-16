@@ -166,13 +166,7 @@ $conn->close();
 return $tempAry;
 }
 
-function getTargetColour($num, $target){
-  $fivePctTarget = ($num/100)*5;
-  $nColour = "style='background-color:LightGreen;'";
-  if ($num < ($target - $fivePctTarget)){ $nColour = "style='background-color:Crimson;'";}
-  elseif ($num > ($target - $fivePctTarget) and ($num < ($target + $fivePctTarget)){$nColour = "style='background-color:DarkOrange;'";}
-  return $nColour;
-}
+
 
 displayHeader(3);
 
