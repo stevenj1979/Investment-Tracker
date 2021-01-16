@@ -135,16 +135,22 @@ logAction("$cnmkt",'CMC');
 return $tmpCoinPrice;
 }
 
-function getTargetColour($num, $target){
+function getTargetColour($num, $target,$mode){
   $fivePctTarget = ($num/100)*5;
   $nColour = "style='background-color:LightGreen;'";
-  if ($num < ($target - $fivePctTarget)){
-    $nColour = "style='background-color:Crimson;'";
-  }
-  elseif ($num > ($target - $fivePctTarget)) {
-      if ($num < ($target + $fivePctTarget)){
-        $nColour = "style='background-color:DarkOrange;'";
-      }
+  if ($mode == 2){
+    if ($num > ($target + $fivePctTarget)){
+      $nColour = "style='background-color:Crimson;'";
+    }
+    elseif ($num < ($target + $fivePctTarget)) {
+          $nColour = "style='background-color:DarkOrange;'";
+    }
+  }else{
+    if ($num > ($target - $fivePctTarget)){
+      $nColour = "style='background-color:DarkOrange;'";
+    }else{
+      $nColour = "style='background-color:Crimson;'";
+    }
   }
   return $nColour;
 }
@@ -214,9 +220,9 @@ displayHeader(3);
         $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
         $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
-        $hr1Colour = getTargetColour($Live1HrChange,$hr1Target);
-        //$hr24Colour = getTargetColour($Live24HrChange,$hr24Target);
-        //$d7Colour = getTargetColour($Live7DChange,$d7Target);
+        $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
+        $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
+        $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
         $name = $tracking[$x][37]; $image = $tracking[$x][38];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
@@ -238,13 +244,13 @@ displayHeader(3);
         echo "</tr><tr>";
         echo "<td><p id='smallText'>".$coin."</p></td>";
         NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
-        NewEcho( "<td><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+        NewEcho( "<td $hr24Colour><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
 
         echo "</tr><tr>";
         $numCol = getNumberColour($priceDiff1);
         echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
         NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
-        NewEcho( "<td><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+        NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
         echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
       }//end for
       print_r("</tr></table>");
