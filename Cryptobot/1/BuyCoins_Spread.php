@@ -206,9 +206,9 @@ displayHeader(3);
         $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
         $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
         $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
-        $hr1Colour = getTargetColour($Live1HrChange,$hr1Target);
-        $hr24Colour = getTargetColour($Live24HrChange,$hr24Target);
-        $d7Colour = getTargetColour($Live7DChange,$d7Target);
+        //$hr1Colour = getTargetColour($Live1HrChange,$hr1Target);
+        //$hr24Colour = getTargetColour($Live24HrChange,$hr24Target);
+        //$d7Colour = getTargetColour($Live7DChange,$d7Target);
         $name = $tracking[$x][37]; $image = $tracking[$x][38];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
