@@ -4004,14 +4004,14 @@ function updateBuyTrendHistory($coinID, $buyDate){
   return $tempAry;
 }
 
-function updateBuyTrendHistorySB($coinID, $buyDate){
+function updateBuyTrendHistorySB($spreadBetRuleID, $buyDate){
   $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` > '$buyDate' and `Price` =
-  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $coinID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
+  $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `PriceDate` > '$buyDate' and `Price` =
+  (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
