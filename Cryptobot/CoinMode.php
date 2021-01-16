@@ -109,8 +109,9 @@ function isBuyMode($coinAry, $minBuyAmount){
       Echo "<BR> 24 Hour Price Test: $pctInc24Hours | $hr24Target";
       if ($pctInc24Hours <= $hr24Target){ $t1 = True;}
       //7Day Price is down
-      $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
 
+      $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
+      echo "<BR> TEST 7D Price: $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;";
       if ($pctInc7Day <= $d7Target){ $t2 = True;}
       //Average is flat
       if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
