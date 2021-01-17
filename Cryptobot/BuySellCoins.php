@@ -1026,10 +1026,10 @@ while($completeFlag == False){
         }
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
-        $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
+        //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         //update Transaction to Spread
-        updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
-        updateSpreadBuy($ID);
+        //updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
+        //updateSpreadBuy($ID);
         //add new number in SpreadBetTransactions
         if ($t == $spreadCoinsSize-1){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
