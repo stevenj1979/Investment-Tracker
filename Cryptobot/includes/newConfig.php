@@ -3892,8 +3892,7 @@ function getOpenSpreadCoins(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Sbt`.`SpreadBetRuleID` as SpreadBetRuleID FROM `Transaction` `Tr`
-    join `SpreadBetTransactions` `Sbt` on `Sbt`.`ID` = `Tr`.`SpreadBetTransactionID`
+  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID FROM `Transaction` `Tr`
     WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending')";
   echo "<BR> $sql";
   $result = $conn->query($sql);
