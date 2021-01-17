@@ -1006,6 +1006,7 @@ while($completeFlag == False){
     if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
 
       //GetCoinData
+      echo "<BR> getSpreadCoinData($spreadBetTransID); ";
       $spreadCoins = getSpreadCoinData($spreadBetTransID);
       $spreadCoinsSize = count($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
@@ -1013,6 +1014,7 @@ while($completeFlag == False){
        $spreadBetToBuy = getCoinAllocation($UserID);
          $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       for ($t=0; $t<$spreadCoinsSize; $t++){
+        Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
@@ -1029,7 +1031,10 @@ while($completeFlag == False){
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
         updateSpreadBuy($ID);
         //add new number in SpreadBetTransactions
-        if ($t == $spreadCoinsSize-1){newSpreadTransactionID($UserID,$spreadBetRuleID);}
+        if ($t == $spreadCoinsSize-1){
+          echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
+          newSpreadTransactionID($UserID,$spreadBetRuleID);
+        }
       }
     }
   }
