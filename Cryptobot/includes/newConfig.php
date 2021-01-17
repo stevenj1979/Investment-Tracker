@@ -3894,7 +3894,7 @@ function getOpenSpreadCoins(){
 
   $sql = "SELECT `Sbt`.`SpreadBetRuleID` as SpreadBetRuleID FROM `Transaction` `Tr`
     join `SpreadBetTransactions` `Sbt` on `Sbt`.`ID` = `Tr`.`SpreadBetTransactionID`
-    WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`Status` in ('Open','Pending')";
+    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending')";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
