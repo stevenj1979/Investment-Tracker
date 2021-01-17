@@ -723,7 +723,7 @@ while($completeFlag == False){
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ logToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $logToSQLSetting);}
     if ($status == 1){
-      if ($type == "Buy" or $type == "Spread"){
+      if ($type == "Buy" or $type == "SpreadBuy"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
@@ -739,8 +739,9 @@ while($completeFlag == False){
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
           updateBuyAmount($transactionID,$resultOrd['quantity']);
-          if ($type == 'Spread'){updateToSpreadSell($transactionID);}
+          if ($type == 'SpreadBuy'){updateToSpreadSell($transactionID);}
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
+          //if ($type == "SpreadBuy"){ updateSpreadSell();}
           continue;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
