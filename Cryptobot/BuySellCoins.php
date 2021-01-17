@@ -1035,6 +1035,7 @@ while($completeFlag == False){
         if ($t == $spreadCoinsSize-1){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
           newSpreadTransactionID($UserID,$spreadBetRuleID);
+          LogToSQL("Admin","SpreadBet BuyCoin: $ID | $UserID",3,1);
         }
       }
     }
