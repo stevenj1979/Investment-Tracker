@@ -137,19 +137,19 @@ return $tmpCoinPrice;
 
 function getTargetColour($num, $target,$mode){
   $fivePctTarget = ($num/100)*5;
-  $nColour = "style='background-color:LightGreen;'";
+  $nColour = "style='background-color:LightGreen;color:DarkGreen;'";
   if ($mode == 2){
     if ($num > ($target + $fivePctTarget)){
-      $nColour = "style='background-color:Crimson;'";
+      $nColour = "style='background-color:Crimson;color:DarkRed;'";
     }
     elseif ($num < ($target + $fivePctTarget)) {
-          $nColour = "style='background-color:DarkOrange;'";
+          $nColour = "style='background-color:DarkOrange;color:DarkGoldenRod;'";
     }
   }else{
     if ($num > ($target - $fivePctTarget)){
-      $nColour = "style='background-color:DarkOrange;'";
+      $nColour = "style='background-color:DarkOrange;color:DarkGoldenRod;'";
     }else{
-      $nColour = "style='background-color:Crimson;'";
+      $nColour = "style='background-color:Crimson;color:DarkRed;'";
     }
   }
   return $nColour;
