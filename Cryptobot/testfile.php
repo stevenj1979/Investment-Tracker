@@ -204,7 +204,7 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //sellCoins("714f3f7873a2481c9f89b7c1f3801f2d", ,MKR, stevenj1979@gmail.com, 3, 0,2020-11-21 15:24:17, USDT,1,1, 11,stevenj1979,ORDMKR2020111714511551,0.09560156000000,552.0990000000,9200,96,0,0.000,552.0890000000)
 
 //$obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "MKR" ,0.09560156, 552.09900, "USDT", 3, False);
-$resultOrd = bittrexOrder($apiKey, $apiSecret, 'cc1c0a56-3c8b-412c-a334-435802381c6', 3);
+$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", 'cc1c0a56-3c8b-412c-a334-435802381c6', 3);
 //cc1c0a56-3c8b-412c-a334-435802381c6
 //b1498e92-872f-4631-9dbb-efd9aaaf3177
 var_dump($resultOrd);
