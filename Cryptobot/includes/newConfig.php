@@ -3837,14 +3837,14 @@ function getSpreadCoinSellData($ID){
   return $tempAry;
 }
 
-function newSpreadTransactionID($UserID){
+function newSpreadTransactionID($UserID, $spreadBetRuleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "Call NewSpreadBetTransaction($UserID);";
+    $sql = "Call NewSpreadBetTransaction($UserID,$spreadBetRuleID);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
