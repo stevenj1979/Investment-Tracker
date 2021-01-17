@@ -1005,7 +1005,12 @@ while($completeFlag == False){
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     Echo "<BR>1) $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice";
     if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
-
+      $openCoins = getOpenSpreadCoins();
+      $openCoinsSize = count($openCoins);
+      for ($v=0; $v<$openCoinsSize; $v++){
+        Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
+        if ($openCoins[$v][0] == $ID){ continue 2;}
+      }
       //GetCoinData
       echo "<BR> getSpreadCoinData($spreadBetTransID); ";
       $spreadCoins = getSpreadCoinData($spreadBetTransID);
@@ -1019,12 +1024,7 @@ while($completeFlag == False){
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
-        $openCoins = getOpenSpreadCoins();
-        $openCoinsSize = count($openCoins);
-        for ($v=0; $v<$openCoinsSize; $v++){
-          Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
-          if ($openCoins[$v][0] == $ID){ continue 2;}
-        }
+
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
