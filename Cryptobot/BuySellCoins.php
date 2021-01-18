@@ -1022,6 +1022,7 @@ while($completeFlag == False){
       for ($t=0; $t<$spreadCoinsSize; $t++){
         Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
+        $liveCoinPrice = $spreadCoins[$t][17];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
 
@@ -1036,7 +1037,10 @@ while($completeFlag == False){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
           newSpreadTransactionID($UserID,$spreadBetRuleID);
           LogToSQL("Admin","SpreadBet BuyCoin: $ID | $UserID",3,1);
+          UpdateProfit();
+
         }
+        subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID); 
       }
     }
   }
