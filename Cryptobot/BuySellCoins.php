@@ -1081,12 +1081,14 @@ while($completeFlag == False){
         $type = $spreadSellCoins[$q][1];
         echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
+        //newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);
+        //setTransactionPending($transactionID);
         updateSpreadSell($spreadBetRuleID,$orderDate);
         $buyTrendPct = updateBuyTrendHistorySB($spreadBetRuleID,$orderDate);
         $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
         updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
         if ($q == $spreadSellCoinsSize -1 ){
-            //updateSpreadBetPctAmount($spreadBetRuleID);
+            updateSpreadBetPctAmount($spreadBetRuleID);
         }
         $profitPct = ($LiveCoinPrice-$CoinPrice)/$CoinPrice*100;
         $sellPrice = ($LiveCoinPrice*$Amount);
