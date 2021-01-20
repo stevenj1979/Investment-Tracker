@@ -262,7 +262,7 @@ while($date <= $newTime){
   echo "<br> SLEEP START: ".date("Y-m-d H:i:s", time());
   $firstTimeFlag = False;
   $historyFlag = False; if ($marketCapStatsUpdateFlag == True) {$marketCapFlag = True;} else {$marketCapFlag = False;}
-  sleep(45);
+  sleep(30);
   //wait(10000000);
   echo "<br> SLEEP END: ".date("Y-m-d H:i:s", time());
   $pauseStart = date("Y-m-d H:i", time());
