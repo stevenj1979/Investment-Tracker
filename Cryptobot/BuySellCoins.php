@@ -800,7 +800,7 @@ while($completeFlag == False){
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
               $pctToSave = $pctToSave / 100;
-              addProfitToAllocation($userID, $profit,$allocationType, $pctToSave);
+              addProfitToAllocation($userID, $profit,$allocationType, $pctToSave, $coinID);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
               if (is_null($coinModeRule)){
                 //Update Buy Rule
@@ -1096,7 +1096,7 @@ while($completeFlag == False){
         $fee = (($sellPrice)/100)*0.25;
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $pctToSave = $pctToSave / 100;
-        addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave);
+        addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave,$CoinID);
       }
     }
   }

@@ -3856,7 +3856,7 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   logAction("newSpreadTransactionID: ".$sql, 'BuyCoin', 0);
 }
 
-function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct){
+function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct, $coinID){
   $savingUsdt = $totalProfit * $profitPct;
   $typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
@@ -3873,6 +3873,7 @@ function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct){
   }
 
   print_r($sql);
+  logToSQL("ProfitAllocation","$sql | $coinID",$UserID,1);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
