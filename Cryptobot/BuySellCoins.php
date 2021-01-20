@@ -1040,7 +1040,7 @@ while($completeFlag == False){
           UpdateProfit();
 
         }
-        subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID); 
+        subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
       }
     }
   }
@@ -1086,7 +1086,7 @@ while($completeFlag == False){
         $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
         updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
         if ($q == $spreadSellCoinsSize -1 ){
-            updateSpreadBetPctAmount($spreadBetRuleID);
+            //updateSpreadBetPctAmount($spreadBetRuleID);
         }
         $profitPct = ($LiveCoinPrice-$CoinPrice)/$CoinPrice*100;
         $sellPrice = ($LiveCoinPrice*$Amount);
