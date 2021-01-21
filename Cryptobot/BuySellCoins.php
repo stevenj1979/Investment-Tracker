@@ -1081,7 +1081,9 @@ while($completeFlag == False){
         $type = $spreadSellCoins[$q][1];
         echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
+        LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);",3,1);
         //newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);
+        LogToSQL("SpreadBetTest2","setTransactionPending($transactionID);",3,1);
         //setTransactionPending($transactionID);
         updateSpreadSell($spreadBetRuleID,$orderDate);
         $buyTrendPct = updateBuyTrendHistorySB($spreadBetRuleID,$orderDate);
