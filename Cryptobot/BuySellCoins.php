@@ -1092,6 +1092,7 @@ while($completeFlag == False){
         updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
         if ($q == $spreadSellCoinsSize -1 ){
             updateSpreadBetPctAmount($spreadBetRuleID);
+            UpdateProfit();
         }
         $profitPct = ($LiveCoinPrice-$CoinPrice)/$CoinPrice*100;
         $sellPrice = ($LiveCoinPrice*$Amount);
