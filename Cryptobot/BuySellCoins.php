@@ -742,6 +742,7 @@ while($completeFlag == False){
           if ($type == 'SpreadBuy'){updateToSpreadSell($transactionID);}
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
           //if ($type == "SpreadBuy"){ updateSpreadSell();}
+          UpdateProfit();
           continue;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
@@ -815,6 +816,7 @@ while($completeFlag == False){
                 logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
               }
+              UpdateProfit();
 
 
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
