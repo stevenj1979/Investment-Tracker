@@ -1073,6 +1073,7 @@ while($completeFlag == False){
       $spreadSellCoinsSize = count($spreadSellCoins);
       echo "<BR> Sell Spread Coins | $spreadSellCoinsSize";
       for ($q=0; $q<$spreadSellCoinsSize; $q++){
+        LogToSQL("SpreadBetTest3","profitPct :$profitPct | spreadBetPctProfitSell: $spreadBetPctProfitSell | ID: $ID;",3,1);
         $coin = $spreadSellCoins[$q][11];  $BaseCurrency =  $spreadSellCoins[$q][36]; $TransactionID = $spreadSellCoins[$q][0];
         $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
