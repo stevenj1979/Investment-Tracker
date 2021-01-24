@@ -3720,7 +3720,7 @@ function updateTransToSpread($transSpreadRuleID,$coinID, $userID,$spreadBetTrans
   }
 
     $sql = "Call UpdateTransToSpread($transSpreadRuleID,$coinID,$userID,$spreadBetTransID);";
-
+    LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -3762,7 +3762,7 @@ function updateToSpreadSell($transID){
   }
 
     $sql = "UPDATE `Transaction` SET `Type`= 'SpreadSell' WHERE  `ID` = $transID";
-
+    LogToSQL("updateToSpreadSell",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
