@@ -1035,7 +1035,7 @@ while($completeFlag == False){
         updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
         updateSpreadBuy($ID);
         //add new number in SpreadBetTransactions
-        if ($t == $spreadCoinsSize-1){
+        if ($t == $spreadCoinsSize-1 AND $spreadCoinsSize > 0){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
           newSpreadTransactionID($UserID,$spreadBetRuleID);
           LogToSQL("Admin","SpreadBet BuyCoin: $ID | $UserID",3,1);
@@ -1092,7 +1092,7 @@ while($completeFlag == False){
         $buyTrendPct = updateBuyTrendHistorySB($spreadBetRuleID,$orderDate);
         $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
         updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
-        if ($q == $spreadSellCoinsSize -1 ){
+        if ($q == $spreadSellCoinsSize -1 AND $spreadSellCoinsSize > 0){
             updateSpreadBetPctAmount($spreadBetRuleID);
             UpdateProfit();
         }
