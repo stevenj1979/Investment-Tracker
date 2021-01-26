@@ -3963,7 +3963,7 @@ function updateSpreadSell($spreadBetRuleID, $orderDate){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateSpreadSell: ".$sql, 'BuyCoin', 0);
+  //logAction("updateSpreadSell: ".$sql, 'BuyCoin', 0);
 }
 
 function updateBuyTrend($coinID, $transactionID, $mode, $ID, $hr1, $hr24, $d7){
