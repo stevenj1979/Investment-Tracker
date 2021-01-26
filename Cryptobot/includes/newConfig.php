@@ -2018,7 +2018,7 @@ function logToSQL($subject, $comments, $UserID, $enabled){
   if ($enabled == 1){
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "call LogToSQL($UserID,'$subject','$comments',300)";
+    $sql = "call LogToSQL($UserID,'$subject',"$comments",300)";
     print_r("<br>".$sql);
     if ($conn->query($sql) === TRUE) {echo "New record created successfully";
     } else {
