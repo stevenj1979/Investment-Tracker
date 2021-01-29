@@ -1063,9 +1063,11 @@ while($completeFlag == False){
     $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4]; $LiveCoinPriceTot = $sellSpread[$w][15];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54]; $captureTrend = $sellSpread[$w][57];
-    $purchasePrice = $CoinPriceTot * $TotAmount; $currentPrice = $LiveCoinPriceTot * $TotAmount;
+    $purchasePrice = $sellSpread[$w][59];
+    $currentPrice = $sellSpread[$w][60];
+    $profit = $sellSpread[$w][58];
     $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56]; $orderDate = $sellSpread[$w][6];
-    $profit = $currentPrice - $purchasePrice; $profitPct = ($profit/$purchasePrice)*100;
+    $profitPct = ($profit/$purchasePrice)*100;
     $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     //coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
