@@ -2016,7 +2016,7 @@ function logAction($log, $logFile, $enabled){
 
 function logToSQL($subject, $comments, $UserID, $enabled){
   if ($enabled == 1){
-    $comments = str_replace("'","/'",$comments);
+    //$comments = str_replace("'","/'",$comments);
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call LogToSQL($UserID,'$subject','$comments',300)";
