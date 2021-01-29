@@ -29,7 +29,7 @@ function getCoinsfromSQL($userID){
     $sql = "SELECT sum(`PurchasePrice`) as PurchasePrice,`Year`,`Month`,`Day`,sum(`SellPrice`) as SellPrice,Sum(`Fee`) as Fee,sum(`Profit`) as Profit,sum(`BTCProfit`)as BTCProfit,sum(`USDTProfit`) as USDTProfit,sum(`ETHProfit`) as ETHProfit
     ,sum(`USDProfit`) as USDProfit, `CompletionDate`
       FROM `CoinProfitView`
-      WHERE `UserID` = $userID and `Type` = 'Sell' and `Status` = 'Sold'
+      WHERE `UserID` = $userID and `Type` in ('Sell','SpreadSell') and `Status` = 'Sold'
       group by `Year`,`Month`,`Day`
       order by `CompletionDate` desc ";
     $result = $conn->query($sql);
@@ -195,7 +195,7 @@ displayHeader(5);
         //$pricelength = count($CoinPrice);
         //$btcPrice = getLiveCoinPriceUSD("BTC");
         //echo "<br><h2>Profit</h2>";
-        echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
+        echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='Profit_SpreadBet.php'>SpreadBet Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
         //echo "<HTML><Table><TH>Original Purchase Price</TH><TH>Sale Price</TH><TH>Fee</TH><TH>Profit BTC</TH><TH>Original Purchase Price USD</TH><TH>Sale Price USD</TH><TH>Fee USD</TH><TH>Profit USD</TH><TH>Year Sold</TH><TH>Month Sold</TH><TH>Day Sold</TH><TR>";
         tableHeader('Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold','Day Sold');
         for($x = 0; $x < $arrlength; $x++) {
