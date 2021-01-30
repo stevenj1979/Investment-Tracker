@@ -74,7 +74,7 @@ function getOpenTransactionsSB(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `ID`, 'CoinID', `UserID`, datediff(`OrderDate`, now()) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID' FROM `SellCoinsSpreadGroupView`";
+    $sql = "SELECT `ID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID' FROM `SellCoinsSpreadGroupView`";
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID']);}
