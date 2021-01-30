@@ -524,9 +524,11 @@ function subPctFromOpenSpreadBetTransactions(){
 
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][0]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
+    echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID";
     if ($days >= 3){
       if ($days % 2 == 0){
           subPctFromProfitSB($spreadBetRuleID, 0.2);
+          echo "<BR> subPctFromProfitSB($spreadBetRuleID, 0.2);";
       }
     }
   }
