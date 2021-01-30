@@ -863,6 +863,7 @@ while($completeFlag == False){
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
         if ($pctFromSale <= -3 or $pctFromSale >= 4){
+          if ($type == 'SpreadSell') { continue;}
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
