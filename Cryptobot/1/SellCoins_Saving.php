@@ -241,7 +241,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='ManualSell.php?manSave=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
             //echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
             //echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$sellRule&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
+            echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$transactionID&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
             NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
