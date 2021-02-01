@@ -54,6 +54,38 @@ function getCurrentMonthMinMax(){
 return $tempAry;
 }
 
+function getOpenTransactionsSB(){
+    $tempAry = [];
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //$query = "SET time_zone = 'Asia/Dubai';";
+    //$result = $conn->query($query);
+    $sql = "SELECT `ID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID' FROM `SellCoinsSpreadGroupView`";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID']);}
+    $conn->close();
+    return $tempAry;
+}
+
+function subPctFromOpenSpreadBetTransactions(){
+  $openTransSB = getOpenTransactionsSB();
+  $openTransSBSize = Count($openTransSB);
+
+  for ($l=0; $l<$openTransSBSize; $l++){
+    $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][0]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
+    echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID";
+    //if ($days >= 3){
+      //if ($days % 2 == 0){
+          subPctFromProfitSB($spreadBetRuleID, 0.01);
+          echo "<BR> subPctFromProfitSB($spreadBetRuleID, 0.01);";
+      //}
+    //}
+  }
+
+}
+
 function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -87,6 +119,8 @@ $minMaxPriceSize = count($minMaxPrice);
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
 }
+
+subPctFromOpenSpreadBetTransactions();
 
 ?>
 </html>

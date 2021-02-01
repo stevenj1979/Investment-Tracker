@@ -2016,7 +2016,7 @@ function logAction($log, $logFile, $enabled){
 
 function logToSQL($subject, $comments, $UserID, $enabled){
   if ($enabled == 1){
-    //$comments = str_replace("'","/'",$comments);
+    $comments = str_replace("'","/",$comments);
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call LogToSQL($UserID,'$subject','$comments',300)";
@@ -4031,7 +4031,7 @@ function updateSpreadBetPctAmount($spreadBetRuleID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` + 0.1) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` <= 15.0;";
+  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` + 0.24) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` <= 15.0;";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {

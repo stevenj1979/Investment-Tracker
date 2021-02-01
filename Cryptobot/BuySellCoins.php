@@ -1049,7 +1049,7 @@ while($completeFlag == False){
           LogToSQL("SpreadBetBuy","UpdateProfit();",3,1);
         }
         subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
-        LogToSQL("SpreadBetBuy","subUSDTBalance(\'USDT\', $BTCAmount,$liveCoinPrice, $userID);",3,1);
+        LogToSQL("SpreadBetBuy","subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);",3,1);
       }
     }
   }
@@ -1115,7 +1115,7 @@ while($completeFlag == False){
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $pctToSave = $pctToSave / 100;
         addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave,$CoinID);
-        LogToSQL("SpreadBetSell","addProfitToAllocation($UserID, $profit, \'SpreadBet\', $pctToSave,$CoinID);",3,1);
+        LogToSQL("SpreadBetSell","addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,1);
       }
     }
   }
