@@ -3644,7 +3644,7 @@ function extendPctToBuy($coinID, $userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "Call AddToPct($coinID,$userID, 0.25);";
+    $sql = "Call AddToPct($coinID,$userID, 0.24);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
