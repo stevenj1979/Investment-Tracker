@@ -301,19 +301,6 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
   $conn->close();
 }
 
-function subPctFromProfitSB($spreadBetRuleID,$pctToSub){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` - $pctToSub) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` >= 0.5;";
-  //print_r("<BR>".$sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}
-
 function getSecondaryRules(){
   $conn = getSQLConn(rand(1,3));
   $sql = "select `SecondarySellRules` from `CoinModeRules`";
