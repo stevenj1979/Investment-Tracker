@@ -994,6 +994,7 @@ while($completeFlag == False){
   }
   $spread = getSpreadBetData();
   $spreadSize = count($spread);
+  $noOfBuys = 2;
   echo "</blockquote>";
   echo "<BR> CHECK Spread Bet!! ";
   echo "<blockquote>";
@@ -1021,8 +1022,16 @@ while($completeFlag == False){
       $spreadCoinsSize = count($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
-      $spreadBetToBuy = getCoinAllocation($UserID);
-      $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
+      $openCoins = checkOpenSpreadBet($UserID);
+      $openCoinsSize = count($openCoins);
+      if ($openCoinsSize < $noOfBuys and $openCoinsSize > 0){
+        $spreadBetToBuy = getCoinAllocation($UserID);
+        $buyPerCoin = $spreadBetToBuy[0][0]/($noOfBuys - $openCoinsSize);
+        $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
+      }elseif ($openCoinsSize == 0){
+        $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
+      }else{$BTCAmount = 0;}
+
       LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,1);
       for ($t=0; $t<$spreadCoinsSize; $t++){
         Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";

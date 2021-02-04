@@ -3774,8 +3774,10 @@ function updateToSpreadSell($transID){
   logAction("updateToSpreadSell: ".$sql, 'BuyCoin', 0);
 }
 
-function getSpreadBetSellData(){
+function getSpreadBetSellData($ID = 0){
   $tempAry = [];
+  $whereClause = '';
+  if ($ID <> 0) { $whereClause = " Where `UserID` = $ID";}
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
@@ -3789,7 +3791,7 @@ function getSpreadBetSellData(){
   , `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`
   , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`PctProfitSell`
   ,`SpreadBetRuleID`,`CaptureTrend`,`Profit`,`PurchasePrice`,`LivePrice`
-  FROM `SellCoinsSpreadGroupView`";
+  FROM `SellCoinsSpreadGroupView` $whereClause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4041,5 +4043,29 @@ function updateSpreadBetPctAmount($spreadBetRuleID){
   }
   $conn->close();
   logAction("updateSpreadBetPctAmount: ".$sql, 'BuyCoin', 0);
+}
+
+function checkOpenSpreadBet($userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID FROM `Transaction` `Tr`
+    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID
+    group by `Tr`.`SpreadBetRuleID` ";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['SpreadBetRuleID']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 ?>
