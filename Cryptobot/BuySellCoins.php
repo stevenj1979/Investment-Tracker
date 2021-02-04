@@ -1024,12 +1024,13 @@ while($completeFlag == False){
       //How much to buy
       $openCoins = checkOpenSpreadBet($UserID);
       $openCoinsSize = count($openCoins);
-      if ($openCoinsSize < $noOfBuys and $openCoinsSize > 0){
+      $availableTrans = $noOfBuys - $openCoinsSize;
+      if ($openCoinsSize < $noOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
         $buyPerCoin = $spreadBetToBuy[0][0]/($noOfBuys - $openCoinsSize);
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
-      }elseif ($openCoinsSize == 0){
-        $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
+      //}elseif ($availableTrans == 0){
+      //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       }else{$BTCAmount = 0;}
 
       LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,1);
