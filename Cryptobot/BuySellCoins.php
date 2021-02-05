@@ -1031,7 +1031,7 @@ while($completeFlag == False){
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
-      }else{$BTCAmount = 0;}
+      }else{$BTCAmount = 1;}
 
       LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,1);
       for ($t=0; $t<$spreadCoinsSize; $t++){
