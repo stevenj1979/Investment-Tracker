@@ -10,6 +10,7 @@ $logToFileSetting = getLogToFile();
 
 function getPrice(){
   $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `CoinID`,`MaxLivePrice`,`Max15MinsPrice`,`Max30MinsPrice`,`Max45MinsPrice`,`Max60MinsPrice`,`Max75MinsPrice`,`MinLivePrice`
   ,`Min15MinsPrice`,`Min30MinsPrice`,`Min45MinsPrice`,`Min60MinsPrice`,`Min75MinsPrice` FROM `PriceProjectionView` ";
@@ -25,6 +26,7 @@ return $tempAry;
 
 function getPricePctIncrease(){
   $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `CoinID`,`OneHourPricePct`,`TwentyFourHourPricePct`,`SevenDayPricePct`,`PriceDate`,`TenMinsPricePct`,`TwentyMinsPricePct`,`ThirtyMinsPricePct`
   FROM `CoinPricePctIncrease`";
@@ -54,6 +56,7 @@ function writePrice($coinID, $maxPrice1,$maxPrice2,$maxPrice3,$maxPrice4,$maxPri
 
 function getCoins(){
   $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
   //echo "<BR>".$sql;
@@ -115,6 +118,7 @@ function writePctIncrease($coinID, $price1, $price2, $price3,$date, $price4,$pri
 
 function getPriceMatchID(){
   $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `UserID`,`ID`,`BuySell` FROM `PriceProjectionUpdate`";
   //echo "<BR>".$sql;
@@ -126,19 +130,7 @@ function getPriceMatchID(){
 return $tempAry;
 }
 
-//$coin = getCoins();
-//$coinSize = count($coin);
-//$priceMatch = getPriceMatchID();
-//$priceMatchSize = Count($priceMatch);
-//$tempAry = getPrice(84,0,15,True);
-//echo "<br>".$tempAry[0][0];
-//writePrice(84,$tempAry[0][0],True);
-//$tempAry2 = getPrice(84,0,15,False);
-//echo "<br>".$tempAry2[0][0];
-//writePrice(84,$tempAry2[0][0],False);
-//for ($j=0; $j<$coinSize; $j++){
-  //for ($i=1; $i<$priceMatchSize; $i++){
-    //$lastNum = ($i-1)*15;
+
     $coinPrices = getPrice();
     $coinPricesSize = Count($coinPrices);
 
@@ -148,23 +140,7 @@ return $tempAry;
       ,$coinPrices[$i][8],$coinPrices[$i][9],$coinPrices[$i][10],$coinPrices[$i][11],$coinPrices[$i][12]);
 
     }
-    //writePrice($coin[$j][0],$tempAry[0][0],True,"`".$lastNum."Min`");
-    //$tempAry2 = getPrice($coin[$j][0],$lastNum,($i*15),False);
-  //  writePrice($coin[$j][0],$tempAry2[0][0],False,"`".$lastNum."Min`");
-    //for ($k=0; $k<$priceMatchSize; $k++){
-    //  if ($priceMatch[$k][2] == "Buy"){
-    //    addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1],$priceMatch[$k][2]);
-    //    echo "BUY: addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].",".$priceMatch[$k][2].");";
-    //  }else{
-    //    $newPrice = $tempAry[0][0]*10;
-    //    addpricePatterntoSQL($coin[$j][0],$tempAry[0][0],$tempAry2[0][0],$priceMatch[$k][0],$priceMatch[$k][1],$priceMatch[$k][2]);
-    //    echo "Sell: addpricePatterntoSQL(".$coin[$j][0].",".$tempAry[0][0].",".$tempAry2[0][0].",".$priceMatch[$k][0].",".$priceMatch[$k][1].",".$priceMatch[$k][2].");";
-    //  }
 
-    //}
-
-  //}
-//}
 $coinPricePct = getPricePctIncrease();
 $coinPricePctSize = count($coinPricePct);
 for ($i=0; $i<$coinPricePctSize; $i++){
