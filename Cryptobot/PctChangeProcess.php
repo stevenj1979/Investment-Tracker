@@ -97,12 +97,12 @@ for ($i=0; $i<$coinCount; $i++){
       $coinID = $coins[$i][0];
     //Get Prices from History
     $Hr1Price = get1HrPrice($coinID);
-    echo "<BR> get1HrPrice($coinID); $Hr1Price";
+    echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0];
     //Check if 0
     if (is_null($Hr1Price)){
 
     }else{
-      $price = $Hr1Price;
+      $price = $Hr1Price[0];
     }
 
     //Write to PricePctChangeHistory
