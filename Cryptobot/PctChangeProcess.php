@@ -45,14 +45,15 @@ function getSymbols(){
   return $tempAry;
 }
 
-function get1HrPrice($coinID){
+function getPrice($coinID, $t1, $t2){
   $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price` from `PriceHistory`
-where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 55 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 65 minute))) and `CoinID` = $coinID
+where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t1 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t2 minute))) and `CoinID` = $coinID
 group by `PriceHistory`.`CoinID`
 order by `PriceHistory`.`CoinID` desc ";
 
@@ -67,55 +68,14 @@ order by `PriceHistory`.`CoinID` desc ";
   return $tempAry;
 }
 
-function get24HrPrice($coinID){
+
+function writePctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min){
   $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price`
-from `PriceHistory` where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 1415 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 1445 minute))) and `CoinID` = $coinID
-group by `PriceHistory`.`CoinID` order by `PriceHistory`.`CoinID` desc ";
-
-  //echo "<BR> $sql";
-  $result = $conn->query($sql);
-  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['Price']);
-  }
-  $conn->close();
-  return $tempAry;
-}
-
-function get7DPrice($coinID){
-  $conn = getHistorySQL(rand(1,4));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price` from `PriceHistory`
-where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 10000 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 10500 minute))) and `CoinID` = $coinID
-group by `PriceHistory`.`CoinID` order by `PriceHistory`.`CoinID` desc ";
-
-  //echo "<BR> $sql";
-  $result = $conn->query($sql);
-  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['Price']);
-  }
-  $conn->close();
-  return $tempAry;
-}
-
-function writePctPrices($coinID, $price1Hr, $price24Hr, $price7D){
-  $conn = getHistorySQL(rand(1,4));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "call AddPctPrices($coinID, $price1Hr, $price24Hr, $price7D);";
+  $sql = "call AddPctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -161,7 +121,7 @@ for ($i=0; $i<$coinCount; $i++){
     //variables
     $coinID = $coins[$i][0];
     //Get Prices from History
-    $Hr1Price = get1HrPrice($coinID);
+    $Hr1Price = getPrice($coinID, 55, 65);
     echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
 
     //Check if 0
@@ -177,7 +137,7 @@ for ($i=0; $i<$coinCount; $i++){
       $price1Hr = $Hr1Price[0][1];
     }
 
-    $Hr24Price = get24HrPrice($coinID);
+    $Hr24Price = getPrice($coinID, 1415, 1445);
     if (is_null($Hr24Price[0][1])){
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
@@ -190,7 +150,7 @@ for ($i=0; $i<$coinCount; $i++){
       $price24Hr = $Hr24Price[0][1];
     }
 
-    $D7Price = get7DPrice($coinID);
+    $D7Price = getPrice($coinID, 10000, 10500);
     if (is_null($D7Price[0][1])){
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
@@ -202,9 +162,58 @@ for ($i=0; $i<$coinCount; $i++){
     }else{
       $price7D = $D7Price[0][1];
     }
-    
+
+    $Min15Price = getPrice($coinID, 10, 20);
+    if (is_null($Min15Price[0][1])){
+       $CMCStats = getCMCstats($CMCStats, $coinStr);
+       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+       $price15Min = $tempPrice[0][3];
+    }elseif ($Min15Price[0][1] == 0){
+      $CMCStats = getCMCstats($CMCStats, $coinStr);
+      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+      $price15Min = $tempPrice[0][3];
+    }else{
+      $price15Min = $Min15Price[0][1];
+    }
+
+    $Min30Price = getPrice($coinID, 25, 35);
+    if (is_null($Min30Price[0][1])){
+       $CMCStats = getCMCstats($CMCStats, $coinStr);
+       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+       $price30Min = $tempPrice[0][3];
+    }elseif ($Min30Price[0][1] == 0){
+      $CMCStats = getCMCstats($CMCStats, $coinStr);
+      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+      $price30Min = $tempPrice[0][3];
+    }else{
+      $price30Min = $Min30Price[0][1];
+    }
+    $Min45Price = getPrice($coinID, 40, 50);
+    if (is_null($Min45Price[0][1])){
+       $CMCStats = getCMCstats($CMCStats, $coinStr);
+       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+       $price45Min = $tempPrice[0][3];
+    }elseif ($Min45Price[0][1] == 0){
+      $CMCStats = getCMCstats($CMCStats, $coinStr);
+      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+      $price45Min = $tempPrice[0][3];
+    }else{
+      $price45Min = $Min45Price[0][1];
+    }
+    $Min75Price = getPrice($coinID, 70, 80);
+    if (is_null($Min75Price[0][1])){
+       $CMCStats = getCMCstats($CMCStats, $coinStr);
+       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+       $price75Min = $tempPrice[0][3];
+    }elseif ($Min75Price[0][1] == 0){
+      $CMCStats = getCMCstats($CMCStats, $coinStr);
+      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+      $price75Min = $tempPrice[0][3];
+    }else{
+      $price75Min = $Min75Price[0][1];
+    }
     //Write to PricePctChangeHistory
-    writePctPrices($coinID, $price1Hr, $price24Hr, $price7D);
+    writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min);
     echo "<BR> write1HrPrice($coinID, $price1Hr, $price24Hr, $price7D);";
 }
 
