@@ -102,7 +102,7 @@ for ($i=0; $i<$coinCount; $i++){
     if (is_null($Hr1Price)){
 
     }else{
-      $price = $Hr1Price
+      $price = $Hr1Price;
     }
 
     //Write to PricePctChangeHistory
