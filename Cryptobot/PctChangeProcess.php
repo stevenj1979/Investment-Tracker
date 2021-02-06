@@ -88,6 +88,7 @@ function writePctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $
 
 function getCMCstats($CMCStats, $coinStr){
   if (empty($CMCStats)){
+    Echo "<BR> CMC Array Empty: Running | $coinStr";
     $CMCStats = newCoinMarketCapStats($coinStr);
   }
   return $CMCStats;
