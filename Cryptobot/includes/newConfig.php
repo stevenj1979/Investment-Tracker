@@ -3258,6 +3258,7 @@ function getCoinPriceMatchNames($userID, $table, $limit){
 
 function getTotalProfit(){
   $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
