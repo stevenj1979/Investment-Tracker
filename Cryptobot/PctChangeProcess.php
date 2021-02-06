@@ -165,7 +165,7 @@ for ($i=0; $i<$coinCount; $i++){
     echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
 
     //Check if 0
-    if (is_null($Hr1Price[0][1])){
+    if (is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price1Hr = $tempPrice[0][2];
@@ -173,7 +173,7 @@ for ($i=0; $i<$coinCount; $i++){
       $price1Hr = $Hr1Price[0][1];
     }
     $Hr24Price = get24HrPrice($coinID);
-    if (is_null($Hr24Price[0][1])){
+    if (is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hr = $tempPrice[0][3];
@@ -182,7 +182,7 @@ for ($i=0; $i<$coinCount; $i++){
     }
 
     $D7Price = get7DPrice($coinID);
-    if (is_null($D7Price[0][1])){
+    if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price7D = $tempPrice[0][3];
