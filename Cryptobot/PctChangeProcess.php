@@ -91,12 +91,13 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
 $coins = getSymbols();
 $coinCount = count($coins);
-
+Echo "<BR> Symbols Count:$coinCount ";
 for ($i=0; $i<$coinCount; $i++){
     //variables
       $coinID = $coins[$i][0];
     //Get Prices from History
     $Hr1Price = get1HrPrice($coinID);
+    echo "<BR> get1HrPrice($coinID); $Hr1Price";
     //Check if 0
     if (is_null($Hr1Price)){
 
@@ -106,6 +107,7 @@ for ($i=0; $i<$coinCount; $i++){
 
     //Write to PricePctChangeHistory
     write1HrPrice($coinID, $price);
+    echo "<BR> write1HrPrice($coinID, $price);";
 }
 
 ?>
