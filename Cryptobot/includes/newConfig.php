@@ -3282,10 +3282,12 @@ function getTotalProfit(){
 }
 
 function findUserProfit($userProfit, $userID){
-  $userProfitSize = count($userProfit);
-  for ($i=0; $i<$userProfitSize; $i++){
-    if ($userProfit[$i][4] == $userID){
-      return $userProfit[$i][3];
+  if (!is_null($userProfit)){
+    $userProfitSize = count($userProfit);
+    for ($i=0; $i<$userProfitSize; $i++){
+      if ($userProfit[$i][4] == $userID){
+        return $userProfit[$i][3];
+      }
     }
   }
 }
