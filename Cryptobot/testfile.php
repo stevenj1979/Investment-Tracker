@@ -228,6 +228,15 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
+$symbol = 'ZEC';
+$coinStr = getCoinList(getStats(),3);
+
+echo "<BR> $coinStr";
+
+$CMCStats = newCoinMarketCapStats($coinStr);
+
+$statsForCoin = findCoinStats($CMCStats,$symbol);
+
 
 
 ?>
