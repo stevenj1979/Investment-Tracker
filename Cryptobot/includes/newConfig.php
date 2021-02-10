@@ -3482,7 +3482,7 @@ function setTransStatus($status,$transID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status` = $status WHERE `ID` = $transID";
+  $sql = "UPDATE `Transaction` SET `Status` = '$status' WHERE `ID` = $transID";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
