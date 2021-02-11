@@ -774,6 +774,7 @@ function getCMCID($symbol){
 
 function newCoinMarketCapStats($coinMarketID){
   //$coinMarketID = getCMCID($symbol);
+  echo "<BR> Getting CMC Stats";
   $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
   $parameters = [
     'id' => $coinMarketID
