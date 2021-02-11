@@ -127,10 +127,12 @@ for ($i=0; $i<$coinCount; $i++){
 
     //Check if 0
     if (is_null($Hr1Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price1Hr = $tempPrice[0][2];
     }elseif ($Hr1Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hr = $tempPrice[0][2];
@@ -140,10 +142,12 @@ for ($i=0; $i<$coinCount; $i++){
 
     $Hr24Price = getPrice($coinID, 1415, 1445);
     if (is_null($Hr24Price[0][1])){
+      echo "<BR> IS NULL";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hr = $tempPrice[0][3];
     }elseif ($Hr24Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hr = $tempPrice[0][3];
@@ -153,10 +157,12 @@ for ($i=0; $i<$coinCount; $i++){
 
     $D7Price = getPrice($coinID, 10000, 10500);
     if (is_null($D7Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price7D = $tempPrice[0][3];
     }elseif ($D7Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price7D = $tempPrice[0][3];
@@ -166,10 +172,12 @@ for ($i=0; $i<$coinCount; $i++){
 
     $Min15Price = getPrice($coinID, 10, 20);
     if (is_null($Min15Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price15Min = $tempPrice[0][3];
     }elseif ($Min15Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price15Min = $tempPrice[0][3];
@@ -179,10 +187,12 @@ for ($i=0; $i<$coinCount; $i++){
 
     $Min30Price = getPrice($coinID, 25, 35);
     if (is_null($Min30Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price30Min = $tempPrice[0][3];
     }elseif ($Min30Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price30Min = $tempPrice[0][3];
@@ -191,10 +201,12 @@ for ($i=0; $i<$coinCount; $i++){
     }
     $Min45Price = getPrice($coinID, 40, 50);
     if (is_null($Min45Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price45Min = $tempPrice[0][3];
     }elseif ($Min45Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price45Min = $tempPrice[0][3];
@@ -203,10 +215,12 @@ for ($i=0; $i<$coinCount; $i++){
     }
     $Min75Price = getPrice($coinID, 70, 80);
     if (is_null($Min75Price[0][1])){
+      echo "<BR> IS NULL";
        $CMCStats = getCMCstats($CMCStats, $coinStr);
        $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        $price75Min = $tempPrice[0][3];
     }elseif ($Min75Price[0][1] == 0){
+      echo "<BR> IS ZERO";
       $CMCStats = getCMCstats($CMCStats, $coinStr);
       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price75Min = $tempPrice[0][3];
