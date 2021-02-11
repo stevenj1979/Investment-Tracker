@@ -278,6 +278,8 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinMode.php"> Coin Mode </a> every 5 mins
              <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/PctChangeProcess.php"> PCT Change Process </a> every 5 mins
+             <br>
 
 <?php
   displaySideColumn();
