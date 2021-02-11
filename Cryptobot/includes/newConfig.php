@@ -750,7 +750,7 @@ function getCoinMarketCapStats(){
       $fgc = json_decode(file_get_contents($cnmkt), true);
       for($i=0;$i<$limit;$i++){
         //echo "<br> : ".$fgc[$i]["symbol"]." : ".$fgc[$i]["market_cap_usd"];
-          $tmpCoinPrice[] = Array($fgc[$i]["symbol"],$fgc[$i]["market_cap_usd"],$fgc[$i]["percent_change_1h"],$fgc[$i]["percent_change_24h"],$fgc[$i]["percent_change_7d"]);
+          $tmpCoinPrice[] = Array($fgc[$i]["symbol"],$fgc[$i]["market_cap_usd"],$fgc[$i]["percent_change_1h"],$fgc[$i]["percent_change_24h"],$fgc[$i]["percent_change_7d"],$fgc[$i]["percent_change_30d"],$fgc[$i]["id"]);
       }
       $start = $start + $limit + 1;
     }
@@ -812,7 +812,7 @@ function newCoinMarketCapStats($coinMarketID){
     $tempId = (Int)$coin[$i];
     echo "<BR> ".$temp['data'][$tempId]['symbol'];
     $tmpCMCAry[] = Array($temp['data'][$tempId]['symbol'],$temp['data'][$tempId]['quote']['USD']['market_cap'],$temp['data'][$tempId]['quote']['USD']['percent_change_1h'],
-    $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d']);
+    $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d'],$temp['data'][$tempId]['quote']['USD']['percent_change_30d'],$temp['data'][$tempId]['id']);
   }
 
   //echo "<BR> ".$temp['data'][52]['symbol'];

@@ -29,6 +29,24 @@ function timerReady($start, $seconds){
 
 }
 
+function saveCMCtoSQL($CMCID, $Hr1, $Hr24, $D7, $D30){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call addCMCData($CMCID, $Hr1, $Hr24, $D7, $D30);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("saveCMCtoSQL: ".$sql, 'BuyCoin', 0);
+}
+
 function getUserVariables(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -195,7 +213,18 @@ while($date <= $newTime){
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
-      if ($marketCapStatsUpdateFlag == True){$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);}
+      if ($marketCapStatsUpdateFlag == True){
+        $CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
+        $CMCStatsSize = count($CMCStats);
+        for ($k=0; $k<$CMCStatsSize; $k++){
+          $CMCID = $CMCStats[$k][6];
+          $Hr1P = $CMCStats[$k][2];
+          $Hr24P = $CMCStats[$k][3];
+          $D7P = $CMCStats[$k][4];
+          $D30P = $CMCStats[$k][5];
+          saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);
+        }
+      }
       //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       //echo "<br> Count=".count($CMCStats);
