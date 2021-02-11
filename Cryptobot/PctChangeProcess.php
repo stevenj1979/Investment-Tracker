@@ -109,6 +109,27 @@ function findCoinStats($CMCStats, $symbol){
   return $tempStats;
 }
 
+function getCMCPriceFromSQL($coinID, $column){
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `$column` FROM `CMCData` WHERE `CoinID` = $coinID";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row[$column]);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 
 $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
@@ -126,107 +147,48 @@ for ($i=0; $i<$coinCount; $i++){
     echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
 
     //Check if 0
-    if (is_null($Hr1Price[0][1])){
+    if (is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
       echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price1Hr = $tempPrice[0][2];
-    }elseif ($Hr1Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price1Hr = $tempPrice[0][2];
+       //$CMCStats = getCMCstats($CMCStats, $coinStr);
+       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+       //$price1Hr = $tempPrice[0][2];
+    //}elseif ($Hr1Price[0][1] == 0){
+      //echo "<BR> IS ZERO";
+      //$CMCStats = getCMCstats($CMCStats, $coinStr);
+      //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
+      $price1Hr = getCMCPriceFromSQL($coinID, '1HrPrice');
     }else{
       $price1Hr = $Hr1Price[0][1];
     }
 
     $Hr24Price = getPrice($coinID, 1415, 1445);
-    if (is_null($Hr24Price[0][1])){
+    if (is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
       echo "<BR> IS NULL";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price1Hr = $tempPrice[0][3];
-    }elseif ($Hr24Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price1Hr = $tempPrice[0][3];
+      $price24Hr = getCMCPriceFromSQL($coinID, '24HrPrice');
     }else{
       $price24Hr = $Hr24Price[0][1];
     }
 
     $D7Price = getPrice($coinID, 10000, 10500);
-    if (is_null($D7Price[0][1])){
+    if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price7D = $tempPrice[0][3];
-    }elseif ($D7Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price7D = $tempPrice[0][3];
+      $price7D = getCMCPriceFromSQL($coinID, '7DPrice');
     }else{
       $price7D = $D7Price[0][1];
     }
 
     $Min15Price = getPrice($coinID, 10, 20);
-    if (is_null($Min15Price[0][1])){
-      echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price15Min = $tempPrice[0][3];
-    }elseif ($Min15Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price15Min = $tempPrice[0][3];
-    }else{
-      $price15Min = $Min15Price[0][1];
-    }
+    $price15Min = $Min15Price[0][1];
 
     $Min30Price = getPrice($coinID, 25, 35);
-    if (is_null($Min30Price[0][1])){
-      echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price30Min = $tempPrice[0][3];
-    }elseif ($Min30Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price30Min = $tempPrice[0][3];
-    }else{
-      $price30Min = $Min30Price[0][1];
-    }
+    $price30Min = $Min30Price[0][1];
+
     $Min45Price = getPrice($coinID, 40, 50);
-    if (is_null($Min45Price[0][1])){
-      echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price45Min = $tempPrice[0][3];
-    }elseif ($Min45Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price45Min = $tempPrice[0][3];
-    }else{
-      $price45Min = $Min45Price[0][1];
-    }
+    $price45Min = $Min45Price[0][1];
+
     $Min75Price = getPrice($coinID, 70, 80);
-    if (is_null($Min75Price[0][1])){
-      echo "<BR> IS NULL";
-       $CMCStats = getCMCstats($CMCStats, $coinStr);
-       $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-       $price75Min = $tempPrice[0][3];
-    }elseif ($Min75Price[0][1] == 0){
-      echo "<BR> IS ZERO";
-      $CMCStats = getCMCstats($CMCStats, $coinStr);
-      $tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price75Min = $tempPrice[0][3];
-    }else{
-      $price75Min = $Min75Price[0][1];
-    }
+    $price75Min = $Min75Price[0][1];
+
     //Write to PricePctChangeHistory
     writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min);
     echo "<BR> write1HrPrice($coinID, $price1Hr, $price24Hr, $price7D);";
