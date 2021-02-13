@@ -2111,12 +2111,12 @@ function getCoinAlerts(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
-  ,`LiveSellOrders`,`LiveBuyOrders`,`LiveMarketCap`,`UserID` FROM `CoinAlertsView`";
+  ,`LiveSellOrders`,`LiveBuyOrders`,`LiveMarketCap`,`UserID`,(datediff(now(),`DateTimeSent`)*24)*60 as MinsSinceSent FROM `CoinAlertsView`";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
-    ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['LiveSellOrders'],$row['LiveBuyOrders'],$row['LiveMarketCap'],$row['UserID']);
+    ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['LiveSellOrders'],$row['LiveBuyOrders'],$row['LiveMarketCap'],$row['UserID'],$row['MinsSinceSent']);
   }
   $conn->close();
   return $tempAry;
@@ -2189,7 +2189,7 @@ function updateAlertTime($id){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= '$current_date' WHERE `ID` = $id";
+    $sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

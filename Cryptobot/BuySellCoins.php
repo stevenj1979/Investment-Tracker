@@ -952,7 +952,7 @@ while($completeFlag == False){
     //$current_date = date('Y-m-d H:i');
     //$newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
     //$dateFlag = ($newTime > $dateTimeSent);
-    $minutes = (strtotime($dateTimeSent) - time()) / 60;
+    $minutes = $coinAlerts[$d][18];
     //$newTimeAlrt = $dateTimeSent - $current_date ;
     Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
 
