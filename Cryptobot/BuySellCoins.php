@@ -79,12 +79,12 @@ function returnAlert($price,$livePrice,$action){
   $returnBool = False;
   if (isset($price)){
     if ($action == 'LessThan'){
-      if ($price < $livePrice && $price > -9999.99){
+      if ($price > $livePrice){
         Echo "<BR> $action | $price | $livePrice";
         $returnBool = True;
       }
     }else{
-      if ($price > $livePrice && $price < 9999.99){
+      if ($price < $livePrice){
         Echo "<BR> $action | $price | $livePrice";
         $returnBool = True;
       }
