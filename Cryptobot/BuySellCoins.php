@@ -959,15 +959,24 @@ while($completeFlag == False){
     if ($category == "Price"){
       //Price
       $returnFlag = returnAlert($price,$livePrice,$action);
-      if ($returnFlag){actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id, $logToFileSetting, $logToSQLSetting,$liveCoinPrice);}
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id, $logToFileSetting, $logToSQLSetting,$liveCoinPrice);
+      }
     }elseif ($category == "Pct Price in 1 Hour"){
       //1Hr
       $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
-      if ($returnFlag){ actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$Live1HrChangeAlrt);}
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$Live1HrChangeAlrt);
+      }
     }elseif ($category == "Market Cap Pct Change"){
       //MarketCap
       $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
-      if ($returnFlag){actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$liveMarketCapAlert); }
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
+        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$liveMarketCapAlert);
+      }
     }
 
     //if (isset($price)){
