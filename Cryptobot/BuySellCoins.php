@@ -25,7 +25,7 @@ if (!empty($_GET['mins'])){
   //echo "<br> GETMINS: ".$_GET['mins'];
 }
 
-function actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
+function action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
   if ($minutes < -30){
     sendAlertEmailLocal($email, $symbol, $price, $action, $userName, $livePrice);
     logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
@@ -961,21 +961,21 @@ while($completeFlag == False){
       $returnFlag = returnAlert($price,$livePrice,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id, $logToFileSetting, $logToSQLSetting,$liveCoinPrice);
+        action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id, $logToFileSetting, $logToSQLSetting,$liveCoinPrice);
       }
     }elseif ($category == "Pct Price in 1 Hour"){
       //1Hr
       $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$Live1HrChangeAlrt);
+        action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$Live1HrChangeAlrt);
       }
     }elseif ($category == "Market Cap Pct Change"){
       //MarketCap
       $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $symbol $price $action";
-        actionAlert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$liveMarketCapAlert);
+        action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting,$liveMarketCapAlert);
       }
     }
 
