@@ -22,38 +22,7 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $showmain = True;
 
-function getAllCoins(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `Cn`.`ID` as CoinID, `Car`.ID as CoinAlertRuleID
-FROM `Coin` `Cn`
-join `CoinAlertsRule` `Car`
-WHERE `BuyCoin` = 1 ";
-  //print_r($sql);
-  $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['CoinID'],$row['CoinAlertRuleID']);
-  }
-  $conn->close();
-  return $tempAry;
-}
 
-function changeCoinAlertRuleID(){
-  $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "call ChangeCoinAlertRuleID('Alert Rule');";
-  print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("changeCoinAlertRuleID: ".$sql, 'BuyCoin', 0);
-}
 
 if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 
@@ -224,6 +193,38 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   //displayFooter();
 }
 
+function getAllCoins(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Cn`.`ID` as CoinID, `Car`.ID as CoinAlertRuleID
+FROM `Coin` `Cn`
+join `CoinAlertsRule` `Car`
+WHERE `BuyCoin` = 1 ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['CoinAlertRuleID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function changeCoinAlertRuleID(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call ChangeCoinAlertRuleID('Alert Rule');";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("changeCoinAlertRuleID: ".$sql, 'BuyCoin', 0);
+}
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime,$coinAlertRuleID){
   //
