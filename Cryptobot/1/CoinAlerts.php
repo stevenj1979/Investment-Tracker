@@ -38,6 +38,23 @@ WHERE `BuyCoin` = 1 ";
   return $tempAry;
 }
 
+function changeCoinAlertRuleID(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call ChangeCoinAlertRuleID('Alert Rule');";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("changeCoinAlertRuleID: ".$sql, 'BuyCoin', 0);
+}
+
 if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 
 if ($_GET['alert'] == 0 && isset($_GET['alert'])){
@@ -160,6 +177,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     }
 
   }
+  changeCoinAlertRuleID();
   header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
   $showmain = false;
