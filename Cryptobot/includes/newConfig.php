@@ -4072,4 +4072,39 @@ function checkOpenSpreadBet($userID){
   $conn->close();
   return $tempAry;
 }
+
+function getMaxPct($date,$coinID){
+  $conn = getHistorySQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT getMaxPrice('$date',$coinID) as MaxPrice;";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['MaxPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call UpdateSellTrendToSQL($mode, $ruleID, $coinID, $price);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
+}
 ?>

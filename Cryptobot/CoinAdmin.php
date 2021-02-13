@@ -468,6 +468,33 @@ function updateSpreadBetCoinHistory(){
   $conn->close();
 }
 
+function getSoldfromSQL(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`, `DaysSinceSale`, `Type`, `ID`, `CompletionDate`,`PurchasePrice` FROM `SellCoinStatsView_Sold`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['DaysSinceSale'],$row['Type'],$row['ID'],$row['CompletionDate'],$row['PurchasePrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function RunSellTrendUpdate(){
+  $soldCoins = getSoldfromSQL();
+  $soldCoinsSize = count($soldCoins);
+
+  for ($e=0; $e<$soldCoinsSize; $e++){
+    $date = $soldCoins[$e][4];
+    $coinID = $soldCoins[$e][0];
+    $purchasePrice = $soldCoins[$e][5];
+    $maxPrice = getMaxPct($date,$coinID);
+    updateMaxPctToSql($maxPrice, $coinID, 'SpreadBetRuleID', 0);
+  }
+
+}
+
 
 
 
@@ -550,7 +577,7 @@ for ($w=0; $w<$coinLowSize; $w++){
 updateCoinModeBuyPct();
 updateSpreadBetCoinHistory();
 
-
+RunSellTrendUpdate();
 
 ?>
 </html>
