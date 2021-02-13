@@ -22,6 +22,22 @@ require('layout/header.php');
 include_once ('/home/stevenj1979/SQLData.php');
 $showmain = True;
 
+function getAllCoins(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Cn`.`ID` as CoinID, `Car`.ID as CoinAlertRuleID
+FROM `Coin` `Cn`
+join `CoinAlertsRule` `Car`
+WHERE `BuyCoin` = 1 ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['CoinAlertRuleID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 
 if ($_GET['alert'] == 0 && isset($_GET['alert'])){
@@ -35,6 +51,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   <h2>Enter Price1</h2>
   <form action='CoinAlerts.php?alert=2' method='post'>
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
+    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Coins: </label><br>
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
       <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
@@ -111,14 +128,37 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   //$KEK = $userConfig[0][5];
   //if (!Empty($KEK)){$APISecret = decrypt($KEK,$userConfig[0][2]);}
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
+  //if (isset($_POST['allCoinChk']){
+  $allCoins = getAllCoins();
+  $allCoinsSize = count($allCoins);
+  //}
   $current_date = date('Y-m-d H:i');
   $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
   echo "<BR> ".$_POST['greaterThanSelect']." : ".$category;
   Echo "<BR> $userID, $salePrice,$category,$reocurring,$newTime)";
   if ($_POST['greaterThanSelect'] == "<"){
-    AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime);
+    if (isset($_POST['allCoinChk']){
+      for ($u=0; $u<$allCoinsSize; $u++){
+          $AllCoinID = $allCoins[$u][0];
+          $coinAlertRuleID = $allCoins[$u][1];
+          AddCoinAlert($AllCoinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
+      }
+    }else{
+      $coinAlertRuleID = $allCoins[0][1];
+      AddCoinAlert($coinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
+    }
   }elseif ($_POST['greaterThanSelect'] == ">"){
-    AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime);
+    if (isset($_POST['allCoinChk']){
+      for ($u=0; $u<$allCoinsSize; $u++){
+          $AllCoinID = $allCoins[$u][0];
+          $coinAlertRuleID = $allCoins[$u][1];
+          AddCoinAlert($AllCoinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
+      }
+    }else{
+      $coinAlertRuleID = $allCoins[0][1];
+      AddCoinAlert($coinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
+    }
+
   }
   header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 3 && isset($_GET['alert'])){
@@ -167,7 +207,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }
 
 
-function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
+function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime,$coinAlertRuleID){
   //
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -175,7 +215,8 @@ function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurrin
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`,`Category`,`ReocurringAlert`,`DateTimeSent`) VALUES ($coinID,'$action',$salePrice,$userID,'$category',$reocurring, '$newTime')";
+    $sql = "INSERT INTO `CoinAlerts`( `CoinID`, `Action`, `Price`, `UserID`,`Category`,`ReocurringAlert`,`DateTimeSent`,`CoinAlertRuleID`)
+    VALUES ($coinID,'$action',$salePrice,$userID,'$category',$reocurring, now(),$coinAlertRuleID)";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
