@@ -2111,7 +2111,7 @@ function getCoinAlerts(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
-  ,`LiveSellOrders`,`LiveBuyOrders`,`LiveMarketCap`,`UserID`,(datediff(now(),`DateTimeSent`)*24)*60 as MinsSinceSent FROM `CoinAlertsView`";
+  ,`LiveSellOrders`,`LiveBuyOrders`,`LiveMarketCap`,`UserID`,TIMESTAMPDIFF(MINUTE,`DateTimeSent`, now()) as MinsSinceSent FROM `CoinAlertsView`";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
