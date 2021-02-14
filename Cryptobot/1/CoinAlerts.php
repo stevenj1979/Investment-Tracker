@@ -138,7 +138,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
       for ($u=0; $u<$allCoinsSize; $u++){
           $AllCoinID = $allCoins[$u][0];
           $coinAlertRuleID = $allCoins[$u][1];
-          AddCoinAlert($AllCoinID,'LessThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
+          AddCoinAlert($AllCoinID,'GreaterThan',$userID, $salePrice,$category,$reocurring,$newTime,$coinAlertRuleID);
       }
     }else{
       $coinAlertRuleID = $allCoins[0][1];
