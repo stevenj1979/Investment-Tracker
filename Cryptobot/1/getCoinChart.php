@@ -14,8 +14,9 @@ $time = str_replace("_"," ",$_GET['time']);
 //$query = "set time_zone='+04:00';";
 $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
   FROM `CoinBuyHistory`
-  WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL $time)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
-  order by `ActionDate` asc";
+  WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL 10 DAY)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
+  order by `ActionDate` desc
+  limit 500";
 //$query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice FROM `CoinBuyHistory` WHERE ID = (
 //  select `ID` from `Coin` where `Symbol` = '$coinID')
 //   and DATE_ADD(`ActionDate`, INTERVAL 24 HOUR) >= now() order by `ActionDate` asc";
