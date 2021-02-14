@@ -998,7 +998,7 @@ while($completeFlag == False){
       $dateTimeSent = $marketAlerts[$q][8];
       $Live1HrChangeAlrt = $marketAlerts[$q][1];$Live24HrChangeAlrt = $marketAlerts[$q][2];$Live7DChangeAlrt = $marketAlerts[$q][3]; $liveCoinPrice = $marketAlerts[$q][0];$liveMarketCapAlert = $marketAlerts[$q][4];
       $category = $marketAlerts[$q][10];$price = $marketAlerts[$q][14];$action = $marketAlerts[$q][11];$reocurring = $marketAlerts[$q][9];
-      $minutes = $coinAlerts[$d][12]; $id = $coinAlerts[$d][13];
+      $minutes = $marketAlerts[$d][12]; $id = $marketAlerts[$d][13];
       Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
       if ($category == "Price"){
         //Price
