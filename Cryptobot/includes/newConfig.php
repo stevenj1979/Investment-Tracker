@@ -2122,6 +2122,20 @@ function getCoinAlerts(){
   return $tempAry;
 }
 
+function getMarketAlerts(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `LiveCoinPrice`, `Hr1PctChange`, `Hr24PctChange`, `D7PctChange`, `MarketCapPctChange`, `UserID`, `UserName`, `email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `ID`, `Price` FROM `MarketAlertsView`";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange'],$row['MarketCapPctChange'],$row['UserID'],$row['UserName'],$row['email'],$row['DateTimeSent'],$row['ReocurringAlert']
+    ,$row['Category'],$row['Action'],$row['Minutes'],$row['ID'],$row['Price']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getCoinAlertsUser($userId){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -2166,13 +2180,14 @@ function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocur
   $conn->close();
 }
 
-function closeCoinAlerts($id){
+function closeCoinAlerts($id, $table){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `CoinAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";
+    if ($table == 'CoinAlerts'){$sql = "UPDATE `CoinAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";}
+    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";}
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -2182,14 +2197,16 @@ function closeCoinAlerts($id){
     $conn->close();
 }
 
-function updateAlertTime($id){
+function updateAlertTime($id, $table){
   $conn = getSQLConn(rand(1,3));
   $current_date = date('Y-m-d H:i');
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";
+    if ($table == 'CoinAlerts'){$sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";}
+    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";}
+
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
