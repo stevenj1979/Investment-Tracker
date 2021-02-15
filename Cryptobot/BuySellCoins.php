@@ -37,7 +37,7 @@ function action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category
 
 function action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
   if ($minutes > 30){
-    sendAlertEmailLocal($email, 'MarketAlerts', $price, $action, $userName, $livePrice);
+    sendAlertEmailLocal($email, 'MarketAlerts', $price, $action, $userName, $livePrice,$category);
     logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
     logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
@@ -45,11 +45,12 @@ function action_Market_Alert($minutes,$email,$price,$action,$userName,$category,
   if ($reocurring == 0){closeCoinAlerts($id,'MarketAlerts');}else{updateAlertTime($id,'MarketAlerts');}
 }
 
-function sendAlertEmailLocal($to, $symbol , $price, $action, $user,$livePrice){
+function sendAlertEmailLocal($to, $symbol , $price, $action, $user,$livePrice,$category){
     $subject = "Coin Alert: ".$coin;
     $from = 'Coin Alert <alert@investment-tracker.net>';
     $body = "Dear ".$user.", <BR/>";
     $body .= "Your coin Alert for $symbol has been triggered : "."<BR/>";
+    $body .= "Category: $category <BR/>";
     $body .= "Coin: $symbol Action: $action Price: $price<BR/>";
     $body .= "Live Price: $livePrice <BR/>";
     $body .= "Kind Regards\nCryptoBot.";
