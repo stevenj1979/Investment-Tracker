@@ -2172,7 +2172,7 @@ function updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocur
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-  $sql = "UPDATE `CoinAlerts` SET `CoinID`= $coinID, `Action`= '$action', `UserID`= $userID, `Category` = '$category', `ReocurringAlert`= $reocurring, `Price` = $price WHERE `ID` = $id";
+  $sql = "UPDATE `CoinAlerts` SET `Action`= '$action', `UserID`= $userID, `Category` = '$category', `ReocurringAlert`= $reocurring, `Price` = $price WHERE `CoinAlertRuleID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

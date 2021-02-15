@@ -179,7 +179,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
     $email = $coinAlerts[$x][6];$liveCoinPrice= round($coinAlerts[$x][7],$roundNum); $category = $coinAlerts[$x][8];
     $reocurring = $coinAlerts[$x][12]; $coinAlertRuleID = $coinAlerts[$x][14];
-    NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$coinAlertRuleID."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$symbol</td>",$_SESSION['isMobile'] ,2);
