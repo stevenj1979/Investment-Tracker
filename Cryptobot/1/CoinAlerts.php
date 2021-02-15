@@ -178,7 +178,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
     $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
     $email = $coinAlerts[$x][6];$liveCoinPrice= round($coinAlerts[$x][7],$roundNum); $category = $coinAlerts[$x][8];
-    $reocurring = $coinAlerts[$x][12];
+    $reocurring = $coinAlerts[$x][12]; $coinAlertRuleID = $coinAlerts[$x][14];
     NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
@@ -186,7 +186,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     NewEcho("<td>$userName</td><td>$email</td>",$_SESSION['isMobile'] ,0);
     NewEcho("<td>$liveCoinPrice</td><td>$category</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$reocurring</td>",$_SESSION['isMobile'] ,2);
-    NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td><a href='CoinAlerts.php?alert=4&iD=$coinAlertRuleID'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<TR>",$_SESSION['isMobile'] ,2);
   }
   Echo "</table>";
@@ -254,7 +254,7 @@ function deleteSQLAlert($id){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "DELETE FROM `CoinAlerts` WHERE `ID` = $id";
+    $sql = "DELETE FROM `CoinAlerts` WHERE `CoinAlertRuleID` = $id";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
