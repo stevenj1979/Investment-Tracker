@@ -41,9 +41,10 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
       <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-      <option value="Market Cap Pct Change" name='pctPriceOpt'>Market Cap Pct Change</option>
-      <option value="Buy Orders Pct Change" name='pctPriceOpt'>Buy Orders Pct Change</option>
-      <option value="Sell Orders Pct Change" name='pctPriceOpt'>Sell Orders Pct Change</option>
+      <option value="Pct Price in 24 Hours" name='pctPrice7DOpt'>Pct Price in 24 Hours</option>
+      <option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
+      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
+      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
@@ -77,9 +78,11 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <select name="priceSelect">
       <option value="Price" name='priceOpt'>Price</option>
       <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-      <option value="Market Cap Pct Change" name='pctPriceOpt'>Market Cap Pct Change</option>
-      <option value="Buy Orders Pct Change" name='pctPriceOpt'>Buy Orders Pct Change</option>
-      <option value="Sell Orders Pct Change" name='pctPriceOpt'>Sell Orders Pct Change</option>
+      <option value="Pct Price in 24 Hours" name='pctPrice24Opt'>Pct Price in 24 Hours</option>
+      <option value="Pct Price in 7 Days" name='pctPrice7DOpt'>Pct Price in 7 Days</option>
+      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
+      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
+
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
