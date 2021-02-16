@@ -5,32 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<?php require('includes/config.php');?>
-<style>
-<?php include 'style/style.css'; ?>
-
-	    #Home:hover #homeContent{
-		      display: block;
-		        position: absolute;
-	    }
-	    #AboutUs:hover #AboutUsContent{
-		      display: block;
-		        position: absolute;
-	    }
-</style> <?php
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 
 //define page title
-$title = 'CryptoBot';
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
+include_once ('/home/stevenj1979/SQLData.php');
 
-//include header template
-require('layout/header.php');
-include '../../../NewSQLData.php';
+setStyle($_SESSION['isMobile']);
 
-function getCoinsfromSQL($userID){
-    $conn = getSQL(rand(1,3));
+function getCoinsfromSQLLoc($userID){
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -47,9 +35,9 @@ function getCoinsfromSQL($userID){
     return $tempAry;
 }
 
-function getCoinPrice(){
+function getCoinPriceLoc(){
 
-    $conn = getSQL(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -66,8 +54,8 @@ function getCoinPrice(){
     return $tempAry;
 }
 
-function getTrackingCoins(){
-  $conn = getSQL(rand(1,3));
+function getTrackingCoinsLoc(){
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -93,7 +81,7 @@ function getColour($ColourText){
   return $colour;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
     //$to = $row['Email'];
     //echo $row['Email'];
     $subject = "Coin Sale: ".$symbol;
@@ -109,7 +97,7 @@ function sendEmail($to, $symbol, $amount, $cost){
 
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -122,7 +110,7 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getLiveCoinPrice($symbol){
+function getLiveCoinPriceLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -136,10 +124,11 @@ function getLiveCoinPrice($symbol){
 
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
-function getLiveCoinPriceUSD($symbol){
+function getLiveCoinPriceUSDLoc($symbol){
     $limit = 500;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
     $fgc = json_decode(file_get_contents($cnmkt), true);
@@ -153,12 +142,13 @@ function getLiveCoinPriceUSD($symbol){
 
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
 function getUserIDs($userID){
   // Create connection
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -175,7 +165,7 @@ function getUserIDs($userID){
 
 function getTotalProfit($userID){
   // Create connection
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -192,40 +182,19 @@ function getTotalProfit($userID){
   return $tempAry;
 }
 
-?>
-
-      <div class="header">
-        <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-            <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-
-         </div>
-         <div class="topnav">
-           <a href="Dashboard.php">Dashboard</a>
-           <a href="Transactions.php">Transactions</a>
-           <a href="Stats.php">Stats</a>
-           <a href="BuyCoins.php">Buy Coins</a>
-           <a href="SellCoins.php">Sell Coins</a>
-           <a href="Profit.php" class='active'>Profit</a>
-           <a href="bittrexOrders.php">Bittrex Orders</a>
-           <a href="Settings.php">Settings</a><?php
-           if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-           ?>
-       </div>
- <div class="row">
-        <div class="settingCol1">
-				<?php
+displayHeader(5);
 
 
 
         $date = date('d/m/Y h:i:s a', time());
         $userData = getUserIDs($_SESSION['ID']);
         $apikey = $userData[0][0]; $apisecret = $userData[0][1];
-        $btcPrice = getLiveCoinPriceUSD("BTC");
+        $btcPrice = getLiveCoinPriceUSDLoc("BTC");
         $userProfit = getTotalProfit($_SESSION['ID']);
         $salePrice = number_format((float)$userProfit[0][0], 10, '.', ''); $purchasePrice = number_format((float)$userProfit[0][1], 10, '.', ''); $profit = number_format((float)$userProfit[0][2], 10, '.', '');
         $purchaseCostUSD = number_format((float)$purchasePrice*$btcPrice, 2, '.', ''); $salePriceUSD = number_format((float)$salePrice*$btcPrice, 2, '.', ''); $profitUSD = number_format((float)$profit*$btcPrice, 2, '.', '');
         $count = $userProfit[0][3];
-        $bittrexBal = number_format((float)bittrexbalance($apikey,$apisecret), 10, '.', '');
+        $bittrexBal = number_format((float)bittrexbalanceLoc($apikey,$apisecret), 10, '.', '');
         $bittrexBalUSD = number_format((float)$bittrexBal*$btcPrice, 2, '.', '');
         $totalBalance =  $profit + $bittrexBal;
         $totalBalanceUSD = number_format((float)$totalBalance*$btcPrice, 2, '.', '');
@@ -236,23 +205,7 @@ function getTotalProfit($userID){
         print_r("<td>$".$bittrexBalUSD."</td><td>$".$totalBalanceUSD."</td><td>".$count."</td></tr>");
         echo "</Table>";
         //echo "<BR> $apikey $apisecret $bittrexBal";
-				?>
-      </div>
-      <div class="column side">
-        &nbsp
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-
-<?php
+				displaySideColumn();
 //include header template
 require('layout/footer.php');
 ?>

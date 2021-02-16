@@ -1,6 +1,6 @@
 <?php
 //require('includes/config.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 
 function getLiveCoinPriceUSD($symbol){
     $limit = 100;
@@ -9,27 +9,24 @@ function getLiveCoinPriceUSD($symbol){
   for($i=0;$i<$limit;$i++){
     if ($fgc[$i]["symbol"] == $symbol){$tmpCoinPrice = $fgc[$i]["price_usd"];}
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
-$conn = getSQL(rand(1,4));
+$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $userID = $_GET['ID'];
-$btcPrice = getLiveCoinPriceUSD('BTC');
-$usdtPrice = getLiveCoinPriceUSD('USDT');
-$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT sum(`LiveBTC`+`BittrexBTC`)* `BTCPrice` as TotalBTC
-,sum(`LiveUSDT`+`BittrexUSDT`)* `USDTPrice`as TotalUSDT
-,sum(`LiveETH`+`BittrexETH`)*`ETHPrice` as TotalETH
-, cast(`ActionDate` as date) AS ActionDate
-FROM `UserProfit`
-WHERE `UserID` = $userID and DATE(`ActionDate`) > DATE( DATE_SUB( curdate() , INTERVAL 3 WEEK ) )
-group by day(`ActionDate`),Month(`ActionDate`),Year(`ActionDate`)
+//$btcPrice = getLiveCoinPriceUSD('BTC');
+//$usdtPrice = getLiveCoinPriceUSD('USDT');
+//$ethPrice = getLiveCoinPriceUSD('ETH');
+$query = "SELECT `ActionDate`,`BittrexBTC`,`BittrexUSDT`,`BittrexETH`,`BTCinUSD`,`ETHinUSD`,`USDTinUSD`,`PendingCoinsUSD`,`TotalUSD`
+FROM `UserProfitView`
+WHERE `UserID` = $userID AND `ActionDate` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
 order by `ActionDate` asc
-limit 21";
+limit 50";
 $table = array();
 $table['cols'] = array(
     /* define your DataTable columns here
@@ -42,9 +39,11 @@ $table['cols'] = array(
     // and your second column is a "number" type
     // but you can change them if they are not
     array('label' => 'ActionDate', 'type' => 'string'),
-    array('label' => 'TotalBTC', 'type' => 'number'),
-    array('label' => 'TotalUSDT', 'type' => 'number'),
-    array('label' => 'TotalETH', 'type' => 'number')
+    array('label' => 'BTCinUSD', 'type' => 'number'),
+    array('label' => 'ETHinUSD', 'type' => 'number'),
+    array('label' => 'USDTinUSD', 'type' => 'number'),
+    array('label' => 'PendingCoinsUSD', 'type' => 'number'),
+    array('label' => 'TotalUSD', 'type' => 'number')
 );
 
 $rows = array();
@@ -54,11 +53,13 @@ while ($row = mysqli_fetch_assoc($result)){
     // each column needs to have data inserted via the $temp array
     $temp[] = array('v' => $row['ActionDate']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
-    $temp[] = array('v' => (float) $row['TotalBTC']);
+    $temp[] = array('v' => (float) $row['BTCinUSD']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
-    $temp[] = array('v' => (float) $row['TotalUSDT']);
+    $temp[] = array('v' => (float) $row['ETHinUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
-    $temp[] = array('v' => (float) $row['TotalETH']);
+    $temp[] = array('v' => (float) $row['USDTinUSD']);
+    $temp[] = array('v' => (float) $row['PendingCoinsUSD']);
+    $temp[] = array('v' => (float) $row['TotalUSD']);
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
 }

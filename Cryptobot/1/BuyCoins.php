@@ -1,12 +1,10 @@
-<html>
+  <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
-<?php require('includes/config.php');?>
-<style>
-<?php include 'style/style.css'; ?>
-</style> <?php
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
@@ -16,11 +14,27 @@ $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require('layout/header.php');
-include '../../../NewSQLData.php';
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
+include_once ('/home/stevenj1979/SQLData.php');
+$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
+setStyle($_SESSION['isMobile']);
+
+if(isset($_GET['override'])){
+  if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;}
+}
+
+if(isset($_GET['noOverride'])){
+  if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
+}
+
+//Echo "<BR> isMobile: ".$_SESSION['isMobile']." | MobOverride: ".$_SESSION['MobOverride'];
+
+if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
+  header('Location: BuyCoins_Mobile.php');
+}
 
 function getCoinsfromSQL(){
-    $conn = getSQL(rand(1,3));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -34,8 +48,8 @@ function getCoinsfromSQL(){
     return $tempAry;
 }
 
-function getTrackingCoins(){
-  $conn = getSQL(rand(1,3));
+function getTrackingCoinsLoc(){
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -44,6 +58,8 @@ function getTrackingCoins(){
      `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
      ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
      FROM `CoinStatsView` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
+
+     //echo $sql.getHost();
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange']
@@ -55,16 +71,6 @@ function getTrackingCoins(){
   return $tempAry;
 }
 
-function getNumberColour($ColourText, $target){
-  if ($ColourText >= 0){
-    $colour = "#D4EFDF";
-  }elseif ($ColourText == 0) {
-    $colour = "#FCF3CF";
-  }else{
-    $colour = "#F1948A";
-  }
-  return $colour;
-}
 
 function upAndDownColour($direction){
   if ($direction == 'Up'){
@@ -76,7 +82,7 @@ function upAndDownColour($direction){
 }
 
 function getConfig($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -90,7 +96,7 @@ function getConfig($userID){
   return $tempAry;
 }
 
-function sendEmail($to, $symbol, $amount, $cost){
+function sendEmailLoc($to, $symbol, $amount, $cost){
     $subject = "Coin Sale: ".$symbol;
     $body = "Dear Steven, <BR/>";
     $body .= "Congratulations you have sold the following Coin: "."<BR/>";
@@ -103,7 +109,7 @@ function sendEmail($to, $symbol, $amount, $cost){
     mail($to, $subject, wordwrap($body,70),$headers);
 }
 
-function bittrexbalance($apikey, $apisecret){
+function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -125,10 +131,11 @@ function getLiveCoinPrice($symbol){
       $tmpCoinPrice = $fgc[$i]["price_btc"];
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
-function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
+function bittrexCoinPriceLoc($apikey, $apisecret, $baseCoin, $coin){
       $nonce=time();
       $uri='https://bittrex.com/api/v1.1/public/getticker?market='.$baseCoin.'-'.$coin;
       $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -142,7 +149,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin){
   }
 
 function getUserIDs($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -159,102 +166,77 @@ function getUserIDs($userID){
   return $tempAry;
 }
 
+displayHeader(3);
 
-
-?>
-
-<!--<div class="container">-->
-
-	<!--<div class="row">-->
-
-	   <!-- <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
-     <div class="header">
-       <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-           <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-
-        </div>
-        <div class="topnav">
-          <a href="Dashboard.php">Dashboard</a>
-          <a href="Transactions.php">Transactions</a>
-          <a href="Stats.php">Stats</a>
-          <a href="BuyCoins.php" class="active">Buy Coins</a>
-          <a href="SellCoins.php">Sell Coins</a>
-          <a href="Profit.php">Profit</a>
-          <a href="bittrexOrders.php">Bittrex Orders</a>
-          <a href="Settings.php">Settings</a><?php
-          if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-          ?>
-        </div>
-<div class="row">
-       <div class="column side">
-          &nbsp
-      </div>
-      <div class="column middle">
-
-  				<?php
+        if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
 				$tracking = getTrackingCoins();
 				$newArrLength = count($tracking);
+        //echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-				print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th><TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th><TH>&nbsp% Change 1Hr</th><TH>&nbsp% Change 24 Hrs</th>
-        <TH>&nbsp% Change 7 Days</th><TH>&nbspBuy Pattern</th><TH>&nbspManual Buy</th><tr>");
+
+        echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a></h3>";
+        //if($_SESSION['isMobile'] == False){
+        //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+        //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
+        //  echo "<TH>&nbsp% Change 1Hr</th>";
+        //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
+        //}
+
+        //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
+        //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
+        //$roundNum = 2;
 				for($x = 0; $x < $newArrLength; $x++) {
           //Variables
-          $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],2); $MarketCap = round($tracking[$x][7],2);
-          $Live1HrChange = round($tracking[$x][10],2); $Live24HrChange = round($tracking[$x][13],2); $Live7DChange = $tracking[$x][14];
-          $bitPrice = $tracking[$x][17]; $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
-          $volume = round($tracking[$x][25],2); $baseCurrency = $tracking[$x][26];
+          $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
+          $Live1HrChange = round($tracking[$x][10],$num); $Live24HrChange = round($tracking[$x][13],$num); $Live7DChange = $tracking[$x][16];
+          $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
+          $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
           $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
-          $priceChange = number_format((float)$bitPrice-$LastCoinPrice, 8, '.', '');
-          $priceDiff1 = number_format((float)$tracking[$x][19], 2, '.', '');
+          $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
+          $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
+          $Hr1LivePriceChange = $tracking[$x][31];$Hr1LastPriceChange = $tracking[$x][32]; $Hr1PriceChange3 = $tracking[$x][33];$Hr1PriceChange4 = $tracking[$x][34];
+          $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+          $name = $tracking[$x][37]; $image = $tracking[$x][38];
           //Table
-          echo "<td><a href='CoinHistory.php?coin=$coin'>$coin</a></td>";
-          echo "<td>".$baseCurrency."</td>";
-          echo "<td>".$bitPrice."</td>";
-          echo "<td>$MarketCap</td>";
-          echo "<td>$volume</td>";
-          echo "<td>$buyOrders</td>";
-          echo "<td>% $priceDiff1</td>";
-          echo "<td>".$priceChange." ".$baseCurrency."</td>";
-          echo "<td>".$Live1HrChange."</td>";
-          echo "<td>".$Live24HrChange."</td>";
-          echo "<td>".$Live7DChange."</td>";
-          echo "<td>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</td>";
-          echo "<td><a href='ManualBuy.php?coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='font-size:24px;color:#D4EFDF'></i></a></td>";
-          echo "<tr>";
+          echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>";
+          echo "<td><p id='largeText'>".$name."</p></td>";
+          echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
+          NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
+
+          $tdColour = setTextColour($Live1HrChange, False);
+          echo "<td><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
+
+          echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
+
+          NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
+          NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
+
+          NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+          NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+          NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+          echo "</tr><tr>";
+          echo "<td><p id='smallText'>".$coin."</p></td>";
+          NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
+          NewEcho( "<td><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+
+          echo "</tr><tr>";
+          $numCol = getNumberColour($priceDiff1);
+          echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
+          NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
+          NewEcho( "<td><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+          echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
 				}//end for
-				print_r("</table>");
+				print_r("</tr></table>");
+        Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+        displaySideColumn();
+        //displayMiddleColumn();
+				//displayFarSideColumn();
+        //displayFooter();
 
-
-				?>
-      </div>
-      <div class="column side">
-          &nbsp
-      </div>
-    </div>
-
-      <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-  				<a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
-
-
-
-    <!--  </div>
-  	</div>
-
-
-  </div>-->
-
-
-<?php
 //include header template
-require('layout/footer.php');
+require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
 $date = date('Y/m/d H:i:s', time());
 echo " Last Updated :".$date;
 ?>

@@ -4,7 +4,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
-  include '../../../NewSQLData.php';
+  include_once ('/home/stevenj1979/SQLData.php');
+  include_once '../includes/newConfig.php';
 ?>
 <html>
 <style>
@@ -30,7 +31,7 @@ if(!empty($_GET['ToggleAdminID'])){ displayToggleAdmin($_GET['ToggleAdminID']); 
 
 function displayExtend($id){
   //echo "The ID is $id ";
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -49,7 +50,7 @@ function displayExtend($id){
 
 function displayToggleAdmin($id){
   //echo "The ID is $id ";
-  $conn = getSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -69,7 +70,7 @@ function displayToggleAdmin($id){
 }
 
 function getSubscription(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`UserName`,`SubscriptionLength`,`DateSubmitted`,`TransactionID`,`Status`,`UserID` FROM `UserSubscription` WHERE `Status` = 'Open'";
@@ -83,7 +84,7 @@ function getSubscription(){
 }
 
 function getConfig($userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `BTC`,`CoinSalePct`,`MarketCapBuyPct`,`MarketCapSellPct`,`VolumeBuyPct`,`VolumeSellPct`,`BuyOrdersPct`,`SellOrdersPct`, `minPctGain`,`BuyWithScore`, `Score`,
@@ -99,7 +100,7 @@ function getConfig($userID){
 }
 
 function getCoins(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`Symbol`,`Name`,`BaseCurrency`,`BuyCoin` FROM `Coin` Order by `BuyCoin` DESC";
@@ -113,7 +114,7 @@ function getCoins(){
 }
 
 function getUsers(){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`Email`,`ExpiryDate`,`DisableUntil` FROM `UserConfigView`";
@@ -199,33 +200,7 @@ $userSubSize = count($userSub);
 
 //echo $userDetails[0][1];
 
-?>
-
-<!--<div class="container">
-
-	<div class="row">
-
-	    <div class="col-xs-12 col-sm-8 col-md-8 col-sm-offset-2">-->
-
-        <div class="header">
-          <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-              <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-        </div>
-        <div class="topnav">
-          <a href="Dashboard.php">Dashboard</a>
-          <a href="Transactions.php">Transactions</a>
-          <a href="Stats.php">Stats</a>
-          <a href="BuyCoins.php">Buy Coins</a>
-          <a href="SellCoins.php">Sell Coins</a>
-          <a href="Profit.php">Profit</a>
-          <a href="bittrexOrders.php">Bittrex Orders</a>
-          <a href="Settings.php">Settings</a><?php
-          if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php' class='active'>Admin Settings</a>";}
-          ?>
-        </div>
-<div class="row">
-         <p class="pageTitle">&nbsp Admin Settings</p>
-         <div class="settingCol1">
+    displayHeader(11) ?>
            Renew Subscription
            <table><th>Action</th><th>Username</th><th>SubscriptionLength</th><th>Date</th><th>TransactionID</th><tr>
            <?php
@@ -277,30 +252,37 @@ $userSubSize = count($userSub);
              ?>
 
              <br>Quick Links<br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/BuySellCoins.php"> BuySellCoins </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/BuySellCoins.php"> BuySellCoins </a> 10 mins
              <br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/testfile.php"> Test </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testfile.php"> Test </a>
              <br>
              <a href="https://n1plcpnl0035.prod.ams1.secureserver.net:2083/logout/?locale=en"> cPanel </a>
              <br>
-             <a href="http://www.investment-tracker.net/content/CryptoBot/AutoUpdatePrice.php"> Auto Update Price </a>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AutoUpdatePrice.php"> Auto Update Price </a> 15 mins
              <br>
-         </div>
-
-
-      </div>
-      &nbsp
-        <div class="footer">
-          <hr>
-          <!-- <input type="button" value="Logout">
-          <a href='logout.php'>Logout</a>-->
-
-          <input type="button" onclick="location='logout.php'" value="Logout"/>
-
-      </div>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AllCoinStatus.php"> All Coin Status </a> 5 Mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinAdmin.php"> Coin Admin </a> once per day,  20:45
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/Dashboard.php"> Dashboard </a> 15 mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotAuto.php"> Cryptobot Auto </a> 10 mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testScript.php"> Test Script </a>
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/PriceProjection.php"> Price Projection </a> 15 mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/MonthlyHighLow.php"> Monthly HighLow </a> 1st of every month
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinHourly.php"> Coin Hourly </a> 2 mins past every hour
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinMode.php"> Coin Mode </a> every 5 mins
+             <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/PctChangeProcess.php"> PCT Change Process </a> every 5 mins
+             <br>
 
 <?php
-
+  displaySideColumn();
 
 //include header template
 //require('layout/footer.php');

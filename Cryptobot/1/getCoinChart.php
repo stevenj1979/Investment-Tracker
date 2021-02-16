@@ -1,15 +1,19 @@
 <?php
 //require('includes/config.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 
-$conn = getSQL(rand(1,4));
+$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $coinID = $_GET['coinID'];
+//setTimeZone();
+date_default_timezone_set('Asia/Dubai');
+$time = str_replace("_"," ",$_GET['time']);
+//$query = "set time_zone='+04:00';";
 $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
-  FROM `CoinBuyHistory` 
+  FROM `CoinBuyHistory`
   WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL 10 DAY)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
   order by `ActionDate` desc
   limit 500";

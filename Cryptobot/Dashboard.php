@@ -2,17 +2,70 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-
+include_once ('/home/stevenj1979/SQLData.php');
+include_once ('/home/stevenj1979/Encrypt.php');
 function getUserConfig(){
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-     $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` FROM `UserConfigView`";
+     $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` ,`KEK` FROM `UserConfigView`";
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['APIKey'],$row['APISecret'],$row['DaysRemaining'],$row['Email'],$row['UserName'],$row['Active']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['APIKey'],$row['APISecret'],$row['DaysRemaining'],$row['Email'],$row['UserName'],$row['Active'],$row['KEK']);}
     $conn->close();
     return $tempAry;
+}
+
+function clearDailtBTCTbl($table){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM $table";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function runTransaction($table, $dateWhere){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO $table (select `Tr`.`UserID` AS `UserID`, sum((`Tr`.`Amount` * `Tr`.`CoinPrice`)) AS `AmountOpen`,`Cn`.`BaseCurrency` AS `BaseCurrency`
+from `Transaction` `Tr`
+	join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`))
+where `Tr`.`Status` in ('Open','Pending') $dateWhere
+group by `Tr`.`UserID`,`Cn`.`BaseCurrency`);";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function runTracking($table, $dateWhere){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "INSERT INTO $table (select `Tc`.`UserID` AS `UserID`,sum((`Tc`.`Quantity` * `Tc`.`CoinPrice`)) AS `AmountOpen`,`Tc`.`BaseCurrency` AS `BaseCurrency`
+from `TrackingCoins` `Tc`
+where  `Tc`.`Status` in ('Open','Pending') $dateWhere
+group by `Tc`.`UserID`,`Tc`.`BaseCurrency`); ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
 }
 
 function DeleteHistory($hours){
@@ -31,7 +84,7 @@ function DeleteHistory($hours){
 
 function userHistory($userID){
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $query = "SET time_zone = 'Asia/Dubai';";
@@ -54,7 +107,7 @@ function userHistory($userID){
 
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH,$btcPrice, $ethPrice, $usdtPrice){
     //set time
-    date_default_timezone_set('Asia/Dubai');
+    setTimeZone();
     $date = date("Y-m-d H:i", time());
     if (empty($liveBTC)){$liveBTC = 0;}
     if (empty($BittrexBTC)){$BittrexBTC = 0;}
@@ -67,7 +120,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
     //echo "<br> TEST2: ".empty($BTCfromCoins);
     //echo "<br> TEST3: ".isnull($BTCfromCoins);
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call UpdateUserProfitNew($userID,$liveBTC, $BittrexBTC, $liveUSDT, $BittrexUSDT, $liveETH,$BittrexETH,'$date',$btcPrice, $ethPrice, $usdtPrice);";
@@ -81,7 +134,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
 }
 
 function coinHistory($hours){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call deleteHistory($hours)";
@@ -111,7 +164,7 @@ function updateSQLactive($userID){
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
     $body = "Dear ".$user.", <BR/>";
     $body .= "You have $daysRemaining days left before your subscription expires<BR/>";
-    $body .= "Please renew on this link http://www.investment-tracker.net/content/CryptoBot/1/Subscribe.php<BR/>";
+    $body .= "Please renew on this link http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/Subscribe.php<BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -133,28 +186,115 @@ function getLiveCoinPriceUSD($symbol){
       $tmpCoinPrice = $fgc[$i]["price_usd"];
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
+function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPrice, $ethPrice, $usdtPrice){
+    //set time
+    setTimeZone();
+    $date = date("Y-m-d H:i", time());
+    $BTCtoAdd = $liveBTC * $btcPrice;
+    if (empty($BTCtoAdd)) {$BTCtoAdd = 0;}
+    $USDTtoAdd = $liveUSDT * $usdtPrice;
+    if (empty($USDTtoAdd)) {$USDTtoAdd = 0;}
+    $ETHtoAdd = $liveETH * $ethPrice;
+    if (empty($ETHtoAdd)) {$ETHtoAdd = 0;}
+    $totaltoAdd = $BTCtoAdd+$USDTtoAdd+$ETHtoAdd;
+    //if (empty($actionDate)){$actionDate = $date;}
+    //echo "<br> TEST1: ".isset($BTCfromCoins);
+    //echo "<br> TEST2: ".empty($BTCfromCoins);
+    //echo "<br> TEST3: ".isnull($BTCfromCoins);
+    $tempAry = [];
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "call AddPendingUSDtoUserProfit($userID,$totaltoAdd);";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+$apikey = ""; $apisecret = "";
+$currentBTCPurchased = 0.00; $currentUSDTPurchased = 0.00; $currentETHPurchased = 0.00;
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
-$btcPrice = getLiveCoinPriceUSD('BTC');
-$ethPrice = getLiveCoinPriceUSD('ETH');
-$usdtPrice= getLiveCoinPriceUSD('USDT');
+$btcPrice = 0.00; $ethPrice = 0.00; $usdtPrice = 0.00;
+//$btcPrice = getLiveCoinPriceUSD('BTC');
+//$ethPrice = getLiveCoinPriceUSD('ETH');
+//$usdtPrice= getLiveCoinPriceUSD('USDT');
+Echo "<BR> BTC Price: $btcPrice : ETH Price :  $ethPrice : USDT Price : $usdtPrice ";
 $confSize = count($conf);
 for($x = 0; $x < $confSize; $x++) {
+  $userID = $conf[$x][0];
+  $apikey = $conf[$x][1]; $apisecret = $conf[$x][2]; $Kek = $conf[$x][7];
+  if (!empty($Kek)){$apisecret = Decrypt($Kek,$conf[$x][2]);}
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
-  $bittrexBalBTC = bittrexbalance($conf[$x][1], $conf[$x][2], 'BTC' );
-  $bittrexBalUSDT = bittrexbalance($conf[$x][1], $conf[$x][2], 'USDT' );
-  $bittrexBalETH = bittrexbalance($conf[$x][1], $conf[$x][2], 'ETH' );
+  $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',1)), 8, '.', '');
+  $ethPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','ETH',1)), 8, '.', '');
+  $usdtPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','USDT',1)), 8, '.', '');
+  $bittrexBalBTC = bittrexbalance($apikey, $apisecret, 'BTC',1);
+  if (empty($bittrexBalBTC)){$bittrexBalBTC = 0;}
+  $bittrexBalUSDT = bittrexbalance($apikey, $apisecret, 'USDT',1);
+  if (empty($bittrexBalUSDT)){$bittrexBalUSDT = 0;}
+  $bittrexBalETH = bittrexbalance($apikey, $apisecret, 'ETH',1);
+  if (empty($bittrexBalETH)){$bittrexBalETH = 0;}
   $btcToday = userHistory($conf[$x][0]);
+  if (!empty($btcToday)){
+    $currentBTCPurchased = $btcToday[0][1]; $currentUSDTPurchased = $btcToday[0][2]; $currentETHPurchased = $btcToday[0][3];
+  }
   echo "<BR> BTCPrice ".$btcPrice;
-  updateUserProfit($conf[$x][0],$btcToday[0][1],$bittrexBalBTC,$btcToday[0][2],$bittrexBalUSDT,$btcToday[0][3],$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
-  $daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $userID = $userDates[$x][0]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
+  Echo "<BR> Update User Profit: updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);";
+  Echo "<BR> Update Unrealised Profit: updateUserProfitUnrealised($userID,$currentBTCPurchased,$currentUSDTPurchased,$currentETHPurchased,$btcPrice, $ethPrice,$usdtPrice);";
+  updateUserProfit($userID,$currentBTCPurchased,$bittrexBalBTC,$currentUSDTPurchased,$bittrexBalUSDT,$currentETHPurchased,$bittrexBalETH,$btcPrice, $ethPrice,$usdtPrice);
+  updateUserProfitUnrealised($userID,$currentBTCPurchased,$currentUSDTPurchased,$currentETHPurchased,$btcPrice, $ethPrice,$usdtPrice);
+  //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
+
+$sellTrackingCoins = getTrackingSellCoins();
+$sellTrackingCoinsSize = Count($sellTrackingCoins);
+$z = 0;$toMergeAry = []; $finalMergeAry = [];
+echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
+for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
+  $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
+  $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
+  $noOfPurchases = $sellTrackingCoins[$x][49];
+  if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
+    $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
+    echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
+    $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
+  }
+}
+echo "<BR>".var_dump($finalMergeAry)."<BR>";
+$finalMergeArySize = Count($finalMergeAry);
+echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
+for($x = 0; $x < $finalMergeArySize; $x++) {
+  $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
+  $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
+  $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
+  echo "<BR> Count: $count";
+  if ($count >= 2){
+    echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
+    mergeTransactions($transactionID, $amount, $avCost);
+    UpdateTransCount($count-1, $transactionID);
+    closeOldTransSQL(rtrim($lastTransID, ','));
+    logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
+  }
+}
+
+clearDailtBTCTbl("`DailyBTCTbl`");
+runTransaction("`DailyBTCTbl`"," and dayofmonth(`OrderDate`) = dayofmonth(now()) and month(`OrderDate`) = month(now()) and Year(`OrderDate`) = Year(now())");
+runTracking("`DailyBTCTbl`", " and dayofmonth(`TrackDate`) = dayofmonth(now()) and month(`TrackDate`) = month(now()) and Year(`TrackDate`) = Year(now())");
+clearDailtBTCTbl("`AllTimeBTCTbl`");
+runTransaction("`AllTimeBTCTbl`","");
+runTracking("`AllTimeBTCTbl`","");
 
 //coinHistory(10);
 //DeleteHistory(168);
+
 ?>
 </html>

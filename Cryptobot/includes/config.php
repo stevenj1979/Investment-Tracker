@@ -53,15 +53,6 @@ function getMinTrade($apisecret){
 }
 
 function writeSQLBuy($symbol, $amounttobuy, $cost, $date, $orderNo, $userID, $baseCurrency){
-    //$servername = "sql7.freemysqlhosting.net";
-    //$username = "sql7253140";
-    //$password = "77YxhGXAH4";
-    //$dbname = "sql7253140";
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
-
 
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -135,17 +126,7 @@ function sendTestEmail($to, $stat1, $stat2, $stat3, $stat4, $score){
 }
 
 function writeCoinToSQL($symbol){
-    //$servername = "sql7.freemysqlhosting.net";
-    //$username = "sql7253140";
-    //$password = "77YxhGXAH4";
-    //$dbname = "sql7253140";
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
 
-    // Create connection
-    //$conn = new mysqli($servername, $username, $password, $dbname);
     $conn = getSQL();
     // Check connection
     if ($conn->connect_error) {
@@ -166,14 +147,6 @@ function writeCoinToSQL($symbol){
 }
 
 function getUserIDs(){
-  //$servername = "sql7.freemysqlhosting.net";
-  //$username = "sql7253140";
-  //$password = "77YxhGXAH4";
-  //$dbname = "sql7253140";
-  //$servername = "localhost";
-  //$username = "jenkinss";
-  //$password = "Butt3rcup23";
-  //$dbname = "CryptoBotDb";
 
   // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -195,14 +168,6 @@ function getUserIDs(){
 }
 
 function getConfig($userID){
-  //$servername = "sql7.freemysqlhosting.net";
-  //$username = "sql7253140";
-  //$password = "77YxhGXAH4";
-  //$dbname = "sql7253140";
-  //$servername = "localhost";
-  //$username = "jenkinss";
-  //$password = "Butt3rcup23";
-  //$dbname = "CryptoBotDb";
 
   // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -229,14 +194,7 @@ function getConfig($userID){
 
 
 function getTrackingCoins(){
-  //$servername = "sql7.freemysqlhosting.net";
-  //$username = "sql7253140";
-  //$password = "77YxhGXAH4";
-  //$dbname = "sql7253140";
-  //$servername = "localhost";
-  //$username = "jenkinss";
-  //$password = "Butt3rcup23";
-  //$dbname = "CryptoBotDb";
+
 
   // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -272,6 +230,7 @@ function getLiveCoinPrice($symbol){
 
     }
   }
+  logAction("$cnmkt",'CMC');
   return $tmpCoinPrice;
 }
 
@@ -341,10 +300,7 @@ function getMinTradeAmount($coin, $baseCurrency, $apisecret){
 }
 
 function updateSQL($symbol,$amount,$livePrice, $cost, $baseCurrency, $date){
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
+
     $sellPrice = ($livePrice*$amount)-(($livePrice*$amount)*0.25);
     $purchasePrice = ($cost*$amount)-(($cost*$amount)*0.25);
     $profit = $sellPrice - $purchasePrice;
@@ -373,12 +329,7 @@ function updateSQL($symbol,$amount,$livePrice, $cost, $baseCurrency, $date){
 }
 
 function getTrackingSellCoins($userID){
-  //$servername = "localhost";
-  //$username = "jenkinss";
-  //$password = "Butt3rcup23";
-  //$dbname = "CryptoBotDb";
 
-  // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
   $conn = getSQL();
   // Check connection
@@ -403,10 +354,7 @@ function getTrackingSellCoins($userID){
 }
 
 function getCoinsfromSQL(){
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
+
 
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -427,10 +375,7 @@ function getCoinsfromSQL(){
 }
 
 function getCoinPrice(){
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
+
 
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -484,10 +429,6 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
 }
 
 function writeBuyHistory($coin,$bitPrice,$marketCapPct,$volumePct,$buyOrdersPct,$priceDiff4,$priceDiff3,$priceDiff2,$priceDiff1,$pctChange1Hr,$pctChange24Hrs,$pctChange7D,$date,$totalScore, $baseCurrency){
-  //$servername = "localhost";
-  //$username = "autoCryptoBot";
-  //$password = "@c5WmgTgjtR+";
-  //$dbname = "CryptoBotHistory";
 
   // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -510,10 +451,6 @@ function writeBuyHistory($coin,$bitPrice,$marketCapPct,$volumePct,$buyOrdersPct,
 }
 
 function writeSellHistory($coin,$bitPrice,$marketCapbyPct,$priceDiff4,$priceDiff3,$priceDiff2,$priceDiff1,$totalScore,$profit,$date,$userID,$baseCurrency, $volumePct,$sellOrdersPct,$pctChange1Hr,$pctChange24Hrs,$pctChange7D){
-  //$servername = "localhost";
-  //$username = "autoCryptoBot";
-  //$password = "@c5WmgTgjtR+";
-  //$dbname = "CryptoBotHistory";
 
   // Create connection
   //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -535,11 +472,6 @@ function writeSellHistory($coin,$bitPrice,$marketCapbyPct,$priceDiff4,$priceDiff
 }
 
 function writeBittrexAction($apikey, $apisecret,$coin, $email, $userID, $totalScore,$date, $baseCurrency,$sendEmail,$sellCoin,$ruleID,$userName,$orderNo,$amount,$cost,$type,$bittrexRef,$status,$sellPrice,$transactionID,$totalBTC){
-
-    //$servername = "localhost";
-    //$username = "jenkinss";
-    //$password = "Butt3rcup23";
-    //$dbname = "CryptoBotDb";
 
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
@@ -563,11 +495,6 @@ function writeBittrexAction($apikey, $apisecret,$coin, $email, $userID, $totalSc
 
 function writeBittrexActionBuy($apikey, $apisecret,$coin, $email, $userID, $totalScore,$date, $baseCurrency,$sendEmail,$buyCoin,$newBTCAmount,$bitPrice,$ruleID,$userName,$type,$bittrexRef,$status,$orderNo,$sellPrice){
 
-    //$servername = "localhost";
-    //$username = "autoCryptoBot";
-    //$password = "@c5WmgTgjtR+";
-    //$dbname = "CryptoBotDb";
-
     // Create connection
     //$conn = new mysqli($servername, $username, $password, $dbname);
     $conn = getSQL();
@@ -589,7 +516,7 @@ function writeBittrexActionBuy($apikey, $apisecret,$coin, $email, $userID, $tota
 
 }
 
-function getSQL(){
+function getOldSQL(){
   $servername = "localhost";
   $username = "autoCryptoBot";
   $password = "@c5WmgTgjtR+";

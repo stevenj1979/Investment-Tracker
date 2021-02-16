@@ -2,71 +2,115 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php require('includes/config.php');?>
+<?php include_once ('/home/stevenj1979/SQLData.php');
+include '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
-include '../../../NewSQLData.php';
+//if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 echo isset($_GET['coin'])."-".$_GET['manualPrice']."-".isset($_GET['manualPrice'])."-".isset($_GET['coinTxt']);
-if(isset($_GET['coin'])){
+if(isset($_GET['manSell'])){
   //collect values from the url
-  echo "Coin is set ".$_GET['coin'];
-  $_SESSION['coin'] = trim($_GET['coin']);
-  $_SESSION['amount'] = trim($_GET['amount']);
-  $_SESSION['cost'] = trim($_GET['cost']);
-  $_SESSION['baseCurrency'] = trim($_GET['baseCurrency']);
-  $_SESSION['transactionID'] = trim($_GET['transacationID']);
-  $_SESSION['orderNo'] = trim($_GET['orderNo']);
-  $_SESSION['salePrice'] = trim($_GET['salePrice']);
+  echo "Coin is set ".$_GET['coin']. " TransactionID : ".$_GET['transactionID'];
+  $coin = trim($_GET['coin']);
+  $amount = trim($_GET['amount']);
+  $cost = trim($_GET['cost']);
+  $baseCurrency = trim($_GET['baseCurrency']);
+  $transactionID = trim($_GET['transactionID']);
+  $orderNo = trim($_GET['orderNo']);
+  $salePrice = trim($_GET['salePrice']);
   //$active = trim($_GET['y']);
+}
+
+if(isset($_GET['manSave'])){
+  $transactionID = trim($_GET['transactionID']);
+  setTransStatus("Open",$transactionID);
+  header('Location: SellCoins.php');
+}
+
+if(isset($_GET['manReopen'])){
+  $transactionID = trim($_GET['transactionID']);
+  setTransStatus("Saving",$transactionID);
+  header('Location: SellCoins_Saving.php');
+}
+
+
+
+if(isset($_GET['trackCoin'])){
+  $baseCurrency = trim($_GET['baseCurrency']);
+  $transactionID = trim($_GET['transactionID']);
+  $salePrice = trim($_GET['salePrice']);
+  $userID = trim($_GET['userID']);
+  //echo "<BR> newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);";
+  newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);
+  setTransactionPending($transactionID);
+  header('Location: SellCoins.php');
 }
 
 if(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
-  $_SESSION['coin'] = $_GET['coinTxt'];
-  $_SESSION['amount'] = $_GET['amountTxt'];
+  date_default_timezone_set('Asia/Dubai');
+  $date = date("Y-m-d H:i:s", time());
+  $coin = $_GET['coinTxt']; $amount = $_GET['amountTxt']; $baseCurrency = $_GET['BaseCurTxt'];
+  $orderNo = $_GET['OrderNoTxt']; $cost = $_GET['origCostTxt']; $transactionID = $_GET['TranIDTxt'];
+  Echo "<BR> TransactionID $transactionID | $baseCurrency | $orderNo | ";
+  $userConfig = getTrackingSellCoinsMan($transactionID);
+  $livePrice = $userConfig[0][19];$coinID = $userConfig[0][2];$type = $userConfig[0][1];
+  $userName = $userConfig[0][38]; $email = $userConfig[0][37];$apikey = $userConfig[0][39]; $apisecret = $userConfig[0][40]; $KEK = $userConfig[0][42];
+  $userID = $userConfig[0][3];
+  if (!Empty($KEK)){$apisecret = decrypt($KEK,$userConfig[0][40]);}
+  $bitPrice = number_format((float)($bitPrice), 8, '.', '');
+  $profit = $livePrice/$cost;
   if ($_GET['priceSelect'] == 'manual'){
-    $_SESSION['salePrice'] = $_GET['costTxt'];
+    $salePrice = $_GET['costTxt'];
   }elseif ($_GET['priceSelect'] == 0.25){
-    $tempPrice = (($_SESSION['cost']/100 )*0.25)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*0.25)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 0.5){
-    $tempPrice = (($_SESSION['cost']/100 )*0.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*0.5)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 1){
-    $tempPrice = (($_SESSION['cost']/100 )*1)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*1)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 1.5){
-    $tempPrice = (($_SESSION['cost']/100 )*1.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*1.5)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 2){
-    $tempPrice = (($_SESSION['cost']/100 )*2)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*2)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 2.5){
-    $tempPrice = (($_SESSION['cost']/100 )*2.5)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*2.5)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 3){
-    $tempPrice = (($_SESSION['cost']/100 )*3)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*3)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 5){
-    $tempPrice = (($_SESSION['cost']/100 )*5)+$_SESSION['cost'];
+    $tempPrice = (($cost/100 )*5)+$cost;
     echo "<BR> Temp Price $tempPrice";
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
-    echo "<BR> session price ".$_SESSION['salePrice'];
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    echo "<BR> session price ".$GLOBALS['salePrice'];
   }elseif ($_GET['priceSelect'] == 10){
-    $tempPrice = (($_SESSION['cost']/100 )*10)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*10)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }elseif ($_GET['priceSelect'] == 20){
-    $tempPrice = (($_SESSION['cost']/100 )*20)+$_SESSION['cost'];
-    $_SESSION['salePrice'] = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
+    $tempPrice = (($cost/100 )*20)+$cost;
+    $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
-  echo $_SESSION['coin']."_".$_SESSION['amount']."_".$_SESSION['cost']."_".$_SESSION['baseCurrency']."_".$_SESSION['transactionID']."_".$_SESSION['orderNo']."_".$_SESSION['salePrice'];
-  //sellManualCoin($coin,$amount,$cost,$baseCurrency,$transactionID,$orderNo, $bitPrice){
-  sellManualCoin($_SESSION['coin'],$_SESSION['amount'],$_SESSION['cost'],$_SESSION['baseCurrency'], $_SESSION['transactionID'], $_SESSION['orderNo'],$_SESSION['salePrice']);
+  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
   header('Location: SellCoins.php');
 }
+elseif (isset($_GET['splitCoin'])){
 
-function bittrexbalance($apikey, $apisecret){
+    $coin = $_GET['splitCoin']; $transactionID = $_GET['transactionID']; $ruleIDBTSell = "9999";
+    $amount = $_GET['amount']; $qtySold = round($amount/2,8); $orderQtyRemaining = $amount-$qtySold;
+    $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
+
+    bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
+    header('Location: SellCoins.php');
+}
+
+function bittrexbalanceMan($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
     $sign=hash_hmac('sha512',$uri,$apisecret);
@@ -79,37 +123,9 @@ function bittrexbalance($apikey, $apisecret){
     return $balance;
 }
 
-function getNewSQL($number){
-  $servername = "localhost";
-  $dbname = "NewCryptoBotDb";
 
-  switch ($number) {
-    case 1:
-        $username = "jenkinss";
-        $password = "Butt3rcup23";
-        break;
-    case 2:
-        $username = "cryptoBotWeb1";
-        $password = "UnYpH7HkgK[N";
-        break;
-    case 3:
-        $username = "cryptoBotWeb2";
-        $password = "U0I^=bBc0jkf";
-        break;
-    case 4:
-        $username = "autoCryptoBot";
-        $password = "@c5WmgTgjtR+";
-        break;
-    default:
-        $username = "cryptoBotWeb3";
-        $password = "XcE)n7GJ-Twr";
-    }
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    return $conn;
-}
-
-function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
-  $conn = getNewSQL(rand(1,4));
+function bittrexSellAddMan($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -123,7 +139,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
   $conn->close();
 }
 
-function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate){
+function bittrexsellMan($apikey, $apisecret, $symbol, $quant, $rate){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market=BTC-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
     echo "<BR>$uri<BR>";
@@ -138,7 +154,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate){
 
 
 function getTrackingSellCoinsMan($transactionID){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -147,6 +163,7 @@ function getTrackingSellCoinsMan($transactionID){
   $sql = "SELECT
 `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,
 `LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`,`Email`,`UserName`,`APIKey`,`APISecret`,`BTCBuyAmount`
+,`KEK`
 FROM `ManualSell` WHERE `ID` = $transactionID";
   $result = $conn->query($sql);
   print_r($sql);
@@ -156,7 +173,7 @@ FROM `ManualSell` WHERE `ID` = $transactionID";
       $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'],
       $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],
       $row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Email'],$row['UserName'],
-      $row['APIKey'],$row['APISecret'],$row['BTCBuyAmount']);
+      $row['APIKey'],$row['APISecret'],$row['BTCBuyAmount'],$row['KEK']);
   }
   $conn->close();
   return $tempAry;
@@ -221,8 +238,8 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
 <h1>Manual Sell Coin</h1>
 <h2>Enter Price</h2>
                 <form action='ManualSell.php?manualPrice=Yes' method='get'>
-                Coin: <input type="text" name="coinTxt" value="<?php echo $_SESSION['coin']; ?>"><br>
-                Amount: <input type="text" name="amountTxt" value="<?php echo $_SESSION['amount']; ?>"><br>
+                Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+                Amount: <input type="text" name="amountTxt" value="<?php echo $GLOBALS['amount']; ?>"><br>
                 <select name="priceSelect">
                   <option value="manual" name='manualOpt'>Manual Price (Below)</option>
                   <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
@@ -235,7 +252,11 @@ echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
                   <option value="5" name='fivePctOpt'>5%</option>
                   <option value="10" name='tenPctOpt'>10%</option>
                   <option value="20" name='twentyPctOpt'>20%</option>
-                Cost: <input type="text" name="costTxt" value="<?php echo $_SESSION['salePrice']; ?>"><br>
+                Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
+                TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" style='color:Gray' readonly ><br>
+                BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+                OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" style='color:Gray' readonly ><br>
+                OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" style='color:Gray' readonly ><br>
                 <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
                 </form>
               </div>

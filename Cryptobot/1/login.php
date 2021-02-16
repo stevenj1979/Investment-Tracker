@@ -1,19 +1,17 @@
 <?php
 //include config
-require_once('includes/config.php');?>
-<style>
-<?php include 'style/style.css'; ?>
-</style> <?php
+require_once('includes/config.php');
+include_once '../includes/newConfig.php';
+setStyle(isMobile());
 //check if already logged in move to home page
 if( $user->is_logged_in() ){ header('Location: index.php'); exit(); }
 
+include_once ('/home/stevenj1979/SQLData.php');
+
 function updateUser($nameUser){
-  $servername = "localhost";
-  $username = "jenkinss";
-  $password = "Butt3rcup23";
-  $dbname = "NewCryptoBotDb";
+
   // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -29,17 +27,14 @@ function updateUser($nameUser){
 
 function checkFirstTime($nameUser){
   $tempAry = [];
-	$servername = "localhost";
-  $username = "jenkinss";
-  $password = "Butt3rcup23";
-  $dbname = "NewCryptoBotDb";
+
   // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `FirstTimeLogin`,`DisableUntil` FROM `User` where `UserName` = '$nameUser'";
+  $sql = "SELECT `FirstTimeLogin`,`DisableUntil`,`ID` FROM `User` where `UserName` = '$nameUser'";
 	//echo $sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -64,9 +59,28 @@ if(isset($_POST['submit'])){
 		//echo $password;
 		if($user->login($username,$password)){
 			$_SESSION['username'] = $username;
+      $_SESSION['isMobile'] = False;
+      if(isMobile()){ $_SESSION['isMobile'] = True;}
 			$temp = checkFirstTime($username);
       $_SESSION['DisableUntil'] = $temp[0][1];
 			updateUser($username);
+      setStats();
+      $_SESSION['TransListSelected'] = "Open";
+      $_SESSION['BittrexListSelected'] = "1";
+      $_SESSION['ConsoleSelected'] = "1";
+      $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($temp[0][2]));
+      $_SESSION['bittrexQueue'] = count(getBittrexRequests($temp[0][2]));
+      $ruleID = getBuyRulesIDs($temp[0][2]);
+      $_SESSION['RuleIDSelected'] = $ruleID[0][0];
+      $_SESSION['MobOverride'] = False;
+      $_SESSION['MobDisplay'] = 0;
+      $_SESSION['roundVar'] = 8;
+      $coinPriceMatchNames = getCoinPriceMatchNames($temp[0][2], "`CoinPriceMatchName`","Limit 1");
+      $_SESSION['coinPriceMatchNameSelected'] = $coinPriceMatchNames[0][1];
+      $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","Limit 1");
+      $_SESSION['coinPricePatternNameSelected'] = $coinPricePatternNames[0][1];
+      $coin1HrPatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`Coin1HrPatternName`","Limit 1");
+      $_SESSION['coin1HrPatternNameSelected'] = $coin1HrPatternNames[0][1];
 			echo $temp[0][0];
 			if ($temp[0][0] == 0){header('Location: Transactions.php');}else{header('Location: Transactions.php');}
 			exit;
@@ -103,8 +117,8 @@ require('layout/header.php');
       <div class="column middle">
 
 			<form role="form" method="post" action="" autocomplete="off">
-				<h2>Please Login</h2>
-				<p><a href='/content/1/index.php'>Back to home page</a></p>
+				<h2 id='loginH2'>Please Login</h2>
+				<p id='loginP'><a href='/content/1/index.php'>Back to home page</a></p>
 				<hr>
 
 				<?php
@@ -145,10 +159,10 @@ require('layout/header.php');
 						 <a href='reset.php'>Forgot your Password?</a>
              <a href='Subscribe.php'>Subscribe</a>
 				<hr>
-          <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="5">
+          <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" id="submitLogin" tabindex="5">
     </div>
-    <div class="column side">
-        <img src='Images/CBLogoSmall.png' width="150">
+    <div class="column side main">
+        <img id='imageLogin' src='Images/CBLogoSmall.png' width="150">
     </div>
   </div>
 <?php

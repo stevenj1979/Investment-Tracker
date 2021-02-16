@@ -1,5 +1,5 @@
 <?php
-include('password.php');
+include($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/classes/password.php');
 class User extends Password{
 
     private $_db;
@@ -38,7 +38,7 @@ class User extends Password{
 		$row = $this->get_user_hash($username);
 
 		if($this->password_verify($password,$row['Password']) == 1){
-        //echo " This is the password: $password this is the other: ".$row['Password']; 
+        //echo " This is the password: $password this is the other: ".$row['Password'];
 		    $_SESSION['loggedin'] = true;
 		    $_SESSION['username'] = $row['UserName'];
 		    $_SESSION['ID'] = $row['ID'];

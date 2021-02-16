@@ -6,7 +6,7 @@
 <html>
 <style>
 <?php include 'style/style.css';
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 ?>
 </style>
 <body>
@@ -46,7 +46,7 @@ if (isset($_GET['fixTransaction'])){
 }
 
 function fixTransaction($amount, $transactionID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CompleteBittrexBuyUpdateAmount($transactionID, $amount);";
@@ -58,7 +58,7 @@ function fixTransaction($amount, $transactionID){
 }
 
 function PromoteAdmin($user_name){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "UPDATE `User` SET `AccountType`= 1 WHERE `UserName` =  $user_name";
@@ -70,7 +70,7 @@ function PromoteAdmin($user_name){
 }
 
 function closeSubscription($id,$userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "UPDATE `Subscription` SET `Status`= 'Closed' WHERE `ID` = $id ";
@@ -82,7 +82,7 @@ function closeSubscription($id,$userID){
 }
 
 function processSubscription($length,$userID){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "UPDATE `User` SET `Active`= 'Yes', `ExpiryDate`= if(`ExpiryDate` < CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL $length MONTH),DATE_ADD(`ExpiryDate`, INTERVAL $length MONTH) ) WHERE `ID` = $userID";

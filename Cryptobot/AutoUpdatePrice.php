@@ -1,29 +1,50 @@
 <html>
 <?php
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 900);
 require('includes/newConfig.php');
-
-$apikey='8363893012e5441a9d667a09cff9d717';
-$apisecret='4229026e95454f37af92bff669243f86';
-
-
-
-function getCoinPriceStats(){
-  $conn = getNewSQL(rand(1,3));
+//require '/home/stevenj1979/repositories/Sparkline/autoload.php';
+include_once ('/home/stevenj1979/SQLData.php');
+$apikey=getAPIKey();
+$apisecret=getAPISecret();
+$logToFileSetting = getLogToFile();
+function getCoinPriceStatsSell(){
+  $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`Live1HrChange`,`Live24HrChange`,`LiveCoinPrice`,`CoinPricePctChange`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`BaseCurrency` FROM `CoinStatsView`";
+  $sql = "SELECT Min(`Price`) as `Price`,`CoinID` FROM `CountOfCoinPrice` WHERE `Count of Price` > 10 and `Price` <> 0
+group by `CoinID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   Echo "<BR>";
   print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['Live1HrChange'],$row['Live24HrChange'],$row['LiveCoinPrice'],$row['CoinPricePctChange'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']
-      ,$row['BaseCurrency']
+      $tempAry[] = Array($row['Price'],$row['CoinID']
+    );
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getCoinPriceStats(){
+  $conn = getHistorySQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT Max(`Price`) as `Price`,`CoinID` FROM `CountOfCoinPrice` WHERE `Count of Price` > 10 and `Price` <> 0
+group by `CoinID`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  Echo "<BR>";
+  print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Price'],$row['CoinID']
     );
   }
   $conn->close();
@@ -40,13 +61,14 @@ function getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend){
   else {return $newTrend;}
 }
 
-function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency){
+function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency, $coinMultiplier){
   Echo "<BR> calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPrice ,$CoinPricePctChange, $Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend, $baseCurrency){";
+  $newSellPrice = 0.00;
   $finalTrend = getTrend($Price4Trend, $Price3Trend, $LastPriceTrend, $LivePriceTrend);
   Echo "<BR> Final Trend : $finalTrend ";
   if ($finalTrend >0){
     //Trend Upwards
-    $finalTrend = $finalTrend / 2;
+    $finalTrend = $finalTrend / $coinMultiplier;
     Echo "<BR> New Final Trend : $finalTrend ";
     $newSellPrice = (($LiveCoinPrice / 100) * $finalTrend) + $LiveCoinPrice;
     Echo "<BR> newSellPrice $newSellPrice = (($LiveCoinPrice / 100) * $finalTrend) + $LiveCoinPrice;";
@@ -56,7 +78,7 @@ function calculateBuyPrice($coinID, $Live1HrChange, $Live24HrChange, $LiveCoinPr
     updateSellPrice($coinID, $newSellPrice,$finalTrend);
   }else{
     //Trend Downwards
-    $finalTrend = $finalTrend / 2;
+    $finalTrend = $finalTrend / $coinMultiplier;
     Echo "<BR> New Final Trend : $finalTrend ";
     $newBuyPrice = (($LiveCoinPrice / 100) * $finalTrend) - $LiveCoinPrice;
     Echo "<BR> newBuyPrice $newBuyPrice = (($LiveCoinPrice / 100) * $finalTrend) - $LiveCoinPrice;";
@@ -71,12 +93,12 @@ function calculateSellPrice($coinID, $Live1HrChange, $Live24HrChange, $CoinPrice
 
 }
 
-function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
-  $conn = getNewSQL(rand(1,4));
+function updateBuyPrice($newBuyPrice,$coinID){
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `CryptoAuto` SET `AutoBuyPrice`= $newBuyPrice, `Trend` = $finalTrend WHERE `CoinID` = $coinID";
+  $sql = "UPDATE `CryptoAuto` SET `AutoBuyPrice` = $newBuyPrice WHERE `CoinID` = $coinID";
   echo "<BR>";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -87,12 +109,51 @@ function updateBuyPrice($coinID, $newBuyPrice,$finalTrend){
   $conn->close();
 }
 
-function updateSellPrice($coinID, $newSellPrice,$finalTrend){
-  $conn = getNewSQL(rand(1,4));
+function updateSellPrice($newSellPrice,$coinID){
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `CryptoAuto` SET `AutoSellPrice`= $newSellPrice, `Trend` = $finalTrend WHERE `CoinID` = $coinID";
+  $sql = "UPDATE `CryptoAuto` SET `AutoSellPrice` = $newSellPrice WHERE `CoinID` = $coinID";
+  echo "<BR>";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function getCoinTrend(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`,`Symbol`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,(`Price4Trend`*1 +`Price3Trend`*1 +`LastPriceTrend`*1 +`LivePriceTrend`*1 ) as CoinPriceTrend
+  ,`1HrPriceChangeLive`,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`, (`1HrPriceChangeLive`*1 +`1HrPriceChangeLast`*1 +`1HrPriceChange3`*1 +`1HrPriceChange4`*1 ) as Hr1Trend FROM `CoinStatsView` ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  Echo "<BR>";
+  print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['Symbol'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['CoinPriceTrend']
+      ,$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'],$row['1HrPriceChange4'],$row['Hr1Trend']
+    );
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateCoinTrend($coinID, $priceTrend, $hr1Trend){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `AllCoinStatus` SET `CoinTrendPrice`= $priceTrend,`CoinTrend1Hr`= $hr1Trend WHERE `CoinID` = $coinID";
   echo "<BR>";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -104,19 +165,64 @@ function updateSellPrice($coinID, $newSellPrice,$finalTrend){
 }
 
 //set time
-date_default_timezone_set('Asia/Dubai');
+setTimeZone();
 $date = date("Y-m-d H", time());
-
+// ***  UPDATE Buy price : for Autobuy
 $coinStatsAry = getCoinPriceStats();
 $coinStatsSize = count($coinStatsAry);
 
 for($x = 0; $x < $coinStatsSize; $x++) {
-  calculateBuyPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
-  ,$coinStatsAry[$x][9],$coinStatsAry[$x][10],$coinStatsAry[$x][11]);
-  //calculateSellPrice($coinStatsAry[$x][0],$coinStatsAry[$x][1],$coinStatsAry[$x][2],$coinStatsAry[$x][3],$coinStatsAry[$x][4],$coinStatsAry[$x][5],$coinStatsAry[$x][6],$coinStatsAry[$x][7],$coinStatsAry[$x][8]
-  //,$coinStatsAry[$x][9],$coinStatsAry[$x][10]);
-  Echo "<BR><BR> NEW COIN!!! ------------------------------------------------------------";
+  $newBuyPrice = $coinStatsAry[$x][0]; $coinID = $coinStatsAry[$x][1];
+  $buyPricePct = ($newBuyPrice/100)*3;
+  $finalBitPrice = $newBuyPrice-$buyPricePct;
+  updateBuyPrice($finalBitPrice,$coinID);
+  Echo "<BR>Update Buy Price $finalBitPrice , $coinID";
+  logAction("Update Buy Price $finalBitPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
+}
+// ***  UPDATE Sell price : for Autosell
+$coinStatsSellAry = getCoinPriceStatsSell();
+$coinStatsSellSize = count($coinStatsSellAry);
+for($x = 0; $x < $coinStatsSellSize; $x++) {
+  $newSellPrice = $coinStatsSellAry[$x][0]; $coinID = $coinStatsSellAry[$x][1];
+  $sellPricePct = ($newSellPrice/100)*3;
+  updateSellPrice($newSellPrice,$coinID);
+  Echo "<BR>Update Sell Price $newSellPrice , $coinID";
+  logAction("Update Sell Price $newSellPrice , $coinID",'AutoUpdatePrice',$logToFileSetting);
+}
+// ***  UPDATE Coin Trend
+$coinTrend = getCoinTrend();
+$coinTrendSize = Count($coinTrend);
+Echo "<BR> coinTrendSize: $coinTrendSize";
+for($x = 0; $x < $coinTrendSize; $x++) {
+  $coinID = $coinTrend[$x][0]; $priceTrend = $coinTrend[$x][6]; $hr1Trend = $coinTrend[$x][11];
+  Echo "<BR> updateCoinTrend($coinID,$priceTrend,$hr1Trend);";
+  updateCoinTrend($coinID,$priceTrend,$hr1Trend);
 }
 
+// ***  Sparkline Images
+
+echo "<BR> Generate sparkline Images";
+//$sparklineAry = [];
+$trackingCoins = getTrackingCoins();
+$coinSize = Count($trackingCoins);
+
+for ($j=0; $j<$coinSize; $j++){
+  Echo "<BR> Fetching ".$trackingCoins[$j][1];
+  $sparklineAry = getSparklineData($trackingCoins[$j][1]);
+  $url ="http://www.investment-tracker.net/Sparkline/sparkline.php?size=150x80&data=";
+  $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
+  $data = dataToString(",",$sparklineAry);
+  $savePath ="/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Images/";
+  saveImage($trackingCoins[$j][1],$url.$data.$url2,$savePath);
+}
+
+//$sparkline = new Davaxi\Sparkline();
+//$sparkline->setData(array(2,4,5,6,10,7,8,5,7,7,11,8,6,9,11,9,13,14,12,16));
+//$sparkline->save('/home/stevenj1979/repositories/Sparkline/BTC');
+//$sparkline->display();
+//echo "<BR> Test data : $data";
+
+//Echo "<img src='".$url.$data.$url2."' />";
+//phpinfo();
 ?>
 </html>

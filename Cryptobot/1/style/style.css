@@ -103,6 +103,16 @@ img{
   align-self: center;
 }
 
+#visualization{
+  width: 80%;
+  height: 50%;
+}
+
+#visualization2{
+  width: 80%;
+  height: 50%;
+}
+
 input[type=button], input[type=submit], input[type=reset] {
     background-color: #85929E;
     border: none;
@@ -121,8 +131,43 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
+#enableTextBoxLong{
+    width: 100%;
+}
 .settingsform{
-  width: 13%;
+  width: 25%;
+  padding: 6px 10px;
+  margin: 4px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.settingsformCmbo{
+  width: 100%;
+  padding: 6px 10px;
+  margin: 4px 0;
+  display: inline-block;
+  background-color: #2C3E50;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.settingsformCmbo.Label{
+  color: white;
+}
+.settingsformMain{
+  width: 100%;
+  padding: 6px 10px;
+  margin: 4px 0;
+  display: inline-block;
+  background-color: LightGray;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.settingsformLong{
+  width: 25%;
   padding: 6px 10px;
   margin: 4px 0;
   display: inline-block;
@@ -181,6 +226,9 @@ input[type=text], select {
 
 /* Left and right column */
 .column.side {
+    width: 15%;
+}
+.column.side.main {
     width: 15%;
 }
 .side.smaller {
@@ -261,4 +309,20 @@ input[type=text], select {
         float: none;
         width: 100%;
     }
+}
+#smallText{
+    font-size: 0.75vw
+}
+#largeText{
+    font-size: 1vw
+}
+#normalText{
+  font-size: 0.85vw
+}
+#t01 {
+  width: 100%;
+  text-align: left;
+  vertical-align: middle;
+  table-layout: fixed;
+  overflow-wrap: break-word;
 }

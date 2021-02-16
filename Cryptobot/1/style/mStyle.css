@@ -1,0 +1,232 @@
+body {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2C3E50;
+}
+
+li {
+  float: left;
+  font-size: 36px;
+  font-weight: bolder;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.active {
+  background-color: #85929E;
+  color: #2C3E50;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+th{
+  text-align: center;
+  font-weight: 300;
+  background-color: #2C3E50;
+  color: white;
+  font-size: 34px;
+}
+td{
+  text-align: center;
+  font-size: 34px;
+}
+
+h1{
+  font-size: 42px;
+  font-weight: 400;
+}
+
+h2{
+  font-size: 34px;
+  font-weight: 400;
+}
+
+#visualization{
+  width: 80%;
+  height: 50%;
+}
+
+#visualization2{
+  width: 80%;
+  height: 50%;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #85929E;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 300px
+    height: 150px
+}
+
+#Home:hover #homeContent{
+    display: block;
+      position: absolute;
+}
+#AboutUs:hover #AboutUsContent{
+    display: block;
+      position: absolute;
+}
+
+#username{
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  height: 100px;
+}
+
+#password{
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  height: 100px;
+}
+
+#submitLogin{
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  height: 100px;
+}
+
+.header {
+    background-color: #2C3E50;
+    text-align: center;
+    padding: 2px;
+    color: white;
+}
+.footer {
+    background-color: #2C3E50;
+    text-align: center;
+    padding: 2px;
+}
+.column {
+    float: right;
+    margin: 0;
+}
+
+/* Left and right column */
+.column.side {
+    width: 2%;
+}
+.column.side.main {
+    width: 11%;
+}
+.side.smaller {
+    width: 2%;
+}
+.settingCol1{
+  float: left;
+  width: 90%;
+  padding-left: 60px;
+}
+
+/* Middle column */
+.column.middle {
+    width: 100%;
+}
+.statscolumn{
+    margin: 25px;
+    width: 100%;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#t01 {
+  width: 100%;
+  text-align: left;
+  vertical-align: middle;
+  table-layout: fixed;
+  overflow-wrap: break-word;
+}
+#tCnName {
+  font-size: 52px
+  width: 25%
+}
+#tBitPrice {
+  font-size: 52px
+  width: 20%
+}
+#tCoin {
+  font-size: 32px
+}
+#tPriceChng{
+  font-size: 32px
+}
+#cNimg{
+  width: 10%
+}
+#cNicon{
+  vertical-align: middle;
+    width: 10%
+}
+.wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.container{
+  padding-left: 50px
+  padding-right: 50px
+}
+
+.row{
+  padding-left: 50px
+  padding-right: 50px
+}
+
+#CnImg{
+  width: 120px
+}
+#cNchart{
+  width: 25%
+}
+tr.spaceUnder>td {
+  padding-top: 1.5em;
+}
+#smallText{
+    font-size: 2.75vw;
+}
+#largeText{
+    font-size: 3.75vw;
+}
+#normalText{
+  font-size: 3.25vw;
+}
+#loginH2{
+  padding-left: 70px;
+}
+#loginP{
+  padding-left: 70px;
+}
+#imageLogin{
+  padding-right: 70px;
+}

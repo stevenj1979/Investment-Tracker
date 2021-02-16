@@ -1,5 +1,5 @@
-
+---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/stevenj1979/public_html/Investment-Tracker 
-    - /bin/cp -r * $DEPLOYPATH
+    - export DEPLOYPATH=/home/stevenj1979/public_html/Investment-Tracker
+    - /bin/cp -R /Cryptobot $DEPLOYPATH

@@ -3,7 +3,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <?php require('includes/config.php');
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
+include_once '../includes/newConfig.php';
 ?>
 <html>
 <style>
@@ -15,36 +16,137 @@ include '../../../NewSQLData.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
-?>
-<div class"row">
-    <div class="header">
-      <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-          <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-    </div>
-    <div class="topnav">
-      <a href="Dashboard.php">Dashboard</a>
-      <a href="Transactions.php">Transactions</a>
-      <a href="Stats.php">Stats</a>
-      <a href="BuyCoins.php">Buy Coins</a>
-      <a href="SellCoins.php">Sell Coins</a>
-      <a href="Profit.php">Profit</a>
-      <a href="bittrexOrders.php">Bittrex Orders</a>
-      <a href="Settings.php" class="active">Settings</a><?php
-      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-      ?>
-    </div>
-<?php
+displayHeader(7);
 if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewUser(); }
 if(!empty($_GET['edit'])){ displayEdit($_GET['edit']); }
 if(!empty($_GET['nUReady'])){ submitNewUser(); }
-if(!empty($_GET['editedUserReady'])){ updateEditedUser(); }
+if(!empty($_GET['editedUserReady'])){
+  if (!empty($_POST['publish'])){
+    addpricePatterntoSQL($_GET['editedUserReady'], $_POST['select'], $_POST['CPrice'], $_POST['CPricebtm']);
+  }elseif (!empty($_POST['remove'])){
+    removePricePatternfromSQL($_GET['editedUserReady'], $_POST['listbox']);
+  }elseif (!empty($_POST['removeTrend'])){
+    removeTrendPatternfromSQL($_GET['editedUserReady'],$_POST['listboxTrend']);
+  }elseif (!empty($_POST['publishTrend'])){
+    if ($_POST['selectCmboTrend1'] == 2){$temp1 = '*';$temp2 = $_POST['selectCmboTrend2']; $temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
+    elseif ($_POST['selectCmboTrend2'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = '*';$temp3 = $_POST['selectCmboTrend3'];$temp4 = $_POST['selectCmboTrend4'];}
+    elseif ($_POST['selectCmboTrend3'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = '*';$temp4 = $_POST['selectCmboTrend4'];}
+    elseif ($_POST['selectCmboTrend4'] == 2){$temp1 = $_POST['selectCmboTrend1'];$temp2 = $_POST['selectCmboTrend2'];$temp3 = $_POST['selectCmboTrend3'];$temp4 = '*';}
+    //Echo "$temp1.$temp2.$temp3.$temp4 ".$_GET['editedUserReady'];
+    addTrendPatterntoSQL($temp1.$temp2.$temp3.$temp4,$_GET['editedUserReady']);
+  }else{
+    updateEditedUser();
+  }
+}
 if(!empty($_GET['delete'])){ deleteItem($_GET['delete']); }
+if(!empty($_GET['copyRule'])){ copyRule($_GET['copyRule']); }
+
+function addTrendPatterntoSQL($pattern, $ruleID){
+  $userID = $_SESSION['ID'];
+  echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addPricePattern('$pattern', 0, $userID, $ruleID);";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
+}
+
+function addpricePatterntoSQL($ruleID, $symbol, $price, $lowPrice){
+  $userID = $_SESSION['ID'];
+  echo "$ruleID $symbol $price $userID";
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addNewCoinPriceMatchBuy(0,$price,'$symbol',$userID,$ruleID,$lowPrice);";
+  echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
+}
+
+function removePricePatternfromSQL($ruleID, $price){
+  $splitPrice = explode(':',$price);
+  $newPrice = $splitPrice[1]; $symbol = $splitPrice[0]; $lowPrice = $splitPrice[2];
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `CoinPriceMatchRules` WHERE `SellRuleID` = $ruleID and `CoinPriceMatchID` = (
+    select `ID` from `CoinPriceMatch` where `Price` = $newPrice and `UserID` = $userID and `LowPrice` = $lowPrice and `CoinID` = (
+      SELECT `ID` FROM `Coin` WHERE `Symbol` = '$symbol' and `BuyCoin` = 1))";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
+}
+
+function removeTrendPatternfromSQL($ruleID, $pattern){
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `CoinPricePatternRules` WHERE `PatternID` = (SELECT `ID` FROM `CoinPricePattern` WHERE `CoinPattern` = '$pattern') and `SellRuleID` = $ruleID and `UserID` = $userID";
+  //echo $sql;
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  header('Location: AddNewSettingSell.php?edit='.$ruleID);
+}
+
+function copyRule($ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $userID = $_SESSION['ID'];
+  $sql = "INSERT INTO `SellRules`(`UserID`, `SellCoin`, `SendEmail`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`
+    , `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`, `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`
+    , `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `CoinOrder`, `SellCoinOffsetEnabled`, `SellCoinOffsetPct`, `SellPriceMinEnabled`, `SellPriceMin`
+    , `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`, `AutoSellCoinPct`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`CoinPriceMatchNameID`,`CoinPricePatternNameID`
+    ,`CoinPrice1HrPatternNameID`,`SellFallsInPrice`,`CoinModeRule`,`RuleName`,`CoinSwapEnabled`,`CoinSwapAmount`,`NoOfCoinSwapsPerWeek`)
+    select `UserID`, 0, `SendEmail`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`
+    , `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`, `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`
+    , `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `CoinOrder`, `SellCoinOffsetEnabled`, `SellCoinOffsetPct`, `SellPriceMinEnabled`, `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`
+    , `AutoSellCoinEnabled`, `AutoSellCoinPct`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`CoinPriceMatchNameID`,`CoinPricePatternNameID`,`CoinPrice1HrPatternNameID`,`SellFallsInPrice`
+    ,`CoinModeRule`,`RuleName`,`CoinSwapEnabled`,`CoinSwapAmount`,`NoOfCoinSwapsPerWeek`
+    from `SellRules`
+    where `ID` = $ID";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+
+  $conn->close();
+  header('Location: SellSettings.php');
+
+}
 
 function deleteItem($id){
 
   $_GET['nUReady'] = null;
   // Create connection
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -66,7 +168,7 @@ function submitNewUser(){
 
   $_GET['nUReady'] = null;
   // Create connection
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -166,10 +268,14 @@ function updateEditedUser(){
   $sellPriceMinEnabled = postDataYesNo($_POST['sellPriceMinEnabled']);
   $sellPriceMin = postData($_POST['sellPriceMin']);
   $limitToCoin = $_POST['limitToCoin'];
+  $sellPatternEnabled = postDataYesNo($_POST['SellPatternEnabled']);
+  $sellPattern =  $_POST['SellPattern'];
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
-
+  $coinPricePatternEnabled = postDataYesNo($_POST['CoinPricePatternEnabled']);
+  $coinPricePattern = $_POST['CoinPricePattern'];
+  //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -179,7 +285,8 @@ function updateEditedUser(){
   `MarketCapBtm`=$MarketCapBtm,`1HrChangeEnabled`=$oneHrEnable,`1HrChangeTop`=$PriceChange1HrTop,`1HrChangeBtm`=$PriceChange1HrBtm,`24HrChangeEnabled`=$t4HrEnable,`24HrChangeTop`=$PriceChange24HrTop,`24HrChangeBtm`=$PriceChange24HrBtm,`7DChangeEnabled`=$sDEnable,
   `7DChangeTop`=$PriceChange7DTop,`7DChangeBtm`=$PriceChange7DBtm,`ProfitPctEnabled`=$ProfitSaleEnable,`ProfitPctTop`=$ProfitSaleTop,`ProfitPctBtm`=$ProfitSaleBtm,`CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm,
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
-  ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin'
+  ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -195,7 +302,7 @@ function updateEditedUser(){
 }
 
 function getRules($id){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -205,228 +312,330 @@ function getRules($id){
 `ID`,`UserID`,`SellCoin`,`SendEmail`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`,
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
-  `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `RuleID`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
+  `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, `AutoSellPrice`
+  ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`
 FROM `UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['UserID'],$row['SellCoin'],$row['SendEmail'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],
-      $row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],
-      $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],
-      $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],
-      $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['RuleID'],$row['SellPriceMinEnabled']
-      ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice']
-    );
+      $tempAry[] = Array($row['ID'],$row['UserID'],$row['SellCoin'],$row['SendEmail'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'], //6
+      $row['MarketCapEnabled'],$row['MarketCapTop'],$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],//13
+      $row['24HrChangeTop'],$row['24HrChangeBtm'],$row['7DChangeEnabled'],$row['7DChangeTop'],$row['7DChangeBtm'],$row['ProfitPctEnabled'],$row['ProfitPctTop'],//20
+      $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],//27
+      $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
+      ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
+    );//44
   }
   $conn->close();
   return $tempAry;
 }
 
 
-function addNewText($RealName, $idName, $value, $tabIndex){
-  echo "<div class='settingsform'>
-    <b>".$RealName."</b><br/>
-    <input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='User Name' value='".$value."' tabindex='".$tabIndex."'>
-  </div>";
+function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText, $enabled){
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  if ($longText == True){ $textClass = 'enableTextBoxLong'; $divClass = 'settingsformLong'; } else {$textClass = 'enableTextBox'; $divClass = 'settingsform';}
+  echo "<input type='text' name='".$idName."' id='".$idName."' class='".$textClass."' placeholder='$pHoolder' $readOnly value='".$value."' tabindex='".$tabIndex."'>
+  <label for='$idName'>".$RealName."</label>";
 
 }
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+  <option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option></select>
+    <label for='$idName'>$RealName</label>
+     <br/>";
 }
 
 function addNewThreeOption($RealName, $idName, $value){
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
   elseif ($RealName == -1){$nOption1 = "Down"; $nOption2 = "Equal";$nOption3 = "Up";}
   else{$nOption1 = "Equal"; $nOption2 = "Down";$nOption3 = "Up";}
-  echo "<div class='settingsform'>
-    <b>$RealName</b><br/><select name='$idName' id='$idName' class='enableTextBox'>
-    <option value='".$nOption1."'>".$nOption1."</option>
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+  <option value='".$nOption1."'>".$nOption1."</option>
     <option value='".$nOption2."'>".$nOption2."</option>
-    <option value='".$nOption3."'>".$nOption3."</option></select></div>";
+    <option value='".$nOption3."'>".$nOption3."</option></select>
+    <label for='$idName'>".$RealName."</label><br/><br/>";
+}
+
+function getPricePatternSell($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`UserID`,`LowPrice` FROM `CoinPriceMatchView` WHERE (`SellRuleID` = $id )";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['UserID'],$row['LowPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getPriceTrendSell($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `CoinPricePatternView` WHERE `SellRuleID` = $id ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinPattern'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function displayListBox($tempAry, $name, $enabled){
+  $tempCount = count($tempAry);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' size='3' $readOnly>";
+  for ($i=0; $i<$tempCount; $i++){
+    $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4];  $lowPrice = $tempAry[$i][6];
+    $result = $symbol.":".$price.":".$lowPrice;
+
+      echo "<option value='$result'>$result</option>";
+  }
+  echo "</Select>";
+}
+
+function displayListBoxNormal($tempAry, $num, $name, $enabled){
+  $tempCount = count($tempAry);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' size='3' $readOnly>";
+  for ($i=0; $i<$tempCount; $i++){
+    $result = $tempAry[$i][$num]; //$symbol = $tempAry[$i][4]; $result = $symbol.":".$price;
+
+      echo "<option value='$result'>$result</option>";
+  }
+  echo "</Select>";
+}
+
+function displaySymbols($symbolList,$num, $name, $enabled){
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
+  for ($i=0; $i<$symbolListCount; $i++){
+    $symbol = $symbolList[$i][$num];
+    //$name = str_replace('-1','Minus1',$name);
+    echo "<option value='$symbol'>$symbol</option>";
+  }
+}
+
+function displayTrendSymbols($symbolList, $name, $enabled){
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
+  for ($i=0; $i<$symbolListCount; $i++){
+    $symbol = $symbolList[$i];
+    $num = $i-1;
+    //$name = str_replace('-1','Minus1',$name);
+    echo "<option value='$num'>$symbol</option>";
+  }
+  echo "</select>";
+}
+
+function getSymbols(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Symbol` FROM `Coin` WHERE `BuyCoin` = 1";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  //print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function displayAutoListBox($tempAry){
+  $tempCount = count($tempAry);
+  for ($i=0; $i<$tempCount; $i++){
+     $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1];
+     $result = $symbol.":".$topPrice;
+
+      echo "<option value='$symbol'>$result</option>";
+  }
+}
+
+function getAutoPrices(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `CoinID`,`AutoBuyPrice`,`AutoSellPrice`,`Symbol` FROM `CryptoAutoPrices`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['AutoBuyPrice'],$row['AutoSellPrice'],$row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 function displayEdit($id){
   $formSettings = getRules($id);
+  $pricePattern = getPricePatternSell($id);
+  $priceTrendList = getPriceTrendSell($id);
+  $symbolList = getSymbols();
+  $cryptoAutoPrices = getAutoPrices();
+  $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSettingSell.php?editedUserReady=".$id."' method='post'>";
-  if ($formSettings[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>MarketCapEnable: </b><br/><select name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
+  echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
+    echo "<H3>Market Cap</H3>";
+  addNewTwoOption('MarketCapEnable: ','VolumeEnable',$formSettings[0][7]);
+  addNewText('MarketCapTop: ','VolumeTop',$formSettings[0][8],37, 'Eg 50', False,$formSettings[0][7]);
+  addNewText('MarketCapBtm: ','VolumeBtm',$formSettings[0][9],37, 'Eg 50', False,$formSettings[0][7]);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Volume</H3>";
 
-  //echo "<div class='settingsform'>
-  //  <b>MarketCapEnable: </b><br/>
-  //  <input type='text' name='MarketCapEnable' id='MarketCapEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][0]."' tabindex='1'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>MarketCapTop: </b><br/>
-    <input type='text' name='MarketCapTop' id='MarketCapTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][8]."' tabindex='2'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>MarketCapBtm: </b><br/>
-    <input type='text' name='MarketCapBtm' id='MarketCapBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][9]."' tabindex='3'>
-  </div>";
 
-  if ($formSettings[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>VolumeEnable: </b><br/><select name='VolumeEnable' id='VolumeEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>VolumeEnable: </b><br/>
-  //  <input type='text' name='VolumeEnable' id='VolumeEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][3]."' tabindex='4'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>VolumeTop: </b><br/>
-    <input type='text' name='VolumeTop' id='VolumeTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][29]."' tabindex='5'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>VolumeBtm: </b><br/>
-    <input type='text' name='VolumeBtm' id='VolumeBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][30]."' tabindex='6'>
-  </div><br>";
-  if ($formSettings[0][25] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>SellOrdersEnabled: </b><br/><select name='BuyOrdersEnabled' id='BuyOrdersEnabled' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>BuyOrdersEnabled: </b><br/>
-  //  <input type='text' name='BuyOrdersEnabled' id='BuyOrdersEnabled' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][6]."' tabindex='7'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>SellOrdersTop: </b><br/>
-    <input type='text' name='BuyOrdersTop' id='BuyOrdersTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][26]."' tabindex='8'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>SellOrdersBtm: </b><br/>
-    <input type='text' name='BuyOrdersBtm' id='BuyOrdersBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][27]."' tabindex='9'>
-  </div>";
-  if ($formSettings[0][10] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>1HrEnable: </b><br/><select name='1HrEnable' id='1HrEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>1HrEnable: </b><br/>
-  //  <input type='text' name='1HrEnable' id='1HrEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][9]."' tabindex='10'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange1HrTop: </b><br/>
-    <input type='text' name='PriceChange1HrTop' id='PriceChange1HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][11]."' tabindex='11'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange1HrBtm: </b><br/>
-    <input type='text' name='PriceChange1HrBtm' id='PriceChange1HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][12]."' tabindex='12'>
-  </div>";
-  if ($formSettings[0][13] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>24HrEnable: </b><br/><select name='24HrEnable' id='24HrEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>24HrEnable: </b><br/>
-  //  <input type='text' name='24HrEnable' id='24HrEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][12]."' tabindex='13'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange24HrTop: </b><br/>
-    <input type='text' name='PriceChange24HrTop' id='PriceChange24HrTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][14]."' tabindex='14'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange24HrBtm: </b><br/>
-    <input type='text' name='PriceChange24HrBtm' id='PriceChange24HrBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][15]."' tabindex='15'>
-  </div>";
-  if ($formSettings[0][16] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>7DEnable: </b><br/><select name='7DEnable' id='7DEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>7DEnable: </b><br/>
-  //  <input type='text' name='7DEnable' id='7DEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][15]."' tabindex='16'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange7DTop: </b><br/>
-    <input type='text' name='PriceChange7DTop' id='PriceChange7DTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][17]."' tabindex='17'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceChange7DBtm: </b><br/>
-    <input type='text' name='PriceChange7DBtm' id='PriceChange7DBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][18]."' tabindex='18'>
-  </div>";
+  addNewTwoOption('VolumeEnable: ','VolumeEnable',$formSettings[0][28]);
+  addNewText('VolumeTop: ','VolumeTop',$formSettings[0][29],37, 'Eg 50', False,$formSettings[0][28]);
+  addNewText('VolumeBtm: ','VolumeBtm',$formSettings[0][30],37, 'Eg 50', False,$formSettings[0][28]);
 
-  if ($formSettings[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Enable: </b><br/><select name='PriceDiff1Enable' id='PriceDiff1Enable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>PriceDiff1Enable: </b><br/>
-  //  <input type='text' name='PriceDiff1Enable' id='PriceDiff1Enable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][23]."' tabindex='24'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Top: </b><br/>
-    <input type='text' name='PriceDiff1Top' id='PriceDiff1Top' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][23]."' tabindex='25'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>PriceDiff1Btm: </b><br/>
-    <input type='text' name='PriceDiff1Btm' id='PriceDiff1Btm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][24]."' tabindex='26'>
-  </div>";
+  echo "</div>";
+  //echo "<div class='settingsform'>";
+  //echo "<H3>Sell Orders</H3>";
+  //addNewTwoOption('SellOrdersEnabled: ','VolumeEnable',$formSettings[0][25]);
+  //addNewText('SellOrdersTop: ','BuyOrdersTop',$formSettings[0][26],37, 'Eg 50', False,$formSettings[0][25]);
+  //addNewText('SellOrdersBtm: ','BuyOrdersBtm',$formSettings[0][27],37, 'Eg 50', False,$formSettings[0][25]);
 
-  if ($formSettings[0][3] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Send Email: </b><br/><select name='sendEmail' id='sendEmail' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>Send Email: </b><br/>
-  //  <input type='text' name='sendEmail' id='sendEmail' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][35]."' tabindex='36'>
-  //</div>";
-  if ($formSettings[0][2] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Sell Coin: </b><br/><select name='sellCoin' id='sellCoin' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>Sell Coin: </b><br/>
-  //  <input type='text' name='sellCoin' id='sellCoin' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][36]."' tabindex='37'>
-  //</div>";
-  if ($formSettings[0][19] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
-  echo "<div class='settingsform'>
-    <b>Profit Sale Enable: </b><br/><select name='ProfitSaleEnable' id='ProfitSaleEnable' class='enableTextBox'>
-   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select></div>";
-  //echo "<div class='settingsform'>
-  //  <b>Profit Sale Enable: </b><br/>
-  //  <input type='text' name='ProfitSaleEnable' id='ProfitSaleEnable' class='enableTextBox' placeholder='User Name' value='".$formSettings[0][37]."' tabindex='33'>
-  //</div>";
-  echo "<div class='settingsform'>
-    <b>Profit Sale Top: </b><br/>
-    <input type='text' name='ProfitSaleTop' id='ProfitSaleTop' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][20]."' tabindex='34'>
-  </div>";
-  echo "<div class='settingsform'>
-    <b>Profit Sale Btm: </b><br/>
-    <input type='text' name='ProfitSaleBtm' id='ProfitSaleBtm' class='form-control input-lg' placeholder='User Name' value='".$formSettings[0][21]."' tabindex='35'>
-  </div>";
-  addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][36]);
-  addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][37],37);
+  //echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>1 Hour Price</H3>";
+  addNewTwoOption('1HrEnable: ','1HrEnable',$formSettings[0][10]);
+  addNewText('PriceChange1HrTop: ','PriceChange1HrTop',$formSettings[0][11],37, 'Eg 50', False,$formSettings[0][10]);
+  addNewText('PriceChange1HrBtm: ','PriceChange1HrBtm',$formSettings[0][12],37, 'Eg 50', False,$formSettings[0][10]);
 
-  addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][38],38);
-  addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][39]);
-  addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][40],39);
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>24 Hour Price</H3>";
+  addNewTwoOption('24HrEnable:','24HrEnable',$formSettings[0][13]);
+  addNewText('PriceChange24HrTop: ','PriceChange24HrTop',$formSettings[0][14],37, 'Eg 50', False,$formSettings[0][13]);
+  addNewText('PriceChange24HrBtm: ','PriceChange24HrBtm',$formSettings[0][15],37, 'Eg 50', False,$formSettings[0][13]);
+
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>7 Day Price</H3>";
+  addNewTwoOption('7DEnable: ','7DEnable',$formSettings[0][16]);
+  addNewText('PriceChange7DTop: ','PriceChange7DTop',$formSettings[0][17],37, 'Eg 50', False,$formSettings[0][16]);
+  addNewText('PriceChange7DBtm: ','PriceChange7DBtm',$formSettings[0][18],37, 'Eg 50', False,$formSettings[0][16]);
+
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Price Difference</H3>";
+  addNewTwoOption('PriceDiff1Enable: ','PriceDiff1Enable',$formSettings[0][22]);
+  addNewText('PriceDiff1Top: ','PriceDiff1Top',$formSettings[0][23],37, 'Eg 50', False,$formSettings[0][22]);
+  addNewText('PriceDiff1Btm: ','PriceDiff1Btm',$formSettings[0][24],37, 'Eg 50', False,$formSettings[0][22]);
+
+  echo "</div>";
+
+
+  echo "<div class='settingsform'>";
+  echo "<H3>Profit Sale</H3>";
+  addNewTwoOption('Profit Sale Enable: ','ProfitSaleEnable',$formSettings[0][19]);
+  addNewText('Profit Sale Top: ','ProfitSaleTop',$formSettings[0][20],37, 'Eg 50', False,$formSettings[0][19]);
+  addNewText('rofit Sale Btm: ','ProfitSaleBtm',$formSettings[0][21],37, 'Eg 50', False,$formSettings[0][19]);
+
+  echo "</div>";
+
+  ///echo "<div class='settingsform'>";
+  //echo "<H3>Sell Pattern</H3>";
+  //addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
+  //addNewText('Sell Pattern: ','SellPattern',$formSettings[0][41],40);
+  //echo "</div>";
+
+  echo "<div class='settingsform'>";
+  echo "<H3>New Sell Pattern</H3>";
+  addNewTwoOption('Sell Pattern Enabled:','SellPatternEnabled',$formSettings[0][40]);
+  echo "<div class='settingsformCmbo'>";
+  displayTrendSymbols($comboList,'selectCmboTrend1',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend2',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend3',$formSettings[0][40]);
+  displayTrendSymbols($comboList,'selectCmboTrend4',$formSettings[0][40]);
+  displayListBoxNormal($priceTrendList,2,'listboxTrend',$formSettings[0][40]);
+  echo "<input type='submit' name='publishTrend' value='+'><input type='submit' name='removeTrend' value='-'></div></div>";
+
+
+  echo "<div class='settingsform'>";
+  echo "<H3>Auto Sell</H3>";
+  addNewTwoOption('Auto Sell Coin Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
+  //addNewText('Coin Price Pattern: ','CoinPricePattern',$formSettings[0][43],41);
+  echo "<select name='listbox' size='3' readonly>";
+  displayAutoListBox($cryptoAutoPrices);
+  echo "</select>";
+  echo "</div>";
+
+
+  echo "<div class='settingsform'>";
+  echo "<H3>New Coin Price Pattern</H3>";
+  //$coinPricePatEnabled = $formSettings[0][42];
+  //addNewTwoOption('Coin Price Pattern Enabled:','CoinPricePatternEnabled',$coinPricePatEnabled);
+  //echo "<div class='settingsformCmbo'>";
+  //displaySymbols($symbolList,0,'select',$coinPricePatEnabled);
+  //addNewText('Coin Price Top: ', 'CPrice', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
+  //addNewText('Coin Price: Bottom', 'CPricebtm', 0, 52, 'Eg 7000.00', True,$coinPricePatEnabled);
+  //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
+  //displayListBox($pricePattern,'listbox',$coinPricePatEnabled);
+  //echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  echo "</div>";
+
+  echo "<div class='settingsform'>";
+  echo "<H3>Admin</H3>";
+  addNewTwoOption('Send Email: ','sendEmail',$formSettings[0][3]);
+
+  addNewTwoOption('Sell Coin: ','sellCoin',$formSettings[0][2]);
+  addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
+  addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37, 'Eg 50', False,1);
+
+  addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
+  //addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
+  //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
+
+  //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
+  echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='39'>
-  </div>";
+  </div></div>";
   echo "</form>";
 }
-
+displaySideColumn();
 ?>
 </body>
 </html>

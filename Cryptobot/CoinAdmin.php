@@ -2,10 +2,10 @@
 <?php
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
-
+include_once ('/home/stevenj1979/SQLData.php');
 function getUserConfig(){
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
      $sql = "SELECT `ID`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` FROM `UserConfigView`";
@@ -18,8 +18,8 @@ function getUserConfig(){
 function DeleteHistory($hours){
   $conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $date = date('Y-m-d H:i', time());
-  $sql = "call Update1HrPriceChange($hours,$date);";
+  //$date = date('Y-m-d H:i', time());
+  $sql = "call NewDeleteHistory($hours);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -31,7 +31,7 @@ function DeleteHistory($hours){
 
 function userHistory($userID){
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $query = "SET time_zone = 'Asia/Dubai';";
@@ -52,9 +52,13 @@ function userHistory($userID){
     return $tempAry;
 }
 
+
+
+
+
 function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$liveETH,$BittrexETH){
     //set time
-    date_default_timezone_set('Asia/Dubai');
+    setTimeZone();
     $date = date("Y-m-d H:i", time());
     if (empty($liveBTC)){$liveBTC = 0;}
     if (empty($BittrexBTC)){$BittrexBTC = 0;}
@@ -67,7 +71,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
     //echo "<br> TEST2: ".empty($BTCfromCoins);
     //echo "<br> TEST3: ".isnull($BTCfromCoins);
     $tempAry = [];
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call UpdateUserProfit($userID,$liveBTC, $BittrexBTC, $liveUSDT, $BittrexUSDT, $liveETH,$BittrexETH,'$date');";
@@ -81,7 +85,7 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
 }
 
 function coinHistory($hours){
-  $conn = getNewSQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call deleteHistory($hours)";
@@ -95,7 +99,7 @@ function coinHistory($hours){
 }
 
 function updateSQLactive($userID){
-  $conn = getSQL();
+  $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "UPDATE `User` SET `Active` = 'No' WHERE `ID` = $userID";
@@ -111,7 +115,7 @@ function updateSQLactive($userID){
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
     $body = "Dear ".$user.", <BR/>";
     $body .= "You have $daysRemaining days left before your subscription expires<BR/>";
-    $body .= "Please renew on this link http://www.investment-tracker.net/content/CryptoBot/1/Subscribe.php<BR/>";
+    $body .= "Please renew on this link http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/Subscribe.php<BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -119,6 +123,99 @@ function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
     $headers .= "From:".$from."\r\n";
     $headers .= "To:".$to."\r\n";
     mail($to, $subject, wordwrap($body,70),$headers);
+}
+
+function getSequenceData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `UserID`,`ID` as `SellRuleID`,`CoinOrder`
+    FROM `SellRules`
+    where `SellCoin` = 1 and `ProfitPctBtm` <> 0 and `CoinModeRule` = 0
+    order by `UserID`,`ProfitPctBtm` desc ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['SellRuleID'],$row['CoinOrder']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getTransData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `ID`,`UserID`, `OrderNo`,`FixSellRule`, mod(datediff(curdate(),`OrderDate`),7) as DaysOver FROM `TransactionsView` WHERE `Status` = 'Open' and datediff(curdate(),`OrderDate`) > 1 ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['UserID'],$row['OrderNo'],$row['FixSellRule'],$row['DaysOver']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getUserData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `APIKey`,`APISecret`,`ID`, `KEK` FROM `UserConfigView`";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['ID'],$row['KEK']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function updateFixSellRule($newFixRule, $transactionID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "UPDATE `Transaction` SET `FixSellRule`= $newFixRule WHERE `ID` = $transactionID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+
+
+function checkSellSequence(){
+  //get sell sequesnce info
+  //get all open trans
+  $trans = getTransData();
+  $transcount = count($trans);
+  $nFlag = False;
+  $sequence = getSequenceData();
+  $sequenceCount = count($sequence);
+  for($x = 0; $x < $transcount; $x++) {
+    if ($trans[$x][4] == 0){  //check if the buy Tran Mod 7 days = 0;
+      $userID = $trans[$x][1]; $fixSellRule = $trans[$x][3]; $transactionID = $trans[$x][0];
+      //get the current sequence number
+      //update the fixed sell ID
+      for($y = 0; $y < $sequenceCount; $y++) {
+        if ($sequence[$y][0] == $userID and $sequence[$y][1] == $fixSellRule){
+          //$nFlag = True;
+          for ($z =$y+1; $z<$sequenceCount; $z ++ ){
+              if ( $sequence[$z][0] == $userID){
+                updateFixSellRule($sequence[$z][1],$transactionID);
+                logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID,1);
+              }
+          }
+
+        }
+      }
+    }
+  }
 }
 
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
@@ -150,7 +247,337 @@ for($x = 0; $x < $confSize; $x++) {
   }
 }
 
+function getCurrentMonthMinMax(){
+  $conn = getHistorySQL(rand(1,4));
+  $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MonthLowPrice`
+  FROM `CurrentMonthHighPrice` `Cmhp`
+	join `CurrentMonthLowPrice` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`
+  where `Cmhp`.`MonthHighPrice` <> 0 and `Cmmp`.`MonthLowPrice` <> 0";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function writePrice($coinID, $price, $month, $year, $minPrice){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateMonthlyMinMaxPrice($coinID,$minPrice,$price,$month,$year);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+
+
+function getSecondaryRules(){
+  $conn = getSQLConn(rand(1,3));
+  $sql = "select `SecondarySellRules` from `CoinModeRules`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SecondarySellRules']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function checkRuleIsOpen($id){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call deleteSecondaryRules($id);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function getSellRules(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`,`LimitToCoinID`,`UserID` FROM `SellRules` WHERE `CoinModeRule` = 1 ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['LimitToCoinID'],$row['UserID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function clearOrphanedRules($sellRule, $coinID, $userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call OrphanedCoinModeSellRules($sellRule, $coinID, $userID);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function getCoinHigh(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,max(`MaxPrice`) as MaxPrice  FROM `MonthlyMaxPrices` group by `CoinID`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MaxPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function getCoinLow(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,Min(`MinPrice`) as MinPrice FROM `MonthlyMinPrices` group by `CoinID`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['MinPrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function writeHigh($coinID, $price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call AddAllTimeHigh($coinID, 'High', $price);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function writeLow($coinID, $price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call AddAllTimeLow($coinID, 'Low', $price);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateCoinPct($coinID,$buyRuleID, $mode){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call UpdateCoinModeRules($coinID, $buyRuleID, '$mode');";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `CoinModeRules` SET `Hr1Btm` = Get1HrPct($coinID,$spreadBetRuleID,'$mode'), `Hr1Top` = (Get1HrPct($coinID,$spreadBetRuleID,'$mode') + 0.8)
+  , `Hr24Btm` = -99.9, `Hr24Top` = Get24HrPct($coinID,$spreadBetRuleID,'$mode'), `D7Btm` = -99.9, `D7Top` = Get7DPct($coinID,$spreadBetRuleID,'$mode')
+  WHERE `CoinID` = $coinID and `RuleID` = $spreadBetRuleID; ";
+  //$sql = "call UpdateSpreadBetRules($coinID,$spreadBetRuleID,'$mode')";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateCoinModeBuyPct(){
+  $coinModeAry = getCoinModeData();
+  $coinModeArySize = count($coinModeAry);
+  for ($t=0; $t<$coinModeArySize; $t++){
+    $coinID = $coinModeAry[$t][0];$buyRuleID = $coinModeAry[$t][1];
+    updateCoinPct($coinID, $buyRuleID, 'CoinMode');
+  }
+
+}
+
+function updateSpreadBetBuyPct(){
+  $SpreadBetAry = getSpreadBetDataLoc();
+  $SpreadBetArySize = count($SpreadBetAry);
+  for ($t=0; $t<$SpreadBetArySize; $t++){
+    $spreadBetRuleID = $SpreadBetAry[$t][0];
+    updateSpreadPct(0, $spreadBetRuleID, 'SpreadBet');
+  }
+
+}
+
+function getCoinModeData(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`,`RuleID` FROM `CoinModeRules` ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['RuleID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function getSpreadBetDataLoc(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID` FROM `SpreadBetCoinStatsView` ";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function updateSpreadBetCoinHistory(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call RefreshSpreadBetCoins();";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function getSoldfromSQL(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `CoinID`, `DaysSinceSale`, `Type`, `ID`, `CompletionDate`,`PurchasePrice` FROM `SellCoinStatsView_Sold`";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinID'],$row['DaysSinceSale'],$row['Type'],$row['ID'],$row['CompletionDate'],$row['PurchasePrice']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function RunSellTrendUpdate(){
+  $soldCoins = getSoldfromSQL();
+  $soldCoinsSize = count($soldCoins);
+
+  for ($e=0; $e<$soldCoinsSize; $e++){
+    $date = $soldCoins[$e][4];
+    $coinID = $soldCoins[$e][0];
+    $purchasePrice = $soldCoins[$e][5];
+    $maxPrice = getMaxPct($date,$coinID);
+    updateMaxPctToSql($maxPrice, $coinID, 'SpreadBetRuleID', 0);
+  }
+
+}
+
+
+
+
 coinHistory(10);
-DeleteHistory(96);
+DeleteHistory(2500);
+checkSellSequence();
+$apisecret=getAPISecret();
+$apikey=getAPIKey();
+getMinTradeAmount($apikey,$apisecret);
+$userConfig = getUserData();
+$userConfigSize = count($userConfig);
+for ($j=0; $j<$userConfigSize; $j++){
+  $userID = $userConfig[$j][2]; $apikey = $userConfig[$j][0]; $apisecret = $userConfig[$j][1];
+  $KEK = $userConfig[$j][3];
+  if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$userConfig[$j][1]);}
+  if ($apikey == 'NA'){ continue;}
+  $bittrexBals = getDailyBalance($apikey,$apisecret);
+  $bittrexBalsSize = count($bittrexBals);
+  echo "<BR> Array Size : $bittrexBalsSize";
+  foreach ($bittrexBals as $value){
+      if ($value["total"] > 0){
+        Echo $value["currencySymbol"];
+        Echo $value["total"];
+        Echo $value["available"];
+        echo "<BR>";
+        if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';}
+        elseif ($value["currencySymbol"] == 'BNT' or $value["currencySymbol"] == 'MANA' or $value["currencySymbol"] == 'MONA' or $value["currencySymbol"] == 'PAY'
+        or $value["currencySymbol"] == 'REPV2' or $value["currencySymbol"] == 'STEEM' or $value["currencySymbol"] == 'STRAT' ){$base = 'BTC';}
+        else { $base = 'USDT'; }
+        $price = bittrexCoinPrice($apikey,$apisecret,$base,$value["currencySymbol"], 3);
+        echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
+        updateBittrexBalances($value["currencySymbol"],$value["total"],$price, $userID);
+      }
+  }
+}
+
+//$minMaxPrice = getCurrentMonthMinMax();
+//$minMaxPriceSize = count($minMaxPrice);
+
+//for ($i=0; $i<$minMaxPriceSize; $i++){
+//  writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
+//}
+
+$secondarySellRulesAry = getSecondaryRules();
+$secondarySellRulesSize = count($secondarySellRulesAry);
+
+for ($j=0; $j<$secondarySellRulesSize; $j++){
+  $smallerAry = explode(',',$secondarySellRulesAry[$j][0]);
+  $smallerArySize = count($smallerAry);
+  for ($k=0; $k<$smallerArySize; $k++){
+    if ($smallerAry[$k] <> ""){
+      checkRuleIsOpen($smallerAry[$k]);
+    }
+  }
+}
+
+$orphanRules = getSellRules();
+$orphanRulesSize = count($orphanRules);
+
+for ($k=0; $k<$orphanRulesSize; $k++){
+    clearOrphanedRules($orphanRules[$k][0],$orphanRules[$k][1],$orphanRules[$k][2]);
+}
+
+
+
+$coinHigh = getCoinHigh();
+$coinHighSize = count($coinHigh);
+for ($q=0; $q<$coinHighSize; $q++){
+    $coinID = $coinHigh[$q][0]; $price = $coinHigh[$q][1];
+    writeHigh($coinID,$price);
+}
+
+$coinLow = getCoinLow();
+$coinLowSize = count($coinLow);
+for ($w=0; $w<$coinLowSize; $w++){
+  $coinID = $coinLow[$w][0]; $price = $coinLow[$w][1];
+  writeLow($coinID,$price);
+}
+
+updateCoinModeBuyPct();
+updateSpreadBetCoinHistory();
+
+RunSellTrendUpdate();
+
 ?>
 </html>

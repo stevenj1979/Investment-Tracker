@@ -3,12 +3,14 @@
 
 </head>
 
-<?php require('includes/config.php');?>
-<style>
-<?php include 'style/style.css'; ?>
-</style> <?php
+<?php require('includes/config.php');
+include_once '../includes/newConfig.php';
+setStyle(isMobile());
+
 //if logged in redirect to members page
 if( $user->is_logged_in() ){ header('Location: login.php'); exit(); }
+
+include_once ('/home/stevenj1979/SQLData.php');
 
 //if form has been submitted process it
 if(isset($_POST['submit'])){
@@ -168,7 +170,7 @@ require('layout/header.php');
 				</div>
 
 				<div class="row">
-					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
+					<div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Register" class="btn btn-primary btn-block btn-lg" id="submitLogin" tabindex="5"></div>
 				</div>
 			</form>
 		</div>

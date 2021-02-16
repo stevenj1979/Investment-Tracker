@@ -7,7 +7,7 @@
 </style>
 
 <?php
-include '../../../NewSQLData.php';
+include_once ('/home/stevenj1979/SQLData.php');
 if(isset($_POST['submit'])){
   //Echo "Here!";
   $username = $_POST['username'];
@@ -18,7 +18,7 @@ if(isset($_POST['submit'])){
 }
   //Echo "Here2!";
 function updateSQL($username,$subscriptionLength, $transactionRef){
-  $conn = getSQL(rand(1,3));
+  $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
     echo "Error";
