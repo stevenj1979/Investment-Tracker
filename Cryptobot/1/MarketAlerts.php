@@ -22,6 +22,7 @@ include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
 if (isset($_get['alert'])){
+  echo "<BR> GET ALERT : ".$_get['alert'];
   if ($_get['alert'] == 1){
       //Edit Market Alerts
       echo "<BR> Edit Alert".$_get['edit'];
