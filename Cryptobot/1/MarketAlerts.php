@@ -56,7 +56,7 @@ Function showMain(){
   echo "<h3><a href='CoinAlerts.php'>Coin Alerts</a> &nbsp > &nbsp <a href='MarketAlerts.php'>Market Alerts</a></h3>";
   NewEcho("<Table><th>Edit</th><th>&nbspID</th><TH>&nbspAction</th><TH>&nbspPrice</th>",$_SESSION['isMobile'] ,2);
   newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,0);
-  newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
+  newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>Price Pct Change</TH><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getMarketAlertsUser($userID);
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
