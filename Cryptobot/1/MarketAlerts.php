@@ -22,13 +22,13 @@ include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
 if (isset($_GET['alert'])){
-  echo "<BR> GET ALERT : ".$_get['alert'];
+  echo "<BR> GET ALERT : ".$_GET['alert'];
   if ($_GET['alert'] == 1){
       //Edit Market Alerts
-      echo "<BR> Edit Alert".$_get['edit'];
+      echo "<BR> Edit Alert".$_GET['edit'];
   }elseif ($_GET['alert'] == 4){
       //Delete
-      echo "<BR> Delete Alert".$_get['edit'];
+      echo "<BR> Delete Alert".$_GET['edit'];
   }
 }else{
 	showMain();
