@@ -43,7 +43,7 @@ Function  getMarketAlertsUser($userID){
 }
 
 Function showMain(){
-displayHeader(8);
+  displayHeader(8);
   $userID = $_SESSION['ID'];
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   NewEcho("<h2>Coin Alerts!</h2>",$_SESSION['isMobile'] ,2);
@@ -73,7 +73,7 @@ displayHeader(8);
 	  //displayFarSideColumn();
 	  //displayFooter();
 	}
-}
+
 
 //include header template
 require('layout/footer.php');
