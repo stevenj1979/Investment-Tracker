@@ -27,7 +27,7 @@ if (!empty($_GET['mins'])){
 
 function action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
   if ($minutes > 30){
-    sendAlertEmailLocal($email, $symbol, $price, $action, $userName, $livePrice);
+    sendAlertEmailLocal($email, $symbol, $price, $action, $userName, $livePrice, $category);
     logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
     logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
@@ -37,7 +37,7 @@ function action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category
 
 function action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
   if ($minutes > 30){
-    sendAlertEmailLocal($email, 'MarketAlerts', $price, $action, $userName, $livePrice,$category);
+    sendAlertEmailLocal($email, 'MarketAlerts', $price, $action, $userName, $livePrice, $category);
     logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
     logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
