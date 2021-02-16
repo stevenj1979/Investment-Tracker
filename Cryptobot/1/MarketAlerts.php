@@ -21,12 +21,12 @@ include_once ('/home/stevenj1979/SQLData.php');
 
 setStyle($_SESSION['isMobile']);
 
-if (isset($_get['alert'])){
+if (isset($_GET['alert'])){
   echo "<BR> GET ALERT : ".$_get['alert'];
-  if ($_get['alert'] == 1){
+  if ($_GET['alert'] == 1){
       //Edit Market Alerts
       echo "<BR> Edit Alert".$_get['edit'];
-  }elseif ($_get['alert'] == 4){
+  }elseif ($_GET['alert'] == 4){
       //Delete
       echo "<BR> Delete Alert".$_get['edit'];
   }
