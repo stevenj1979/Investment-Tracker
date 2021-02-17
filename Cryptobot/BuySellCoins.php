@@ -1074,7 +1074,7 @@ while($completeFlag == False){
     if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
       $openCoins = getOpenSpreadCoins();
       $openCoinsSize = count($openCoins);
-      LogToSQL("SpreadBetBuy","1)ID: $ID | $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice;",3,1);
+
       for ($v=0; $v<$openCoinsSize; $v++){
         Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
         if ($openCoins[$v][0] == $ID){ continue 2;}
@@ -1095,7 +1095,7 @@ while($completeFlag == False){
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       }else{ continue;}
-
+      LogToSQL("SpreadBetBuy","1)ID: $ID | $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice;",3,1);
       LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,1);
       for ($t=0; $t<$spreadCoinsSize; $t++){
         Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";
