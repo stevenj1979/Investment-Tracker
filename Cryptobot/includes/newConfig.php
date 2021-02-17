@@ -3954,8 +3954,8 @@ function updateSpreadBuy($spreadBetRuleID){
 }
 
 function updateSpreadProfit($spreadBetRuleID, $pctProfit){
-  $savingUsdt = $totalProfit * 0.1;
-  $typeUsdt = $totalProfit - $savingUsdt;
+  //$savingUsdt = $totalProfit * 0.1;
+  //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
