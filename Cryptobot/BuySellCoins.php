@@ -1064,7 +1064,7 @@ while($completeFlag == False){
     $disableUntil  = $spread[$y][36];
     $Hr1BuyPrice = $spread[$y][31];
     $Hr24BuyPrice = $spread[$y][32];
-    $D7BuyPrice = $spread[$y][33];
+    $D7BuyPrice = $spread[$y][33]; $userID = $spread[$y][37];
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
@@ -1077,7 +1077,7 @@ while($completeFlag == False){
 
       for ($v=0; $v<$openCoinsSize; $v++){
         Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
-        if ($openCoins[$v][0] == $ID){ continue 2;}
+        if ($openCoins[$v][0] == $ID AND $openCoins[$v][1] == $userID){ continue 2;}
       }
       //GetCoinData
       echo "<BR> getSpreadCoinData($spreadBetTransID); ";
