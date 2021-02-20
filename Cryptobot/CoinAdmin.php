@@ -490,7 +490,7 @@ function RunSellTrendUpdate(){
     $coinID = $soldCoins[$e][0];
     $purchasePrice = $soldCoins[$e][5];
     $maxPrice = getMaxPct($date,$coinID);
-    updateMaxPctToSql($maxPrice, $coinID, 'SpreadBetRuleID', 0);
+    updateMaxPctToSql($maxPrice[0][0], $coinID, 'SpreadBetRuleID', 0);
   }
 
 }
