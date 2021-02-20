@@ -3737,6 +3737,30 @@ function getSpreadCoinData($ID){
   return $tempAry;
 }
 
+function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+    $sql = "UPDATE `Transaction` AS `t1` JOIN `Transaction` AS `t2` ON `t2`.`ID` = $oldID
+            SET    `t1`.`Type` = `t2`.`Type`
+            , `t1`.`SpreadBetRuleID` = `t2`.`SpreadBetRuleID`
+            , `t1`.`SpreadBetTransactionID` = `t2`.`SpreadBetTransactionID`
+            WHERE `t1`.`CoinID` = $coinID and `t1`.`Amount` = $quantity
+            order by `ID` Desc
+            limit 1 ";
+    LogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'BuyCoin', 0);
+}
+
 function updateTransToSpread($transSpreadRuleID,$coinID, $userID,$spreadBetTransID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
