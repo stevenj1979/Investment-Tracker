@@ -56,8 +56,8 @@ if ($conn->connect_error) {
 }
   $sql = "SELECT `ID`,'Symbol',`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,
    `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
-   ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`Name`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`
-   FROM `SpreadBetCoinStatsView` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
+   ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`Name`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`,`Enabled`
+   FROM `SpreadBetCoinStatsView_ALL` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
@@ -65,7 +65,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'] //8
     ,$row['Last1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'] //17
     ,$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'] //26
-  ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name'],$row['Hr1BuyPrice'],$row['Hr24BuyPrice'],$row['D7BuyPrice']); //34
+  ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name'],$row['Hr1BuyPrice'],$row['Hr24BuyPrice'],$row['D7BuyPrice'],$row['Enabled']); //35
 }
 $conn->close();
 return $tempAry;
@@ -223,7 +223,7 @@ displayHeader(3);
         $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
         $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
         $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
-        $name = $tracking[$x][37]; $image = $tracking[$x][38];
+        $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
         echo "<td><p id='largeText'>".$name."</p></td>";
@@ -252,6 +252,7 @@ displayHeader(3);
         NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
         NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
         echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
+        echo "<td><p id='normalText'>".$enabled."</p></td>";
       }//end for
       print_r("</tr></table>");
       Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
