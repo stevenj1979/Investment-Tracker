@@ -72,7 +72,7 @@ function getSpreadBetAll(){
   $sql ="SELECT `ID`, `Name`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`, `Live7DChange`, `Last7DChange`
   , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
   , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
-  , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID` FROM `SpreadBetCoinStatsView_ALL`";
+  , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`Hr1BuyEnable`,`Hr1BuyDisable`,`Hr24andD7StartPrice`,`Month6TotalPrice`,`AllTimeTotalPrice` FROM `SpreadBetCoinStatsView_ALL`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -81,7 +81,8 @@ function getSpreadBetAll(){
       $tempAry[] = Array($row['ID'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
-      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID']);
+      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['Hr1BuyEnable'], $row['Hr1BuyDisable'], $row['Hr24andD7StartPrice']
+      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -94,21 +95,26 @@ $spreadBetSize = count($spreadBet);
 for ($i=0;$i<$spreadBetSize;$i++){
   $SBRuleID = $spreadBet[$i][0]; $userID = $spreadBet[$i][37]; $pctOfAllTimeHigh = $spreadBet[$i][35]; $pctofSixMonthHigh = $spreadBet[$i][34];
   $CoinPricePctChange = $spreadBet[$i][13]; $Live1HrChange = $spreadBet[$i][4];
+  $hr1BuyEnableSet = $spreadBet[$i][38];
+  $hr1BuyDisableSet = $spreadBet[$i][39];
+  $hr24andD7StartPrice = $spreadBet[$i][40];
+  $month6TotalPrice = $spreadBet[$i][41];
+  $allTimTotalPrice = $spreadBet[$i][42];
 
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
-  if ($Live1HrChange < -5.0){
+  if ($Live1HrChange < $hr1BuyEnableSet){
     toggleSBRule($SBRuleID,1);
-  }elseif ($Live1HrChange > 2.0){
+  }elseif ($Live1HrChange > $hr1BuyDisableSet){
     toggleSBRule($SBRuleID,0);
   }
 
 
   //6Month price to change the 24Hr and 7 D %
   //All Time price to change the 24Hr and 7 D %
-  $month6For24 = 3 * ($pctofSixMonthHigh/100);
-  $allTimeFor24 = 3 * ($pctOfAllTimeHigh / 100);
-  $hr24Price = -3.0 - $month6For24 - $allTimeFor24;
+  $month6For24 = $month6TotalPrice * ($pctofSixMonthHigh/100);
+  $allTimeFor24 = $allTimTotalPrice * ($pctOfAllTimeHigh / 100);
+  $hr24Price = $hr24andD7StartPrice - $month6For24 - $allTimeFor24;
 
   update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
 }
