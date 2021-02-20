@@ -3024,7 +3024,7 @@ function getNewTrackingSellCoins($userID = 0){
   , (`LiveSellPrice`-`OriginalPurchasePrice`)/ `OriginalPurchasePrice` * 100 as `PctProfit`
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
-  ,TIMESTAMPDIFF(MINUTE, Now(), `TrackStartDate`) as MinsFromStart, `SellFallsInPrice`,`Type`
+  ,TIMESTAMPDIFF(MINUTE, Now(), `TrackStartDate`) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`
   FROM `TrackingSellCoinView`$whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -3034,7 +3034,7 @@ function getNewTrackingSellCoins($userID = 0){
     $tempAry[] = Array($row['CoinPrice'],$row['TrackDate'],$row['UserID'],$row['NoOfRisesInPrice'],$row['TransactionID'],$row['BuyRule'],$row['FixSellRule'],$row['OrderNo'],$row['Amount'] //8
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
-    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type']);
+    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice']);
   }
   $conn->close();
   return $tempAry;
