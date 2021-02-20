@@ -4116,7 +4116,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call UpdateSellTrendToSQL($mode, $ruleID, $coinID, $price);";
+  $sql = "Call UpdateSellTrendToSQL('$mode', $ruleID, $coinID, $price);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
