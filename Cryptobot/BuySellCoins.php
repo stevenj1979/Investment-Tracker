@@ -1055,7 +1055,7 @@ while($completeFlag == False){
   }
   $spread = getSpreadBetData();
   $spreadSize = count($spread);
-  if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
+  //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
   $noOfBuys = 2;
   echo "</blockquote>";
   echo "<BR> CHECK Spread Bet!! ";
