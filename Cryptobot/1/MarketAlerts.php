@@ -221,8 +221,8 @@ function addNewAlert($action, $price, $category, $reoccuring){
 function getMarketAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `MarketAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertsRuleID` = $id ";
-  print_r($sql);
+  $sql = "SELECT `MarketAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertRuleID` = $id ";
+  //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['MarketRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
