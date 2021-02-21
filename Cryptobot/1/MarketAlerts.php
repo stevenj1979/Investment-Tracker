@@ -57,7 +57,8 @@ if (isset($_GET['alert'])){
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
     echo "Ready to Add new to SQL : $category | $actionTemp | $price | $temp";
     addNewAlert($actionTemp, $price, $category, $temp);
-    //header('Location: MarketAlerts.php');
+    callUpdateMarketAlertsRuleID();
+    header('Location: MarketAlerts.php');
   }
 }else{
 	showMain();
@@ -78,6 +79,23 @@ function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAle
   }
   $conn->close();
   logAction("updateFormDataToSQL: ".$sql, 'BuyCoin', 0);
+}
+
+function callUpdateMarketAlertsRuleID(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call updateMarketAlertRuleID();";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("callUpdateMarketAlertsRuleID: ".$sql, 'BuyCoin', 0);
 }
 
 Function  getMarketAlertsUser($userID){
@@ -232,7 +250,7 @@ function DeleteAlert($id){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "DELETE FROM `SpreadBetAlerts` WHERE `SpreadBetAlertRuleID` = $id ";
+  $sql = "DELETE FROM `MarketAlerts` WHERE `MarketAlertRuleID` = $id ";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -255,7 +273,7 @@ Function showMain(){
   $coinAlerts = getMarketAlerts($userID);
   $newArrLength = Count($coinAlerts);
   $marketStats = getMarketstats();
-  echo "<BR> Array Len : $newArrLength";
+  //echo "<BR> Array Len : $newArrLength";
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][8]; $action = $coinAlerts[$x][6];
     $price = $coinAlerts[$x][9]; $userName = $coinAlerts[$x][1];
