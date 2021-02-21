@@ -2128,13 +2128,13 @@ function getMarketAlerts($userID = 0){
   if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "SELECT `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertsRuleID` as `MarketAlertsRuleID`, `Price`
+    $sql = "SELECT `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertRuleID` as `MarketAlertRuleID`, `Price`
      FROM `MarketAlertsView`$whereClause";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
-    ,$row['Category'],$row['Action'],$row['Minutes'],$row['MarketAlertsRuleID'],$row['Price']);
+    ,$row['Category'],$row['Action'],$row['Minutes'],$row['MarketAlertRuleID'],$row['Price']);
   }
   $conn->close();
   return $tempAry;
