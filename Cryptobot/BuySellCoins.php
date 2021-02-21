@@ -1036,6 +1036,7 @@ while($completeFlag == False){
 
     $marketAlerts = getMarketAlerts();
     $marketAlertsSize = count($marketAlerts);
+    echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
     $marketStats = getMarketstats();
     for ($q=0; $q<$marketAlertsSize; $q++){
       $userName  = $marketAlerts[$q][6];$email = $marketAlerts[$q][7];$userID = $marketAlerts[$q][5];
@@ -1070,7 +1071,7 @@ while($completeFlag == False){
 
   $spreadBetAlerts = getSpreadBetAlerts();
   $spreadBetAlertsSize = count($spreadBetAlerts);
-
+  echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize"; 
   for ($g=0; $g<$spreadBetAlertsSize; $g++){
     $userName  = $spreadBetAlerts[$g][6];$email = $spreadBetAlerts[$g][7];$userID = $spreadBetAlerts[$g][5];
     $dateTimeSent = $spreadBetAlerts[$g][8];
