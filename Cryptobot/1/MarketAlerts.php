@@ -33,13 +33,16 @@ if (isset($_GET['alert'])){
       DeleteAlert($_GET['edit']);
   }elseif ($_GET['alert'] == 2){
       //submit form
+      $temp = 0;
       echo "<BR> Submit Alert".$_GET['edit'];
       $category = $_POST['priceSelect'];
       $action = $_POST['greaterThanSelect'];
       $price = $_POST['coinPriceAltTxt'];
       $reocurring = $_POST['reocurringChk'];
       $marketAlertsRuleID = $_POST['MarketAlertRuleIDTxt'];
-      echo "<BR>Values : $category | $action | $price | $reocurring | $marketAlertsRuleID";
+      if (isset($reocurring)){$temp = 1;}
+      if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
+      echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
       //updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID);
       //header('Location: MarketAlerts.php');
   }
@@ -48,15 +51,12 @@ if (isset($_GET['alert'])){
 }
 
 function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID){
-  $temp = 0;
-  if (isset($reocurring)){$temp = 1;}
-  if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `MarketAlerts` SET `Action`= '$actionTemp',`Price`= $price,`Category`= '$category',`ReocurringAlert`= $temp WHERE `MarketAlertRuleID` = $marketAlertsRuleID ";
+  $sql = "UPDATE `MarketAlerts` SET `Action`= '$action',`Price`= $price,`Category`= '$category',`ReocurringAlert`= $reocurring WHERE `MarketAlertRuleID` = $marketAlertsRuleID ";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
