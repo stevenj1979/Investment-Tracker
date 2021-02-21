@@ -34,11 +34,11 @@ if (isset($_GET['alert'])){
   }elseif ($_GET['alert'] == 2){
       //submit form
       echo "<BR> Submit Alert".$_GET['edit'];
-      $category = $_GET['priceSelect'];
-      $action = $_GET['greaterThanSelect'];
-      $price = $_GET['coinPriceAltTxt'];
-      $reocurring = $_GET['reocurringChk'];
-      $marketAlertsRuleID = $_GET['MarketAlertRuleIDTxt'];
+      $category = $_POST['priceSelect'];
+      $action = $_POST['greaterThanSelect'];
+      $price = $_POST['coinPriceAltTxt'];
+      $reocurring = $_POST['reocurringChk'];
+      $marketAlertsRuleID = $_POST['MarketAlertRuleIDTxt'];
       echo "<BR>Values : $category | $action | $price | $reocurring | $marketAlertsRuleID";
   }
 }else{
