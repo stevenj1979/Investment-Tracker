@@ -1057,6 +1057,41 @@ while($completeFlag == False){
         }
       }
   }
+
+  $spreadBetAlerts = getSpreadBetAlerts();
+  $spreadBetAlertsSize = count($spreadBetAlerts);
+
+  for ($g=0; $g<$spreadBetAlertsSize; $g++){
+    $userName  = $spreadBetAlerts[$g][6];$email = $spreadBetAlerts[$g][7];$userID = $spreadBetAlerts[$g][5];
+    $dateTimeSent = $spreadBetAlerts[$g][8];
+    $Live1HrChangeAlrt = $spreadBetAlerts[$g][1];$Live24HrChangeAlrt = $spreadBetAlerts[$g][2];$Live7DChangeAlrt = $spreadBetAlerts[$g][3]; $liveCoinPrice = $spreadBetAlerts[$g][0];$liveMarketCapAlert = $spreadBetAlerts[$g][4];
+    $category = $spreadBetAlerts[$g][10];$price = $spreadBetAlerts[$g][14];$action = $spreadBetAlerts[$g][11];$reocurring = $spreadBetAlerts[$g][9];
+    $minutes = $spreadBetAlerts[$g][12]; $id = $spreadBetAlerts[$g][13];
+    Echo "<BR> Checking SpreadBet Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
+    if ($category == "Price"){
+      //Price
+      $returnFlag = returnAlert($price,$liveCoinPrice,$action);
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $price $action";
+        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveCoinPrice);
+      }
+    }elseif ($category == "Pct Price in 1 Hour"){
+      //1Hr
+      $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $price $action";
+        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $Live1HrChangeAlrt);
+      }
+    }elseif ($category == "Market Cap Pct Change"){
+      //MarketCap
+      $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
+      if ($returnFlag){
+        echo "<BR> $category Alert True. Sending Alert for $price $action";
+        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveMarketCapAlert);
+      }
+    }
+}
+
   $spread = getSpreadBetData();
   $spreadSize = count($spread);
   //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
