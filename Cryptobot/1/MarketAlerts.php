@@ -40,9 +40,30 @@ if (isset($_GET['alert'])){
       $reocurring = $_POST['reocurringChk'];
       $marketAlertsRuleID = $_POST['MarketAlertRuleIDTxt'];
       echo "<BR>Values : $category | $action | $price | $reocurring | $marketAlertsRuleID";
+      //updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID);
+      //header('Location: MarketAlerts.php');
   }
 }else{
 	showMain();
+}
+
+function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID){
+  $temp = 0;
+  if (isset($reocurring)){$temp = 1;}
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `MarketAlerts` SET `Action`= '$action',`Price`= $price,`Category`= '$category',`ReocurringAlert`= $temp WHERE `MarketAlertRuleID` = $marketAlertsRuleID ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateFormDataToSQL: ".$sql, 'BuyCoin', 0);
 }
 
 Function  getMarketAlertsUser($userID){
@@ -86,14 +107,10 @@ function displayForm($id){
       //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect"> <?php
-    if ($action == "LessThan"){
-      echo "<option value=">" name='greaterThanOpt'>></option>";
-      echo "<option value="<" name='lessThanOpt' SELECTED><</option>";
-    }else{
-      echo "<option value=">" name='greaterThanOpt' SELECTED>></option>";
-      echo "<option value="<" name='lessThanOpt'><</option>";
-    }
+    if ($action == "LessThan"){$lessThanSelect = "SELECTED";}else{$greaterThanSelect = "SELECTED";}
       ?>
+      <option value=">" name='greaterThanOpt'<?php echo $greaterThanSelect;?> >></option>
+      <option value="<" name='lessThanOpt'<?php echo $lessThanSelect; ?> ><</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
     <input type="text" name="coinPriceAltTxt" value="<?php echo $price; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
       <?php if ($reoccuring == 1){$checked = " checked";}?>
