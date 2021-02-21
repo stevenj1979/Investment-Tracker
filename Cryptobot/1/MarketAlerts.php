@@ -83,13 +83,12 @@ function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAle
 Function  getMarketAlertsUser($userID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `ID`, `Action`, `Price`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Hr1PctChange` ,`Hr24PctChange` ,`D7PctChange`,`ReocurringAlert`,`DateTimeSent`,`Minutes`,`LiveMarketPctChange`
+  $sql = "SELECT `ID`, `Action`, `Price`, `UserName`,`Email` ,`Category`,`ReocurringAlert`,`DateTimeSent`,`Minutes`
   FROM `MarketAlertsView` WHERE `UserID` = $userID";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['ID'],$row['Action'],$row['Price'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Hr1PctChange'] //7
-      ,$row['Hr24PctChange'],$row['D7PctChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['Minutes'],$row['LiveMarketPctChange']);
+    $tempAry[] = Array($row['ID'],$row['Action'],$row['Price'],$row['UserName'],$row['Email'],$row['Category'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['Minutes']);
   }
   $conn->close();
   return $tempAry;
@@ -204,11 +203,24 @@ function addNewAlert($action, $price, $category, $reoccuring){
 function getMarketAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `MarketAlertsRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertsRuleID` = $id ";
+  $sql = "SELECT `MarketAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertsRuleID` = $id ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['MarketRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getMarketstats(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `LiveCoinPrice`,`Hr1PctChange` ,`Hr24PctChange` ,`D7PctChange`,`LiveMarketPctChange` FROM `MarketCoinStats` ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange'],$row['LiveMarketPctChange']);
   }
   $conn->close();
   return $tempAry;
