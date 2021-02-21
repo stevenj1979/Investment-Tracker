@@ -255,6 +255,7 @@ Function showMain(){
   $coinAlerts = getMarketAlerts($userID);
   $newArrLength = Count($coinAlerts);
   $marketStats = getMarketstats();
+  echo "<BR> Array Len : $newArrLength"; 
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][3]; $action = $coinAlerts[$x][2];
     $price = $coinAlerts[$x][1]; $userName = $coinAlerts[$x][7];
