@@ -68,7 +68,7 @@ function displayForm($id){
     <select name="priceSelect"><?php
       for ($r=0; $r<$selectArraySize; $r++){
           if ($selectArray[$r] == $category) { $selected = " selected"; }
-          Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>"
+          Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
       }
       //<option value="Price" name='priceOpt'>Price</option>
       //<option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
