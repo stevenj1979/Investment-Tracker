@@ -256,10 +256,10 @@ Function showMain(){
   $newArrLength = Count($coinAlerts);
   $marketStats = getMarketstats();
   for($x = 0; $x < $newArrLength; $x++) {
-    $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
-    $price = $coinAlerts[$x][14]; $userName = $coinAlerts[$x][6];
-    $email = $coinAlerts[$x][7];$liveCoinPrice= $marketStats[0][0]; $category = $coinAlerts[$x][10];
-    $reocurring = $coinAlerts[$x][9];  $marketPctChange = $marketStats[0][4];
+    $id = $coinAlerts[$x][3]; $action = $coinAlerts[$x][2];
+    $price = $coinAlerts[$x][1]; $userName = $coinAlerts[$x][7];
+    $email = $coinAlerts[$x][6];$liveCoinPrice= $marketStats[0][0]; $category = $coinAlerts[$x][0];
+    $reocurring = $coinAlerts[$x][4];  $marketPctChange = $marketStats[0][4];
     NewEcho("<td><a href='MarketAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
