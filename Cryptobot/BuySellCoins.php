@@ -1034,7 +1034,7 @@ while($completeFlag == False){
 
   }
 
-    $marketAlerts = getMarketAlerts(0);
+    $marketAlerts = getMarketAlertsTotal();
     $marketAlertsSize = count($marketAlerts);
     echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
     $marketStats = getMarketstats();
@@ -1069,7 +1069,7 @@ while($completeFlag == False){
       }
   }
 
-  $spreadBetAlerts = getSpreadBetAlerts(0);
+  $spreadBetAlerts = getSpreadBetAlertsTotal();
   $spreadBetAlertsSize = count($spreadBetAlerts);
   echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize";
   for ($g=0; $g<$spreadBetAlertsSize; $g++){
