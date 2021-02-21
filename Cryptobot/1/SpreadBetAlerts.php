@@ -45,7 +45,7 @@ if (isset($_GET['alert'])){
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
       echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
       updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID);
-      header('Location: MarketAlerts.php');
+      header('Location: SpreadBetAlerts.php');
   }elseif ($_GET['alert'] == 5){
       displayAddNewAlert($_GET['SBID']);
   }elseif ($_GET['alert'] == 6){
@@ -59,7 +59,7 @@ if (isset($_GET['alert'])){
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
     addNewAlert($category,$actionTemp,$price,$temp,$SpreadBetRuleID);
     newSpreadBetRuleID();
-    header('Location: MarketAlerts.php');
+    header('Location: SpreadBetAlerts.php');
   }
 }else{
 	showMain();
