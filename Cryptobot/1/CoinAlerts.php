@@ -28,10 +28,12 @@ if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 
 if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
-  $userID = $_SESSION['ID'];
-
+  $userID = $_SESSION['ID'];$selected = "";$checked = "";
+  $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
+  $selectArraySize = count($selectArray);
   echo "<BR> Alert : ".$_GET['alert'];
   $coin = $_GET['coinAlt']; $cost = $_GET['coinPrice']; $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
+  $temp = getCoinAlertsFormData($id);
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price1</h2>
@@ -39,13 +41,14 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Coins: </label><br>
     <select name="priceSelect">
-      <option value="Price" name='priceOpt'>Price</option>
-      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-      <option value="Pct Price in 24 Hours" name='pctPrice7DOpt'>Pct Price in 24 Hours</option>
-      <option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
-      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
-      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
+    <option value="Price" name='priceOpt'>Price</option>
+    <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
+    <option value="Pct Price in 24 Hours" name='pctPrice24Opt'>Pct Price in 24 Hours</option>
+    <option value="Pct Price in 7 Days" name='pctPrice7DOpt'>Pct Price in 7 Days</option>
+    <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
+    <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
     </select> <label for="priceSelect">Select Category</label><br>
+    <select name="greaterThanSelect">
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
@@ -63,38 +66,44 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 }elseif ($_GET['alert'] == 1 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
-
+  $selected = "";$checked = "";
     echo "<BR> Edit : ".$_GET['edit'];
-    $id = $_GET['edit'];
-    $alertDetails = getCoinAlertsbyID($id);
+    $coinAlertRuleID = $_GET['edit'];
+    $alertDetails = getCoinAlertsbyID($coinAlertRuleID);
     $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
     echo "<BR> Coin $coin cost $cost CoinID $coinID";
-
+    $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
+    $selectArraySize = count($selectArray);
+    $temp = getCoinAlertsFormData($coinAlertRuleID);
+    $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price2</h2>
   <form action='CoinAlerts.php?alert=3' method='post'>
     <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
-      <option value="Price" name='priceOpt'>Price</option>
-      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-      <option value="Pct Price in 24 Hours" name='pctPrice24Opt'>Pct Price in 24 Hours</option>
-      <option value="Pct Price in 7 Days" name='pctPrice7DOpt'>Pct Price in 7 Days</option>
-      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
-      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
-
+      <?php
+        for ($r=0; $r<$selectArraySize; $r++){
+          //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
+            if ($selectArray[$r] == $category) { $selected = " selected"; }
+            Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
+        }?>
     </select> <label for="priceSelect">Select Category</label><br>
-    <select name="greaterThanSelect">
-      <option value=">" name='greaterThanOpt'>></option>
-      <option value="<" name='lessThanOpt'><</option>
+    <select name="greaterThanSelect"><?php
+    if ($action == "LessThan"){$lessThanSelect = "SELECTED";}else{$greaterThanSelect = "SELECTED";}
+      ?>
+      <option value=">" name='greaterThanOpt'<?php echo $greaterThanSelect;?> >></option>
+      <option value="<" name='lessThanOpt'<?php echo $lessThanSelect; ?> ><</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
     <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
-    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+      <?php if ($reoccuring == 1){$checked = " checked";}?>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert" <?php echo $checked; ?>><label for="reocurringChk">Reocurring Alert: </label><br>
     <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
     <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
       <?php  $GLOBALS['CoinEdit'] = True;
       if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
+    <input type="text" name="CoinAlertRuleID" value="<?php echo $coinAlertRuleID; ?>" style='color:Gray' readonly ><label for="CoinAlertRuleID">UserID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
@@ -177,10 +186,10 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $coinAlerts = getCoinAlertsUser($userID);
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
-    $id = $coinAlerts[$x][0];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
+    $id = $coinAlerts[$x][14];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
     $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];
     $email = $coinAlerts[$x][6];$liveCoinPrice= round($coinAlerts[$x][7],$roundNum); $category = $coinAlerts[$x][8];
-    $reocurring = $coinAlerts[$x][12]; $coinAlertRuleID = $coinAlerts[$x][14];
+    $reocurring = $coinAlerts[$x][12]; //$coinAlertRuleID = $coinAlerts[$x][14];
     NewEcho("<td><a href='CoinAlerts.php?alert=1&edit=".$coinAlertRuleID."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td><td>$coinID</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
@@ -196,6 +205,19 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   //displayMiddleColumn();
   //displayFarSideColumn();
   //displayFooter();
+}
+
+function getCoinAlertsFormData($id){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "SELECT `CoinAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `CoinAlertsView` WHERE `CoinAlertRuleID` = $id limit 1";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['CoinAlertRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 function getAllCoins(){
