@@ -89,6 +89,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
           echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
             if ($selectArray[$r] == $category) { $selected = " selected"; }
             Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
+            $selected = "";
         }?>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect"><?php

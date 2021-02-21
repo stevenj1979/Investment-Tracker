@@ -99,6 +99,7 @@ function displayForm($id){
         //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
           if ($selectArray[$r] == $category) { $selected = " selected"; }
           Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
+          $selected = "";
       }
       //<option value="Price" name='priceOpt'>Price</option>
       //<option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
