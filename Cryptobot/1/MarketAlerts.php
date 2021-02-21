@@ -254,11 +254,12 @@ Function showMain(){
   newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>Price Pct Change</TH><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getMarketAlerts($userID);
   $newArrLength = Count($coinAlerts);
+  $marketStats = getMarketstats();
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
     $price = $coinAlerts[$x][14]; $userName = $coinAlerts[$x][6];
-    $email = $coinAlerts[$x][7];$liveCoinPrice= $coinAlerts[$x][0]; $category = $coinAlerts[$x][10];
-    $reocurring = $coinAlerts[$x][9];  $marketPctChange = $coinAlerts[$x][15];
+    $email = $coinAlerts[$x][7];$liveCoinPrice= $marketStats[0][0]; $category = $coinAlerts[$x][10];
+    $reocurring = $coinAlerts[$x][9];  $marketPctChange = $marketStats[0][4];
     NewEcho("<td><a href='MarketAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
