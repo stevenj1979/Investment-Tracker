@@ -29,10 +29,17 @@ if (isset($_GET['alert'])){
     displayForm($_GET['edit']);
   }elseif ($_GET['alert'] == 4){
       //Delete
-      echo "<BR> Delete Alert".$_GET['edit'];
+      //echo "<BR> Delete Alert".$_GET['edit'];
+      DeleteAlert($_GET['edit']);
   }elseif ($_GET['alert'] == 2){
       //submit form
       echo "<BR> Submit Alert".$_GET['edit'];
+      $category = $_GET['priceSelect'];
+      $action = $_GET['greaterThanSelect'];
+      $price = $_GET['coinPriceAltTxt'];
+      $reocurring = $_GET['reocurringChk'];
+      $marketAlertsRuleID = $_GET['MarketAlertRuleIDTxt'];
+      echo "<BR>Values : $category | $action | $price | $reocurring | $marketAlertsRuleID";
   }
 }else{
 	showMain();
