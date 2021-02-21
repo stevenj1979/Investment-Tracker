@@ -10,7 +10,7 @@ include_once '../includes/newConfig.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
-
+if ($_SESSION['isMobile'] == True){ $roundNum = 2;}else {$roundNum = 8;}
 //define page title
 $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
@@ -169,7 +169,7 @@ Function showMain(){
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
     $price = round($coinAlerts[$x][14],$roundNum); $userName = $coinAlerts[$x][6];
-    $email = $coinAlerts[$x][7];$liveCoinPrice= round($coinAlerts[$x][0],$roundNum); $category = $coinAlerts[$x][10];
+    $email = $coinAlerts[$x][7]; $liveCoinPrice= round($coinAlerts[$x][0],$roundNum); $category = $coinAlerts[$x][10];
     $reocurring = $coinAlerts[$x][9];  $marketPctChange = $coinAlerts[$x][15];
     NewEcho("<td><a href='SpreadBetAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
