@@ -48,11 +48,16 @@ if (isset($_GET['alert'])){
   }elseif ($_GET['alert'] == 5){
     displayAddNewAlert();
   }elseif ($_GET['alert'] == 6){
+    $temp = 0;
     $category = $_POST['priceSelect'];
     $action = $_POST['greaterThanSelect'];
     $price = $_POST['coinPriceAltTxt'];
     $reocurring = $_POST['reocurringChk'];
-    echo "Ready to Add new to SQL : $category | $action | $price | $reocurring";
+    if (isset($reocurring)){$temp = 1;}
+    if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
+    echo "Ready to Add new to SQL : $category | $actionTemp | $price | $temp";
+    addNewAlert($actionTemp, $price, $category, $temp);
+    //header('Location: MarketAlerts.php');
   }
 }else{
 	showMain();
@@ -177,8 +182,23 @@ function displayAddNewAlert(){
   displaySideColumn();
 }
 
-function addNewAlert(){
-
+function addNewAlert($action, $price, $category, $reoccuring){
+  $userID = $_SESSION['ID'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "INSERT INTO `MarketAlerts`(`Action`, `Price`, `UserID`, `Category`, `ReocurringAlert`, `MarketAlertRuleID`)
+  VALUES ('$action', $price, $userID, '$category', $reoccuring, (SELECT `ID` FROM `MarketAlertsRule`))";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addNewAlert: ".$sql, 'BuyCoin', 0);
 }
 
 function getMarketAlertsFormData($id){
