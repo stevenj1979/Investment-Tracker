@@ -216,11 +216,11 @@ function getMarketAlertsFormData($id){
 function getMarketstats(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `LiveCoinPrice`,`Hr1PctChange` ,`Hr24PctChange` ,`D7PctChange`,`LiveMarketPctChange` FROM `MarketCoinStats` ";
+  $sql = "SELECT `LiveCoinPrice`,`Hr1ChangePctChange` ,`Hr24ChangePctChange` ,`D7ChangePctChange`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`,`MarketCapPctChange` FROM `MarketCoinStats` ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange'],$row['LiveMarketPctChange']);
+    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['LiveMarketPctChange'],$row['MarketCapPctChange']);
   }
   $conn->close();
   return $tempAry;
@@ -255,7 +255,7 @@ Function showMain(){
   $coinAlerts = getMarketAlerts($userID);
   $newArrLength = Count($coinAlerts);
   $marketStats = getMarketstats();
-  echo "<BR> Array Len : $newArrLength"; 
+  echo "<BR> Array Len : $newArrLength";
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][3]; $action = $coinAlerts[$x][2];
     $price = $coinAlerts[$x][1]; $userName = $coinAlerts[$x][7];
