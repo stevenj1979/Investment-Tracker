@@ -31,6 +31,7 @@ if (isset($_GET['alert'])){
       //Delete
       //echo "<BR> Delete Alert".$_GET['edit'];
       DeleteAlert($_GET['iD']);
+      header('Location: MarketAlerts.php');
   }elseif ($_GET['alert'] == 2){
       //submit form
       $temp = 0;
