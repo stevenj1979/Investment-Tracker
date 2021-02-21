@@ -32,8 +32,9 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
   echo "<BR> Alert : ".$_GET['alert'];
-  $coin = $_GET['coinAlt']; $cost = $_GET['coinPrice']; $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
+  //$coin = $_GET['coinAlt']; $cost = $_GET['coinPrice']; $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
   $temp = getCoinAlertsFormData($id);
+  $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price1</h2>
@@ -71,16 +72,17 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $coinAlertRuleID = $_GET['edit'];
     $alertDetails = getCoinAlertsbyID($coinAlertRuleID);
     $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
+    $category = $alertDetails[0][8]; $price = $alertDetails[0][3]; $action = $alertDetails[0][2]; $reoccuring = $alertDetails[0][12];
     echo "<BR> Coin $coin cost $cost CoinID $coinID";
     $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
     $selectArraySize = count($selectArray);
-    $temp = getCoinAlertsFormData($coinAlertRuleID);
-    $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
+    //$temp = getCoinAlertsFormData($coinAlertRuleID);
+
   displayHeader(8);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price2</h2>
   <form action='CoinAlerts.php?alert=3' method='post'>
-    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>"><label for="coinAltTxt">Coin: </label><br>
+    <input type="text" name="coinAltTxt" value="<?php echo $coin; ?>" style='color:Gray' readonly ><label for="coinAltTxt">Coin: </label><br>
     <select name="priceSelect">
       <?php
         for ($r=0; $r<$selectArraySize; $r++){
@@ -210,11 +212,11 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
 function getCoinAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "SELECT `CoinAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `CoinAlertsView` WHERE `CoinAlertRuleID` = $id limit 1";
+    $sql = "SELECT `CoinAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert`,`CoinID`,`Symbol` FROM `CoinAlertsView` WHERE `CoinAlertRuleID` = $id limit 1";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['CoinAlertRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
+    $tempAry[] = Array($row['CoinAlertRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert'],$row['CoinID'],$row['Symbol']);
   }
   $conn->close();
   return $tempAry;
