@@ -44,7 +44,7 @@ if (isset($_GET['alert'])){
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
       echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
       updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID);
-      //header('Location: MarketAlerts.php');
+      header('Location: MarketAlerts.php');
   }
 }else{
 	showMain();
