@@ -68,7 +68,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];
   $selected = "";$checked = "";
-    echo "<BR> Edit : ".$_GET['edit'];
+    //echo "<BR> Edit : ".$_GET['edit'];
     $coinAlertRuleID = $_GET['edit'];
     $alertDetails = getCoinAlertsbyID($coinAlertRuleID);
     $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
@@ -170,7 +170,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   if ($_POST['greaterThanSelect'] == ">"){$action = "GreaterThan";} else {$action = "LessThan";}
   if(isset($_POST['reocurringChk'])){ $reocurring = 1; Echo "Reocurring is set";}else{ $reocurring = 0; Echo "Reocurring is NOT set!";}
   updateCoinAlertsbyID($id, $coinID, $action, $userID, $category, $reocurring, $price);
-  header('Location: CoinAlerts.php');
+  //header('Location: CoinAlerts.php');
 }elseif ($_GET['alert'] == 4 && isset($_GET['alert'])){
   $id = $_GET['iD'];
   Echo "<BR> ID : $id";
