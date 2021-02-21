@@ -26,7 +26,7 @@ if (isset($_GET['alert'])){
   if ($_GET['alert'] == 1){
       //Edit Market Alerts
     //echo "<BR> Edit Alert".$_GET['edit'];
-    displayForm($_GET['edit']);
+    displayForm($_GET['iD']);
   }elseif ($_GET['alert'] == 4){
       //Delete
       //echo "<BR> Delete Alert".$_GET['edit'];
