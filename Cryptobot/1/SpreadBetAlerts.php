@@ -91,9 +91,9 @@ function displayForm($id){
   $selectArraySize = count($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
   $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
-  ?> <h1>Market Alerts</h1>
+  ?> <h1>SpreadBet Alerts</h1>
   <h2>Enter Price1</h2>
-  <form action='MarketAlerts.php?alert=2' method='post'>
+  <form action='SpreadBetAlerts.php?alert=2' method='post'>
     <select name="priceSelect"><?php
       for ($r=0; $r<$selectArraySize; $r++){
         //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
@@ -169,13 +169,13 @@ Function showMain(){
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
-    $price = round($coinAlerts[$x][14],$roundNum); $userName = $coinAlerts[$x][6];
-    $email = $coinAlerts[$x][7]; $liveCoinPrice= round($coinAlerts[$x][0],$roundNum); $category = $coinAlerts[$x][10];
+    $price = $coinAlerts[$x][14]; $userName = $coinAlerts[$x][6];
+    $user_email = $coinAlerts[$x][7]; $liveCoinPrice= $coinAlerts[$x][0]; $category = $coinAlerts[$x][10];
     $reocurring = $coinAlerts[$x][9];  $marketPctChange = $coinAlerts[$x][15];
     NewEcho("<td><a href='SpreadBetAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
-    NewEcho("<td>$userName</td><td>$email</td>",$_SESSION['isMobile'] ,2);
+    NewEcho("<td>$userName</td><td>$user_email</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$liveCoinPrice</td><td>$category</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$reocurring</td><td>$marketPctChange</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td><a href='SpreadBetAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
