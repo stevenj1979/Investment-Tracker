@@ -1026,11 +1026,11 @@ while($completeFlag == False){
 
     $marketAlerts = getMarketAlerts();
     $marketAlertsSize = count($marketAlerts);
-
+    $marketStats = getMarketstats();
     for ($q=0; $q<$marketAlertsSize; $q++){
       $userName  = $marketAlerts[$q][6];$email = $marketAlerts[$q][7];$userID = $marketAlerts[$q][5];
       $dateTimeSent = $marketAlerts[$q][8];
-      $Live1HrChangeAlrt = $marketAlerts[$q][1];$Live24HrChangeAlrt = $marketAlerts[$q][2];$Live7DChangeAlrt = $marketAlerts[$q][3]; $liveCoinPrice = $marketAlerts[$q][0];$liveMarketCapAlert = $marketAlerts[$q][4];
+      $Live1HrChangeAlrt = $marketStats[0][1];$Live24HrChangeAlrt = $marketStats[0][2];$Live7DChangeAlrt = $marketStats[0][3]; $liveCoinPrice = $marketStats[0][0];$liveMarketCapAlert = $marketStats[0][5];
       $category = $marketAlerts[$q][10];$price = $marketAlerts[$q][14];$action = $marketAlerts[$q][11];$reocurring = $marketAlerts[$q][9];
       $minutes = $marketAlerts[$q][12]; $id = $marketAlerts[$q][13];
       Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
