@@ -2149,7 +2149,7 @@ function getSpreadBetAlerts($userID = 0){
   $sql = "SELECT `LiveCoinPrice`, `Live1HrChange`, `Live24HrChange`, `Live7DChange`, `LiveMarketCap`, `UserID`, `UserName`, `email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `SpreadBetAlertRuleID`, `Price`
   , `LivePricePct`
   FROM `SpreadBetAlertsView`$whereClause";
-  //print_r($sql);
+  print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange'],$row['LiveMarketCap'],$row['UserID'],$row['UserName'],$row['email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
