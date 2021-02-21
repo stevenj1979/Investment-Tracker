@@ -128,11 +128,11 @@ function displayForm($id){
 function getSpreadBetAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `SpreadBetRuleID`,`Action`,`Price`,`Category`,`ReocurringAlert` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = $id ";
+  $sql = "SELECT `MarketAlertsRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertsRuleID` = $id ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['SpreadBetRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
+    $tempAry[] = Array($row['MarketRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
   }
   $conn->close();
   return $tempAry;
