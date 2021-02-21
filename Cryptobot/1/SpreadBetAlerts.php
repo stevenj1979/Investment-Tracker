@@ -232,7 +232,7 @@ Function showMain(){
     NewEcho("<td><a href='SpreadBetAlerts.php?alert=4&iD=$id'><i class='glyphicon glyphicon-trash' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'] ,2);
  	   NewEcho("<TR>",$_SESSION['isMobile'] ,2);
  	 }
- 	 Echo "</table><br><a href='SpreadBetAlerts.php?alert=5'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
+ 	 Echo "</table>";
 
 
   	displaySideColumn();
