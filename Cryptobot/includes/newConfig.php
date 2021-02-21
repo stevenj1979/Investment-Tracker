@@ -2123,12 +2123,14 @@ function getCoinAlerts(){
   return $tempAry;
 }
 
-function getMarketAlerts($userID){
+function getMarketAlerts($userID = 0){
+  $whereClause = " where `UserID` = $userID";
+  if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `LiveCoinPrice`, `Hr1PctChange`, `Hr24PctChange`, `D7PctChange`, `MarketCapPctChange`, `UserID`, `UserName`, `email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertsRuleID` as `MarketAlertsRuleID`, `Price`
-  ,`LiveMarketPctChange`
-   FROM `MarketAlertsView` where `UserID` = $userID";
+    $sql = "SELECT `LiveCoinPrice`, `Hr1PctChange`, `Hr24PctChange`, `D7PctChange`, `MarketCapPctChange`, `UserID`, `UserName`, `email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertsRuleID` as `MarketAlertsRuleID`, `Price`
+    ,`LiveMarketPctChange`
+     FROM `MarketAlertsView`$whereClause";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){

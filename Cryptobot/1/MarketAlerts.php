@@ -89,7 +89,7 @@ function displayForm($id){
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
-  $temp = getSpreadBetAlertsFormData($id);
+  $temp = getMarketAlertsFormData($id);
   $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   ?> <h1>Market Alerts</h1>
   <h2>Enter Price1</h2>
@@ -125,7 +125,7 @@ function displayForm($id){
   displaySideColumn();
 }
 
-function getSpreadBetAlertsFormData($id){
+function getMarketAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `MarketAlertsRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `MarketAlertsView` WHERE `MarketAlertsRuleID` = $id ";
@@ -158,7 +158,7 @@ function DeleteAlert($id){
 Function showMain(){
   displayHeader(8);
   $userID = $_SESSION['ID'];
-  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+  if ($_SESSION['isMobile']){ $num = 3; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   NewEcho("<h2>Coin Alerts!</h2>",$_SESSION['isMobile'] ,2);
   echo "<h3><a href='CoinAlerts.php'>Coin Alerts</a> &nbsp > &nbsp <a href='MarketAlerts.php'>Market Alerts</a></h3>";
   NewEcho("<Table><th>Edit</th><th>&nbspID</th><TH>&nbspAction</th><TH>&nbspPrice</th>",$_SESSION['isMobile'] ,2);
