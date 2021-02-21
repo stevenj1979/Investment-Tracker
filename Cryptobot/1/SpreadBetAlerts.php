@@ -170,7 +170,7 @@ Function showMain(){
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
     $price = $coinAlerts[$x][14]; $userName = $coinAlerts[$x][6];
-    $user_email = $coinAlerts[$x][7]; $liveCoinPrice= $coinAlerts[$x][0]; $category = $coinAlerts[$x][10];
+    $user_email = $coinAlerts[$x][8]; $liveCoinPrice= $coinAlerts[$x][0]; $category = $coinAlerts[$x][10];
     $reocurring = $coinAlerts[$x][9];  $marketPctChange = $coinAlerts[$x][15];
     NewEcho("<td><a href='SpreadBetAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
