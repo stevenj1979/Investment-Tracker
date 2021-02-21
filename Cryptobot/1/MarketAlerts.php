@@ -43,7 +43,7 @@ if (isset($_GET['alert'])){
       if (isset($reocurring)){$temp = 1;}
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
       echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
-      updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID);
+      updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID);
       //header('Location: MarketAlerts.php');
   }
 }else{
