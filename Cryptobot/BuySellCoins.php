@@ -45,6 +45,16 @@ function action_Market_Alert($minutes,$email,$price,$action,$userName,$category,
   if ($reocurring == 0){closeCoinAlerts($id,'MarketAlerts');}else{updateAlertTime($id,'MarketAlerts');}
 }
 
+function action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $livePrice){
+  if ($minutes > 30){
+    sendAlertEmailLocal($email, 'SpreadBetAlerts', $price, $action, $userName, $livePrice, $category);
+    logAction("Alert: $symbol $price $action $userName $category", 'BuySellAlert', $logToFileSetting);
+    logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
+  }
+  //Close Alert
+  if ($reocurring == 0){closeCoinAlerts($id,'MarketAlerts');}else{updateAlertTime($id,'MarketAlerts');}
+}
+
 function sendAlertEmailLocal($to, $symbol , $price, $action, $user,$livePrice,$category){
     $subject = "Coin Alert: ".$coin;
     $from = 'Coin Alert <alert@investment-tracker.net>';
@@ -1073,21 +1083,21 @@ while($completeFlag == False){
       $returnFlag = returnAlert($price,$liveCoinPrice,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveCoinPrice);
+        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveCoinPrice);
       }
     }elseif ($category == "Pct Price in 1 Hour"){
       //1Hr
       $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $Live1HrChangeAlrt);
+        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $Live1HrChangeAlrt);
       }
     }elseif ($category == "Market Cap Pct Change"){
       //MarketCap
       $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
       if ($returnFlag){
         echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveMarketCapAlert);
+        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveMarketCapAlert);
       }
     }
 }
