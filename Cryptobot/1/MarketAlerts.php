@@ -56,12 +56,12 @@ Function  getMarketAlertsUser($userID){
 function displayForm($id){
   displayHeader(8);
   $userID = $_SESSION['ID'];
-  $selected = "";
+  $selected = "";$checked = "";
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
-  $category = $temp[0][3]; $price = $temp[0][2];
+  $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   ?> <h1>Market Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='MarketAlerts.php?alert=2' method='post'>
@@ -78,12 +78,19 @@ function displayForm($id){
       //<option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
       //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
     </select> <label for="priceSelect">Select Category</label><br>
-    <select name="greaterThanSelect">
-      <option value=">" name='greaterThanOpt'>></option>
-      <option value="<" name='lessThanOpt'><</option>
+    <select name="greaterThanSelect"> <?php
+    if ($action == "LessThan"){
+      echo "<option value=">" name='greaterThanOpt'>></option>";
+      echo "<option value="<" name='lessThanOpt' SELECTED><</option>";
+    }else{
+      echo "<option value=">" name='greaterThanOpt' SELECTED>></option>";
+      echo "<option value="<" name='lessThanOpt'><</option>";
+    }
+      ?>
     </select><label for="greaterThanSelect">Select Option</label><br>
     <input type="text" name="coinPriceAltTxt" value="<?php echo $price; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
-    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+      <?php if ($reoccuring == 1){$checked = " checked";}?>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert" <?php echo $checked; ?>><label for="reocurringChk">Reocurring Alert: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
     <input type="text" name="MarketAlertRuleIDTxt" value="<?php echo $id; ?>" style='color:Gray' readonly ><label for="MarketAlertRuleIDTxt">Market Alert Rule ID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
