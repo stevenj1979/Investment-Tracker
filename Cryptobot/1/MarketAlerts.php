@@ -61,7 +61,7 @@ function displayForm($id){
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
-  $category = $temp[0][10]; $price = $temp[0][14];
+  $category = $temp[0][3]; $price = $temp[0][2];
   ?> <h1>Market Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='MarketAlerts.php?alert=2' method='post'>
@@ -85,6 +85,7 @@ function displayForm($id){
     <input type="text" name="coinPriceAltTxt" value="<?php echo $price; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
     <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
+    <input type="text" name="MarketAlertRuleIDTxt" value="<?php echo $id; ?>" style='color:Gray' readonly ><label for="MarketAlertRuleIDTxt">Market Alert Rule ID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
