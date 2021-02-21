@@ -74,7 +74,7 @@ function displayForm($id){
   <form action='MarketAlerts.php?alert=2' method='post'>
     <select name="priceSelect"><?php
       for ($r=0; $r<$selectArraySize; $r++){
-        echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
+        //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
           if ($selectArray[$r] == $category) { $selected = " selected"; }
           Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
       }
