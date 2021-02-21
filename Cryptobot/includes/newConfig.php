@@ -2263,7 +2263,8 @@ function closeCoinAlerts($id, $table){
         die("Connection failed: " . $conn->connect_error);
     }
     if ($table == 'CoinAlerts'){$sql = "UPDATE `CoinAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";}
-    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `Status`= 'Closed' WHERE `ID` = $id";}
+    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `Status`= 'Closed' WHERE `MarketAlertRuleID` = $id";}
+    elseif ($table == 'SpreadBetAlerts'){$sql = "UPDATE `SpreadBetAlerts` SET `Status`= 'Closed' WHERE `SpreadBetAlertRuleID` = $id";}
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -2281,7 +2282,8 @@ function updateAlertTime($id, $table){
         die("Connection failed: " . $conn->connect_error);
     }
     if ($table == 'CoinAlerts'){$sql = "UPDATE `CoinAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";}
-    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `DateTimeSent`= now() WHERE `ID` = $id";}
+    elseif ($table == 'MarketAlerts'){$sql = "UPDATE `MarketAlerts` SET `DateTimeSent`= now() WHERE `MarketAlertRuleID` = $id";}
+    elseif ($table == 'SpreadBetAlerts'){$sql = "UPDATE `MarketAlerts` SET `DateTimeSent`= now() WHERE `SpreadBetAlertRuleID` = $id";}
 
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {

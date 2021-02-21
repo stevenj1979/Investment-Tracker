@@ -52,7 +52,7 @@ function action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$catego
     logToSQL("Alerts", "Coin: $symbol $action $category $price", $userID, $logToSQLSetting);
   }
   //Close Alert
-  if ($reocurring == 0){closeCoinAlerts($id,'MarketAlerts');}else{updateAlertTime($id,'MarketAlerts');}
+  if ($reocurring == 0){closeCoinAlerts($id,'SpreadBetAlerts');}else{updateAlertTime($id,'SpreadBetAlerts');}
 }
 
 function sendAlertEmailLocal($to, $symbol , $price, $action, $user,$livePrice,$category){
