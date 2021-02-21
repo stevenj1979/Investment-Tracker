@@ -54,7 +54,8 @@ Function  getMarketAlertsUser($userID){
 }
 
 function displayForm($id){
-  $temp = getSpreadBetAlertsFormData($id)
+  $userID = $_SESSION['ID'];
+  $temp = getSpreadBetAlertsFormData($id);
   ?> <h1>Coin Alert</h1>
   <h2>Enter Price1</h2>
   <form action='MarketAlerts.php?alert=2' method='post'>
@@ -83,7 +84,7 @@ function displayForm($id){
 function getSpreadBetAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `SpreadBetRuleID`,`Action`,`Price`,`Category`,`ReocurringAlert` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = 1 ";
+  $sql = "SELECT `SpreadBetRuleID`,`Action`,`Price`,`Category`,`ReocurringAlert` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = $id ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -91,6 +92,23 @@ function getSpreadBetAlertsFormData($id){
   }
   $conn->close();
   return $tempAry;
+}
+
+function DeleteAlert($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "DELETE FROM `SpreadBetAlerts` WHERE `SpreadBetAlertRuleID` = $id ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("DeleteAlert: ".$sql, 'BuyCoin', 0);
 }
 
 Function showMain(){
@@ -102,13 +120,13 @@ Function showMain(){
   NewEcho("<Table><th>Edit</th><th>&nbspID</th><TH>&nbspAction</th><TH>&nbspPrice</th>",$_SESSION['isMobile'] ,2);
   newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,0);
   newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>Price Pct Change</TH><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
-  $coinAlerts = getMarketAlertsUser($userID);
+  $coinAlerts = getMarketAlerts($userID);
   $newArrLength = Count($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
-    $id = $coinAlerts[$x][0]; $action = $coinAlerts[$x][1];
-    $price = round($coinAlerts[$x][2],$roundNum); $userName = $coinAlerts[$x][3];
-    $email = $coinAlerts[$x][4];$liveCoinPrice= round($coinAlerts[$x][5],$roundNum); $category = $coinAlerts[$x][6];
-    $reocurring = $coinAlerts[$x][10];  $marketPctChange = $coinAlerts[$x][13];
+    $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
+    $price = round($coinAlerts[$x][14],$roundNum); $userName = $coinAlerts[$x][6];
+    $email = $coinAlerts[$x][7];$liveCoinPrice= round($coinAlerts[$x][0],$roundNum); $category = $coinAlerts[$x][10];
+    $reocurring = $coinAlerts[$x][9];  $marketPctChange = $coinAlerts[$x][15];
     NewEcho("<td><a href='MarketAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$action</td><td>$price</td>",$_SESSION['isMobile'] ,2);
