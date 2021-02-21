@@ -2126,7 +2126,11 @@ function getCoinAlerts(){
 function getMarketstats(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `LiveCoinPrice`,`Hr1ChangePctChange` ,`Hr24ChangePctChange` ,`D7ChangePctChange`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`,`MarketCapPctChange` FROM `MarketCoinStats` ";
+  $sql = "SELECT `LiveCoinPrice`,((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1ChangePctChange`
+,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as `Hr24ChangePctChange`
+,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as `D7ChangePctChange`
+  ,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`
+  ,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange` FROM `MarketCoinStats` ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
