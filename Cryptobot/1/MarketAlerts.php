@@ -257,9 +257,9 @@ Function showMain(){
   $marketStats = getMarketstats();
   echo "<BR> Array Len : $newArrLength";
   for($x = 0; $x < $newArrLength; $x++) {
-    $id = $coinAlerts[$x][3]; $action = $coinAlerts[$x][2];
-    $price = $coinAlerts[$x][1]; $userName = $coinAlerts[$x][7];
-    $email = $coinAlerts[$x][6];$liveCoinPrice= $marketStats[0][0]; $category = $coinAlerts[$x][0];
+    $id = $coinAlerts[$x][8]; $action = $coinAlerts[$x][6];
+    $price = $coinAlerts[$x][9]; $userName = $coinAlerts[$x][1];
+    $email = $coinAlerts[$x][2];$liveCoinPrice= $marketStats[0][0]; $category = $coinAlerts[$x][5];
     $reocurring = $coinAlerts[$x][4];  $marketPctChange = $marketStats[0][4];
     NewEcho("<td><a href='MarketAlerts.php?alert=1&edit=".$id."'><span class='glyphicon glyphicon-pencil' style='$fontSize;'></span></a></td>",$_SESSION['isMobile'] ,2);
     NewEcho("<td>$id</td>",$_SESSION['isMobile'] ,2);
