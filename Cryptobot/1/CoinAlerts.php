@@ -73,7 +73,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $alertDetails = getCoinAlertsbyID($coinAlertRuleID);
     $coin = $alertDetails[0][4]; $cost = $alertDetails[0][3]; $baseCurrency = "USDT"; $coinID = $alertDetails[0][1];
     $category = $alertDetails[0][8]; $price = $alertDetails[0][3]; $action = $alertDetails[0][2]; $reoccuring = $alertDetails[0][12];
-    echo "<BR> Coin $coin cost $cost CoinID $coinID";
+    //echo "<BR> Coin $coin cost $cost CoinID $coinID";
     $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
     $selectArraySize = count($selectArray);
     //$temp = getCoinAlertsFormData($coinAlertRuleID);
@@ -86,7 +86,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <select name="priceSelect">
       <?php
         for ($r=0; $r<$selectArraySize; $r++){
-          //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
+          echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
             if ($selectArray[$r] == $category) { $selected = " selected"; }
             Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>";
         }?>
@@ -104,7 +104,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
       <?php  $GLOBALS['CoinEdit'] = True;?>
-    <input type="text" name="CoinAlertRuleID" value="<?php echo $coinAlertRuleID; ?>" style='color:Gray' readonly ><label for="CoinAlertRuleID">UserID: </label><br>
+    <input type="text" name="CoinAlertRuleID" value="<?php echo $coinAlertRuleID; ?>" style='color:Gray' readonly ><label for="CoinAlertRuleID">CoinAlerRuleID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
