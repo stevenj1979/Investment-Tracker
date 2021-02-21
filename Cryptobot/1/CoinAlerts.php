@@ -103,8 +103,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
     <input type="text" name="CoinIDTxt" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><label for="CoinIDTxt">CoinID: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
-      <?php  $GLOBALS['CoinEdit'] = True;
-      if (isset($_GET['edit'])){ echo "<input type='text' name='IDTxt' value=".$id." style='color:Gray' readonly ><label for='IDTxt'>ID: </label><br>"; $GLOBALS['CoinID'] = True;} ?>
+      <?php  $GLOBALS['CoinEdit'] = True;?>
     <input type="text" name="CoinAlertRuleID" value="<?php echo $coinAlertRuleID; ?>" style='color:Gray' readonly ><label for="CoinAlertRuleID">UserID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
