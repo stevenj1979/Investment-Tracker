@@ -1039,11 +1039,11 @@ while($completeFlag == False){
     echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
     $marketStats = getMarketstats();
     for ($q=0; $q<$marketAlertsSize; $q++){
-      $userName  = $marketAlerts[$q][6];$email = $marketAlerts[$q][7];$userID = $marketAlerts[$q][5];
+      $userName  = $marketAlerts[$q][1];$email = $marketAlerts[$q][2];$userID = $marketAlerts[$q][0];
       $dateTimeSent = $marketAlerts[$q][8];
       $Live1HrChangeAlrt = $marketStats[0][1];$Live24HrChangeAlrt = $marketStats[0][2];$Live7DChangeAlrt = $marketStats[0][3]; $liveCoinPrice = $marketStats[0][0];$liveMarketCapAlert = $marketStats[0][5];
-      $category = $marketAlerts[$q][10];$price = $marketAlerts[$q][14];$action = $marketAlerts[$q][11];$reocurring = $marketAlerts[$q][9];
-      $minutes = $marketAlerts[$q][12]; $id = $marketAlerts[$q][13];
+      $category = $marketAlerts[$q][5];$price = $marketAlerts[$q][9];$action = $marketAlerts[$q][6];$reocurring = $marketAlerts[$q][4];
+      $minutes = $marketAlerts[$q][7]; $id = $marketAlerts[$q][8];
       Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
       if ($category == "Price"){
         //Price
