@@ -48,7 +48,11 @@ if (isset($_GET['alert'])){
   }elseif ($_GET['alert'] == 5){
     displayAddNewAlert();
   }elseif ($_GET['alert'] == 6){
-    echo "Ready to Add new to SQL";
+    $category = $_POST['priceSelect'];
+    $action = $_POST['greaterThanSelect'];
+    $price = $_POST['coinPriceAltTxt'];
+    $reocurring = $_POST['reocurringChk'];
+    echo "Ready to Add new to SQL : $category | $action | $price | $reocurring";
   }
 }else{
 	showMain();
