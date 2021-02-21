@@ -54,31 +54,41 @@ Function  getMarketAlertsUser($userID){
 }
 
 function displayForm($id){
+  displayHeader(8);
   $userID = $_SESSION['ID'];
+  $selected = "";
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+  $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
+  $selectArraySize = count($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
-  ?> <h1>Coin Alert</h1>
+  $category = $temp[0][10]; $price = $temp[0][14];
+  ?> <h1>Market Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='MarketAlerts.php?alert=2' method='post'>
-    <select name="priceSelect">
-      <option value="Price" name='priceOpt'>Price</option>
-      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
-      <option value="Pct Price in 24 Hours" name='pctPrice7DOpt'>Pct Price in 24 Hours</option>
-      <option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
-      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
-      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
+    <select name="priceSelect"><?php
+      for ($r=0; $r<$selectArraySize; $r++){
+          if ($selectArray[$r] == $category) { $selected = " selected"; }
+          Echo "<option value='".$selectArray[$r]."' name='".str_replace(" ","",$selectArray[$r])."Opt' $selected>".$selectArray[$r]."</option>"
+      }
+      //<option value="Price" name='priceOpt'>Price</option>
+      //<option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
+      //<option value="Pct Price in 24 Hours" name='pctPrice7DOpt'>Pct Price in 24 Hours</option>
+      //<option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
+      //<option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
+      //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>></option>
       <option value="<" name='lessThanOpt'><</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
-    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $price; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
     <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
-    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
   <?php
+  displaySideColumn();
 }
 
 function getSpreadBetAlertsFormData($id){
