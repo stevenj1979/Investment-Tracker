@@ -25,10 +25,14 @@ if (isset($_GET['alert'])){
   echo "<BR> GET ALERT : ".$_GET['alert'];
   if ($_GET['alert'] == 1){
       //Edit Market Alerts
-      echo "<BR> Edit Alert".$_GET['edit'];
+    //echo "<BR> Edit Alert".$_GET['edit'];
+    displayForm($_GET['edit']);
   }elseif ($_GET['alert'] == 4){
       //Delete
       echo "<BR> Delete Alert".$_GET['edit'];
+  }elseif ($_GET['alert'] == 2){
+      //submit form
+      echo "<BR> Submit Alert".$_GET['edit'];
   }
 }else{
 	showMain();
@@ -44,6 +48,46 @@ Function  getMarketAlertsUser($userID){
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['Action'],$row['Price'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Hr1PctChange'] //7
       ,$row['Hr24PctChange'],$row['D7PctChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['Minutes'],$row['LiveMarketPctChange']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function displayForm($id){
+  $temp = getSpreadBetAlertsFormData($id)
+  ?> <h1>Coin Alert</h1>
+  <h2>Enter Price1</h2>
+  <form action='MarketAlerts.php?alert=2' method='post'>
+    <select name="priceSelect">
+      <option value="Price" name='priceOpt'>Price</option>
+      <option value="Pct Price in 1 Hour" name='pctPriceOpt'>Pct Price in 1 Hour</option>
+      <option value="Pct Price in 24 Hours" name='pctPrice7DOpt'>Pct Price in 24 Hours</option>
+      <option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
+      <option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
+      <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
+    </select> <label for="priceSelect">Select Category</label><br>
+    <select name="greaterThanSelect">
+      <option value=">" name='greaterThanOpt'>></option>
+      <option value="<" name='lessThanOpt'><</option>
+    </select><label for="greaterThanSelect">Select Option</label><br>
+    <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
+    <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
+    <input type="text" name="BaseCurTxt" value="<?php echo $baseCurrency; ?>" style='color:Gray' readonly ><label for="BaseCurTxt">BaseCurrency: </label><br>
+    <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
+
+  </form>
+  <?php
+}
+
+function getSpreadBetAlertsFormData($id){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `SpreadBetRuleID`,`Action`,`Price`,`Category`,`ReocurringAlert` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = 1 ";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
   }
   $conn->close();
   return $tempAry;
