@@ -223,7 +223,7 @@ displayHeader(3);
         $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
         $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
         $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
-        $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35];
+        $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35]; $id = $tracking[$x][0];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
         echo "<td><p id='largeText'>".$name."</p></td>";
@@ -239,7 +239,7 @@ displayHeader(3);
         NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
 
         NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-        NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+        NewEcho("<td rowspan='3'><a href='SpreadBetAlerts.php?alert=5&SBID=$id'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
         NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
         echo "</tr><tr>";
         echo "<td><p id='smallText'>".$coin."</p></td>";
