@@ -2176,13 +2176,13 @@ function getSpreadBetAlerts($userID = 0){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `LiveCoinPrice`, `Live1HrChange`, `Live24HrChange`, `Live7DChange`, `LiveMarketCap`, `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `SpreadBetAlertRuleID`, `Price`
-  , `LivePricePct`
+  , `LivePricePct`,`SpreadBetRuleID`
   FROM `SpreadBetAlertsView`$whereClause";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange'],$row['LiveMarketCap'],$row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
-    ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct']);
+    ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct'],$row['SpreadBetRuleID']);
   }
   $conn->close();
   return $tempAry;
