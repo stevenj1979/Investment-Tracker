@@ -30,7 +30,7 @@ if (isset($_GET['alert'])){
   }elseif ($_GET['alert'] == 4){
       //Delete
       //echo "<BR> Delete Alert".$_GET['edit'];
-      DeleteAlert($_GET['edit']);
+      DeleteAlert($_GET['iD']);
   }elseif ($_GET['alert'] == 2){
       //submit form
       $temp = 0;
