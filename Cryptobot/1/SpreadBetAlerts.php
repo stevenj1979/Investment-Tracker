@@ -68,6 +68,7 @@ if (isset($_GET['alert'])){
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
     for ($o=0; $o<$allRulesSize; $o++){
       if (isset($allRuleCheck)){$tempSpreadBetID = $allRules[$o][0];}else{ $tempSpreadBetID = $spreadBetRuleID;}
+      Echo "<BR> addNewAlert($category,$actionTemp,$price,$temp,$tempSpreadBetID); | $allRulesSize";
       addNewAlert($category,$actionTemp,$price,$temp,$tempSpreadBetID);
     }
     newSpreadBetRuleID();
