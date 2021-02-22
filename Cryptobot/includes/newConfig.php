@@ -2772,6 +2772,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, $type)";
 
   print_r($sql);
+  LogToSQL("SpreadBetTrackingSQL","$sql",3,1);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
