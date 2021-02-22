@@ -62,7 +62,7 @@ if (isset($_GET['alert'])){
     $price = $_POST['coinPriceAltTxt'];
     $reocurring = $_POST['reocurringChk'];
     $spreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
-
+    $allRuleCheck = $_POST['allCoinChk'];
     if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
     if (isset($reocurring)){$temp = 1;}
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
