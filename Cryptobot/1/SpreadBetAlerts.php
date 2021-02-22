@@ -72,7 +72,7 @@ if (isset($_GET['alert'])){
       addNewAlert($category,$actionTemp,$price,$temp,$tempSpreadBetID);
     }
     newSpreadBetRuleID();
-    //header('Location: SpreadBetAlerts.php');
+    header('Location: SpreadBetAlerts.php');
   }
 }else{
 	showMain();
