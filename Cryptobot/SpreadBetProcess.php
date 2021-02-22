@@ -88,6 +88,23 @@ function getSpreadBetAll(){
   return $tempAry;
 }
 
+function getSBProgress($userID, $target){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `UserID`, `PurchasePrice`, `SalePrice`, `Profit`, `CountOfTransactions`, `SpreadBet`, (((1-(`PctProfit`/100))*$target)/$target)*100 as PctOfTarget FROM `SpreadBetTargetsAndProgress` WHERE `UserID` = $userID";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['UserID'], $row['PurchasePrice'], $row['SalePrice'], $row['Profit'], $row['CountOfTransactions'], $row['SpreadBet'], $row['SpreadBetTargetsAndProgress']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 
 $spreadBet = getSpreadBetAll();
 $spreadBetSize = count($spreadBet);
@@ -99,25 +116,29 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $hr1BuyDisableSet = $spreadBet[$i][39];
   $hr24andD7StartPrice = $spreadBet[$i][40];
   $month6TotalPrice = $spreadBet[$i][41];
-  $allTimTotalPrice = $spreadBet[$i][42];
-
+  $allTimTotalPrice = $spreadBet[$i][42]; $userID = $spreadBet[$i][27];
+  $progress = getSBProgress($userID,20);
+  $pctOfTarget = $progress[0][6];
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
-  if ($Live1HrChange < $hr1BuyEnableSet){
+  if ($Live1HrChange < ($hr1BuyEnableSet*$pctOfTarget)){
     toggleSBRule($SBRuleID,1);
-  }elseif ($Live1HrChange > $hr1BuyDisableSet){
+  }elseif ($Live1HrChange > ($hr1BuyDisableSet*$pctOfTarget)){
     toggleSBRule($SBRuleID,0);
   }
 
 
   //6Month price to change the 24Hr and 7 D %
   //All Time price to change the 24Hr and 7 D %
-  $month6For24 = $month6TotalPrice * ($pctofSixMonthHigh/100);
-  $allTimeFor24 = $allTimTotalPrice * ($pctOfAllTimeHigh / 100);
+  $month6For24 = ($month6TotalPrice * ($pctofSixMonthHigh/100))*$pctOfTarget;
+  $allTimeFor24 = ($allTimTotalPrice * ($pctOfAllTimeHigh / 100))*$pctOfTarget;
   $hr24Price = $hr24andD7StartPrice - $month6For24 - $allTimeFor24;
 
   update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
 }
+
+$progress = getSBProgress(3,20);
+
 
 ?>
 </html>
