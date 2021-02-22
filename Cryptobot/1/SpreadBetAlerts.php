@@ -47,12 +47,13 @@ if (isset($_GET['alert'])){
       if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
       if (isset($reocurring)){$temp = 1;}
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
-      echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
+
       for ($o=0; $o<$allRulesSize; $o++){
         if (isset($allRuleCheck)){$tempSpreadBetID = $allRules[$o][0];}else{ $tempSpreadBetID = $spreadBetRuleID;}
+        echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID | $tempSpreadBetID";
         updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID, $tempSpreadBetID);
       }
-      header('Location: SpreadBetAlerts.php');
+      //header('Location: SpreadBetAlerts.php');
   }elseif ($_GET['alert'] == 5){
       displayAddNewAlert($_GET['SBID']);
   }elseif ($_GET['alert'] == 6){
