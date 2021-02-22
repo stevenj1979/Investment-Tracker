@@ -1224,6 +1224,7 @@ while($completeFlag == False){
         //$checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
         LogToSQL("SpreadBetTrackingSell","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,2);",3,1);
         newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,2);
+        setTransactionPending($TransactionID);
         LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);",3,1);
         //newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);
         LogToSQL("SpreadBetTest2","setTransactionPending($transactionID);",3,1);
