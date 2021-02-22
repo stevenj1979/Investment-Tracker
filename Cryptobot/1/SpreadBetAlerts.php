@@ -33,8 +33,8 @@ if (isset($_GET['alert'])){
       DeleteAlert($_GET['iD']);
       header('Location: MarketAlerts.php');
   }elseif ($_GET['alert'] == 2){
-      //submit form
-      $userID = $_SESSION['ID'];
+      //EDIT Alert
+
       $temp = 0;
       echo "<BR> Submit Alert".$_GET['edit'];
       $category = $_POST['priceSelect'];
@@ -44,30 +44,34 @@ if (isset($_GET['alert'])){
       $marketAlertsRuleID = $_POST['MarketAlertRuleIDTxt'];
       $allRuleCheck = $_POST['allCoinChk'];
       $spreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
-      if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
       if (isset($reocurring)){$temp = 1;}
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
 
-      for ($o=0; $o<$allRulesSize; $o++){
-        if (isset($allRuleCheck)){$tempSpreadBetID = $allRules[$o][0];}else{ $tempSpreadBetID = $spreadBetRuleID;}
-        echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID | $tempSpreadBetID";
-        updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID, $tempSpreadBetID);
-      }
-      //header('Location: SpreadBetAlerts.php');
+
+      echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID | $tempSpreadBetID";
+      updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID, $spreadBetRuleID);
+      header('Location: SpreadBetAlerts.php');
   }elseif ($_GET['alert'] == 5){
       displayAddNewAlert($_GET['SBID']);
   }elseif ($_GET['alert'] == 6){
+    //ADD NEW Alert - Submit
+    $userID = $_SESSION['ID'];
     $temp = 0;
     $category = $_POST['priceSelect'];
     $action = $_POST['greaterThanSelect'];
     $price = $_POST['coinPriceAltTxt'];
     $reocurring = $_POST['reocurringChk'];
-    $SpreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
+    $spreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
+
+    if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
     if (isset($reocurring)){$temp = 1;}
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
-    addNewAlert($category,$actionTemp,$price,$temp,$SpreadBetRuleID);
+    for ($o=0; $o<$allRulesSize; $o++){
+      if (isset($allRuleCheck)){$tempSpreadBetID = $allRules[$o][0];}else{ $tempSpreadBetID = $spreadBetRuleID;}
+      addNewAlert($category,$actionTemp,$price,$temp,$tempSpreadBetID);
+    }
     newSpreadBetRuleID();
-    header('Location: SpreadBetAlerts.php');
+    //header('Location: SpreadBetAlerts.php');
   }
 }else{
 	showMain();
