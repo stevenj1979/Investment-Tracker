@@ -130,6 +130,7 @@ function displayForm($id){
   ?> <h1>SpreadBet Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='SpreadBetAlerts.php?alert=2' method='post'>
+    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Rules: </label><br>
     <select name="priceSelect"><?php
       for ($r=0; $r<$selectArraySize; $r++){
         //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
@@ -175,6 +176,7 @@ function displayAddNewAlert($spreadBetRuleID){
   ?> <h1>SpreadBet Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='SpreadBetAlerts.php?alert=6' method='post'>
+    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Rules: </label><br>
     <select name="priceSelect"><?php
       for ($r=0; $r<$selectArraySize; $r++){
         //echo "<BR> TEST1: ".$selectArray[$r]. " | TEST2: $category";
@@ -188,7 +190,7 @@ function displayAddNewAlert($spreadBetRuleID){
       //<option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
       //<option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
       //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
-    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Rules: </label><br>
+
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect"> <?php
     if ($action == "LessThan"){$lessThanSelect = "SELECTED";}else{$greaterThanSelect = "SELECTED";}
