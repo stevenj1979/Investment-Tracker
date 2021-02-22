@@ -1244,8 +1244,8 @@ while($completeFlag == False){
         $fee = (($sellPrice)/100)*0.25;
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $pctToSave = $pctToSave / 100;
-        addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave,$CoinID);
-        LogToSQL("SpreadBetSell","addProfitToAllocation($UserID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,1);
+        addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);
+        LogToSQL("SpreadBetSell","addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,1);
       }
     }
   }
