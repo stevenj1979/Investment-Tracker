@@ -34,6 +34,7 @@ if (isset($_GET['alert'])){
       header('Location: MarketAlerts.php');
   }elseif ($_GET['alert'] == 2){
       //submit form
+      $userID = $_SESSION['ID'];
       $temp = 0;
       echo "<BR> Submit Alert".$_GET['edit'];
       $category = $_POST['priceSelect'];
@@ -41,10 +42,16 @@ if (isset($_GET['alert'])){
       $price = $_POST['coinPriceAltTxt'];
       $reocurring = $_POST['reocurringChk'];
       $marketAlertsRuleID = $_POST['MarketAlertRuleIDTxt'];
+      $allRuleCheck = $_POST['allCoinChk']
+      $spreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
+      if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
       if (isset($reocurring)){$temp = 1;}
       if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
       echo "<BR>Values : $category | $actionTemp | $price | $temp | $marketAlertsRuleID";
-      updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID);
+      for ($o=0; $o<$allRulesSize; $o++){
+        if (isset($allRuleCheck)){$tempSpreadBetID = $allRules[$o][0];}else{ $tempSpreadBetID = $spreadBetRuleID;}
+        updateFormDataToSQL($category, $actionTemp, $price, $temp, $marketAlertsRuleID, $tempSpreadBetID);
+      }
       header('Location: SpreadBetAlerts.php');
   }elseif ($_GET['alert'] == 5){
       displayAddNewAlert($_GET['SBID']);
@@ -65,13 +72,27 @@ if (isset($_GET['alert'])){
 	showMain();
 }
 
-function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID){
+function getAllRules($userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID` FROM `SpreadBetRules` WHERE `UserID` = $userID";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function updateFormDataToSQL($category, $action, $price, $reocurring, $marketAlertsRuleID, $spreadBetRuleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `SpreadBetAlerts` SET `Action`= '$action',`Price`= $price,`Category`= '$category',`ReocurringAlert`= $reocurring WHERE `MarketAlertRuleID` = $marketAlertsRuleID ";
+  $sql = "UPDATE `SpreadBetAlerts` SET `Action`= '$action',`Price`= $price,`Category`= '$category',`ReocurringAlert`= $reocurring, `SpreadBetRuleID` = $spreadBetRuleID
+  WHERE `MarketAlertRuleID` = $marketAlertsRuleID ";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -105,7 +126,7 @@ function displayForm($id){
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
-  $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
+  $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4]; $spreadBetRuleID = $temp[0][5];
   ?> <h1>SpreadBet Alerts</h1>
   <h2>Enter Price1</h2>
   <form action='SpreadBetAlerts.php?alert=2' method='post'>
@@ -122,6 +143,7 @@ function displayForm($id){
       //<option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
       //<option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
       //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
+    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Rules: </label><br>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect"> <?php
     if ($action == "LessThan"){$lessThanSelect = "SELECTED";}else{$greaterThanSelect = "SELECTED";}
@@ -134,6 +156,7 @@ function displayForm($id){
     <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert" <?php echo $checked; ?>><label for="reocurringChk">Reocurring Alert: </label><br>
     <input type="text" name="UserIDTxt" value="<?php echo $userID; ?>" style='color:Gray' readonly ><label for="UserIDTxt">UserID: </label><br>
     <input type="text" name="MarketAlertRuleIDTxt" value="<?php echo $id; ?>" style='color:Gray' readonly ><label for="MarketAlertRuleIDTxt">Market Alert Rule ID: </label><br>
+      <input type="text" name="SpreadBetRuleIDTxt" value="<?php echo $spreadBetRuleID; ?>" style='color:Gray' readonly ><label for="SpreadBetRuleIDTxt">SpreadBet Rule ID: </label><br>
     <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
 
   </form>
@@ -165,6 +188,7 @@ function displayAddNewAlert($spreadBetRuleID){
       //<option value="Pct Price in 7 Days" name='pctPrice24Opt'>Pct Price in 7 Days</option>
       //<option value="Market Cap Pct Change" name='pctPriceMarkCapOpt'>Market Cap Pct Change</option>
       //<option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>?>
+    <input type="checkbox" id="allCoinChk" name="allCoinChk" value="allCoinChk"><label for="allCoinChk">All Rules: </label><br>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect"> <?php
     if ($action == "LessThan"){$lessThanSelect = "SELECTED";}else{$greaterThanSelect = "SELECTED";}
@@ -206,11 +230,11 @@ function addNewAlert($category,$action,$price,$reocurring,$SpreadBetRuleID){
 function getSpreadBetAlertsFormData($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "SELECT `SpreadBetAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = $id ";
+    $sql = "SELECT `SpreadBetAlertRuleID`, `Action`, `Price`,`Category`, `ReocurringAlert`, `SpreadBetRuleID` FROM `SpreadBetAlertsView` WHERE `SpreadBetAlertRuleID` = $id ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['MarketRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert']);
+    $tempAry[] = Array($row['MarketRuleID'],$row['Action'],$row['Price'],$row['Category'],$row['ReocurringAlert'],$row['SpreadBetRuleID']);
   }
   $conn->close();
   return $tempAry;

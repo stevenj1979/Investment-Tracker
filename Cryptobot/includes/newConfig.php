@@ -2181,7 +2181,7 @@ function getSpreadBetAlerts($userID = 0){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `LiveCoinPrice`, `Live1HrChange`, `Live24HrChange`, `Live7DChange`, `LiveMarketCap`, `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `SpreadBetAlertRuleID`, `Price`
   , `LivePricePct`,`SpreadBetRuleID`
-  FROM `SpreadBetAlertsView`$whereClause";
+  FROM `SpreadBetAlertsView`$whereClause group by `SpreadBetAlertRuleID`";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
