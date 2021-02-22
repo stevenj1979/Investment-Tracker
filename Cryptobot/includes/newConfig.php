@@ -3820,7 +3820,7 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
       die("Connection failed: " . $conn->connect_error);
   }
     $sql = "UPDATE `Transaction` AS `t1` JOIN `Transaction` AS `t2` ON `t2`.`ID` = $oldID
-            SET    `t1`.`Type` = `t2`.`Type`
+            SET    `t1`.`Type` = 'SpreadSell'
             , `t1`.`SpreadBetRuleID` = `t2`.`SpreadBetRuleID`
             , `t1`.`SpreadBetTransactionID` = `t2`.`SpreadBetTransactionID`
             WHERE `t1`.`CoinID` = $coinID and `t1`.`Amount` = $quantity
