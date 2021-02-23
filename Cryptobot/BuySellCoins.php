@@ -1118,6 +1118,7 @@ while($completeFlag == False){
     $Hr1BuyPrice = $spread[$y][31];
     $Hr24BuyPrice = $spread[$y][32];
     $D7BuyPrice = $spread[$y][33]; $userID = $spread[$y][37];
+    $inverseAvgHighPct = 100-(($pctofSixMonthHigh + $pctofAllTimeHigh)/2);
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
@@ -1143,8 +1144,9 @@ while($completeFlag == False){
       $availableTrans = $noOfBuys - $openCoinsSize;
       if ($openCoinsSize < $noOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
-        $buyPerCoin = $spreadBetToBuy[0][0]/($noOfBuys - $openCoinsSize);
+        $buyPerCoin = ($spreadBetToBuy[0][0]/($noOfBuys - $openCoinsSize))*$inverseAvgHighPct;
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
+        if ($BTCAmount < 10){ continue;}
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       }else{ continue;}
@@ -1156,6 +1158,7 @@ while($completeFlag == False){
         $liveCoinPrice = $spreadCoins[$t][17];
         $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
         $buyType = 1; $timeToCancelBuyMins = 20; $SellRuleFixed = 9999995;$noOfPurchases = 0;
+
 
         //BuyCoins
         echo "<BR>buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);";

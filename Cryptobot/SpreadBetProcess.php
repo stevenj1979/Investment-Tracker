@@ -72,7 +72,9 @@ function getSpreadBetAll(){
   $sql ="SELECT `ID`, `Name`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`, `Live7DChange`, `Last7DChange`
   , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
   , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
-  , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`Hr1BuyEnable`,`Hr1BuyDisable`,`Hr24andD7StartPrice`,`Month6TotalPrice`,`AllTimeTotalPrice` FROM `SpreadBetCoinStatsView_ALL`";
+  , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`Hr1BuyEnable`,`Hr1BuyDisable`,`Hr24andD7StartPrice`,`Month6TotalPrice`,`AllTimeTotalPrice`
+  ,`Hr1EnableStartPrice`
+  FROM `SpreadBetCoinStatsView_ALL`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -81,11 +83,30 @@ function getSpreadBetAll(){
       $tempAry[] = Array($row['ID'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
-      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['Hr1BuyEnable'], $row['Hr1BuyDisable'], $row['Hr24andD7StartPrice']
-      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice']);
+      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['Hr1BuyEnable'], $row['Hr1BuyDisable'], $row['Hr24andD7StartPrice'] //40
+      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice'], $row['Hr1EnableStartPrice']);
   }
   $conn->close();
   return $tempAry;
+}
+
+function write1HrEnablePrice($hr1Price, $SBRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "UPDATE `SpreadBetSettings` SET `Hr1BuyEnable`= $hr1Price WHERE `SpreadBetRuleID` = $SBRuleID ";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("write1HrEnablePrice: ".$sql, 'BuyCoin', 0);
 }
 
 function getSBProgress($userID, $target){
@@ -112,7 +133,7 @@ $spreadBetSize = count($spreadBet);
 for ($i=0;$i<$spreadBetSize;$i++){
   $SBRuleID = $spreadBet[$i][0]; $userID = $spreadBet[$i][37]; $pctOfAllTimeHigh = $spreadBet[$i][35]; $pctofSixMonthHigh = $spreadBet[$i][34];
   $CoinPricePctChange = $spreadBet[$i][13]; $Live1HrChange = $spreadBet[$i][4];
-  $hr1BuyEnableSet = $spreadBet[$i][38];
+  $hr1BuyEnableSet = $spreadBet[$i][43];
   $hr1BuyDisableSet = $spreadBet[$i][39];
   $hr24andD7StartPrice = $spreadBet[$i][40];
   $month6TotalPrice = $spreadBet[$i][41];
@@ -121,7 +142,9 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $pctOfTarget = $progress[0][6];
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
-  if ($Live1HrChange < ($hr1BuyEnableSet*$pctOfTarget)){
+  $temp1Hr = ($hr1BuyEnableSet*$pctOfTarget);
+  write1HrEnablePrice($temp1Hr, $SBRuleID);
+  if ($Live1HrChange < $temp1Hr){
     toggleSBRule($SBRuleID,1);
   }elseif ($Live1HrChange > ($hr1BuyDisableSet*$pctOfTarget)){
     toggleSBRule($SBRuleID,0);
