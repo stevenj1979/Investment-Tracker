@@ -4010,7 +4010,7 @@ function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct, $coinID
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
 }
 
-function getOpenSpreadCoins(){
+function getOpenSpreadCoins($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -4020,14 +4020,16 @@ function getOpenSpreadCoins(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, `Tr`.`UserID` FROM `Transaction` `Tr`
-    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') ";
+  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, `Tr`.`UserID` , count( DISTINCT `Tr`.`SpreadBetTransactionID`) as countOfTransactions
+FROM `Transaction` `Tr`
+    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID
+    group by `Tr`.`SpreadBetRuleID` ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetRuleID'],$row['UserID']);
+      $tempAry[] = Array($row['SpreadBetRuleID'],$row['UserID'],$row['countOfTransactions']);
   }
   $conn->close();
   return $tempAry;

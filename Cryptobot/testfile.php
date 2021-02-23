@@ -228,15 +228,23 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-$symbol = 'ZEC';
-$coinStr = getCoinList(getStats(),3);
 
-echo "<BR> $coinStr";
 
-$CMCStats = newCoinMarketCapStats($coinStr);
 
-$statsForCoin = findCoinStats($CMCStats,$symbol);
+$totalNoOfBuys = 2;
+$noOfBuysPerCoin = 2;
+$divideAllocation = 3;
+$openCoins = getOpenSpreadCoins($userID);
+$openCoinsSize = count($openCoins);
 
+for ($v=0; $v<$openCoinsSize; $v++){
+  Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
+  if ($openCoins[$v][0] == $ID AND $openCoins[$v][1] == $userID AND $openCoins[$v][2] >= $noOfBuysPerCoin){
+    if ($openCoinsSize >= $totalNoOfBuys){
+      continue 2;
+    }
+  }
+}
 
 
 ?>

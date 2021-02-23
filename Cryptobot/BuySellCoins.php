@@ -1106,7 +1106,10 @@ while($completeFlag == False){
   $spread = getSpreadBetData();
   $spreadSize = count($spread);
   //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
-  $noOfBuys = 2;
+  //$noOfBuys = 2;
+  $totalNoOfBuys = 2;
+  $noOfBuysPerCoin = 2;
+  $divideAllocation = 3;
   echo "</blockquote>";
   echo "<BR> CHECK Spread Bet!! ";
   echo "<blockquote>";
@@ -1126,12 +1129,16 @@ while($completeFlag == False){
     if ($pctofAllTimeHigh > 90){echo "<BR> EXIT: AllTimeMonthHigh: $pctofAllTimeHigh"; continue;}
     Echo "<BR>1) $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice";
     if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
-      $openCoins = getOpenSpreadCoins();
+      $openCoins = getOpenSpreadCoins($userID);
       $openCoinsSize = count($openCoins);
 
       for ($v=0; $v<$openCoinsSize; $v++){
         Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
-        if ($openCoins[$v][0] == $ID AND $openCoins[$v][1] == $userID){ continue 2;}
+        if ($openCoins[$v][0] == $ID AND $openCoins[$v][1] == $userID AND $openCoins[$v][2] >= $noOfBuysPerCoin){
+          if ($openCoinsSize >= $totalNoOfBuys){
+            continue 2;
+          }
+        }
       }
       //GetCoinData
       echo "<BR> getSpreadCoinData($spreadBetTransID); ";
@@ -1141,10 +1148,10 @@ while($completeFlag == False){
       //How much to buy
       $openCoins = checkOpenSpreadBet($UserID);
       $openCoinsSize = count($openCoins);
-      $availableTrans = $noOfBuys - $openCoinsSize;
-      if ($openCoinsSize < $noOfBuys and $availableTrans > 0){
+      $availableTrans = $totalNoOfBuys - $openCoinsSize;
+      if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
-        $buyPerCoin = ($spreadBetToBuy[0][0]/($noOfBuys - $openCoinsSize))*$inverseAvgHighPct;
+        $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize))*$inverseAvgHighPct;
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
         if ($BTCAmount < 10){ continue;}
       //}elseif ($availableTrans == 0){
