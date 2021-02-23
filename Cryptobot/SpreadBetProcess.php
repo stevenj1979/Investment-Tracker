@@ -117,6 +117,7 @@ function getSBProgress($userID, $target){
   }
 
   $sql = "SELECT `UserID`, `PurchasePrice`, `SalePrice`, `Profit`, `CountOfTransactions`, `SpreadBet`, (((1-(`PctProfit`/100))*$target)/$target)*100 as PctOfTarget FROM `SpreadBetTargetsAndProgress` WHERE `UserID` = $userID";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
