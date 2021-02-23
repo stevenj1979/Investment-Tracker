@@ -122,7 +122,7 @@ function getSBProgress($userID, $target){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['UserID'], $row['PurchasePrice'], $row['SalePrice'], $row['Profit'], $row['CountOfTransactions'], $row['SpreadBet'], $row['SpreadBetTargetsAndProgress']);
+      $tempAry[] = Array($row['UserID'], $row['PurchasePrice'], $row['SalePrice'], $row['Profit'], $row['CountOfTransactions'], $row['SpreadBet'], $row['PctOfTarget']);
   }
   $conn->close();
   return $tempAry;
