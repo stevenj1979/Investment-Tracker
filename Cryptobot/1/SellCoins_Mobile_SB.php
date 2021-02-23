@@ -235,6 +235,7 @@ $date = date('Y/m/d H:i:s', time());
             $profitBtc = $profit/($originalPurchaseCost)*100;
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+            //Top Line
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$spreadBetRuleID</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
@@ -246,20 +247,17 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
             echo "<td rowspan='3'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
-
+            // 2nd Line
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
             NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."&nbsp</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),$roundVar);
             echo "<td><p id='normalText'>$cost</p></td>";
 
             echo "</tr><tr>";
 
-
-            //$numCol = getNumberColour($profitBtc);
-            //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
-
+            //Bottom Line
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
             echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
