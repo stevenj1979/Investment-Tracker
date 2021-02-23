@@ -142,6 +142,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $pctOfTarget = $progress[0][6];
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
+  ECHO "<BR> $hr1BuyEnableSet*$pctOfTarget";
   $temp1Hr = ($hr1BuyEnableSet*$pctOfTarget);
   write1HrEnablePrice($temp1Hr, $SBRuleID);
   if ($Live1HrChange < $temp1Hr){
