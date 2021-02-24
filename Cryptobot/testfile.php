@@ -269,7 +269,7 @@ group by `CoinID`";
 
 $pctData = getPctChangeFromHistory();
 $pctDataSize = count($pctData);
-for ($i=0;$i<$pctDataSizel $i++){
+for ($i=0;$i<$pctDataSize; $i++){
   $coinID = $pctData[$i][0]; $hr1Price = $pctData[$i][1]; $hr24Price = $pctData[$i][2]; $d7Price = $pctData[$i][3];
   $month = $pctData[$i][4]; $year = $pctData[$i][5];
   echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
