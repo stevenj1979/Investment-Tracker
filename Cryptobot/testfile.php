@@ -228,24 +228,51 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-
-
-
-$totalNoOfBuys = 2;
-$noOfBuysPerCoin = 2;
-$divideAllocation = 3;
-$openCoins = getOpenSpreadCoins($userID);
-$openCoinsSize = count($openCoins);
-
-for ($v=0; $v<$openCoinsSize; $v++){
-  Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
-  if ($openCoins[$v][0] == $ID AND $openCoins[$v][1] == $userID AND $openCoins[$v][2] >= $noOfBuysPerCoin){
-    if ($openCoinsSize >= $totalNoOfBuys){
-      continue 2;
-    }
+function writePctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
   }
+  $sql = "Call AddMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writePctDatatoSQL: ".$sql, 'BuyCoin', 0);
 }
 
+function getPctChangeFromHistory(){
+  $conn = getHistorySQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `CoinID`,min(`Hr1Pct`) as Hr1Pct, min(`Hr24Pct`) as Hr24Pct, min(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
+WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+group by `CoinID`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+$pctData = getPctChangeFromHistory();
+$pctDataSize = count($pctData);
+for ($i=0;$i<$pctDataSizel $i++){
+  $coinID = $pctData[$i][0]; $hr1Price = $pctData[$i][1]; $hr24Price = $pctData[$i][2]; $d7Price = $pctData[$i][3];
+  $month = $pctData[$i][4]; $year = $pctData[$i][5];
+  writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
+}
 
 ?>
 </html>
