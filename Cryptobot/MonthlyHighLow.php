@@ -66,9 +66,9 @@ function getPctChangeFromHistory(){
   $sql = "SELECT `CoinID`,min(`Hr1Pct`) as Hr1Pct, min(`Hr24Pct`) as Hr24Pct, min(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
 WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
 AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-and `Hr1Pct` > -100 and `Hr1Pct` < 100
-and `Hr24Pct` > -100 and `Hr24Pct` < 100
-and `D7Pct` > -100 and `D7Pct` < 100
+and `Hr1Pct` > -20 and `Hr1Pct` < 20
+and `Hr24Pct` > -30 and `Hr24Pct` < 30
+and `D7Pct` > -50 and `D7Pct` < 50
 group by `CoinID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
