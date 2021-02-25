@@ -123,6 +123,50 @@ group by `CoinID`";
   return $tempAry;
 }
 
+function writeMinPriceDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call AddMinPriceChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeAvgPctDatatoSQL: ".$sql, 'BuyCoin', 0);
+}
+
+function getMinPriceChangeFromHistory(){
+  $conn = getHistorySQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `CoinID`,`Hr1Pct` as Hr1Pct, `Hr24Pct` as Hr24Pct, `D7Pct` as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year, Min(`Price`) as Price FROM `PriceHistory`
+WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+and `Price` > 0
+and `Price` < 999999
+and `Hr1Pct` <> 0
+and `Hr24Pct` <> 0
+and `D7Pct` <> 0
+group by `CoinID`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  echo "<BR>$sql";
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year'],$row['Price']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $maxPrices = getLastMonthCoinPrice();
 $maxPricesSize = Count($maxPrices);
 
@@ -149,6 +193,16 @@ for ($i=0;$i<$pctAvgDataSize; $i++){
   echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
   writeAvgPctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
 }
+
+$minPriceData = getMinPriceChangeFromHistory();
+$minPriceDataSize = count($minPriceData);
+for ($i=0;$i<$minPriceDataSize; $i++){
+  $coinID = $minPriceData[$i][0]; $hr1Price = $minPriceData[$i][1]; $hr24Price = $minPriceData[$i][2]; $d7Price = $minPriceData[$i][3];
+  $month = $minPriceData[$i][4]; $year = $minPriceData[$i][5];
+  echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
+  writeMinPriceDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
+}
+
 
 ?>
 </html>
