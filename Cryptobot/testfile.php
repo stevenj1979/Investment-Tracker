@@ -228,13 +228,13 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 //  echo "<BR> high: ".$bittrexStats["high"];
 //  echo "<BR> low: ".$bittrexStats["low"];
 //}
-function writePctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
+function writeAvgPctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call AddMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
+  $sql = "Call AddAvgMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -243,16 +243,16 @@ function writePctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $ye
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("writePctDatatoSQL: ".$sql, 'BuyCoin', 0);
+  logAction("writeAvgPctDatatoSQL: ".$sql, 'BuyCoin', 0);
 }
 
-function getPctChangeFromHistory(){
+function getAvgPctChangeFromHistory(){
   $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `CoinID`,min(`Hr1Pct`) as Hr1Pct, min(`Hr24Pct`) as Hr24Pct, min(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
+  $sql = "SELECT `CoinID`,avg(`Hr1Pct`) as Hr1Pct, avg(`Hr24Pct`) as Hr24Pct, avg(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
 WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
 AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
 and `Hr1Pct` > -20 and `Hr1Pct` < 20
@@ -264,7 +264,7 @@ group by `CoinID`";
   //mysqli_fetch_assoc($result);
   echo "<BR>$sql";
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year']);
+      $tempAry[] = Array($row['CoinID'],$row['AvgHr1Pct'],$row['AvgHr24Pct'],$row['AvgD7Pct'],$row['Month'],$row['Year']);
   }
   $conn->close();
   return $tempAry;
