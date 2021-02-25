@@ -187,7 +187,7 @@ $conn->close();
 return $tempAry;
 }
 
-function displaySpreadBet($tracking, $title, $num, $newArrLength){
+function displaySpreadBet($tracking, $title, $fontSize, $newArrLength){
   echo "<h3>$title</h3><br>";
   for($x = 0; $x < $newArrLength; $x++) {
     //Variables
@@ -252,8 +252,8 @@ displayHeader(3);
 
       echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a> &nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins SpreadBet</a></h3>";
 
-      displaySpreadBet($tracking, "Enabled", 1, $newArrLength);
-      displaySpreadBet($tracking, "Disabled", 0, $trackingDisabledSize);
+      displaySpreadBet($tracking, "Enabled", $fontSize, $newArrLength);
+      displaySpreadBet($tracking, "Disabled",$fontSize, $trackingDisabledSize);
 
       Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
       displaySideColumn();
