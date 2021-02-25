@@ -257,7 +257,7 @@ while($completeFlag == False){
       closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
     }
-    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5) {
+    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5 && $type == 'Sell') OR ($type == 'SpreadSell' && $LiveCoinPrice > $originalCoinPrice)) {
       $date = date("Y-m-d H:i:s", time());
       reopenTransaction($TransactionID);
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
