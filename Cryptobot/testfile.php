@@ -264,7 +264,7 @@ group by `CoinID`";
   //mysqli_fetch_assoc($result);
   echo "<BR>$sql";
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['AvgHr1Pct'],$row['AvgHr24Pct'],$row['AvgD7Pct'],$row['Month'],$row['Year']);
+      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year']);
   }
   $conn->close();
   return $tempAry;
