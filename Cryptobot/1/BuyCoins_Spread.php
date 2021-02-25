@@ -48,7 +48,7 @@ function getCoinsfromSQL(){
   return $tempAry;
 }
 
-function getTrackingCoinsLoc(){
+function getTrackingCoinsLoc($status){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
@@ -57,7 +57,8 @@ if ($conn->connect_error) {
   $sql = "SELECT `ID`,'Symbol',`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,
    `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
    ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`Name`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`,`Enabled`
-   FROM `SpreadBetCoinStatsView_ALL` order by `CoinPricePctChange` asc,`Live1HrChange` asc";
+   FROM `SpreadBetCoinStatsView_ALL`  WHERE `Enabled` = $status
+   order by `CoinPricePctChange` asc,`Live1HrChange` asc";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
@@ -186,75 +187,74 @@ $conn->close();
 return $tempAry;
 }
 
+function displaySpreadBet($tracking, $title, $num, $newArrLength){
+  echo "<h3>$title</h3><br>";
+  for($x = 0; $x < $newArrLength; $x++) {
+    //Variables
+    $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
+    $Live1HrChange = round($tracking[$x][10],$num); $Live24HrChange = round($tracking[$x][13],$num); $Live7DChange = $tracking[$x][16];
+    $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
+    $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
+    $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
+    $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
+    $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
+    $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
+    $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+    $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
+    $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
+    $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
+    $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35]; $id = $tracking[$x][0];
+    //Table
+    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
+    echo "<td><p id='largeText'>".$name."</p></td>";
+    echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
+    NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
+
+    $tdColour = setTextColour($Live1HrChange, False);
+    echo "<td $hr1Colour><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
+
+    echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
+
+    NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
+
+    NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td rowspan='3'><a href='SpreadBetAlerts.php?alert=5&SBID=$id'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+    echo "</tr><tr>";
+    echo "<td><p id='smallText'>".$coin."</p></td>";
+    NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
+    NewEcho( "<td $hr24Colour><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+
+    echo "</tr><tr>";
+    $numCol = getNumberColour($priceDiff1);
+    echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
+    NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
+    NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+    echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
+    echo "<td><p id='normalText'>".$enabled."</p></td>";
+  }//end for
+  print_r("</tr></table><BR>");
+}
 
 
 displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-      $tracking = getTrackingCoinsLoc();
+      $tracking = getTrackingCoinsLoc(1);
       $newArrLength = count($tracking);
+      $trackingDisabled = getTrackingCoinsLoc(0);
+      $trackingDisabledSize = count($trackingDisabled);
       //echo $newArrLength;
       //$userConfig = getConfig($_SESSION['ID']);
       //$user = getUserIDs($_SESSION['ID']);
       //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
 
       echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a> &nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins SpreadBet</a></h3>";
-      //if($_SESSION['isMobile'] == False){
-      //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-      //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
-      //  echo "<TH>&nbsp% Change 1Hr</th>";
-      //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
-      //}
 
-      //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
-      //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
-      //$roundNum = 2;
-      for($x = 0; $x < $newArrLength; $x++) {
-        //Variables
-        $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
-        $Live1HrChange = round($tracking[$x][10],$num); $Live24HrChange = round($tracking[$x][13],$num); $Live7DChange = $tracking[$x][16];
-        $bitPrice = round($tracking[$x][17],$num); $LastCoinPrice = $tracking[$x][18];$coinID = $tracking[$x][0];
-        $volume = round($tracking[$x][25],$num); $baseCurrency = $tracking[$x][26];
-        $price4Trend = $tracking[$x][27];$price3Trend = $tracking[$x][28]; $lastPriceTrend = $tracking[$x][29]; $LivePriceTrend = $tracking[$x][30];
-        $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
-        $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
-        $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
-        $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
-        $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
-        $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
-        $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
-        $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35]; $id = $tracking[$x][0];
-        //Table
-        echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
-        echo "<td><p id='largeText'>".$name."</p></td>";
-        echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
-        NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
+      displaySpreadBet($tracking, "Enabled", 1, $newArrLength);
+      displaySpreadBet($tracking, "Disabled", 0, $trackingDisabledSize);
 
-        $tdColour = setTextColour($Live1HrChange, False);
-        echo "<td $hr1Colour><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
-
-        echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
-
-        NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
-        NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
-
-        NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-        NewEcho("<td rowspan='3'><a href='SpreadBetAlerts.php?alert=5&SBID=$id'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-        NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-        echo "</tr><tr>";
-        echo "<td><p id='smallText'>".$coin."</p></td>";
-        NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
-        NewEcho( "<td $hr24Colour><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
-
-        echo "</tr><tr>";
-        $numCol = getNumberColour($priceDiff1);
-        echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
-        NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
-        NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
-        echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
-        echo "<td><p id='normalText'>".$enabled."</p></td>";
-      }//end for
-      print_r("</tr></table>");
       Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
       displaySideColumn();
       //displayMiddleColumn();
