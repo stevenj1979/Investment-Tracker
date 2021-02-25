@@ -81,6 +81,48 @@ group by `CoinID`";
   return $tempAry;
 }
 
+function writeAvgPctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call AddAvgMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeAvgPctDatatoSQL: ".$sql, 'BuyCoin', 0);
+}
+
+function getAvgPctChangeFromHistory(){
+  $conn = getHistorySQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `CoinID`,avg(`Hr1Pct`) as Hr1Pct, avg(`Hr24Pct`) as Hr24Pct, avg(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
+WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
+and `Hr1Pct` > -20 and `Hr1Pct` < 0
+and `Hr24Pct` > -30 and `Hr24Pct` < 0
+and `D7Pct` > -50 and `D7Pct` < 0
+group by `CoinID`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  echo "<BR>$sql";
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 $maxPrices = getLastMonthCoinPrice();
 $maxPricesSize = Count($maxPrices);
 
@@ -97,6 +139,15 @@ for ($i=0;$i<$pctDataSize; $i++){
   $month = $pctData[$i][4]; $year = $pctData[$i][5];
   echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
   writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
+}
+
+$pctAvgData = getAvgPctChangeFromHistory();
+$pctAvgDataSize = count($pctAvgData);
+for ($i=0;$i<$pctAvgDataSize; $i++){
+  $coinID = $pctAvgData[$i][0]; $hr1Price = $pctAvgData[$i][1]; $hr24Price = $pctAvgData[$i][2]; $d7Price = $pctAvgData[$i][3];
+  $month = $pctAvgData[$i][4]; $year = $pctAvgData[$i][5];
+  echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
+  writeAvgPctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
 }
 
 ?>
