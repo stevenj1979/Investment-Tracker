@@ -56,7 +56,7 @@ function getCoinsfromSQLLoc(){
     return $tempAry;
 }
 
-function getTrackingSellCoinsLoc($spreadBetTransactionID){
+function getTrackingSellCoinsLoc($spreadBetRuleName){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -69,10 +69,10 @@ function getTrackingSellCoinsLoc($spreadBetTransactionID){
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
     ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
     ,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `ID` = $spreadBetTransactionID
+    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = $spreadBetRuleName
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
-    print_r($sql."<BR>");
+    //print_r($sql."<BR>");
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);`PctChange1Hr`, `PctChange24Hr`, `PctChange7D`
   while ($row = mysqli_fetch_assoc($result)){
@@ -261,7 +261,7 @@ function getSpreadBetIDOpen($userID){
     FROM `SellCoinsSpreadView` WHERE `UserID` = 3
     group by `SpreadBetRuleName`";
   $result = $conn->query($sql);
-    print_r($sql);
+    //print_r($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);`PctChange1Hr`, `PctChange24Hr`, `PctChange7D`
   while ($row = mysqli_fetch_assoc($result)){
@@ -294,7 +294,7 @@ $date = date('Y/m/d H:i:s', time());
         print_r("<h2>Sell Some Coins Now!</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
         for ($s=0; $s<$spreadBetIDSize; $s++){
-          $trackingSell = getTrackingSellCoinsLoc($spreadBetID[$s][0]);
+          $trackingSell = getTrackingSellCoinsLoc($spreadBetID[$s][1]);
           $arrLengthSell = count($trackingSell);
           displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]);
         }
