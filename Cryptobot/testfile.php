@@ -255,9 +255,9 @@ function getAvgPctChangeFromHistory(){
   $sql = "SELECT `CoinID`,avg(`Hr1Pct`) as Hr1Pct, avg(`Hr24Pct`) as Hr24Pct, avg(`D7Pct`) as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year  FROM `PriceHistory`
 WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
 AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-and `Hr1Pct` > -20 and `Hr1Pct` < 20
-and `Hr24Pct` > -30 and `Hr24Pct` < 30
-and `D7Pct` > -50 and `D7Pct` < 50
+and `Hr1Pct` > -20 and `Hr1Pct` < 0
+and `Hr24Pct` > -30 and `Hr24Pct` < 0
+and `D7Pct` > -50 and `D7Pct` < 0
 group by `CoinID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
