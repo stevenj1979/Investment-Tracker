@@ -69,7 +69,7 @@ function getTrackingSellCoinsLoc($spreadBetRuleName){
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
     ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
     ,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = $spreadBetRuleName
+    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName'
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql."<BR>");
