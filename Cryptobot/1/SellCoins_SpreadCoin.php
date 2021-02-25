@@ -72,7 +72,7 @@ function getTrackingSellCoinsLoc($spreadBetRuleName){
     FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName'
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
-    //print_r($sql."<BR>");
+    print_r($sql."<BR>");
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);`PctChange1Hr`, `PctChange24Hr`, `PctChange7D`
   while ($row = mysqli_fetch_assoc($result)){
