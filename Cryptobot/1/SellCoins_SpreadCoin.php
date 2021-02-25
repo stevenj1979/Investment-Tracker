@@ -56,7 +56,7 @@ function getCoinsfromSQLLoc(){
     return $tempAry;
 }
 
-function getTrackingSellCoinsLoc($userID){
+function getTrackingSellCoinsLoc($spreadBetTransactionID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -69,7 +69,8 @@ function getTrackingSellCoinsLoc($userID){
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
     ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
     ,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID ORDER BY `ProfitPct` Desc";
+    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `ID` = $spreadBetTransactionID
+    ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
@@ -192,6 +193,83 @@ function profitScore($profit){
   return $tempNumber;
 }
 
+function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name){
+  echo "<h3> $name</h3><br>";
+  for($x = 0; $x < $arrLengthSell; $x++) {
+      //Variables
+      //$roundNum = 2;
+      //if($_SESSION['isMobile'] == False){$roundNum = 8;}
+      $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
+      $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
+       $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
+      $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
+      $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
+      $priceDiff1 = $livePrice - $LastCoinPrice;
+      $fee = (($livePrice* $amount)/100)*0.28;
+      $liveTotalCost = ($livePrice * $amount);
+      $originalPurchaseCost = ($purchaseCost * $amount);
+      $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
+      $profitBtc = $profit/($originalPurchaseCost)*100;
+      $userID = $_SESSION['ID'];
+      $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+      echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+      echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
+      echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
+      NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+      NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+      echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
+
+      echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td rowspan='3'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
+
+      echo "</tr><tr>";
+      echo "<td><p id='normalText'>$coin</p></td>";
+      NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+      NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+      $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
+      echo "<td><p id='normalText'>$cost</p></td>";
+
+      echo "</tr><tr>";
+
+
+      //$numCol = getNumberColour($profitBtc);
+      //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
+
+      $numCol = getNumberColour($priceDiff1);
+      echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
+      echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
+
+      NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+      NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+      $numCol = getNumberColour($profitBtc);
+      echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
+  }
+  print_r("</table><br>");
+}
+
+function getSpreadBetIDOpen($userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "SELECT `ID`,`SpreadBetRuleName`
+    FROM `SellCoinsSpreadView` WHERE `UserID` = 3
+    group by `SpreadBetRuleName`";
+  $result = $conn->query($sql);
+    //print_r($sql);
+  //$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);`PctChange1Hr`, `PctChange24Hr`, `PctChange7D`
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['SpreadBetRuleName']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 
 date_default_timezone_set('Asia/Dubai');
 $date = date('Y/m/d H:i:s', time());
@@ -209,65 +287,19 @@ $date = date('Y/m/d H:i:s', time());
 				<?php
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
-        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
-        $arrLengthSell = count($trackingSell);
+        $spreadBetID = getSpreadBetIDOpen($_SESSION['ID']);
+
         $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
-
-        for($x = 0; $x < $arrLengthSell; $x++) {
-            //Variables
-            //$roundNum = 2;
-            //if($_SESSION['isMobile'] == False){$roundNum = 8;}
-            $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
-            $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
-             $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
-            $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
-            $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
-            $priceDiff1 = $livePrice - $LastCoinPrice;
-            $fee = (($livePrice* $amount)/100)*0.28;
-            $liveTotalCost = ($livePrice * $amount);
-            $originalPurchaseCost = ($purchaseCost * $amount);
-            $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
-            $profitBtc = $profit/($originalPurchaseCost)*100;
-            $userID = $_SESSION['ID'];
-            $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
-            echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
-            NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
-            echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
-
-            echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
-
-            echo "</tr><tr>";
-            echo "<td><p id='normalText'>$coin</p></td>";
-            NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
-            $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-            echo "<td><p id='normalText'>$cost</p></td>";
-
-            echo "</tr><tr>";
-
-
-            //$numCol = getNumberColour($profitBtc);
-            //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
-
-            $numCol = getNumberColour($priceDiff1);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
-            echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
-
-            NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            $numCol = getNumberColour($profitBtc);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
+        for ($s=0; $s<$spreadBetIDSize; $s++){
+          $trackingSell = getTrackingSellCoinsLoc($spreadBetID[$s][0]);
+          $arrLengthSell = count($trackingSell);
+          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]);
         }
-        print_r("</table>");
+
+
         Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 				displaySideColumn();
 //include header template
