@@ -193,7 +193,7 @@ function profitScore($profit){
   return $tempNumber;
 }
 
-function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name){
+function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$fontSize){
   echo "<h3> $name</h3><br>";
   for($x = 0; $x < $arrLengthSell; $x++) {
       //Variables
@@ -296,7 +296,7 @@ $date = date('Y/m/d H:i:s', time());
         for ($s=0; $s<$spreadBetIDSize; $s++){
           $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1]);
           $arrLengthSell = count($trackingSell);
-          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]);
+          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1],$fontSize);
         }
 
 
