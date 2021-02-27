@@ -201,85 +201,82 @@ $tmpTime = "+2 minutes";
 $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 
-//sellCoins("714f3f7873a2481c9f89b7c1f3801f2d", ,MKR, stevenj1979@gmail.com, 3, 0,2020-11-21 15:24:17, USDT,1,1, 11,stevenj1979,ORDMKR2020111714511551,0.09560156000000,552.0990000000,9200,96,0,0.000,552.0890000000)
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
+  $swingPrice = (($livePrice/100)*0.25);
+  $currentPrice = abs($livePrice-$lastPrice);
+  //$bottomPrice = $livePrice-$swingPrice;
 
-//$obj = bittrexsell("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", "MKR" ,0.09560156, 552.09900, "USDT", 3, False);
-//$resultOrd = bittrexOrder("714f3f7873a2481c9f89b7c1f3801f2d", "2377fc19e47b4c7fb9dd32a70edd3b9f", 'cc1c0a56-3c8b-412c-a334-435802381c6', 3);
-//cc1c0a56-3c8b-412c-a334-435802381c6
-//b1498e92-872f-4631-9dbb-efd9aaaf3177
-//var_dump($resultOrd);
-//$bittrexRef = $obj["id"];
-//Echo "<BR> API V3 Bittrex Ref:".$obj["id"];
-//Echo "<BR> Direction : ".$obj["direction"];
-//Echo "<BR> Comission: ".$obj["commission"];
-//Echo "<BR> Status: ".$obj["status"];
-//Echo "<BR> Closed At: ".$obj["closedAt"];
-
-//$price7Day = get7DayChange(84);
-
-//echo "<BR> 7 Day Change: ".$price7Day[0][0];
-//$bittrexStats = bittrexCoinStats($apikey,$apisecret,'BTC','USDT',3);
-//var_dump($bittrexStats);
-//$bittrexStatsCount = count($bittrexStats);
-//echo "<BR> Count: $bittrexStatsCount";
-//foreach($bittrexStats as $item) {
-//for ($i=0; $i<$bittrexStatsCount; $i++){/
-//  echo "<BR> Symbol: ".$bittrexStats["symbol"];
-//  echo "<BR> high: ".$bittrexStats["high"];
-//  echo "<BR> low: ".$bittrexStats["low"];
-//}
-function writeMinPriceDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year){
-  $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+  //if liveprice is stable, add 1 - -0.5 - 0.5
+  if ($minsFromDate < 5){
+      return False;
   }
-  $sql = "Call AddMinPriceChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
 
-  print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+  if (($mins >= 60 && $livePrice > $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice > $buyPrice)){
+    //if time is over 60 min and livePrice is > original price,  sell
+    // if no of buys is greater than total needed - Buy
+    reopenTransaction($TransactionID);
+    return True;
   }
-  $conn->close();
-  logAction("writeAvgPctDatatoSQL: ".$sql, 'BuyCoin', 0);
+
+  if($currentPrice <= $swingPrice){
+    updateNoOfRisesInPrice($TransactionID, $noOfRisesInPrice+1);
+    setNewTrackingPrice($livePrice, $TransactionID);
+    return False;
+  }
+
+  //if liveprice is greater than or less than, reset to 0
+  if (($currentPrice > $swingPrice) OR ($currentPrice < $swingPrice)){
+    updateNoOfRisesInPrice($newTrackingCoinID, 0);
+    setNewTrackingPrice($livePrice, $TransactionID);
+    return False;
+  }
+
+  if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
+    //Cancel Transaction
+    reopenTransaction($TransactionID);
+    closeNewTrackingCoin($TransactionID, True);
+    return False;
+  }
+
 }
 
-function getMinPriceChangeFromHistory(){
-  $conn = getHistorySQL(rand(1,4));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "SELECT `CoinID`,`Hr1Pct` as Hr1Pct, `Hr24Pct` as Hr24Pct, `D7Pct` as D7Pct, Month(`PriceDate`) as Month,Year(`PriceDate`) as Year, Min(`Price`) as Price FROM `PriceHistory`
-WHERE YEAR(`PriceDate`) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
-AND MONTH(`PriceDate`) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-and `Price` > 0
-and `Price` < 999999
-and `Hr1Pct` <> 0
-and `Hr24Pct` <> 0
-and `D7Pct` <> 0
-group by `CoinID`";
-  $result = $conn->query($sql);
-  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);
-  echo "<BR>$sql";
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['CoinID'],$row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct'],$row['Month'],$row['Year'],$row['Price']);
-  }
-  $conn->close();
-  return $tempAry;
-}
+function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
+    $swingPrice = (($livePrice/100)*0.25);
+    $currentPrice = abs($livePrice-$lastPrice);
+    //$bottomPrice = $livePrice-$swingPrice;
 
-$minPriceData = getMinPriceChangeFromHistory();
-$minPriceDataSize = count($minPriceData);
-for ($i=0;$i<$minPriceDataSize; $i++){
-  $coinID = $minPriceData[$i][0]; $hr1Price = $minPriceData[$i][1]; $hr24Price = $minPriceData[$i][2]; $d7Price = $minPriceData[$i][3];
-  $month = $minPriceData[$i][4]; $year = $minPriceData[$i][5];
-  echo "<BR>writePctDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);";
-  writeMinPriceDatatoSQL($coinID,$hr1Price,$hr24Price,$d7Price,$month,$year);
-}
+    //if liveprice is stable, add 1 - -0.5 - 0.5
+    if ($minsFromDate < 5){
+        return False;
+    }
 
+    if (($mins >= 60 && $livePrice < $sellPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice < $sellPrice)){
+      //if time is over 60 min and livePrice is > original price,  sell
+      // if no of buys is greater than total needed - Buy
+      reopenTransaction($TransactionID);
+      return True;
+    }
+
+    if($currentPrice <= $swingPrice){
+      updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1, $livePrice);
+      setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
+      return False;
+    }
+
+    //if liveprice is greater than or less than, reset to 0
+    if (($currentPrice > $swingPrice) OR ($currentPrice < $swingPrice)){
+      updateNoOfRisesInSellPrice($TransactionID, 0, $livePrice);
+      setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
+      return False;
+    }
+
+    if (($type == 'Sell' && $pctProfit < -3) OR ($type == 'Sell' && $pctProfit > 3)){
+      //Cancel Transaction
+      reopenTransaction($TransactionID);
+      closeNewTrackingSellCoin($TransactionID);
+      return False;
+    }
+
+}
 ?>
 </html>

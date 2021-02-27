@@ -160,10 +160,10 @@ while($completeFlag == False){
     $risesInPrice = $newTrackingCoins[$a][31]; $limitBuyAmountEnabled = $newTrackingCoins[$a][32]; $limitBuyAmount = $newTrackingCoins[$a][33];
     $limitBuyTransactionsEnabled = $newTrackingCoins[$a][34];$limitBuyTransactions = $newTrackingCoins[$a][35];
     $noOfBuyModeOverrides = $newTrackingCoins[$a][36]; $coinModeOverridePriceEnabled = $newTrackingCoins[$a][37]; $coinMode = $newTrackingCoins[$a][38];
-    $type = $newTrackingCoins[$a][39];
+    $type = $newTrackingCoins[$a][39]; $lastPrice = $newTrackingCoins[$a][40];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
-    $minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
+    //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
@@ -185,8 +185,19 @@ while($completeFlag == False){
     if ($coinMode > 0){ if ($coinAllocation[0][2]<$BTCAmount){$BTCAmount = $coinAllocation[0][2]; }}elseif ($coinMode == 0){if ($coinAllocation[0][0]<$BTCAmount){$BTCAmount = $coinAllocation[0][0]; }}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
-    if($minsFromDate <= $minusMinsToCancel && $type == 'Sell'){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
-    if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
+    if($minsFromDate >= $minusMinsToCancel && $type == 'Sell'){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
+    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$minusMinsToCancel,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice);
+    if ($readyToBuy){
+      if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
+      $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);
+      UpdateProfit();
+      subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
+      closeNewTrackingCoin($newTrackingCoinID);
+      $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
+      $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
+      continue;
+    }
+    /*if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
         if ($limitBuyAmountEnabled == 1){
@@ -235,7 +246,7 @@ while($completeFlag == False){
     //  closeNewTrackingCoin($newTrackingCoinID, True);
     //  logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     //}
-
+    */
 
   }
   echo "</blockquote>";
@@ -252,8 +263,16 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][30]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
+    $lastPrice  = $newTrackingSellCoins[$b][36];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
-    if (($ProfitPct < -5 && $minsFromDate <= -5 && $type = 'Sell') OR ($ogPctProfit < 0 && $type = 'Sell')){
+    $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$NoOfRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$fallsInPrice);
+    if ($readyToSell){
+      if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
+      $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
+      addUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
+      if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
+    }
+    /*if (($ProfitPct < -5 && $minsFromDate <= -5 && $type = 'Sell') OR ($ogPctProfit < 0 && $type = 'Sell')){
       closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
     }
@@ -294,7 +313,7 @@ while($completeFlag == False){
       //Set new Tracking Price
       //setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
-    }
+    }*/
 
   }
   echo "</blockquote>";
