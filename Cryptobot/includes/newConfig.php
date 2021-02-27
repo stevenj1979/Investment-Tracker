@@ -4275,27 +4275,34 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
 
     //if liveprice is stable, add 1 - -0.5 - 0.5
     if ($minsFromDate < 5){
+        //: OPT 1
         return False;
     }
     if (($mins >= 60 && $livePrice < $sellPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice < $sellPrice)){
-      //if time is over 60 min and livePrice is > original price,  sell
+      //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
+      logToSQL("trackingCoinReadyToSell", "OPT 2 : $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
       reopenTransaction($TransactionID);
       return True;
     }
     if($currentPrice <= $swingPrice){
+      //: OPT 3
+      logToSQL("trackingCoinReadyToSell", "OPT 3 : $currentPrice | $swingPrice", 3, 1);
       updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1, $livePrice);
       setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
       return False;
     }
     //if liveprice is greater than or less than, reset to 0
     if (($currentPrice > $swingPrice) OR ($currentPrice < $swingPrice)){
+      // : OPT 4
+      logToSQL("trackingCoinReadyToSell", "OPT 4 : $currentPrice | $swingPrice", 3, 1);
       updateNoOfRisesInSellPrice($TransactionID, 0, $livePrice);
       setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
       return False;
     }
     if (($type == 'Sell' && $pctProfit < -3) OR ($type == 'Sell' && $pctProfit > 3)){
-      //Cancel Transaction
+      //Cancel Transaction : OPT 5
+      logToSQL("trackingCoinReadyToSell", "OPT 5 : $type | $pctProfit", 3, 1);
       reopenTransaction($TransactionID);
       closeNewTrackingSellCoin($TransactionID);
       return False;
