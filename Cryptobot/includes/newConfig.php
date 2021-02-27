@@ -2768,8 +2768,8 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
 
   $sql = "INSERT INTO `TrackingCoins`(`CoinID`, `CoinPrice`, `UserID`, `BaseCurrency`, `SendEmail`, `BuyCoin`, `Quantity`, `RuleIDBuy`, `CoinSellOffsetPct`, `CoinSellOffsetEnabled`, `BuyType`, `MinsToCancelBuy`, `SellRuleFixed`, `Status`, `ToMerge`
-    ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`)
-  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$type')";
+    ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`,`LastPrice`)
+  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$type',$coinPrice)";
 
   print_r($sql);
   LogToSQL("SpreadBetTrackingSQL","$sql",3,1);
