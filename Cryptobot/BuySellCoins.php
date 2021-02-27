@@ -195,7 +195,7 @@ while($completeFlag == False){
       closeNewTrackingCoin($newTrackingCoinID);
       $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
       $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
-      continue;
+      //continue;
     }
     /*if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
       //Buy
