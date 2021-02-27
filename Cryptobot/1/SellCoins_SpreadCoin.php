@@ -222,15 +222,18 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
 
 
       echo "</tr><tr>";
+      //Rowspan
       echo "<td><p id='normalText'>$coin</p></td>";
+      //Rowspan
       NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+
       NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
       $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
       echo "<td><p id='normalText'>$cost</p></td>";
 
 
 
-
+      echo "</tr><tr>";
       //$numCol = getNumberColour($profitBtc);
       //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
