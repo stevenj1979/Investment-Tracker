@@ -263,13 +263,13 @@ while($completeFlag == False){
     $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
     $totalRisesInPrice =  $newTrackingSellCoins[$b][30]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
-    $lastPrice  = $newTrackingSellCoins[$b][36];
+    $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$NoOfRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$fallsInPrice);
     if ($readyToSell){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
-      addUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
+      addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
       if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
     }
     /*if (($ProfitPct < -5 && $minsFromDate <= -5 && $type = 'Sell') OR ($ogPctProfit < 0 && $type = 'Sell')){
