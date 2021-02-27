@@ -212,7 +212,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       $profitBtc = $profit/($originalPurchaseCost)*100;
       $userID = $_SESSION['ID'];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-      echo "<table border=1><td rowspan='4'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+      echo "<table><td rowspan='4'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
       echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
       echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
       NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
@@ -249,9 +249,10 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       //Last Line
       echo "</tr><tr>";
       echo "<td><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td colspan='2'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td></td>";
   }
   print_r("</table><br>");
 }
