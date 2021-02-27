@@ -185,8 +185,8 @@ while($completeFlag == False){
     if ($coinMode > 0){ if ($coinAllocation[0][2]<$BTCAmount){$BTCAmount = $coinAllocation[0][2]; }}elseif ($coinMode == 0){if ($coinAllocation[0][0]<$BTCAmount){$BTCAmount = $coinAllocation[0][0]; }}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
-    if($minsFromDate <= $minusMinsToCancel){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
-    if ($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3){
+    if($minsFromDate <= $minusMinsToCancel && $type == 'Sell'){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
+    if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
         if ($limitBuyAmountEnabled == 1){
@@ -227,7 +227,7 @@ while($completeFlag == False){
       setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID);
       Echo "<BR> setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID)";
       logToSQL("TrackingCoins", "setNewTrackingPrice($liveCoinPrice, $newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
-    }elseif ($pctProfit > 5 && $minsFromDate <= -5 ){
+    }elseif ($pctProfit > 5 && $minsFromDate <= -5 && $type == 'Sell'){
       closeNewTrackingCoin($newTrackingCoinID, True);
       logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting);
     }
@@ -257,7 +257,7 @@ while($completeFlag == False){
       closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
     }
-    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5 && $type == 'Sell') OR ($type == 'SpreadSell' && $LiveCoinPrice > $originalCoinPrice)) {
+    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5 && $type == 'Sell') OR ($type == 'SpreadSell' && $LiveCoinPrice > $baseSellPrice)) {
       $date = date("Y-m-d H:i:s", time());
       reopenTransaction($TransactionID);
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}

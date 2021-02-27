@@ -2790,7 +2790,7 @@ function getNewTrackingCoins($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
-  $whereClause = "";
+  $whereClause = " ";
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
   $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,  NOW(),`TrackDate`) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
