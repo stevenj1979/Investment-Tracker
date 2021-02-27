@@ -257,7 +257,7 @@ while($completeFlag == False){
       closeNewTrackingSellCoin($TransactionID);
       reopenTransaction($TransactionID);
     }
-    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5 && $type == 'Sell') OR ($type == 'SpreadSell' && $LiveCoinPrice > $baseSellPrice)) {
+    if (($minsFromStart <= -60 &&  $ogPctProfit > 1.5 && $type == 'Sell') OR ($type == 'SpreadSell' && $LiveCoinPrice > $baseSellPrice && $minsFromStart <= -60)) {
       $date = date("Y-m-d H:i:s", time());
       reopenTransaction($TransactionID);
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
@@ -268,7 +268,7 @@ while($completeFlag == False){
       //CloseTrackingSellCoin
       if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
     }
-    if ($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3){
+    if (($ProfitPct < 0 && $minsFromDate <= -5 && $ProfitPct > -3 && $type == 'Sell') OR ($type == 'SpreadSell' && && $LiveCoinPrice > $baseSellPrice)){
       echo "<BR> Option 1 | $ProfitPct < -0.25 && $minsFromDate >= 4 && $ProfitPct > -1.25";
       if (($NoOfRisesInPrice >= $fallsInPrice && $ogPctProfit >= 0.25) OR ($type == 'SpreadSell' and $LiveCoinPrice >= $baseSellPrice)){
         //Sell CoinS
