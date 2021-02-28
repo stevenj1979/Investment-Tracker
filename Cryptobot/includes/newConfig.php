@@ -2760,7 +2760,7 @@ $conn->close();
 return $tempAry;
 }
 
-function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice){
+function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -2768,8 +2768,9 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
 
   $sql = "INSERT INTO `TrackingCoins`(`CoinID`, `CoinPrice`, `UserID`, `BaseCurrency`, `SendEmail`, `BuyCoin`, `Quantity`, `RuleIDBuy`, `CoinSellOffsetPct`, `CoinSellOffsetEnabled`, `BuyType`, `MinsToCancelBuy`, `SellRuleFixed`, `Status`, `ToMerge`
-    ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`,`LastPrice`)
-  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$type',$coinPrice)";
+    ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`,`LastPrice`,`SBRuleID`,`SBTransID`)
+  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$type',$coinPrice,$spreadBetRuleID
+  ,$spreadBetTransID)";
 
   print_r($sql);
   LogToSQL("SpreadBetTrackingSQL","$sql",3,1);
@@ -2795,7 +2796,7 @@ function getNewTrackingCoins($userID = 0){
   $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
     ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
-    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`
+    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`
     FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -2805,7 +2806,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['BuyCoin'],$row['Quantity'],$row['RuleIDBuy'],$row['CoinSellOffsetPct'],$row['CoinSellOffsetEnabled'],$row['BuyType'],$row['MinsToCancelBuy'],$row['SellRuleFixed'],$row['APIKey'],$row['APISecret'] //19
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled']
-    ,$row['CoinMode'],$row['Type'],$row['LastPrice']);
+    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID']);
   }
   $conn->close();
   return $tempAry;
@@ -3841,14 +3842,14 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
   logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'BuyCoin', 0);
 }
 
-function updateTransToSpread($transSpreadRuleID,$coinID, $userID,$spreadBetTransID){
+function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "Call UpdateTransToSpread($transSpreadRuleID,$coinID,$userID,$spreadBetTransID);";
+    $sql = "Call UpdateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);";
     LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
