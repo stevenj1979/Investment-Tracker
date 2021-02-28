@@ -198,7 +198,11 @@ while($completeFlag == False){
       $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
       if ($type == 'SpreadBuy'){
         updateTransToSpread($SBRuleID,$coinID,$UserID,$SBTransID);
-        updateSpreadBuy($ID);
+        $finishedSBBuy = getSpreadBetCount($SBTransID);
+        if (!isset($finishedSBBuy)) OR ($finishedSBBuy == 0){
+          updateSpreadBuy($SBRuleID);
+        }
+
       }
       //continue;
     }

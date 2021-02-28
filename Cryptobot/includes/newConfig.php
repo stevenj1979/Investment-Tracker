@@ -4315,4 +4315,26 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     }
 }
 
+function getSpreadBetCount($SBTransID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT count(`SBTransID`) as countOfOpenRules FROM `TrackingCoins` WHERE `SBTransID` = $SBTransID";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['countOfOpenRules']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 ?>
