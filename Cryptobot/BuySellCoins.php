@@ -199,7 +199,7 @@ while($completeFlag == False){
       if ($type == 'SpreadBuy'){
         updateTransToSpread($SBRuleID,$coinID,$UserID,$SBTransID);
         $finishedSBBuy = getSpreadBetCount($SBTransID);
-        if (!isset($finishedSBBuy)) OR ($finishedSBBuy == 0){
+        if ((!isset($finishedSBBuy)) OR ($finishedSBBuy == 0)){
           updateSpreadBuy($SBRuleID);
         }
 
