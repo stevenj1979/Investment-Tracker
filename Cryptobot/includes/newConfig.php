@@ -4257,7 +4257,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
-  if (($currentPrice > $swingPrice) OR ($currentPrice < $swingPrice)){
+  if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
     logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice", 3, 1);
     updateNoOfRisesInPrice($newTrackingCoinID, 0);
     setNewTrackingPrice($livePrice, $TransactionID, 'Buy');
