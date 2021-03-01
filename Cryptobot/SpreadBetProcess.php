@@ -90,14 +90,14 @@ function getSpreadBetAll(){
   return $tempAry;
 }
 
-function write1HrEnablePrice($hr1Price, $SBRuleID, $table){
+function write1HrEnablePrice($hr1Price, $SBRuleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "UPDATE `SpreadBetSettings` SET $table = $hr1Price WHERE `SpreadBetRuleID` = $SBRuleID ";
+    $sql = "UPDATE `SpreadBetSettings` SET `Hr1BuyEnable` = $hr1Price WHERE `SpreadBetRuleID` = $SBRuleID ";
     //LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -165,7 +165,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
 
   $temp1Hr = ($hr1BuyEnableSet*($pctOfTarget/100));
   ECHO "<BR> $hr1BuyEnableSet*$pctOfTarget | $temp1Hr";
-  write1HrEnablePrice($temp1Hr, $SBRuleID, "`Hr1BuyEnable`");
+  write1HrEnablePrice($temp1Hr, $SBRuleID);
   if ($Live1HrChange < $temp1Hr){
     toggleSBRule($SBRuleID,1);
   }elseif ($Live1HrChange > ($hr1BuyDisableSet)){
