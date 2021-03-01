@@ -159,7 +159,12 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $month6TotalPrice = $spreadBet[$i][41];
   $allTimTotalPrice = $spreadBet[$i][42]; $userID = $spreadBet[$i][27];
   $progress = getSBProgress($userID,20);
-  $pctOfTarget = $progress[0][6]; $minsToCancel = $spreadBet[$i][44];
+  if (!isset($progress)){
+    $pctOfTarget = 0;
+  }else{
+      $pctOfTarget = $progress[0][6]; 
+  }
+  $minsToCancel = $spreadBet[$i][44];
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
 
