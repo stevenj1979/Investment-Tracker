@@ -212,7 +212,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
 
   writeMinsToCancel($newMinsToCancel,$SBRuleID);
 
-  $newFallsinPrice = floor($fallsinPrice * (1-($avgPct/100)));
+  $newFallsinPrice = floor($fallsinPrice * ($avgPct/100));
   writeFallsinPrice($newFallsinPrice,$SBRuleID);
 }
 
