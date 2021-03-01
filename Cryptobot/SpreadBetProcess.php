@@ -149,7 +149,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
   write1HrEnablePrice($temp1Hr, $SBRuleID, "`Hr1BuyEnable`");
   if ($Live1HrChange < $temp1Hr){
     toggleSBRule($SBRuleID,1);
-  }elseif ($Live1HrChange > ($hr1BuyDisableSet*$pctOfTarget)){
+  }elseif ($Live1HrChange > ($hr1BuyDisableSet)){
     toggleSBRule($SBRuleID,0);
   }
 
