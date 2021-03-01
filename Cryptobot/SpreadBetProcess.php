@@ -73,7 +73,7 @@ function getSpreadBetAll(){
   , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
   , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
   , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`Hr1BuyEnable`,`Hr1BuyDisable`,`Hr24andD7StartPrice`,`Month6TotalPrice`,`AllTimeTotalPrice`
-  ,`Hr1EnableStartPrice`
+  ,`Hr1EnableStartPrice`,`MinsToCancel`
   FROM `SpreadBetCoinStatsView_ALL`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -84,7 +84,7 @@ function getSpreadBetAll(){
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
       , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['Hr1BuyEnable'], $row['Hr1BuyDisable'], $row['Hr24andD7StartPrice'] //40
-      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice'], $row['Hr1EnableStartPrice']);
+      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice'], $row['Hr1EnableStartPrice'], $row['MinsToCancel']);
   }
   $conn->close();
   return $tempAry;
@@ -98,6 +98,25 @@ function write1HrEnablePrice($hr1Price, $SBRuleID, $table){
   }
 
     $sql = "UPDATE `SpreadBetSettings` SET $table = $hr1Price WHERE `SpreadBetRuleID` = $SBRuleID ";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("write1HrEnablePrice: ".$sql, 'BuyCoin', 0);
+}
+
+function writeMinsToCancel($mins, $SBRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "UPDATE `SpreadBetSettings` SET `CalculatedMinsToCancel` = $mins WHERE `SpreadBetRuleID` = $SBRuleID ";
     //LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -140,7 +159,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $month6TotalPrice = $spreadBet[$i][41];
   $allTimTotalPrice = $spreadBet[$i][42]; $userID = $spreadBet[$i][27];
   $progress = getSBProgress($userID,20);
-  $pctOfTarget = $progress[0][6];
+  $pctOfTarget = $progress[0][6]; $minsToCancel = $spreadBet[$i][44];
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
 
@@ -161,6 +180,11 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $hr24Price = $hr24andD7StartPrice - $month6For24 - $allTimeFor24;
 
   update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
+
+  $avgPct = ($pctOfAllTimeHigh + $pctofSixMonthHigh)/2;
+  $newMinsToCancel = floor($minsToCancel * (1-($avgPct/100)));
+
+  writeMinsToCancel($newMinsToCancel,$SBRuleID);
 }
 
 $progress = getSBProgress(3,20);
