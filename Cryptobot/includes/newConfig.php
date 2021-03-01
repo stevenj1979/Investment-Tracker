@@ -3919,7 +3919,7 @@ function getSpreadBetSellData($ID = 0){
   , `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`, `Hr1PctChange`
   , `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`
   , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`PctProfitSell`
-  ,`SpreadBetRuleID`,`CaptureTrend`,`Profit`,`PurchasePrice`,`LivePrice`,`SellRaisesInPrice`
+  ,`SpreadBetRuleID`,`CaptureTrend`,`Profit`,`PurchasePrice`,`LivePrice`,`CalculatedRisesInPrice`
   FROM `SellCoinsSpreadGroupView` $whereClause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -3931,7 +3931,7 @@ function getSpreadBetSellData($ID = 0){
       ,$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'] //29
       ,$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']//40
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
-      ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend'],$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['SellRaisesInPrice']); //61
+      ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend'],$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice']); //61
   }
   $conn->close();
   return $tempAry;
