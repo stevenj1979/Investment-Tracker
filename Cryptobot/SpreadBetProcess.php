@@ -160,9 +160,11 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $allTimTotalPrice = $spreadBet[$i][42]; $userID = $spreadBet[$i][27];
   $progress = getSBProgress($userID,20);
   if (!isset($progress)){
+    echo "<BR> Progress not set = 0";
     $pctOfTarget = 0;
   }else{
-      $pctOfTarget = $progress[0][6]; 
+    $pctOfTarget = $progress[0][6];
+    echo "<BR> Progress is set $pctOfTarget";
   }
   $minsToCancel = $spreadBet[$i][44];
   //1Hr Price Drop below -5% to activate
