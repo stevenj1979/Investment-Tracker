@@ -220,9 +220,12 @@ for ($i=0;$i<$spreadBetSize;$i++){
 
   //6Month price to change the 24Hr and 7 D %
   //All Time price to change the 24Hr and 7 D %
-  $month6For24 = ($month6TotalPrice * ($pctofSixMonthHigh/100))*($pctOfTarget/100);
-  $allTimeFor24 = ($allTimTotalPrice * ($pctOfAllTimeHigh / 100))*($pctOfTarget/100);
-  $hr24Price = $hr24andD7StartPrice - $month6For24 - $allTimeFor24;
+
+
+  $startPrice =  $hr24andD7StartPrice * ($pctOfTarget/100);
+  $month6For24 = $month6TotalPrice * ($pctofSixMonthHigh/100);
+  $allTimeFor24 = $allTimTotalPrice * ($pctOfAllTimeHigh / 100);
+  $hr24Price = $startPrice - $month6For24 - $allTimeFor24;
 
   update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
 
