@@ -4337,4 +4337,26 @@ function getSpreadBetCount($SBTransID){
   return $tempAry;
 }
 
+function getSpreadBerUserSettings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `NoOfBuysPerCoin`,`TotalNoOfBuys`,`DivideAllocation`,`UserID` FROM `SpreadBetUserSettings`";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['NoOfBuysPerCoin'],$row['TotalNoOfBuys'],$row['DivideAllocation'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 ?>

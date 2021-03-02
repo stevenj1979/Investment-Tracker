@@ -137,6 +137,7 @@ $coinPricePatternList = getCoinPricePattenList();
 $coin1HrPatternList = getCoin1HrPattenList();
 //echo "<BR> autoBuyPrice";
 $autoBuyPrice = getAutoBuyPrices();
+$SpreadBetUserSettings = getSpreadBerUserSettings();
 $apiVersion = 1;
 
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
@@ -1135,9 +1136,8 @@ while($completeFlag == False){
   $spreadSize = count($spread);
   //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
   //$noOfBuys = 2;
-  $totalNoOfBuys = 2;
-  $noOfBuysPerCoin = 2;
-  $divideAllocation = 3;
+  $SpreadBetUserSettingsSize = count($SpreadBetUserSettings);
+
   echo "</blockquote>";
   echo "<BR> CHECK Spread Bet!! ";
   echo "<blockquote>";
@@ -1151,6 +1151,14 @@ while($completeFlag == False){
     $D7BuyPrice = $spread[$y][33]; $userID = $spread[$y][37];
     $inverseAvgHighPct = 100-(($pctofSixMonthHigh + $pctofAllTimeHigh)/2);
     $risesInPrice = $spread[$y][38]; $timeToCancelBuyMins = $spread[$y][39];
+    for ($q=0;$q<$SpreadBetUserSettingsSize;$q++){
+      $tempUserID = $SpreadBetUserSettings[$q][3];
+      if ($UserID == $tempUserID){
+        $totalNoOfBuys = $SpreadBetUserSettings[$q][1];
+        $noOfBuysPerCoin = $SpreadBetUserSettings[$q][0];
+        $divideAllocation = $SpreadBetUserSettings[$q][2];
+      }
+    }
     Echo "<BR> Checking $ID | 1Hr: $Hr1ChangePctChange | 24Hr: $Hr24ChangePctChange | 7d: $d7ChangePctChange";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$spread[$y][25]);}
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
