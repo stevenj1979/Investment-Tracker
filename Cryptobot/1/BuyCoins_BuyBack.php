@@ -48,21 +48,21 @@ function getCoinsfromSQL(){
   return $tempAry;
 }
 
-function getTrackingCoinsLoc(){
+function getTrackingCoinsLoc($userID){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`, `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
-  , `KEK`, `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct` FROM `BuyBackView` WHERE `UserID` = 3";
+  , `KEK`, `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol` FROM `BuyBackView` WHERE `UserID` = $userID";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA']
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK']
-    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct']);
+    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol']);
 }
 $conn->close();
 return $tempAry;
@@ -203,12 +203,14 @@ displayHeader(3);
         $originalSaleProfitPct = $tracking[$x][19];
         $noOfRaisesInPrice = $tracking[$x][21];
         $buyBackPct = $tracking[$x][22];
+        $image = $tracking[$x][23];
+        $symbol = $tracking[$x][24];
         //Table
-        echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'></a></td>";
+        echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
         Echo "<td></td>";
         Echo "<td></td>";
 
-        $tdColour = setTextColour($Live1HrChange, False);
+        //$tdColour = setTextColour($Live1HrChange, False);
         echo "<td>$sellPriceBA</td>";
 
         echo "<td>$quantity</td>";
@@ -223,7 +225,7 @@ displayHeader(3);
         Echo "<td></td>";
 
         echo "</tr><tr>";
-        $numCol = getNumberColour($priceDiff1);
+        //$numCol = getNumberColour($priceDiff1);
         Echo "<td>$priceDifferecePct</td>";
         Echo "<td>$originalSaleProfitPct</td>";
         Echo "<td></td>";
