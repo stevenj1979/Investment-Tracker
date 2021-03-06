@@ -28,6 +28,10 @@ if(isset($_GET['Mode'])){
     //Sell SpreadBetCoins
     $ID = $_GET['SBTransID'];
     echo "<BR>SpreadBet Transaction ID: $ID";
+    $spreadSellCoins = getSpreadCoinSellData($ID);
+    for ($r=0; $r<$spreadSellCoinsSize; $r++){
+      sellSpreadBetCoins($spreadSellCoins);
+    }
   }
 }
 
@@ -274,6 +278,8 @@ $date = date('Y/m/d H:i:s', time());
             echo "</tr><tr>";
 
             echo "<td><a href='SellCoins_Spread.php?Mode=1&SBTransID=$transactionID'>Sell Coins</a></td>";
+            echo "<td><a href=''></a></td>";
+            echo "<td><a href=''></a></td>";
             echo "<td><a href=''></a></td>";
             echo "<td><a href=''></a></td>";
             echo "<td><a href=''></a></td>";
