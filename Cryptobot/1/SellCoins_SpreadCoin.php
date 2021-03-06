@@ -25,14 +25,14 @@ setStyle($_SESSION['isMobile']);
 if(isset($_GET['Mode'])){
   if ($_GET['Mode'] == 1){
     //BuyBack
-    $ID = $_GET['ID'];
+    $ID = $_GET['ID']; $profitPct = $_GET['ProfitPct'];
     echo "<BR>BuyBack ID: $ID";
     //Sell Coin
     $buyBackData = getTrackingSellData($ID);
     newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,4);
     setTransactionPending($ID);
     //Write to BuyBack Table
-    WriteBuyBack($ID);
+    WriteBuyBack($ID,$profitPct);
   }
 }
 
@@ -51,15 +51,15 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   //header('Location: SellCoins_Mobile_SB.php');
 }
 
-function WriteBuyBack($transactionID){
+function WriteBuyBack($transactionID, $profitPct){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`)
-  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open')";
+  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`)
+  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open',10, -ABS($profitPct))";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -308,7 +308,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td><a href='SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID'>Buy Back</a></td>";
+      echo "<td><a href='SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc'>Buy Back</a></td>";
   }
   print_r("</table><br>");
 }

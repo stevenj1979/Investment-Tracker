@@ -4371,13 +4371,13 @@ function getBuyBackData(){
 
   $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Bb`.`Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`
           ,`Ba`.`SellPrice` as SellPriceBA, `Cp`.`LiveCoinPrice`
-          , `Ba`.`SellPrice`-`Cp`.`LiveCoinPrice` as PriceDifferece
-          ,( ( `Ba`.`SellPrice`- `Cp`.`LiveCoinPrice`)/`Ba`.`SellPrice`)*100 as PriceDifferecePct
+          , `Cp`.`LiveCoinPrice`-`Ba`.`SellPrice` as PriceDifferece
+          ,( (`Cp`.`LiveCoinPrice`- `Ba`.`SellPrice`)/`Ba`.`SellPrice`)*100 as PriceDifferecePct
           ,`Usr`.`ID` as UserID ,`Usr`.`Email`,`Usr`.`UserName`
           ,`Ucf`.`ApiKey`,`Ucf`.`ApiSecret`,`Ucf`.`KEK`
-          , `Tr`.`CoinPrice` - `Ba`.`SellPrice` as OriginalSaleProfit
-		  , ((`Tr`.`CoinPrice` - `Ba`.`SellPrice`)/`Tr`.`CoinPrice`)*100 as OriginalSaleProfitPct
-      ,`Bb`.`ProfitMultiply`
+          , `Ba`.`SellPrice`-`Tr`.`CoinPrice` as OriginalSaleProfit
+		  , (( `Ba`.`SellPrice`-`Tr`.`CoinPrice`)/`Tr`.`CoinPrice`)*100 as OriginalSaleProfitPct
+      ,`Bb`.`ProfitMultiply`,`Bb`.`NoOfRaisesInPrice`,`Bb`.`BuyBackPct`
           FROM `BuyBack` `Bb`
           join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
           join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Bb`.`TransactionID`
