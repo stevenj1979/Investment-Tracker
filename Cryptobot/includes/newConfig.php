@@ -4406,21 +4406,25 @@ function reOpenTransactionfromBuyBack($buyBackID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1,1,
-            (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)) * `Tr`.`Amount`, `Tr`.`BuyRule`, 0.0,0,1,90, `Tr`.`FixSellRule`,0,0,5, `Tr`.`Type`,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`
+  $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1 as SendEmail,1 as BuyCoin,
+            (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)) * `Tr`.`Amount` as SalePrice, `Tr`.`BuyRule`, 0.0 as CoinOffset,0 as CoinOffsetEnabled,1 as BuyType
+            ,90 as MinsToCancel, `Tr`.`FixSellRule`,0,0,5, `Tr`.`Type`,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`
             from `Transaction` `Tr`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
             where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)";
 
-  print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("reOpenTransactionfromBuyBack: ".$sql, 'TrackingCoins', 0);
+            echo "<BR> $sql";
+            $result = $conn->query($sql);
+            //$result = mysqli_query($link4, $query);
+            //mysqli_fetch_assoc($result);
+            while ($row = mysqli_fetch_assoc($result)){
+                $tempAry[] = Array($row['CoinID'],$row['LiveCoinPrice'],$row['UserID'],$row['BaseCurrency'],$row['SendEmail'],$row['BuyCoin'],$row['SalePrice'],$row['BuyRule']
+              ,$row['CoinOffset'],$row['CoinOffsetEnabled'],$row['BuyType'],$row['MinsToCancel'],$row['FixSellRule'],$row['toMerge'],$row['noOfPurchases'],$row['RisesInPrice'],$row['Type'],$row['OriginalPrice']
+            ,$row['SpreadBetTransID'],$row['SpreadBetRuleID']);
+            }
+            $conn->close();
+            return $tempAry;
 }
 
 function addToBuyBackMultiplier($buyBackID){
@@ -4437,5 +4441,21 @@ function addToBuyBackMultiplier($buyBackID){
   }
   $conn->close();
   logAction("addToBuyBackMultiplier: ".$sql, 'TrackingCoins', 0);
+}
+
+function closeBuyBack($buyBackID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed' WHERE `ID` = $buyBackID ";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("closeBuyBack: ".$sql, 'TrackingCoins', 0);
 }
 ?>
