@@ -207,7 +207,7 @@ displayHeader(3);
         $symbol = $tracking[$x][24];
         //Table
         echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
-        Echo "<td></td>";
+        Echo "<td>$symbol</td>";
         Echo "<td></td>";
 
         //$tdColour = setTextColour($Live1HrChange, False);
