@@ -4385,7 +4385,8 @@ function getBuyBackData(){
           join `UserConfig` `Ucf` on `Ucf`.`UserID` =  `Tr`.`UserID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
           WHERE `Bb`.`Status` = 'Open'
-          and `Ba`.`Type` in ('Sell','SpreadSell')";
+          and `Ba`.`Type` in ('Sell','SpreadSell')
+          and `Tr`.`Status` = 'Sold'";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
