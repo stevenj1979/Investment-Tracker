@@ -154,6 +154,15 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
   $conn->close();
 }
 
+function addToBuyBackMultiplierHourly(){
+  $buyBackCoins = getBuyBackData();
+  $buyBackCoinsSize = count($buyBackCoins);
+  for ($p=0; $p<$buyBackCoinsSize; $p++){
+    $buyBackID = $buyBackCoins[$p][0];
+    addToBuyBackMultiplier($buyBackID);
+  }
+}
+
 $transStats = getTransStats();
 $transStatsSize = count($transStats);
 
@@ -177,5 +186,6 @@ for ($i=0; $i<$minMaxPriceSize; $i++){
 
 subPctFromOpenSpreadBetTransactions();
 subPctFromOpenCoinModeTransactions();
+addToBuyBackMultiplierHourly();
 ?>
 </html>
