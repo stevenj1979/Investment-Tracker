@@ -22,6 +22,13 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
 setStyle($_SESSION['isMobile']);
 
+if(isset($_GET['Mode'])){
+  if ($_GET['Mode'] == 1){
+    //BuyBack
+    $ID = $_GET['ID'];
+    echo "<BR>BuyBack ID: $ID";
+  }
+}
 
 if(isset($_GET['override'])){
   if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;$_SESSION['roundVar'] = 8;}
@@ -252,7 +259,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td></td>";
+      echo "<td><a href='SellCoins_SpreasCoin.php?Mode=1&ID=$transactionID'>Buy Back</a></td>";
   }
   print_r("</table><br>");
 }
