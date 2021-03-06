@@ -3951,7 +3951,7 @@ function getSpreadCoinSellData($ID){
   , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
   , `Live1HrChange`, `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`
   , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, `SpreadBetTransactionID`
-  ,`PctToSave`
+  ,`PctToSave`,`CalculatedRisesInPrice`
   FROM `SellCoinsSpreadView` WHERE `SpreadBetTransactionID` = $ID ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -3963,7 +3963,7 @@ function getSpreadCoinSellData($ID){
       ,$row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'] //28
       ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
       ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
-      ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave']);
+      ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -4369,24 +4369,9 @@ function getBuyBackData(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Bb`.`Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`
-          ,`Ba`.`SellPrice` as SellPriceBA, `Cp`.`LiveCoinPrice`
-          , `Cp`.`LiveCoinPrice`-`Ba`.`SellPrice` as PriceDifferece
-          ,( (`Cp`.`LiveCoinPrice`- `Ba`.`SellPrice`)/`Ba`.`SellPrice`)*100 as PriceDifferecePct
-          ,`Usr`.`ID` as UserID ,`Usr`.`Email`,`Usr`.`UserName`
-          ,`Ucf`.`ApiKey`,`Ucf`.`ApiSecret`,`Ucf`.`KEK`
-          , `Ba`.`SellPrice`-`Tr`.`CoinPrice` as OriginalSaleProfit
-		  , (( `Ba`.`SellPrice`-`Tr`.`CoinPrice`)/`Tr`.`CoinPrice`)*100 as OriginalSaleProfitPct
-      ,`Bb`.`ProfitMultiply`,`Bb`.`NoOfRaisesInPrice`,`Bb`.`BuyBackPct`
-          FROM `BuyBack` `Bb`
-          join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
-          join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Bb`.`TransactionID`
-          join `User` `Usr` on `Usr`.`ID` = `Tr`.`UserID`
-          join `UserConfig` `Ucf` on `Ucf`.`UserID` =  `Tr`.`UserID`
-          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-          WHERE `Bb`.`Status` = 'Open'
-          and `Ba`.`Type` in ('Sell','SpreadSell')
-          and `Tr`.`Status` = 'Sold'";
+  $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
+  , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
+  , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct` FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4469,8 +4454,8 @@ function sellSpreadBetCoins($spreadSellCoins){
     $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
     $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
     $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
-    $orderDate = $spreadSellCoins[$q][7]; $pctToSave = $spreadSellCoins[$q][55];
-    $type = $spreadSellCoins[$q][1];
+    $orderDate = $spreadSellCoins[$q][7]; $pctToSave = $spreadSellCoins[$q][55]; $userID = $spreadSellCoins[$q][3];
+    $type = $spreadSellCoins[$q][1]; $fallsInPrice = $spreadSellCoins[$q][56];
     echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
     LogToSQL("SpreadBetSell","sellCoins($TransactionID,$CoinID);",3,1);
     //$checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
