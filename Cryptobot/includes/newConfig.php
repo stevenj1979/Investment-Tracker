@@ -4359,4 +4359,67 @@ function getSpreadBerUserSettings(){
   return $tempAry;
 }
 
+function getBuyBackData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Bb`.`Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`
+          ,`Ba`.`SellPrice` as SellPriceBA, `Cp`.`LiveCoinPrice`
+          , `Ba`.`SellPrice`-`Cp`.`LiveCoinPrice` as PriceDifferece
+          ,( ( `Ba`.`SellPrice`- `Cp`.`LiveCoinPrice`)/`Ba`.`SellPrice`)*100 as PriceDifferecePct
+          ,`Usr`.`ID` as UserID ,`Usr`.`Email`,`Usr`.`UserName`
+          ,`Ucf`.`ApiKey`,`Ucf`.`ApiSecret`,`Ucf`.`KEK`
+          , `Tr`.`CoinPrice` - `Ba`.`SellPrice` as OriginalSaleProfit
+		  , ((`Tr`.`CoinPrice` - `Ba`.`SellPrice`)/`Tr`.`CoinPrice`)*100 as OriginalSaleProfitPct
+      ,`Bb`.`ProfitMultiply`
+          FROM `BuyBack` `Bb`
+          join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
+          join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Bb`.`TransactionID`
+          join `User` `Usr` on `Usr`.`ID` = `Tr`.`UserID`
+          join `UserConfig` `Ucf` on `Ucf`.`UserID` =  `Tr`.`UserID`
+          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+          WHERE `Bb`.`Status` = 'Open'
+          and `Ba`.`Type` in ('Sell','SpreadSell')";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID']
+    ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK']
+  ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function reOpenTransactionfromBuyBack($buyBackID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1,1,
+            (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)) * `Tr`.`Amount`, `Tr`.`BuyRule`, 0.0,0,1,90, `Tr`.`FixSellRule`,0,0,5, `Tr`.`Type`,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`
+            from `Transaction` `Tr`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+            join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+            where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("reOpenTransactionfromBuyBack: ".$sql, 'TrackingCoins', 0);
+}
 ?>

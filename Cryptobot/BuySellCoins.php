@@ -1299,6 +1299,33 @@ while($completeFlag == False){
     }
   }
 
+  //BuyBack
+  $buyBackCoins = getBuyBackData();
+  $buyBackCoinsSize = count($buyBackCoins);
+  echo "</blockquote>";
+  echo "<BR> CHECK BuyBack!! ";
+  echo "<blockquote>";
+  for ($t=0; $t<$buyBackCoinsSize;$t++){
+    $bBID = $buyBackCoins[$t][0];    $userID = $buyBackCoins[$t][12];    $TransactionID = $buyBackCoins[$t][1];    $coinID = $buyBackCoins[$t][7];    $spreadBetTransactionID = $buyBackCoins[$t][5];
+    $spreadBetRuleID = $buyBackCoins[$t][6];
+    $quantity = $buyBackCoins[$t][2];$sellPrice = $buyBackCoins[$t][3];$status = $buyBackCoins[$t][4];
+    $sellPriceBA = $buyBackCoins[$t][8];$liveCoinPrice = $buyBackCoins[$t][9];$priceDifferece = $buyBackCoins[$t][10];$priceDifferecePct = $buyBackCoins[$t][11];
+    $email = $buyBackCoins[$t][13];$userName = $buyBackCoins[$t][14];$apiKey = $buyBackCoins[$t][15];$apiSecret = $buyBackCoins[$t][16];$KEK = $buyBackCoins[$t][17];
+    $originalSaleProfit = $buyBackCoins[$t][18];
+    $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20];
+    if ($priceDifferecePct >=  ($originalSaleProfitPct-$profitMultiply)){
+      Echo "<BR> $priceDifferecePct >=  ($originalSaleProfitPct-$profitMultiply)";
+      //BuyBack
+      $reOpenData = reOpenTransactionfromBuyBack($bBID);
+      $d0 = $reOpenData[0][0];$d1 = $reOpenData[0][1];$d2 = $reOpenData[0][2];$d3 = $reOpenData[0][3];
+      $d4 = $reOpenData[0][4];$d5 = $reOpenData[0][5];$d6 = $reOpenData[0][6];$d7 = $reOpenData[0][7];
+      $d8 = $reOpenData[0][8];$d9 = $reOpenData[0][9];$d10 = $reOpenData[0][10];$d11 = $reOpenData[0][11];$d12 = $reOpenData[0][12];$d13 = $reOpenData[0][13];
+      $d14 = $reOpenData[0][14];$d15 = $reOpenData[0][15];$d16 = $reOpenData[0][16];$d17 = $reOpenData[0][17];
+      $d18 = $reOpenData[0][18];$d19 = $reOpenData[0][19];
+      addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12,$d13,$d14,$d15,$d16,$d17,$d18,$d19);
+    }
+  }
+
   echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   sleep(15);

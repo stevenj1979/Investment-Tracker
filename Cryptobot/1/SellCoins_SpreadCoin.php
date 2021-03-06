@@ -27,6 +27,12 @@ if(isset($_GET['Mode'])){
     //BuyBack
     $ID = $_GET['ID'];
     echo "<BR>BuyBack ID: $ID";
+    //Sell Coin
+    $buyBackData = getTrackingSellData($ID);
+    newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,4);
+    setTransactionPending($ID);
+    //Write to BuyBack Table
+    WriteBuyBack($ID);
   }
 }
 
@@ -44,6 +50,49 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   $_SESSION['roundVar'] = 2;
   //header('Location: SellCoins_Mobile_SB.php');
 }
+
+function WriteBuyBack($transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`)
+  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open')";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("WriteBuyBack: ".$sql, 'TrackingCoins', 0);
+}
+
+function getTrackingSellData($transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "select `Cp`.`LiveCoinPrice`, `Tr`.`UserID`
+    from `Transaction` `Tr`
+    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+    where `Tr`.`ID` = $transactionID";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['UserID'],$row['OrderNo'],$row['Symbol'],$row['Amount'],$row['Cost'],$row['TradeDate']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
