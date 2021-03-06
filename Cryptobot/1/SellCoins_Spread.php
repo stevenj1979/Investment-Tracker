@@ -23,6 +23,14 @@ $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
 setStyle($_SESSION['isMobile']);
 
 
+if(isset($_GET['Mode'])){
+  if ($_GET['Mode'] == 1){
+    //Sell SpreadBetCoins
+    $ID = $_GET['SBTransID'];
+    echo "<BR>SpreadBet Transaction ID: $ID";
+  }
+}
+
 if(isset($_GET['override'])){
   if ($_SESSION['MobOverride'] == False){$_SESSION['MobOverride'] = True;$_SESSION['roundVar'] = 8;}
 
@@ -223,7 +231,7 @@ $date = date('Y/m/d H:i:s', time());
             //if($_SESSION['isMobile'] == False){$roundNum = 8;}
             $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
             $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
-             $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
+            $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
             $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
             $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
             $priceDiff1 = $livePrice - $LastCoinPrice;
@@ -240,11 +248,6 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
-
-            echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
-            echo "<td rowspan='3'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
 
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
@@ -267,6 +270,13 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
+
+            echo "</tr><tr>";
+
+            echo "<td><a href='SellCoins_Spread.php?Mode=1&SBTransID=$transactionID'></a></td>";
+            echo "<td><a href=''></a></td>";
+            echo "<td><a href=''></a></td>";
+            echo "<td><a href=''></a></td>";
         }
         print_r("</table>");
         Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
