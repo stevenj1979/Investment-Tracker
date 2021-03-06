@@ -259,7 +259,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       echo "<td><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
       echo "<td><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td><a href='SellCoins_SpreasCoin.php?Mode=1&ID=$transactionID'>Buy Back</a></td>";
+      echo "<td><a href='SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID'>Buy Back</a></td>";
   }
   print_r("</table><br>");
 }
