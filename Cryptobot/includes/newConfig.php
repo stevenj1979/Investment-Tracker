@@ -4523,7 +4523,7 @@ FROM `Transaction` `Tr`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
 WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
 
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
