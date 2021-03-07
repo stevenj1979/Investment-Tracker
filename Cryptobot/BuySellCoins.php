@@ -1266,6 +1266,44 @@ while($completeFlag == False){
     }
   }
 
+  echo "</blockquote>";
+  echo "<BR> CHECK Spreadbet Sell & BuyBack!! ";
+  echo "<blockquote>";
+  $spreadBuyBack = getSpreadCoinSellData();
+  $spreadBuyBackSize = COUNT($spreadBuyBack);
+  for ($u=0; $u<$spreadBuyBackSize; $u++){
+    $purchasePrice = $spreadBuyBack[$u][4];
+    $amount = $spreadBuyBack[$u][5];
+
+    $CoinID = $spreadBuyBack[$u][2];
+    $userID = $spreadBuyBack[$u][3];
+    $LiveCoinPrice = $spreadBuyBack[$u][19];
+    $transactionID = $spreadBuyBack[$u][0];
+    $fallsInPrice = $spreadBuyBack[$u][56];
+    $profitSellTarget = $spreadBuyBack[$u][58];
+    $autoBuyBackSell = $spreadBuyBack[$u][59];
+    $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
+    $profitPCT = ($profit/($purchasePrice * $amount))*100;
+
+    if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget)){
+      //$tempAry = $spreadBuyBack[$u];
+      //sellSpreadBetCoins($tempAry);
+      if ($profitPCT > 0){
+          $totalMins = 10080;
+          $totalRisesBuy = $fallsInPrice;
+          $totalRisesSell = $fallsInPrice;
+      }else{
+          $totalMins = 20160;
+          $totalRisesBuy = 15;
+          $totalRisesSell = 1;
+      }
+      newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);
+      setTransactionPending($transactionID);
+      WriteBuyBack($transactionID,$profitPCT,$totalRisesBuy, $totalMins);
+    }
+
+  }
+
   //BuyBack
   $buyBackCoins = getBuyBackData();
   $buyBackCoinsSize = count($buyBackCoins);
