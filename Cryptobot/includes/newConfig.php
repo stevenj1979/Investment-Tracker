@@ -4507,4 +4507,29 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
   $conn->close();
   logAction("WriteBuyBack: ".$sql, 'TrackingCoins', 0);
 }
+
+function getTotalProfitSpreadBetSell($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT (sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100 as ProfitPct
+,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`
+, `Tr`.`Status`
+FROM `Transaction` `Tr`
+join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
+
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 ?>
