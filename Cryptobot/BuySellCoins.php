@@ -1261,6 +1261,8 @@ while($completeFlag == False){
       echo "<BR> getSpreadCoinSellData($ID);";
       $spreadSellCoins = getSpreadCoinSellData($ID);
       sellSpreadBetCoins($spreadSellCoins);
+      //Close all buyback for this SpreadBetTransID
+      CloseAllBuyBack($ID);
     }
   }
 

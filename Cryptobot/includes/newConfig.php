@@ -4534,4 +4534,25 @@ WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
   $conn->close();
   return $tempAry;
 }
+
+function CloseAllBuyBack($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `BuyBack`
+            SET `Status` = 'Closed'
+            WHERE `TransactionID` in (SELECT `ID` FROM `Transaction` WHERE `SpreadBetTransactionID` = $spreadBetTransactionID)";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("CloseAllBuyBack: ".$sql, 'TrackingCoins', 0);
+}
 ?>
