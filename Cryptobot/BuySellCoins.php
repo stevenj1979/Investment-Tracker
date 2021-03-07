@@ -1275,6 +1275,7 @@ while($completeFlag == False){
     $email = $buyBackCoins[$t][13];$userName = $buyBackCoins[$t][14];$apiKey = $buyBackCoins[$t][15];$apiSecret = $buyBackCoins[$t][16];$KEK = $buyBackCoins[$t][17];
     $originalSaleProfit = $buyBackCoins[$t][18];
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
+    $minsToCancel = $buyBackCoins[$t][23];
     if ($priceDifferecePct <=  $buyBackPct){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
       //BuyBack
@@ -1284,8 +1285,8 @@ while($completeFlag == False){
       $d8 = $reOpenData[0][8];$d9 = $reOpenData[0][9];$d10 = $reOpenData[0][10];$d11 = $reOpenData[0][11];$d12 = $reOpenData[0][12];$d13 = $reOpenData[0][13];
       $d14 = $reOpenData[0][14];$d15 = $reOpenData[0][15];$d16 = $reOpenData[0][16];$d17 = $reOpenData[0][17];
       $d18 = $reOpenData[0][18];$d19 = $reOpenData[0][19];
-      addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12,$d13,$d14,$d15,$d16,$d17,$d18,$d19);
-      LogToSQL("BuyBack","addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12,$d13,$d14,$d15,$d16,$d17,$d18,$d19);",3,1);
+      addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $minsToCancel, $d12,$d13,$d14,$noOfRaisesInPrice,$d16,$d17,$d18,$d19);
+      LogToSQL("BuyBack","addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $minsToCancel, $d12,$d13,$d14,$noOfRaisesInPrice,$d16,$d17,$d18,$d19);",3,1);
       //CloseBuyBack
       closeBuyBack($bBID);
     }

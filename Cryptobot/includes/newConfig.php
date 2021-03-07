@@ -4372,7 +4372,7 @@ function getBuyBackData(){
 
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
   , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
-  , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct` FROM `BuyBackView`";
+  , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel` FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4380,7 +4380,7 @@ function getBuyBackData(){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID']
     ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK']
-  ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct']);
+  ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel']);
   }
   $conn->close();
   return $tempAry;
@@ -4486,5 +4486,25 @@ function sellSpreadBetCoins($spreadSellCoins){
     addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);
     LogToSQL("SpreadBetSell","addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,1);
   }
+}
+
+function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`)
+  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open',$noOfRisesInPrice, -ABS($profitPct),$minsToCancel)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("WriteBuyBack: ".$sql, 'TrackingCoins', 0);
 }
 ?>

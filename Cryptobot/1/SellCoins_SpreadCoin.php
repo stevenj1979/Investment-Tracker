@@ -32,7 +32,15 @@ if(isset($_GET['Mode'])){
     newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,4);
     setTransactionPending($ID);
     //Write to BuyBack Table
-    WriteBuyBack($ID,$profitPct);
+    if ($profitPct > 0){
+        $totalMins = 10080;
+        $totalRises = 10;
+    }else{
+        $totalMins = 20160;
+        $totalRises = 15;
+    }
+
+    WriteBuyBack($ID,$profitPct,$totalRises, $totalMins);
   }
 }
 
@@ -51,25 +59,6 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   //header('Location: SellCoins_Mobile_SB.php');
 }
 
-function WriteBuyBack($transactionID, $profitPct){
-  $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`)
-  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open',10, -ABS($profitPct))";
-
-  print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("WriteBuyBack: ".$sql, 'TrackingCoins', 0);
-}
 
 function getTrackingSellData($transactionID){
   $conn = getSQLConn(rand(1,3));
