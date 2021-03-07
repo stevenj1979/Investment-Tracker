@@ -26,7 +26,7 @@ if(isset($_GET['Mode'])){
   if ($_GET['Mode'] == 1){
     //BuyBack
     $ID = $_GET['ID']; $profitPct = $_GET['ProfitPct'];
-    echo "<BR>BuyBack ID: $ID";
+    //echo "<BR>BuyBack ID: $ID";
     //Sell Coin
     $buyBackData = getTrackingSellData($ID);
     newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,4);

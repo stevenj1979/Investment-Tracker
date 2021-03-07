@@ -3061,7 +3061,7 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
 
   $sql = "call AddTrackingSellCoin($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice);";
 
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -3080,7 +3080,7 @@ function setTransactionPending($id){
 
   $sql = "UPDATE `Transaction` SET `Status`= 'Pending' WHERE `ID` = $id ";
 
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -4499,7 +4499,7 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
   $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`)
   VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID), 'Open',$noOfRisesInPrice, -ABS($profitPct),$minsToCancel)";
 
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
