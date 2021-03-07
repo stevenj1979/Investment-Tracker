@@ -1275,7 +1275,7 @@ while($completeFlag == False){
     $email = $buyBackCoins[$t][13];$userName = $buyBackCoins[$t][14];$apiKey = $buyBackCoins[$t][15];$apiSecret = $buyBackCoins[$t][16];$KEK = $buyBackCoins[$t][17];
     $originalSaleProfit = $buyBackCoins[$t][18];
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
-    if ($priceDifferecePct <=  ($buyBackPct+$profitMultiply)){
+    if ($priceDifferecePct <=  $buyBackPct){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
       //BuyBack
       $reOpenData = reOpenTransactionfromBuyBack($bBID);
