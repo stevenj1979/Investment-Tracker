@@ -1241,12 +1241,14 @@ while($completeFlag == False){
     $Email = $sellSpread[$w][53]; $userID = $sellSpread[$w][2]; $UserName = $sellSpread[$w][54]; $captureTrend = $sellSpread[$w][57];
     $purchasePrice = $sellSpread[$w][59];
     $currentPrice = $sellSpread[$w][60];
-    $profit = $sellSpread[$w][58];
+
     $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56]; $orderDate = $sellSpread[$w][6];
     //$profitPct = ($profit/$purchasePrice)*100;
     $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     $fallsInPrice = $sellSpread[$w][61];
-    $profitPct = getTotalProfitSpreadBetSell($ID);
+    $tempProfit = getTotalProfitSpreadBetSell($ID);
+    $profitPct = $tempProfit[0][0];
+    $profit = $tempProfit[0][4];
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     //coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
     echo "<BR> Checking $ID | $profitPct | $spreadBetPctProfitSell | TotPP: $CoinPriceTot | TotAm: $TotAmount | TotLive: $LiveCoinPriceTot | TotProfit: $profit";
@@ -1254,7 +1256,7 @@ while($completeFlag == False){
     if ($captureTrend == 0 and $profitPct >= 0.5){
       //updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID);
     }
-    if ($profitPct[0][0] >= $spreadBetPctProfitSell){
+    if ($profitPct >= $spreadBetPctProfitSell){
       //get coin data
       echo "<BR> getSpreadCoinSellData($ID);";
       $spreadSellCoins = getSpreadCoinSellData($ID);
