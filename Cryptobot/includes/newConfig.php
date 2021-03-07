@@ -4082,8 +4082,8 @@ function updateSpreadProfit($spreadBetRuleID, $pctProfit){
 }
 
 function updateSpreadSell($spreadBetRuleID, $orderDate){
-  $savingUsdt = $totalProfit * 0.1;
-  $typeUsdt = $totalProfit - $savingUsdt;
+  //$savingUsdt = $totalProfit * 0.1;
+  //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -4450,23 +4450,24 @@ function sellSpreadBetCoins($spreadSellCoins){
   $spreadSellCoinsSize = count($spreadSellCoins);
   echo "<BR> Sell Spread Coins | $spreadSellCoinsSize";
   for ($q=0; $q<$spreadSellCoinsSize; $q++){
-    LogToSQL("SpreadBetSell","profitPct :$profitPct | spreadBetPctProfitSell: $spreadBetPctProfitSell | ID: $ID NoOfCoins:$spreadSellCoinsSize;",3,1);
+
     $coin = $spreadSellCoins[$q][11];  $BaseCurrency =  $spreadSellCoins[$q][36]; $TransactionID = $spreadSellCoins[$q][0];
     $CoinID = $spreadSellCoins[$q][2]; $OrderNo = $spreadSellCoins[$q][10]; $LiveCoinPrice = $spreadSellCoins[$q][19];
     $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $SellCoin = 1; $CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0.0;
     $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
     $orderDate = $spreadSellCoins[$q][7]; $pctToSave = $spreadSellCoins[$q][55]; $userID = $spreadSellCoins[$q][3];
     $type = $spreadSellCoins[$q][1]; $fallsInPrice = $spreadSellCoins[$q][56]; $spreadBetRuleID = $spreadSellCoins[$q][57];
-    echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
+    LogToSQL("SpreadBetSell","profitPct :$profitPct | spreadBetPctProfitSell: $spreadBetPctProfitSell | ID: $spreadBetRuleID NoOfCoins:$spreadSellCoinsSize;",3,1);
+    //echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
     LogToSQL("SpreadBetSell","sellCoins($TransactionID,$CoinID);",3,1);
     //$checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
     LogToSQL("SpreadBetTrackingSell","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,2);",3,1);
     newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,$fallsInPrice);
     setTransactionPending($TransactionID);
-    LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);",3,1);
-    //newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0.0,2);
-    LogToSQL("SpreadBetTest2","setTransactionPending($transactionID);",3,1);
-    //setTransactionPending($transactionID);
+    LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,1, 1,0,0.0,2);",3,1);
+    //newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,1, 1,0,0.0,2);
+    LogToSQL("SpreadBetTest2","setTransactionPending($TransactionID);",3,1);
+    //setTransactionPending($TransactionID);
     updateSpreadSell($spreadBetRuleID,$orderDate);
     $buyTrendPct = updateBuyTrendHistorySB($spreadBetRuleID,$orderDate);
     $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
