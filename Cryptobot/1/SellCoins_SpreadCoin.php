@@ -29,18 +29,20 @@ if(isset($_GET['Mode'])){
     //echo "<BR>BuyBack ID: $ID";
     //Sell Coin
     $buyBackData = getTrackingSellData($ID);
-    newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,4);
-    setTransactionPending($ID);
+
     //Write to BuyBack Table
     if ($profitPct > 0){
         $totalMins = 10080;
-        $totalRises = 10;
+        $totalRisesBuy = 10;
+        $totalRisesSell = 10;
     }else{
         $totalMins = 20160;
-        $totalRises = 15;
+        $totalRisesBuy = 15;
+        $totalRisesSell = 1;
     }
-
-    WriteBuyBack($ID,$profitPct,$totalRises, $totalMins);
+    newTrackingSellCoins($buyBackData[0][0], $buyBackData[0][1],$ID,1,1,0,0.0,$totalRisesSell);
+    setTransactionPending($ID);
+    WriteBuyBack($ID,$profitPct,$totalRisesBuy, $totalMins);
   }
 }
 
