@@ -1285,6 +1285,7 @@ while($completeFlag == False){
       $d14 = $reOpenData[0][14];$d15 = $reOpenData[0][15];$d16 = $reOpenData[0][16];$d17 = $reOpenData[0][17];
       $d18 = $reOpenData[0][18];$d19 = $reOpenData[0][19];
       addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12,$d13,$d14,$d15,$d16,$d17,$d18,$d19);
+      LogToSQL("BuyBack","addTrackingCoin($d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12,$d13,$d14,$d15,$d16,$d17,$d18,$d19);",3,1);
       //CloseBuyBack
       closeBuyBack($bBID);
     }
