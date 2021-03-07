@@ -4495,8 +4495,8 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `SellPrice`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`)
-  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID),(Select `SellPrice` from `BittrexAction` where `TransactionID` = $transactionID), 'Open',$noOfRisesInPrice, -ABS($profitPct),$minsToCancel)";
+  $sql = "INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`)
+  VALUES ($transactionID,(SELECT `Amount` from `Transaction` where `ID` = $transactionID), 'Open',$noOfRisesInPrice, -ABS($profitPct),$minsToCancel)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
