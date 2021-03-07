@@ -4518,6 +4518,7 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   $sql = "SELECT (sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100 as ProfitPct
 ,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`
 , `Tr`.`Status`
+,sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as Profit
 FROM `Transaction` `Tr`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
 WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
@@ -4527,7 +4528,7 @@ WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status']);
+      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status'],$row['Profit']);
   }
   $conn->close();
   return $tempAry;
