@@ -4250,7 +4250,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if ($minsFromDate < 5){
       return False;
   }
-  if (($mins >= 60 && $livePrice < $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice < $buyPrice)){
+  if (($mins >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice)){
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
     logToSQL("trackingCoinReadyToBuy", "OPT 2 : $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
@@ -4290,7 +4290,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
         return False;
     }
     echo "trackingCoinReadyToSell: $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice";
-    if (($mins >= 60 && $livePrice > $sellPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice > $sellPrice)){
+    if (($mins >= 60 && $livePrice >= $sellPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice >= $sellPrice)){
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       logToSQL("trackingCoinReadyToSell", "OPT 2 : $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
