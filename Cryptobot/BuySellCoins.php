@@ -1248,8 +1248,11 @@ while($completeFlag == False){
     $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     $fallsInPrice = $sellSpread[$w][61];
     $tempProfit = getTotalProfitSpreadBetSell($ID);
-    $profitPct = $tempProfit[0][9];
-    $profit = $tempProfit[0][8];
+    $tempSoldProfit = getSoldProfitSpreadBetSell($ID);
+    $purchasePrice = $tempProfit[0][0] + $tempSoldProfit[0][0];
+    $livePrice = $tempProfit[0][1] + $tempSoldProfit[0][1];
+    $profit = $livePrice-$purchasePrice;
+    $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     //coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
     echo "<BR> Checking $ID | $profitPct | $spreadBetPctProfitSell | TotPP: $CoinPriceTot | TotAm: $TotAmount | TotLive: $LiveCoinPriceTot | TotProfit: $profit";

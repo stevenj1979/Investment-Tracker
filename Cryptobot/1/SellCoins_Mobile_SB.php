@@ -232,10 +232,17 @@ $date = date('Y/m/d H:i:s', time());
             $liveTotalCost = $trackingSell[$x][57];
             $originalPurchaseCost = $trackingSell[$x][56];
             //$profit = $trackingSell[$x][55];
-            $tmpProfit = getTotalProfitSpreadBetSell($transactionID);
-            $profit = $tmpProfit[0][8];
+            //$tmpProfit = getTotalProfitSpreadBetSell($transactionID);
+            //$profit = $tmpProfit[0][8];
             //$profitBtc = $profit/($originalPurchaseCost)*100;
-            $profitBtc = $tmpProfit[0][9];
+            //$profitBtc = $tmpProfit[0][9];
+            $tempProfit = getTotalProfitSpreadBetSell($transactionID);
+            $tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
+            $purchasePrice = $tempProfit[0][0] + $tempSoldProfit[0][0];
+            $livePrice = $tempProfit[0][1] + $tempSoldProfit[0][1];
+            $profit = $livePrice-$purchasePrice;
+            $profitPct = ($profit/$purchasePrice)*100;
+
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             //Top Line

@@ -4545,27 +4545,42 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT (sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100 as ProfitPct
-,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`
-, `Tr`.`Status`
-,sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as Profit
-,`Ba`.`SellPrice`
-,`Tr`.`ID`
-,`Ba`.`Type`
-,if (`Tr`.`Status` = 'Open',sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`),sum(`Ba`.`SellPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))as NewProfit
-,if(`Tr`.`Status` = 'Open',(sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100 ,(sum(`Ba`.`SellPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100) as NewProfitPct
-FROM `Transaction` `Tr`
-Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
-join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
+  $sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as LivePrice
+            From `Transaction` `Tr`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+            WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Open'";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status'],$row['Profit'],$row['SellPrice'],$row['ID'],$row['Type']
-    ,$row['NewProfit'],$row['NewProfitPct']);
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LivePrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSoldProfitSpreadBetSell($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum(`Ba`.`SellPrice`*`Tr`.`Amount`) as SellPrice
+      From `BittrexAction` `Ba`
+      join `Transaction` `Tr` on `Tr`.`ID` = `Ba`.`TransactionID`
+      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+      WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Sold'
+      and `Ba`.`Type` in ('Sell','SpreadSell')";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['SellPrice']);
   }
   $conn->close();
   return $tempAry;
