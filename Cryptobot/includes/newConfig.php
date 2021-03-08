@@ -4400,7 +4400,7 @@ function reOpenTransactionfromBuyBack($buyBackID){
 
   $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1 as SendEmail,1 as BuyCoin,
             (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)and `Type` in ('Sell','SpreadSell')) * `Tr`.`Amount` as SalePrice, `Tr`.`BuyRule`, 0.0 as CoinOffset,0 as CoinOffsetEnabled,1 as BuyType
-            ,90 as MinsToCancel, `Tr`.`FixSellRule`,0,0,5, `Tr`.`Type`,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`
+            ,90 as MinsToCancel, `Tr`.`FixSellRule`,0 as toMerge,0 as noOfPurchases,5 as RisesInPrice, `Tr`.`Type`,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`
             from `Transaction` `Tr`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
@@ -4413,7 +4413,7 @@ function reOpenTransactionfromBuyBack($buyBackID){
             while ($row = mysqli_fetch_assoc($result)){
                 $tempAry[] = Array($row['CoinID'],$row['LiveCoinPrice'],$row['UserID'],$row['BaseCurrency'],$row['SendEmail'],$row['BuyCoin'],$row['SalePrice'],$row['BuyRule']
               ,$row['CoinOffset'],$row['CoinOffsetEnabled'],$row['BuyType'],$row['MinsToCancel'],$row['FixSellRule'],$row['toMerge'],$row['noOfPurchases'],$row['RisesInPrice'],$row['Type'],$row['OriginalPrice']
-            ,$row['SpreadBetTransID'],$row['SpreadBetRuleID']);
+            ,$row['SpreadBetTransactionID'],$row['SpreadBetRuleID']);
             }
             $conn->close();
             return $tempAry;
