@@ -4245,7 +4245,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
-
+  Echo "<BR> Swing:$swingPrice Current:$currentPrice ";
   //if liveprice is stable, add 1 - -0.5 - 0.5
   if ($minsFromDate < 5){
       return False;
