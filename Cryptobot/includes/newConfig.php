@@ -2820,9 +2820,9 @@ function setNewTrackingPrice($coinPrice, $ID, $mode){
       die("Connection failed: " . $conn->connect_error);
   }
   if ($mode == 'Buy'){
-      $sql = "UPDATE `TrackingCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
+      $sql = "UPDATE `TrackingCoins` SET `LastPrice` = `CoinPrice`, `CoinPrice` = $coinPrice WHERE `ID` = $ID";
   }else{
-    $sql = "UPDATE `TrackingSellCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
+    $sql = "UPDATE `TrackingSellCoins` SET `LastPrice` = `CoinPrice`, `CoinPrice` = $coinPrice WHERE `ID` = $ID";
   }
 
 
