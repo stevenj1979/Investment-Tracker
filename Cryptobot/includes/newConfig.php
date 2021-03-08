@@ -2820,9 +2820,32 @@ function setNewTrackingPrice($coinPrice, $ID, $mode){
       die("Connection failed: " . $conn->connect_error);
   }
   if ($mode == 'Buy'){
-      $sql = "UPDATE `TrackingCoins` SET `LastPrice` = `CoinPrice`, `CoinPrice` = $coinPrice WHERE `ID` = $ID";
+      $sql = "UPDATE `TrackingCoins` SET `CoinPrice` = $coinPrice WHERE `ID` = $ID";
   }else{
-    $sql = "UPDATE `TrackingSellCoins` SET `LastPrice` = `CoinPrice`, `CoinPrice` = $coinPrice WHERE `ID` = $ID";
+    $sql = "UPDATE `TrackingSellCoins` SET `CoinPrice` = $coinPrice WHERE `ID` = $ID";
+  }
+
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
+}
+
+function setLastPrice($coinPrice, $ID, $mode){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  if ($mode == 'Buy'){
+      $sql = "UPDATE `TrackingCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
+  }else{
+    $sql = "UPDATE `TrackingSellCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
   }
 
 
@@ -4277,6 +4300,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     closeNewTrackingCoin($TransactionID, True);
     return False;
   }
+  setLastPrice($livePrice,$TransactionID, 'Buy');
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
@@ -4319,6 +4343,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       closeNewTrackingSellCoin($TransactionID);
       return False;
     }
+    setLastPrice($livePrice,$TransactionID, 'Sell');
 }
 
 function getSpreadBetCount($SBTransID){
