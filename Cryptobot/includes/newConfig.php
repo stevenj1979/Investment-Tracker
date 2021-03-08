@@ -4549,7 +4549,13 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
 ,`Tr`.`SpreadBetTransactionID`,`Tr`.`SpreadBetRuleID`
 , `Tr`.`Status`
 ,sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as Profit
+,`Ba`.`SellPrice`
+,`Tr`.`ID`
+,`Ba`.`Type`
+,if (`Tr`.`Status` = 'Open',sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`),sum(`Ba`.`SellPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))as NewProfit
+,if(`Tr`.`Status` = 'Open',(sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100 ,(sum(`Ba`.`SellPrice`*`Tr`.`Amount`) - sum(`Tr`.`CoinPrice`*`Tr`.`Amount`))/ sum(`Tr`.`CoinPrice`*`Tr`.`Amount`)*100) as NewProfitPct
 FROM `Transaction` `Tr`
+Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
 WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
 
@@ -4558,7 +4564,8 @@ WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status'],$row['Profit']);
+      $tempAry[] = Array($row['ProfitPct'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Status'],$row['Profit'],$row['SellPrice'],$row['ID'],$row['Type']
+    ,$row['NewProfit'],$row['NewProfitPct']);
   }
   $conn->close();
   return $tempAry;
