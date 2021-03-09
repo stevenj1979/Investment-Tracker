@@ -246,9 +246,9 @@ $date = date('Y/m/d H:i:s', time());
             //$profitBtc = $profit/($originalPurchaseCost)*100;
             //$profitPct = getTotalProfitSpreadBetSell($transactionID);
             $tempProfit = getTotalProfitSpreadBetSell($transactionID);
-            $tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
-            $purchasePrice = $tempProfit[0][0] + $tempSoldProfit[0][0];
-            $livePrice = $tempProfit[0][1] + $tempSoldProfit[0][1];
+            //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
+            $purchasePrice = $tempProfit[0][0];
+            $livePrice = $tempProfit[0][1];
             $profit = $livePrice-$purchasePrice;
             $profitPct = ($profit/$purchasePrice)*100;
 
