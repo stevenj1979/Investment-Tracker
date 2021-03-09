@@ -4642,6 +4642,25 @@ function deleteSpreadBetTotalProfit($spreadBetTransactionID){
   logAction("deleteSpreadBetTotalProfit: ".$sql, 'TrackingCoins', 0);
 }
 
+function deleteSpreadBetTrackingCoins($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "DELETE FROM `TrackingCoins` WHERE `SBTransID` = $spreadBetTransactionID";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);
+}
+
 function CloseAllBuyBack($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection

@@ -1274,6 +1274,7 @@ while($completeFlag == False){
       //Close all buyback for this SpreadBetTransID
       CloseAllBuyBack($ID);
       deleteSpreadBetTotalProfit($ID);
+      deleteSpreadBetTrackingCoins($ID);
     }
   }
 
