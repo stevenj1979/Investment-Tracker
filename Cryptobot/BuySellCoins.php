@@ -139,7 +139,7 @@ $coin1HrPatternList = getCoin1HrPattenList();
 $autoBuyPrice = getAutoBuyPrices();
 $SpreadBetUserSettings = getSpreadBerUserSettings();
 $apiVersion = 1;
-
+$trackCounter = [];
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
