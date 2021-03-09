@@ -811,7 +811,10 @@ while($completeFlag == False){
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
           updateBuyAmount($transactionID,$resultOrd['quantity']);
-          if ($type == 'SpreadBuy'){updateToSpreadSell($transactionID);}
+          if ($type == 'SpreadBuy'){
+            updateToSpreadSell($transactionID);
+            updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);
+          }
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
           //if ($type == "SpreadBuy"){ updateSpreadSell();}
           UpdateProfit();
@@ -891,6 +894,9 @@ while($completeFlag == False){
                 $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
                 logToSQL("updateBuyTrend", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1);
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
+              }
+              if ($allocationType == 'SpreadBet'){
+                updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
               }
               UpdateProfit();
 
@@ -1248,9 +1254,9 @@ while($completeFlag == False){
     $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     $fallsInPrice = $sellSpread[$w][61];
     $tempProfit = getTotalProfitSpreadBetSell($ID);
-    $tempSoldProfit = getSoldProfitSpreadBetSell($ID);
-    $purchasePrice = $tempProfit[0][0] + $tempSoldProfit[0][0];
-    $livePrice = $tempProfit[0][1] + $tempSoldProfit[0][1];
+    //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
+    $purchasePrice = $tempProfit[0][0];
+    $livePrice = $tempProfit[0][1];
     $profit = $livePrice-$purchasePrice;
     $profitPct = ($profit/$purchasePrice)*100;
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
@@ -1267,6 +1273,7 @@ while($completeFlag == False){
       sellSpreadBetCoins($spreadSellCoins);
       //Close all buyback for this SpreadBetTransID
       CloseAllBuyBack($ID);
+      deleteSpreadBetTotalProfit($ID);
     }
   }
 

@@ -4545,17 +4545,15 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as LivePrice
-            From `Transaction` `Tr`
-            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-            WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Open'";
+  $sql = "SELECT sum(`OriginalPurchasePrice`) as OriginalPurchasePrice ,sum(`LiveTotalPrice`) as LiveTotalPrice FROM `SpreadBetTotalProfitView`
+            where `SpreadBetTransactionID` = $spreadBetTransactionID ";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LivePrice']);
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -4584,6 +4582,64 @@ function getSoldProfitSpreadBetSell($spreadBetTransactionID){
   }
   $conn->close();
   return $tempAry;
+}
+
+function updateSpreadBetTotalProfitBuy($transactionID, $coinPrice, $amount){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `SpreadBetTotalProfit`( `TransactionID`, `SpreadBetTransactionID`, `CoinPrice`, `Amount`)
+  VALUES ($transactionID,(SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID),$coinPrice,$amount);";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetTotalProfitBuy: ".$sql, 'TrackingCoins', 0);
+}
+
+function updateSpreadBetTotalProfitSell($transactionID,$salePrice){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `SpreadBetTotalProfit` SET `SalePrice` = $salePrice, `Status`='Sold' WHERE `TransactionID` = $transactionID";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetTotalProfitSell: ".$sql, 'TrackingCoins', 0);
+}
+
+function deleteSpreadBetTotalProfit($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "DELETE FROM `SpreadBetTotalProfit`  WHERE `SpreadBetTransactionID` = $spreadBetTransactionID";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("deleteSpreadBetTotalProfit: ".$sql, 'TrackingCoins', 0);
 }
 
 function CloseAllBuyBack($spreadBetTransactionID){
