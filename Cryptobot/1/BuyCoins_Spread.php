@@ -199,11 +199,13 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     $priceChange = round(number_format((float)$bitPrice-$LastCoinPrice, 8, '.', ''),$num);
     $priceDiff1 = round(number_format((float)$tracking[$x][19], 2, '.', ''),$num);
     $Hr1LivePriceChange = $tracking[$x][31];$hr1Target = $tracking[$x][32]; $hr24Target = $tracking[$x][33];$d7Target = $tracking[$x][34];
-    $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+    $new1HrPriceChange = 0; //$Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
     $hr1Colour = getTargetColour($Live1HrChange,$hr1Target,1);
     $hr24Colour = getTargetColour($Live24HrChange,$hr24Target,2);
     $d7Colour = getTargetColour($Live7DChange,$d7Target,2);
-    $name = $tracking[$x][37]; $image = $tracking[$x][38]; $enabled = $tracking[$x][35]; $id = $tracking[$x][0];
+    $name = $tracking[$x][31];
+    //$image = $tracking[$x][38];
+    $enabled = $tracking[$x][35]; $id = $tracking[$x][0];
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
     echo "<td><p id='largeText'>".$name."</p></td>";
