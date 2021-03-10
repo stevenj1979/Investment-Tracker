@@ -1298,6 +1298,7 @@ while($completeFlag == False){
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
 
     if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget)){
+      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
       if ($profitPCT > 0){
@@ -1309,9 +1310,11 @@ while($completeFlag == False){
           $totalRisesBuy = 15;
           $totalRisesSell = 1;
       }
+      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,1);
       newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$profitPCT,$totalRisesBuy, $totalMins);
+      LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$profitPCT,$totalRisesBuy, $totalMins);",3,1);
     }
 
   }
@@ -1334,6 +1337,7 @@ while($completeFlag == False){
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if ($priceDifferecePct <=  $buyBackPct){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
+      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct",3,1);
       //BuyBack
       $reOpenData = reOpenTransactionfromBuyBack($bBID);
       $tmpCoinID = $reOpenData[0][0];$tmpLiveCoinPrice = $reOpenData[0][1];$tmpUserID = $reOpenData[0][2];$tmpBaseCur = $reOpenData[0][3];
@@ -1342,9 +1346,9 @@ while($completeFlag == False){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19];
       $newCoinPricewithBuffer = (($tmpLiveCoinPrice/100)*1.0)+$tmpLiveCoinPrice;
-      addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);
-      echo "<BR>addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);";
-      LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
+      addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,'SpreadBuy',$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);
+      echo "<BR>addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,'SpreadBuy',$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);";
+      LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $newCoinPricewithBuffer, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,'SpreadBuy',$tmpOriginalPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
       //CloseBuyBack
       closeBuyBack($bBID);
     }
