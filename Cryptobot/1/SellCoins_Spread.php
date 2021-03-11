@@ -248,7 +248,7 @@ $date = date('Y/m/d H:i:s', time());
             $tempProfit = getTotalProfitSpreadBetSell($transactionID);
             //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
             $purchasePrice = $tempProfit[0][0];
-            $livePrice = $tempProfit[0][1];
+            $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
             $profit = $livePrice-$purchasePrice;
             $profitPct = ($profit/$purchasePrice)*100;
 
