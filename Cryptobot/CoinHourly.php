@@ -163,6 +163,43 @@ function addToBuyBackMultiplierHourly(){
   }
 }
 
+function getbuyBack(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `TransactionID` FROM `BuyBack` where `SellPrice` = 0.0 or isnull(`SellPrice`)";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TransactionID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function writeSellPriceToBuyBack($transactionID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `BuyBack` SET `SellPrice`= (SELECT `SellPrice` FROM `BittrexAction` WHERE `TransactionID` = $transactionID and `Type` in ('Sell','SpreadSell'))  WHERE `TransactionID` = $transactionID";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateSellPricetoBuyBack(){
+  $buyBackData = getbuyBack();
+  $buyBackDataSize = count($buyBackData);
+  for ($f=0; $f<$buyBackDataSize; $f++){
+    $transactionID = $buyBackData[$f][0];
+    writeSellPriceToBuyBack($transactionID);
+  }
+}
+
 $transStats = getTransStats();
 $transStatsSize = count($transStats);
 
@@ -187,5 +224,6 @@ for ($i=0; $i<$minMaxPriceSize; $i++){
 subPctFromOpenSpreadBetTransactions();
 subPctFromOpenCoinModeTransactions();
 addToBuyBackMultiplierHourly();
+updateSellPricetoBuyBack();
 ?>
 </html>
