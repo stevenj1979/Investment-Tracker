@@ -4264,7 +4264,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice,$minsFromDate){
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
@@ -4273,10 +4273,10 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if ($minsFromDate < 5){
       return False;
   }
-  if (($mins >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice)){
+  if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice)){
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
-    logToSQL("trackingCoinReadyToBuy", "OPT 2 : $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
+    logToSQL("trackingCoinReadyToBuy", "OPT 2 : $minsFromDate| $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
     reopenTransaction($TransactionID);
     return True;
   }
