@@ -96,9 +96,9 @@ if(isset($_GET['SellNow'])){
           NewEcho ("<td>|$fee</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$NoOfRisesInPrice / $totalRisesInPrice</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($ogPctProfit,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],2);
           echo "</tr>";
         }
         print_r("</table>");
