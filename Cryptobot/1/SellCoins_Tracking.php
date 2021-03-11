@@ -68,13 +68,14 @@ if(isset($_GET['SellNow'])){
         print_r("<h2>Tracking Sell Coins</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
         echo "<table>";
-        NewEcho ("<tr>Coin</tr><tr>Price</tr><tr>Amount</tr><tr>Rises in Price</tr>",$_SESSION['isMobile'],2);
-        NewEcho ("<tr>Trans ID</tr><tr>OrderNo</tr>",$_SESSION['isMobile'],0);
-        NewEcho ("<tr>Sell Rule</tr><tr>LivePrice</tr>",$_SESSION['isMobile'],2);
-        NewEcho ("<tr>Profit</tr>",$_SESSION['isMobile'],0);
-        NewEcho ("<tr>Profit Pct</tr>",$_SESSION['isMobile'],2);
-        NewEcho ("<tr>Total Rises in Price</tr>",$_SESSION['isMobile'],0);
-        NewEcho ("<tr>OG Profit Pct</tr><tr>Cancel</tr><tr>Sellnow</tr>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th><th>Rises in Price</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Trans ID</th><th>OrderNo</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>Sell Rule</th><th>LivePrice</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Profit</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Total Rises in Price</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>OG Profit Pct</th><th>Cancel</th><th>Sellnow</th>",$_SESSION['isMobile'],2);
+
         for($x = 0; $x < $arrLengthSell; $x++) {
           $CoinPrice = $trackingSell[$x][0]; $TrackDate = $trackingSell[$x][1];  $UserID = $trackingSell[$x][2]; $NoOfRisesInPrice = $trackingSell[$x][3]; $TransactionID = $trackingSell[$x][4];
           $BuyRule = $trackingSell[$x][5]; $FixSellRule = $trackingSell[$x][6]; $OrderNo = $trackingSell[$x][7]; $Amount = $trackingSell[$x][8]; $CoinID = $trackingSell[$x][9];
