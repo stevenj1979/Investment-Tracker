@@ -68,7 +68,7 @@ if(isset($_GET['SellNow'])){
         print_r("<h2>Tracking Sell Coins</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
         echo "<table>";
-        NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th><th>Rises in Price</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Trans ID</th><th>OrderNo</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Sell Rule</th><th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
@@ -87,7 +87,7 @@ if(isset($_GET['SellNow'])){
           NewEcho ("<td>|$coin</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".Round($CoinPrice,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".Round($Amount,4)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|$NoOfRisesInPrice</td>",$_SESSION['isMobile'],2);
+          //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$TransactionID</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|$OrderNo</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|$FixSellRule</td>",$_SESSION['isMobile'],0);
@@ -95,7 +95,7 @@ if(isset($_GET['SellNow'])){
           NewEcho ("<td>|".Round($profit,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$fee</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|$totalRisesInPrice</td>",$_SESSION['isMobile'],0);
+          NewEcho ("<td>|$NoOfRisesInPrice / $totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".Round($ogPctProfit,4)."<td>",$_SESSION['isMobile'],2);
           NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
           NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a><td>",$_SESSION['isMobile'],2);
