@@ -4264,7 +4264,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice,$minsFromDate){
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;

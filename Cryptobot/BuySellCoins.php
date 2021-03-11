@@ -188,7 +188,7 @@ while($completeFlag == False){
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if($minsFromDate >= $timeToCancelBuyMins){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | $minusMinsToCancel"; continue;}
     Echo "<BR> Price Check: Live:$liveCoinPrice Original: $originalPrice";
-    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$minsFromDate);
+    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice);
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
