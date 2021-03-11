@@ -70,8 +70,8 @@ if(isset($_GET['SellNow'])){
         echo "<table>";
         NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th><th>Rises in Price</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Trans ID</th><th>OrderNo</th>",$_SESSION['isMobile'],0);
-        NewEcho ("<th>Sell Rule</th><th>LivePrice</th>",$_SESSION['isMobile'],2);
-        NewEcho ("<th>Profit</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>Sell Rule</th><th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Total Rises in Price</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>OG Profit Pct</th><th>Cancel</th><th>Sellnow</th>",$_SESSION['isMobile'],2);
