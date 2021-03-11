@@ -4545,7 +4545,8 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`OriginalPurchasePrice`) as OriginalPurchasePrice ,sum(`LiveTotalPrice`) as LiveTotalPrice FROM `SpreadBetTotalProfitView`
+  $sql = "SELECT sum(`OriginalPurchasePrice`) as OriginalPurchasePrice ,sum(`LiveTotalPrice`) as LiveTotalPrice,sum(`SaleTotalPrice`) as SaleTotalPrice
+  FROM `SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
 
   //echo "<BR> $sql";
@@ -4553,7 +4554,7 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice']);
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice']);
   }
   $conn->close();
   return $tempAry;
