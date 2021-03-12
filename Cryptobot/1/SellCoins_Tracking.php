@@ -68,8 +68,8 @@ if(isset($_GET['SellNow'])){
         print_r("<h2>Tracking Sell Coins</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
         echo "<table border=1>";
-        NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th>",$_SESSION['isMobile'],2);
-        NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Sell Rule</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>Coin</th><th>Price</th><th>PurchasePrice</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Live Total Price</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
@@ -86,11 +86,14 @@ if(isset($_GET['SellNow'])){
           echo "<tr>";
           NewEcho ("<td>|$coin</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".Round($CoinPrice,4)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|".Round($Amount,4)."</td>",$_SESSION['isMobile'],2);
+          $purchasePrice = $CoinPrice * $Amount;
+          NewEcho ("<td>|".Round($purchasePrice,4)."</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$TransactionID</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|$OrderNo</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|$FixSellRule</td>",$_SESSION['isMobile'],0);
+          $livePriceUSD = $LiveCoinPrice * $Amount;
+          //$profitPct = ($profit/$purchasePrice)*100;
+          NewEcho ("<td>|$livePriceUSD</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".Round($LiveCoinPrice,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".Round($profit,4)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$fee</td>",$_SESSION['isMobile'],0);
