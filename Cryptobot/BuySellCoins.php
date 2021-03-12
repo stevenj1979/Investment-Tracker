@@ -885,7 +885,7 @@ while($completeFlag == False){
               $pctToSave = $pctToSave / 100;
               addProfitToAllocation($userID, $profit,$allocationType, $pctToSave, $coinID);
               logToSQL("Bittrex", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
-              if ((is_null($coinModeRule) OR ($coinModeRule == 0) ){
+              if ((is_null($coinModeRule)) OR ($coinModeRule == 0) ){
                 //Update Buy Rule
                 $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
                 $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
