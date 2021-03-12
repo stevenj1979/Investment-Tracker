@@ -69,8 +69,8 @@ if(isset($_GET['SellNow'])){
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
         echo "<table border=1>";
         NewEcho ("<th>Coin</th><th>Price</th><th>Amount</th>",$_SESSION['isMobile'],2);
-        NewEcho ("<th>Trans ID</th><th>OrderNo</th>",$_SESSION['isMobile'],0);
-        NewEcho ("<th>Sell Rule</th><th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Sell Rule</th>",$_SESSION['isMobile'],0);
+        NewEcho ("<th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Total Rises in Price</th>",$_SESSION['isMobile'],0);
