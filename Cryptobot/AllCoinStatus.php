@@ -240,7 +240,7 @@ function update1Hr_24Hr_7DPct(){
 
 }
 
-function addMarketPriceChangeToSQL($price,$coinID){
+function addBearBullStatsToSQL($price,$coinID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -253,10 +253,26 @@ function addMarketPriceChangeToSQL($price,$coinID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("addMarketPriceChangeToSQL: ".$sql, 'TrackingCoins', 0);
+  logAction("addBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
-function getMarketPrice(){
+function addMarketBearBullStatsToSQL($price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BearBullStats` SET `MarketPriceChange`= $price";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addMarketBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
+}
+
+function getBearBullStats(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -276,14 +292,40 @@ function getMarketPrice(){
   return $tempAry;
 }
 
-function MarketPriceChange(){
-  $marketPrice = getMarketPrice();
-  $marketPriceSize = count($marketPrice);
-  for ($m=0;$m<$marketPriceSize;$m++){
-      $price =  $marketPrice[$m][0] -  $marketPrice[$m][1];
-      $coinID =  $marketPrice[$m][2];
-      addMarketPriceChangeToSQL($price,$coinID);
+function BearBullStats(){
+  $livePriceChange = getBearBullStats();
+  $livePriceChangeSize = count($livePriceChange);
+  for ($m=0;$m<$livePriceChangeSize;$m++){
+      $price =  $livePriceChange[$m][0] -  $livePriceChange[$m][1];
+      $coinID =  $livePriceChange[$m][2];
+      addBearBullStatsToSQL($price,$coinID);
   }
+  $marketStats = getMarketChange();
+  $marketStatsSize = count($marketStats);
+  for ($p=0;$p<$marketStatsSize;$p++){
+    $price = $marketStats[$p][0] - $marketStats[$p][1];
+
+  }
+}
+
+function getMarketChange(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice` FROM `MarketCoinStats`";
+
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 //set time
@@ -347,6 +389,6 @@ echo "EndTime ".date("Y-m-d H:i", time());
 
 //update1Hr_24Hr_7DPct();
 
-MarketPriceChange();
+BearBullStats();
 ?>
 </html>
