@@ -245,7 +245,7 @@ function addMarketPriceChangeToSQL($price,$coinID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call AddMarketPrice($price,$coinID);";
+  $sql = "Call UpdateLastPriceBearBull($coinID,$price);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
