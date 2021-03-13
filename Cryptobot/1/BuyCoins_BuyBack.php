@@ -52,14 +52,15 @@ if (isset($_GET['Mode'])){
 function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   displayHeader(3);
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$ID' tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$symbol' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$ID'  readonly tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$symbol'  readonly tabindex=''>";
   echo "<input type='text' name='' id='' class='' placeholder='' value='$quantity' tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$livePrice' tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$sellPrice' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$livePrice'  readonly tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$sellPrice'  readonly tabindex=''>";
   $priceUSD =  $livePrice * $quantity;
   echo "<input type='text' name='' id='' class='' placeholder='' value='$priceUSD' tabindex=''>";
-  echo "<input type='submit' name='publishHr1' value='+'>";
+  echo "<BR><input type='submit' name='refreshBtn' value='Refresh'>";
+  echo "<BR><input type='submit' name='submitBtn' value='Submit'>";
 
   echo "</FORM>";
 
