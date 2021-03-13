@@ -296,15 +296,17 @@ function BearBullStats(){
   $livePriceChange = getBearBullStats();
   $livePriceChangeSize = count($livePriceChange);
   for ($m=0;$m<$livePriceChangeSize;$m++){
-      $price =  $livePriceChange[$m][0] -  $livePriceChange[$m][1];
+      $price =  $livePriceChange[$m][0] - $livePriceChange[$m][1];
+      $pricePct = ($price/$livePriceChange[$m][1])*100;
       $coinID =  $livePriceChange[$m][2];
-      addBearBullStatsToSQL($price,$coinID);
+      addBearBullStatsToSQL($pricePct,$coinID);
   }
   $marketStats = getMarketChange();
   $marketStatsSize = count($marketStats);
   for ($p=0;$p<$marketStatsSize;$p++){
     $price = $marketStats[$p][0] - $marketStats[$p][1];
-    addMarketBearBullStatsToSQL($price);
+    $pricePct = ($price/$marketStats[$p][1])*100;
+    addMarketBearBullStatsToSQL($pricePct);
   }
 }
 
