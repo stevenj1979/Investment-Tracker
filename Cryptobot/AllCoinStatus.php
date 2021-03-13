@@ -240,12 +240,12 @@ function update1Hr_24Hr_7DPct(){
 
 }
 
-function addMarketPriceChangeToSQL($price){
+function addMarketPriceChangeToSQL($price,$coinID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call AddMarketPrice($price);";
+  $sql = "Call AddMarketPrice($price,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -263,14 +263,14 @@ function getMarketPrice(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `LiveCoinPrice` FROM `MarketCoinStats` ";
+  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice` FROM `MarketCoinStats` ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['LiveCoinPrice']);
+      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinID']);
   }
   $conn->close();
   return $tempAry;
@@ -280,8 +280,9 @@ function MarketPriceChange(){
   $marketPrice = getMarketPrice();
   $marketPriceSize = count($marketPrice);
   for ($m=0;$m<$marketPriceSize;$m++){
-      $price =  $marketPrice[$m][0];
-      addMarketPriceChangeToSQL($price);
+      $price =  $marketPrice[$m][0] -  $marketPrice[$m][1];
+      $coinID =  $marketPrice[$m][2];
+      addMarketPriceChangeToSQL($price,$coinID);
   }
 }
 
