@@ -51,15 +51,41 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $livePrice = $_POST['LivePrice'];
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
-      $newLivePrice = $priceUSD / $quantity;
-      displayEditHTML($ID, $symbol, $quantity,$newLivePrice,$sellPrice);
+      $newQuant = $priceUSD / $livePrice;
+      displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice);
     }elseif (isset($_POST['submitBtn'])){
       echo "<BR>Submit button";
+      $ID = $_POST['ID'];
+      $symbol = $_POST['Symbol'];
+      $quantity = $_POST['Quantity'];
+      $livePrice = $_POST['LivePrice'];
+      $sellPrice = $_POST['SellPrice'];
+      $priceUSD = $_POST['PriceUSD'];
+      writeBuyBackToSQL($ID,$quantity);
+    }elseif (isset($_POST['backBtn'])){
+      header('Location: BuyCoins_BuyBack.php');
     }
   }
 
 }else{
   displayMain();
+}
+
+function writeBuyBackToSQL($ID, $quantity){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyBack` SET `Quantity`= $quantity  WHERE `ID` = $ID ";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeBuyBackToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
 function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
@@ -74,7 +100,7 @@ function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   echo "<input type='text' name='PriceUSD' id='PriceUSD' class='' placeholder='' value='$priceUSD' tabindex=''>";
   echo "<BR><input type='submit' name='refreshBtn' value='Refresh'>";
   echo "<BR><input type='submit' name='submitBtn' value='Submit'>";
-
+  echo "<BR><input type='submit' name='backBtn' value='Back'>";
   echo "</FORM>";
 
   displaySideColumn();
