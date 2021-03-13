@@ -43,7 +43,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
     displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice);
-  }elseif($_POST['Mode'] == 2){
+  }elseif($_GET['Mode'] == 2){
     $ID = $_POST['ID'];
     $symbol = $_POST['Symbol'];
     $quantity = $_POST['Quantity'];
