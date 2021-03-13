@@ -73,7 +73,7 @@ function getSpreadBetAll(){
   , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
   , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
   , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`Hr1BuyEnable`,`Hr1BuyDisable`,`Hr24andD7StartPrice`,`Month6TotalPrice`,`AllTimeTotalPrice`
-  ,`Hr1EnableStartPrice`,`MinsToCancel`,`BuyFallsInPrice`,`SellRaisesInPrice`
+  ,`Hr1EnableStartPrice`,`MinsToCancel`,`BuyFallsInPrice`,`SellRaisesInPrice`,`BullBearStatus`
   FROM `SpreadBetCoinStatsView_ALL`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -84,7 +84,7 @@ function getSpreadBetAll(){
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
       , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['Hr1BuyEnable'], $row['Hr1BuyDisable'], $row['Hr24andD7StartPrice'] //40
-      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice'], $row['Hr1EnableStartPrice'], $row['MinsToCancel'], $row['BuyFallsInPrice'], $row['SellRaisesInPrice']);
+      , $row['Month6TotalPrice'], $row['AllTimeTotalPrice'], $row['Hr1EnableStartPrice'], $row['MinsToCancel'], $row['BuyFallsInPrice'], $row['SellRaisesInPrice'], $row['BullBearStatus']);
   }
   $conn->close();
   return $tempAry;
@@ -196,7 +196,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $hr24andD7StartPrice = $spreadBet[$i][40];
   $month6TotalPrice = $spreadBet[$i][41];
   $allTimTotalPrice = $spreadBet[$i][42]; $userID = $spreadBet[$i][27];
-  $progress = getSBProgress($userID,20);
+  $progress = getSBProgress($userID,20); $bullBearStatus = $spreadBet[$i][47];
   if (!isset($progress)){
     echo "<BR> Progress not set = 0";
     $pctOfTarget = 0;
@@ -205,6 +205,23 @@ for ($i=0;$i<$spreadBetSize;$i++){
     echo "<BR> Progress is set $pctOfTarget";
   }
   $minsToCancel = $spreadBet[$i][44]; $fallsinPrice = $spreadBet[$i][45]; $raisesinPrice = $spreadBet[$i][46];
+  if ($bullBearStatus == 'BEAR'){
+      $hr1BuyDisableSet = $spreadBet[$i][39] / 2;
+      $hr1BuyEnableSet = $spreadBet[$i][43] / 2;
+      $hr24andD7StartPrice =  $spreadBet[$i][40] * 2;
+      $month6TotalPrice = $spreadBet[$i][41] * 2;
+      $allTimTotalPrice = $spreadBet[$i][42] * 2;
+      $minsToCancel = 10;
+      $raisesinPrice = 20;
+  }elseif ($bullBearStatus == 'BULL'){
+      $hr1BuyDisableSet = $spreadBet[$i][39] * 2;
+      $hr1BuyEnableSet = 0.5;
+      $hr24andD7StartPrice =  0.5;
+      $month6TotalPrice = $spreadBet[$i][41] / 2;
+      $allTimTotalPrice = $spreadBet[$i][42] / 2;
+      $minsToCancel = 10080;
+      $raisesinPrice = 2;
+  }
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
 
