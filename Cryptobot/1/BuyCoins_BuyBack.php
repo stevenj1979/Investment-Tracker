@@ -36,7 +36,12 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 if (isset($_GET['Mode'])){
   if ($_GET['Mode'] == 1){
     $ID = $_GET['ID'];
-    echo "<BR> ID is $ID";
+    $symbol = $_GET['Symbol'];
+    $quantity = $_GET['Quantity'];
+    $livePrice = $_GET['LivePrice'];
+    $sellPrice = $_GET['SellPrice'];
+    echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
+    //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
   }
 
 }else{
@@ -241,7 +246,7 @@ function displayMain(){
     Echo "<td></td>";
     Echo "<td></td>";
     echo "</tr><tr>";
-    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID'>Edit</a></td>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA'>Edit</a></td>";
     Echo "<td></td>";
     Echo "<td></td>";
   }//end for
