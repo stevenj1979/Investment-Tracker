@@ -263,7 +263,7 @@ function getMarketPrice(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice` FROM `MarketCoinStats` ";
+  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`CoinID` FROM `MarketCoinStats` ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
