@@ -33,7 +33,7 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 //header('Location: BuyCoins_Mobile.php');
 }
 
-if (isset($_GET['Mode'])){
+if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
   if ($_GET['Mode'] == 1){
     $ID = $_GET['ID'];
     $symbol = $_GET['Symbol'];
@@ -43,6 +43,15 @@ if (isset($_GET['Mode'])){
     //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
     displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice);
+  }elseif($_POST['Mode'] == 2){
+    $ID = $_POST['ID'];
+    $symbol = $_POST['Symbol'];
+    $quantity = $_POST['Quantity'];
+    $livePrice = $_POST['LivePrice'];
+    $sellPrice = $_POST['SellPrice'];
+    $priceUSD = $_POST['PriceUSD'];
+    $newLivePrice = $priceUSD / $quantity;
+    displayEditHTML($ID, $symbol, $quantity,$newLivePrice,$sellPrice);
   }
 
 }else{
@@ -51,14 +60,14 @@ if (isset($_GET['Mode'])){
 
 function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   displayHeader(3);
-  echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$ID'  readonly tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$symbol'  readonly tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$quantity' tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$livePrice'  readonly tabindex=''>";
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$sellPrice'  readonly tabindex=''>";
+  echo "<form action='BuyCoins_BuyBack.php?Mode=2&ID=' method='post'>";
+  echo "<input type='text' name='ID' id='ID' class='' placeholder='' value='$ID' style='color:Gray' readonly tabindex=''>";
+  echo "<input type='text' name='Symbol' id='Symbol' class='' placeholder='' value='$symbol' style='color:Gray' readonly tabindex=''>";
+  echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' tabindex=''>";
+  echo "<input type='text' name='LivePrice' id='LivePrice' class='' placeholder='' value='$livePrice' style='color:Gray' readonly tabindex=''>";
+  echo "<input type='text' name='SellPrice' id='SellPrice' class='' placeholder='' value='$sellPrice' style='color:Gray' readonly tabindex=''>";
   $priceUSD =  $livePrice * $quantity;
-  echo "<input type='text' name='' id='' class='' placeholder='' value='$priceUSD' tabindex=''>";
+  echo "<input type='text' name='PriceUSD' id='PriceUSD' class='' placeholder='' value='$priceUSD' tabindex=''>";
   echo "<BR><input type='submit' name='refreshBtn' value='Refresh'>";
   echo "<BR><input type='submit' name='submitBtn' value='Submit'>";
 
