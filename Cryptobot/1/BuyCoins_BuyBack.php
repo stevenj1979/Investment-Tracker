@@ -33,6 +33,16 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 //header('Location: BuyCoins_Mobile.php');
 }
 
+if (isset($_GET['Mode'])){
+  if ($_GET['Mode'] == 1){
+    $ID = $_GET['ID'];
+    echo "<BR> ID is $ID";
+  }
+
+}else{
+  displayMain();
+}
+
 function getCoinsfromSQL(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -163,84 +173,90 @@ $conn->close();
 return $tempAry;
 }
 
-displayHeader(3);
+function displayMain(){
+  displayHeader(3);
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+  $userID = $_SESSION['ID'];
+  $tracking = getTrackingCoinsLoc($userID);
+  $newArrLength = count($tracking);
+  //echo $newArrLength;
+  //$userConfig = getConfig($_SESSION['ID']);
+  //$user = getUserIDs($_SESSION['ID']);
+  //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
 
-      if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-      $userID = $_SESSION['ID'];
-      $tracking = getTrackingCoinsLoc($userID);
-      $newArrLength = count($tracking);
-      //echo $newArrLength;
-      //$userConfig = getConfig($_SESSION['ID']);
-      //$user = getUserIDs($_SESSION['ID']);
-      //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
+  echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
+  &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
+  //if($_SESSION['isMobile'] == False){
+  //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+  //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
+  //  echo "<TH>&nbsp% Change 1Hr</th>";
+  //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
+  //}
 
-      echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
-      &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
-      //if($_SESSION['isMobile'] == False){
-      //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-      //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
-      //  echo "<TH>&nbsp% Change 1Hr</th>";
-      //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
-      //}
+  //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
+  //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
+  //$roundNum = 2;
+  for($x = 0; $x < $newArrLength; $x++) {
+    //Variables
+    $ID = $tracking[$x][0];
+    $transactionID = $tracking[$x][1];
+    $quantity = $tracking[$x][2];
+    $status = $tracking[$x][4];
+    $spreadBetTransactionID = $tracking[$x][5];
+    $spreadBetRuleID = $tracking[$x][6];
+    $coinID = $tracking[$x][7];
+    $sellPriceBA = $tracking[$x][8];
+    $liveCoinPrice = $tracking[$x][9];
+    $priceDifferece = $tracking[$x][10];
+    $priceDifferecePct = $tracking[$x][11];
+    $originalSaleProfit = $tracking[$x][18];
+    $originalSaleProfitPct = $tracking[$x][19];
+    $noOfRaisesInPrice = $tracking[$x][21];
+    $buyBackPct = $tracking[$x][22];
+    $image = $tracking[$x][23];
+    $symbol = $tracking[$x][24];
+    //Table
+    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
+    Echo "<td>$symbol</td>";
+    Echo "<td></td>";
 
-      //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
-      //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
-      //$roundNum = 2;
-      for($x = 0; $x < $newArrLength; $x++) {
-        //Variables
-        $ID = $tracking[$x][0];
-        $transactionID = $tracking[$x][1];
-        $quantity = $tracking[$x][2];
-        $status = $tracking[$x][4];
-        $spreadBetTransactionID = $tracking[$x][5];
-        $spreadBetRuleID = $tracking[$x][6];
-        $coinID = $tracking[$x][7];
-        $sellPriceBA = $tracking[$x][8];
-        $liveCoinPrice = $tracking[$x][9];
-        $priceDifferece = $tracking[$x][10];
-        $priceDifferecePct = $tracking[$x][11];
-        $originalSaleProfit = $tracking[$x][18];
-        $originalSaleProfitPct = $tracking[$x][19];
-        $noOfRaisesInPrice = $tracking[$x][21];
-        $buyBackPct = $tracking[$x][22];
-        $image = $tracking[$x][23];
-        $symbol = $tracking[$x][24];
-        //Table
-        echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
-        Echo "<td>$symbol</td>";
-        Echo "<td></td>";
+    //$tdColour = setTextColour($Live1HrChange, False);
+    echo "<td>$sellPriceBA</td>";
 
-        //$tdColour = setTextColour($Live1HrChange, False);
-        echo "<td>$sellPriceBA</td>";
+    echo "<td>$quantity</td>";
 
-        echo "<td>$quantity</td>";
-
-        Echo "<td></td>";
-        Echo "<td></td>";
+    Echo "<td></td>";
+    Echo "<td></td>";
 
 
-        echo "</tr><tr>";
-        Echo "<td>$liveCoinPrice</td>";
-        Echo "<td></td>";
-        Echo "<td></td>";
+    echo "</tr><tr>";
+    Echo "<td>$liveCoinPrice</td>";
+    Echo "<td></td>";
+    Echo "<td></td>";
 
-        echo "</tr><tr>";
-        //$numCol = getNumberColour($priceDiff1);
-        Echo "<td>$priceDifferecePct</td>";
-        Echo "<td>$originalSaleProfitPct</td>";
-        Echo "<td></td>";
-        Echo "<td></td>";
-        echo "</tr><tr>";
-        Echo "<td></td>";
-        Echo "<td></td>";
-        Echo "<td></td>";
-      }//end for
-      print_r("</tr></table>");
-      //Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
-      displaySideColumn();
-      //displayMiddleColumn();
-      //displayFarSideColumn();
-      //displayFooter();
+    echo "</tr><tr>";
+    //$numCol = getNumberColour($priceDiff1);
+    Echo "<td>$priceDifferecePct</td>";
+    Echo "<td>$originalSaleProfitPct</td>";
+    Echo "<td></td>";
+    Echo "<td></td>";
+    echo "</tr><tr>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID'>Edit</a></td>";
+    Echo "<td></td>";
+    Echo "<td></td>";
+  }//end for
+  print_r("</tr></table>");
+  //Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+  displaySideColumn();
+  //displayMiddleColumn();
+  //displayFarSideColumn();
+  //displayFooter();
+}
+
+
+
+
+
 
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
