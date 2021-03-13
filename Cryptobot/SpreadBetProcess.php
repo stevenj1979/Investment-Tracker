@@ -215,10 +215,10 @@ for ($i=0;$i<$spreadBetSize;$i++){
       $raisesinPrice = 20;
   }elseif ($bullBearStatus == 'BULL'){
       $hr1BuyDisableSet = $spreadBet[$i][39] * 2;
-      $hr1BuyEnableSet = 0.5;
-      $hr24andD7StartPrice =  0.5;
-      $month6TotalPrice = $spreadBet[$i][41] / 2;
-      $allTimTotalPrice = $spreadBet[$i][42] / 2;
+      $hr1BuyEnableSet = 5;
+      $hr24andD7StartPrice =  10;
+      $month6TotalPrice = 0.5;
+      $allTimTotalPrice = 0.5;
       $minsToCancel = 10080;
       $raisesinPrice = 2;
   }
