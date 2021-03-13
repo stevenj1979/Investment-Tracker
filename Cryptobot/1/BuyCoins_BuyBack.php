@@ -60,7 +60,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
 
 function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   displayHeader(3);
-  echo "<form action='BuyCoins_BuyBack.php?Mode=2&ID=' method='post'>";
+  echo "<form action='BuyCoins_BuyBack.php?Mode=2' method='post'>";
   echo "<input type='text' name='ID' id='ID' class='' placeholder='' value='$ID' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='Symbol' id='Symbol' class='' placeholder='' value='$symbol' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' tabindex=''>";
