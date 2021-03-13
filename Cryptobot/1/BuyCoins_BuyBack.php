@@ -62,6 +62,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
       writeBuyBackToSQL($ID,$quantity);
+      header('Location: BuyCoins_BuyBack.php');
     }elseif (isset($_POST['backBtn'])){
       header('Location: BuyCoins_BuyBack.php');
     }
