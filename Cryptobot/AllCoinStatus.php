@@ -339,6 +339,7 @@ function BearBullStats(){
   for ($p=0;$p<$marketStatsSize;$p++){
     $price = $marketStats[$p][0] - $marketStats[$p][1];
     $pricePct = ($price/$marketStats[$p][1])*100;
+    echo "<BR>Price $price |  $pricePct LivePrice ".$marketStats[$p][0]." | LastPrice ".$marketStats[$p][1]."<BR>";
     addMarketBearBullStatsToSQL($pricePct);
   }
   $historyStats = getHistoryStats();
