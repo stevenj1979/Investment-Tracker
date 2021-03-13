@@ -40,12 +40,28 @@ if (isset($_GET['Mode'])){
     $quantity = $_GET['Quantity'];
     $livePrice = $_GET['LivePrice'];
     $sellPrice = $_GET['SellPrice'];
-    echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
+    //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
+    displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice);
   }
 
 }else{
   displayMain();
+}
+
+function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
+
+  echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$ID' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$symbol' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$quantity' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$livePrice' tabindex=''>";
+  echo "<input type='text' name='' id='' class='' placeholder='' value='$sellPrice' tabindex=''>";
+  echo "<input type='submit' name='publishHr1' value='+'>";
+
+  echo "</FORM>";
+
+
 }
 
 function getCoinsfromSQL(){
