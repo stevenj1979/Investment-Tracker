@@ -44,14 +44,18 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
     displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice);
   }elseif($_GET['Mode'] == 2){
-    $ID = $_POST['ID'];
-    $symbol = $_POST['Symbol'];
-    $quantity = $_POST['Quantity'];
-    $livePrice = $_POST['LivePrice'];
-    $sellPrice = $_POST['SellPrice'];
-    $priceUSD = $_POST['PriceUSD'];
-    $newLivePrice = $priceUSD / $quantity;
-    displayEditHTML($ID, $symbol, $quantity,$newLivePrice,$sellPrice);
+    if (isset($_POST['refreshBtn'])){
+      $ID = $_POST['ID'];
+      $symbol = $_POST['Symbol'];
+      $quantity = $_POST['Quantity'];
+      $livePrice = $_POST['LivePrice'];
+      $sellPrice = $_POST['SellPrice'];
+      $priceUSD = $_POST['PriceUSD'];
+      $newLivePrice = $priceUSD / $quantity;
+      displayEditHTML($ID, $symbol, $quantity,$newLivePrice,$sellPrice);
+    }elseif (isset($_POST['submitBtn'])){
+      echo "<BR>Submit button";
+    }
   }
 
 }else{
