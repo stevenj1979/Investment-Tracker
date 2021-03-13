@@ -272,6 +272,23 @@ function addMarketBearBullStatsToSQL($price){
   logAction("addMarketBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
+function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BearBullStats` SET `OneHrPriceChange`= $hr1Pct, `Twenty4HrPriceChange` = $hr24Pct, `Min15PriceChange`=$min15Pct, `Min30PriceChange`=$min30Pct
+  ,`Min45PriceChange`=$min45Pct, `Min75PriceChange`=$min75Pct, `Days7PriceChange` = $d7Pct where `CoinID` = $coinID ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addHistoryBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
+}
+
 function getBearBullStats(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -292,6 +309,22 @@ function getBearBullStats(){
   return $tempAry;
 }
 
+function getHistoryStats(){
+  $tempAry = [];
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`, `CoinID`, `1HrPrice`, `24HrPrice`, `7DPrice`, `15MinPrice`, `30MinPrice`, `45MinPrice`, `75MinPrice` FROM `PricePctChangeHistory`";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['CoinID'],$row['1HrPrice'],$row['24HrPrice'],$row['7DPrice'],$row['15MinPrice'],$row['30MinPrice'],$row['45MinPrice'],$row['75MinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+
+
 function BearBullStats(){
   $livePriceChange = getBearBullStats();
   $livePriceChangeSize = count($livePriceChange);
@@ -307,6 +340,23 @@ function BearBullStats(){
     $price = $marketStats[$p][0] - $marketStats[$p][1];
     $pricePct = ($price/$marketStats[$p][1])*100;
     addMarketBearBullStatsToSQL($pricePct);
+  }
+  $historyStats = getHistoryStats();
+  $historyStatsSize = count($historyStats);
+  $livePriceAry = getBearBullStats();
+  $livePriceArySize = count($livePriceAry);
+  for ($l=0;$l<$historyStatsSize;$l++){
+      $coinID = $historyStats[$l][1]; $hr1Price = $historyStats[$l][2];$hr24Price = $historyStats[$l][3]; $d7Price = $historyStats[$l][4];
+      $min15Price = $historyStats[$l][5]; $min30Price = $historyStats[$l][6]; $min45Price = $historyStats[$l][7]; $min75Price = $historyStats[$l][8];
+      for ($k=0;$k<$livePriceArySize;$k++){
+          $livePrice = $livePriceAry[$k][0]; $PriceCoinID = $livePriceAry[$k][2];
+          if ($coinID == $PriceCoinID ){
+            $hr1Pct = (($livePrice - $hr1Price)/$hr1Price)*100; $hr24Pct = (($livePrice - $hr24Price)/$hr24Price)*100; $d7Pct = (($livePrice - $d7Price)/$d7Price)*100;
+            $min15Pct = ($livePrice - $min15Price)/$min15Price)*100; $min30Pct = ($livePrice - $min30Price)/$min30Price)*100; $min45Pct = ($livePrice - $min45Price)/$min45Price)*100;
+            $min75Pct = ($livePrice - $min75Price)/$min75Price)*100;
+            addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);
+          }
+      }
   }
 }
 
