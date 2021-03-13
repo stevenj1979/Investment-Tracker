@@ -263,14 +263,14 @@ function getMarketPrice(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`CoinID` FROM `MarketCoinStats` ";
+  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`ID` FROM `CoinStatsView` ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinID']);
+      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['ID']);
   }
   $conn->close();
   return $tempAry;
