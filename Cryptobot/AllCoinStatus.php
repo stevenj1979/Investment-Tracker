@@ -304,7 +304,7 @@ function BearBullStats(){
   $marketStatsSize = count($marketStats);
   for ($p=0;$p<$marketStatsSize;$p++){
     $price = $marketStats[$p][0] - $marketStats[$p][1];
-
+    addMarketBearBullStatsToSQL($price);
   }
 }
 
