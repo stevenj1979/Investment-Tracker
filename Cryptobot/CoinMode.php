@@ -103,7 +103,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       $countForBuyMode = $coinAry[32]; $buyModeCount = $coinAry[33];
       $allTimeHigh =$coinAry[34]; $allTimeLow = $coinAry[35]; $pctOfAllTimeHigh = $coinAry[36]; $bullBearStatus = $coinAry[37];
       $t1 = False; $t2 = False; $t3 = False;
-
+      echo "<BR> BULBEAR MODE = $bullBearStatus";
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
       if ($$bullBearStatus == 'BULL'){ $hr24Target = 10.0;}
@@ -184,7 +184,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $coinModeEmailsEnabled = $coinAry[27]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
         $minsToCancelBuy = $coinAry[28];$coinModeSellRuleEnabled = $coinAry[30]; $bullBearStatus = $coinAry[37];
         $t1 = False; $t2 = False; $t3 = False;
-
+        echo "<BR> BULBEAR MODE = $bullBearStatus";
         //24 Hour price is up
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
         if ($$bullBearStatus == 'BEAR'){ $hr24Target = -10.0;}
