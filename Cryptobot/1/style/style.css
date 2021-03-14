@@ -70,7 +70,8 @@ td{
 }
 
 #rcorners1 {
-  border-radius: 25px;
+  padding: 10px;
+  border-top-left-radius: 25px;
 }
 
 h2 {color:#069;}
