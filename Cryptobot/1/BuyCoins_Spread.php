@@ -213,7 +213,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
 
     $tdColour = setTextColour($Live1HrChange, False);
-    echo "<td $hr1Colour><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
+    echo "<td $hr1Colour><p id='rcorners1'> 1Hr Change: ".$Live1HrChange."</p></td>";
 
     echo "<td></td>";
 
@@ -226,7 +226,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     echo "<td><p id='smallText'>".$coin."</p></td>";
     echo "<td></td>";
     NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
-    NewEcho( "<td $hr24Colour><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+    NewEcho( "<td $hr24Colour><p id='rcorners1'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
     echo "<td><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
     echo "<td><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>";
     echo "<td><p id='normalText'>$new1HrPriceChange</p></td>";
@@ -239,7 +239,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
     echo "<td></td>";
     NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
-    NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+    NewEcho( "<td $d7Colour><p id='rcorners1'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
     echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
     echo "<td></td>";
     echo "<td></td>";
