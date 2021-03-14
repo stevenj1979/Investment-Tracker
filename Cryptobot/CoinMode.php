@@ -106,17 +106,20 @@ function isBuyMode($coinAry, $minBuyAmount){
       echo "<BR> BULBEAR MODE = $bullBearStatus";
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-      if ($$bullBearStatus == 'BULL'){ $hr24Target = 10.0;}
+      if ($$bullBearStatus == 'BULL'){
+        $hr24Target = 10.0;
+        $hr1Top = 10.0;
+        $hr1Btm = 0.0;
+        $d7Target = 10.0;
+      }
       Echo "<BR> 24 Hour Price Test: $pctInc24Hours | $hr24Target";
       if ($pctInc24Hours <= $hr24Target){ $t1 = True;}
       //7Day Price is down
 
       $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
       echo "<BR> TEST 7D Price: $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;";
-      if ($$bullBearStatus == 'BULL'){ $d7Target = 10.0;}
       if ($pctInc7Day <= $d7Target){ $t2 = True;}
       //Average is flat
-      if ($$bullBearStatus == 'BULL'){ $hr1Top = 10.0; $hr1Btm = 0.0;}
       if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
 
       echo "<BR> Checking Buy Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | Avg 1Hr Price: $Hr1AveragePrice | Checking Buy Mode: $t1 | $t2 | $t3 ";
@@ -149,6 +152,11 @@ function isBuyMode($coinAry, $minBuyAmount){
           $newHighPrice = $newProjectedMaxPrice+(($newProjectedMaxPrice/100)*$pctToBuy);
           $newLowPrice = $newProjectedMinPrice-(($newProjectedMinPrice/100)*$pctToBuy);
           $newMinsToCancelBuy = (60 * (1-$pctToBuy))+$minsToCancelBuy;
+          if ($$bullBearStatus == 'BULL'){
+            $buyAmount = $buyPrice;
+            $numOfRisesInPrice = 2;
+            $newMinsToCancelBuy = 10080;
+          }
           WritetoRule($coinID, $ruleID, $newLowPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
           echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
           if ($modeID <> 1){
@@ -187,14 +195,17 @@ function isBuyMode($coinAry, $minBuyAmount){
         echo "<BR> BULBEAR MODE = $bullBearStatus";
         //24 Hour price is up
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-        if ($$bullBearStatus == 'BEAR'){ $hr24Target = -10.0;}
+        if ($$bullBearStatus == 'BEAR'){
+          $hr24Target = -10.0;
+          $d7Target = -10.0;
+          $hr1Top = -10.0;
+          $hr1Btm = -15.0;
+        }
         if ($pctInc24Hours >= $hr24Target){$t1 = True;}
         //7Day Price is Up
         $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
-        if ($$bullBearStatus == 'BEAR'){ $d7Target = -10.0;}
         if ($pctInc7Day >= $d7Target){ $t2 = True;}
         //Average is flat
-        if ($$bullBearStatus == 'BEAR'){ $hr1Top = -10.0; $hr1Btm = -15.0;}
         if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True AND $coinModeSellRuleEnabled == 1){
