@@ -207,7 +207,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     //$image = $tracking[$x][38];
     $enabled = $tracking[$x][35]; $id = $tracking[$x][0]; $buyBear = $tracking[$x][36];
     //Table
-    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></img></a></td>"; //change
+    echo "<table id='t01'><td><a href='Stats.php?coin=$coin'>$name</a></td>"; //change
     echo "<td><p id='largeText'>".$name."</p></td>";
     echo "<td><p id='largeText'>".$bitPrice."</p></td>";
     NewEcho("<td><p id='normalText'>Market Cap: $MarketCap</p></td>",$_SESSION['isMobile'],2);
@@ -215,10 +215,10 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     $tdColour = setTextColour($Live1HrChange, False);
     echo "<td $hr1Colour><p id='normalText'> 1Hr Change: ".$Live1HrChange."</p></td>";
 
-    echo "<td><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
+    echo "<td></td>";
 
-    NewEcho("<td><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
-    NewEcho("<td><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td></td>",$_SESSION['isMobile'],2);
     echo "<td></td>";
 
     echo "</tr><tr>";
@@ -227,10 +227,10 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     echo "<td></td>";
     NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
     NewEcho( "<td $hr24Colour><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
-    echo "<td></td>";
-    echo "<td></td>";
-    echo "<td></td>";
-    echo "<td></td>";
+    echo "<td><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
+    echo "<td><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>";
+    echo "<td><p id='normalText'>$new1HrPriceChange</p></td>";
+    echo "<td>$buyBear</td>";
 
 
     echo "</tr><tr>";
@@ -243,7 +243,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
     echo "<td></td>";
     echo "<td></td>";
-    echo "<td><p id='normalText'>".$buyBear."</p></td>";
+    echo "<td><p id='normalText'></p></td>";
 
     echo "</tr><tr>";
     //Rowspan Cell <td></td>
