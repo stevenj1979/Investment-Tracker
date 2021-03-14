@@ -220,9 +220,7 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
     NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
 
-    NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-    NewEcho("<td rowspan='3'><a href='SpreadBetAlerts.php?alert=5&SBID=$id'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
-    NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+
     echo "</tr><tr>";
     echo "<td><p id='smallText'>".$coin."</p></td>";
     NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
@@ -235,6 +233,11 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
     NewEcho( "<td $d7Colour><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
     echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
     echo "<td><p id='normalText'>".$enabled."</p></td>";
+
+    echo "</tr><tr>";
+    NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td rowspan='3'><a href='SpreadBetAlerts.php?alert=5&SBID=$id'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
+    NewEcho("<td rowspan='3'><a href='ManualBuy.php?track=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-clock' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
   }//end for
   print_r("</tr></table><BR>");
 }
