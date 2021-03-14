@@ -282,26 +282,26 @@ function displayMain(){
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
-    Echo "<td>$buyBackPct %</td>";
+    Echo "<td>".round($buyBackPct,$num)." %</td>";
 
     //$tdColour = setTextColour($Live1HrChange, False);
-    echo "<td>Sell: $sellPriceBA</td>";
+    echo "<td>Sell: ".round($sellPriceBA,$num)."</td>";
 
-    echo "<td>Qty: $quantity</td>";
+    echo "<td>Qty: ".round($quantity,$num)."</td>";
 
     Echo "<td></td>";
     Echo "<td></td>";
 
 
     echo "</tr><tr>";
-    Echo "<td>Live: $liveCoinPrice</td>";
+    Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
     Echo "<td></td>";
     Echo "<td></td>";
 
     echo "</tr><tr>";
     //$numCol = getNumberColour($priceDiff1);
-    Echo "<td>Price Dif: $priceDifferecePct %</td>";
-    Echo "<td>Org: $originalSaleProfitPct</td>";
+    Echo "<td>Price Dif: ".round($priceDifferecePct,$num)." %</td>";
+    Echo "<td>Org: ".round($originalSaleProfitPct,$num)."</td>";
     Echo "<td></td>";
     Echo "<td></td>";
     echo "</tr><tr>";
