@@ -101,19 +101,22 @@ function isBuyMode($coinAry, $minBuyAmount){
       $coinModeEmailsEnabled = $coinAry[23]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
       $minsToCancelBuy = $coinAry[28]; $coinModeBuyRuleEnabled = $coinAry[29];$coinModeSellRuleEnabled = $coinAry[30];
       $countForBuyMode = $coinAry[32]; $buyModeCount = $coinAry[33];
-      $allTimeHigh =$coinAry[34]; $allTimeLow = $coinAry[35]; $pctOfAllTimeHigh = $coinAry[36];
+      $allTimeHigh =$coinAry[34]; $allTimeLow = $coinAry[35]; $pctOfAllTimeHigh = $coinAry[36]; $bullBearStatus = $coinAry[37];
       $t1 = False; $t2 = False; $t3 = False;
 
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
+      if ($$bullBearStatus == 'BULL'){ $hr24Target = 10.0;}
       Echo "<BR> 24 Hour Price Test: $pctInc24Hours | $hr24Target";
       if ($pctInc24Hours <= $hr24Target){ $t1 = True;}
       //7Day Price is down
 
       $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
       echo "<BR> TEST 7D Price: $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;";
+      if ($$bullBearStatus == 'BULL'){ $d7Target = 10.0;}
       if ($pctInc7Day <= $d7Target){ $t2 = True;}
       //Average is flat
+      if ($$bullBearStatus == 'BULL'){ $hr1Top = 10.0; $hr1Btm = 0.0;}
       if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
 
       echo "<BR> Checking Buy Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | Avg 1Hr Price: $Hr1AveragePrice | Checking Buy Mode: $t1 | $t2 | $t3 ";
@@ -179,17 +182,19 @@ function isBuyMode($coinAry, $minBuyAmount){
         $secondarySellRulesAry = explode(',',$coinAry[22]);
         $secondarySellRulesSize = Count($secondarySellRulesAry);
         $coinModeEmailsEnabled = $coinAry[27]; $email = $coinAry[24]; $userName = $coinAry[25]; $symbol = $coinAry[26];
-        $minsToCancelBuy = $coinAry[28];$coinModeSellRuleEnabled = $coinAry[30];
+        $minsToCancelBuy = $coinAry[28];$coinModeSellRuleEnabled = $coinAry[30]; $bullBearStatus = $coinAry[37];
         $t1 = False; $t2 = False; $t3 = False;
 
         //24 Hour price is up
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
+        if ($$bullBearStatus == 'BEAR'){ $hr24Target = -10.0;}
         if ($pctInc24Hours >= $hr24Target){$t1 = True;}
         //7Day Price is Up
         $pctInc7Day = (($livePrice - $D7Price)/$D7Price)*100;
-
+        if ($$bullBearStatus == 'BEAR'){ $d7Target = -10.0;}
         if ($pctInc7Day >= $d7Target){ $t2 = True;}
         //Average is flat
+        if ($$bullBearStatus == 'BEAR'){ $hr1Top = -10.0; $hr1Btm = -15.0;}
         if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
         echo "<BR> Checking Sell Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | 1hourAvgPrice : $Hr1AveragePrice | Checking Sell Mode: $t1 | $t2 | $t3 ";
         if ($t1 == True and $t2 == True and $t3 == True AND $coinModeSellRuleEnabled == 1){
@@ -283,7 +288,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
         ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
         ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
-        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`
+        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`,`BullBearStatus`
         FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
@@ -293,7 +298,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
         ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'],$row['CoinModeEmails'],$row['Email'],$row['UserName'] //25
         ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled'],$row['PctToBuy'],$row['CountToActivateBuyMode'] //32
-        ,$row['BuyModeCount'],$row['AllTimeHighPrice'],$row['AllTimeLowPrice'],$row['PctOfAllTimeHigh']); //33
+        ,$row['BuyModeCount'],$row['AllTimeHighPrice'],$row['AllTimeLowPrice'],$row['PctOfAllTimeHigh'],$row['BullBearStatus']); //33
         }
         $conn->close();
         return $tempAry;
