@@ -30,6 +30,7 @@ if(isset($_GET['Mode'])){
     echo "<BR>SpreadBet Transaction ID: $ID";
     $spreadSellCoins = getSpreadCoinSellData($ID);
     for ($r=0; $r<$spreadSellCoinsSize; $r++){
+      echo "<BR>sellSpreadBetCoins($spreadSellCoins);"
       sellSpreadBetCoins($spreadSellCoins);
     }
   }
