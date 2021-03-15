@@ -61,18 +61,18 @@ function getOpenTransactionsSB(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `ID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID` FROM `SellCoinsSpreadGroupView`";
+    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID FROM `SellCoinsSpreadView`";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID'],$row['SpreadBetRuleID']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID'],$row['SpreadBetRuleID'],$row['TransactionID']);}
     $conn->close();
     return $tempAry;
 }
 
-function subPctFromProfitSB($spreadBetRuleID,$pctToSub){
+function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` - $pctToSub) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` >= 2.0;";
+  $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";
   print_r("<BR>".$sql."<BR>");
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -88,11 +88,12 @@ function subPctFromOpenSpreadBetTransactions(){
 
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][7]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
+    $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0];
     echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID";
     //if ($days >= 3){
       //if ($days % 2 == 0){
-          subPctFromProfitSB($spreadBetRuleID, 0.01);
-          echo "<BR> subPctFromProfitSB($spreadBetRuleID, 0.01);";
+          subPctFromProfitSB($sBTransID, 0.01,$transactionID);
+          echo "<BR> subPctFromProfitSB($sBTransID, 0.01,$transactionID);";
       //}
     //}
   }
