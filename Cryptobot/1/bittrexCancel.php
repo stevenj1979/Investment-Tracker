@@ -49,7 +49,7 @@ if(!empty($_GET['uuid'])){
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell',0);
     Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"]." | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
     if ($orderQty == $orderQtyRemaining) {
-      if ($_GET['type'] == 'Sell'){
+      if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
         Echo "<BR> HERE 4 | ";
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
         bittrexSellCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
@@ -62,7 +62,7 @@ if(!empty($_GET['uuid'])){
         logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell',0);
       }
     }else{
-      if ($_GET['type'] == 'Sell'){
+      if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
         //bittrexCopyTransNewAmount($_GET['transactionID'],$orderQtyRemaining);
         //Update QTY
         //bittrexUpdateSellQty($_GET['transactionID'],$orderQty-$orderQtyRemaining);
