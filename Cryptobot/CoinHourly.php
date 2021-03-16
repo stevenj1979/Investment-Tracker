@@ -69,18 +69,7 @@ function getOpenTransactionsSB(){
     return $tempAry;
 }
 
-function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";
-  print_r("<BR>".$sql."<BR>");
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}
+
 
 function subPctFromOpenSpreadBetTransactions(){
   $openTransSB = getOpenTransactionsSB();

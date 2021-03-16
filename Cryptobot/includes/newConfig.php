@@ -12,7 +12,8 @@ function getBittrexRequests($userID = 0){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`, `Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`RuleID`,`DaysOutstanding`,`timeSinceAction`,`CoinID`,
-  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave` FROM `BittrexOutstandingRequests` WHERE `Status` = '1' $bittrexQueue";
+  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`
+  FROM `BittrexOutstandingRequests` WHERE `Status` = '1' $bittrexQueue";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -20,7 +21,7 @@ function getBittrexRequests($userID = 0){
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['RuleID'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
-    ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave']);
+    ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
   }
   $conn->close();
   return $tempAry;
@@ -4681,5 +4682,18 @@ function CloseAllBuyBack($spreadBetTransactionID){
   }
   $conn->close();
   logAction("CloseAllBuyBack: ".$sql, 'TrackingCoins', 0);
+}
+
+function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";
+  print_r("<BR>".$sql."<BR>");
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
 }
 ?>
