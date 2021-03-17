@@ -177,6 +177,7 @@ $bitPrice = 0.00;
 $apiVersion = 3;
 //echo "<BR> NewTEST: ".diff($date,$newTime);
 $firstTimeFlag = True;
+$timeFlag = False;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
 while($date <= $newTime){
   echo "NEW LOOP ";
