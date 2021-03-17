@@ -312,9 +312,9 @@ while($date <= $newTime){
   $i = $i+1;
   //if ($i >= 2){$historyFlag = False; $marketCapFlag = Flase;}
   $date = date("Y-m-d H:i", time());
-  if (timerReady($history_date,240)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice', $logToFileSetting);}
+  if (timerReady($history_date,240)){$historyFlag=True; $history_date = date('Y-m-d H:i');$timeFlag = False; Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice', $logToFileSetting);}
   if (timerReady($marketCap_date,360)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice', $logToFileSetting);}
-  $timeFlag = False;
+
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
 logAction('CryptoBotAuto End - Number of loops : '.$i,'CoinPrice', $logToFileSetting);
