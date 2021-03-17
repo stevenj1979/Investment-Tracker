@@ -258,6 +258,10 @@ while($date <= $newTime){
     //if ($i == 1){$historyFlag = True;}
     if ($historyFlag ==  True){
       Echo "<BR> History flag Update ";
+      if ($timeFlag == False){
+        $coinPriceHistoryTime = date("Y-m-d H:i:s", time());
+        $timeFlag = True;
+      }
       //copyCoinHistory($coinID);
       copyBuyHistory($coinID);
       copyWebTable($coinID);
@@ -273,7 +277,7 @@ while($date <= $newTime){
       if (empty($Hr1Pct)){ $Hr1Pct = 0;}
       if (empty($Hr24Pct)){ $Hr24Pct = 0;}
       if (empty($D7Pct)){ $D7Pct = 0;}
-      coinPriceHistory($coinID,$bitPrice,$baseCurrency,date("Y-m-d H:i:s", time()),$Hr1Pct,$Hr24Pct,$D7Pct);
+      coinPriceHistory($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime,$Hr1Pct,$Hr24Pct,$D7Pct);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
       //$Hr1Price = get1HrChange($coinID,$Hr1Date);
@@ -308,7 +312,7 @@ while($date <= $newTime){
   $date = date("Y-m-d H:i", time());
   if (timerReady($history_date,240)){$historyFlag=True; $history_date = date('Y-m-d H:i'); Echo "<BR> History Timer ";logAction('Update History Set','CoinPrice', $logToFileSetting);}
   if (timerReady($marketCap_date,360)){$marketCapFlag=True; $marketCap_date = date('Y-m-d H:i'); $marketCapStatsUpdateFlag = True; Echo "<BR> Market Cap Timer "; logAction('Market Cap Update Set','CoinPrice', $logToFileSetting);}
-
+  $timeFlag = False;
 }//while loop
 echo "EndTime ".date("Y-m-d H:i", time());
 logAction('CryptoBotAuto End - Number of loops : '.$i,'CoinPrice', $logToFileSetting);
