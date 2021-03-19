@@ -65,7 +65,7 @@ function showMain(){
           $originalPrice = $tracking[$x][30];
           //TestRules
           Echo "<TR>";
-          $differenceToBuy = $liveCoinPrice - $coinPrice;
+          $differenceToBuy = round($liveCoinPrice - $originalPrice,$num);
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$coinPrice</td>",$_SESSION['isMobile'],2);
