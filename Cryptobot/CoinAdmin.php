@@ -575,7 +575,7 @@ for ($w=0; $w<$coinLowSize; $w++){
   writeLow($coinID,$price);
 }
 
-updateCoinModeBuyPct();
+//updateCoinModeBuyPct();
 updateSpreadBetCoinHistory();
 
 RunSellTrendUpdate();
