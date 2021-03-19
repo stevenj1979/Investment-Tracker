@@ -43,7 +43,7 @@ function showMain(){
         &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
         //if($_SESSION['isMobile'] == False){
 
-          print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspDifference To Buy</th>");
+          print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspDif To Buy</th><TH>&nbspDif To Buy %</th>");
           NewEcho("<TH>&nbspUserName</th><TH>&nbspBuyCoin</th><TH>&nbspSendEmail</th>",$_SESSION['isMobile'],0);
           echo "<TH>&nbspQuantity</th>";
           NewEcho("<TH>&nbspRuleID</th><TH>&nbspBuyType</th>",$_SESSION['isMobile'],0);
@@ -66,10 +66,12 @@ function showMain(){
           //TestRules
           Echo "<TR>";
           $differenceToBuy = round($liveCoinPrice - $originalPrice,$num);
+          $differenceToBuyPct = round($differenceToBuy/$originalPrice,$num);
           NewEcho("<td>$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$coinPrice</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$differenceToBuy</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>$differenceToBuyPct</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$BuyCoin</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>$SendEmail</td>",$_SESSION['isMobile'],0);
