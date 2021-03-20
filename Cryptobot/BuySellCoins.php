@@ -1353,9 +1353,9 @@ while($completeFlag == False){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19];
       if ($bullBearStatus == 'BULL'){
-        $tmpOriginalPriceWithBuffer = (($tmpLiveCoinPrice/100)*1.0)+$tmpLiveCoinPrice;
+        $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
       }else{
-        $tmpOriginalPriceWithBuffer = (($tmpOriginalPrice/100)*1.0)+$tmpOriginalPrice;
+        $tmpOriginalPriceWithBuffer = $tmpOriginalPrice-(($tmpOriginalPrice/100)*1.0);
       }
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,'SpreadBuy',$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $tmpSalePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $minsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,'SpreadBuy',$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);";
