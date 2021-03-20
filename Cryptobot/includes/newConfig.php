@@ -4596,7 +4596,7 @@ function updateSpreadBetTotalProfitBuy($transactionID, $coinPrice, $amount){
 
   $sql = "INSERT INTO `SpreadBetTotalProfit`( `TransactionID`, `SpreadBetTransactionID`, `CoinPrice`, `Amount`)
   VALUES ($transactionID,(SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID),$coinPrice,$amount);";
-
+  logToSQL("BittrexSQL", "$sql", 3, 1);
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

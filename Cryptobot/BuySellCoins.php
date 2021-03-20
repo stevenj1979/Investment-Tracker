@@ -809,7 +809,7 @@ while($completeFlag == False){
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
           //updateAmount $uuid  $resultOrd["result"]["Quantity"]
           updateSQLQuantity($uuid,$orderQty);
-          logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $logToSQLSetting);
+          logToSQL("Bittrex", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice | Type: $type", $userID, $logToSQLSetting);
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
@@ -817,6 +817,7 @@ while($completeFlag == False){
           if ($type == 'SpreadBuy'){
             updateToSpreadSell($transactionID);
             updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);
+            logToSQL("Bittrex", "updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);", $userID, $logToSQLSetting);
           }
           logToSQL("Bittrex", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1);
           //if ($type == "SpreadBuy"){ updateSpreadSell();}
