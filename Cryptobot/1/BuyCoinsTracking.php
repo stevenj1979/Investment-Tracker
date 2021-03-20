@@ -51,9 +51,9 @@ function showMain(){
           NewEcho("<TH>&nbspRuleID</th><TH>&nbspBuyType</th>",$_SESSION['isMobile'],0);
         //}
 
-          NewEcho("<TH>&nbspTimeToCancelMins</th>",$_SESSION['isMobile'],0);
-          NewEcho("<TH>&nbspFixedSellRule</th><TH>&nbspLiveCoinPrice</th>",$_SESSION['isMobile'],2);
-          NewEcho("<TH>&nbspPctProfit</th><TH>&nbspMinutesFromBuy</th><TH>&nbspNoOfRisesInPrice</th><TH>&nbspOriginalPrice</th><tr>",$_SESSION['isMobile'],2);
+          NewEcho("<TH>&nbspTime To Cancel Mins</th>",$_SESSION['isMobile'],0);
+          NewEcho("<TH>&nbspFixed Sell Rule</th><TH>&nbspLive Coin Price</th>",$_SESSION['isMobile'],2);
+          NewEcho("<TH>&nbspPct Profit</th><TH>&nbspMinutes From Buy</th><TH>&nbspNo Of Rises In Price</th><TH>&nbspOriginal Price</th><tr>",$_SESSION['isMobile'],2);
         //$roundNum = 2;
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
