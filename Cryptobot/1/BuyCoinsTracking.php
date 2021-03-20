@@ -43,14 +43,17 @@ function showMain(){
         &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
         //if($_SESSION['isMobile'] == False){
 
-          print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th><TH>&nbspDif To Buy</th><TH>&nbspDif To Buy %</th>");
+          NewEcho("<Table><th>&nbspCoin</th>",$_SESSION['isMobile'],2);
+          NewEcho("<TH>&nbspBase Currency</th>",$_SESSION['isMobile'],0);
+          NewEcho("<TH>&nbspPrice</th><TH>&nbspDif To Buy</th><TH>&nbspDif To Buy %</th>",$_SESSION['isMobile'],2);
           NewEcho("<TH>&nbspUserName</th><TH>&nbspBuyCoin</th><TH>&nbspSendEmail</th>",$_SESSION['isMobile'],0);
-          echo "<TH>&nbspQuantity</th>";
+          NewEcho("<TH>&nbspQuantity</th>",$_SESSION['isMobile'],2);
           NewEcho("<TH>&nbspRuleID</th><TH>&nbspBuyType</th>",$_SESSION['isMobile'],0);
         //}
 
-        echo "<TH>&nbspTimeToCancelMins</th><TH>&nbspFixedSellRule</th>";
-        echo "<TH>&nbspLiveCoinPrice</th><TH>&nbspPctProfit</th><TH>&nbspMinutesFromBuy</th><TH>&nbspNoOfRisesInPrice</th><TH>&nbspOriginalPrice</th><tr>";
+          NewEcho("<TH>&nbspTimeToCancelMins</th>",$_SESSION['isMobile'],0);
+          NewEcho("<TH>&nbspFixedSellRule</th><TH>&nbspLiveCoinPrice</th>",$_SESSION['isMobile'],2);
+          NewEcho("<TH>&nbspPctProfit</th><TH>&nbspMinutesFromBuy</th><TH>&nbspNoOfRisesInPrice</th><TH>&nbspOriginalPrice</th><tr>",$_SESSION['isMobile'],2);
         //$roundNum = 2;
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
