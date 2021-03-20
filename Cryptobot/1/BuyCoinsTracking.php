@@ -72,22 +72,22 @@ function showMain(){
           $differenceToBuyPct = round(($differenceToBuy/$originalPrice)*100,$num);
           NewEcho("<td>&nbsp$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>&nbsp$coinPrice</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".round($coinPrice,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$differenceToBuy</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$differenceToBuyPct</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$BuyCoin</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$SendEmail</td>",$_SESSION['isMobile'],0);
-          NewEcho("<td>&nbsp$BTCAmount</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".round($BTCAmount,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$ruleIDBuy</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$buyType</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$timeToCancelBuyMins</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$SellRuleFixed</td>",$_SESSION['isMobile'],2);
-          NewEcho("<td>&nbsp$liveCoinPrice</td>",$_SESSION['isMobile'],2);
-          NewEcho("<td>&nbsp$pctProfit</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".round($liveCoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".round($pctProfit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$minsFromBuy</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$NoOfRisesInPrice</td>",$_SESSION['isMobile'],2);
-          NewEcho("<td>&nbsp$originalPrice</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".round($originalPrice,$num)."</td>",$_SESSION['isMobile'],2);
 
 
           Echo "</TR>";
