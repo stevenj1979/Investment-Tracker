@@ -221,12 +221,13 @@ for ($i=0;$i<$spreadBetSize;$i++){
       $allTimTotalPrice = 0.5;
       $minsToCancel = 10080;
       $raisesinPrice = 2;
+      $pctOfTarget = 0;
   }
   //1Hr Price Drop below -5% to activate
   //1Hr Price raise above 2% to deactivate
 
   $temp1Hr = ($hr1BuyEnableSet*(1-($pctOfTarget/100)));
-  ECHO "<BR> $hr1BuyEnableSet*$pctOfTarget | $temp1Hr";
+  ECHO "<BR> 1HrBuy Enabled: $hr1BuyEnableSet*$pctOfTarget | $temp1Hr";
   write1HrEnablePrice($temp1Hr, $SBRuleID);
   if ($Live1HrChange < $temp1Hr){
     toggleSBRule($SBRuleID,1);
