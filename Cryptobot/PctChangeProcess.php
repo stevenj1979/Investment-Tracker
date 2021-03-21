@@ -69,13 +69,13 @@ order by `PriceHistory`.`CoinID` desc ";
 }
 
 
-function writePctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min){
+function writePctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min,$price48Hr){
   $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call AddPctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min);";
+  $sql = "call AddPctPrices($coinID, $price1Hr, $price24Hr, $price7D, $price15Min, $price30Min, $price45Min, $price75Min, $price48Hr);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -169,6 +169,14 @@ for ($i=0; $i<$coinCount; $i++){
       $price24Hr = $Hr24Price[0][1];
     }
 
+    $Hr48Price = getPrice($coinID, 2870, 2890);
+    if (is_null($Hr48Price[0][1]) OR $Hr48Price[0][1] == 0){
+      echo "<BR> IS NULL";
+      $price48Hr = getCMCPriceFromSQL($coinID, '48HrPrice');
+    }else{
+      $price48Hr = $Hr48Price[0][1];
+    }
+
     $D7Price = getPrice($coinID, 10000, 10500);
     if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL";
@@ -190,7 +198,7 @@ for ($i=0; $i<$coinCount; $i++){
     $price75Min = $Min75Price[0][1];
 
     //Write to PricePctChangeHistory
-    writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min);
+    writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min,$price48Hr);
     echo "<BR> write1HrPrice($coinID, $price1Hr, $price24Hr, $price7D);";
 }
 
