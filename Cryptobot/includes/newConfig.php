@@ -4626,6 +4626,27 @@ function updateSpreadBetTotalProfitSell($transactionID,$salePrice){
   logAction("updateSpreadBetTotalProfitSell: ".$sql, 'TrackingCoins', 0);
 }
 
+function updateSpreadBetSellTarget($transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `SpreadBetSellTarget`( `TransactionID`, `SBTransactionID`, `SellPct`)
+  VALUES ($transactionID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = $transactionID )
+  ,(SELECT`PctProfitSell` FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
+  logToSQL("BittrexSQL", "$sql", 3, 1);
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetSellTarget: ".$sql, 'TrackingCoins', 0);
+}
+
 function deleteSpreadBetTotalProfit($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
