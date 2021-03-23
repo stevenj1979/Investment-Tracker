@@ -69,7 +69,7 @@ function showMain(){
           //TestRules
           Echo "<TR>";
           $differenceToBuy = round($liveCoinPrice - $originalPrice,$num);
-          $differenceToBuyPct = round(($differenceToBuy/$originalPrice)*100,$num);
+          $differenceToBuyPct = round(1-($differenceToBuy/$originalPrice)*100,$num);
           NewEcho("<td>&nbsp$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp".round($coinPrice,$num)."</td>",$_SESSION['isMobile'],2);
