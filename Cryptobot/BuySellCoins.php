@@ -1193,8 +1193,8 @@ while($completeFlag == False){
         }
       }
       //GetCoinData
-      echo "<BR> getSpreadCoinData($spreadBetTransID); ";
-      $spreadCoins = getSpreadCoinData($spreadBetTransID);
+      echo "<BR> getSpreadCoinData($ID); ";
+      $spreadCoins = getSpreadCoinData($ID);
       $spreadCoinsSize = count($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
