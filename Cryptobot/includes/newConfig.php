@@ -2797,7 +2797,7 @@ function getNewTrackingCoins($userID = 0){
   $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
     ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
-    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`
+    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`
     FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -2807,7 +2807,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['BuyCoin'],$row['Quantity'],$row['RuleIDBuy'],$row['CoinSellOffsetPct'],$row['CoinSellOffsetEnabled'],$row['BuyType'],$row['MinsToCancelBuy'],$row['SellRuleFixed'],$row['APIKey'],$row['APISecret'] //19
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
-    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID']);
+    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount']);
   }
   $conn->close();
   return $tempAry;
@@ -4265,7 +4265,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID){
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount){
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
@@ -4274,7 +4274,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if ($minsFromDate < 5){
       return False;
   }
-  if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice)){
+  if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice) OR ($quickBuyCount >= 3)){
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
     logToSQL("trackingCoinReadyToBuy", "OPT 2 : $minsFromDate| $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
@@ -4283,6 +4283,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   }
   if($currentPrice <= $swingPrice){
     logToSQL("trackingCoinReadyToBuy", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1);
+    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
     setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
@@ -4290,6 +4291,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   //if liveprice is greater than or less than, reset to 0
   if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
+    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, 0);
     setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
@@ -4302,6 +4304,24 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   setLastPrice($livePrice,$trackingID, 'Buy');
+}
+
+function updateQuickBuyCount($trackingID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `TrackingCoins` SET `quickBuyCount`= (`quickBuyCount` +1) WHERE `ID` = $trackingID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateQuickBuyCount: ".$sql, 'BuyCoin', 0);
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID){
