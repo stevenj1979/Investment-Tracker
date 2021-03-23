@@ -3129,7 +3129,7 @@ function getNewTrackingSellCoins($userID = 0){
   , (`LiveSellPrice`-`OriginalPurchasePrice`)/ `OriginalPurchasePrice` * 100 as `PctProfit`
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
-  ,TIMESTAMPDIFF(MINUTE, `TrackStartDate`, Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount
+  ,TIMESTAMPDIFF(MINUTE, `TrackStartDate`, Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`
   FROM `TrackingSellCoinView`$whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -3139,7 +3139,7 @@ function getNewTrackingSellCoins($userID = 0){
     $tempAry[] = Array($row['CoinPrice'],$row['TrackDate'],$row['UserID'],$row['NoOfRisesInPrice'],$row['TransactionID'],$row['BuyRule'],$row['FixSellRule'],$row['OrderNo'],$row['Amount'] //8
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
-    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount']);
+    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID']);
   }
   $conn->close();
   return $tempAry;
@@ -4304,7 +4304,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   setLastPrice($livePrice,$trackingID, 'Buy');
 }
 
-function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
+function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID){
     $swingPrice = (($livePrice/100)*0.25);
     $currentPrice = abs($livePrice-$lastPrice);
     //$bottomPrice = $livePrice-$swingPrice;
@@ -4325,26 +4325,26 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     if($currentPrice <= $swingPrice){
       //: OPT 3
       logToSQL("trackingCoinReadyToSell", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1);
-      updateNoOfRisesInSellPrice($TransactionID, $NoOfRisesInPrice+1, $livePrice);
-      setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
+      updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);
+      setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       return False;
     }
     //if liveprice is greater than or less than, reset to 0
     if ($currentPrice > $swingPrice){  //OR ($currentPrice < $swingPrice)
       // : OPT 4
       //logToSQL("trackingCoinReadyToSell", "OPT 4 Current: $currentPrice | Swing: $swingPrice | Live: $livePrice | Sell: $sellPrice - RESET TO 0 ", 3, 1);
-      updateNoOfRisesInSellPrice($TransactionID, 0, $livePrice);
-      setNewTrackingPrice($livePrice, $TransactionID, 'Sell');
+      updateNoOfRisesInSellPrice($trackingSellID, 0, $livePrice);
+      setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       return False;
     }
     if (($type == 'Sell' && $pctProfit < -3) OR ($type == 'Sell' && $pctProfit > 3)){
       //Cancel Transaction : OPT 5
       logToSQL("trackingCoinReadyToSell", "OPT 5 : $type | $pctProfit", 3, 1);
       reopenTransaction($TransactionID);
-      closeNewTrackingSellCoin($TransactionID);
+      closeNewTrackingSellCoin($trackingSellID);
       return False;
     }
-    setLastPrice($livePrice,$TransactionID, 'Sell');
+    setLastPrice($livePrice,$trackingSellID, 'Sell');
 }
 
 function getSpreadBetCount($SBTransID){
