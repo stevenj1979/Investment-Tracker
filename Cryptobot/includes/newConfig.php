@@ -2797,7 +2797,7 @@ function getNewTrackingCoins($userID = 0){
   $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
     ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
-    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`
+    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`CoinMode`,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`
     FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -2806,8 +2806,8 @@ function getNewTrackingCoins($userID = 0){
     $tempAry[] = Array($row['CoinID'],$row['CoinPrice'],$row['TrackDate'],$row['Symbol'],$row['LiveCoinPrice'],$row['PriceDifference'],$row['PctDifference'],$row['UserID'],$row['BaseCurrency'],$row['SendEmail'] //9
     ,$row['BuyCoin'],$row['Quantity'],$row['RuleIDBuy'],$row['CoinSellOffsetPct'],$row['CoinSellOffsetEnabled'],$row['BuyType'],$row['MinsToCancelBuy'],$row['SellRuleFixed'],$row['APIKey'],$row['APISecret'] //19
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
-    ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled']
-    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID']);
+    ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
+    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID']);
   }
   $conn->close();
   return $tempAry;
@@ -4265,7 +4265,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID){
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
@@ -4278,30 +4278,30 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
     logToSQL("trackingCoinReadyToBuy", "OPT 2 : $minsFromDate| $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
-    reopenTransaction($TransactionID);
+    //reopenTransaction($TransactionID);
     return True;
   }
   if($currentPrice <= $swingPrice){
     logToSQL("trackingCoinReadyToBuy", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1);
-    updateNoOfRisesInPrice($TransactionID, $NoOfRisesInPrice+1);
-    setNewTrackingPrice($livePrice, $TransactionID, 'Buy');
+    updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
+    setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
   if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
-    updateNoOfRisesInPrice($TransactionID, 0);
-    setNewTrackingPrice($livePrice, $TransactionID, 'Buy');
+    updateNoOfRisesInPrice($trackingID, 0);
+    setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
   }
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
     //Cancel Transaction
     logToSQL("trackingCoinReadyToBuy", "OPT 5 : $type | $pctProfit", 3, 1);
-    reopenTransaction($TransactionID);
-    closeNewTrackingCoin($TransactionID, True);
+    //reopenTransaction($TransactionID);
+    closeNewTrackingCoin($trackingID, True);
     return False;
   }
-  setLastPrice($livePrice,$TransactionID, 'Buy');
+  setLastPrice($livePrice,$trackingID, 'Buy');
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice){
