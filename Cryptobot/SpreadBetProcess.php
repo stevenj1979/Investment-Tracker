@@ -205,15 +205,15 @@ for ($i=0;$i<$spreadBetSize;$i++){
     echo "<BR> Progress is set $pctOfTarget";
   }
   $minsToCancel = $spreadBet[$i][44]; $fallsinPrice = $spreadBet[$i][45]; $raisesinPrice = $spreadBet[$i][46];
-  if ($bullBearStatus == 'BEAR'){
-      $hr1BuyDisableSet = $spreadBet[$i][39] / 2;
-      $hr1BuyEnableSet = $spreadBet[$i][43] / 2;
-      $hr24andD7StartPrice =  $spreadBet[$i][40] * 2;
-      $month6TotalPrice = $spreadBet[$i][41] * 2;
-      $allTimTotalPrice = $spreadBet[$i][42] * 2;
-      $minsToCancel = 10;
-      $raisesinPrice = 20;
-  }elseif ($bullBearStatus == 'BULL'){
+  //if ($bullBearStatus == 'BEAR'){
+  //    $hr1BuyDisableSet = $spreadBet[$i][39] / 2;
+  //    $hr1BuyEnableSet = $spreadBet[$i][43] / 2;
+  //    $hr24andD7StartPrice =  $spreadBet[$i][40] * 2;
+  //    $month6TotalPrice = $spreadBet[$i][41] * 2;
+  //    $allTimTotalPrice = $spreadBet[$i][42] * 2;
+  //    $minsToCancel = 10;
+  //    $raisesinPrice = 20;
+  if ($bullBearStatus == 'BULL'){
       $hr1BuyDisableSet = $spreadBet[$i][39] * 2;
       $hr1BuyEnableSet = 10;
       $hr24andD7StartPrice =  10;
