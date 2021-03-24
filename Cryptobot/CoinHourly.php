@@ -215,5 +215,6 @@ subPctFromOpenSpreadBetTransactions();
 subPctFromOpenCoinModeTransactions();
 addToBuyBackMultiplierHourly();
 updateSellPricetoBuyBack();
+UpdateSpreadBetTotalProfit();
 ?>
 </html>
