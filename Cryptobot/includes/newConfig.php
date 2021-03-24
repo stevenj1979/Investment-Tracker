@@ -4283,7 +4283,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   }
   if($currentPrice <= $swingPrice){
     logToSQL("trackingCoinReadyToBuy", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1);
-    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}
+    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
     setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
@@ -4291,7 +4291,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   //if liveprice is greater than or less than, reset to 0
   if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
-    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}
+    if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, 0);
     setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
@@ -4304,6 +4304,24 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   setLastPrice($livePrice,$trackingID, 'Buy');
+}
+
+function resetQuickBuyCount($trackingID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `TrackingCoins` SET `quickBuyCount`= 0 WHERE `ID` = $trackingID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("resetQuickBuyCount: ".$sql, 'BuyCoin', 0);
 }
 
 function updateQuickBuyCount($trackingID){

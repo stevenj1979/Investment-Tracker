@@ -817,7 +817,9 @@ while($completeFlag == False){
           updateBuyAmount($transactionID,$resultOrd['quantity']);
           if ($type == 'SpreadBuy'){
             updateToSpreadSell($transactionID);
+            logToSQL("Bittrex", "updateToSpreadSell($transactionID);", $userID, $logToSQLSetting);
             updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);
+            logToSQL("Bittrex", "updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);", $userID, $logToSQLSetting);
             updateSpreadBetSellTarget($transactionID);
             logToSQL("Bittrex", "updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);", $userID, $logToSQLSetting);
           }
