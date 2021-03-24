@@ -52,10 +52,18 @@ function getPrice($coinID, $t1, $t2){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
+  //$sql2 = "select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price` from `PriceHistory`
+//where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t1 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t2 minute))) and `CoinID` = $coinID
+//group by `PriceHistory`.`CoinID`
+//order by `PriceHistory`.`CoinID` desc ";
+
   $sql = "select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price` from `PriceHistory`
-where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t1 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval $t2 minute))) and `CoinID` = $coinID
-group by `PriceHistory`.`CoinID`
-order by `PriceHistory`.`CoinID` desc ";
+          where `PriceHistory`.`PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate`
+          WHERE `PriceDateTime` < ((select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`) - interval $t1 minute)
+          and  `PriceDateTime` > ((select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`) - interval $t2 minute))
+          and `CoinID` = $coinID
+          group by `PriceHistory`.`CoinID`
+          order by `PriceHistory`.`CoinID` desc ";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
