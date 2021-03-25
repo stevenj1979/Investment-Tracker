@@ -1207,7 +1207,7 @@ while($completeFlag == False){
         $spreadBetToBuy = getCoinAllocation($UserID);
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize))*$inverseAvgHighPct;
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
-        if ($BTCAmount < 10){ ECHO "<BR> EXIT: $BTCAmount"; continue;}
+        if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: $spreadBetToBuy | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       }else{ ECHO "<BR> EXIT: $openCoinsSize | $totalNoOfBuys | $availableTrans"; continue;}
