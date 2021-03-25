@@ -248,7 +248,7 @@ $date = date('Y/m/d H:i:s', time());
             //Top Line
             echo "<table><td rowspan='4'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$spreadBetRuleID</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".round($priceDiff1,$roundVar)."</p></td>";
+            echo "<td rowspan='2'><p id='largeText' >".round($profit,$roundVar)."</p></td>";
             NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,$roundVar)."</p></td>";
