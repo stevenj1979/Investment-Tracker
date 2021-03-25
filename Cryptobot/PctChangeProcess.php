@@ -185,7 +185,7 @@ for ($i=0; $i<$coinCount; $i++){
       $price48Hr = $Hr48Price[0][1];
     }
 
-    $Hr72Price = getPrice($coinID, 2870, 2890);
+    $Hr72Price = getPrice($coinID, 4310, 4330);
     if (is_null($Hr72Price[0][1]) OR $Hr72Price[0][1] == 0){
       echo "<BR> IS NULL";
       $price72Hr = getCMCPriceFromSQL($coinID, '48HrPrice');
