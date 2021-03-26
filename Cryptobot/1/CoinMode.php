@@ -49,7 +49,7 @@ function textColour($nText,$nTop, $nBttm, $flag){
 
 displayHeader(10);
 
-        if ($_SESSION['isMobile']){ $num = 1; $fontSize = "font-size:60px"; }else{$num = 3;$fontSize = "font-size:32px"; }
+        if ($_SESSION['isMobile']){ $num = 3; $fontSize = "font-size:60px"; }else{$num = 6;$fontSize = "font-size:32px"; }
 				$tracking = getCoinMode($_SESSION['ID']);
 				$newArrLength = count($tracking);
         echo "<TABLE><TH>Symbol</TH><TH>Mode</TH><TH>Buy Rule</TH><TH>Sell Rule</TH><TH>Secondary Sell Rules</TH><TH>1 Hr Avg Price</TH><TH>24 Hr Avg Price</TH><TH>7 Day Avg Price</TH>";
