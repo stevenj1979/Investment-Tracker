@@ -3191,7 +3191,7 @@ function updateNoOfRisesInSellPrice($newTrackingCoinID, $num, $price){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num, `CoinPrice` = $price WHERE `TransactionID` = $newTrackingCoinID ";
+  $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num, `CoinPrice` = $price WHERE `ID` = $newTrackingCoinID ";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
