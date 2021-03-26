@@ -3153,7 +3153,7 @@ function closeNewTrackingSellCoin($ID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `TransactionID` = $ID";
+  $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `ID` = $ID";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
