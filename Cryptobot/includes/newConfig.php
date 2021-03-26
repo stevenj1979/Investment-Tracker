@@ -4065,9 +4065,13 @@ function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct, $coinID
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
 }
 
-function getOpenSpreadCoins($userID){
+function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
+  $whereClause = "";
+  if ($spreadBetRuleID <> 0){
+    $whereClause = " and `Tr`.`SpreadBetRuleID` = $spreadBetRuleID";
+  }
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
@@ -4077,7 +4081,7 @@ function getOpenSpreadCoins($userID){
 
   $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, `Tr`.`UserID` , count( DISTINCT `Tr`.`SpreadBetTransactionID`) as countOfTransactions
 FROM `Transaction` `Tr`
-    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID
+    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
     group by `Tr`.`SpreadBetRuleID` ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -4226,25 +4230,45 @@ function updateSpreadBetPctAmount($spreadBetRuleID){
   logAction("updateSpreadBetPctAmount: ".$sql, 'BuyCoin', 0);
 }
 
-function checkOpenSpreadBet($userID){
+function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `SpreadBetTransactions` SET `TotalAmountToBuy`= $nPrice WHERE `SpreadBetRuleID` = $spreadBetRuleID and `TotalAmountToBuy` = 0.00";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSpreadBetTransactionAmount: ".$sql, 'BuyCoin', 0);
+}
+
+function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
-  //$whereClause = "";
-  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  $whereClause = "";
+  if ($spreadBetRuleID <> 0){ $whereClause = " and `Tr`.`SpreadBetRuleID` = $spreadBetRuleID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID FROM `Transaction` `Tr`
-    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID
+  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`
+    FROM `Transaction` `Tr`
+    join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
     group by `Tr`.`SpreadBetRuleID` ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetRuleID']);
+      $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy']);
   }
   $conn->close();
   return $tempAry;
