@@ -94,7 +94,7 @@ function isBuyMode($coinAry, $minBuyAmount){
   //$coinArySize = Count($coinAry);
   //for ($i=0; $i<$coinArySize; $i++){
       $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6];
-      $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleID = $coinAry[1];
+      $Hr1AveragePrice = $coinAry[38]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleID = $coinAry[1];
       $buyPrice = $coinAry[9]; $livePrice = $coinAry[10]; $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13];
       $ruleIDSell = $coinAry[8]; $userID = $coinAry[14]; $modeID = $coinAry[15];
       $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[18]; $d7Target = $coinAry[20];
@@ -183,7 +183,7 @@ function isBuyMode($coinAry, $minBuyAmount){
     //$coinArySize = Count($coinAry);
   //  for ($i=0; $i<$coinArySize; $i++){
         $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6]; $livePrice = $coinAry[10];
-        $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
+        $Hr1AveragePrice = $coinAry[38]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
         $projectedMaxPrice = $coinAry[12]; $projectedMinPrice = $coinAry[13]; $ruleID = $coinAry[1];
         $userID = $coinAry[14]; $modeID = $coinAry[15];
         $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24Target = $coinAry[18]; $d7Target = $coinAry[20];
@@ -249,7 +249,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       //$coinArySize = Count($coinAry);
       //for ($i=0; $i<$coinArySize; $i++){
           $coinID = $coinAry[0]; $Hr24Price = $coinAry[4]; $D7Price = $coinAry[6]; $symbol = $coinAry[26];
-          $Hr1AveragePrice = $coinAry[11]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
+          $Hr1AveragePrice = $coinAry[38]; $month6HighPrice = $coinAry[2]; $month6LowPrice = $coinAry[3]; $ruleIDSell = $coinAry[8];
           $ruleID = $coinAry[1]; $livePrice = $coinAry[10];
           $userID = $coinAry[14]; $modeID = $coinAry[15];
           $hr1Top = $coinAry[16]; $hr1Btm = $coinAry[17]; $hr24TargetTop = $coinAry[18]; $hr24TargetBtm = $coinAry[19]; $d7TargetTop = $coinAry[20]; $d7TargetBtm = $coinAry[21];
@@ -299,7 +299,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
         ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
         ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
-        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`,`BullBearStatus`
+        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`,`BullBearStatus`,`1HrChange`
         FROM `CoinModePricesView`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
@@ -309,7 +309,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           ,$row['RuleIDSell'],$row['USDBuyAmount'],$row['LiveCoinPrice'],$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'] //15
         ,$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'],$row['CoinModeEmails'],$row['Email'],$row['UserName'] //25
         ,$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['CoinModeBuyRuleEnabled'],$row['CoinModeSellRuleEnabled'],$row['PctToBuy'],$row['CountToActivateBuyMode'] //32
-        ,$row['BuyModeCount'],$row['AllTimeHighPrice'],$row['AllTimeLowPrice'],$row['PctOfAllTimeHigh'],$row['BullBearStatus']); //33
+        ,$row['BuyModeCount'],$row['AllTimeHighPrice'],$row['AllTimeLowPrice'],$row['PctOfAllTimeHigh'],$row['BullBearStatus'],$row['1HrChange']); //33
         }
         $conn->close();
         return $tempAry;
