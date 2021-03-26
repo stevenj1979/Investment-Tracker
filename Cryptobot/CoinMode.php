@@ -122,7 +122,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       //Average is flat
       if ($Hr1AveragePrice <= $hr1Top and $Hr1AveragePrice >= $hr1Btm){ $t3 = True;}
 
-      echo "<BR> Checking Buy Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours | 7DayPrice: $pctInc7Day | Avg 1Hr Price: $Hr1AveragePrice | Checking Buy Mode: $t1 | $t2 | $t3 ";
+      echo "<BR> Checking Buy Mode: $symbol ($coinID) | 24HourPrice: $pctInc24Hours/$hr24Target | 7DayPrice: $pctInc7Day/$d7Target | Avg 1Hr Price: $Hr1AveragePrice/$hr1Top-$hr1Btm | Checking Buy Mode: $t1 | $t2 | $t3 ";
       if ($t1 == True and $t2 == True and $t3 == True){
         //Calculate Buy Price
         if ($livePrice < $month6LowPrice){ $new6MonthLowPrice = $livePrice;} else {$new6MonthLowPrice = $month6LowPrice; }
@@ -158,7 +158,7 @@ function isBuyMode($coinAry, $minBuyAmount){
             $newMinsToCancelBuy = 10080;
           }
           WritetoRule($coinID, $ruleID, $newLowPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
-          echo "<BR>WritetoRule($coinID, $ruleID, $newHighPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled);";
+          echo "<BR>WritetoRule($coinID, $ruleID, $newLowPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);";
           if ($modeID <> 1){
             logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
             if ($coinModeEmailsEnabled == 1){
