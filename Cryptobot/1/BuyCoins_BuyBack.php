@@ -32,7 +32,7 @@ if ($_SESSION['MobOverride'] == True){$_SESSION['MobOverride'] = False;}
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 //header('Location: BuyCoins_Mobile.php');
 }
-echo "<BR> TESTING: ".$_GET['Mode']." | ".$_POST['Mode'];
+//echo "<BR> TESTING: ".$_GET['Mode']." | ".$_POST['Mode'];
 if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
   if ($_GET['Mode'] == 1){
     $ID = $_GET['ID'];
