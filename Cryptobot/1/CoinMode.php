@@ -60,7 +60,7 @@ displayHeader(10);
           $symbol = $tracking[$x][36]; $coinMode = $tracking[$x][25]; $buyRule = $tracking[$x][0]; $sellRule = $tracking[$x][19];
           $secondarySellRules = $tracking[$x][32];$livePrice = $tracking[$x][2]; $Hr24Price = $tracking[$x][15];$D7Price= $tracking[$x][17];
           $month6LowPrice = $tracking[$x][4]; $month6HighPrice = $tracking[$x][3];
-          $Hr1AveragePrice = round($tracking[$x][21],$num);
+          $Hr1AveragePrice = round($tracking[$x][41],$num);
           $pctOfProfitToSell = $tracking[$x][39]; $pctOfAllTimeHigh = $tracking[$x][40];
           //Calculations
           $pctInc24Hours = round((($livePrice - $Hr24Price)/$Hr24Price)*100,$num);
