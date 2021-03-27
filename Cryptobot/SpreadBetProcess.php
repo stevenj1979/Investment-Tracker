@@ -341,6 +341,7 @@ function renewSpreadBetTransactionID(){
       newSpreadTransactionID($userID,$sBRuleID);
       //Reassign Open to new ID
       updateSBTransactionsToNew($sBRuleID,$sBTransID);
+      
     }
   }
 }
