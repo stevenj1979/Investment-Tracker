@@ -1206,8 +1206,11 @@ while($completeFlag == False){
       //How much to buy
       $openCoins = checkOpenSpreadBet($UserID,$ID);
       $openCoinsSize = count($openCoins);
+      $purchasePrice = $openCoins[0][1]; $totalAmountToBuy = $openCoins[0][2];
+      $savedBTCAmount = $openCoins[0][3];
       $loopNum = 0;
       $availableTrans = $totalNoOfBuys - $openCoinsSize;
+      Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy"; 
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize))*$inverseAvgHighPct;
@@ -1215,9 +1218,7 @@ while($completeFlag == False){
         if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: ".$spreadBetToBuy[0][0]." | Div Alloc: $divideAllocation | inv pct: $inverseAvgHighPct | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
-      }elseif ($openCoins[0][1] < $openCoins[0][2]) {
-        $purchasePrice = $openCoins[0][1]; $totalAmountToBuy = $openCoins[0][2];
-        $savedBTCAmount = $openCoins[0][3];
+      }elseif ($purchasePrice < $totalAmountToBuy) {
         $buyPerCoin =  $totalAmountToBuy - $purchasePrice;
         $noOfLoops = floor($buyPerCoin/$savedBTCAmount);
         $BTCAmount = $buyPerCoin /$noOfLoops;
