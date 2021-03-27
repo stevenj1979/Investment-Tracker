@@ -166,6 +166,27 @@ function writeRaisesinPrice($raises, $SBRuleID){
   logAction("writeFallsinPrice: ".$sql, 'BuyCoin', 0);
 }
 
+function updateSBTransactionsToNew($sBRuleID,$sBTransID ){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "UPDATE `Transaction` SET `SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = $sBRuleID) where `SpreadBetTransactionID` = $sBTransID
+    and `Status` in ('Open','Pending')";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSBTransactionsToNew: ".$sql, 'BuyCoin', 0);
+}
+
+
 function getSBProgress($userID, $target){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -183,6 +204,145 @@ function getSBProgress($userID, $target){
   }
   $conn->close();
   return $tempAry;
+}
+
+function getSpreadBetTransactionID(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Sbt`.`ID`,`Sbt`.`SpreadBetRuleID`, `Sbt`.`TotalAmountToBuy`, `Sbt`.`AmountPerCoin`, `Sbr`.`UserID`
+          FROM `SpreadBetTransactions` `Sbt`
+          join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Sbt`.`SpreadBetRuleID`";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['SpreadBetRuleID'],$row['TotalAmountToBuy'],$row['AmountPerCoin'],$row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSpreadBetTotalProfit($spreadBetTransID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT sum(`SalePrice`*`Amount`) as TotalProfit  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID  and `Status` = 'Sold' ";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['TotalProfit']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSpreadBetPurchasePrice($spreadBetTransID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT sum(`CoinPrice`*`Amount`) as PurchasePrice  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['PurchasePrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSpreadBetLivePrice($spreadBetTransID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT sum(`LiveCoinPrice`*`Amount`) as LivePrice  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID  and `Status` in ('Open','Pending')";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['LivePrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSpreadBetOpenTrans($spreadBetTransID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT count(`TransactionID`) as OpenTransactions  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID  and `Status` in ('Open','Pending')";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['OpenTransactions']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getSpreadBetTargetSellPct($spreadBetRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `PctProfitSell` FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = $spreadBetRuleID ";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['PctProfitSell']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function renewSpreadBetTransactionID(){
+  $SBTrans = getSpreadBetTransactionID();
+  $SBTransSize = count($SBTrans);
+  for ($c=0; $c<$SBTransSize; $c++){
+    $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][1]; $totalAmountToBuy = $SBTrans[$c][2]; $amountPerCoin = $SBTrans[$c][3]; $userID = $SBTrans[$c][4];
+    $SBOpenTotalProfit = getSpreadBetTotalProfit($sBTransID);
+    $SBPurchasePrice = getSpreadBetPurchasePrice($sBTransID);
+    //$SBLivePrice = getSpreadBetLivePrice($sBTransID);
+    //$SBOpenTransactions = getSpreadBetOpenTrans($sBTransID);
+    $SBTargetSellPct = getSpreadBetTargetSellPct($sBRuleID);
+    $profit = $SBOpenTotalProfit[0][0]; $purchasePrice = $SBPurchasePrice[0][0]; //$openTrans = $SBOpenTransactions[0][0]; //$livePrice = $SBLivePrice[0][0];
+    $sellTargetPct = $SBTargetSellPct[0][0];
+    $profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
+    echo "<BR> Test Renew SpreadBet TransID: $profit | $purchasePrice | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID | $totalAmountToBuy | $amountPerCoin";
+    if ($profitPct >= $sellTargetPct){
+      //New TransactionID
+      newSpreadTransactionID($userID,$sBRuleID);
+      //Reassign Open to new ID
+      updateSBTransactionsToNew($sBRuleID,$sBTransID);
+    }
+  }
 }
 
 $spreadBet = getSpreadBetAll();
@@ -262,6 +422,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
 
 $progress = getSBProgress(3,20);
 
+renewSpreadBetTransactionID();
 
 ?>
 </html>

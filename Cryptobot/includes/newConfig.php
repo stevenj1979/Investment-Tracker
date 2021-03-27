@@ -4230,13 +4230,13 @@ function updateSpreadBetPctAmount($spreadBetRuleID){
   logAction("updateSpreadBetPctAmount: ".$sql, 'BuyCoin', 0);
 }
 
-function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID){
+function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID, $BTCAmount){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `SpreadBetTransactions` SET `TotalAmountToBuy`= $nPrice WHERE `SpreadBetRuleID` = $spreadBetRuleID and `TotalAmountToBuy` = 0.00";
+  $sql = "UPDATE `SpreadBetTransactions` SET `TotalAmountToBuy`= $nPrice, `AmountPerCoin` = $BTCAmount WHERE `SpreadBetRuleID` = $spreadBetRuleID and `TotalAmountToBuy` = 0.00";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -4258,7 +4258,7 @@ function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`
+  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
     FROM `Transaction` `Tr`
     join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
     WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
@@ -4268,7 +4268,7 @@ function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy']);
+      $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy'],$row['AmountPerCoin']);
   }
   $conn->close();
   return $tempAry;

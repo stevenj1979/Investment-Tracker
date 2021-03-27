@@ -907,10 +907,10 @@ while($completeFlag == False){
               if ($allocationType == 'SpreadBet'){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
                 subPctFromProfitSB($spreadBetTransactionID,0.01, $transactionID);
-                $openTransSB = getOpenSpreadCoins($userID,$spreadBetRuleID);
-                if (count($openTransSB) == 0){
-                  newSpreadTransactionID($UserID,$spreadBetRuleID);
-                }
+                //$openTransSB = getOpenSpreadCoins($userID,$spreadBetRuleID);
+                //if (count($openTransSB) == 0){
+                //  newSpreadTransactionID($UserID,$spreadBetRuleID);
+                //}
               }
               UpdateProfit();
 
@@ -1217,8 +1217,9 @@ while($completeFlag == False){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
       }elseif ($openCoins[0][1] < $openCoins[0][2]) {
         $purchasePrice = $openCoins[0][1]; $totalAmountToBuy = $openCoins[0][2];
+        $savedBTCAmount = $openCoins[0][3];
         $buyPerCoin =  $totalAmountToBuy - $purchasePrice;
-        $noOfLoops = floor($buyPerCoin/200);
+        $noOfLoops = floor($buyPerCoin/$savedBTCAmount);
         $BTCAmount = $buyPerCoin /$noOfLoops;
         $loopNum = rand(0,$spreadCoinsSize- $noOfLoops);
         $spreadCoinsSize = $loopNum + $noOfLoops;
@@ -1242,7 +1243,7 @@ while($completeFlag == False){
         $ogCoinPrice = $liveCoinPrice - (($liveCoinPrice/100)*1);
         LogToSQL("SpreadBetTracking","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);",3,1);
         addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);
-        updateSpreadBetTransactionAmount($buyPerCoin, $spreadBetRuleID);
+        updateSpreadBetTransactionAmount($buyPerCoin, $spreadBetRuleID,$BTCAmount);
         LogToSQL("SpreadBetBuy","buyCoins($coinID)",3,1);
         //update Transaction to Spread
         //updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
