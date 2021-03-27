@@ -341,9 +341,79 @@ function renewSpreadBetTransactionID(){
       newSpreadTransactionID($userID,$sBRuleID);
       //Reassign Open to new ID
       updateSBTransactionsToNew($sBRuleID,$sBTransID);
-      
+
     }
   }
+}
+
+function getCoinIDs(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID` FROM `CoinStatsView` WHERE `Hr1ChangePctChange` < 4.0 and `Hr1ChangePctChange` > 0.0 and `Hr24ChangePctChange` <= -4.0 and `D7ChangePctChange` <= -4.0 ";
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function writeNewSpreadBetRules($coinID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "Call InsertDynamicRule($coinID);";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeNewSpreadBetRules: ".$sql, 'BuyCoin', 0);
+}
+
+function clearDynamicRules(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "DELETE FROM `SpreadBetCoins` WHERE `SpreadBetRuleID` = 6";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearDynamicRules: ".$sql, 'BuyCoin', 0);
+}
+
+function dynamicSpreadBetRules(){
+  $coinIDs = getCoinIDs();
+  $coinIDsize = count($coinIDs);
+
+  if ($coinIDsize >= 3){
+    clearDynamicRules();
+    for ($e=0; $e<$coinIDsize; $e++){
+      writeNewSpreadBetRules($coinIDs[$e][0]);
+    }
+  }
+
 }
 
 $spreadBet = getSpreadBetAll();
@@ -425,5 +495,6 @@ $progress = getSBProgress(3,20);
 
 renewSpreadBetTransactionID();
 
+dynamicSpreadBetRules();
 ?>
 </html>
