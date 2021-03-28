@@ -1215,6 +1215,7 @@ while($completeFlag == False){
       Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy";
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
+        $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize))*$inverseAvgHighPct;
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
         if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: ".$spreadBetToBuy[0][0]." | Div Alloc: $divideAllocation | inv pct: $inverseAvgHighPct | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
@@ -1246,7 +1247,7 @@ while($completeFlag == False){
         $ogCoinPrice = $liveCoinPrice - (($liveCoinPrice/100)*1);
         LogToSQL("SpreadBetTracking","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);",3,1);
         addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);
-        updateSpreadBetTransactionAmount($buyPerCoin, $spreadBetRuleID,$BTCAmount);
+        updateSpreadBetTransactionAmount($buyPerCoin, $spreadBetRuleID,$BTCtoSQL);
         LogToSQL("SpreadBetBuy","buyCoins($coinID)",3,1);
         //update Transaction to Spread
         //updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
