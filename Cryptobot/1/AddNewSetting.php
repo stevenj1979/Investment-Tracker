@@ -361,7 +361,7 @@ function updateEditedUser(){
   $autoBuyPrice = $_POST['AutoBuyPrice'];
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
   $buyAmountOverride = $_POST['BuyAmountOverride'];
-  $newBuyPattern = $_POST['NewBuyPattern'];
+  $newBuyPattern = '';
   $coinOrder = $_POST['CoinOrderTxt'];
   $hr1ChangePattern = $_POST['Hr1ChangePattern'];
   $overrideDailyLimitEnabled = postDataYesNo($_POST['OverrideDailyLimitEnabled']);
@@ -379,7 +379,12 @@ function updateEditedUser(){
   `CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm, `SendEmail`=$sendEmail, `BuyCoin`=$buyCoin, `BTCAmount`=$bTCBuyAmount, `BuyCoinOffsetPct`=$BuyCoinOffsetPct,
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
-  , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed, if('$limitToCoin' = 'ALL' ,`LimitToCoinID` = 'ALL',`LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1)), `CoinOrder` = $coinOrder,
+  , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed
+  ,`LimitToCoinID` = CASE
+	       WHEN '$limitToCoin' = 'ALL'  THEN 'ALL'
+         ELSE (SELECT `ID` FROM `Coin` WHERE `Symbol` = 'ALL' and `BuyCoin` = 1)
+         END
+  , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   WHERE `ID` = $id";
   print_r($sql);
