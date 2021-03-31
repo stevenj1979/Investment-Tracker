@@ -58,7 +58,7 @@ if ($conn->connect_error) {
    `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
    ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`Name`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`,`Enabled`,`BullBearStatus`
    FROM `SpreadBetCoinStatsView_ALL`  WHERE `Enabled` = $status
-   order by `CoinPricePctChange` asc,`Live1HrChange` asc";
+   order by `Hr1ChangePctChange`+`Hr24ChangePctChange`+`D7ChangePctChange`asc";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
