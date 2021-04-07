@@ -182,7 +182,7 @@ while($completeFlag == False){
         }
     }
     $coinAllocation = getCoinAllocation($userID);
-    Echo "<BR> Tracking CoinAllocation: $coinMode | ".$coinAllocation[0][2]." | ".$coinAllocation[0][0]." | $BTCAmount";
+    Echo "<BR> Tracking CoinAllocation: $coinMode | ".$coinAllocation[0][2]." | ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy ";
     if ($coinMode > 0){if ($coinAllocation[0][2]== 0){ continue;}}
     if ($coinMode == 0){if ($coinAllocation[0][0]== 0){ continue;}}
     if (($coinMode == 0) and ($ruleIDBuy > 0) and ($coinAllocation[0][0]<$BTCAmount)){continue;}
