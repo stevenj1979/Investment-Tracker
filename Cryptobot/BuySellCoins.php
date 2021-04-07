@@ -185,6 +185,7 @@ while($completeFlag == False){
     Echo "<BR> Tracking CoinAllocation: $coinMode | ".$coinAllocation[0][2]." | ".$coinAllocation[0][0]." | $BTCAmount";
     if ($coinMode > 0){if ($coinAllocation[0][2]== 0){ continue;}}
     if ($coinMode == 0){if ($coinAllocation[0][0]== 0){ continue;}}
+    if (($coinMode == 0) and ($ruleIDBuy > 0) and ($coinAllocation[0][0]<$BTCAmount)){continue;}
     if ($coinMode > 0){ if ($coinAllocation[0][2]<$BTCAmount){$BTCAmount = $coinAllocation[0][2]; }}elseif ($coinMode == 0){if ($coinAllocation[0][0]<$BTCAmount){$BTCAmount = $coinAllocation[0][0]; }}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
