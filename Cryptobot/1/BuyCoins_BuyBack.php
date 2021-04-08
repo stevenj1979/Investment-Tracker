@@ -70,6 +70,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $bbID = $_GET['ID'];
       //Echo "Delete $bbID";
       deleteBuyBackToSQL($bbID);
+      header('Location: BuyCoins_BuyBack.php');
   }
 
 }else{
