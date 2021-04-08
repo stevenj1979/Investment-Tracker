@@ -129,10 +129,63 @@ function spreadBetSettingsUpdate(){
   }
 }
 
+function getBuyBackData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `ID`, `MinsFromAdd` FROM `BuyBackView`";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['MinsFromAdd']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function closeBuyBack($id){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed' WHERE `ID` = $ID;";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("closeBuyBack: ".$sql, 'SellCoin', 0);
+}
+
+
+function clearBuyBack($mins){
+  $buyBackAry = getBuyBackData();
+  $buyBackArySize = count($buyBackAry);
+  for ($b=0; $b<$buyBackArySize; $b++){
+    $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1];
+    if ($minsFromAdd >= $mins){
+      closeBuyBack($bBID);
+      LogToSQL("WeeklyScript","clearBuyBack($mins) $minsFromAdd",3,1);
+    }
+  }
+}
+
 // MAIN PROGRAMME
 clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
-
+clearBuyBack(5760);
 
 
 ?>
