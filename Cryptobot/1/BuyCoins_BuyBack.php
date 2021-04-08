@@ -66,10 +66,31 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     }elseif (isset($_POST['backBtn'])){
       header('Location: BuyCoins_BuyBack.php');
     }
+  }elseif($_GET['Mode'] == 3){
+      $bbID = $_GET['ID'];
+      //Echo "Delete $bbID";
+      deleteBuyBackToSQL($bbID);
   }
 
 }else{
   displayMain();
+}
+
+function deleteBuyBackToSQL($ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed'  WHERE `ID` = $ID ";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("deleteBuyBackToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
 function writeBuyBackToSQL($ID, $quantity){
@@ -306,6 +327,7 @@ function displayMain(){
     Echo "<td></td>";
     echo "</tr><tr>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA'>Edit</a></td>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>Delete</a></td>";
     Echo "<td></td>";
     Echo "<td></td>";
   }//end for
