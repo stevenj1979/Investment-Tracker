@@ -190,6 +190,44 @@ function updateSellPricetoBuyBack(){
   }
 }
 
+function getUserID(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `ID` FROM `User`";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function updateBuyAmountSplitinSQL($userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Call UpdateSplitAmountForRule ($userID);";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function updateSplitBuyAmountforRule(){
+  $user = getUserID();
+  $userSize = count($user);
+  for ($s=0; $s<$userSize; $s++){
+    $userID = $user[$s][0];
+    updateBuyAmountSplitinSQL($userID);
+    Echo "<BR> updateBuyAmountSplitinSQL($userID);";
+  }
+}
+
 $transStats = getTransStats();
 $transStatsSize = count($transStats);
 
@@ -216,5 +254,6 @@ subPctFromOpenCoinModeTransactions();
 addToBuyBackMultiplierHourly();
 updateSellPricetoBuyBack();
 UpdateSpreadBetTotalProfit();
+updateSplitBuyAmountforRule();
 ?>
 </html>
