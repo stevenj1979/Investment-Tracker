@@ -231,6 +231,7 @@ function updateSplitBuyAmountforRule(){
 Function updateBittrexBals(){
   $userConfig = getUserData();
   $userConfigSize = count($userConfig);
+  echo "<BR> Array Size:$userConfigSize ";
   for ($j=0; $j<$userConfigSize; $j++){
     $userID = $userConfig[$j][2]; $apikey = $userConfig[$j][0]; $apisecret = $userConfig[$j][1];
     $KEK = $userConfig[$j][3];
