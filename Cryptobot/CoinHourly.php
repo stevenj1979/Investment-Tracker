@@ -228,6 +228,21 @@ function updateSplitBuyAmountforRule(){
   }
 }
 
+function getUserData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `APIKey`,`APISecret`,`ID`, `KEK` FROM `UserConfigView`";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['ID'],$row['KEK']);}
+  $conn->close();
+  return $tempAry;
+}
+
 Function updateBittrexBals(){
   $userConfig = getUserData();
   $userConfigSize = count($userConfig);
