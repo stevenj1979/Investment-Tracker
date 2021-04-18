@@ -505,32 +505,7 @@ checkSellSequence();
 $apisecret=getAPISecret();
 $apikey=getAPIKey();
 getMinTradeAmount($apikey,$apisecret);
-$userConfig = getUserData();
-$userConfigSize = count($userConfig);
-for ($j=0; $j<$userConfigSize; $j++){
-  $userID = $userConfig[$j][2]; $apikey = $userConfig[$j][0]; $apisecret = $userConfig[$j][1];
-  $KEK = $userConfig[$j][3];
-  if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$userConfig[$j][1]);}
-  if ($apikey == 'NA'){ continue;}
-  $bittrexBals = getDailyBalance($apikey,$apisecret);
-  $bittrexBalsSize = count($bittrexBals);
-  echo "<BR> Array Size : $bittrexBalsSize";
-  foreach ($bittrexBals as $value){
-      if ($value["total"] > 0){
-        Echo $value["currencySymbol"];
-        Echo $value["total"];
-        Echo $value["available"];
-        echo "<BR>";
-        if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';}
-        elseif ($value["currencySymbol"] == 'BNT' or $value["currencySymbol"] == 'MANA' or $value["currencySymbol"] == 'MONA' or $value["currencySymbol"] == 'PAY'
-        or $value["currencySymbol"] == 'REPV2' or $value["currencySymbol"] == 'STEEM' or $value["currencySymbol"] == 'STRAT' ){$base = 'BTC';}
-        else { $base = 'USDT'; }
-        $price = bittrexCoinPrice($apikey,$apisecret,$base,$value["currencySymbol"], 3);
-        echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
-        updateBittrexBalances($value["currencySymbol"],$value["total"],$price, $userID);
-      }
-  }
-}
+
 
 //$minMaxPrice = getCurrentMonthMinMax();
 //$minMaxPriceSize = count($minMaxPrice);
