@@ -3114,6 +3114,25 @@ function setTransactionPending($id){
   logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
 }
 
+function updateSellAmount($TransactionID,$Amount){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `Amount`= $Amount WHERE `ID` = $TransactionID ";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSellAmount: ".$sql, 'TrackingCoins', 0);
+}
+
 function getNewTrackingSellCoins($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -3129,7 +3148,7 @@ function getNewTrackingSellCoins($userID = 0){
   , (`LiveSellPrice`-`OriginalPurchasePrice`)/ `OriginalPurchasePrice` * 100 as `PctProfit`
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
-  ,TIMESTAMPDIFF(MINUTE, `TrackStartDate`, Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`
+  ,TIMESTAMPDIFF(MINUTE, `TrackStartDate`, Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`,`SaveResidualCoins`
   FROM `TrackingSellCoinView`$whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -3139,7 +3158,8 @@ function getNewTrackingSellCoins($userID = 0){
     $tempAry[] = Array($row['CoinPrice'],$row['TrackDate'],$row['UserID'],$row['NoOfRisesInPrice'],$row['TransactionID'],$row['BuyRule'],$row['FixSellRule'],$row['OrderNo'],$row['Amount'] //8
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
-    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID']);
+    ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID']
+  , $row['SaveResidualCoins']);
   }
   $conn->close();
   return $tempAry;
