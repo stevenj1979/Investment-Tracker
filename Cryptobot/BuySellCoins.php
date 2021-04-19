@@ -285,8 +285,11 @@ while($completeFlag == False){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
         if ($saveResidualCoins == 1){
           $PurchasePrice = ($Amount*$CoinPrice);
-          $Amount = ($PurchasePrice / ($LiveCoinPrice + (($LiveCoinPrice/100)*0.25)));
+          $oldAmount = $Amount;
+          $tempFee = (($LiveCoinPrice/100)*0.25);
+          $Amount = ($PurchasePrice / ($LiveCoinPrice + $tempFee));
           updateSellAmount($TransactionID,$Amount);
+          logToSQL("SellCoins","Save Residual Coins: $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1);
         }
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
         logToSQL("SellCoins","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,1);
