@@ -188,6 +188,7 @@ function updateSBTransactionsToNew($sBRuleID,$sBTransID ){
 
 
 function getSBProgress($userID, $target){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -207,6 +208,7 @@ function getSBProgress($userID, $target){
 }
 
 function getSpreadBetTransactionID(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
