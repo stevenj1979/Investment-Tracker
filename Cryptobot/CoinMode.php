@@ -106,7 +106,7 @@ function isBuyMode($coinAry, $minBuyAmount){
       echo "<BR> BULBEAR MODE = $bullBearStatus";
       //24 Hour price is down
       $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-      if ($$bullBearStatus == 'BULL'){
+      if ($bullBearStatus == 'BULL'){
         $hr24Target = 10.0;
         $hr1Top = 10.0;
         $hr1Btm = 0.0;
@@ -195,7 +195,7 @@ function isBuyMode($coinAry, $minBuyAmount){
         echo "<BR> BULBEAR MODE = $bullBearStatus";
         //24 Hour price is up
         $pctInc24Hours = (($livePrice - $Hr24Price)/$Hr24Price)*100;
-        if ($$bullBearStatus == 'BEAR'){
+        if ($bullBearStatus == 'BEAR'){
           $hr24Target = -10.0;
           $d7Target = -10.0;
           $hr1Top = -10.0;
