@@ -4329,7 +4329,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount){
+function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount,$market1HrChangePct){
   $swingPrice = (($livePrice/100)*0.25);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
@@ -4337,6 +4337,9 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   //if liveprice is stable, add 1 - -0.5 - 0.5
   if ($minsFromDate < 5){
       return False;
+  }
+  if (abs($market1HrChangePct) > 0.25){
+    $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
   }
   if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice) OR ($quickBuyCount >= 3)){
     //if time is over 60 min and livePrice is > original price,  sell
@@ -4416,7 +4419,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
         //: OPT 1
         return False;
     }
-    if ($market1HrChangePct < -0.25){
+    if (abs($market1HrChangePct) > 0.25){
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
     echo "<BR>trackingCoinReadyToSell: $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice";

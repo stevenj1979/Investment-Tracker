@@ -144,6 +144,7 @@ $trackCounter = [];
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
   $newTrackingCoinsSize = count($newTrackingCoins);
+  $marketStats = getMarketstats();
   echo "<BR> Tracking COINS!! ";
   echo "<blockquote>";
   sleep(1);
@@ -163,6 +164,7 @@ while($completeFlag == False){
     $noOfBuyModeOverrides = $newTrackingCoins[$a][36]; $coinModeOverridePriceEnabled = $newTrackingCoins[$a][37]; $coinMode = $newTrackingCoins[$a][38];
     $type = $newTrackingCoins[$a][39]; $lastPrice = $newTrackingCoins[$a][40]; $SBRuleID = $newTrackingCoins[$a][41]; $SBTransID = $newTrackingCoins[$a][42]; $buyCoinPrice = 0;
     $trackingID = $newTrackingCoins[$a][43]; $quickBuyCount = $newTrackingCoins[$a][44];
+    $market1HrChangePct = $marketStats[0][1];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
@@ -191,7 +193,7 @@ while($completeFlag == False){
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if($minsFromDate >= $timeToCancelBuyMins){closeNewTrackingCoin($newTrackingCoinID, True);logToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting); Echo "<BR> MinsFromDate: $minsFromDate | "; continue;}
     Echo "<BR> Price Check: Live:$liveCoinPrice Original: $originalPrice";
-    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount);
+    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct);
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
@@ -269,7 +271,7 @@ while($completeFlag == False){
   echo "<blockquote>";
   $newTrackingSellCoins = getNewTrackingSellCoins();
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
-  $marketStats = getMarketstats();
+  //$marketStats = getMarketstats();
   sleep(1);
   for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
     $CoinPrice = $newTrackingSellCoins[$b][0]; $TrackDate = $newTrackingSellCoins[$b][1];  $userID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
