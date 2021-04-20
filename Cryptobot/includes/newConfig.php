@@ -2860,7 +2860,7 @@ function setLastPrice($coinPrice, $ID, $mode){
   logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
 }
 
-function closeNewTrackingCoin($ID, $deleteFlag = False){
+function closeNewTrackingCoin($ID, $deleteFlag){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
