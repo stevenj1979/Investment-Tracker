@@ -4406,7 +4406,7 @@ function updateQuickBuyCount($trackingID){
   logAction("updateQuickBuyCount: ".$sql, 'BuyCoin', 0);
 }
 
-function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID){
+function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID,$market1HrChangePct){
     $swingPrice = (($livePrice/100)*0.25);
     $currentPrice = abs($livePrice-$lastPrice);
     //$bottomPrice = $livePrice-$swingPrice;
@@ -4415,6 +4415,9 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     if ($minsFromDate < 5){
         //: OPT 1
         return False;
+    }
+    if ($market1HrChangePct < -0.25){
+      $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
     echo "<BR>trackingCoinReadyToSell: $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice";
     if (($minsFromDate >= 60 && $livePrice >= $sellPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice >= $sellPrice)){
