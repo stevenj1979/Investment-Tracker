@@ -287,13 +287,14 @@ while($completeFlag == False){
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$fallsInPrice,$trackingSellID,$market1HrChangePct);
     if ($readyToSell == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
+        LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
         if ($saveResidualCoins == 1){
           $PurchasePrice = ($Amount*$CoinPrice);
           $oldAmount = $Amount;
-          $tempFee = (($LiveCoinPrice/100)*0.25);
-          $Amount = ($PurchasePrice / ($LiveCoinPrice + $tempFee));
+          $tempFee = ((($LiveCoinPrice*$Amount)/100)*0.25);
+          $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
           updateSellAmount($TransactionID,$Amount);
-          logToSQL("SellCoins","Save Residual Coins: $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1);
+          logToSQL("SaveResidualCoins","$oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1);
         }
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
         logToSQL("SellCoins","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,1);
