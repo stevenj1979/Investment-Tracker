@@ -829,6 +829,9 @@ while($completeFlag == False){
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
           setCustomisedSellRule($ruleIDBTBuy,$coinID);
+          if ($type == 'Buy' and $coinModeRule == 0){
+              setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
+          }
           updateBuyAmount($transactionID,$resultOrd['quantity']);
           if ($type == 'SpreadBuy'){
             updateToSpreadSell($transactionID);
