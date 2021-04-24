@@ -80,7 +80,23 @@ if($_POST['transSelect'] <> ""){
 
 }elseif ($_GET['addToSpread'] <> ""){//
   $transID = $_GET['SellRule'];
-  echo "AddToSpread $transID";
+  $userID = $_SESSION['ID'];
+  $rules = getRuleNames();
+  $rulesSize = count($rules);
+  //echo "AddToSpread $transID";
+  ?>
+  <form action='Transactions.php?updateSpreadBet=Yes' method='post'>
+    <select name="Spread_Rules" id="Spread_Rules_ID">
+    <?php
+      for ($e=0; $e<$rulesSize; $e++){
+        $ruleName = $rules[$e][0]; $ruleID = $rules[$e][1];
+          echo "<option value='$ruleID'>$ruleName</option>";
+      }
+      ?>
+      </select>
+    <input type='submit' name='submit' value='Add to Spread' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <?php
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -94,6 +110,30 @@ if(isset($_POST['coin_ID'])){
   //Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
   updateCoinAmount($transID,$amount);
   header('Location: Transactions.php');
+}
+
+if(isset($_POST['Spread_Rules'])){
+  $ruleID = $_POST['Spread_Rules'];
+  echo "Update SpreadRules $ruleID";
+}
+
+function getRuleNames($userID){
+
+  $tempAry = [];
+  // Create connection
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Name`,`ID` FROM `SpreadBetRules` WHERE `UserID` = $userID";
+  print_r($sql);
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+   //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Name'],$row['ID']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 function changeSelection(){
