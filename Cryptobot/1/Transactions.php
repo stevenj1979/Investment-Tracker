@@ -81,7 +81,7 @@ if($_POST['transSelect'] <> ""){
 }elseif ($_GET['addToSpread'] <> ""){//
   $transID = $_GET['SellRule'];
   $userID = $_SESSION['ID'];
-  $rules = getRuleNames();
+  $rules = getRuleNames($userID);
   $rulesSize = count($rules);
   //echo "AddToSpread $transID";
   ?>
