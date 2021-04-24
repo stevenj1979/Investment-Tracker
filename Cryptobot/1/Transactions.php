@@ -97,6 +97,9 @@ if($_POST['transSelect'] <> ""){
     <input type='submit' name='submit' value='Add to Spread' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
+}elseif($_POST['Spread_Rules'] <> ""){
+  $ruleID = $_POST['Spread_Rules'];
+  echo "Update SpreadRules $ruleID";
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -112,10 +115,7 @@ if(isset($_POST['coin_ID'])){
   header('Location: Transactions.php');
 }
 
-if($_POST['Spread_Rules'] <> ""){
-  $ruleID = $_POST['Spread_Rules'];
-  echo "Update SpreadRules $ruleID";
-}
+
 
 function getRuleNames($userID){
 
