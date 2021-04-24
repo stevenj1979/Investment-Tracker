@@ -78,6 +78,9 @@ if($_POST['transSelect'] <> ""){
   </form>
   <?php
 
+}elseif ($_GET['addToSpread'] <> ""){//
+  $transID = $_GET['SellRule'];
+  echo "AddToSpread $transID";
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -246,6 +249,7 @@ function displayDefault(){
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<th>Merge</th>");
   print_r("<th>Fix Coin Amount</th>");
+  print_r("<th>Add To Spread</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
@@ -263,6 +267,7 @@ function displayDefault(){
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?addToSpread=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
