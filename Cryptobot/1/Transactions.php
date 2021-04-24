@@ -112,7 +112,7 @@ if(isset($_POST['coin_ID'])){
   header('Location: Transactions.php');
 }
 
-if(isset($_POST['Spread_Rules'])){
+if($_POST['Spread_Rules'] <> ""){){
   $ruleID = $_POST['Spread_Rules'];
   echo "Update SpreadRules $ruleID";
 }
