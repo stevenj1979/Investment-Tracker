@@ -94,12 +94,15 @@ if($_POST['transSelect'] <> ""){
       }
       ?>
       </select>
+      <input type="text" name="Trans_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
     <input type='submit' name='submit' value='Add to Spread' class='settingsformsubmit' tabindex='36'>
   </form>
   <?php
 }elseif($_POST['Spread_Rules'] <> ""){
   $ruleID = $_POST['Spread_Rules'];
+  $transID = $_POST['Trans_ID'];
   echo "Update SpreadRules $ruleID";
+  updateToSpread($ruleID, $transID);
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -118,7 +121,6 @@ if(isset($_POST['coin_ID'])){
 
 
 function getRuleNames($userID){
-
   $tempAry = [];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -197,6 +199,24 @@ function updateCoinAmount($transID,$amount){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "call FixCoinAmount($amount,$transID);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function updateToSpread($sbRuleID,$transID){
+
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "call AddToSpreadBet($sbRuleID,$transID);";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
