@@ -101,8 +101,9 @@ if($_POST['transSelect'] <> ""){
 }elseif($_POST['Spread_Rules'] <> ""){
   $ruleID = $_POST['Spread_Rules'];
   $transID = $_POST['Trans_ID'];
-  echo "Update SpreadRules $ruleID";
+  //echo "Update SpreadRules $ruleID";
   updateToSpread($ruleID, $transID);
+  header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -127,7 +128,7 @@ function getRuleNames($userID){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `Name`,`ID` FROM `SpreadBetRules` WHERE `UserID` = $userID";
-  print_r($sql);
+  //print_r($sql);
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
    //mysqli_fetch_assoc($result);
