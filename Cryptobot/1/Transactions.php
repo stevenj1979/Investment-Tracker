@@ -305,7 +305,8 @@ function displayDefault(){
   newecho("<th>BaseCurrency</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Purchase Price</th>");
   newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],$mobNum);
-  print_r("<th>Status</th><th>FixSellRule</th>");
+  print_r("<th>Status</th><th>FixSellRule</th><th>Type</th>");
+
   print_r("<th>To Merge</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<th>Merge</th>");
@@ -314,7 +315,7 @@ function displayDefault(){
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
-      $orderDate = $coin[$x][6];
+      $orderDate = $coin[$x][6]; $type = $coin[$x][1];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
       $purchasePrice = ($amount*$coinPrice);
       print_r("<td>$Id</td>");
@@ -323,7 +324,7 @@ function displayDefault(){
       newEcho("<td>$baseCurrency</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>".round($purchasePrice,$roundNum)."</td>");
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
-      print_r("<td>$status</td><td>$fixSellRule</td>");
+      print_r("<td>$status</td><td>$fixSellRule</td><td>$type</td>");
       print_r("<td>$toMerge</td>");
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");

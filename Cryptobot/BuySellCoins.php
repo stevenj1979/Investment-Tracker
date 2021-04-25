@@ -288,7 +288,7 @@ while($completeFlag == False){
     if ($readyToSell == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
         LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-        if ($saveResidualCoins == 1){
+        if ($saveResidualCoins == 1 and $profit >= 0.25){
           $PurchasePrice = ($Amount*$CoinPrice);
           $oldAmount = $Amount;
           $tempFee = ((($LiveCoinPrice*$Amount)/100)*0.25);
