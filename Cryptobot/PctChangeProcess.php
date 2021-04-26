@@ -172,7 +172,8 @@ for ($i=0; $i<$coinCount; $i++){
     $Hr24Price = getPrice($coinID, 1415, 1445);
     if (is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
       echo "<BR> IS NULL";
-      $price24Hr = getCMCPriceFromSQL($coinID, '24HrPrice');
+      $price24Hrtmp = getCMCPriceFromSQL($coinID, '24HrPrice');
+      $price24Hr = $price24Hrtmp[0][0];
     }else{
       $price24Hr = $Hr24Price[0][1];
     }
@@ -180,7 +181,8 @@ for ($i=0; $i<$coinCount; $i++){
     $Hr48Price = getPrice($coinID, 2870, 2890);
     if (is_null($Hr48Price[0][1]) OR $Hr48Price[0][1] == 0){
       echo "<BR> IS NULL";
-      $price48Hr = getCMCPriceFromSQL($coinID, '48HrPrice');
+      $price48Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
+      $price48Hr = $price48Hrtmp[0][0];
     }else{
       $price48Hr = $Hr48Price[0][1];
     }
@@ -188,7 +190,8 @@ for ($i=0; $i<$coinCount; $i++){
     $Hr72Price = getPrice($coinID, 4310, 4330);
     if (is_null($Hr72Price[0][1]) OR $Hr72Price[0][1] == 0){
       echo "<BR> IS NULL";
-      $price72Hr = getCMCPriceFromSQL($coinID, '48HrPrice');
+      $price72Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
+      $price72Hr = $price72Hrtmp[0][0];
     }else{
       $price72Hr = $Hr72Price[0][1];
     }
@@ -196,7 +199,8 @@ for ($i=0; $i<$coinCount; $i++){
     $D7Price = getPrice($coinID, 10000, 10500);
     if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL";
-      $price7D = getCMCPriceFromSQL($coinID, '7DPrice');
+      $price7Dtmp = getCMCPriceFromSQL($coinID, '7DPrice');
+      $price7D = $price7Dtmp[0][0];
     }else{
       $price7D = $D7Price[0][1];
     }
