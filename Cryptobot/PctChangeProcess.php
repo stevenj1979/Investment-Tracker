@@ -156,7 +156,7 @@ for ($i=0; $i<$coinCount; $i++){
 
     //Check if 0
     if (is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
-      echo "<BR> IS NULL";
+      echo "<BR> IS NULL| 1hr | $coinID";
        //$CMCStats = getCMCstats($CMCStats, $coinStr);
        //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        //$price1Hr = $tempPrice[0][2];
@@ -164,14 +164,15 @@ for ($i=0; $i<$coinCount; $i++){
       //echo "<BR> IS ZERO";
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
-      $price1Hr = getCMCPriceFromSQL($coinID, '1HrPrice');
+      $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
+      $price1Hr = $price1Hrtmp[0][0];
     }else{
       $price1Hr = $Hr1Price[0][1];
     }
 
     $Hr24Price = getPrice($coinID, 1415, 1445);
     if (is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
-      echo "<BR> IS NULL";
+      echo "<BR> IS NULL| 24hr | $coinID";
       $price24Hrtmp = getCMCPriceFromSQL($coinID, '24HrPrice');
       $price24Hr = $price24Hrtmp[0][0];
     }else{
@@ -180,7 +181,7 @@ for ($i=0; $i<$coinCount; $i++){
 
     $Hr48Price = getPrice($coinID, 2870, 2890);
     if (is_null($Hr48Price[0][1]) OR $Hr48Price[0][1] == 0){
-      echo "<BR> IS NULL";
+      echo "<BR> IS NULL| 48hr | $coinID";
       $price48Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
       $price48Hr = $price48Hrtmp[0][0];
     }else{
@@ -189,7 +190,7 @@ for ($i=0; $i<$coinCount; $i++){
 
     $Hr72Price = getPrice($coinID, 4310, 4330);
     if (is_null($Hr72Price[0][1]) OR $Hr72Price[0][1] == 0){
-      echo "<BR> IS NULL";
+      echo "<BR> IS NULL | 72hr | $coinID";
       $price72Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
       $price72Hr = $price72Hrtmp[0][0];
     }else{
@@ -198,8 +199,8 @@ for ($i=0; $i<$coinCount; $i++){
 
     $D7Price = getPrice($coinID, 10000, 10500);
     if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
-      echo "<BR> IS NULL";
-      $price7Dtmp = getCMCPriceFromSQL($coinID, '7DPrice');
+      echo "<BR> IS NULL| 7D | $coinID";
+      $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
       $price7D = $price7Dtmp[0][0];
     }else{
       $price7D = $D7Price[0][1];
