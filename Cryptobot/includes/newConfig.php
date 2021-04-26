@@ -3114,14 +3114,14 @@ function setTransactionPending($id){
   logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
 }
 
-function updateSellAmount($TransactionID,$Amount){
+function updateSellAmount($TransactionID,$Amount,$oldAmount){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Amount`= $Amount WHERE `ID` = $TransactionID ";
+  $sql = "UPDATE `Transaction` SET `Amount`= $Amount,`OriginalAmount` = $oldAmount WHERE `ID` = $TransactionID ";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {

@@ -293,7 +293,7 @@ while($completeFlag == False){
           $oldAmount = $Amount;
           $tempFee = ((($LiveCoinPrice*$Amount)/100)*0.25);
           $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
-          updateSellAmount($TransactionID,$Amount);
+          updateSellAmount($TransactionID,$Amount, $oldAmount);
           logToSQL("SaveResidualCoins","$oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1);
         }
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
