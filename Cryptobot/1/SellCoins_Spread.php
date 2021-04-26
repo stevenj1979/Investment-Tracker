@@ -253,7 +253,7 @@ $date = date('Y/m/d H:i:s', time());
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
             $profit = $livePrice-$purchasePrice;
             $profitPct = ($profit/$purchasePrice)*100;
-
+            echo "$profit | $livePrice | $purchasePrice | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
