@@ -205,6 +205,7 @@ for ($i=0; $i<$coinCount; $i++){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
       $price7D = ($price7Dtmp[0][1]/100)*$price7Dtmp[0][0];
+      echo "<BR> $coinID Live Price : ".$price7Dtmp[0][1]." | 7D Price : $price7D";
     }else{
       $price7D = $D7Price[0][1];
     }
