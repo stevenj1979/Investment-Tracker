@@ -12,7 +12,7 @@ function getBittrexRequests($userID = 0){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`, `Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`RuleID`,`DaysOutstanding`,`timeSinceAction`,`CoinID`,
-  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`
+  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`SpreadBetRuleID` as SpreadBetRuleIDRedirect
   FROM `BittrexOutstandingRequests` WHERE `Status` = '1' $bittrexQueue";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
@@ -21,7 +21,8 @@ function getBittrexRequests($userID = 0){
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['RuleID'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
-    ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
+    ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
+    ,$row['SpreadBetRuleIDRedirect']);
   }
   $conn->close();
   return $tempAry;
@@ -43,6 +44,23 @@ function deleteFromBittrexAction($bittrexRef){
     }
     $conn->close();
     logAction("deleteFromBittrexAction: ".$sql, 'BuySell', 0);
+}
+
+function updateBuyToSpread($sbRuleID, $transactionID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `Type` = 'SpreadBuy', `SpreadBetRuleID` = $sbRuleID, `SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = $sbRuleID ) where `ID` = $transactionID";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    logAction("updateBuyToSpread: ".$sql, 'BuySell', 0);
 }
 
 function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit){
