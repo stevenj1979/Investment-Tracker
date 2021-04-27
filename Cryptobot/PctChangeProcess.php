@@ -126,13 +126,16 @@ function getCMCPriceFromSQL($coinID, $column){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `$column` FROM `CMCData` WHERE `CoinID` = $coinID";
+  $sql = "SELECT `$column`, `Cp`.`LiveCoinPrice`
+        FROM `CMCData` `Cmc`
+        join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cmc`.`CoinID`
+        WHERE `Cmc`.`CoinID` = $coinID";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row[$column]);
+      $tempAry[] = Array($row[$column],$row['LiveCoinPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -165,7 +168,7 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
-      $price1Hr = $price1Hrtmp[0][0];
+      $price1Hr = ($price1Hrtmp[0][1]/100)*$price1Hrtmp[0][0];
     }else{
       $price1Hr = $Hr1Price[0][1];
     }
@@ -174,7 +177,7 @@ for ($i=0; $i<$coinCount; $i++){
     if (is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
       echo "<BR> IS NULL| 24hr | $coinID";
       $price24Hrtmp = getCMCPriceFromSQL($coinID, '24HrPrice');
-      $price24Hr = $price24Hrtmp[0][0];
+      $price24Hr = ($price24Hrtmp[0][1]/100)*$price24Hrtmp[0][0];
     }else{
       $price24Hr = $Hr24Price[0][1];
     }
@@ -201,7 +204,7 @@ for ($i=0; $i<$coinCount; $i++){
     if (is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
-      $price7D = $price7Dtmp[0][0];
+      $price7D = ($price7Dtmp[0][1]/100)*$price7Dtmp[0][0];
     }else{
       $price7D = $D7Price[0][1];
     }
