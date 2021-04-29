@@ -267,10 +267,10 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
             echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
 
-
-            $numCol = getNumberColour($profitBtc);
+            //NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            $numCol = getNumberColour($profitPct);
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitPct,$roundVar)."</p></td>";
-            echo "<td></td>";
             //Bottom Line
             echo "</tr><tr>";
             echo "<td><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
