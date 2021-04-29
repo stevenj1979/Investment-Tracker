@@ -226,7 +226,12 @@ while($completeFlag == False){
     }
     $openTransactionsSize = count($openTransactions);
     for ($h=0; $h<$openTransactionsSize; $h++){
-      if ($openTransactions[$h][0] == $userID){ $BTCAmount = $BTCAmount / ($openTransactions[$h][$indexLookup]-$noOfBuys);}
+      if ($openTransactions[$h][0] == $userID){
+        $oldBTCAmount = $BTCAmount;
+        $liveOpenTrans = $openTransactions[$h][$indexLookup];
+        $BTCAmount = $BTCAmount / ($liveOpenTrans-$noOfBuys);
+        LogToSQL("TrackingCoin","BTC Alloction: $oldBTCAmount | $BTCAmount | $indexLookup | $liveOpenTrans | $noOfBuys",3,1);
+      }
     }
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
