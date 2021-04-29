@@ -189,30 +189,30 @@ while($completeFlag == False){
     //if ($coinMode == 0){if ($coinAllocation[0][0]<= 0){ continue;}}
     //if (($coinMode == 0) and ($ruleIDBuy > 0) and ($coinAllocation[0][1]<$BTCAmount)){continue;}
     if ($coinMode > 0){
-      if ($coinAllocation[0][1]<$BTCAmount){
-        if ($coinAllocation[0][1] <= 0){
-          echo "<BR> EXIT1: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][1];
+      if ($coinAllocation[0][2]<$BTCAmount){
+        if ($coinAllocation[0][2] <= 0){
+          echo "<BR> EXIT1: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][2];
            continue;
         }else{
           $BTCAmount = $coinAllocation[0][1];
         }
       }
     }elseif ($coinMode == 0 AND $type == 'SpreadBuy'){
-      if ($coinAllocation[0][2]<$BTCAmount){
-        if ($coinAllocation[0][2] <= 0){
-          echo "<BR> EXIT2: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][2];
+      if ($coinAllocation[0][0]<$BTCAmount){
+        if ($coinAllocation[0][0] <= 0){
+          echo "<BR> EXIT2: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][0];
           continue;
         }else{
           $BTCAmount = $coinAllocation[0][2];
         }
       }
     }elseif ($coinMode == 0 AND $type == 'Buy'){
-      if ($coinAllocation[0][0]<$BTCAmount){
-        if ($coinAllocation[0][0] <= 0){
-          echo "<BR> EXIT3: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][0];
+      if ($coinAllocation[0][1]<$BTCAmount){
+        if ($coinAllocation[0][1] <= 0){
+          echo "<BR> EXIT3: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][1];
           continue;
         }else{
-          $BTCAmount = $coinAllocation[0][0];
+          $BTCAmount = $coinAllocation[0][1];
         }
       }
     }
