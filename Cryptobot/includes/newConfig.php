@@ -2833,6 +2833,34 @@ function getNewTrackingCoins($userID = 0){
 
 }
 
+function getOpenTransactions(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+//12
+  $whereClause = " ";
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
+  $sql = "SELECT `Uc`.`UserID`
+            , ifnull(`Oct`.`NoOfTransactions`,0) as CoinModeTransactions
+            , ifnull(`Orbt`.`NoOfTransactions`,0) as RuleBasedTransactions
+            , ifnull(`Osbt`.`NoOfTransactions`,0) as SpreadBetTransactions
+            FROM `UserConfig` `Uc`
+            left join `OpenCoinModeTransactions` `Oct` on `Oct`.`UserID` = `Uc`.`UserID`
+            left join `OpenRuleBasedTransactions` `Orbt` on `Orbt`.`UserID` = `Uc`.`UserID`
+            left join `OpenSpreadBetTransactions` `Osbt` on `Osbt`.`UserID` =  `Uc`.`UserID`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['UserID'],$row['CoinModeTransactions'],$row['RuleBasedTransactions'],$row['SpreadBetTransactions']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function setNewTrackingPrice($coinPrice, $ID, $mode){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -3980,7 +4008,7 @@ function getCoinAllocation($userID){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetAvailable'],$row['RuleBasedAvailable'],$row['CoinModeAvailable'],$row['ID']);
+      $tempAry[] = Array($row['RuleBasedAvailable'],$row['CoinModeAvailable'],$row['SpreadBetAvailable'],$row['ID']);
   }
   $conn->close();
   return $tempAry;
