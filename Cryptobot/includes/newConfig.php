@@ -392,6 +392,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           $bitPrice = round($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
+          logToSQL("Bittrex", "bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);", $userID,1);
           if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
           else{$bittrexRef = $obj["id"];
             if ($obj['status'] == 'OPEN'){$status = 1; }else{$status = 0;} }
