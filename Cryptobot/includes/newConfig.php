@@ -12,7 +12,7 @@ function getBittrexRequests($userID = 0){
   }
 
   $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`, `Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`RuleID`,`DaysOutstanding`,`timeSinceAction`,`CoinID`,
-  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`SpreadBetRuleID` as SpreadBetRuleIDRedirect
+  `RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`, `Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`SpreadBetRuleIDRedirect`
   FROM `BittrexOutstandingRequests` WHERE `Status` = '1' $bittrexQueue";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
