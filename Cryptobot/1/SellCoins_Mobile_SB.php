@@ -258,7 +258,7 @@ $date = date('Y/m/d H:i:s', time());
             //NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-            echo "<td><p id='normalText'>$cost</p></td>";
+            echo "<td><p id='normalText'>".round($cost,$roundVar)."</p></td>";
 
             echo "</tr><tr>";
 
