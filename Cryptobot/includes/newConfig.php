@@ -2797,7 +2797,7 @@ function setTextColourTarget($num, $onOffFlag, $targetTop, $targetBtm){
     elseif ($num == "1"){$colour = "background-color:MediumSeaGreen;";}
     //return $colour;
   }
-  echo "<BR> COLOUR TEST: $num, $targetTop, $targetBtm, $flagNum, $colour";
+  //echo "<BR> COLOUR TEST: $num, $targetTop, $targetBtm, $flagNum, $colour";
 return $colour;
 }
 
