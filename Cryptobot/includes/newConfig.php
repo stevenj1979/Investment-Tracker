@@ -2784,7 +2784,7 @@ function setTextColourTarget($num, $onOffFlag, $targetTop, $targetBtm){
     }elseif ($num > $targetTop and $num <= 0){
       $flagNum = 2;
       $colour = "background-color:MediumSeaGreen;";
-    }elseif ($num > abs($targetTop)){
+    }elseif ($num > abs($targetTop) and $num < (abs($targetTop) * 2)){
       $flagNum = 3;
       $colour = "background-color:Orange;";
     }else{
