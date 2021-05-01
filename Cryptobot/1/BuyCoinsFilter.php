@@ -307,11 +307,11 @@ function showMain(){
             NewEcho( "<td Style='$tdColour'>$volume</td>",$_SESSION['isMobile'],0);
             $tdColour = setTextColour($buyOrderstest, True);
             NewEcho( "<td Style='$tdColour'>$buyOrders</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColourTarget($Hr1Test, True, -2);
+            $tdColour = setTextColourTarget($Live1HrChange, True, -2);
             echo "<td Style='$tdColour'>".round($Live1HrChange,8)."</td>";
-            $tdColour = setTextColourTarget($Hr24test, True,-5);
+            $tdColour = setTextColourTarget($Live24HrChange, True,-5);
             NewEcho( "<td Style='$tdColour'>".round($Live24HrChange,8)."</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColourTarget($D7test, True,-5);
+            $tdColour = setTextColourTarget($Live7DChange, True,-5);
             NewEcho( "<td Style='$tdColour'>".round($Live7DChange,8)."</td>",$_SESSION['isMobile'],0);
         //  }
           echo "<td>".round($priceDiff1,8)."</td>";
