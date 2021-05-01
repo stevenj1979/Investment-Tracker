@@ -307,11 +307,11 @@ function showMain(){
             NewEcho( "<td Style='$tdColour'>$volume</td>",$_SESSION['isMobile'],0);
             $tdColour = setTextColour($buyOrderstest, True);
             NewEcho( "<td Style='$tdColour'>$buyOrders</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColourTarget($tracking[$x][10], True, $Hr1ChangeTop, $Hr1ChangeBtm);
+            $tdColour = setTextColourTarget($tracking[$x][10], False, $Hr1ChangeTop, $Hr1ChangeBtm);
             echo "<td Style='$tdColour'>".round($Live1HrChange,8)."</td>";
-            $tdColour = setTextColourTarget($tracking[$x][13], True,$Hr24ChangeTop, $Hr24ChangeBtm);
+            $tdColour = setTextColourTarget($tracking[$x][13], False,$Hr24ChangeTop, $Hr24ChangeBtm);
             NewEcho( "<td Style='$tdColour'>".round($Live24HrChange,8)."</td>",$_SESSION['isMobile'],0);
-            $tdColour = setTextColourTarget($tracking[$x][16], True,$D7ChangeTop, $D7ChangeBtm);
+            $tdColour = setTextColourTarget($tracking[$x][16], False,$D7ChangeTop, $D7ChangeBtm);
             NewEcho( "<td Style='$tdColour'>".round($Live7DChange,8)."</td>",$_SESSION['isMobile'],0);
         //  }
           echo "<td>".round($priceDiff1,8)."</td>";
