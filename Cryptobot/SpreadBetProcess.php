@@ -186,6 +186,27 @@ function updateSBTransactionsToNew($sBRuleID,$sBTransID ){
   logAction("updateSBTransactionsToNew: ".$sql, 'BuyCoin', 0);
 }
 
+function updateSBSellTarget($sBRuleID,$sBTransID ){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "Update `SpreadBetSellTarget` `Sbst` Join `Transaction` `Tr` on `Tr`.`ID` = `Sbst`.`TransactionID`
+      SET `Sbst`.`SBTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = $sBRuleID)
+      where `Tr`.`Status` in ('Open','Pending') and `Sbst`.`SBTransactionID` = $sBTransID ";
+    //LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSBSellTarget: ".$sql, 'BuyCoin', 0);
+}
+
 
 function getSBProgress($userID, $target){
   $tempAry = [];
@@ -345,6 +366,7 @@ function renewSpreadBetTransactionID(){
       newSpreadTransactionID($userID,$sBRuleID);
       //Reassign Open to new ID
       updateSBTransactionsToNew($sBRuleID,$sBTransID);
+      updateSBSellTarget($sBRuleID,$sBTransID);
 
     }
   }
