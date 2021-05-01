@@ -190,7 +190,7 @@ $sql = "SELECT
 ,`BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`,`LimitToCoinID`,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
 FROM `UserBuyRules` WHERE `UserID` = $userID and `RuleID` = $selectedRule";
 $result = $conn->query($sql);
-//echo $sql;
+echo $sql;
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
