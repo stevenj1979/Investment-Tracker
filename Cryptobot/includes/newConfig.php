@@ -2773,14 +2773,15 @@ function setTextColour($num, $onOffFlag){
 return $colour;
 }
 
-function setTextColourTarget($num, $onOffFlag, $target){
+function setTextColourTarget($num, $onOffFlag, $targetTop, $targetBtm){
+  echo "<BR> COLOUR TEST: $num, $targetTop, $targetBtm";
   $colour = "";
   if ($onOffFlag == False){
-    if ($num <= $target){
+    if ($num <= $targetTop){
       $colour = "background-color:LightSkyBlue;";
-    }elseif ($num > $target and $num <= 0){
+    }elseif ($num > $targetTop and $num <= 0){
       $colour = "background-color:MediumSeaGreen;";
-    }elseif ($num > abs($target)){
+    }elseif ($num > abs($targetTop)){
       $colour = "background-color:Orange;";
     }else{
       $colour = "background-color:Crimson;";
