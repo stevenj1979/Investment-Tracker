@@ -2773,6 +2773,27 @@ function setTextColour($num, $onOffFlag){
 return $colour;
 }
 
+function setTextColourTarget($num, $onOffFlag, $target){
+  $colour = "";
+  if ($onOffFlag == False){
+    if ($num <= $target){
+      $colour = "background-color:LightSkyBlue;";
+    }elseif ($num > $target and $num <= 0){
+      $colour = "background-color:MediumSeaGreen;";
+    }elseif ($num > abs($target)){
+      $colour = "background-color:Orange;";
+    }else{
+      $colour = "background-color:Crimson;";
+    }
+  }else{
+    //Echo "<BR> Test2: $num";
+    if ($num == ""){ $colour = "background-color:Orange;";}
+    elseif ($num == "1"){$colour = "background-color:MediumSeaGreen;";}
+    //return $colour;
+  }
+return $colour;
+}
+
 function getBuyRulesIDs($userID){
 $conn = getSQLConn(rand(1,3));
 // Check connection
