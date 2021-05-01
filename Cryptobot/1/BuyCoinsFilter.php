@@ -190,7 +190,7 @@ $sql = "SELECT
 ,`BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`,`LimitToCoinID`,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
 FROM `UserBuyRules` WHERE `UserID` = $userID and `RuleID` = $selectedRule";
 $result = $conn->query($sql);
-echo $sql;
+//echo $sql;
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
@@ -261,6 +261,7 @@ function showMain(){
         echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
         echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
         //$roundNum = 2;
+        echo "<BR> NewArrLength : $newArrLength";
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
