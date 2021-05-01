@@ -27,8 +27,8 @@ if (isset($_POST['filterSelect']) and $_POST['filterSelect'] <> ""){
 
   //}
 }else{
-  $userBuyRules = getBuyRules($userID);
-  $_SESSION['RuleIDSelected'] =$userBuyRules[0][35];
+  $userBuyRules = getBuyRules($_SESSION['ID']);
+  $_SESSION['RuleIDSelected'] = $userBuyRules[0][35];
   showMain();
 }
 
