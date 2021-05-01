@@ -19,11 +19,16 @@ include_once ('/home/stevenj1979/SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 
-if ($_POST['filterSelect'] <> ""){
-  //echo "<BR> Test".$_POST['filterSelect'];
-  $_SESSION['RuleIDSelected'] = $_POST['filterSelect'];
-  showMain();
+if (isset($_POST['filterSelect']) and $_POST['filterSelect'] <> ""){
+  //if ($_POST['filterSelect'] <> ""){
+    //echo "<BR> Test".$_POST['filterSelect'];
+    $_SESSION['RuleIDSelected'] = $_POST['filterSelect'];
+    showMain();
+
+  //}
 }else{
+  $userBuyRules = getBuyRules($userID);
+  $_SESSION['RuleIDSelected'] =$userBuyRules[0][35];
   showMain();
 }
 
