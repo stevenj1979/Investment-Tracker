@@ -263,7 +263,7 @@ function showMain(){
         echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
         echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
         //$roundNum = 2;
-        echo "<BR> NewArrLength : $newArrLength";
+        //echo "<BR> NewArrLength : $newArrLength";
         for($x = 0; $x < $newArrLength; $x++) {
           //Variables
           $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
