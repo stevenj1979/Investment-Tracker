@@ -521,7 +521,7 @@ while($completeFlag == False){
         echo "<BR> Check if over total limit! ";
         $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
         //if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
-        echo "<BR> Testing Testing Testing| $userID | $baseCurrency: ".$totalBTCSpent[0][0];
+        echo "<BR> Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0];
         if (!is_null($totalBTCSpent[0][0])){
           if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
         }

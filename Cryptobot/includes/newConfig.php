@@ -1760,6 +1760,7 @@ function getTotalBTC($userID, $baseCurrency){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `AmountOpen` FROM `AllTimeBTC` WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency'";
+  LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen']);}
   $conn->close();
