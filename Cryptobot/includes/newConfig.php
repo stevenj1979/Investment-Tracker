@@ -1754,7 +1754,7 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
   logAction("bittrexSellCompleteUpdateAmount: ".$sql, 'BuySell', 0);
 }
 
-function getTotalBTC($userID, $baseCurrency){
+function getTotalBTC(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
