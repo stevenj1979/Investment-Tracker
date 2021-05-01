@@ -2774,16 +2774,21 @@ return $colour;
 }
 
 function setTextColourTarget($num, $onOffFlag, $targetTop, $targetBtm){
-  echo "<BR> COLOUR TEST: $num, $targetTop, $targetBtm";
+
+  $flagNum = 0;
   $colour = "";
   if ($onOffFlag == False){
     if ($num <= $targetTop){
+      $flagNum = 1;
       $colour = "background-color:LightSkyBlue;";
     }elseif ($num > $targetTop and $num <= 0){
+      $flagNum = 2;
       $colour = "background-color:MediumSeaGreen;";
     }elseif ($num > abs($targetTop)){
+      $flagNum = 3;
       $colour = "background-color:Orange;";
     }else{
+      $flagNum = 4;
       $colour = "background-color:Crimson;";
     }
   }else{
@@ -2792,6 +2797,7 @@ function setTextColourTarget($num, $onOffFlag, $targetTop, $targetBtm){
     elseif ($num == "1"){$colour = "background-color:MediumSeaGreen;";}
     //return $colour;
   }
+  echo "<BR> COLOUR TEST: $num, $targetTop, $targetBtm, $flagNum, $colour";
 return $colour;
 }
 
