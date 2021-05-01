@@ -102,7 +102,7 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
   $conn->close();
 }
 
-function getOpenTransactions(){
+function getOpenTransactionsLoc(){
     $tempAry = [];
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -118,7 +118,7 @@ function getOpenTransactions(){
 }
 
 function subPctFromOpenCoinModeTransactions(){
-  $openTrans = getOpenTransactions();
+  $openTrans = getOpenTransactionsLoc();
   $openTransSize = Count($openTrans);
 
   for ($l=0; $l<$openTransSize; $l++){
