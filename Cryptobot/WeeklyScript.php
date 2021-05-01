@@ -182,11 +182,31 @@ function clearBuyBack($mins){
   }
 }
 
+function clearSQLLog($days){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Delete FROM `ActionLog` WHERE datediff(now(),`DateTime`) > $days";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+
+}
+
 // MAIN PROGRAMME
 clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
 clearBuyBack(5760);
-
+clearSQLLog(90);
 
 ?>
 </html>
