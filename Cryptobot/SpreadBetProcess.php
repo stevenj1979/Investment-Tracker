@@ -215,15 +215,17 @@ function getSpreadBetTransactionID(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Sbt`.`ID`,`Sbt`.`SpreadBetRuleID`, `Sbt`.`TotalAmountToBuy`, `Sbt`.`AmountPerCoin`, `Sbr`.`UserID`
-          FROM `SpreadBetTransactions` `Sbt`
-          join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Sbt`.`SpreadBetRuleID`";
+  $sql = "SELECT `Sbtpv`.`SpreadBetTransactionID`,sum(`Sbtpv`.`TotalProfit`) as TotalProfit ,sum(`Sbtpv`.`TotalProfitPct`) as TotalProfitPct, `Tr`.`UserID`,`Sbt`.`SpreadBetRuleID`
+            FROM `SpreadBetTotalProfitView` `Sbtpv`
+            join `Transaction` `Tr` on `Tr`.`ID` = `Sbtpv`.`TransactionID`
+            join `SpreadBetTransactions` `Sbt` on `Sbt`.`ID` = `Sbtpv`.`SpreadBetTransactionID`
+            group by `SpreadBetTransactionID`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['SpreadBetRuleID'],$row['TotalAmountToBuy'],$row['AmountPerCoin'],$row['UserID']);
+      $tempAry[] = Array($row['SpreadBetTransactionID'],$row['TotalProfit'],$row['TotalProfitPct'],$row['UserID'],$row['SpreadBetRuleID']);
   }
   $conn->close();
   return $tempAry;
@@ -236,7 +238,7 @@ function getSpreadBetTotalProfit($spreadBetTransID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`SalePrice`*`Amount`) as TotalProfit  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID  and `Status` = 'Sold' ";
+  $sql = "SELECT ifNull(sum(`SalePrice`*`Amount`),0) as TotalProfit  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID  and `Status` = 'Sold' ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -255,7 +257,7 @@ function getSpreadBetPurchasePrice($spreadBetTransID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`CoinPrice`*`Amount`) as PurchasePrice  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID";
+  $sql = "SELECT ifNull(sum(`CoinPrice`*`Amount`),0) as PurchasePrice  FROM `SpreadBetTotalProfitView` WHERE `SpreadBetTransactionID` = $spreadBetTransID";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -328,16 +330,16 @@ function renewSpreadBetTransactionID(){
   $SBTrans = getSpreadBetTransactionID();
   $SBTransSize = count($SBTrans);
   for ($c=0; $c<$SBTransSize; $c++){
-    $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][1]; $totalAmountToBuy = $SBTrans[$c][2]; $amountPerCoin = $SBTrans[$c][3]; $userID = $SBTrans[$c][4];
-    $SBOpenTotalProfit = getSpreadBetTotalProfit($sBTransID);
-    $SBPurchasePrice = getSpreadBetPurchasePrice($sBTransID);
+    $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][4]; $userID = $SBTrans[$c][3]; $profit = $SBTrans[$c][1]; $profitPct = $SBTrans[$c][2];
+    //$SBOpenTotalProfit = getSpreadBetTotalProfit($sBTransID);
+    //$SBPurchasePrice = getSpreadBetPurchasePrice($sBTransID);
     //$SBLivePrice = getSpreadBetLivePrice($sBTransID);
     //$SBOpenTransactions = getSpreadBetOpenTrans($sBTransID);
     $SBTargetSellPct = getSpreadBetTargetSellPct($sBRuleID);
-    $profit = $SBOpenTotalProfit[0][0]; $purchasePrice = $SBPurchasePrice[0][0]; //$openTrans = $SBOpenTransactions[0][0]; //$livePrice = $SBLivePrice[0][0];
-    $sellTargetPct = $SBTargetSellPct[0][0];
-    $profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
-    echo "<BR> Test Renew SpreadBet TransID: $profit | $purchasePrice | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID | $totalAmountToBuy | $amountPerCoin";
+    //$profit = $SBOpenTotalProfit[0][0]; $purchasePrice = $SBPurchasePrice[0][0]; //$openTrans = $SBOpenTransactions[0][0]; //$livePrice = $SBLivePrice[0][0];
+    //$sellTargetPct = $SBTargetSellPct[0][0];
+    //$profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
+    echo "<BR> Test Renew SpreadBet TransID: $profit  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID ";
     if ($profitPct >= $sellTargetPct){
       //New TransactionID
       newSpreadTransactionID($userID,$sBRuleID);
