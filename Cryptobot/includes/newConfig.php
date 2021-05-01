@@ -1759,22 +1759,32 @@ function getTotalBTC($userID, $baseCurrency){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `AmountOpen` FROM `AllTimeBTC` WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency'";
+  $sql = "SELECT `AmountOpen`,`UserID`,`BaseCurrency` FROM `AllTimeBTC`";
   LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
   $conn->close();
   return $tempAry;
 }
 
-function getDailyBTC($userID, $baseCurrency){
+function getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency){
+  $totalBTCSpentSize = count($totalBTCSpent);
+  for ($j=0; $j < $totalBTCSpentSize; $j++){
+    if ($totalBTCSpent[$j][1] == $userID and $totalBTCSpent[$j][1] == $baseCurrency){
+      return $totalBTCSpent[$j][0];
+    }
+  }
+  return 0;
+}
+
+function getDailyBTC(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `AmountOpen` FROM `DailyBTC` WHERE `UserID` = $userID ";
+  $sql = "SELECT `AmountOpen`,`UserID`,`BaseCurrency` FROM `DailyBTC` where `AmountOpen` > 0";
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
   $conn->close();
   return $tempAry;
 }

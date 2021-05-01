@@ -397,6 +397,8 @@ while($completeFlag == False){
   $userProfit = getTotalProfit();
   $marketProfit = getMarketProfit();
   $ruleProfit = getRuleProfit();
+  $totalBTCSpent = getTotalBTC();
+  $dailyBTCSpent = getDailyBTC();
   //$pauseRulesFlag = True;
   //echo "<BR> Coin Length: $coinLength";
   sleep(1);
@@ -519,21 +521,21 @@ while($completeFlag == False){
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
-        $totalBTCSpent = getTotalBTC($userID,$baseCurrency);
+        $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
         //if (!empty($totalBTCSpent[0][0]) && $buyAmountOverrideEnabled == False){
         echo "<BR> Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0];
-        if (!is_null($totalBTCSpent[0][0])){
-          if ($totalBTCSpent[0][0] >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit";}
-        }
+        //if (!is_null($totalBTCSpent[0][0])){
+          if ($userBTCSpent >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$userBTCSpent." Limit $TotalBTCLimit";}
+        //}
         //}
       }
 
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
         echo "<BR> Check if over daily limit! ";
-        $dailyBTCSpent = getDailyBTC($userID,$baseCurrency);
+        $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
         //echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";
         //if (!empty($dailyBTCSpent[0][0])){
-          if ($dailyBTCSpent[0][0] >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$dailyBTCSpent[0][0]." Limit $DailyBTCLimit";}
+          if ($userDailyBTCSpent >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
       //  }
       }
 
