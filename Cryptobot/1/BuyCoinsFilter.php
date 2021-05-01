@@ -27,8 +27,10 @@ if (isset($_POST['filterSelect']) and $_POST['filterSelect'] <> ""){
 
   //}
 }else{
-  $userBuyRules = getBuyRules($_SESSION['ID']);
-  $_SESSION['RuleIDSelected'] = $userBuyRules[0][35];
+  if (!isset($_SESSION['RuleIDSelected'])){
+    $userBuyRules = getBuyRules($_SESSION['ID']);
+    $_SESSION['RuleIDSelected'] = $userBuyRules[0][35];
+  }
   showMain();
 }
 
@@ -286,10 +288,10 @@ function showMain(){
           $priceTrendtest = newBuywithPattern($newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleID,0);
           $Hr1PriceTrendtest = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleID,0);
           $coinMatchPatterntest = coinMatchPattern($coinPriceMatch,$tracking[$x][17],$coin,0,$coinPricePatternEnabled,$ruleID,0);
-          echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
+          //echo "<BR> TEST: buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Live1HrChange,$Hr1ChangeEnabled);$Hr1Test";
           //Table
           //echo "<BR> Limit to Coin : $coinID | $limitToCoinID | $limitToCoin";
-          if ($coinID <> $limitToCoinID and $limitToCoin <> "All"){ continue;}
+          //if ($coinID <> $limitToCoinID and $limitToCoin <> "All"){ continue;}
           echo "<td><a href='Stats.php?coin=$coin'>$coin</a></td>";
           echo "<td>".$baseCurrency."</td>";
           if ($autoBuyCoinEnabled == False){
