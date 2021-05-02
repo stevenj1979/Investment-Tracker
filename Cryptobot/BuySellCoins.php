@@ -935,7 +935,7 @@ while($completeFlag == False){
           continue;
         }
       }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
-        logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $logToSQLSetting);
+        //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $logToSQLSetting);
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           echo "<BR>SELL Order COMPLETE!";
             $profitPct = ($finalPrice-$cost)/$cost*100;
