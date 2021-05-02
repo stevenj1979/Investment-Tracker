@@ -397,7 +397,7 @@ function renewSpreadBetTransactionID(){
       //updateSBTransactionsToNew($sBRuleID,$sBTransID);
       //updateSBSellTarget($sBRuleID,$sBTransID);
       //updateSBTotalProfit($sBRuleID,$sBTransID);
-
+      LogToSQL("SpreadBetClose","Profit for $sBRuleID : $sBTransID is $profit ($profitPct %) Selling ALL",$userID,1);
     }
   }
 }
