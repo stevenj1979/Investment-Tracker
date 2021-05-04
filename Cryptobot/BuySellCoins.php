@@ -414,7 +414,7 @@ while($completeFlag == False){
     $price4Trend = $coins[$x][27]; $price3Trend = $coins[$x][28]; $lastPriceTrend = $coins[$x][29];  $livePriceTrend = $coins[$x][30];
     $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
     $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
-    $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange;
+    $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
     //$timeToCancelBuyMins = $coins[$x][31];
     //LOG
     //echo "<br> i=$i CoinID=$coinID Coin=$symbol baseCurrency=$baseCurrency ";
@@ -519,6 +519,7 @@ while($completeFlag == False){
       if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){ continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
+      if ($doNotBuy == 1){ continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
 
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
