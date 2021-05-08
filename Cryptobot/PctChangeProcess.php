@@ -155,7 +155,7 @@ for ($i=0; $i<$coinCount; $i++){
     $coinID = $coins[$i][0];
     //Get Prices from History
     $Hr1Price = getPrice($coinID, 55, 65);
-    echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
+    //echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
 
     //Check if 0
     if (!isset($Hr1Price[0][1]) OR is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
@@ -211,16 +211,30 @@ for ($i=0; $i<$coinCount; $i++){
     }
 
     $Min15Price = getPrice($coinID, 10, 20);
-    $price15Min = $Min15Price[0][1];
+    $price15Min = 0;
+    if (isset($Min15Price[0][1])){
+      $price15Min = $Min15Price[0][1];
+    }
+
 
     $Min30Price = getPrice($coinID, 25, 35);
-    $price30Min = $Min30Price[0][1];
+        $price30Min = 0;
+    if (isset($Min30Price[0][1])){
+        $price30Min = $Min30Price[0][1];
+    }
+
 
     $Min45Price = getPrice($coinID, 40, 50);
-    $price45Min = $Min45Price[0][1];
+    $price45Min = 0;
+    if (isset($Min45Price[0][1])){
+      $price45Min = $Min45Price[0][1];
+    }
 
     $Min75Price = getPrice($coinID, 70, 80);
-    $price75Min = $Min75Price[0][1];
+    $price75Min = 0;
+    if (isset($Min75Price[0][1])){
+      $price75Min = $Min75Price[0][1];
+    }
 
     //Write to PricePctChangeHistory
     writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min,$price48Hr,$price72Hr);
