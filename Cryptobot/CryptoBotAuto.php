@@ -224,7 +224,7 @@ while($date <= $newTime){
           $D7P = $CMCStats[$k][4];
           $D30P = $CMCStats[$k][5];
           saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);
-          LogToSQL("CMCStats","saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);",3,1);
+          //LogToSQL("CMCStats","saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);",3,1);
         }
       }
       //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}

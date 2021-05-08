@@ -2616,7 +2616,7 @@ function getCoinList($coinStats, $num){
   for ($i=0; $i<$coinStatsCount; $i++){
     $returnStr .= $coinStats[$i][$num].",";
   }
-  LogToSQL("CMCStats","".rtrim($returnStr,','),3,1);
+  //LogToSQL("CMCStats","".rtrim($returnStr,','),3,1);
   return rtrim($returnStr,',');
 }
 
