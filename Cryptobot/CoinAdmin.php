@@ -483,6 +483,24 @@ function RunSellTrendUpdate(){
 
 }
 
+function DeleteCMCDisabledCoins(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Delete from `CMCData` where `ID` in (
+            Select * From (
+            Select `Cmc`.`ID` FROM `CMCData` `Cmc`
+            join `Coin` `Cn` on `Cn`.`ID` = `Cmc`.`CoinID`
+            WHERE `BuyCoin` = 0) as P
+            )";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 
 
 
@@ -541,6 +559,8 @@ for ($w=0; $w<$coinLowSize; $w++){
 updateSpreadBetCoinHistory();
 
 RunSellTrendUpdate();
+
+DeleteCMCDisabledCoins();
 
 ?>
 </html>
