@@ -618,9 +618,11 @@ while($completeFlag == False){
         if ($baseCurrency == 'BTC'){
           echo "<BR> BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0];
           $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
+          $BTCAmount = $BTCAmount / $baseMultiplier[0][0];
           LogToSQL("BTCTest","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,1);
         }elseif ($baseCurrency == 'ETH'){
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
+          $BTCAmount = $BTCAmount / $baseMultiplier[0][1];
           LogToSQL("ETHTest","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,1);
         }else{
           $totalBal = $BTCBalance-$totalReserved;
