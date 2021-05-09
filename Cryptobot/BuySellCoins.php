@@ -615,8 +615,10 @@ while($completeFlag == False){
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
         if ($baseCurrency == 'BTC'){
           $totalBal = ($BTCBalance-$reservedAmount[0][0])*$baseMultiplier[0];
+          LogToSQL("BTCTest","BaseCurrency is BTC : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0],3,1);
         }elseif ($baseCurrency == 'ETH'){
           $totalBal = ($BTCBalance-$reservedAmount[0][0])*$baseMultiplier[1];
+          LogToSQL("ETHTest","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[1],3,1);
         }else{
           $totalBal = $BTCBalance-$reservedAmount[0][0];
         }
@@ -632,7 +634,7 @@ while($completeFlag == False){
           logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,0);", $userID, $logToSQLSetting);
           $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
           $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
-        }
+        }else{ echo "<BR> EXIT: $totalBal Less than 20 | $totalBal";}
       }
 
       echo "<BR> NEXT RULE <BR>";
