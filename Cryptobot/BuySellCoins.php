@@ -613,14 +613,15 @@ while($completeFlag == False){
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         //if ($reservedAmount <> 0){
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
+        $totalReserved = $reservedAmount[0][0]+($reservedAmount[0][1]*$baseMultiplier[0][0])+($reservedAmount[0][2]*$baseMultiplier[0][1]);
         if ($baseCurrency == 'BTC'){
-          $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$reservedAmount[0][0];
+          $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
           LogToSQL("BTCTest","BaseCurrency is BTC : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][0],3,1);
         }elseif ($baseCurrency == 'ETH'){
-          $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$reservedAmount[0][0];
+          $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           LogToSQL("ETHTest","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,1);
         }else{
-          $totalBal = $BTCBalance-$reservedAmount[0][0];
+          $totalBal = $BTCBalance-$totalReserved;
         }
 
         //} else{ $totalBal = $BTCBalance;}

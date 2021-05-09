@@ -3338,14 +3338,19 @@ function getReservedAmount($baseCurrency, $userID){
   }
 //12
 
-  $sql = "SELECT if(sum(`CoinPrice`) * sum(`Quantity`)=0, sum(`CoinPrice`) * sum(`Quantity`), 0) as TotalReserved
-from `TrackingCoins` where `BaseCurrency` = '$baseCurrency' and `UserID` = $userID and `Status` = 'Open'";
+  $sql = "select (
+            SELECT sum(`CoinPrice` * `Quantity`)
+            from `TrackingCoins` where `BaseCurrency` = 'USDT' and `UserID` = 3 and `Status` = 'Open') as TotalReservedUSDT
+            ,ifnull((SELECT sum(`CoinPrice`*`Quantity` )
+            from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = 3 and `Status` = 'Open'),0)as TotalReservedBTC
+            ,ifnull((SELECT sum(`CoinPrice`*`Quantity` )
+            from `TrackingCoins` where `BaseCurrency` = 'ETH' and `UserID` = 3 and `Status` = 'Open'),0)as TotalReservedETH";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['TotalReserved']);
+    $tempAry[] = Array($row['TotalReservedUSDT'],$row['TotalReservedBTC'],$row['TotalReservedETH']);
   }
   $conn->close();
   return $tempAry;
