@@ -3351,6 +3351,28 @@ from `TrackingCoins` where `BaseCurrency` = '$baseCurrency' and `UserID` = $user
   return $tempAry;
 }
 
+function getBasePrices(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+//12
+
+  $sql = "select (SELECT `LiveCoinPrice`  FROM `CoinPrice` WHERE `CoinID` in (84)) as BTCPrice
+          , (SELECT `LiveCoinPrice` FROM `CoinPrice` WHERE `CoinID` in (85) )as ETHPrice ";
+  //echo $sql;
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['BTCPrice'],$row['ETHPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getUserDisabled($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));

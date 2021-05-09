@@ -402,6 +402,7 @@ while($completeFlag == False){
   $ruleProfit = getRuleProfit();
   $totalBTCSpent = getTotalBTC();
   $dailyBTCSpent = getDailyBTC();
+  $baseMultiplier = getBasePrices();
   //$pauseRulesFlag = True;
   //echo "<BR> Coin Length: $coinLength";
   sleep(1);
@@ -612,7 +613,14 @@ while($completeFlag == False){
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         //if ($reservedAmount <> 0){
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
-        $totalBal = $BTCBalance-$reservedAmount[0][0];
+        if ($baseCurrency == 'BTC'){
+          $totalBal = ($BTCBalance-$reservedAmount[0][0])*$baseMultiplier[0];
+        }elseif ($baseCurrency == 'ETH'){
+          $totalBal = ($BTCBalance-$reservedAmount[0][0])*$baseMultiplier[1];
+        }else{
+          $totalBal = $BTCBalance-$reservedAmount[0][0];
+        }
+
         //} else{ $totalBal = $BTCBalance;}
         if ($totalBal > 20) {
           echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
