@@ -146,6 +146,7 @@ while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
   $newTrackingCoinsSize = count($newTrackingCoins);
   $marketStats = getMarketstats();
+  $baseMultiplier = getBasePrices();
   echo "<BR> Tracking COINS!! ";
   echo "<blockquote>";
   sleep(1);
@@ -168,6 +169,11 @@ while($completeFlag == False){
     $market1HrChangePct = $marketStats[0][1];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
+    if ($baseCurrency == 'BTC'){
+      $BTCAmount = $BTCAmount * $baseMultiplier[0][0];
+    }elseif ($baseCurrency == 'ETH'){
+      $BTCAmount = $BTCAmount * $baseMultiplier[0][1];
+    }
     if ($openTransactionFlag == True){
       $openTransactions = getOpenTransactions();
       $openTransactionFlag = False;
