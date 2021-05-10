@@ -628,10 +628,12 @@ while($completeFlag == False){
           echo "<BR> BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0];
           $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
           $BTCAmount = $BTCAmount / $baseMultiplier[0][0];
+          $buyQuantity = $BTCAmount/$LiveCoinPrice;
           LogToSQL("BTCTest","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,1);
         }elseif ($baseCurrency == 'ETH'){
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $BTCAmount = $BTCAmount / $baseMultiplier[0][1];
+          $buyQuantity = $BTCAmount/$LiveCoinPrice;
           LogToSQL("ETHTest","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,1);
         }else{
           $totalBal = $BTCBalance-$totalReserved;
@@ -643,7 +645,7 @@ while($completeFlag == False){
           //buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
           //updateReservedAmount($BTCAmount*$LiveCoinPrice,$baseCurrency,$userID);
           if($BTCAmount <= 0 ){ continue;}
-          $buyQuantity = $BTCAmount/$LiveCoinPrice;
+
           addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);
           //logAction("buyCoins($APIKey,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed,0)", 'BuySell');
           logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,0);", $userID, $logToSQLSetting);
