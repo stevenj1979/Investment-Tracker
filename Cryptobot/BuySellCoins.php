@@ -170,8 +170,10 @@ while($completeFlag == False){
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     if ($baseCurrency == 'BTC'){
+      $ogBTCAmount = $newTrackingCoins[$a][11];
       $BTCAmount = $BTCAmount * $baseMultiplier[0][0];
     }elseif ($baseCurrency == 'ETH'){
+      $ogBTCAmount = $newTrackingCoins[$a][11];
       $BTCAmount = $BTCAmount * $baseMultiplier[0][1];
     }
     if ($openTransactionFlag == True){
@@ -251,10 +253,10 @@ while($completeFlag == False){
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
-      $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);
-      logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
+      $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);
+      logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
       UpdateProfit();
-      subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
+      //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
       closeNewTrackingCoin($newTrackingCoinID, False);
       $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
       $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
