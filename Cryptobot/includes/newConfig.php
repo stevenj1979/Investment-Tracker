@@ -327,7 +327,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
    //echo "<BR> Balance : $BTCBalance ";
    //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
-   return $returnPrice/$bitPrice;
+   return $returnPrice;
 }
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$noOfPurchases = 0){
