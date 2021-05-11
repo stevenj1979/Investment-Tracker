@@ -316,7 +316,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
     }elseif ($btcBuyAmount > 0 && $buyType == 1){
       echo "<BR> 3: ($btcBuyAmount) ";
       //$returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);
-      $returnPrice = $btcBuyAmount;
+      $returnPrice = $btcBuyAmount/$bitPrice;
       echo " $returnPrice ";
     }
 
