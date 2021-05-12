@@ -303,27 +303,32 @@ function newPrice($bitPrice, $pct, $action){
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
   //Convert USD to BTC/ETH/BCH
   //$btcBuyAmount = $btcBuyAmount/$bitPrice;
+  $testFlag = 0;
   echo "<BR> 0: returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){";
   if ($btcBuyAmount == 0){
     echo "<BR> 1: $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
     $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     echo " $returnPrice ";
+    $testFlag = 1;
   }elseif ($btcBuyAmount > 0 && $buyType == 0){
       echo "<BR> 2: returnPrice = ($BTCBalance/100)*$btcBuyAmount; ";
       //$returnPrice = ($btcBuyAmount) - (($BTCBalance/ 100 ) * 0.28);
       $returnPrice = ($BTCBalance/100)*$btcBuyAmount;
       echo " : $returnPrice ";
+      $testFlag = 2;
     }elseif ($btcBuyAmount > 0 && $buyType == 1){
       echo "<BR> 3: ($btcBuyAmount) ";
       //$returnPrice = ($BTCBalance*($btcBuyAmount/100))- (($BTCBalance/ 100 ) * 0.28);
       $returnPrice = $btcBuyAmount/$bitPrice;
       echo " $returnPrice ";
+      $testFlag = 3;
     }
 
    if ($returnPrice > $BTCBalance) {
      $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
      echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
+   LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag",3,1);
    //echo "<BR> Balance : $BTCBalance ";
    //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
@@ -391,6 +396,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           $btcBuyAmount = round($btcBuyAmount,10);
           $bitPrice = round($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
+          LogToSQL("BuyCoinTest","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           logToSQL("Bittrex", "bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);", $userID,1);
           if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
