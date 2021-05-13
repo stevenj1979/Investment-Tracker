@@ -175,6 +175,8 @@ while($completeFlag == False){
     }elseif ($baseCurrency == 'ETH'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
       $BTCAmount = $BTCAmount * $baseMultiplier[0][1];
+    }else{
+      $ogBTCAmount = $BTCAmount;
     }
     if ($openTransactionFlag == True){
       $openTransactions = getOpenTransactions();
@@ -1395,8 +1397,8 @@ while($completeFlag == False){
     $fallsInPrice = $sellSpread[$w][61];
     $tempProfit = getTotalProfitSpreadBetSell($ID);
     //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
-    $purchasePrice = $tempProfit[0][0];
-    $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
+    $purchasePrice = $tempProfit[0][13];
+    $livePrice = $tempProfit[0][14] + $tempProfit[0][15];
     $profit = $livePrice-$purchasePrice;
     $profitPct = ($profit/$purchasePrice)*100;
     echo "<BR> PROFIT: $profit / $purchasePrice * 100 = $profitPct";
