@@ -4626,7 +4626,31 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       closeNewTrackingSellCoin($trackingSellID);
       return False;
     }
+    if (($type == 'SpreadSell' && $minsFromDate > 14400){
+      logToSQL("trackingCoinReadyToSell", "OPT 6 : $type | $minsFromDate", 3, 1);
+      updateSQLcancelSpreadBetTrackingSell($TransactionID);
+      reopenTransaction($TransactionID);
+      closeNewTrackingSellCoin($trackingSellID);
+      return False;
+    }
+
     setLastPrice($livePrice,$trackingSellID, 'Sell');
+}
+
+function updateSQLcancelSpreadBetTrackingSell($TransactionID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call cancelSpreadBetTrackingSell($TransactionID);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateSQLcancelSpreadBetTrackingSell: ".$sql, 'TrackingCoins', 0);
 }
 
 function getSpreadBetCount($SBTransID){
