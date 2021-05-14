@@ -2184,11 +2184,13 @@ function getMarketstats(){
 ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as `Hr24ChangePctChange`
 ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as `D7ChangePctChange`
   ,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`
-  ,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange` FROM `MarketCoinStats` ";
+  ,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange`
+  , `Live1HrChange`, `Live24HrChange`, `Live7DChange` FROM `MarketCoinStats` ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['LiveMarketPctChange'],$row['MarketCapPctChange']);
+    $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['LiveMarketPctChange'],$row['MarketCapPctChange']
+  ,$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange']);
   }
   $conn->close();
   return $tempAry;

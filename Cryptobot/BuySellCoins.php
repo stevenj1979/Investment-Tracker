@@ -1207,6 +1207,7 @@ while($completeFlag == False){
       $Live1HrChangeAlrt = $marketStats[0][1];$Live24HrChangeAlrt = $marketStats[0][2];$Live7DChangeAlrt = $marketStats[0][3]; $liveCoinPrice = $marketStats[0][0];$liveMarketCapAlert = $marketStats[0][5];
       $category = $marketAlerts[$q][5];$price = $marketAlerts[$q][9];$action = $marketAlerts[$q][6];$reocurring = $marketAlerts[$q][4];
       $minutes = $marketAlerts[$q][7]; $id = $marketAlerts[$q][8];
+      $liveHr1Price = $marketStats[0][6];$liveHr24Price = $marketStats[0][7];$liveD7Price = $marketStats[0][8];
       Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
       if ($category == "Price"){
         //Price
@@ -1217,6 +1218,7 @@ while($completeFlag == False){
         }
       }elseif ($category == "Pct Price in 1 Hour"){
         //1Hr
+        $price = (($liveCoinPrice - $liveHr1Price)/$liveHr1Price)*100;
         $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
         if ($returnFlag){
           echo "<BR> $category Alert True. Sending Alert for $price $action";
