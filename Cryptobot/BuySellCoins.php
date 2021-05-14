@@ -1218,7 +1218,7 @@ while($completeFlag == False){
         }
       }elseif ($category == "Pct Price in 1 Hour"){
         //1Hr
-        $price = (($liveCoinPrice - $liveHr1Price)/$liveHr1Price)*100;
+        $Live24HrChangeAlrt = (($liveCoinPrice - $liveHr1Price)/$liveHr1Price)*100;
         $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
         if ($returnFlag){
           echo "<BR> $category Alert True. Sending Alert for $price $action";
