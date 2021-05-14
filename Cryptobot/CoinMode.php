@@ -57,6 +57,7 @@ function checkMarketforPctDip(){
           $userID = $userIDs[$t][0];
           echo "<BR> Enabing LowMarketMode for: $userID";
           runLowMarketMode($userID);
+          LogToSQL("LowMarketMode","unLowMarketMode($userID); $marketPctChangeHr1",3,1);
         }
 
     }
