@@ -4626,7 +4626,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       closeNewTrackingSellCoin($trackingSellID);
       return False;
     }
-    if (($type == 'SpreadSell' && $minsFromDate > 14400){
+    if ($type == 'SpreadSell' && $minsFromDate > 14400){
       logToSQL("trackingCoinReadyToSell", "OPT 6 : $type | $minsFromDate", 3, 1);
       updateSQLcancelSpreadBetTrackingSell($TransactionID);
       reopenTransaction($TransactionID);
