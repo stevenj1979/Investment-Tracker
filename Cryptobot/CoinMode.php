@@ -47,7 +47,7 @@ function getUserID(){
 function checkMarketforPctDip(){
   $userIDs = getUserID();
   $userIDsSize = count($userIDs);
-  $marketStats = getMarketstats();
+  $marketStats = getNewMarketstats();
   $marketStatsSize = count($marketStats);
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0];
@@ -63,7 +63,7 @@ function checkMarketforPctDip(){
   }
 }
 
-function getMarketstats(){
+function getNewMarketstats(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
