@@ -2866,6 +2866,22 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
 }
 
+function runLowMarketMode($userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call setLowMarketMode($userID,90);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
+}
+
 function getNewTrackingCoins($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));

@@ -25,6 +25,63 @@ function WritetoRule($coinD, $ruleID, $highPrice, $lowPrice, $buyAmount, $enable
   $conn->close();
 }
 
+function getUserID(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `UserID` FROM `User` where `LowMarketModeEnabled` = 1;";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['UserID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function checkMarketforPctDip(){
+  $userIDs = getUserID();
+  $userIDsSize = count($userIDs);
+  $marketStats = getMarketstats();
+  $marketStatsSize = count($marketStats);
+  for ($y=0; $y<$marketStatsSize; $y++){
+    $marketPctChangeHr1 = $marketStats[$y][0];
+    echo "<BR> Checking: $marketPctChangeHr1";
+    if ($marketPctChangeHr1 <= -6.0){
+        for ($t=0; $t<$userIDsSize; $t++){
+          $userID = $userIDs[$t][0];
+          echo "<BR> Enabing LowMarketMode for: $userID";
+          runLowMarketMode($userID);
+        }
+
+    }
+  }
+}
+
+function getMarketstats(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as Hr1MarketPctChange FROM `MarketCoinStats`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['Hr1MarketPctChange']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function addBuyCount($buyModeCount, $ruleID, $coinID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -330,7 +387,7 @@ function isBuyMode($coinAry, $minBuyAmount){
     }
   }
 
-
+checkMarketforPctDip();
 
 
 ?>
