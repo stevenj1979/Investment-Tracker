@@ -1326,7 +1326,7 @@ while($completeFlag == False){
       $savedBTCAmount = $openCoins[0][3];
       $loopNum = 0;
       $availableTrans = $totalNoOfBuys - $openCoinsSize;
-      Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy";
+      Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy | $openCoinsSize | $totalNoOfBuys | $availableTrans";
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         $spreadBetToBuy = getCoinAllocation($UserID);
         $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
