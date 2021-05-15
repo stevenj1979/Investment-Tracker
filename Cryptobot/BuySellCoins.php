@@ -171,6 +171,7 @@ while($completeFlag == False){
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     if ($baseCurrency == 'BTC'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
+      Echo "<BR> Base Multiplier $BTCAmount | ".$baseMultiplier[0][0];
       $BTCAmount = $BTCAmount * $baseMultiplier[0][0];
     }elseif ($baseCurrency == 'ETH'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
