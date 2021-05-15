@@ -1403,8 +1403,8 @@ while($completeFlag == False){
     $fallsInPrice = $sellSpread[$w][61];
     $tempProfit = getTotalProfitSpreadBetSell($ID);
     //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
-    $purchasePrice = $tempProfit[0][13];
-    $livePrice = $tempProfit[0][14] + $tempProfit[0][15];
+    $purchasePrice = $tempProfit[0][0];
+    $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
     $profit = $livePrice-$purchasePrice;
     $profitPct = ($profit/$purchasePrice)*100;
     echo "<BR> PROFIT: $profit / $purchasePrice * 100 = $profitPct";
