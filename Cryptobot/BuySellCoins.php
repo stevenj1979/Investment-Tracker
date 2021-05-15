@@ -172,10 +172,10 @@ while($completeFlag == False){
     if ($baseCurrency == 'BTC'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
       Echo "<BR> Base Multiplier $BTCAmount | ".$baseMultiplier[0][0];
-      $BTCAmount = $BTCAmount * $baseMultiplier[0][0];
+      $BTCAmount = $BTCAmount / $baseMultiplier[0][0];
     }elseif ($baseCurrency == 'ETH'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
-      $BTCAmount = $BTCAmount * $baseMultiplier[0][1];
+      $BTCAmount = $BTCAmount / $baseMultiplier[0][1];
     }else{
       $ogBTCAmount = $BTCAmount;
     }
