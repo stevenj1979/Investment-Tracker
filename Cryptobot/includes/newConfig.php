@@ -4510,6 +4510,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   Echo "<BR> Swing:$swingPrice Current:$currentPrice ";
   //if liveprice is stable, add 1 - -0.5 - 0.5
   if ($minsFromDate < 5){
+      Echo "<BR>Less Than 5 Mins | OPT 1 : $minsFromDate";
       return False;
   }
   if (abs($market1HrChangePct) > 0.25){
@@ -4548,7 +4549,9 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     closeNewTrackingCoin($trackingID, True);
     return False;
   }
+  echo "<BR> Exit trackingCoinReadyToBuy";
   setLastPrice($livePrice,$trackingID, 'Buy');
+  return False;
 }
 
 function resetQuickBuyCount($trackingID){
