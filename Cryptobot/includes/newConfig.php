@@ -4518,11 +4518,13 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice) OR ($quickBuyCount >= 3)){
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
+    Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice";
     logToSQL("trackingCoinReadyToBuy", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1);
     //reopenTransaction($TransactionID);
     return True;
   }
   if($currentPrice <= $swingPrice){
+    Echo "<BR>Update No Of Rises | OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice";
     logToSQL("trackingCoinReadyToBuy", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1);
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
@@ -4533,12 +4535,14 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
+    Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
     setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     return False;
   }
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
     //Cancel Transaction
+    Echo "<BR>Cancel Transaction | OPT 5 : $type | $pctProfit";
     logToSQL("trackingCoinReadyToBuy", "OPT 5 : $type | $pctProfit", 3, 1);
     //reopenTransaction($TransactionID);
     closeNewTrackingCoin($trackingID, True);
