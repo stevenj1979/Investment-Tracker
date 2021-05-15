@@ -4854,7 +4854,7 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   }
 
   $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice
-    ,getBTCPrice() as getBTCPrice, getETHPrice() as getETHPrice,
+    ,getBTCPrice() as getBTCPrice, getETHPrice() as getETHPrice
             FROM `SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
 
