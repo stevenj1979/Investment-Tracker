@@ -206,9 +206,9 @@ while($completeFlag == False){
     //if ($coinMode == 0){if ($coinAllocation[0][0]<= 0){ continue;}}
     //if (($coinMode == 0) and ($ruleIDBuy > 0) and ($coinAllocation[0][1]<$BTCAmount)){continue;}
     if ($coinMode > 0){
-      if ($coinAllocation[0][1]<$ogBTCAmount){
+      if ($coinAllocation[0][1]<20){
         //if ($coinAllocation[0][1] <= 0){
-          echo "<BR> EXIT1: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][1];
+          echo "<BR> EXIT1 COINMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][1];
           //LogToSQL("CoinAllocation","EXIT1: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][1],3,1);
            continue;
         //}else{
@@ -217,9 +217,9 @@ while($completeFlag == False){
         //}
       }else{ $indexLookup = 1;}
     }elseif ($coinMode == 0 AND $type == 'SpreadBuy'){
-      if ($coinAllocation[0][2]<$ogBTCAmount){
+      if ($coinAllocation[0][2]<20){
         //if ($coinAllocation[0][2] <= 0){
-          echo "<BR> EXIT2: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][2];
+          echo "<BR> EXIT2 SPREADBUY: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][2];
           //LogToSQL("CoinAllocation","EXIT2: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][2],3,1);
           continue;
         //}else{
@@ -228,9 +228,9 @@ while($completeFlag == False){
         //}
       }else{ $indexLookup = 3;}
     }elseif ($coinMode == 0 AND $type == 'Buy'){
-      if ($coinAllocation[0][0]<$ogBTCAmount){
+      if ($coinAllocation[0][0]<20){
         //if ($coinAllocation[0][0] <= 0){
-          echo "<BR> EXIT3: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][0];
+          echo "<BR> EXIT3 RULEMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][0];
           //LogToSQL("CoinAllocation","EXIT3: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][0],3,1);
           continue;
         //}else{
@@ -248,7 +248,7 @@ while($completeFlag == False){
         //LogToSQL("TrackingCoin","BTC Alloction: $oldBTCAmount | $BTCAmount | $indexLookup | $liveOpenTrans | $noOfBuys",3,1);
       }
     }
-    if ($minsDisabled>0){ continue;}
+    if ($minsDisabled>0){ Echo "<BR> Exit Disabled : $minsDisabled"; continue;}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
 
