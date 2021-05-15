@@ -1332,6 +1332,7 @@ while($completeFlag == False){
         $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize))*$inverseAvgHighPct;
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
+        LogToSQL("SpreadBetCoinAllocation","BTCAmount: $BTCAmount | DivAlloc: $divideAllocation | OpenCoinSize: $openCoinsSize | $inverseAvgHighPct | $totalNoOfBuys | $availableTrans | ".$spreadBetToBuy[0][0],3,1);
         if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: ".$spreadBetToBuy[0][0]." | Div Alloc: $divideAllocation | inv pct: $inverseAvgHighPct | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
