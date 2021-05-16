@@ -4600,6 +4600,15 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
         //: OPT 1
         return False;
     }
+
+    if ($type == 'SpreadSell' && $minsFromDate > 14400){
+      logToSQL("trackingCoinReadyToSell", "OPT 6 : $type | $minsFromDate", 3, 1);
+      updateSQLcancelSpreadBetTrackingSell($TransactionID);
+      reopenTransaction($TransactionID);
+      closeNewTrackingSellCoin($trackingSellID);
+      return False;
+    }
+
     if (abs($market1HrChangePct) > 0.25){
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
@@ -4633,13 +4642,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       closeNewTrackingSellCoin($trackingSellID);
       return False;
     }
-    if ($type == 'SpreadSell' && $minsFromDate > 14400){
-      logToSQL("trackingCoinReadyToSell", "OPT 6 : $type | $minsFromDate", 3, 1);
-      updateSQLcancelSpreadBetTrackingSell($TransactionID);
-      reopenTransaction($TransactionID);
-      closeNewTrackingSellCoin($trackingSellID);
-      return False;
-    }
+
 
     setLastPrice($livePrice,$trackingSellID, 'Sell');
 }
