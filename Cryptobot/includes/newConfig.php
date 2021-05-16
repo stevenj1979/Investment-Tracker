@@ -4605,7 +4605,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       logToSQL("trackingCoinReadyToSell", "OPT 6 : $type | $minsFromDate", 3, 1);
       updateSQLcancelSpreadBetTrackingSell($TransactionID);
       reopenTransaction($TransactionID);
-      closeNewTrackingSellCoin($trackingSellID);
+      closeNewTrackingSellCoin($TransactionID);
       return False;
     }
 
@@ -4639,7 +4639,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       //Cancel Transaction : OPT 5
       logToSQL("trackingCoinReadyToSell", "OPT 5 : $type | $pctProfit", 3, 1);
       reopenTransaction($TransactionID);
-      closeNewTrackingSellCoin($trackingSellID);
+      closeNewTrackingSellCoin($TransactionID);
       return False;
     }
 
