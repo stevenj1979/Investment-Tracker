@@ -55,13 +55,13 @@ function getConsoleData($console){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment` FROM `ActionLogView` WHERE `UserID` = 3 and $sql_option Limit 100";
+  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog FROM `ActionLogView` WHERE `UserID` = 3 and $sql_option Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment']);
+      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment'].": ".$row['MinsSinceLog']);
   }
   $conn->close();
   return $tempAry;
