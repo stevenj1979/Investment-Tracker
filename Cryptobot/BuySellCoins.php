@@ -928,7 +928,7 @@ while($completeFlag == False){
           }
           if ($type == 'SpreadBuy'){
             updateToSpreadSell($transactionID);
-            logToSQL("Bittrex", "updateToSpreadSell($transactionID);", $userID, $logToSQLSetting);
+            logToSQL("Bittrex", "updateToSpreadSell($transactionID) $type;", $userID, $logToSQLSetting);
             updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);
             logToSQL("Bittrex", "updateSpreadBetTotalProfitBuy($transactionID ,$finalPrice,$amount);", $userID, $logToSQLSetting);
             updateSpreadBetSellTarget($transactionID);
@@ -962,6 +962,10 @@ while($completeFlag == False){
                 $subject = "Coin Purchase1: ".$coin;
                 $from = 'Coin Purchase <purchase@investment-tracker.net>';
                 sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
+              }
+              if($redirectPurchasesToSpread == 1){
+                $type = 'SpreadBuy';
+                updateBuyToSpread($spreadBetIDRedirect,$transactionID);
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
               if ($type == "SpreadBuy"){
