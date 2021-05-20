@@ -350,7 +350,7 @@ while($completeFlag == False){
     if ($readyToSell == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
         //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-        logToSQL("SaveResidualCoins","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins",3,1);
+        logToSQL("SaveResidualCoins","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type",3,1);
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
           $PurchasePrice = ($Amount*$CoinPrice);
           $oldAmount = $Amount;
@@ -968,7 +968,7 @@ while($completeFlag == False){
                 updateBuyToSpread($spreadBetIDRedirect,$transactionID);
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
-              if ($type == "SpreadBuy"){
+              if ($type == 'SpreadBuy'){
                 SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);
                 updateToSpreadSell($transactionID);
                 logToSQL("BittrexCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $logToSQLSetting);
