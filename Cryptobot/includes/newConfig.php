@@ -4954,7 +4954,7 @@ function updateSpreadBetSellTarget($transactionID){
 
   $sql = "INSERT INTO `SpreadBetSellTarget`( `TransactionID`, `SBTransactionID`, `SellPct`)
   VALUES ($transactionID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = $transactionID )
-  ,(SELECT`PctProfitSell` FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
+  ,(SELECT `PctProfitSell`/4 FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
   logToSQL("BittrexSQL", "$sql", 3, 1);
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
