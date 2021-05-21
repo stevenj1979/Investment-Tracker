@@ -387,7 +387,7 @@ function renewSpreadBetTransactionID(){
     //$profit = $SBOpenTotalProfit[0][0]; $purchasePrice = $SBPurchasePrice[0][0]; //$openTrans = $SBOpenTransactions[0][0]; //$livePrice = $SBLivePrice[0][0];
     //$sellTargetPct = $SBTargetSellPct[0][0];
     //$profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
-    echo "<BR> Test Renew SpreadBet TransID: $profitTotal  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID ";
+    echo "<BR> Test Renew SpreadBet TransID: $profitTotal  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID | $purchasePrice | $livePrice";
     if ($profitPct >= $sellTargetPct){
       //Sell
       $spreadSellCoins = getSpreadCoinSellData($sBTransID);
