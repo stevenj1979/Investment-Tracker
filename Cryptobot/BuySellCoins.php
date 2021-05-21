@@ -968,12 +968,13 @@ while($completeFlag == False){
                 $type = 'SpreadBuy';
                 updateBuyToSpread($spreadBetIDRedirect,$transactionID);
               }
-              bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+
               if ($type == 'SpreadBuy'){
-                SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);
+                //SpreadBetBittrexCancelPartialBuy($transactionID,$orderQty-$orderQtyRemaining);
                 updateToSpreadSell($transactionID);
                 newLogToSQL("BittrexBuyCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $logToSQLSetting,"PartialOrder","TransactionID:$transactionID");
               }
+              bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $logToFileSetting);}
           }
