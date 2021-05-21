@@ -5,11 +5,9 @@ require('includes/newConfig.php');
 //set_include_path('/home/stevenj1979/repositories/gdax/src/Configuration.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
-//include_once ('/home/stevenj1979/repositories/gdax/');
-include_once ('/home/stevenj1979/repositories/gdax/src/Client.php');
-include_once ('/home/stevenj1979/repositories/gdax/src/Configuration.php');
-include_once ('/home/stevenj1979/repositories/gdax/src/HttpClient.php');
-include_once ('/home/stevenj1979/repositories/gdax/src/Pagination.php');
+
+Define("SQLUpdateLog",1);
+Define("SQLProcedureLog",1);
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
@@ -278,5 +276,11 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     }
 
 }
+
+function test(){
+  echo SQLUpdateLog;
+}
+
+test();
 ?>
 </html>
