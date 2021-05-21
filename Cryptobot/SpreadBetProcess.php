@@ -370,19 +370,24 @@ function getSpreadBetTargetSellPct($spreadBetRuleID){
 }
 
 function renewSpreadBetTransactionID(){
-  $SBTrans = getSpreadBetTransactionID();
+  $SBTrans = getSpreadBetSellData();
   $SBTransSize = count($SBTrans);
   for ($c=0; $c<$SBTransSize; $c++){
-    $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][4]; $userID = $SBTrans[$c][3]; $profit = $SBTrans[$c][1]; $profitPct = $SBTrans[$c][2];
+    $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][56]; $userID = $SBTrans[$c][2]; $profit = $SBTrans[$c][58]; $sellTargetPct = $SBTrans[$c][55];
     //$SBOpenTotalProfit = getSpreadBetTotalProfit($sBTransID);
     //$SBPurchasePrice = getSpreadBetPurchasePrice($sBTransID);
     //$SBLivePrice = getSpreadBetLivePrice($sBTransID);
     //$SBOpenTransactions = getSpreadBetOpenTrans($sBTransID);
-    $SBTargetSellPct = getSpreadBetTargetSellPct($sBRuleID);
+    $tempProfit = getTotalProfitSpreadBetSell($ID);
+    //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
+    $purchasePrice = $tempProfit[0][0];
+    $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
+    $profitTotal = $livePrice-$purchasePrice;
+    $profitPct = ($profitTotal/$purchasePrice)*100;
     //$profit = $SBOpenTotalProfit[0][0]; $purchasePrice = $SBPurchasePrice[0][0]; //$openTrans = $SBOpenTransactions[0][0]; //$livePrice = $SBLivePrice[0][0];
-    $sellTargetPct = $SBTargetSellPct[0][0];
+    //$sellTargetPct = $SBTargetSellPct[0][0];
     //$profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
-    echo "<BR> Test Renew SpreadBet TransID: $profit  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID ";
+    echo "<BR> Test Renew SpreadBet TransID: $profitTotal  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID ";
     if ($profitPct >= $sellTargetPct){
       //Sell
       $spreadSellCoins = getSpreadCoinSellData($sBTransID);
