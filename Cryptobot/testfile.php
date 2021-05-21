@@ -6,8 +6,8 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
-Define("SQLUpdateLog",1);
-Define("SQLProcedureLog",1);
+$SQLUpdateLog = 1;
+$SQLProcedureLog = 1;
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
@@ -278,7 +278,8 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
 }
 
 function test(){
-  echo $GLOBALS['SQLUpdateLog'];
+  global $SQLUpdateLog, $$SQLProcedureLog;
+  echo $SQLUpdateLog;
 }
 
 test();
