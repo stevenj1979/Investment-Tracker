@@ -280,6 +280,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
 function test(){
   global $SQLUpdateLog, $$SQLProcedureLog;
   echo $SQLUpdateLog;
+  echo "TEST";
 }
 
 test();
