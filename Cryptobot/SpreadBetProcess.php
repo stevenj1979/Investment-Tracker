@@ -378,7 +378,7 @@ function renewSpreadBetTransactionID(){
     //$SBPurchasePrice = getSpreadBetPurchasePrice($sBTransID);
     //$SBLivePrice = getSpreadBetLivePrice($sBTransID);
     //$SBOpenTransactions = getSpreadBetOpenTrans($sBTransID);
-    $tempProfit = getTotalProfitSpreadBetSell($ID);
+    $tempProfit = getTotalProfitSpreadBetSell($sBTransID);
     //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
     $purchasePrice = $tempProfit[0][0];
     $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
