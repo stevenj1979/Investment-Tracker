@@ -1,6 +1,9 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
 
+//Define("SQLUpdateLog",1);
+//Define("SQLProcedureLog",1);
+
 function getBittrexRequests($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -42,6 +45,7 @@ function pausePurchases($UserID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
+    //newLogToSQL("pausePurchases",$sql,3,SQLUpdateLog,)
     logAction("pausePurchases: ".$sql, 'BuySell', 0);
 }
 
@@ -2939,7 +2943,7 @@ function getOpenTransactions(){
   }
 //12
   $whereClause = " ";
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
+  //if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
   $sql = "SELECT `Uc`.`UserID`
             , ifnull(`Oct`.`NoOfTransactions`,0) as CoinModeTransactions
             , ifnull(`Orbt`.`NoOfTransactions`,0) as RuleBasedTransactions
@@ -3022,7 +3026,7 @@ function closeNewTrackingCoin($ID, $deleteFlag){
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
-      //echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
@@ -4094,6 +4098,24 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
   }
   $conn->close();
   logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'BuyCoin', 0);
+}
+
+function SpreadBetBittrexCancelPartialBuy($transactionID,$quantity){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+    $sql = "UPDATE `Transaction` SET `Amount` =  $quantity where `ID` = $transactionID";
+    LogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("SpreadBetBittrexCancelPartialBuy: ".$sql, 'BuyCoin', 0);
 }
 
 function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){

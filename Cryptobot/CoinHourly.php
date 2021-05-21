@@ -64,7 +64,7 @@ function getOpenTransactionsSB(){
     $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID FROM `SellCoinsSpreadView`";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID'],$row['SpreadBetRuleID'],$row['TransactionID']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID'],$row['SpreadBetRuleID'],$row['TransactionID']);}
     $conn->close();
     return $tempAry;
 }
