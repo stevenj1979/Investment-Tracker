@@ -278,7 +278,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
 }
 
 function test(){
-  echo SQLUpdateLog;
+  echo $GLOBALS['SQLUpdateLog'];
 }
 
 test();
