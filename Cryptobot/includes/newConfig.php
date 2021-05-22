@@ -1,8 +1,8 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
 
-Define("sQLUpdateLog","1");
-Define("SQLProcedureLog","1");
+Define("sQLUpdateLog","0");
+Define("SQLProcedureLog","0");
 
 function getBittrexRequests($userID = 0){
   $tempAry = [];

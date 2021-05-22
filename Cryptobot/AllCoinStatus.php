@@ -4,8 +4,8 @@ ini_set('max_execution_time', 500);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
-Define("sQLUpdateLog","1");
-Define("SQLProcedureLog","1");
+Define("sQLUpdateLog","0");
+Define("SQLProcedureLog","0");
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
