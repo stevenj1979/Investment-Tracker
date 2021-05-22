@@ -4,6 +4,9 @@ ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
+Define("sQLUpdateLog","1");
+Define("SQLProcedureLog","1");
+
 function getTransStats(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -36,6 +39,7 @@ function UpdateMerge($coinID,$userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("UpdateMerge","$sql",3,sQLUpdateLog,"SQL","CoinID:$coinID UserID:$userID");
 
 }
 
@@ -100,6 +104,7 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("subPctFromProfit","$sql",3,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function getOpenTransactionsLoc(){
@@ -142,6 +147,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("writePrice","$sql",3,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function addToBuyBackMultiplierHourly(){
@@ -179,6 +185,7 @@ function writeSellPriceToBuyBack($transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("writeSellPriceToBuyBack","$sql",3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
 }
 
 function updateSellPricetoBuyBack(){
@@ -216,6 +223,7 @@ function updateBuyAmountSplitinSQL($userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("updateBuyAmountSplitinSQL","$sql",3,SQLProcedureLog,"SQL CALL","UserID:$userID");
 }
 
 function updateSplitBuyAmountforRule(){

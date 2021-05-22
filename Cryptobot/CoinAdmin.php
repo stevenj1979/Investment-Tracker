@@ -3,6 +3,9 @@
 ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
+Define("sQLUpdateLog","1");
+Define("SQLProcedureLog","1");
+
 function getUserConfig(){
     $tempAry = [];
     $conn = getSQLConn(rand(1,3));
@@ -110,6 +113,7 @@ function updateSQLactive($userID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
+    newLogToSQL("updateSQLactive",$sql,3,1,sQLUpdateLog,"SQL","UserID:$userID");
 }
 
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
@@ -172,6 +176,7 @@ function updateFixSellRule($newFixRule, $transactionID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
+    newLogToSQL("updateFixSellRule",$sql,3,1,sQLUpdateLog,"SQL","TransactionID:$transactionID");
 }
 
 
@@ -260,6 +265,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("writePrice",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 
@@ -287,6 +293,7 @@ function checkRuleIsOpen($id){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("checkRuleIsOpen",$sql,3,1,SQLProcedureLog,"SQL CALL","RuleID:$id");
 }
 
 function getSellRules(){
@@ -313,6 +320,7 @@ function clearOrphanedRules($sellRule, $coinID, $userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("clearOrphanedRules",$sql,3,1,SQLProcedureLog,"SQL CALL","SellRuleID:$sellRule UserID:$userID");
 }
 
 function getCoinHigh(){
@@ -352,6 +360,7 @@ function writeHigh($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("writeHigh",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function writeLow($coinID, $price){
@@ -365,6 +374,7 @@ function writeLow($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("writeLow",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function updateCoinPct($coinID,$buyRuleID, $mode){
@@ -378,6 +388,7 @@ function updateCoinPct($coinID,$buyRuleID, $mode){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("updateCoinPct",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID BuyRuleID:$buyRuleID");
 }
 
 function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
@@ -394,6 +405,7 @@ function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("updateSpreadPct",$sql,3,1,sQLUpdateLog,"SQL","CoinID:$coinID SBRuleID:$spreadBetRuleID");
 }
 
 function updateCoinModeBuyPct(){
@@ -453,6 +465,7 @@ function updateSpreadBetCoinHistory(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("updateSpreadBetCoinHistory",$sql,3,1,SQLProcedureLog,"SQL CALL","");
 }
 
 function getSoldfromSQL(){

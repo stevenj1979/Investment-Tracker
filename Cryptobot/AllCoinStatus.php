@@ -3,6 +3,10 @@
 ini_set('max_execution_time', 500);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
+
+Define("sQLUpdateLog","1");
+Define("SQLProcedureLog","1");
+
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 
@@ -82,6 +86,7 @@ function update1HrAllCoin($coinID, $hr1Diff){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("update1HrAllCoin",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function tempDisableUsers($mins){
@@ -101,6 +106,7 @@ function tempDisableUsers($mins){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("tempDisableUsers",$sql,3,1,SQLProcedureLog,"SQL CALL","Mins:$mins");
 }
 
 function emailUsersDisable($userConfig, $action, $disableUntil){
@@ -207,6 +213,7 @@ function ConsolidatePriceHostory(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+  newLogToSQL("ConsolidatePriceHostory",$sql,3,1,SQLProcedureLog,"SQL CALL","");
 }
 
 function update1Hr_24Hr_7DPct(){
@@ -254,6 +261,7 @@ function addBearBullStatsToSQL($price,$coinID){
   }
   $conn->close();
   logAction("addBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addBearBullStatsToSQL",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
 function addMarketBearBullStatsToSQL($price){
@@ -270,6 +278,7 @@ function addMarketBearBullStatsToSQL($price){
   }
   $conn->close();
   logAction("addMarketBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addMarketBearBullStatsToSQL",$sql,3,1,sQLUpdateLog,"SQL","Price:$price");
 }
 
 function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct){
@@ -287,6 +296,7 @@ function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,
   }
   $conn->close();
   logAction("addHistoryBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addHistoryBearBullStatsToSQL",$sql,3,1,sQLUpdateLog,"SQL","CoinID:$coinID");
 }
 
 function getBearBullStats(){
