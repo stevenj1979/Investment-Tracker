@@ -922,7 +922,7 @@ while($completeFlag == False){
           if ($type == 'Buy' and $coinModeRule == 0){
               setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
           }
-          updateBuyAmount($transactionID,$resultOrd['quantity']);
+          updateBuyAmount($transactionID,$orderQty);
           if($redirectPurchasesToSpread == 1){
             $type = 'SpreadBuy';
             updateBuyToSpread($spreadBetIDRedirect,$transactionID);
