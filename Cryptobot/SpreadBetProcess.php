@@ -569,6 +569,6 @@ $progress = getSBProgress(3,20);
 
 renewSpreadBetTransactionID();
 
-dynamicSpreadBetRules();
+//dynamicSpreadBetRules();
 ?>
 </html>
