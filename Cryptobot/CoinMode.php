@@ -83,6 +83,35 @@ function getNewMarketstats(){
   return $tempAry;
 }
 
+function getWrongSpreadBet(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`,`SpreadBetRuleID`, `SpreadBetTransactionID` FROM `Transaction` WHERE `SpreadBetRuleID` <> 2 and `Status` in ('Open','Pending')";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function SpreadBetTest(){
+  $sbTrans = getWrongSpreadBet();
+  $sbTransSize = count($sbTrans);
+  if ($sbTransSize == 0){
+    newLogToSQL("SpreadBetTest",$sql,3,1,1,"ZERO","Count:$sbTransSize");
+  }else{
+    newLogToSQL("SpreadBetTest",$sql,3,1,1,"Non-ZERO","Count:$sbTransSize");
+  }
+}
+
 function addBuyCount($buyModeCount, $ruleID, $coinID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -389,7 +418,7 @@ function isBuyMode($coinAry, $minBuyAmount){
   }
 
 checkMarketforPctDip();
-
+SpreadBetTest();
 
 ?>
 </html>
