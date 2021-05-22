@@ -899,6 +899,23 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
   newLogToSQL("CoinMarketCapStatstoSQL","$sql",3,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
 }
 
+function ResidualCoinsToSaving($amount, $orderNo, $transactionID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call ResidualCoinToSaving($amount, $orderNo,$transactionID);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("ResidualCoinsToSaving($sql)",'SellCoin', 0);
+  newLogToSQL("ResidualCoinsToSaving","$sql",3,SQLProcedureLog,"SQL CALL","TransactionID:$transactionID");
+}
+
 function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
