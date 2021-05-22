@@ -1524,6 +1524,23 @@ function updateSQL($baseCurrency, $transactionID, $BittrexID){
     newLogToSQL("updateSQL",$sql,3,1,sQLUpdateLog,"SQL","TransactionID:$transactionID");
 }
 
+function clearBittrexRef($transactionID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE `Transaction` SET `BittrexRef` =  '' WHERE `ID` = $transactionID";
+
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+    $conn->close();
+    newLogToSQL("clearBittrexRef",$sql,3,1,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+}
+
 
 
 function sendSellEmail($to, $symbol, $amount, $cost, $orderNo, $score, $profitPct, $profit, $subject, $user, $from){

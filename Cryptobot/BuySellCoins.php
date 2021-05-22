@@ -938,6 +938,7 @@ while($completeFlag == False){
           newLogToSQL("BittrexBuy", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1,"SpreadBuy","TransactionID:$transactionID");
           //if ($type == "SpreadBuy"){ updateSpreadSell();}
           pausePurchases($userID);
+          clearBittrexRef($transactionID);
           UpdateProfit();
           continue;
         }
