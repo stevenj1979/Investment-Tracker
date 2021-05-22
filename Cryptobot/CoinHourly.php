@@ -104,7 +104,7 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("subPctFromProfit","$sql",3,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("subPctFromProfit","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function getOpenTransactionsLoc(){
@@ -147,7 +147,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writePrice","$sql",3,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("writePrice","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function addToBuyBackMultiplierHourly(){
@@ -223,7 +223,7 @@ function updateBuyAmountSplitinSQL($userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateBuyAmountSplitinSQL","$sql",3,SQLProcedureLog,"SQL CALL","UserID:$userID");
+  newLogToSQL("updateBuyAmountSplitinSQL","$sql",3,0,"SQL CALL","UserID:$userID");
 }
 
 function updateSplitBuyAmountforRule(){
