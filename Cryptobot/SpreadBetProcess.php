@@ -42,7 +42,7 @@ function toggleSBRule($SBRuleID, $action){
   }
   $conn->close();
   logAction("enableSBRule: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("toggleSBRule",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("toggleSBRule",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function update24Hrand7DPrice($hr24, $d7, $SBRuleID){
@@ -62,7 +62,7 @@ function update24Hrand7DPrice($hr24, $d7, $SBRuleID){
   }
   $conn->close();
   logAction("update24Hrand7DPrice: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("update24Hrand7DPrice",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("update24Hrand7DPrice",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function getSpreadBetAll(){
@@ -112,7 +112,7 @@ function write1HrEnablePrice($hr1Price, $SBRuleID){
   }
   $conn->close();
   logAction("write1HrEnablePrice: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("write1HrEnablePrice",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("write1HrEnablePrice",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function writeMinsToCancel($mins, $SBRuleID){
@@ -132,7 +132,7 @@ function writeMinsToCancel($mins, $SBRuleID){
   }
   $conn->close();
   logAction("writeMinsToCancel: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("writeMinsToCancel",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("writeMinsToCancel",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function writeFallsinPrice($falls, $SBRuleID){
@@ -152,7 +152,7 @@ function writeFallsinPrice($falls, $SBRuleID){
   }
   $conn->close();
   logAction("writeFallsinPrice: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("writeFallsinPrice",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("writeFallsinPrice",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function writeRaisesinPrice($raises, $SBRuleID){
@@ -172,7 +172,7 @@ function writeRaisesinPrice($raises, $SBRuleID){
   }
   $conn->close();
   logAction("writeRaisesinPrice: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("writeRaisesinPrice",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("writeRaisesinPrice",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function updateSBTransactionsToNew($sBRuleID,$sBTransID ){
@@ -193,7 +193,7 @@ function updateSBTransactionsToNew($sBRuleID,$sBTransID ){
   }
   $conn->close();
   logAction("updateSBTransactionsToNew: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSBTransactionsToNew",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$SBRuleID");
+  newLogToSQL("updateSBTransactionsToNew",$sql,3,1,0,"SQL","SBRuleID:$SBRuleID");
 }
 
 function updateSBSellTarget($sBRuleID,$sBTransID ){
@@ -215,7 +215,7 @@ function updateSBSellTarget($sBRuleID,$sBTransID ){
   }
   $conn->close();
   logAction("updateSBSellTarget: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSBSellTarget",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$sBRuleID");
+  newLogToSQL("updateSBSellTarget",$sql,3,1,0,"SQL","SBRuleID:$sBRuleID");
 }
 
 function updateSBTotalProfit($sBRuleID,$sBTransID ){
@@ -238,7 +238,7 @@ function updateSBTotalProfit($sBRuleID,$sBTransID ){
   }
   $conn->close();
   logAction("updateSBTotalProfit: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSBTotalProfit",$sql,3,1,sQLUpdateLog,"SQL","SBRuleID:$sBRuleID");
+  newLogToSQL("updateSBTotalProfit",$sql,3,1,0,"SQL","SBRuleID:$sBRuleID");
 }
 
 
@@ -455,7 +455,7 @@ function writeNewSpreadBetRules($coinID){
   }
   $conn->close();
   logAction("writeNewSpreadBetRules: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("writeNewSpreadBetRules",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("writeNewSpreadBetRules",$sql,3,1,0,"SQL CALL","CoinID:$coinID");
 }
 
 function clearDynamicRules(){

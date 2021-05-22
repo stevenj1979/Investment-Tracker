@@ -39,7 +39,7 @@ function UpdateMerge($coinID,$userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("UpdateMerge","$sql",3,sQLUpdateLog,"SQL","CoinID:$coinID UserID:$userID");
+  newLogToSQL("UpdateMerge","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
 
 }
 
@@ -185,7 +185,7 @@ function writeSellPriceToBuyBack($transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeSellPriceToBuyBack","$sql",3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+  newLogToSQL("writeSellPriceToBuyBack","$sql",3,0,"SQL","TransactionID:$transactionID");
 }
 
 function updateSellPricetoBuyBack(){
