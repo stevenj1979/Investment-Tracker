@@ -266,6 +266,7 @@ for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
   if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
     $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
     echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
+    newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
     $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
   }
 }
@@ -282,7 +283,8 @@ for($x = 0; $x < $finalMergeArySize; $x++) {
     mergeTransactions($transactionID, $amount, $avCost);
     UpdateTransCount($count-1, $transactionID);
     closeOldTransSQL(rtrim($lastTransID, ','));
-    logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
+    //logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
+    newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
   }
 }
 
