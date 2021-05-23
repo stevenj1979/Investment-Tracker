@@ -218,6 +218,70 @@ function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPric
     }
     $conn->close();
 }
+
+function getOpenCoins($status){
+  $tempAry = [];
+  //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
+  ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
+  , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
+  ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
+  ,`CaptureTrend`
+  FROM `SellCoinStatsView_ALL` Where `Status` = '$status' order by @ProfitPct Desc ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
+    $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
+    $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
+    ,$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
+    ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['CaptureTrend']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function mergeCoins($sellTrackingCoins){
+  $sellTrackingCoinsSize = Count($sellTrackingCoins);
+  $z = 0;$toMergeAry = []; $finalMergeAry = [];
+  echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
+  for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
+    $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
+    $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
+    $noOfPurchases = $sellTrackingCoins[$x][49];
+    if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
+      $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
+      echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
+      newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
+      $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
+    }
+  }
+  echo "<BR>".var_dump($finalMergeAry)."<BR>";
+  $finalMergeArySize = Count($finalMergeAry);
+  echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
+  for($x = 0; $x < $finalMergeArySize; $x++) {
+    $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
+    $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
+    $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
+    echo "<BR> Count: $count";
+    if ($count >= 2){
+      echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
+      mergeTransactions($transactionID, $amount, $avCost);
+      UpdateTransCount($count-1, $transactionID);
+      closeOldTransSQL(rtrim($lastTransID, ','));
+      //logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
+      newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
+    }
+  }
+}
+
 $apikey = ""; $apisecret = "";
 $currentBTCPurchased = 0.00; $currentUSDTPurchased = 0.00; $currentETHPurchased = 0.00;
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
@@ -234,14 +298,14 @@ for($x = 0; $x < $confSize; $x++) {
   $apikey = $conf[$x][1]; $apisecret = $conf[$x][2]; $Kek = $conf[$x][7];
   if (!empty($Kek)){$apisecret = Decrypt($Kek,$conf[$x][2]);}
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
-  $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',1)), 8, '.', '');
-  $ethPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','ETH',1)), 8, '.', '');
-  $usdtPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','USDT',1)), 8, '.', '');
-  $bittrexBalBTC = bittrexbalance($apikey, $apisecret, 'BTC',1);
+  $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',3)), 8, '.', '');
+  $ethPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','ETH',3)), 8, '.', '');
+  $usdtPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','USDT',3)), 8, '.', '');
+  $bittrexBalBTC = bittrexbalance($apikey, $apisecret, 'BTC',3);
   if (empty($bittrexBalBTC)){$bittrexBalBTC = 0;}
-  $bittrexBalUSDT = bittrexbalance($apikey, $apisecret, 'USDT',1);
+  $bittrexBalUSDT = bittrexbalance($apikey, $apisecret, 'USDT',3);
   if (empty($bittrexBalUSDT)){$bittrexBalUSDT = 0;}
-  $bittrexBalETH = bittrexbalance($apikey, $apisecret, 'ETH',1);
+  $bittrexBalETH = bittrexbalance($apikey, $apisecret, 'ETH',3);
   if (empty($bittrexBalETH)){$bittrexBalETH = 0;}
   $btcToday = userHistory($conf[$x][0]);
   if (!empty($btcToday)){
@@ -255,38 +319,11 @@ for($x = 0; $x < $confSize; $x++) {
   //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
 
-$sellTrackingCoins = getTrackingSellCoins();
-$sellTrackingCoinsSize = Count($sellTrackingCoins);
-$z = 0;$toMergeAry = []; $finalMergeAry = [];
-echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
-for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
-  $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
-  $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
-  $noOfPurchases = $sellTrackingCoins[$x][49];
-  if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
-    $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
-    echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
-    newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
-    $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
-  }
-}
-echo "<BR>".var_dump($finalMergeAry)."<BR>";
-$finalMergeArySize = Count($finalMergeAry);
-echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
-for($x = 0; $x < $finalMergeArySize; $x++) {
-  $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
-  $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
-  $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
-  echo "<BR> Count: $count";
-  if ($count >= 2){
-    echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
-    mergeTransactions($transactionID, $amount, $avCost);
-    UpdateTransCount($count-1, $transactionID);
-    closeOldTransSQL(rtrim($lastTransID, ','));
-    //logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
-    newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
-  }
-}
+$savingCoins = getOpenCoins('Savings');
+mergeCoins($savingCoins);
+$sellTrackingCoins = getOpenCoins('Open');
+mergeCoins($sellTrackingCoins);
+
 
 clearDailtBTCTbl("`DailyBTCTbl`");
 runTransaction("`DailyBTCTbl`"," and dayofmonth(`OrderDate`) = dayofmonth(now()) and month(`OrderDate`) = month(now()) and Year(`OrderDate`) = Year(now())");
