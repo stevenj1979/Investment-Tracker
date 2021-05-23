@@ -281,6 +281,45 @@ Function updateBittrexBals(){
   }
 }
 
+function prepareToMergeSavings(){
+    $savingsAry = getSavings();
+    $savingsArySize = count($savingsAry);
+    for ($g=0; $g<$savingsArySize; $g++){
+      setSavingsToMerge($savingsAry[$g][0]);
+    }
+}
+
+function getSavings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `UserID` FROM `UserConfig` where `AutoMergeSavings` = 1 ";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function setSavingsToMerge($userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `Transaction` SET `ToMerge` = 1 where `UserID` = $userID and `Status` = 'Savings'";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("setSavingsToMerge","$sql",3,0,"SQL","UserID:$userID");
+}
+
+prepareToMergeSavings();
+
 $transStats = getTransStats();
 $transStatsSize = count($transStats);
 
