@@ -115,7 +115,7 @@ function getWrongSpreadBet(){
 function SpreadBetTest(){
   $sbTrans = getWrongSpreadBet();
   $sbTransSize = count($sbTrans);
-  if (isset($sbTransSize){
+  if (isset($sbTransSize)){
     newLogToSQL("SpreadBetTest",$sql,3,1,1,"Non-ZERO","Count:$sbTransSize");
   }else{
     newLogToSQL("SpreadBetTest",$sql,3,1,1,"ZERO","Count:$sbTransSize");
