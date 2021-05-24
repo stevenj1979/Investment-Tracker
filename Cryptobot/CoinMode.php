@@ -50,16 +50,23 @@ function checkMarketforPctDip(){
   $marketStats = getNewMarketstats();
   $marketStatsSize = count($marketStats);
   for ($y=0; $y<$marketStatsSize; $y++){
-    $marketPctChangeHr1 = $marketStats[$y][0];
+    $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     echo "<BR> Checking: $marketPctChangeHr1";
-    if ($marketPctChangeHr1 <= -6.0){
+    if ($marketPctChangeHr24 <= -6.0 and $marketPctChangeHr24 > -10.0 and $marketPctChangeHr1 > 0){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
           echo "<BR> Enabing LowMarketMode for: $userID";
-          runLowMarketMode($userID);
-          LogToSQL("LowMarketMode","runLowMarketMode($userID); $marketPctChangeHr1",$userID,1);
+          runLowMarketMode($userID,1);
+          LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
         }
 
+    }elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
+      for ($t=0; $t<$userIDsSize; $t++){
+        $userID = $userIDs[$t][0];
+        echo "<BR> Enabing LowMarketMode for: $userID";
+        runLowMarketMode($userID,2);
+        LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+      }
     }
   }
 }
@@ -72,12 +79,15 @@ function getNewMarketstats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as Hr1MarketPctChange FROM `MarketCoinStats`";
+  $sql = "SELECT ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as Hr1MarketPctChange
+            ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as Hr24MarketPctChange
+            ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as D7MarketPctChange
+            FROM `MarketCoinStats`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Hr1MarketPctChange']);
+    $tempAry[] = Array($row['Hr1MarketPctChange']$row['Hr24MarketPctChange']$row['D7MarketPctChange']);
   }
   $conn->close();
   return $tempAry;
