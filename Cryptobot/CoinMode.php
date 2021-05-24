@@ -428,7 +428,7 @@ function isBuyMode($coinAry, $minBuyAmount){
   }
 
 checkMarketforPctDip();
-SpreadBetTest();
+//SpreadBetTest();
 
 ?>
 </html>
