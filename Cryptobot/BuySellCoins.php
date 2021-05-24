@@ -355,7 +355,7 @@ while($completeFlag == False){
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
           $PurchasePrice = ($Amount*$CoinPrice);
           $oldAmount = $Amount;
-          $tempFee = ((($LiveCoinPrice*$Amount)/100)*0.25);
+          $tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
           $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
           updateSellAmount($TransactionID,$Amount, $oldAmount);
           newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
