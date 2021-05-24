@@ -358,6 +358,7 @@ while($completeFlag == False){
           $tempFee = ((($LiveCoinPrice*$Amount)/100)*0.25);
           $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
           updateSellAmount($TransactionID,$Amount, $oldAmount);
+          newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
           newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
           $newOrderDate = date("YmdHis", time());
           ResidualCoinsToSaving($oldAmount-$Amount, "ORD".$coin.$newOrderDate.$BuyRule,$TransactionID);
