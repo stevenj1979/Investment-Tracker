@@ -235,6 +235,7 @@ function getOpenCoins($status){
   ,`CaptureTrend`
   FROM `SellCoinStatsView_ALL` Where `Status` = '$status' and `ToMerge` = 1 order by @ProfitPct Desc ";
   $result = $conn->query($sql);
+  echo $sql;
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
