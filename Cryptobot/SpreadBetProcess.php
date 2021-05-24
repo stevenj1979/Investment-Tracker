@@ -6,8 +6,8 @@ require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
-Define("sQLUpdateLog","0");
-Define("SQLProcedureLog","0");
+//Define("sQLUpdateLog","0");
+//Define("SQLProcedureLog","0");
 
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
