@@ -320,7 +320,7 @@ for($x = 0; $x < $confSize; $x++) {
   //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
 
-$savingCoins = getOpenCoins('Savings');
+$savingCoins = getOpenCoins('Saving');
 mergeCoins($savingCoins);
 $sellTrackingCoins = getOpenCoins('Open');
 mergeCoins($sellTrackingCoins);
