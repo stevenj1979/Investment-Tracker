@@ -904,7 +904,7 @@ function ResidualCoinsToSaving($amount, $orderNo, $transactionID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call ResidualCoinToSaving($amount, $orderNo,$transactionID);";
+  $sql = "call ResidualCoinToSaving($amount, '$orderNo',$transactionID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
