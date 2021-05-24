@@ -3366,7 +3366,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
   }
   $conn->close();
   logAction("updateSellAmount: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateSellAmount",$sql,3,0,"SQL","TransactionID:$TransactionID");
+  newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");
 }
 
 function getNewTrackingSellCoins($userID = 0){
