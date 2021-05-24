@@ -87,7 +87,7 @@ function getNewMarketstats(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Hr1MarketPctChange']$row['Hr24MarketPctChange']$row['D7MarketPctChange']);
+    $tempAry[] = Array($row['Hr1MarketPctChange'],$row['Hr24MarketPctChange'],$row['D7MarketPctChange']);
   }
   $conn->close();
   return $tempAry;

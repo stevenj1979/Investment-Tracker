@@ -361,7 +361,9 @@ while($completeFlag == False){
           newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
           newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
           $newOrderDate = date("YmdHis", time());
-          ResidualCoinsToSaving($oldAmount-$Amount, "ORD".$coin.$newOrderDate.$BuyRule,$TransactionID);
+          $OrderString = "ORD".$coin.$newOrderDate.$BuyRule;
+          $residualAmount = $oldAmount - $Amount;
+          ResidualCoinsToSaving($residualAmount,$OrderString ,$TransactionID);
           newLogToSQL("TrackingSell","ResidualCoinsToSaving($oldAmount-$Amount, "ORD".$coin.$newOrderDate.$BuyRule,$TransactionID);",3,1,"SaveResidualCoins3","TransactionID:$TransactionID");
         }
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
