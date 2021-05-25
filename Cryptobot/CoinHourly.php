@@ -354,7 +354,7 @@ function updateWebSavings(){
   $saving = getWebSavings();
   $savingSize = count($saving);
   for ($p=0; $p<$savingSize; $p++){
-    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][0];
+    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1];
     writeWebSavings($userID, $SavingUSD);
   }
 }
