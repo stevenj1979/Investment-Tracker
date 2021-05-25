@@ -70,6 +70,30 @@ function getCoinsfromSQLLoc(){
     return $tempAry;
 }
 
+function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT ifNull(`OriginalPurchasePrice`,0) as OriginalPurchasePrice ,ifNull(`LiveTotalPrice`,0) as LiveTotalPrice,ifNull(`SaleTotalPrice`,0) as SaleTotalPrice
+            FROM `WebSpreadBetProfits`
+            where `SpreadBetTransactionID` = $spreadBetTransactionID ";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice']);
+      //13  14  15
+
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getTrackingSellCoinsLoc($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -247,7 +271,7 @@ $date = date('Y/m/d H:i:s', time());
             //$profit = $trackingSell[$x][55];
             //$profitBtc = $profit/($originalPurchaseCost)*100;
             //$profitPct = getTotalProfitSpreadBetSell($transactionID);
-            $tempProfit = getTotalProfitSpreadBetSell($transactionID);
+            $tempProfit = getTotalProfitSpreadBetSellLoc($transactionID);
             //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
             $purchasePrice = $tempProfit[0][0];
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
