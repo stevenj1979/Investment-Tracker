@@ -5021,6 +5021,26 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
   newLogToSQL("WriteBuyBack","$sql",3,0,"SQL CALL","TransactionID:$transactionID");
 }
 
+function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call AddProfitForWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice);";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeProfitToWebTable: ".$sql, 'SpreadBetSell', 0);
+  newLogToSQL("writeProfitToWebTable","$sql",3,0,"SQL CALL","TransactionID:$transactionID");
+}
+
 function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection

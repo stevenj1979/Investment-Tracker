@@ -1446,6 +1446,7 @@ while($completeFlag == False){
       deleteSpreadBetTotalProfit($ID);
       deleteSpreadBetTrackingCoins($ID);
     }
+    writeProfitToWebTable($ID,$tempProfit[0][0],$tempProfit[0][1],$tempProfit[0][2]);
   }
 
   echo "</blockquote>";
