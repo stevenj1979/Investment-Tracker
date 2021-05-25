@@ -992,11 +992,12 @@ while($completeFlag == False){
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $logToSQLSetting);
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           echo "<BR>SELL Order COMPLETE!";
-            $profitPct = ($finalPrice-$cost)/$cost*100;
+            //$profitPct = ($finalPrice-$cost)/$cost*100;
             $sellPrice = ($finalPrice*$amount);
             $buyPrice = $cost*$amount;
             $fee = (($sellPrice)/100)*0.25;
             $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
+            $profitPct = ($profit/$buyPrice)*100;
             //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "SELL - Order Is Open != 1 & CancelInitiated != 1");
             if ($sendEmail){
               $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell;
