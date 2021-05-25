@@ -214,6 +214,7 @@ $date = date('Y/m/d H:i:s', time());
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
+        Echo "<BR><H3>TotalSavings: ".$savingTotal[0][0]."</H3><BR>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
@@ -232,7 +233,7 @@ $date = date('Y/m/d H:i:s', time());
             $profitBtc = $profit/($originalPurchaseCost)*100;
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            Echo "<H3>TotalSavings: ".$savingTotal[0][0]."</H3><BR>";
+
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
