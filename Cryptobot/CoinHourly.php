@@ -318,6 +318,47 @@ function setSavingsToMerge($userID){
   newLogToSQL("setSavingsToMerge","$sql",3,0,"SQL","UserID:$userID");
 }
 
+function getSavings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `UserID`
+          ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getETHPrice(), 0)))) as TotalUSD
+           FROM `SellCoinSavings`
+           group by `UserID`";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['TotalUSD']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function writeWebSavings($userID, $totalUSD){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call addWebSavings($userID,$totalUSD);";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("writeWebSavings","$sql",3,0,"SQL CALL","UserID:$userID");
+}
+
+function updateWebSavings(){
+  $saving = getSavings();
+  $savingSize = count($saving);
+  for ($p=0; $p<$savingSize; $p++){
+    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][0];
+    writeWebSavings($userID, $SavingUSD);
+  }
+}
+
 function runMerge($transStats,$mode){
   $transStatsSize = count($transStats);
   for ($g=0; $g<$transStatsSize; $g++){
@@ -351,5 +392,7 @@ updateSellPricetoBuyBack();
 UpdateSpreadBetTotalProfit();
 updateSplitBuyAmountforRule();
 updateBittrexBals();
+
+updateWebSavings();
 ?>
 </html>
