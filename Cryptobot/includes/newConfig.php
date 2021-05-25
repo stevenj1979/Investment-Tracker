@@ -5066,6 +5066,28 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   return $tempAry;
 }
 
+function getSavingTotal($userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `TotalUSDT` FROM `WebSavings` WHERE `UserID` = $userID";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['TotalUSDT']);
+      //13  14  15
+
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getSoldProfitSpreadBetSell($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
