@@ -318,7 +318,7 @@ function setSavingsToMerge($userID){
   newLogToSQL("setSavingsToMerge","$sql",3,0,"SQL","UserID:$userID");
 }
 
-function getSavings(){
+function getWebSavings(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -351,7 +351,7 @@ function writeWebSavings($userID, $totalUSD){
 }
 
 function updateWebSavings(){
-  $saving = getSavings();
+  $saving = getWebSavings();
   $savingSize = count($saving);
   for ($p=0; $p<$savingSize; $p++){
     $userID = $saving[$p][0]; $SavingUSD = $saving[$p][0];
