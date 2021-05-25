@@ -68,6 +68,7 @@ function checkMarketforPctDip(){
         LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
       }
     }
+    WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
   }
 }
 

@@ -5041,6 +5041,26 @@ function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $
   newLogToSQL("writeProfitToWebTable","$sql",3,0,"SQL CALL","TransactionID:$transactionID");
 }
 
+function WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `WebMarketStats` SET `1HrPrice`=$marketPctChangeHr1,`24HrPrice`=$marketPctChangeHr24,`7DPrice`=$marketPctChangeD7 WHERE `ID` = 1";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("WriteWebMarketStats: ".$sql, 'SpreadBetSell', 0);
+  newLogToSQL("WriteWebMarketStats","$sql",3,0,"SQL CALL","");
+}
+
 function getTotalProfitSpreadBetSell($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
