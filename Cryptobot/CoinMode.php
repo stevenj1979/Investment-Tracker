@@ -33,7 +33,7 @@ function getUserID(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `UserID` FROM `UserConfig` where `LowMarketModeEnabled` = 1;";
+  $sql = "SELECT `UserID` FROM `UserConfig` where `LowMarketModeEnabled` > 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
