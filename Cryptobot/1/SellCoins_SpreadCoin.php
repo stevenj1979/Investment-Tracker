@@ -111,7 +111,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "SELECT `ID`,`Type`,'CoinID',`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo','Symbol',`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
+    $sql = "SELECT `ID`,`Type`,'CoinID',`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo',`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
     ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
     ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
@@ -313,7 +313,7 @@ function getSpreadBetIDOpen($userID){
   }
 
     $sql = "SELECT `ID`,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = 3
+    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID
     group by `SpreadBetRuleName`";
   $result = $conn->query($sql);
     //print_r($sql);
