@@ -993,8 +993,9 @@ while($completeFlag == False){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
+            if ($originalAmount == 0){ $originalAmount = $amount;}
             $sellPrice = ($finalPrice*$amount);
-            $buyPrice = $cost*$amount;
+            $buyPrice = $cost*$originalAmount;
             $fee = (($sellPrice)/100)*0.25;
             $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
             $profitPct = ($profit/$buyPrice)*100;
