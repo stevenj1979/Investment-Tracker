@@ -52,21 +52,22 @@ function checkMarketforPctDip(){
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7";
-    if ($marketPctChangeHr24 <= -6.0 and $marketPctChangeHr24 > -10.0 and $marketPctChangeHr1 > 0){
+    if ($marketPctChangeHr24 <= -4.0 and $marketPctChangeHr1 > 0){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
           echo "<BR> Enabing LowMarketMode for: $userID";
-          runLowMarketMode($userID,1);
+          $mode = floor(abs($marketPctChangeHr24/-4));
+          runLowMarketMode($userID,$mode);
           LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
         }
 
-    }elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
-      for ($t=0; $t<$userIDsSize; $t++){
-        $userID = $userIDs[$t][0];
-        echo "<BR> Enabing LowMarketMode for: $userID";
-        runLowMarketMode($userID,2);
-        LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
-      }
+    //}elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
+    //  for ($t=0; $t<$userIDsSize; $t++){
+    //    $userID = $userIDs[$t][0];
+    //    echo "<BR> Enabing LowMarketMode for: $userID";
+    //    runLowMarketMode($userID,2);
+    //    LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+    //  }
     }
     WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
   }
