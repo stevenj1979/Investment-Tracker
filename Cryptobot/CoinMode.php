@@ -33,7 +33,7 @@ function getUserID(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `UserID` FROM `UserConfig` where `LowMarketModeEnabled` > 0";
+  $sql = "SELECT `UserID` FROM `UserConfig` where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -57,6 +57,7 @@ function checkMarketforPctDip(){
           $userID = $userIDs[$t][0];
           $mode = floor(abs($marketPctChangeHr24/-4));
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode";
+          if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
           LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
         }
@@ -72,7 +73,7 @@ function checkMarketforPctDip(){
       for ($t=0; $t<$userIDsSize; $t++){
         $userID = $userIDs[$t][0];
         echo "<BR> Enabing LowMarketMode for: $userID Mode: 0";
-        runLowMarketMode($userID,0);
+        runLowMarketMode($userID,-1);
         LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
       }
     }
