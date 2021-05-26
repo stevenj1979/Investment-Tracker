@@ -68,6 +68,13 @@ function checkMarketforPctDip(){
     //    runLowMarketMode($userID,2);
     //    LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
     //  }
+    }else{
+      for ($t=0; $t<$userIDsSize; $t++){
+        $userID = $userIDs[$t][0];
+        echo "<BR> Enabing LowMarketMode for: $userID";
+        runLowMarketMode($userID,0);
+        LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+      }
     }
     WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
   }
