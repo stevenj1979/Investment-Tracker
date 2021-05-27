@@ -358,7 +358,7 @@ while($completeFlag == False){
         $profit = $salePrice - $PurchasePrice;
         $ProfitPct = ($profit/$PurchasePrice)*100;
         //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
+        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
 
           updateSellAmount($TransactionID,$Amount, $oldAmount);
