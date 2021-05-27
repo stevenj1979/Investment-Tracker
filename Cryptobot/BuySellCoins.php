@@ -1046,9 +1046,9 @@ while($completeFlag == False){
               if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
-                $residualAmount = $originalAmount - $finalPrice;
+                $residualAmount = $originalAmount - $amount;
                 ResidualCoinsToSaving($residualAmount,$OrderString ,$transactionID);
-                newLogToSQL("BittrexSell","ResidualCoinsToSaving($oldAmount-$finalPrice, ORD.$coin.$newOrderDate.$ruleIDBTBuy,$transactionID);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell","ResidualCoinsToSaving($oldAmount-$amount, ORD.$coin.$newOrderDate.$ruleIDBTBuy,$transactionID);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
               }
               UpdateProfit();
 
