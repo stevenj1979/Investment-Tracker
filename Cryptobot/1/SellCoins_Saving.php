@@ -214,7 +214,7 @@ $date = date('Y/m/d H:i:s', time());
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
-        Echo "<BR><H3>TotalSavings: ".$savingTotal[0][0]."</H3><BR>";
+        Echo "<BR><H3>TotalSavings: ".round($savingTotal[0][1],2)." Profit: ".round($savingTotal[0][2],2)."</H3><BR>";
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;

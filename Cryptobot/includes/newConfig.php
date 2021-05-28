@@ -5115,14 +5115,14 @@ function getSavingTotal($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `TotalUSDT` FROM `WebSavings` WHERE `UserID` = $userID";
+  $sql = "SELECT `TotalUSDT`,`LivePrice`,`Profit` FROM `WebSavings` WHERE `UserID` = $userID";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['TotalUSDT']);
+      $tempAry[] = Array($row['TotalUSDT'],$row['LivePrice'],$row['Profit']);
       //13  14  15
 
   }
