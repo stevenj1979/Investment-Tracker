@@ -41,6 +41,22 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
 if(isset($_GET['lowMarketMode'])){
   $userID = $_SESSION['ID'];
   Echo "We are here,$userID";
+  enableLowMarketMode($userID);
+  header('Location: SellCoins.php');
+}
+
+function enableLowMarketMode($userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `UserConfig` SET `LowMarketModeEnabled` = 1 where `UserID` = $userID";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
 }
 
 function getCoinsfromSQLLoc(){
