@@ -327,6 +327,7 @@ function getWebSavings(){
   //$result = $conn->query($query);
   $sql = "SELECT `UserID`
           ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getETHPrice(), 0)))) as TotalUSD
+          ,sum(`LiveCoinPrice` * `Amount`) as LivePrice
            FROM `SellCoinSavings`
            group by `UserID`";
   print_r($sql);
@@ -336,10 +337,11 @@ function getWebSavings(){
   return $tempAry;
 }
 
-function writeWebSavings($userID, $totalUSD){
+function writeWebSavings($userID, $totalUSD, $livePrice){
   $conn = getSQLConn(rand(1,3));
+  $profit = $totalUSD - $livePrice;
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "call addWebSavings($userID,$totalUSD);";
+  $sql = "call addWebSavings($userID,$totalUSD,$livePrice,$profit);";
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -354,8 +356,8 @@ function updateWebSavings(){
   $saving = getWebSavings();
   $savingSize = count($saving);
   for ($p=0; $p<$savingSize; $p++){
-    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1];
-    writeWebSavings($userID, $SavingUSD);
+    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][1];
+    writeWebSavings($userID, $SavingUSD, $livePrice);
   }
 }
 
