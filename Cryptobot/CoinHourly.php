@@ -356,7 +356,7 @@ function updateWebSavings(){
   $saving = getWebSavings();
   $savingSize = count($saving);
   for ($p=0; $p<$savingSize; $p++){
-    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][1];
+    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][2];
     writeWebSavings($userID, $SavingUSD, $livePrice);
   }
 }
