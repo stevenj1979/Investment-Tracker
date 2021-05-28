@@ -38,6 +38,11 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   header('Location: SellCoins_Mobile.php');
 }
 
+if(isset($_GET['lowMarketMode'])){
+  $userID = $_SESSION['ID'];
+  Echo "We are here,$userID";
+}
+
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -264,7 +269,9 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
         }
         print_r("</table>");
-        Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+        echo "<BR><a href='SellCoins.php?lowMarketMode=1'>Enable Low Market Mode</a>"
+        Echo "<BR><a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
