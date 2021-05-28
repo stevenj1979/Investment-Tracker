@@ -269,7 +269,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
         }
         print_r("</table>");
-        echo "<BR><a href='SellCoins.php?lowMarketMode=1'>Enable Low Market Mode</a>"
+        echo "<BR><a href='SellCoins.php?lowMarketMode=1'>Enable Low Market Mode</a>";
         Echo "<BR><a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 
 				displaySideColumn();
