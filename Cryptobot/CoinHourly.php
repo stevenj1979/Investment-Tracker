@@ -332,7 +332,7 @@ function getWebSavings(){
            group by `UserID`";
   print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['TotalUSD']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['TotalUSD'],$row['LivePrice']);}
   $conn->close();
   return $tempAry;
 }
