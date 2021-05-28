@@ -339,7 +339,7 @@ function getWebSavings(){
 
 function writeWebSavings($userID, $totalUSD, $livePrice){
   $conn = getSQLConn(rand(1,3));
-  $profit = $totalUSD - $livePrice;
+  $profit = $livePrice - $totalUSD;
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call addWebSavings($userID,$totalUSD,$livePrice,$profit);";
   print_r("<BR>".$sql);
