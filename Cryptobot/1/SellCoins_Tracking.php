@@ -73,6 +73,7 @@ if(isset($_GET['SellNow'])){
         NewEcho ("<th>LivePrice</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Base Sell Price</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Total Rises in Price</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>OG Profit Pct</th><th>Cancel</th><th>Sellnow</th>",$_SESSION['isMobile'],2);
 
@@ -82,24 +83,26 @@ if(isset($_GET['SellNow'])){
           $APIKey = $trackingSell[$x][10]; $APISecret = $trackingSell[$x][11]; $KEK = $trackingSell[$x][12]; $Email = $trackingSell[$x][13]; $UserName = $trackingSell[$x][14];
           $BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           $LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
-          $totalRisesInPrice =  $trackingSell[$x][33]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];
+          $totalRisesInPrice =  $trackingSell[$x][33]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];$baseSellPrice = $newTrackingSellCoins[$b][35];
+          if ($BaseCurrency == 'BTC'){ $num = 8;}
           echo "<tr>";
           NewEcho ("<td>|$coin</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|".Round($CoinPrice,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($CoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
           $purchasePrice = $CoinPrice * $Amount;
-          NewEcho ("<td>|".Round($purchasePrice,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($purchasePrice,$num)."</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$TransactionID</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|$OrderNo</td>",$_SESSION['isMobile'],0);
           $livePriceUSD = $LiveCoinPrice * $Amount;
           //$profitPct = ($profit/$purchasePrice)*100;
           NewEcho ("<td>|$livePriceUSD</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".Round($LiveCoinPrice,4)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|".Round($profit,4)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|$fee</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".Round($ProfitPct,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($LiveCoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($profit,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($fee,$num)."</td>",$_SESSION['isMobile'],0);
+          NewEcho ("<td>|".Round($ProfitPct,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($baseSellPrice,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$NoOfRisesInPrice / $totalRisesInPrice</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".Round($ogPctProfit,4)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".Round($ogPctProfit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],2);
           NewEcho ("<td><a href='SellCoins_Tracking.php?SellNow=Yes&TransID=$TransactionID'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],2);
           echo "</tr>";
