@@ -265,7 +265,7 @@ while($date <= $newTime){
         $timeFlag = True;
       }
       //copyCoinHistory($coinID);
-      copyBuyHistory($coinID);
+      //copyBuyHistory($coinID);
       copyWebTable($coinID);
       updateWebCoinStatsTable($coinID);
       //$price1Hr = get1HrChange($coinID);
