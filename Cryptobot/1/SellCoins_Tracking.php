@@ -83,20 +83,20 @@ if(isset($_GET['SellNow'])){
           $APIKey = $trackingSell[$x][10]; $APISecret = $trackingSell[$x][11]; $KEK = $trackingSell[$x][12]; $Email = $trackingSell[$x][13]; $UserName = $trackingSell[$x][14];
           $BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           $LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
-          $totalRisesInPrice =  $trackingSell[$x][33]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];$baseSellPrice = $newTrackingSellCoins[$x][35];
+          $totalRisesInPrice =  $trackingSell[$x][33]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];$baseSellPrice = $trackingSell[$x][35];
           if ($BaseCurrency == 'BTC'){ $num = 8;}
           echo "<tr>";
           NewEcho ("<td>|$coin</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|".Round($CoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".number_format($CoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
           $purchasePrice = $CoinPrice * $Amount;
-          NewEcho ("<td>|".Round($purchasePrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".number_format( $purchasePrice,$num)."</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$TransactionID</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|$OrderNo</td>",$_SESSION['isMobile'],0);
           $livePriceUSD = $LiveCoinPrice * $Amount;
           //$profitPct = ($profit/$purchasePrice)*100;
           NewEcho ("<td>|$livePriceUSD</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".Round($LiveCoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".number_format($LiveCoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($profit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($fee,$num)."</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".number_format($ProfitPct,$num)."</td>",$_SESSION['isMobile'],2);
