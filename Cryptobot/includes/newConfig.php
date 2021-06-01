@@ -4771,7 +4771,12 @@ function updateQuickBuyCount($trackingID){
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID,$market1HrChangePct){
-    $swingPrice = (($livePrice/100)*0.25);
+    $swingPct = 0.25;
+    if ($livePrice < 0.05){
+      $swingPct = 0.75;
+    }
+
+    $swingPrice = (($livePrice/100)*$swingPct);
     $currentPrice = abs($livePrice-$lastPrice);
     //$bottomPrice = $livePrice-$swingPrice;
 
