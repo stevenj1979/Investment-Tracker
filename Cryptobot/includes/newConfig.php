@@ -4691,6 +4691,9 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
       Echo "<BR>Less Than 5 Mins | OPT 1 : $minsFromDate";
       return False;
   }
+  if ($pctProfit > 15.0){
+    return True;
+  }
   if (abs($market1HrChangePct) > 0.25){
     $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
   }
