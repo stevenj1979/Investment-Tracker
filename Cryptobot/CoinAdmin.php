@@ -32,6 +32,34 @@ function DeleteHistory($hours){
   $conn->close();
 }
 
+function OptimiseHistoryTable($table){
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$date = date('Y-m-d H:i', time());
+  $sql = "OPTIMIZE TABLE $table;";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function OptimiseTable($table){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "OPTIMIZE TABLE $table;";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
 function userHistory($userID){
     $tempAry = [];
     $conn = getSQLConn(rand(1,3));
@@ -574,6 +602,10 @@ updateSpreadBetCoinHistory();
 RunSellTrendUpdate();
 
 DeleteCMCDisabledCoins();
+
+OptimiseHistoryTable("`PriceHistory`");
+OptimiseTable("`ActionLog`");
+OptimiseTable("`Transaction`");
 
 ?>
 </html>
