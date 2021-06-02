@@ -261,7 +261,7 @@ function addBearBullStatsToSQL($price,$coinID){
   }
   $conn->close();
   logAction("addBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addBearBullStatsToSQL",$sql,3,1,SQLProcedureLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("addBearBullStatsToSQL",$sql,3,1,0,"SQL CALL","CoinID:$coinID");
 }
 
 function addMarketBearBullStatsToSQL($price){
