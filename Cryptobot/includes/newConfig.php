@@ -3401,7 +3401,7 @@ function getNewTrackingSellCoins($userID = 0){
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`BaseCurrency`
   ,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE, `TrackDate`, Now()) as MinsFromDate, `ProfitUSD`, `Fee`
-  , (`LiveSellPrice`-`OriginalPurchasePrice`)/ `OriginalPurchasePrice` * 100 as `PctProfit`
+  ,`PctProfit`
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
   ,TIMESTAMPDIFF(MINUTE, `TrackStartDate`, Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`,`SaveResidualCoins`
