@@ -4691,9 +4691,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
       Echo "<BR>Less Than 5 Mins | OPT 1 : $minsFromDate";
       return False;
   }
-  if ($pctProfit > 15.0){
-    return True;
-  }
+  
   if (abs($market1HrChangePct) > 0.25){
     $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
   }
@@ -4783,6 +4781,10 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     $currentPrice = abs($livePrice-$sellPrice);
     //$bottomPrice = $livePrice-$swingPrice;
 
+    if ($pctProfit >= 20.0){
+      reopenTransaction($TransactionID);
+      return True;
+    }
     //if liveprice is stable, add 1 - -0.5 - 0.5
     if ($minsFromDate < 5){
         //: OPT 1
