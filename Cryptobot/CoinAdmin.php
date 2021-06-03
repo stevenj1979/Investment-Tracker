@@ -606,6 +606,6 @@ DeleteCMCDisabledCoins();
 OptimiseHistoryTable("`PriceHistory`");
 OptimiseTable("`ActionLog`");
 OptimiseTable("`Transaction`");
-
+OptimiseTable("`TrackingSellCoins`");
 ?>
 </html>
