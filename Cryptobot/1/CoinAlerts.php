@@ -51,8 +51,8 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
     <select name="greaterThanSelect">
-      <option value=">" name='greaterThanOpt'>></option>
-      <option value="<" name='lessThanOpt'><</option>
+      <option value=">" name='greaterThanOpt'>&#62;</option>
+      <option value="<" name='lessThanOpt'>&#60;</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
     <input type="text" name="coinPriceAltTxt" value="<?php echo $cost; ?>"> <label for="coinPriceAltTxt">Coin Price: </label><br>
     <input type="checkbox" id="reocurringChk" name="reocurringChk" value="ReocurringAlert"><label for="reocurringChk">Reocurring Alert: </label><br>
