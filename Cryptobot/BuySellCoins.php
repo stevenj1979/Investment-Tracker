@@ -345,15 +345,20 @@ while($completeFlag == False){
     $totalRisesInPrice =  $newTrackingSellCoins[$b][30]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
     $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
+    $origAmount =  = $newTrackingSellCoins[$b][40];
     $market1HrChangePct = $marketStats[0][1];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$fallsInPrice,$trackingSellID,$market1HrChangePct);
     if ($readyToSell == True){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
+
         $PurchasePrice = ($Amount*$CoinPrice);
-        $oldAmount = $Amount;
-        $tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
-        $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
+        if ($origAmount == 0){
+          $oldAmount = $Amount;
+          $tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
+          $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
+        }
+
         $salePrice = $LiveCoinPrice * $Amount;
         $profit = $salePrice - $PurchasePrice;
         $ProfitPct = ($profit/$PurchasePrice)*100;
