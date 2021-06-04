@@ -3376,7 +3376,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Amount`= $Amount,`OriginalAmount` = $oldAmount WHERE `ID` = $TransactionID ";
+  $sql = "UPDATE `Transaction` SET `Amount`= $Amount,`OriginalAmount` = $oldAmount WHERE `ID` = $TransactionID and `OriginalAmount` = 0";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -4824,7 +4824,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       if (($livePrice-$sellPrice) > $swingPrice ){
         setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       }
-      
+
       return False;
     }
 
