@@ -50,7 +50,6 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     <option value="Live Price Pct Change" name='pctLivePriceOpt'>Live Price Pct Change</option>
     </select> <label for="priceSelect">Select Category</label><br>
     <select name="greaterThanSelect">
-    <select name="greaterThanSelect">
       <option value=">" name='greaterThanOpt'>Greater Than</option>
       <option value="<" name='lessThanOpt'>Less Than</option>
     </select><label for="greaterThanSelect">Select Option</label><br>
