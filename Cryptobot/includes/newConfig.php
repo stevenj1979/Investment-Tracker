@@ -83,7 +83,7 @@ function updateBuyToSpread($sbRuleID, $transactionID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateBuyToSpread",$sql,3,0,"SQL","SBRuleID:$sbRuleID TransID:$transactionID");
+    newLogToSQL("updateBuyToSpread",$sql,3,1,"SQL","SBRuleID:$sbRuleID TransID:$transactionID");
     logAction("updateBuyToSpread: ".$sql, 'BuySell', 0);
 }
 
