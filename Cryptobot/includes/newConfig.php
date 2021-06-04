@@ -4817,13 +4817,14 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       return False;
     }
     //if liveprice is greater than or less than, reset to 0
-    if (($livePrice-$sellPrice) > $swingPrice){  //OR ($currentPrice < $swingPrice)
+    if ((($livePrice-$sellPrice) > $swingPrice) OR ($livePrice < $sellPrice)){  //OR ($currentPrice < $swingPrice)
       // : OPT 4
       //logToSQL("trackingCoinReadyToSell", "OPT 4 Current: $currentPrice | Swing: $swingPrice | Live: $livePrice | Sell: $sellPrice - RESET TO 0 ", 3, 1);
       updateNoOfRisesInSellPrice($trackingSellID, 0, $livePrice);
       setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       return False;
     }
+
     if (($type == 'Sell' && $pctProfit < -3) OR ($type == 'Sell' && $pctProfit > 3)){
       //Cancel Transaction : OPT 5
       newLogToSQL("TrackingSell", "OPT 5 : $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_5","TransactionID:$TransactionID");
