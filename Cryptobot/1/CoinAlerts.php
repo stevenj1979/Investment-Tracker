@@ -32,7 +32,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
   $selectArraySize = count($selectArray);
   echo "<BR> Alert : ".$_GET['alert'];
-  $coin = $_GET['coinAlt']; $cost = $_GET['coinPrice']; $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
+  $coin = $_GET['coinAlt']; $cost = number_format($_GET['coinPrice'],8); $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
   $temp = getCoinAlertsFormData($id);
   $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   displayHeader(8);
