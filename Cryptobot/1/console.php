@@ -56,7 +56,7 @@ function getConsoleData($console, $userID){
   }
 
   $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option Limit 100";
-  echo $sql;
+  //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
