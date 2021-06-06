@@ -4683,7 +4683,11 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
 }
 
 function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount,$market1HrChangePct){
-  $swingPrice = (($livePrice/100)*0.25);
+  $swingPct = 0.25;
+  if ($livePrice < 0.05){
+    $swingPct = 0.75;
+  }
+  $swingPrice = (($livePrice/100)*$swingPct);
   $currentPrice = abs($livePrice-$lastPrice);
   //$bottomPrice = $livePrice-$swingPrice;
   Echo "<BR> Swing:$swingPrice Current:$currentPrice ";
@@ -4713,12 +4717,17 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
-  if ($currentPrice > $swingPrice){ //OR ($currentPrice < $swingPrice)
+  if (($livePrice-$sellPrice) < $swingPrice) OR ($livePrice > $sellPrice)){ //OR ($currentPrice < $swingPrice)
+  //if ((($livePrice-$sellPrice) > $swingPrice) OR ($livePrice < $sellPrice)){ 
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
-    setNewTrackingPrice($livePrice, $trackingID, 'Buy');
+    if (($livePrice-$lastPrice)<$swingPrice){
+      setNewTrackingPrice($livePrice, $trackingID, 'Buy');
+    }
+
+
     return False;
   }
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
