@@ -212,7 +212,7 @@ displayHeader(3);
           echo "<td rowspan='2'><p id='normalText'>".$priceChange." ".$baseCurrency."</p></td>";
 
           NewEcho("<td rowspan='3'><p id='normalText'>".$price4Trend." ".$price3Trend." ".$lastPriceTrend." ".$LivePriceTrend."</p></td>",$_SESSION['isMobile'],2);
-          NewEcho("<td rowspan='3'><p id='normalText'>$new1HrPriceChange</p></td>",$_SESSION['isMobile'],2);
+          NewEcho("<td rowspan='3'><p id='normalText'>".round($new1HrPriceChange,2)."</p></td>",$_SESSION['isMobile'],2);
 
           NewEcho("<td rowspan='3'><a href='ManualBuy.php?buy=Yes&coin=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-shopping-cart' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
           NewEcho("<td rowspan='3'><a href='CoinAlerts.php?alert=0&coinAlt=$coin&baseCurrency=$baseCurrency&coinID=$coinID&coinPrice=$bitPrice'><i class='fas fa-bell' style='$fontSize;color:#D4EFDF'></i></a></td>",$_SESSION['isMobile'],2);
@@ -220,13 +220,13 @@ displayHeader(3);
           echo "</tr><tr>";
           echo "<td><p id='smallText'>".$coin."</p></td>";
           NewEcho( "<td><p id='normalText'>Volume: $volume</p></td>",$_SESSION['isMobile'],2);
-          NewEcho( "<td><p id='normalText'>24 Hr Change: ".$Live24HrChange."</p></td>",$_SESSION['isMobile'],2);
+          NewEcho( "<td><p id='normalText'>24 Hr Change: ".round($Live24HrChange,2)."</p></td>",$_SESSION['isMobile'],2);
 
           echo "</tr><tr>";
           $numCol = getNumberColour($priceDiff1);
           echo "<td><p id='smallText' style='color:$numCol'>$priceDiff1 %</p></td>";
           NewEcho( "<td><p id='normalText'>Buy Orders: $buyOrders</p></td>",$_SESSION['isMobile'],2);
-          NewEcho( "<td><p id='normalText'>7 Day Change: ".$Live7DChange."</p></td>",$_SESSION['isMobile'],2);
+          NewEcho( "<td><p id='normalText'>7 Day Change: ".round($Live7DChange,2)."</p></td>",$_SESSION['isMobile'],2);
           echo "<td><p id='normalText'>".$baseCurrency."</p></td>";
 				}//end for
 				print_r("</tr></table>");
