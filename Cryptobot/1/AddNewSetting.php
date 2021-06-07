@@ -194,13 +194,15 @@ function copyRule($ID){
     , `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `BuyCoin`, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`
     , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`
   ,`NewBuyPattern`,`SellRuleFixed`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`CoinPriceMatchID`,`CoinPricePatternID`,`Coin1HrPatternID`,`BuyRisesInPrice`,`OverrideDisableRule`
-  ,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`RuleName`,`OverrideDailyLimit`,`OverrideCancelBuyTimeEnabled`,`OverrideCancelBuyTimeMins`)
+  ,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`RuleName`,`OverrideDailyLimit`,`OverrideCancelBuyTimeEnabled`,`OverrideCancelBuyTimeMins`,`LimitBuyTransactionsEnabled`,`LimitBuyTransactions`,`NoOfBuyModeOverrides`
+  ,`CoinModeOverridePriceEnabled`,`BuyModeActivate`,`CoinMode`,`OverrideCoinAllocation`,`OneTimeBuyRule`)
 Select `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`
 , `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`
 , `VolumeBtm`, 0, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinPricePatternEnabled`,`CoinPricePattern`
 ,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`CoinPriceMatchID`,`CoinPricePatternID`,`Coin1HrPatternID`,`BuyRisesInPrice`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`RuleName`,`OverrideDailyLimit`
-,`OverrideCancelBuyTimeEnabled`,`OverrideCancelBuyTimeMins`
+,`OverrideCancelBuyTimeEnabled`,`OverrideCancelBuyTimeMins`,`LimitBuyTransactionsEnabled`,`LimitBuyTransactions`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`BuyModeActivate`,`CoinMode`
+,`OverrideCoinAllocation`,`OneTimeBuyRule`
 from `BuyRules`
 where `ID` = $ID";
   //print_r($sql);
@@ -413,7 +415,7 @@ function getRules($id){
 `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
-,`CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `CoinPricePatternName`,`Coin1HrPatternID`,`Coin1HrPatternName`
+,`CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `CoinPricePatternName`,`Coin1HrPatternID`,`Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`
 FROM `UserBuyRules_ALL` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -427,8 +429,8 @@ FROM `UserBuyRules_ALL` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['BuyCoinOffsetEnabled'],$row['BuyCoinOffsetPct'],$row['PriceTrendEnabled'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend']//35
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']//44
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
-     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID']
-   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName']);//59
+     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
+   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule']);
   }
   $conn->close();
   return $tempAry;
@@ -790,6 +792,8 @@ function displayEdit($id){
     addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,1);
     addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,1);
     addNewTwoOption('Override Daily Limit Enabled:','OverrideDailyLimitEnabled',$formSettings[0][57]);
+    addNewTwoOption('Override Coin Allocation Enabled:','OverrideCoinAllocationEnabled',$formSettings[0][64]);
+    addNewTwoOption('One-Time Buy Rule Enabled:','OneTimeBuyRuleEnabled',$formSettings[0][65]);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
