@@ -295,6 +295,8 @@ function updateEditedUser(){
   $PriceChange1HrTop = postData($_POST['PriceChange1HrTop']);
   $PriceChange1HrBtm = postData($_POST['PriceChange1HrBtm']);
 
+  $overrideCoinAllocationEnable = postDataYesNo($_POST['OverrideCoinAllocationEnabled']);
+  $oneTimeBuyRuleEnable = postDataYesNo($_POST['OneTimeBuyRuleEnabled']);
   //if (!empty($_POST['24HrEnable'])){if ($_POST['24HrEnable'] == "Yes"){$t4HrEnable = 1;}else{$t4HrEnable = 0;}}else{ $t4HrEnable = 0;}
   //if (!empty($_POST['24HrEnable'])){$t4HrEnable = $_POST['24HrEnable'];}else{$t4HrEnable = 0;}
   //if (!empty($_POST['PriceChange24HrTop'])){$PriceChange24HrTop = $_POST['PriceChange24HrTop'];}else{$PriceChange24HrTop = 0;}
@@ -388,6 +390,7 @@ function updateEditedUser(){
          END
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
+  ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
