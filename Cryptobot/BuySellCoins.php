@@ -663,12 +663,14 @@ while($completeFlag == False){
           newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,0,"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }else{
           $totalBal = $BTCBalance-$totalReserved;
-          $buyQuantity = $BTCAmount;
+          $buyQuantity = $BTCAmount/$LiveCoinPrice;
         }
 
         //} else{ $totalBal = $BTCBalance;}
         newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,1,"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
         if ($totalBal > 20 OR $overrideCoinAlloc == 1) {
+
+          //sif ($overrideCoinAlloc == 1){$BTCAmount = }
           echo "<BR>Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed";
           //buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0);
           //updateReservedAmount($BTCAmount*$LiveCoinPrice,$baseCurrency,$userID);
