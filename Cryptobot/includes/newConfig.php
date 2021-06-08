@@ -4766,6 +4766,8 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
     if (($livePrice-$lastPrice)<$swingPrice){
+      $tempPrice = $livePrice-$lastPrice;
+      echo "<BR> SET New Price Test: $livePrice | $lastPrice | $tempPrice | $swingPrice";
       setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     }
 
