@@ -3548,18 +3548,25 @@ function getReservedAmount($baseCurrency, $userID){
 //12
 
   $sql = "select (
-            SELECT sum(`CoinPrice` * `Quantity`)
-            from `TrackingCoins` where `BaseCurrency` = 'USDT' and `UserID` = 3 and `Status` = 'Open') as TotalReservedUSDT
-            ,ifnull((SELECT sum(`CoinPrice`*`Quantity` )
-            from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = 3 and `Status` = 'Open'),0)as TotalReservedBTC
-            ,ifnull((SELECT sum(`CoinPrice`*`Quantity` )
-            from `TrackingCoins` where `BaseCurrency` = 'ETH' and `UserID` = 3 and `Status` = 'Open'),0)as TotalReservedETH";
+            SELECT sum(`CoinPrice`)
+            from `TrackingCoins` where `BaseCurrency` = 'USDT' and `UserID` = $userID and `Status` = 'Open') as TotalCoinPriceUSDT
+            ,ifnull((SELECT sum(`CoinPrice` )
+            from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = $userID and `Status` = 'Open'),0)as TotalCoinPriceBTC
+            ,ifnull((SELECT sum(`CoinPrice` )
+            from `TrackingCoins` where `BaseCurrency` = 'ETH' and `UserID` = $userID and `Status` = 'Open'),0)as TotalCoinPriceETH
+
+            ,ifnull((SELECT sum(`Quantity` )
+            from `TrackingCoins` where `BaseCurrency` = 'USDT' and `UserID` = $userID and `Status` = 'Open'),0)as TotalQuantityUSDT
+            ,ifnull((SELECT sum(`Quantity` )
+            from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = $userID and `Status` = 'Open'),0)as TotalQuantityBTC
+            ,ifnull((SELECT sum(`Quantity` )
+            from `TrackingCoins` where `BaseCurrency` = 'ETH' and `UserID` = $userID and `Status` = 'Open'),0)as TotalQuantityETH";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['TotalReservedUSDT'],$row['TotalReservedBTC'],$row['TotalReservedETH']);
+    $tempAry[] = Array($row['TotalCoinPriceUSDT'],$row['TotalCoinPriceBTC'],$row['TotalCoinPriceETH'],$row['TotalQuantityUSDT'],$row['TotalQuantityBTC'],$row['TotalQuantityETH']);
   }
   $conn->close();
   return $tempAry;
