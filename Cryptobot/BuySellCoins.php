@@ -663,7 +663,7 @@ while($completeFlag == False){
           newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,0,"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }else{
           $totalBal = $BTCBalance-$totalReserved;
-          $buyQuantity = $BTCAmount/$LiveCoinPrice;
+          $buyQuantity = $BTCAmount;
         }
 
         //} else{ $totalBal = $BTCBalance;}
