@@ -185,7 +185,7 @@ while($completeFlag == False){
     }
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
-    if($minsFromDate >= $timeToCancelBuyMins){closeNewTrackingCoin($newTrackingCoinID, True); reOpenOneTimeBuyRule($trackingID); newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit", $userID, $logToSQLSetting,"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | "; continue;}
+    if($minsFromDate >= $timeToCancelBuyMins){closeNewTrackingCoin($newTrackingCoinID, True); reOpenOneTimeBuyRule($trackingID); newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit $minsFromDate", $userID, $logToSQLSetting,"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | "; continue;}
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1){
