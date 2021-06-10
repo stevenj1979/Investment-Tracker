@@ -2235,8 +2235,8 @@ function newLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 }
 
 function displayHeader($n){
-  $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
-  $_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
+  //$_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
+  //$_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
   $userDisabledUntil = getUserDisabled($_SESSION['ID']);
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
