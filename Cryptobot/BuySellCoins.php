@@ -185,7 +185,12 @@ while($completeFlag == False){
     }
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
-    if($minsFromDate >= $timeToCancelBuyMins){closeNewTrackingCoin($newTrackingCoinID, True); reOpenOneTimeBuyRule($trackingID); newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit $minsFromDate", $userID, $logToSQLSetting,"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | "; continue;}
+    if($minsFromDate >= $timeToCancelBuyMins){
+      closeNewTrackingCoin($newTrackingCoinID, True);
+      reOpenOneTimeBuyRule($trackingID);
+      newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit $minsFromDate", $userID, $logToSQLSetting,"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
+      continue;
+    }
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
@@ -256,7 +261,7 @@ while($completeFlag == False){
     $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
-      newLogToSQL("TrackingCoin","trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct);",$userID,1,"TrackingSuccess","TrackingCoinID:$newTrackingCoinID");
+      newLogToSQL("TrackingCoin","trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct)$overrideCoinAlloc|".$coinAllocation[0][0].";",$userID,1,"TrackingSuccess","TrackingCoinID:$newTrackingCoinID");
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
       //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){ $ogBTCAmount = (float)$ogBTCAmount;}
       $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$noOfPurchases+1);
@@ -667,7 +672,7 @@ while($completeFlag == False){
         }
 
         //} else{ $totalBal = $BTCBalance;}
-        newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,1,"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
+        newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,0,"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
         if ($totalBal > 20 OR $overrideCoinAlloc == 1) {
 
           //sif ($overrideCoinAlloc == 1){$BTCAmount = }
