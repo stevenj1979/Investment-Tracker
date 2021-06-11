@@ -249,6 +249,24 @@ function getOpenCoins($status){
   return $tempAry;
 }
 
+function updateMergeSaving(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `Transaction` `Tr`
+            join `UserConfig` `Uscf` on `Tr`.`UserID` = `Uscf`.`UserID`
+            SET `Tr`.`ToMerge` = 1
+            WHERE `Tr`.`Status` = 'Saving' and `Uscf`.`AutoMergeSavings` = 1 ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function mergeCoins($sellTrackingCoins){
   $sellTrackingCoinsSize = Count($sellTrackingCoins);
   $z = 0;$toMergeAry = []; $finalMergeAry = [];
@@ -320,6 +338,7 @@ for($x = 0; $x < $confSize; $x++) {
   //$daysRemaining = $userDates[$x][5]; $active = $userDates[$x][3]; $email = $userDates[$x][1]; $userName = $userDates[$x][4];
 }
 
+updateMergeSaving();
 $savingCoins = getOpenCoins('Saving');
 mergeCoins($savingCoins);
 $sellTrackingCoins = getOpenCoins('Open');
