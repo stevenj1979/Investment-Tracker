@@ -3038,6 +3038,25 @@ function runLowMarketMode($userID,$mode){
   newLogToSQL("runLowMarketMode","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
 }
 
+function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `Transaction` SET `OverrideCoinAllocation` = $overrideCoinAlloc where `CoinID` = $coinID and `UserID` = $userID
+            order by `OrderDate` desc
+            Limit 1 ";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateCoinAllocationOverride: ".$sql,'TrackingCoins', 0);
+  newLogToSQL("updateCoinAllocationOverride","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+}
+
 function getNewTrackingCoins($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));

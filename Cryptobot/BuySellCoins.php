@@ -280,6 +280,7 @@ while($completeFlag == False){
         }
 
       }
+      updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
     }
     /*if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
