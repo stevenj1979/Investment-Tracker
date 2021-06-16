@@ -546,7 +546,7 @@ function DeleteCMCDisabledCoins(){
 
 
 coinHistory(10);
-DeleteHistory(192);
+DeleteHistory(384);
 checkSellSequence();
 $apisecret=getAPISecret();
 $apikey=getAPIKey();
