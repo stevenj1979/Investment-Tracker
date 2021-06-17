@@ -388,7 +388,7 @@ function updateEditedUser(){
          END
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
-  ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = $limitToBaseCurrency
+  ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency'
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -398,7 +398,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  //header('Location: BuySettings.php');
+  header('Location: BuySettings.php');
 }
 
 
