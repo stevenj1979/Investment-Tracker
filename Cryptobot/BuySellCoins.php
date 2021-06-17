@@ -479,7 +479,7 @@ while($completeFlag == False){
       $rulesPause = $buyRules[$y][69]; $rulesPauseHours = $buyRules[$y][70]; $overrideDisableRule = $buyRules[$y][73];
       $limitBuyAmountEnabled = $buyRules[$y][74]; $limitBuyAmount = $buyRules[$y][75];
       $limitBuyTransactionsEnabled = $buyRules[$y][78]; $limitBuyTransactions = $buyRules[$y][79]; $overrideCoinAlloc = $buyRules[$y][80];
-      $oneTimeBuy = $buyRules[$y][81];
+      $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       //$APISecret = $buyRules[$y][31];
       //Echo " KEK $KEK APISecret $APISecret API ".$buyRules[$y][31];
@@ -556,6 +556,7 @@ while($completeFlag == False){
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
+      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ continue;}
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){ continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
       if ($doNotBuy == 1){ continue;}
