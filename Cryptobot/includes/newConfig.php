@@ -390,8 +390,10 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $bitPrice = $buyPriceCoin;
   }
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
+  LogToSQL("BuyCoinAmount","returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);",3,1);
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
+  LogToSQL("BuyCoinAmount","btcBuyAmount $btcBuyAmount ",3,1);
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
