@@ -351,8 +351,10 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
       $testFlag = 3;
     }
 
-   if ($returnPrice > $BTCBalance) {
+   if ($btcBuyAmount > $BTCBalance) {
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
+     $tempPrice = $btcBuyAmount - (($btcBuyAmount/ 100 ) * 0.28);
+     $returnPrice = $tempPrice/$bitPrice;
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
    LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag",3,1);
