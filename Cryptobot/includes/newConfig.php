@@ -420,6 +420,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     }elseif ($baseCurrency == 'ETH'){
       $ethCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','ETH',$apiVersion)), 8, '.', '');
       $newMinTradeAmount = $minTradeAmount[0][0]/$ethCoinPrice;
+    }else{
+      $newMinTradeAmount = $minTradeAmount[0][0];
     }
 
     if ($btcBuyAmount>$newMinTradeAmount && $BTCBalance >= $buyMin){
