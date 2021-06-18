@@ -432,8 +432,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          $btcBuyAmount = round($btcBuyAmount,10);
-          $bitPrice = round($bitPrice,8);
+          $btcBuyAmount = number_format($btcBuyAmount,10);
+          $bitPrice = number_format($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
           LogToSQL("BuyCoinTest","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
