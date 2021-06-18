@@ -424,7 +424,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       $newMinTradeAmount = $minTradeAmount[0][0];
     //}
 
-    if ($BTCBalance >= $buyMin){
+    if ($btcBuyAmount >= $newMinTradeAmount  && $BTCBalance >= $buyMin){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
