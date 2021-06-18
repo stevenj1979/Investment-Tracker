@@ -661,12 +661,12 @@ while($completeFlag == False){
           echo "<BR> BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0];
           $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
           $BTCAmount = $BTCAmount / $baseMultiplier[0][0];
-          $buyQuantity = $BTCAmount/$LiveCoinPrice;
+          $buyQuantity = $BTCAmount;
           newLogToSQL("BuyCoins","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,0,"BTCTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }elseif ($baseCurrency == 'ETH'){
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $BTCAmount = $BTCAmount / $baseMultiplier[0][1];
-          $buyQuantity = $BTCAmount/$LiveCoinPrice;
+          $buyQuantity = $BTCAmount;
           newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,0,"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }else{
           $totalBal = $BTCBalance-$totalReserved;
