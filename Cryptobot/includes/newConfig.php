@@ -414,17 +414,17 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //echo "<BR>AvgCoinPrice: ".$avgCoinPrice[0][0]." CoinPrice: ".$bitPrice;
     //if ($avgCoinPrice > $bitPrice){ return; }
     //$quantity = Round($btcBuyAmount/$bitPrice,8,PHP_ROUND_HALF_UP);
-    if ($baseCurrency == 'BTC'){
-      $bitCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC',$apiVersion)), 8, '.', '');
-      $newMinTradeAmount = $minTradeAmount[0][0]/$bitCoinPrice;
-    }elseif ($baseCurrency == 'ETH'){
-      $ethCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','ETH',$apiVersion)), 8, '.', '');
-      $newMinTradeAmount = $minTradeAmount[0][0]/$ethCoinPrice;
-    }else{
+    //if ($baseCurrency == 'BTC'){
+    //  $bitCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','BTC',$apiVersion)), 8, '.', '');
+    //  $newMinTradeAmount = $minTradeAmount[0][0]/$bitCoinPrice;
+    //}elseif ($baseCurrency == 'ETH'){
+    //  $ethCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','ETH',$apiVersion)), 8, '.', '');
+    //  $newMinTradeAmount = $minTradeAmount[0][0]/$ethCoinPrice;
+    //}else{
       $newMinTradeAmount = $minTradeAmount[0][0];
-    }
+    //}
 
-    if ($btcBuyAmount>$newMinTradeAmount && $BTCBalance >= $buyMin){
+    if ($BTCBalance >= $buyMin){
         echo "Quantity above min trade amount";
         //buyCoins($apikey, $apisecret,$coin, $quantity, $bitPrice, $email,$minTradeAmount, $userID, $totalScore,$date, $baseCurrency);
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
