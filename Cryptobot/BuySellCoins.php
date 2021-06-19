@@ -1450,12 +1450,15 @@ while($completeFlag == False){
     //$profitPct = ($profit/$purchasePrice)*100;
     $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31]; $baseCurrency_new = $sellSpread[$w][32];
     $fallsInPrice = $sellSpread[$w][61];
-    $tempProfit = getTotalProfitSpreadBetSell($ID);
+    //$tempProfit = getTotalProfitSpreadBetSell($ID);
     //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
-    $purchasePrice = $tempProfit[0][0];
-    $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
-    $profit = $livePrice-$purchasePrice;
-    $profitPct = ($profit/$purchasePrice)*100;
+    //$purchasePrice = $tempProfit[0][0];
+    $purchasePrice = $sellSpread[$w][62] + $sellSpread[$w][63];
+    //$livePrice = $tempProfit[0][1] + $tempProfit[0][2];
+    $livePrice = $sellSpread[$w][64] + $sellSpread[$w][65];
+    $soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
+    $profit = ($livePrice-$purchasePrice)+$soldPrice;
+    $profitPct = (($profit-$purchasePrice)/$purchasePrice)*100;
     echo "<BR> PROFIT: $profit / $purchasePrice * 100 = $profitPct";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     //coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);
