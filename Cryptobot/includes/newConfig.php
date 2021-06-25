@@ -4873,6 +4873,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     //$bottomPrice = $livePrice-$swingPrice;
 
     if ($pctProfit >= 20.0){
+      newLogToSQL("TrackingSell", "OPT 7 : $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       return True;
     }
