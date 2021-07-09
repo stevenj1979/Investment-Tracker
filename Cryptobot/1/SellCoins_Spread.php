@@ -77,8 +77,8 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ifNull(`OriginalPurchasePrice`,0) as OriginalPurchasePrice ,ifNull(`LiveTotalPrice`,0) as LiveTotalPrice,ifNull(`SaleTotalPrice`,0) as SaleTotalPrice
-            FROM `WebSpreadBetProfits`
+  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice
+            FROM `SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
 
   //echo "<BR> $sql";
