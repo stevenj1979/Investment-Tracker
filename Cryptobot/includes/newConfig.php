@@ -5022,6 +5022,26 @@ function getBuyBackData(){
   return $tempAry;
 }
 
+function getBuyBackKittyAmount($userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT  `USDTAmount`, `BTCAmount`,`ETHAmount`,`BuyPortion` FROM `BuyBackKitty` WHERE  `UserID` = $userID; ";
+
+            echo "<BR> $sql";
+            $result = $conn->query($sql);
+            //$result = mysqli_query($link4, $query);
+            //mysqli_fetch_assoc($result);
+            while ($row = mysqli_fetch_assoc($result)){
+                $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion']);
+            }
+            $conn->close();
+            return $tempAry;
+}
+
 function reOpenTransactionfromBuyBack($buyBackID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -5165,6 +5185,26 @@ function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $
   $conn->close();
   logAction("writeProfitToWebTable: ".$sql, 'SpreadBetSell', 0);
   newLogToSQL("writeProfitToWebTable","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+}
+
+function updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call updateBuyBackKittyAmount('$tmpBaseCur', $bbKittyAmount,$tmpUserID);";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateBuyBackKittyAmount: ".$sql, 'BuyBack', 0);
+  newLogToSQL("updateBuyBackKittyAmount","$sql",3,sQLUpdateLog,"SQL CALL","");
 }
 
 function WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7){

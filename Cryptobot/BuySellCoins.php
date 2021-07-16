@@ -1559,10 +1559,20 @@ while($completeFlag == False){
       //if ($market1HrChangePct < -0.25){
       //    $noOfRaisesInPrice = $noOfRaisesInPrice * (abs($market1HrChangePct)/0.25);
       //}
+      $buyBackKittyAry = getBuyBackKittyAmount($tmpUserID);
+      $usdt_BB_Amount = $buyBackKittyAry[0][0];
+      $BTC_BB_Amount = $buyBackKittyAry[0][1];
+      $eth_BB_Amount =$buyBackKittyAry[0][2];
+      $portion = $buyBackKittyAry[0][3];
+      if ($tmpBaseCur == 'USDT'){ $bbKittyAmount = $usdt_BB_Amount/$portion;}
+      elseif ($tmpBaseCur == 'BTC'){ $bbKittyAmount = $BTC_BB_Amount/$portion;}
+      elseif ($tmpBaseCur == 'BTC'){ $bbKittyAmount = $eth_BB_Amount/$portion;}
+
       if($allBuyBackAsOverride == 1){
         $overrideCoinAlloc = 1;
       }
-      $buyBackPurchasePrice = $liveCoinPrice*$quantity;
+      $buyBackPurchasePrice = ($liveCoinPrice*$quantity)+$bbKittyAmount;
+      updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ continue;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);";
