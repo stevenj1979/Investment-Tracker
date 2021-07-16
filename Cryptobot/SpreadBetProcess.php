@@ -401,8 +401,9 @@ function renewSpreadBetTransactionID(){
     //$sellTargetPct = $SBTargetSellPct[0][0];
     //$profitPct = (($profit - $purchasePrice)/$purchasePrice)*100;
     echo "<BR> Test Renew SpreadBet TransID: $profitTotal  | $sellTargetPct | $profitPct | $userID | $sBTransID | $sBRuleID | $purchasePrice | $livePrice";
-    if ($profitPct >= $sellTargetPct){
+    if ($profitPct >= $sellTargetPct) AND ($profitPct > -999) and ($profitPct < 999) and (isset($profitPct)){
       //Sell
+      LogToSQL("SpreadBetClose","RENEWING SPREADBET TRANS ID:  $sBRuleID : $sBTransID is $profit ($profitPct %) Selling ALL",$userID,1);
       $spreadSellCoins = getSpreadCoinSellData($sBTransID);
       sellSpreadBetCoins($spreadSellCoins);
       //Close all buyback for this SpreadBetTransID
