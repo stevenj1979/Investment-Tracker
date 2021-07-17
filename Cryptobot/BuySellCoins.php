@@ -1454,11 +1454,11 @@ while($completeFlag == False){
     //$tempProfit = getTotalProfitSpreadBetSell($ID);
     //$tempSoldProfit = getSoldProfitSpreadBetSell($ID);
     //$purchasePrice = $tempProfit[0][0];
-    $purchasePrice = $sellSpread[$w][62] + $sellSpread[$w][63];
+    $purchasePrice = $sellSpread[$w][59];// + $sellSpread[$w][63];
     //$livePrice = $tempProfit[0][1] + $tempProfit[0][2];
-    $livePrice = $sellSpread[$w][64] + $sellSpread[$w][65];
-    $soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
-    $profit = ($livePrice-$purchasePrice)+$soldPrice;
+    $livePrice = $sellSpread[$w][60]; // + $sellSpread[$w][65];
+    //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
+    $profit = ($livePrice-$purchasePrice);//+$soldPrice;
     $profitPct = (($profit-$purchasePrice)/$purchasePrice)*100;
     echo "<BR> PROFIT: $profit / $purchasePrice * 100 = $profitPct";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
