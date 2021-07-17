@@ -4894,7 +4894,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     if (abs($market1HrChangePct) > 0.25){
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
-    echo "<BR>trackingCoinReadyToSell: $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID";
+    echo "<BR>trackingCoinReadyToSell_OPT2: $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID";
     if (($minsFromDate >= 60 && $livePrice >= $sellPrice) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $sellPrice)){
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
@@ -4905,7 +4905,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
     if($currentPrice <= $swingPrice){
       //: OPT 3
       newLogToSQL("TrackingSell", "OPT 3 (Add 1 to Counter): $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1,"trackingCoinReadyToSell_3","TransactionID:$TransactionID");
-      echo "updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);";
+      echo "<BR>updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);";
       updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);
       return False;
     }
