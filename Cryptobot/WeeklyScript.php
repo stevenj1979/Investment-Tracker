@@ -129,7 +129,7 @@ function spreadBetSettingsUpdate(){
   }
 }
 
-function getBuyBackData(){
+function getOpenBuyBackData(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -171,7 +171,7 @@ function closeBuyBack($id,$userID){
 
 
 function clearBuyBack($mins){
-  $buyBackAry = getBuyBackData();
+  $buyBackAry = getOpenBuyBackData();
   $buyBackArySize = count($buyBackAry);
   for ($b=0; $b<$buyBackArySize; $b++){
     $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2];
