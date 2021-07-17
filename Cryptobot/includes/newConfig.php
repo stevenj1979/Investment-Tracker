@@ -3675,8 +3675,8 @@ function cancelTrackingSell($id){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `TrackingSellCoins` SET `Status`= 'Closed' WHERE `TransactionID` = $id";
-
+  //$sql = "UPDATE `TrackingSellCoins` SET `Status`= 'Closed' WHERE `TransactionID` = $id";
+  $sql = "call cancelTrackingSellUpdateSBTransID($id);";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
