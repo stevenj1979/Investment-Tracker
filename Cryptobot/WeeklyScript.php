@@ -150,7 +150,7 @@ function getOpenBuyBackData(){
   return $tempAry;
 }
 
-function closeBuyBack($id,$userID){
+function closeOpenBuyBack($id,$userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -176,7 +176,7 @@ function clearBuyBack($mins){
   for ($b=0; $b<$buyBackArySize; $b++){
     $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2];
     if ($minsFromAdd >= $mins){
-      closeBuyBack($bBID,$userID);
+      closeOpenBuyBack($bBID,$userID);
       LogToSQL("WeeklyScript","clearBuyBack($mins) $minsFromAdd",3,1);
     }
   }
