@@ -5029,14 +5029,14 @@ function getBuyBackKittyAmount($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT  `USDTAmount`, `BTCAmount`,`ETHAmount`,`BuyPortion` FROM `BuyBackKitty` WHERE  `UserID` = $userID; ";
+  $sql = "SELECT  `USDTAmount`, `BTCAmount`,`ETHAmount`,`BuyPortion`,`BuyPortionBTC`,`BuyPortionETH` FROM `BuyBackKitty` WHERE  `UserID` = $userID; ";
 
             echo "<BR> $sql";
             $result = $conn->query($sql);
             //$result = mysqli_query($link4, $query);
             //mysqli_fetch_assoc($result);
             while ($row = mysqli_fetch_assoc($result)){
-                $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion']);
+                $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion'],$row['BuyPortionBTC'],$row['BuyPortionETH']);
             }
             $conn->close();
             return $tempAry;
