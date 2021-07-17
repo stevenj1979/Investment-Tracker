@@ -359,8 +359,9 @@ while($completeFlag == False){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
 
         $PurchasePrice = ($Amount*$CoinPrice);
+        $oldAmount = $Amount;
         if ($origAmount == 0){
-          $oldAmount = $Amount;
+
           $tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
           $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
         }
