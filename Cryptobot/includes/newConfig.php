@@ -4862,7 +4862,7 @@ function updateQuickBuyCount($trackingID){
   newLogToSQL("updateQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");
 }
 
-function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingSellID,$market1HrChangePct){
+function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct){
     $swingPct = 0.25;
     if ($livePrice < 0.05){
       $swingPct = 0.75;
