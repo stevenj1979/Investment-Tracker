@@ -1467,7 +1467,7 @@ while($completeFlag == False){
     if ($captureTrend == 0 and $profitPct >= 0.5){
       //updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID);
     }
-    if ($profitPct >= $spreadBetPctProfitSell) AND ($profitPct > -999) and ($profitPct < 999) and (isset($profitPct)){
+    if (($profitPct >= $spreadBetPctProfitSell) AND ($profitPct > -999) and ($profitPct < 999) and (isset($profitPct))){
       //get coin data
       echo "<BR> getSpreadCoinSellData($ID);";
       $spreadSellCoins = getSpreadCoinSellData($ID);
