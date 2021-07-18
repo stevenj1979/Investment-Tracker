@@ -4794,15 +4794,14 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
-  if ((($livePrice-$buyPrice) < $swingPrice) OR ($livePrice > $buyPrice)){ //OR ($currentPrice < $swingPrice)
+  if ((($livePrice-$buyPrice) < $swingPrice) OR (($livePrice - $buyPrice)< (0-$swingPrice))){ //OR ($currentPrice < $swingPrice)
   //if ((($livePrice-$sellPrice) > $swingPrice) OR ($livePrice < $sellPrice)){
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
     $tempPrice = $livePrice-$lastPrice;
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice | $tempPrice - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
-    if (($livePrice-$lastPrice)<$swingPrice){
-
+    if (($livePrice-$lastPrice)<(0-$swingPrice)){
       echo "<BR> SET New Price Test: $livePrice | $lastPrice | $tempPrice | $swingPrice";
       setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     }
