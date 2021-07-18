@@ -542,7 +542,7 @@ function DeleteCMCDisabledCoins(){
   $conn->close();
 }
 
-function getBuyBackData(){
+function getNewBuyBackData(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`TransactionID`,`BuyBackPct`,`SellPrice`,`LiveCoinPrice` FROM `BuyBackView` WHERE `Status` = 'Open'";
@@ -571,7 +571,7 @@ function updateBuyBackOvernight($bbID,$bbPct){
 }
 
 function overNightBuyBackReduction(){
-  $buyBackAry = getBuyBackData();
+  $buyBackAry = getNewBuyBackData();
   $buyBackArySize = count($buyBackAry);
   for ($e=0; $e<$buyBackArySize;$e++){
     $bbID = $buyBackAry[$e][0]; $transID = $buyBackAry[$e][1]; $bbPct = $buyBackAry[$e][2]; $sellPrice = $buyBackAry[$e][3]; $livePrice = $buyBackAry[$e][4];
