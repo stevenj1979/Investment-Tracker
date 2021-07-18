@@ -542,6 +542,43 @@ function DeleteCMCDisabledCoins(){
   $conn->close();
 }
 
+function getBuyBackData(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `ID`,`TransactionID`,`BuyBackPct`,`SellPrice`,`LiveCoinPrice` FROM `BuyBackView` WHERE `Status` = 'Open'";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['BuyBackPct'],$row['SellPrice'],$row['LiveCoinPrice']);
+  }
+  $conn->close();
+return $tempAry;
+
+}
+
+function updateBuyBackOvernight($bbID,$bbPct){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call updateOvernightBuyBackPct($bbPct, $bbID);";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("updateBuyBackOvernight",$sql,3,0,"SQL CALL","");
+}
+
+function overNightBuyBackReduction(){
+  $buyBackAry = getBuyBackData();
+  $buyBackArySize = count($buyBackAry);
+  for ($e=0; $e<$buyBackArySize;$e++){
+    $bbID = $buyBackAry[$e][0]; $transID = $buyBackAry[$e][1]; $bbPct = $buyBackAry[$e][2]; $sellPrice = $buyBackAry[$e][3]; $livePrice = $buyBackAry[$e][4];
+    updateBuyBackOvernight($bbID,$bbPct);
+  }
+}
+
 
 
 
@@ -607,5 +644,11 @@ OptimiseHistoryTable("`PriceHistory`");
 OptimiseTable("`ActionLog`");
 OptimiseTable("`Transaction`");
 OptimiseTable("`TrackingSellCoins`");
+OptimiseTable("`TrackingCoins`");
+OptimiseTable("`CoinModeRules`");
+OptimiseTable("`BuyRules`");
+OptimiseTable("`SellRules`");
+
+overNightBuyBackReduction();
 ?>
 </html>
