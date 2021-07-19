@@ -304,6 +304,38 @@ function getSavings(){
   return $tempAry;
 }
 
+function getBounceIDs(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT distinct `CoinID` FROM `TransactionsView` WHERE `Status` = 'Open'";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getBouncePrices($coinID){
+  $tempAry = [];
+  $conn = getHistorySQL(rand(1,4));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT MAX(`Price`) as TopPrice, MIN(Price) as LowPrice,  (MAX(`Price`) - MIN(Price))/MAX(`Price`)*100 as Difference
+          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) and NOW())
+          and `CoinID` = $coinID";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TopPrice'],$row['LowPrice'],$row['Difference']);}
+  $conn->close();
+  return $tempAry;
+}
+
 function setSavingsToMerge($userID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -316,6 +348,34 @@ function setSavingsToMerge($userID){
   }
   $conn->close();
   newLogToSQL("setSavingsToMerge","$sql",3,0,"SQL","UserID:$userID");
+}
+
+function writeBouncePrice($topPrice,$lowPrice, $diff, $coinID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call writeBouncePrice($topPrice,$lowPrice,$diff,$coinID);";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("writeBouncePrice","$sql",3,0,"SQL CALL","UserID:$userID");
+}
+
+function getBounceIndex(){
+  $bounceID = getBounceIDs();
+  $bounceIDSize = count($bounceID);
+  for ($r=0;$r<$bounceIDSize;$r++){
+    $coinID = $bounceID[$r][0];
+    $bouncePrice = getBouncePrices($coinID);
+    $bouncePriceSize = count($bouncePrice);
+    for ($t=0;$t<$bouncePriceSize;$t++){
+      $topPrice = $bouncePrice[$t][0]; $lowPrice = $bouncePrice[$t][1]; $diff = $bouncePrice[$t][2];
+      writeBouncePrice($topPrice,$lowPrice,$diff,$coinID);
+    }
+  }
 }
 
 function getWebSavings(){
@@ -396,5 +456,7 @@ updateSplitBuyAmountforRule();
 updateBittrexBals();
 
 updateWebSavings();
+
+getBounceIndex();
 ?>
 </html>
