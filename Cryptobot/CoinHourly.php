@@ -204,7 +204,7 @@ function getUserID(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `ID` FROM `Coin` where `BuyCoin` = 1";
+  $sql = "SELECT `ID` FROM `User`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
@@ -311,7 +311,7 @@ function getBounceIDs(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT distinct `CoinID` FROM `TransactionsView` WHERE `Status` = 'Open'";
+  $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID']);}
