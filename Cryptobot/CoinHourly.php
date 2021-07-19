@@ -314,7 +314,7 @@ function getBounceIDs(){
   $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
   print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
   $conn->close();
   return $tempAry;
 }
