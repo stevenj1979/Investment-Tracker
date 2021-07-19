@@ -1527,7 +1527,7 @@ while($completeFlag == False){
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
-    }else if(($profitPCT < -30) AND ($bounceDifference >= 0.25) AND ($LiveCoinPrice == $bounceTopPrice)){
+    }else if(($profitPCT < -30) AND ($bounceDifference <= 0.25) AND ($LiveCoinPrice == $bounceTopPrice)){
         //Swap Coin
           //Choose new Coin
           //Sell COIN
