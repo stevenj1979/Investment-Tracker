@@ -1493,6 +1493,7 @@ while($completeFlag == False){
     $CoinID = $spreadBuyBack[$u][2];
     $userID = $spreadBuyBack[$u][3];
     $LiveCoinPrice = $spreadBuyBack[$u][19];
+    $symbol = $spreadBuyBack[$u][11];
     $transactionID = $spreadBuyBack[$u][0];
     $fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];
@@ -1500,6 +1501,7 @@ while($completeFlag == False){
     $bounceTopPrice = $spreadBuyBack[$u][60];
     $bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];
+    $baseCurrency = $spreadBuyBack[$u][36];
     $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
 
@@ -1528,11 +1530,22 @@ while($completeFlag == False){
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
     }else if(($profitPCT < -30) AND ($bounceDifference <= 0.25) AND ($LiveCoinPrice == $bounceTopPrice)){
+        $versionNum =3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
+          $newCoinSwap = getNewSwapCoin();
+          //Change Transaction Status to CoinSwap
+          updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
           //Sell COIN
+          $rate = $newCoinSwap[0][4];
+          $quant = $rate/($LiveCoinPrice * $amount);
+          $apiConfig = getAPIConfig($userID)
+          $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
+          if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
+          $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
+          //Add to Swap Coin Table
+          updateCoinSwapTable($transactionID,'AwaitingSale',$obj['uuid'],$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
     }
-
   }
 
   //BuyBack

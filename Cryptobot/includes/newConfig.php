@@ -480,6 +480,123 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   return $retBuy;
 }
 
+function getNewSwapCoin(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice` FROM `BounceIndex` `Bi`
+			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
+            Order by `Difference` desc
+            limit 1 ";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['LiveCoinPrice']);}
+    $conn->close();
+    return $tempAry;
+}
+
+function getAPIConfig($userID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT `APIKey`,`APISecret`,`KEK` FROM `UserConfig` WHERE `UserID` = $userID";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['KEK']);}
+    $conn->close();
+    return $tempAry;
+}
+
+function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newCoinPrice,$baseCurrency,$totalAmount,$purchasePrice){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "INSERT INTO `SwapCoins`(`TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`)
+    VALUES ($transactionID,'$status',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapTable",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapTransactionStatus($status,$transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `Status` = '$status' where `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapStatus($status,$transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `CoinSwap` SET `Status` = '$status' where `TransactionID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapStatus",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $status, $transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `CoinID` = $coinID, `CoinPrice`= $coinPrice, `Amount` = $amount, `OrderNo` = '$orderNo', `Status` = '$status' where `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapCoinDetails",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapBittrexID($bittrexRef,$transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `CoinSwap` SET `BittrexRef` = '$bittrexRef' where `TransactionID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapBittrexID",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
 function addCoinAllocationOverride($overrideCoinAlloc, $bittrexRef){
   $conn = getSQLConn(rand(1,3));
     // Check connection
