@@ -1510,6 +1510,7 @@ while($completeFlag == False){
       $finalProfitPct = $profitPCT;
       if (($profitPCT < -30) AND ($bounceDifference >= 2.5) and ($LiveCoinPrice == $bounceTopPrice)){
           $finalProfitPct = $bounceDifference;
+          LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       }
 
       if ($profitPCT > 0){
@@ -1528,6 +1529,8 @@ while($completeFlag == False){
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
     }else if(($profitPCT < -30) AND ($bounceDifference >= 0.25) AND ($LiveCoinPrice == $bounceTopPrice)){
         //Swap Coin
+          //Choose new Coin
+          //Sell COIN
     }
 
   }
