@@ -1539,7 +1539,7 @@ while($completeFlag == False){
           //Sell COIN
           $rate = $newCoinSwap[0][4];
           $quant = $rate/($LiveCoinPrice * $amount);
-          $apiConfig = getAPIConfig($userID)
+          $apiConfig = getAPIConfig($userID);
           $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
           if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
           $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
