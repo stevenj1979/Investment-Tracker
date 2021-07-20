@@ -328,10 +328,10 @@ function getBouncePricesHistory($coinID,$flag){
   //$result = $conn->query($query);
 
   $sql_a = "SELECT MAX(`Price`) as TopPrice, MIN(Price) as LowPrice,  (MAX(`Price`) - MIN(Price))/MAX(`Price`)*100 as Difference, `PriceDateTimeID`
-          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) and NOW())
+          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 2 HOUR) and NOW())
           and `CoinID` = $coinID";
   $sql_b = "SELECT `Price` as TopPrice, 0 as LowPrice,  0 as Difference, `PriceDateTimeID`
-          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) and NOW())
+          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 2 HOUR) and NOW())
           and `CoinID` = $coinID";
   if ($flag == 1){ $sql =  $sql_a;} else {$sql =  $sql_b;}
   print_r($sql);
@@ -442,10 +442,10 @@ function runBounceTestBuy(){
     $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceID[$s][1];$lowPrice = $bounceID[$s][2]; $difference = $bounceID[$s][3];
     $bouncePrice = getBouncePricesHistory($coinID,2);
     $bouncePriceSize = count($bouncePrice);
-    for ($u=0;$u<$bouncePriceSize;$u++){
+    //for ($u=0;$u<$bouncePriceSize;$u++){
       $noOfSells = testBuyScript($bouncePrice,$topPrice,$lowPrice,$difference,$coinID);
       writeNoOfSells($coinID,$noOfSells);
-    }
+    //}
   }
 }
 
