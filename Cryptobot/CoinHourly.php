@@ -405,7 +405,7 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
   $nCounterBuy = 0;
   $nCounterSell = 0;
   $priceArySize = count($priceAry);
-  for ($t=0;$t<$bouncePriceSize;$t++){
+  for ($t=0;$t<$priceArySize;$t++){
     $curPrice = $priceAry[$t][0];
     Echo "<BR> Test: $coinID | $curPrice | $topPrice | $lowPrice | $difference";
     if (($curPrice <= $lowPrice) AND ($status == 'BuyCoin')){
