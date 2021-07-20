@@ -5018,7 +5018,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     if (abs($market1HrChangePct) > 0.25){
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
-    //echo "<BR>trackingCoinReadyToSell_OPT2: $mins | $minsFromDate | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID";
+    echo "<BR>trackingCoinReadyToSell_OPT2: $mins | $minsFromDate | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID";
     if (($minsFromDate >= 60 && $livePrice >= $basePrice) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $basePrice)){
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
