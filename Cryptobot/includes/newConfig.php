@@ -488,7 +488,7 @@ function getNewSwapCoin(){
     }
     $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice` FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
-           where `Bi`.`Difference` > 3
+           where `Bi`.`Difference` > 2.5
             Order by `Difference` desc
             limit 1 ";
     print_r($sql);

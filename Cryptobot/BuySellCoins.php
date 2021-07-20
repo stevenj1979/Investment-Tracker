@@ -1530,22 +1530,25 @@ while($completeFlag == False){
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
-    }else if(($profitPCT < -30) AND ($bounceDifference <= 0.25) AND ($LiveCoinPrice == $bounceTopPrice)){
+    }else if(($profitPCT < -30) AND ($bounceDifference <= 0.25) AND ($LiveCoinPrice == $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum =3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
           $newCoinSwap = getNewSwapCoin();
-          //Change Transaction Status to CoinSwap
-          updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
-          //Sell COIN
-          $rate = $newCoinSwap[0][4];
-          $quant = $rate/($LiveCoinPrice * $amount);
-          $apiConfig = getAPIConfig($userID);
-          $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
-          if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
-          $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
-          //Add to Swap Coin Table
-          updateCoinSwapTable($transactionID,'AwaitingSale',$obj["id"],$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+          if (count($newCoinSwap)>0){
+            //Change Transaction Status to CoinSwap
+            updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
+            //Sell COIN
+            $rate = $newCoinSwap[0][4];
+            $quant = $rate/($LiveCoinPrice * $amount);
+            $apiConfig = getAPIConfig($userID);
+            $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
+            if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
+            $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
+            //Add to Swap Coin Table
+            updateCoinSwapTable($transactionID,'AwaitingSale',$obj["id"],$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+          }
+
     }
   }
 
