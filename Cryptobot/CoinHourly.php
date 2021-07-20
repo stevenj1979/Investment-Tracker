@@ -407,6 +407,7 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
   $priceArySize = count($priceAry);
   for ($t=0;$t<$bouncePriceSize;$t++){
     $curPrice = $priceAry[$t][0];
+    Echo "<BR> Test: $coinID | $curPrice | $topPrice | $lowPrice | $difference";
     if (($curPrice <= $lowPrice) AND ($status == 'BuyCoin')){
       Echo "<BR> BuyCoin: $coinID | BuyPrice: $curPrice";
       $nCounter++;
@@ -427,9 +428,9 @@ function writeNoOfSells($coinID,$noOfSells){
   $sql = "UPDATE `BounceIndex` SET `NoOfSells`= $noOfSells WHERE `CoinID` = $coinID; ";
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
+      echo "<BR>New record created successfully";
   } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "<BR>Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
   newLogToSQL("writeNoOfSells","$sql",3,0,"SQL CALL","UserID:$userID");
