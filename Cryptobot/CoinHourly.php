@@ -348,7 +348,7 @@ function getBounceCoinIDs(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql_a = "SELECT `CoinID`,`TopPrice`,`LowPrice`,`Difference` FROM `BounceIndex` WHERE `Difference` > 2.5";
+  $sql = "SELECT `CoinID`,`TopPrice`,`LowPrice`,`Difference` FROM `BounceIndex` WHERE `Difference` > 2.5";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference']);}
