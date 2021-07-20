@@ -4884,6 +4884,9 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   }
   $swingPrice = (($livePrice/100)*$swingPct);
   $currentPrice = abs($livePrice-$lastPrice);
+  $topSwing = $livePrice + $swingPrice;
+  $bottomSwing = $livePrice - $swingPrice;
+
   //$bottomPrice = $livePrice-$swingPrice;
   Echo "<BR> Swing:$swingPrice Current:$currentPrice ";
   //if liveprice is stable, add 1 - -0.5 - 0.5
@@ -4903,7 +4906,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     //reopenTransaction($TransactionID);
     return True;
   }
-  if($currentPrice <= $swingPrice){
+  if (($livePrice <= $topSwing) AND ($livePrice >= $bottomSwing)){
     Echo "<BR>Update No Of Rises | OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice";
     newLogToSQL("TrackingCoin", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1,"trackingCoinReadyToBuy_3","TrackingCoinID:$trackingID");
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
@@ -4912,14 +4915,14 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
-  if ((($livePrice-$buyPrice) < $swingPrice) OR (($livePrice - $buyPrice)< (0-$swingPrice))){ //OR ($currentPrice < $swingPrice)
+  if (($livePrice > $topSwing) OR ($livePrice < $bottomSwing)){ //OR ($currentPrice < $swingPrice)
   //if ((($livePrice-$sellPrice) > $swingPrice) OR ($livePrice < $sellPrice)){
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
     $tempPrice = $livePrice-$lastPrice;
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice | $tempPrice - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
-    if (($livePrice-$lastPrice)<(0-$swingPrice)){
+    if ($livePrice < $bottomSwing){
       echo "<BR> SET New Price Test: $livePrice | $lastPrice | $tempPrice | $swingPrice";
       setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     }
@@ -4979,14 +4982,16 @@ function updateQuickBuyCount($trackingID){
   newLogToSQL("updateQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");
 }
 
-function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct){
+function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct){
     $swingPct = 0.25;
     if ($livePrice < 0.05){
       $swingPct = 0.75;
     }
 
     $swingPrice = (($livePrice/100)*$swingPct);
-    $currentPrice = abs($livePrice-$sellPrice);
+    $currentPrice = abs($livePrice-$basePrice);
+    $topSwing = $livePrice + $swingPrice;
+    $bottomSwing = $livePrice - $swingPrice;
     //$bottomPrice = $livePrice-$swingPrice;
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
     if ($pctProfit >= 20.0){
@@ -5014,15 +5019,15 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
     //echo "<BR>trackingCoinReadyToSell_OPT2: $mins | $minsFromDate | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID";
-    if (($minsFromDate >= 60 && $livePrice >= $sellPrice) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $sellPrice)){
+    if (($minsFromDate >= 60 && $livePrice >= $basePrice) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $basePrice)){
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       echo "<BR> Option2: Sell";
-      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $sellPrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       return True;
     }
-    if($currentPrice <= $swingPrice){
+    if (($livePrice <= $topSwing) AND($livePrice >= $bottomSwing)){
       //: OPT 3
       newLogToSQL("TrackingSell", "OPT 3 (Add 1 to Counter): $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1,"trackingCoinReadyToSell_3","TransactionID:$TransactionID");
       //echo "<BR>updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);";
@@ -5031,12 +5036,12 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $sellPrice, $Transact
       return False;
     }
     //if liveprice is greater than or less than, reset to 0
-    if ((($livePrice-$sellPrice) > $swingPrice) OR (($livePrice-$sellPrice) < (0-$swingPrice) )){  //OR ($currentPrice < $swingPrice)
+    if (($livePrice > $topSwing) OR ($livePrice < $bottomSwing) ){  //OR ($currentPrice < $swingPrice)
       // : OPT 4
       //logToSQL("trackingCoinReadyToSell", "OPT 4 Current: $currentPrice | Swing: $swingPrice | Live: $livePrice | Sell: $sellPrice - RESET TO 0 ", 3, 1);
       echo "<BR> Option4: Greater than Swing";
       updateNoOfRisesInSellPrice($trackingSellID, 0, $livePrice);
-      if (($livePrice-$sellPrice) > $swingPrice ){
+      if ($livePrice > $topSwing){
         echo "<BR> Option4: Set New Tracking Price";
         setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       }
