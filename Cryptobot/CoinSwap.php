@@ -20,8 +20,10 @@ Function getOpenCoinSwaps(){
   FROM `CoinSwapView`";
   print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],
-    $row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret'],$row['KEK']$row['Symbol']);}
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
+    ,$row['KEK']$row['Symbol']);
+  }
   $conn->close();
   return $tempAry;
 }
