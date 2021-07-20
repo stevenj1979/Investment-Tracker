@@ -441,7 +441,7 @@ function runBounceTestBuy(){
   $bounceIDSize = count($bounceIDs);
   echo "<BR> Running BounceTestBuy: $bounceIDSize";
   for ($s=0;$s<$bounceIDSize;$s++){
-    $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceID[$s][1];$lowPrice = $bounceID[$s][2]; $difference = $bounceID[$s][3];
+    $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceIDs[$s][1];$lowPrice = $bounceIDs[$s][2]; $difference = $bounceIDs[$s][3];
     $bouncePrice = getBouncePricesHistory($coinID,2);
     $bouncePriceSize = count($bouncePrice);
     //for ($u=0;$u<$bouncePriceSize;$u++){
