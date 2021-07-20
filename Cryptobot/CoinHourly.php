@@ -398,7 +398,7 @@ function getBounceIndex(){
   }
 }
 
-function testBuyScript($priceAry,$topPrice,$lowPrice,$difference){
+function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
   $status = 'BuyCoin';
   $nPrice = $lowPrice;
   $buyPrice = 0;
@@ -408,12 +408,13 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference){
   for ($t=0;$t<$bouncePriceSize;$t++){
     $curPrice = $priceAry[$t][0];
     if (($curPrice <= $lowPrice) AND ($status == 'BuyCoin')){
+      Echo "<BR> BuyCoin: $coinID | BuyPrice: $curPrice";
       $nCounter++;
       $status = 'SellCoin';
       $buyPrice = $curPrice;
     }else if (($status == 'SellCoin') AND ((($curPrice-$buyPrice)/$buyPrice)*100 >= $difference )){
       $nCounterSell++;
-
+      Echo "<BR> SellCoin: $coinID | SellPrice: $curPrice";
     }
   }
   return $nCounterSell;
@@ -436,12 +437,13 @@ function writeNoOfSells($coinID,$noOfSells){
 function runBounceTestBuy(){
   $bounceIDs = getBounceCoinIDs();
   $bounceIDSize = count($bounceIDs);
+  echo "<BR> Running BounceTestBuy: $bounceIDSize";
   for ($s=0;$s<$bounceIDSize;$s++){
     $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceID[$s][1];$lowPrice = $bounceID[$s][2]; $difference = $bounceID[$s][3];
     $bouncePrice = getBouncePricesHistory($coinID,2);
     $bouncePriceSize = count($bouncePrice);
     for ($u=0;$u<$bouncePriceSize;$u++){
-      $noOfSells = testBuyScript($bouncePrice,$topPrice,$lowPrice,$difference);
+      $noOfSells = testBuyScript($bouncePrice,$topPrice,$lowPrice,$difference,$coinID);
       writeNoOfSells($coinID,$noOfSells);
     }
   }
