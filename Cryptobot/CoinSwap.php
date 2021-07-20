@@ -12,7 +12,6 @@ $apisecret=getAPISecret();
 Function getOpenCoinSwaps(){
   $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
-  // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
@@ -22,7 +21,7 @@ Function getOpenCoinSwaps(){
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
-    ,$row['KEK']$row['Symbol']);
+    ,$row['KEK'],$row['Symbol']);
   }
   $conn->close();
   return $tempAry;
