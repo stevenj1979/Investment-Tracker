@@ -79,7 +79,7 @@ function runCoinSwaps(){
          if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
         $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
         //Save Reference
-          updateCoinSwapBittrexID($obj["id"];,$coinSwaps[$y][0]);
+          updateCoinSwapBittrexID($obj["id"],$coinSwaps[$y][0]);
         //Change Status to AwaitingBuy
            updateCoinSwapStatus('AwaitingBuy',$coinSwaps[$y][0]);
       }
