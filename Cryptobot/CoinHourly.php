@@ -412,7 +412,8 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
       $nCounter++;
       $status = 'SellCoin';
       $buyPrice = $curPrice;
-    }else if (($status == 'SellCoin') AND ((($curPrice-$buyPrice)/$buyPrice)*100 >= $difference )){
+      $minSellPrice = (($curPrice/100)*$difference)+$curPrice;
+    }else if (($status == 'SellCoin') AND ($curPrice > $minSellPrice)){
       $nCounterSell++;
       Echo "<BR> SellCoin: $coinID | SellPrice: $curPrice";
     }
