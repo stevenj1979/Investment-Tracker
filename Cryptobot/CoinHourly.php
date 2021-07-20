@@ -319,19 +319,39 @@ function getBounceIDs(){
   return $tempAry;
 }
 
-function getBouncePrices($coinID){
+function getBouncePricesHistory($coinID,$flag){
   $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT MAX(`Price`) as TopPrice, MIN(Price) as LowPrice,  (MAX(`Price`) - MIN(Price))/MAX(`Price`)*100 as Difference
+
+  $sql_a = "SELECT MAX(`Price`) as TopPrice, MIN(Price) as LowPrice,  (MAX(`Price`) - MIN(Price))/MAX(`Price`)*100 as Difference, `PriceDateTimeID`
           FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) and NOW())
           and `CoinID` = $coinID";
+  $sql_b = "SELECT `Price` as TopPrice, 0 as LowPrice,  0 as Difference, `PriceDateTimeID`
+          FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) and NOW())
+          and `CoinID` = $coinID";
+  if ($flag == 1){ $sql =  $sql_a;} else {$sql =  $sql_b;}
   print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TopPrice'],$row['LowPrice'],$row['Difference']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['PriceDateTimeID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getBounceCoinIDs($coinID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql_a = "SELECT `CoinID`,`TopPrice`,`LowPrice`,`Difference` FROM `BounceIndex` WHERE `Difference` > 2.5";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference']);}
   $conn->close();
   return $tempAry;
 }
@@ -369,11 +389,60 @@ function getBounceIndex(){
   $bounceIDSize = count($bounceID);
   for ($r=0;$r<$bounceIDSize;$r++){
     $coinID = $bounceID[$r][0];
-    $bouncePrice = getBouncePrices($coinID);
+    $bouncePrice = getBouncePricesHistory($coinID,1);
     $bouncePriceSize = count($bouncePrice);
     for ($t=0;$t<$bouncePriceSize;$t++){
       $topPrice = $bouncePrice[$t][0]; $lowPrice = $bouncePrice[$t][1]; $diff = $bouncePrice[$t][2];
       writeBouncePrice($topPrice,$lowPrice,$diff,$coinID);
+    }
+  }
+}
+
+function testBuyScript($priceAry,$topPrice,$lowPrice,$difference){
+  $status = 'BuyCoin';
+  $nPrice = $lowPrice;
+  $buyPrice = 0;
+  $nCounterBuy = 0;
+  $nCounterSell = 0;
+  $priceArySize = count($priceAry);
+  for ($t=0;$t<$bouncePriceSize;$t++){
+    $curPrice = $priceAry[$t][0];
+    if (($curPrice <= $lowPrice) AND ($status == 'BuyCoin')){
+      $nCounter++;
+      $status = 'SellCoin';
+      $buyPrice = $curPrice;
+    }else if (($status == 'SellCoin') AND ((($curPrice-$buyPrice)/$buyPrice)*100 >= $difference )){
+      $nCounterSell++;
+
+    }
+  }
+  return $nCounterSell;
+}
+
+function writeNoOfSells($coinID,$noOfSells){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `BounceIndex` SET `NoOfSells`= $noOfSells WHERE `CoinID` = $coinID; ";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("writeNoOfSells","$sql",3,0,"SQL CALL","UserID:$userID");
+}
+
+function runBounceTestBuy(){
+  $bounceIDs = getBounceCoinIDs();
+  $bounceIDSize = count($bounceIDs);
+  for ($s=0;$s<$bounceIDSize;$s++){
+    $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceID[$s][1];$lowPrice = $bounceID[$s][2]; $difference = $bounceID[$s][3];
+    $bouncePrice = getBouncePricesHistory($coinID,2);
+    $bouncePriceSize = count($bouncePrice);
+    for ($u=0;$u<$bouncePriceSize;$u++){
+      $noOfSells = testBuyScript($bouncePrice,$topPrice,$lowPrice,$difference);
+      writeNoOfSells($coinID,$noOfSells);
     }
   }
 }
@@ -458,5 +527,6 @@ updateBittrexBals();
 updateWebSavings();
 
 getBounceIndex();
+runBounceTestBuy();
 ?>
 </html>
