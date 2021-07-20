@@ -1501,11 +1501,12 @@ while($completeFlag == False){
     $bounceTopPrice = $spreadBuyBack[$u][60];
     $bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];
+    $delayCoinSwap = $spreadBuyBack[$u][63];
     $baseCurrency = $spreadBuyBack[$u][36];
     $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
-    echo "<BR>Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice";
-    if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.5) AND ($LiveCoinPrice == $bounceTopPrice))){
+    echo "<BR>Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
+    if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.5) AND ($LiveCoinPrice == $bounceTopPrice) AND ($delayCoinSwap <= 0))){
       LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);

@@ -488,6 +488,7 @@ function getNewSwapCoin(){
     }
     $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice` FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
+           where `Bi`.`Difference` > 3
             Order by `Difference` desc
             limit 1 ";
     print_r($sql);
@@ -569,7 +570,7 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `CoinID` = $coinID, `CoinPrice`= $coinPrice, `Amount` = $amount, `OrderNo` = '$orderNo', `Status` = '$status' where `ID` = $transID";
+    $sql = "UPDATE `Transaction` SET `CoinID` = $coinID, `CoinPrice`= $coinPrice, `Amount` = $amount, `OrderNo` = '$orderNo', `Status` = '$status', `DelayCoinSwapUntil` = date_add(now(),INTERVAL 14 DAY) where `ID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -4558,7 +4559,7 @@ function getSpreadCoinSellData($ID = 0){
   , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
   , `Live1HrChange`, `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`
   , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, `SpreadBetTransactionID`
-  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`BounceTopPrice`,`BounceLowPrice`,`BounceDifference`
+  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`BounceTopPrice`,`BounceLowPrice`,`BounceDifference`,`DelayCoinSwap`
   FROM `SellCoinsSpreadView` $whereclause";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -4571,7 +4572,7 @@ function getSpreadCoinSellData($ID = 0){
       ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
       ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
-    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference']);
+    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference'],$row['DelayCoinSwap']);
   }
   $conn->close();
   return $tempAry;
