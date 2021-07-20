@@ -1544,7 +1544,7 @@ while($completeFlag == False){
           if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
           $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
           //Add to Swap Coin Table
-          updateCoinSwapTable($transactionID,'AwaitingSale',$obj["id"];,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+          updateCoinSwapTable($transactionID,'AwaitingSale',$obj["id"],$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
     }
   }
 
