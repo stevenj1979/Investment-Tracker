@@ -341,7 +341,7 @@ function getBouncePricesHistory($coinID,$flag){
   return $tempAry;
 }
 
-function getBounceCoinIDs($coinID){
+function getBounceCoinIDs(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
