@@ -4991,10 +4991,10 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       $swingPct = 0.75;
     }
 
-    $swingPrice = (($lastPrice/100)*$swingPct);
+    $swingPrice = (($basePrice/100)*$swingPct);
     $currentPrice = abs($livePrice-$basePrice);
-    $topSwing = $lastPrice + $swingPrice;
-    $bottomSwing = $lastPrice - $swingPrice;
+    $topSwing = $basePrice + $swingPrice;
+    $bottomSwing = $basePrice - $swingPrice;
     //$bottomPrice = $livePrice-$swingPrice;
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
     if ($pctProfit >= 20.0){
