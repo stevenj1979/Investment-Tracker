@@ -1512,7 +1512,7 @@ while($completeFlag == False){
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
       $finalProfitPct = $profitPCT;
-      if (($profitPCT < -30) AND ($bounceDifference >= 2.5) and ($LiveCoinPrice == $bounceTopPrice)){
+      if (($profitPCT < -20) AND ($bounceDifference >= 2.5) and ($LiveCoinPrice == $bounceTopPrice)){
           $finalProfitPct = $bounceDifference;
           LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       }
@@ -1531,7 +1531,7 @@ while($completeFlag == False){
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
-    }else if(($profitPCT < -30) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
+    }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum =3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
