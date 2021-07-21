@@ -68,7 +68,7 @@ function runCoinSwaps(){
   $coinSwapsSize = count($coinSwaps);
   $apiVersion = 3;
   for ($y=0; $y<$coinSwapsSize; $y++){
-    echo "<BR> Running SwapCoins:  loop size: $coinSwapsSize";
+    echo "<BR> Running SwapCoins:  loop size: $coinSwapsSize | Status: $status";
     if ($status == 'AwaitingSale'){
       //Check if sale is complete
       $orderSale = isSaleComplete($coinSwaps,$y);
