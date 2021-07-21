@@ -4882,10 +4882,10 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if ($livePrice < 0.05){
     $swingPct = 0.75;
   }
-  $swingPrice = (($livePrice/100)*$swingPct);
+  $swingPrice = (($lastPrice/100)*$swingPct);
   $currentPrice = abs($livePrice-$lastPrice);
-  $topSwing = $livePrice + $swingPrice;
-  $bottomSwing = $livePrice - $swingPrice;
+  $topSwing = $lastPrice + $swingPrice;
+  $bottomSwing = $lastPrice - $swingPrice;
 
   //$bottomPrice = $livePrice-$swingPrice;
   Echo "<BR> Swing:$swingPrice Current:$currentPrice ";
@@ -4988,10 +4988,10 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       $swingPct = 0.75;
     }
 
-    $swingPrice = (($livePrice/100)*$swingPct);
+    $swingPrice = (($lastPrice/100)*$swingPct);
     $currentPrice = abs($livePrice-$basePrice);
-    $topSwing = $livePrice + $swingPrice;
-    $bottomSwing = $livePrice - $swingPrice;
+    $topSwing = $lastPrice + $swingPrice;
+    $bottomSwing = $lastPrice - $swingPrice;
     //$bottomPrice = $livePrice-$swingPrice;
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
     if ($pctProfit >= 20.0){
