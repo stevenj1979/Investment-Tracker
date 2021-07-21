@@ -33,6 +33,7 @@ function isSaleComplete($saleAry,$num){
   $Kek = $saleAry[$num][10];
 
   $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, $apiVersion);
+  echo "<BR> Status: ".$resultOrd["status"];
   if ($resultOrd["status"] == 'CLOSED'){
     $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
     $orderQty = $resultOrd["quantity"];
