@@ -28,11 +28,13 @@ Function getOpenCoinSwaps(){
 }
 
 function isSaleComplete($saleAry,$num){
+  $apiVersion = 3;
   $TransactionID = $saleAry[$num][0]; $status  = $saleAry[$num][1]; $bittrexRef  = $saleAry[$num][2]; $newCoinID  = $saleAry[$num][3]; $newCoinPrice = $saleAry[$num][4];
   $baseCurrency  = $saleAry[$num][5]; $totalAmount = $saleAry[$num][6]; $originalPurchasePrice  = $saleAry[$num][7]; $apikey = $saleAry[$num][8]; $apisecret = $saleAry[$num][9];
   $Kek = $saleAry[$num][10];
-
-  $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, $apiVersion);
+  if (!Empty($Kek)){ $apiSecret = Decrypt($Kek,$saleAry[$num][9]);}
+  Echo "<BR>bittrexOrder($apiKey, $apiSecret, $bittrexRef, $apiVersion);";
+  $resultOrd = bittrexOrder($apiKey, $apiSecret, $bittrexRef, $apiVersion);
   echo "<BR> Status: ".$resultOrd["status"];
   if ($resultOrd["status"] == 'CLOSED'){
     $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
@@ -47,11 +49,13 @@ function isSaleComplete($saleAry,$num){
 }
 
 function isBuyComplete($buyAry,$num){
+  $apiVersion = 3;
   $TransactionID = $buyAry[$num][0]; $status  = $buyAry[$num][1]; $bittrexRef  = $buyAry[$num][2]; $newCoinID  = $buyAry[$num][3]; $newCoinPrice = $buyAry[$num][4];
   $baseCurrency  = $buyAry[$num][5]; $totalAmount = $buyAry[$num][6]; $originalPurchasePrice  = $buyAry[$num][7]; $apikey = $buyAry[$num][8]; $apisecret = $buyAry[$num][9];
   $Kek = $buyAry[$num][10];
-
-  $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, $apiVersion);
+  if (!Empty($Kek)){ $apiSecret = Decrypt($Kek,$buyAry[$num][9]);}
+  echo "<BR>bittrexOrder($apiKey, $apiSecret, $bittrexRef, $apiVersion);";
+  $resultOrd = bittrexOrder($apiKey, $apiSecret, $bittrexRef, $apiVersion);
   if ($resultOrd["status"] == 'CLOSED'){
     $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
     $orderQty = $resultOrd["quantity"];
