@@ -486,14 +486,17 @@ function getNewSwapCoin(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice` FROM `BounceIndex` `Bi`
+    $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice`, `Cn`.`Symbol`,`Bi`.`TotalAmount`
+          FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
+           Join `Coin` `Cn` on `Cn`.`ID` = `Bi`.`CoinID`
            where `Bi`.`Difference` > 2.5
             Order by `Difference` desc
             limit 1 ";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['LiveCoinPrice']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['LiveCoinPrice']
+      ,$row['Symbol'],$row['TotalAmount']);}
     $conn->close();
     return $tempAry;
 }
@@ -581,13 +584,13 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     $conn->close();
 }
 
-function updateCoinSwapBittrexID($bittrexRef,$transID){
+function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice,$newSymbol){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `CoinSwap` SET `BittrexRef` = '$bittrexRef' where `TransactionID` = $transID";
+    $sql = "UPDATE `CoinSwap` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice,`Symbol` =  '$newSymbol' where `TransactionID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

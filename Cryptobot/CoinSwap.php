@@ -80,14 +80,24 @@ function runCoinSwaps(){
       if ($orderSale[0] == 'CLOSED'){
         //Buy new COIN
         $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];
-        $coin = $coinSwaps[$y][11]; $bitPrice = number_format($coinSwaps[$y][4],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
+        $bitPrice = number_format($coinSwaps[$y][4],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
         $btcBuyAmount =  number_format($totalAmount/$bitPrice,10);
-         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
-        $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
-        //Save Reference
-          updateCoinSwapBittrexID($obj["id"],$coinSwaps[$y][0]);
-        //Change Status to AwaitingBuy
-           updateCoinSwapStatus('AwaitingBuy',$coinSwaps[$y][0]);
+        $newCoinSwap = getNewSwapCoin();
+        $coinSwapSize = count($newCoinSwap);
+        if ($coinSwapSize > 0){
+          $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][4];
+          $symbol = $newCoinSwap[0][5]; $totalAmount = $newCoinSwap[0][6];
+          $rate = $newCoinSwap[0][4];
+          $quant = $rate/$totalAmount;
+          if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
+
+          $obj = bittrexbuy($apikey, $apisecret, $coin, $quant, $liveCoinPrice, $baseCurrency,$apiVersion,FALSE);
+          //Save Reference
+          updateCoinSwapBittrexID($obj["id"],$coinSwaps[$y][0],$coin,$liveCoinPrice,$symbol);
+          //Change Status to AwaitingBuy
+          updateCoinSwapStatus('AwaitingBuy',$coinSwaps[$y][0]);
+        }
+
       }
 
     }else if ($status == 'AwaitingBuy'){
