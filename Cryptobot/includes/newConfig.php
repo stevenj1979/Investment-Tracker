@@ -4986,7 +4986,7 @@ function updateQuickBuyCount($trackingID){
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct){
-    $swingPct = 0.25;
+    $swingPct = 0.5;
     if ($livePrice < 0.05){
       $swingPct = 0.75;
     }
@@ -5042,10 +5042,10 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     if (($livePrice > $topSwing) OR ($livePrice < $bottomSwing) ){  //OR ($currentPrice < $swingPrice)
       // : OPT 4
       //logToSQL("trackingCoinReadyToSell", "OPT 4 Current: $currentPrice | Swing: $swingPrice | Live: $livePrice | Sell: $sellPrice - RESET TO 0 ", 3, 1);
-      echo "<BR> Option4: Greater than Swing";
+      echo "<BR> Option4: Greater/Less than Swing Reset Counter";
       updateNoOfRisesInSellPrice($trackingSellID, 0, $livePrice);
       if ($livePrice > $topSwing){
-        echo "<BR> Option4: Set New Tracking Price";
+        echo "<BR> Option4: Set New Tracking BasePrice";
         setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       }
 
