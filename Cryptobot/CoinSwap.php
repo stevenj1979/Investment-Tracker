@@ -11,7 +11,7 @@ $apisecret=getAPISecret();
 
 Function getOpenCoinSwaps(){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
