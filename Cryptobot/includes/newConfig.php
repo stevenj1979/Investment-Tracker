@@ -519,7 +519,7 @@ function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newC
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "INSERT INTO `SwapCoins`(`TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`)
-    VALUES ($transactionID,'$status',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
+    VALUES ($transactionID,'$status','$bittrexRef',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
