@@ -4881,7 +4881,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
 }
 
 function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy){
-  $swingPct = 0.25;
+  $swingPct = 0.5;
   if ($livePrice < 0.05){
     $swingPct = 0.75;
   }
