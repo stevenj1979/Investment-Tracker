@@ -99,7 +99,7 @@ function runCoinSwaps(){
         //Buy new COIN
         $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];
         $bitPrice = number_format($coinSwaps[$y][4],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
-        $btcBuyAmount =  number_format($totalAmount/$bitPrice,10);
+        $btcBuyAmount =  number_format($totalAmount/$bitPrice,10); $transID = $coinSwaps[$y][0];
         $newCoinSwap = getNewSwapCoin();
         $coinSwapSize = count($newCoinSwap);
         if ($coinSwapSize > 0){
@@ -112,10 +112,11 @@ function runCoinSwaps(){
           echo"<BR> bittrexbuy($apikey, $apisecret, $symbol, $quant, $liveCoinPrice, $baseCurrency,$apiVersion,FALSE);";
           $obj = bittrexbuy($apikey, $apisecret, $symbol, $quant, $liveCoinPrice, $baseCurrency,$apiVersion,FALSE);
           //Save Reference
-          Echo "<BR> Bittrex ID: ".$obj["id"];
-          updateCoinSwapBittrexID($obj["id"],$coinSwaps[$y][0],$coin,$liveCoinPrice,$symbol);
+          $bittrexRef = $obj["id"];
+          Echo "<BR> Bittrex ID: $bittrexRef";
+          updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice,$symbol);
           //Change Status to AwaitingBuy
-          updateCoinSwapStatus('AwaitingBuy',$coinSwaps[$y][0]);
+          updateCoinSwapStatus('AwaitingBuy',$transID);
         }
 
       }
