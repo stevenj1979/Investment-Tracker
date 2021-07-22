@@ -96,7 +96,7 @@ if(isset($_GET['SellNow'])){
           $livePriceUSD = $LiveCoinPrice * $Amount;
           //$profitPct = ($profit/$purchasePrice)*100;
           NewEcho ("<td>|$livePriceUSD</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".number_format((($LiveCoinPrice-$baseSellPrice)/$baseSellPrice)*100,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".number_format((($LiveCoinPrice-$baseSellPrice)/$baseSellPrice)*100,2)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($profit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($fee,$num)."</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".number_format($ProfitPct,$num)."</td>",$_SESSION['isMobile'],2);
