@@ -556,7 +556,7 @@ function updateCoinSwapStatus($status,$transID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `CoinSwap` SET `Status` = '$status' where `TransactionID` = $transID";
+    $sql = "UPDATE `SwapCoin` SET `Status` = '$status' where `TransactionID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
