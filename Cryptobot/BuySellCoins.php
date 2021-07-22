@@ -1546,6 +1546,7 @@ while($completeFlag == False){
             $apiConfig = getAPIConfig($userID);
             $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
             if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
+            newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
             $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
             //Add to Swap Coin Table
             $bittrexRef = $obj["id"];

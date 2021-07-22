@@ -1708,6 +1708,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
 
     $execResult = curl_exec($ch);
     curl_close($ch);
+    newLogToSQL("bittrexsell", "$execResult", $userID, $logToSQLSetting,"EXEC Result","TransactionID:$transactionID");
     $obj = json_decode($execResult, true);
     return $obj;
 }
