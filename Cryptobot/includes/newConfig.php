@@ -769,7 +769,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
     $nonce=time();
     if ($versionNum == 1){
       $uri='https://bittrex.com/api/v1.1/market/buylimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
-      echo $uri."<BR>";
+      echo "<BR>".$uri."<BR>";
       $sign=hash_hmac('sha512',$uri,$apisecret);
       $ch = curl_init($uri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -813,6 +813,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
       curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
       $execResult = curl_exec($ch);
       curl_close($ch);
+      echo "<BR>$execResult";
       $obj = json_decode($execResult, true);
     }
 
