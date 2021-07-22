@@ -1535,6 +1535,7 @@ while($completeFlag == False){
         $versionNum =3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
+          newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
           $newCoinSwap = getNewSwapCoin();
           if (count($newCoinSwap)>0){
             //Change Transaction Status to CoinSwap
@@ -1548,6 +1549,7 @@ while($completeFlag == False){
             $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
             //Add to Swap Coin Table
             $bittrexRef = $obj["id"];
+            newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
             updateCoinSwapTable($transactionID,'AwaitingSale',$bittrexRef,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
           }
 
