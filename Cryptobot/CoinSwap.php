@@ -48,6 +48,23 @@ function isSaleComplete($saleAry,$num){
 
 }
 
+function writeFinalPrice($TransactionID,$finalPrice){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `CoinPrice`= $finalPrice where `ID` = $TransactionID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("writeFinalPrice",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
 function isBuyComplete($buyAry,$num){
   $apiVersion = 3;
   $TransactionID = $buyAry[$num][0]; $status  = $buyAry[$num][1]; $bittrexRef  = $buyAry[$num][2]; $newCoinID  = $buyAry[$num][3]; $newCoinPrice = $buyAry[$num][4];
@@ -63,6 +80,7 @@ function isBuyComplete($buyAry,$num){
     $qtySold = $resultOrd["fillQuantity"];
     $saleStatus = $resultOrd["status"];
     $orderQtyRemaining = $orderQty-$qtySold;
+    writeFinalPrice($TransactionID,$finalPrice);
     return Array($saleStatus,$finalPrice,$orderQty,$qtySold);
   }
 }
@@ -85,7 +103,7 @@ function runCoinSwaps(){
         $newCoinSwap = getNewSwapCoin();
         $coinSwapSize = count($newCoinSwap);
         if ($coinSwapSize > 0){
-          $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][4];
+          $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][2];
           $symbol = $newCoinSwap[0][5]; $totalAmount = $newCoinSwap[0][6];
           $rate = $newCoinSwap[0][4];
           $quant = $rate/$totalAmount;
