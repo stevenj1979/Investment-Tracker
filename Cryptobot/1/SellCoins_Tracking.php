@@ -70,7 +70,7 @@ if(isset($_GET['SellNow'])){
         echo "<table border=1>";
         NewEcho ("<th>Coin</th><th>Price</th><th>PurchasePrice</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Live Total Price</th>",$_SESSION['isMobile'],0);
-        NewEcho ("<th>Base to Live Diff</th><th>Profit</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Base to Live Diff %</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
         //NewEcho ("<th>Base Sell Price</th>",$_SESSION['isMobile'],2);
@@ -96,7 +96,7 @@ if(isset($_GET['SellNow'])){
           $livePriceUSD = $LiveCoinPrice * $Amount;
           //$profitPct = ($profit/$purchasePrice)*100;
           NewEcho ("<td>|$livePriceUSD</td>",$_SESSION['isMobile'],0);
-          NewEcho ("<td>|".number_format($LiveCoinPrice-$baseSellPrice,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|".number_format((($LiveCoinPrice-$baseSellPrice)/$baseSellPrice)*100,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($profit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($fee,$num)."</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".number_format($ProfitPct,$num)."</td>",$_SESSION['isMobile'],2);
