@@ -486,7 +486,7 @@ function getNewSwapCoin(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice`, `Cn`.`Symbol`,`Bi`.`TotalAmount`
+    $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice`, `Cn`.`Symbol`
           FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
            Join `Coin` `Cn` on `Cn`.`ID` = `Bi`.`CoinID`
@@ -496,7 +496,7 @@ function getNewSwapCoin(){
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['LiveCoinPrice']
-      ,$row['Symbol'],$row['TotalAmount']);}
+      ,$row['Symbol']);}
     $conn->close();
     return $tempAry;
 }
