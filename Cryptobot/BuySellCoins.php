@@ -1532,7 +1532,7 @@ while($completeFlag == False){
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
     }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
-        $versionNum =3; $useAwards = False;
+        $versionNum = 3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
           newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
@@ -1542,12 +1542,12 @@ while($completeFlag == False){
             updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
             //Sell COIN
             $rate = $newCoinSwap[0][4];
-            $quant = $rate/($LiveCoinPrice * $amount);
+            $quant = $amount;
             $apiConfig = getAPIConfig($userID);
             $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
             if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
-            newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-            $obj = bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards);
+            newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
+            $obj = bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);
             //Add to Swap Coin Table
             $bittrexRef = $obj["id"];
             newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
