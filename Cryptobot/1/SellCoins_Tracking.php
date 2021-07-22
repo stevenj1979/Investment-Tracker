@@ -73,7 +73,7 @@ if(isset($_GET['SellNow'])){
         NewEcho ("<th>Base to Live Diff</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Profit Pct</th>",$_SESSION['isMobile'],2);
-        NewEcho ("<th>Base Sell Price</th>",$_SESSION['isMobile'],2);
+        //NewEcho ("<th>Base Sell Price</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Total Rises in Price</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>OG Profit Pct</th><th>Cancel</th><th>Sellnow</th>",$_SESSION['isMobile'],2);
 
@@ -101,7 +101,7 @@ if(isset($_GET['SellNow'])){
           NewEcho ("<td>|".number_format($fee,$num)."</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".number_format($ProfitPct,$num)."</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|".number_format($baseSellPrice,$num)."</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|0</td>",$_SESSION['isMobile'],2);
+          //NewEcho ("<td>|0</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$NoOfRisesInPrice / $totalRisesInPrice</td>",$_SESSION['isMobile'],0);
           NewEcho ("<td>|".number_format($ogPctProfit,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td><a href='SellCoins_Tracking.php?CancelTrack=Yes&TransID=$TransactionID'><i class='fas fa-ban' style='$fontSize;color:DodgerBlue'></i></a></td>",$_SESSION['isMobile'],2);
