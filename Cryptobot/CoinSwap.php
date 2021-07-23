@@ -109,14 +109,16 @@ function runCoinSwaps(){
           $quant = $rate/$totalAmount;
           Echo "<BR> Quanitiy: $rate/$totalAmount | $quant";
           if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
-          echo"<BR> bittrexbuy($apikey, $apisecret, $symbol, $quant, $liveCoinPrice, $baseCurrency,$apiVersion,FALSE);";
-          $obj = bittrexbuy($apikey, $apisecret, $symbol, $quant, $liveCoinPrice, $baseCurrency,$apiVersion,FALSE);
+          echo"<BR> bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
+          $obj = bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
           //Save Reference
-          $bittrexRef = $obj["id"];
-          Echo "<BR> Bittrex ID: $bittrexRef";
-          updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice);
-          //Change Status to AwaitingBuy
-          updateCoinSwapStatus('AwaitingBuy',$transID);
+          if ($bittrexRef <> ""){
+            $bittrexRef = $obj["id"];
+            Echo "<BR> Bittrex ID: $bittrexRef";
+            updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice);
+            //Change Status to AwaitingBuy
+            updateCoinSwapStatus('AwaitingBuy',$transID);
+          }
         }
 
       }
