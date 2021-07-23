@@ -94,8 +94,8 @@ function getCoinSwap(){
         //NewEcho ("<th>OG Profit Pct</th><th>Cancel</th><th>Sellnow</th>",$_SESSION['isMobile'],2);
 
         for($x = 0; $x < $arrLengthSell; $x++) {
-          $transID = $trackingSell[$x][1]; $status = $trackingSell[$x][2]; $bittrexRef = $trackingSell[$x][3]; $newCoinIDCandidate = $trackingSell[$x][4];
-          $baseCurrency = $trackingSell[$x][5]; $totalAmount = $trackingSell[$x][6]; $originalPurchaseAmount = $trackingSell[$x][7]; //$Amount = $trackingSell[$x][8]; $CoinID = $trackingSell[$x][9];
+          $transID = $trackingSell[$x][1]; $status = $trackingSell[$x][2]; $bittrexRef = $trackingSell[$x][3]; $newCoinIDCandidate = $trackingSell[$x][4]; $newCoinPrice = $trackingSell[$x][5];
+          $baseCurrency = $trackingSell[$x][6]; $totalAmount = $trackingSell[$x][7]; $originalPurchaseAmount = $trackingSell[$x][8]; //$Amount = $trackingSell[$x][8]; $CoinID = $trackingSell[$x][9];
           //$APIKey = $trackingSell[$x][10]; $APISecret = $trackingSell[$x][11]; $KEK = $trackingSell[$x][12]; $Email = $trackingSell[$x][13]; $UserName = $trackingSell[$x][14];
           //$BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           //$LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];

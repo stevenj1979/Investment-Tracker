@@ -66,7 +66,8 @@ if(isset($_GET['SellNow'])){
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Tracking Sell Coins</h2>");
-        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a></h3>";
+        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
+         &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         echo "<table border=1>";
         NewEcho ("<th>Coin</th><th>Price</th><th>PurchasePrice</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Live Total Price</th>",$_SESSION['isMobile'],0);
