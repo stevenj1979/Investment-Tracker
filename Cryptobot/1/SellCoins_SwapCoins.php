@@ -80,7 +80,7 @@ function getCoinSwap(){
         $trackingSell = getCoinSwap($_SESSION['ID']);
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
-        print_r("<h2>Tracking Sell Coins</h2>");
+        print_r("<h2>Swap Coins</h2>");
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
          &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         echo "<table border=1>";

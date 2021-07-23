@@ -106,8 +106,8 @@ function runCoinSwaps(){
           $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][2];
           $symbol = $newCoinSwap[0][5]; //$totalAmount = $newCoinSwap[0][6];
           $rate = $newCoinSwap[0][4];
-          $quant = $rate/$totalAmount;
-          Echo "<BR> Quanitiy: $rate/$totalAmount | $quant";
+          $quant = $totalAmount/$rate;
+          Echo "<BR> Quanitiy: $totalAmount/$rate | $quant";
           if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
           echo"<BR> bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
           $obj = bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
