@@ -108,6 +108,8 @@ function getCoinSwap(){
           NewEcho ("<td>|$bittrexRef</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$newCoinIDCandidate</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|$newCoinPrice</td>",$_SESSION['isMobile'],2);
+
           NewEcho ("<td>|$baseCurrency</td>",$_SESSION['isMobile'],2);
           //$livePriceUSD = $LiveCoinPrice * $Amount;
           //$profitPct = ($profit/$purchasePrice)*100;
