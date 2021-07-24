@@ -3996,6 +3996,21 @@ function updateBittrexBalances($symbol, $total, $price, $userID){
     newLogToSQL("updateBittrexBalances","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
 }
 
+function deleteBittrexBalances(){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "Delete FROM `BittrexBalances`";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("deleteBittrexBalances","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+}
+
 function addUSDTBalance($symbol, $usdtPurchase, $price, $userID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
