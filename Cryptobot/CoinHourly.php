@@ -526,6 +526,7 @@ addToBuyBackMultiplierHourly();
 updateSellPricetoBuyBack();
 UpdateSpreadBetTotalProfit();
 updateSplitBuyAmountforRule();
+deleteBittrexBalances();
 updateBittrexBals();
 
 updateWebSavings();
