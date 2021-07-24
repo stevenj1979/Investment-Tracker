@@ -1484,7 +1484,7 @@ while($completeFlag == False){
   echo "</blockquote>";
   echo "<BR> CHECK Spreadbet Sell & BuyBack!! ";
   echo "<blockquote>";
-  $spreadBuyBack = getSpreadCoinSellData();
+  $spreadBuyBack = getSpreadCoinSellDataAll();
   $spreadBuyBackSize = COUNT($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     $purchasePrice = $spreadBuyBack[$u][4];
