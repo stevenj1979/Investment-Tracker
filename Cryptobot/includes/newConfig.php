@@ -4999,6 +4999,14 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     $bottomSwing = $basePrice - $swingPrice;
     //$bottomPrice = $livePrice-$swingPrice;
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
+
+    if (($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $bottomSwing && $livePrice <= $topSwing && $pctProfit >= 2)){
+      newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
+      echo "<BR> Option8: within Swing Ready to Sell";
+      reopenTransaction($TransactionID);
+      return True;
+    }
+
     if ($pctProfit >= 20.0){
       newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
