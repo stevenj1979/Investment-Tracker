@@ -1628,7 +1628,7 @@ while($completeFlag == False){
 
   for ($a=0; $a<$priceDipRulesSize;$a++){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
-    $hr24ChangePctChange = $priceDipRules[$a][2];
+    $hr24ChangePctChange = $priceDipRules[$a][3];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct";
     if($hr24ChangePctChange <= $hr24PriceDipPct){
       echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct";
