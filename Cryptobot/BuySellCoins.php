@@ -1621,6 +1621,20 @@ while($completeFlag == False){
   }
 
   echo "</blockquote>";
+  echo "<BR> CHECK PriceDip Rule Enable!! ";
+  echo "<blockquote>";
+  $priceDipRules = getPriceDipRules();
+  $priceDipRulesSize = count($priceDipRules);
+
+  for ($a=0; $a<$priceDipRulesSize;$a++){
+    $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
+    $hr24ChangePctChange = $priceDipRules[$a][2];
+    if($hr24ChangePctChange <= $hr24PriceDipPct){
+      enableBuyRule($buyRuleID);
+    }
+  }
+
+  echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   sleep(15);
   $i = $i+1;

@@ -5145,6 +5145,23 @@ function updateSQLcancelSpreadBetTrackingSell($TransactionID){
   newLogToSQL("updateSQLcancelSpreadBetTrackingSell","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$TransactionID");
 }
 
+function enableBuyRule($buyRuleID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyRules` SET `BuyCoin` = 1 where `ID` = $buyRuleID;";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("enableBuyRule: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("enableBuyRule","$sql",3,sQLUpdateLog,"SQL CALL","BuyRuleID:$buyRuleID");
+}
+
 function getSpreadBetCount($SBTransID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -5227,15 +5244,38 @@ function getBuyBackKittyAmount($userID){
 
   $sql = "SELECT  `USDTAmount`, `BTCAmount`,`ETHAmount`,`BuyPortion`,`BuyPortionBTC`,`BuyPortionETH` FROM `BuyBackKitty` WHERE  `UserID` = $userID; ";
 
-            echo "<BR> $sql";
-            $result = $conn->query($sql);
-            //$result = mysqli_query($link4, $query);
-            //mysqli_fetch_assoc($result);
-            while ($row = mysqli_fetch_assoc($result)){
-                $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion'],$row['BuyPortionBTC'],$row['BuyPortionETH']);
-            }
-            $conn->close();
-            return $tempAry;
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion'],$row['BuyPortionBTC'],$row['BuyPortionETH']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getPriceDipRules(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `Br`.`ID`,`Br`.`EnableRuleActivationAfterDip`,`Br`.`24HrPriceDipPct`, `Mcs`.`Hr24ChangePctChange`
+            FROM `BuyRules` `Br`
+            join `MarketCoinStats` `Mcs`
+            WHERE `EnableRuleActivationAfterDip` = 1";
+
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange']);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 function reOpenTransactionfromBuyBack($buyBackID){
