@@ -112,8 +112,8 @@ function runCoinSwaps(){
           echo"<BR> bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
           $obj = bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
           //Save Reference
+          $bittrexRef = $obj["id"];
           if ($bittrexRef <> ""){
-            $bittrexRef = $obj["id"];
             Echo "<BR> Bittrex ID: $bittrexRef";
             updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice);
             //Change Status to AwaitingBuy
