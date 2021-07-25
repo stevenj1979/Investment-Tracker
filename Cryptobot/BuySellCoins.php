@@ -1601,9 +1601,9 @@ while($completeFlag == False){
       $portion = $buyBackKittyAry[0][3];
       $portionBTC = $buyBackKittyAry[0][4];
       $portionETH = $buyBackKittyAry[0][5];
-      if ($tmpBaseCur == 'USDT'){ $bbKittyAmount = $usdt_BB_Amount/$portion;}
-      elseif ($tmpBaseCur == 'BTC'){ $bbKittyAmount = $BTC_BB_Amount/$portionBTC;}
-      elseif ($tmpBaseCur == 'ETH'){ $bbKittyAmount = $eth_BB_Amount/$portionETH;}
+      if ($tmpBaseCur == 'USDT'){ if ($usdt_BB_Amount > 0 && $portion > 0) {$bbKittyAmount = $usdt_BB_Amount/$portion;}else {$bbKittyAmount = 0;}}
+      elseif ($tmpBaseCur == 'BTC'){ if ($BTC_BB_Amount > 0 && $portionBTC > 0) {$bbKittyAmount = $BTC_BB_Amount/$portionBTC;}else {$bbKittyAmount = 0;}}
+      elseif ($tmpBaseCur == 'ETH'){ if ($eth_BB_Amount > 0 && $portionETH > 0) {$bbKittyAmount = $eth_BB_Amount/$portionETH;}else {$bbKittyAmount = 0;}}
 
       if($allBuyBackAsOverride == 1){
         $overrideCoinAlloc = 1;
