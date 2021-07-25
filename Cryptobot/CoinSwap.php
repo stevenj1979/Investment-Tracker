@@ -100,7 +100,7 @@ function runCoinSwaps(){
         $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];
         $bitPrice = number_format($coinSwaps[$y][4],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
         $btcBuyAmount =  number_format($totalAmount/$bitPrice,10); $transID = $coinSwaps[$y][0];
-        $newCoinSwap = getNewSwapCoin();
+        $newCoinSwap = getNewSwapCoin($baseCurrency);
         $coinSwapSize = count($newCoinSwap);
         if ($coinSwapSize > 0){
           $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][2];

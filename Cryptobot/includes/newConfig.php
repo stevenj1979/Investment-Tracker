@@ -480,7 +480,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   return $retBuy;
 }
 
-function getNewSwapCoin(){
+function getNewSwapCoin($baseCurrency){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
@@ -490,7 +490,7 @@ function getNewSwapCoin(){
           FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
            Join `Coin` `Cn` on `Cn`.`ID` = `Bi`.`CoinID`
-           where `Bi`.`Difference` > 2.5
+           where `Bi`.`Difference` > 2.5 and `Cn`.`BaseCurrency` = '$baseCurrency'
             Order by `Difference` desc
             limit 1 ";
     print_r($sql);
