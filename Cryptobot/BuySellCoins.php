@@ -362,8 +362,10 @@ while($completeFlag == False){
         $oldAmount = $Amount;
         if ($origAmount == 0){
 
-          $tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
-          $Amount = (($PurchasePrice + $tempFee) / $LiveCoinPrice);
+          //$tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
+          //$ogPurchasePrice = $LiveCoinPrice*$Amount;
+          $sellFee = ($PurchasePrice/100)*0.28;
+          $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
         }
 
         $salePrice = $LiveCoinPrice * $Amount;
