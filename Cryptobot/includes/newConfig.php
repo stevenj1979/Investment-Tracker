@@ -455,8 +455,11 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$newTime = date("Y-m-d H:i:s",strtotime('+'.$timeToCancelBuyMins.'Mins', strtotime($current_date)));
             //$buyCancelTime = strtotime( '+ 16 minute');
             bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);
+            LogToSQL("bittrexBuyAdd","bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);", $userID,1);
             bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);
+            LogToSQL("bittrexBuyAdd","bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);", $userID,1);
             addBuyRuletoSQL($bittrexRef,$ruleID,$SellRuleFixed);
+            LogToSQL("bittrexBuyAdd","addBuyRuletoSQL($bittrexRef,$ruleID,$SellRuleFixed);", $userID,1);
             logToSQL("Bittrex", "Add Buy Coin $bitPrice $btcBuyAmount $orderNo", $userID,1);
             //CustomisedSellRule($ruleID,$SellRuleFixed,$coinID);
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
@@ -1153,7 +1156,7 @@ function addBuyRuletoSQL($bittrexRef, $buyRule,$sellRule){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("addBuyRuletoSQL","$sql",3,sQLUpdateLog,"SQL CALL","BittrexRef:$bittrexRef");
+  newLogToSQL("addBuyRuletoSQL","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef");
 }
 
 function addSellRuletoSQL($transactionID, $sellRule){
@@ -1896,7 +1899,7 @@ function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $
   }
   $conn->close();
   logAction("bittrexBuyAdd: ".$sql, 'BuySell', 0);
-  newLogToSQL("bittrexBuyAdd","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("bittrexBuyAdd","$sql",3,1,"SQL CALL","CoinID:$coinID");
 }
 
 function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
@@ -1912,7 +1915,7 @@ function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("bittrexAddNoOfPurchases",$sql,3,sQLUpdateLog,"SQL","BittrexRef:$bittrexRef");
+  newLogToSQL("bittrexAddNoOfPurchases",$sql,3,1,"SQL","BittrexRef:$bittrexRef");
   logAction("bittrexAddNoOfPurchases: ".$sql, 'BuySell', 0);
 }
 
