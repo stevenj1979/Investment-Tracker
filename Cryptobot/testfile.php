@@ -283,6 +283,8 @@ function test(){
   echo "TEST";
 }
 
-test();
+//test();
+
+buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','RENBTC', 'stevenj1979@gmail.com', 3, '2021-07-27 00:10:29', 'USDT',1,1,471.9883000000, 0,'stevenj1979',125,0.000,0,1,240,8, 0, 0+1);
 ?>
 </html>
