@@ -1630,7 +1630,7 @@ while($completeFlag == False){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
     $hr24ChangePctChange = $priceDipRules[$a][3];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct";
-    if($hr24ChangePctChange <= $hr24PriceDipPct){
+    if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct";
       enableBuyRule($buyRuleID);
       LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct",3,1);
