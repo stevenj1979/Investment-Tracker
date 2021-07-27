@@ -5304,7 +5304,8 @@ function getPriceDipRules(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Br`.`ID`,`Br`.`EnableRuleActivationAfterDip`,`Br`.`24HrPriceDipPct`, `Mcs`.`Hr24ChangePctChange`
+  $sql = "SELECT `Br`.`ID`,`Br`.`EnableRuleActivationAfterDip`,`Br`.`24HrPriceDipPct`, ((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`LiveCoinPrice`)*100 as Hr24ChangePctChange
+  , ((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`LiveCoinPrice`)*100 as D7ChangePctChange,`Br`.`7DPriceDipPct`
             FROM `BuyRules` `Br`
             join `MarketCoinStats` `Mcs`
             WHERE `EnableRuleActivationAfterDip` = 1";
@@ -5314,7 +5315,7 @@ function getPriceDipRules(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange']);
+      $tempAry[] = Array($row['ID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct']);
   }
   $conn->close();
   return $tempAry;
