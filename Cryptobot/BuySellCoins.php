@@ -443,6 +443,7 @@ while($completeFlag == False){
   $totalBTCSpent = getTotalBTC();
   $dailyBTCSpent = getDailyBTC();
   $baseMultiplier = getBasePrices();
+  $delayCoinPurchase = getDelayCoinPurchaseTimes();
   //$pauseRulesFlag = True;
   //echo "<BR> Coin Length: $coinLength";
   sleep(1);
@@ -518,6 +519,13 @@ while($completeFlag == False){
       //    if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
       //  }
       //}
+      $delayCoinPurchaseSize = count($delayCoinPurchase);
+      for ($b=0; $b<$delayCoinPurchaseSize; $b++){
+        $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
+        if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
+          echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
+        }
+      }
 
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
@@ -972,6 +980,7 @@ while($completeFlag == False){
           newLogToSQL("BittrexBuy", "setCustomisedSellRule($ruleIDBTBuy,$coinID);", $userID, 1,"SpreadBuy","TransactionID:$transactionID");
           //if ($type == "SpreadBuy"){ updateSpreadSell();}
           pausePurchases($userID);
+          addCoinPurchaseDelay($coinID,$userID,60);
           clearBittrexRef($transactionID);
           UpdateProfit();
           continue;

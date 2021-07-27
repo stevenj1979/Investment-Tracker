@@ -108,6 +108,25 @@ function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit)
     logAction("updateSQLSold: ".$sql, 'BuySell', 0);
 }
 
+function addCoinPurchaseDelay($coinID,$userID,$mins){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+        $sql = "call addCoinPurchaseDelay($coinID,$userID,$mins);";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("addCoinPurchaseDelay",$sql,3,sQLUpdateLog,"SQL","CoinID:$coinID");
+    logAction("addCoinPurchaseDelay: ".$sql, 'BuySell', 0);
+}
+
 function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
     $nonce=time();
     if ($versionNum == 1){
@@ -2953,6 +2972,26 @@ function getCoinPriceMatchList($userID = 0){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getDelayCoinPurchaseTimes(){
+  $conn = getSQLConn(rand(1,3));
+  $whereClause = "";
+  if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`, `CoinID`, `UserID`, `DelayTime` FROM `DelayCoinPurchaseView`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DelayTime']);
   }
   $conn->close();
   return $tempAry;
