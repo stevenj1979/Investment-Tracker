@@ -116,7 +116,7 @@ function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   echo "<form action='BuyCoins_BuyBack.php?Mode=2' method='post'>";
   echo "<input type='text' name='ID' id='ID' class='' placeholder='' value='$ID' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='Symbol' id='Symbol' class='' placeholder='' value='$symbol' style='color:Gray' readonly tabindex=''>";
-  echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' tabindex=''>";
+  echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='LivePrice' id='LivePrice' class='' placeholder='' value='$livePrice' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='SellPrice' id='SellPrice' class='' placeholder='' value='$sellPrice' style='color:Gray' readonly tabindex=''>";
   $priceUSD =  $livePrice * $quantity;
