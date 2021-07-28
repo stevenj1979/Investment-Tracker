@@ -4707,11 +4707,14 @@ function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct, $coinID
       die("Connection failed: " . $conn->connect_error);
   }
   if ($type == 'CoinMode'){
-      $sql = "UPDATE `CoinAllocations` SET `Saving`=(`Saving`+ $savingUsdt),`CoinMode`= (`CoinMode` + $typeUsdt) WHERE `UserID` = $UserID";
+      $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
+              SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt),`Ca`.`CoinMode`= (`Ca`.`CoinMode` + $typeUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
   }elseif ($type == 'SpreadBet'){
-      $sql = "UPDATE `CoinAllocations` SET `Saving`=(`Saving`+ $savingUsdt),`SpreadBet`=(`SpreadBet` + $typeUsdt) WHERE `UserID` = $UserID";
+      $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
+      SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt),`Ca`.`SpreadBet`=(`Ca`.`SpreadBet` + $typeUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
   }else{
-      $sql = "UPDATE `CoinAllocations` SET `Saving`=(`Saving`+ $savingUsdt) WHERE `UserID` = $UserID";
+      $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
+      SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
   }
 
   print_r($sql);
