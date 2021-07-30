@@ -359,22 +359,20 @@ while($completeFlag == False){
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
 
         $PurchasePrice = ($Amount*$CoinPrice);
-        $oldAmount = $Amount;
-        if ($origAmount == 0){
-
-          //$tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
-          //$ogPurchasePrice = $LiveCoinPrice*$Amount;
-          $sellFee = ($PurchasePrice/100)*0.28;
-          $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
-        }
-
         $salePrice = $LiveCoinPrice * $Amount;
         $profit = $salePrice - $PurchasePrice;
         $ProfitPct = ($profit/$PurchasePrice)*100;
         //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
         newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
-
+          $oldAmount = $Amount;
+          if ($origAmount == 0){
+            //$tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
+            //$ogPurchasePrice = $LiveCoinPrice*$Amount;
+            $sellFee = ($PurchasePrice/100)*0.28;
+            $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
+          }
+          newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,1,"NewAmountToSQL","TransactionID:$TransactionID");
           updateSellAmount($TransactionID,$Amount, $oldAmount);
           newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
           newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
