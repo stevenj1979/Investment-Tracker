@@ -3909,7 +3909,7 @@ function updateSQLQuantity($uuid, $quantity){
   }
   $conn->close();
   logAction("updateSQLQuantity: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSQLQuantity",$sql,3,0,"SQL","BittrexRef:$uuid");
+  newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");
 }
 
 function getCoinPriceMatchNames($userID, $table, $limit){
@@ -4320,7 +4320,7 @@ function updateBuyAmount($transactionID, $amount){
   }
   $conn->close();
   logAction("updateBuyAmount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateBuyAmount",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function cancelTrackingBuy($ruleId){
@@ -5621,6 +5621,7 @@ function updateSpreadBetTotalProfitBuy($transactionID, $coinPrice, $amount){
   }
   $conn->close();
   logAction("updateSpreadBetTotalProfitBuy: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("updateSpreadBetTotalProfitBuy",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function updateSpreadBetTotalProfitSell($transactionID,$salePrice){
@@ -5661,7 +5662,8 @@ function updateSpreadBetSellTarget($transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateSpreadBetSellTarget: ".$sql, 'TrackingCoins', 0);
+  logAction("updateSpreadBetSellTarget: ".$sql, 'TrackingCoins', 1);
+  newLogToSQL("updateSpreadBetSellTarget",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function deleteSpreadBetTotalProfit($spreadBetTransactionID){
