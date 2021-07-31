@@ -1674,6 +1674,7 @@ while($completeFlag == False){
     $baseCurrency = $spreadBuyBack[$u][36];
     $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
+    echo "<BR> $CoinID | $symbol | $profitPCT";
     if ($profitPCT >= 100.0){
       $quant = $amount;
       $apiConfig = getAPIConfig($userID);
