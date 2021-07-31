@@ -1683,13 +1683,14 @@ while($completeFlag == False){
       $quant = $amount;
       $apiConfig = getAPIConfig($userID);
       $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
-      updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
+
       if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
       newLogToSQL("SellSavings", "bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
       $obj = bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);
       //Add to Swap Coin Table
       $bittrexRef = $obj["id"];
       if ($bittrexRef <> ""){
+        updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
         newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
         updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,0,0,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
       }
