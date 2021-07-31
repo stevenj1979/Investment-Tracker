@@ -537,14 +537,20 @@ function getAPIConfig($userID){
     return $tempAry;
 }
 
-function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newCoinPrice,$baseCurrency,$totalAmount,$purchasePrice){
+function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newCoinPrice,$baseCurrency,$totalAmount,$purchasePrice,$buyFlag){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "INSERT INTO `SwapCoins`(`TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`)
-    VALUES ($transactionID,'$status','$bittrexRef',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
+    if ($buyFlag == 'Buy'){
+      $sql = "INSERT INTO `SwapCoins`(`TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`)
+      VALUES ($transactionID,'$status','$bittrexRef',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
+    }else{
+      $sql = "INSERT INTO `SwapCoins`(`TransactionID`, `Status`, `BittrexRefSell`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`)
+      VALUES ($transactionID,'$status','$bittrexRef',$newCoinID,$newCoinPrice,'$baseCurrency',$totalAmount,$purchasePrice)";
+    }
+
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -606,13 +612,18 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     $conn->close();
 }
 
-function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice){
+function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice,$buyFlag){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice where `TransactionID` = $transID";
+    if ($buyFlag == 'Buy'){
+        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice where `TransactionID` = $transID";
+    }else{
+      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice where `TransactionID` = $transID";
+    }
+
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

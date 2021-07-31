@@ -1560,7 +1560,7 @@ while($completeFlag == False){
             //Add to Swap Coin Table
             $bittrexRef = $obj["id"];
             newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-            updateCoinSwapTable($transactionID,'AwaitingSale',$bittrexRef,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+            updateCoinSwapTable($transactionID,'AwaitingSale',$bittrexRef,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
           }
 
     }
@@ -1674,8 +1674,9 @@ while($completeFlag == False){
     $baseCurrency = $spreadBuyBack[$u][36];
     $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
-    echo "<BR> $CoinID | $symbol | $profitPCT";
+
     if ($profitPCT >= 100.0){
+      echo "<BR> $CoinID | $symbol | $profitPCT";
       $quant = $amount;
       $apiConfig = getAPIConfig($userID);
       $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
@@ -1686,7 +1687,7 @@ while($completeFlag == False){
       //Add to Swap Coin Table
       $bittrexRef = $obj["id"];
       newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-      updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,0,0,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+      updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,0,0,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
 
     }
   }
