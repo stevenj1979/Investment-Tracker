@@ -1691,6 +1691,81 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   return $retSell;
 }
 
+function getNewCoinAllocation($baseCurrency,$userID,$lowFlag){
+  if ($baseCurrency == 'USDT'){
+    //call USDT SQL
+    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+  }elseif ($baseCurrency == 'BTC'){
+    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+  }elseif ($baseCurrency == 'ETH'){
+    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+  }
+  return $newCoinAlloc[0][0]-$newCoinAlloc[0][1];
+}
+
+function getNewUSDTAlloc($userID,$lowFlag){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($lowFlag){
+    $sql = "SELECT (`USDTAlloc`/100)*`PctOnLow` AllocTotal
+            , sum(`USDTOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }else{
+    $sql = "SELECT `USDTAlloc` AllocTotal
+            , sum(`USDTOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal'],$row['OpenTotal']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getNewBTCAlloc($userID,$lowFlag){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($lowFlag){
+    $sql = "SELECT (`BTCAlloc`/100)*`PctOnLow` AllocTotal
+            , sum(`BTCOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }else{
+    $sql = "SELECT `BTCAlloc` AllocTotal
+            , sum(`BTCOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal'],$row['OpenTotal']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getNewETHAlloc($userID,$lowFlag){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($lowFlag){
+    $sql = "SELECT (`ETHAlloc`/100)*`PctOnLow` AllocTotal
+            , sum(`ETHOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }else{
+    $sql = "SELECT `ETHAlloc` AllocTotal
+            , sum(`ETHOpen`) as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal'],$row['OpenTotal']);}
+  $conn->close();
+  return $tempAry;
+}
+
 function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards){
     $nonce=time();
     if ($versionNum == 1){
