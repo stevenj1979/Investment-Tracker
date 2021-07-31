@@ -578,13 +578,13 @@ function updateCoinSwapTransactionStatus($status,$transID){
     $conn->close();
 }
 
-function updateCoinSwapStatus($status,$transID){
+function updateCoinSwapStatus($status,$transID,$finalPrice = 0){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `TransactionID` = $transID";
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status', `SellFinalPrice` = $finalPrice where `TransactionID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
