@@ -1650,6 +1650,46 @@ while($completeFlag == False){
 
   echo "</blockquote>";
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
+  echo "<BR> CHECK Sell Savings!! ";
+  echo "<blockquote>";
+  $spreadBuyBack = getSavingsData();
+  $spreadBuyBackSize = COUNT($spreadBuyBack);
+  for ($u=0; $u<$spreadBuyBackSize; $u++){
+    $purchasePrice = $spreadBuyBack[$u][4];
+    $amount = $spreadBuyBack[$u][5];
+
+    $CoinID = $spreadBuyBack[$u][2];
+    $userID = $spreadBuyBack[$u][3];
+    $LiveCoinPrice = $spreadBuyBack[$u][19];
+    $symbol = $spreadBuyBack[$u][11];
+    $transactionID = $spreadBuyBack[$u][0];
+    $fallsInPrice = $spreadBuyBack[$u][56];
+    $profitSellTarget = $spreadBuyBack[$u][58];
+    $autoBuyBackSell = $spreadBuyBack[$u][59];
+    $bounceTopPrice = $spreadBuyBack[$u][60];
+    $bounceLowPrice = $spreadBuyBack[$u][61];
+    $bounceDifference = $spreadBuyBack[$u][62];
+    $delayCoinSwap = $spreadBuyBack[$u][63];
+    $noOfBounceSells = $spreadBuyBack[$u][64];
+    $baseCurrency = $spreadBuyBack[$u][36];
+    $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
+    $profitPCT = ($profit/($purchasePrice * $amount))*100;
+    if ($profitPCT >= 100.0){
+      $quant = $amount;
+      $apiConfig = getAPIConfig($userID);
+      $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
+      updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
+      if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
+      newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
+      $obj = bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);
+      //Add to Swap Coin Table
+      $bittrexRef = $obj["id"];
+      newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
+      updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,0,0,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount);
+
+    }
+  }
+  echo "</blockquote>";
   sleep(15);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());

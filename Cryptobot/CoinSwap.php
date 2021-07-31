@@ -15,13 +15,13 @@ Function getOpenCoinSwaps(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`
+  $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
   FROM `CoinSwapView`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
-    ,$row['KEK'],$row['Symbol']);
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol']);
   }
   $conn->close();
   return $tempAry;
@@ -88,7 +88,7 @@ function isBuyComplete($buyAry,$num){
 function runCoinSwaps(){
   $coinSwaps = getOpenCoinSwaps();
   $coinSwapsSize = count($coinSwaps);
-  $apiVersion = 3;
+  $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1];
     echo "<BR> Running SwapCoins:  loop size: $coinSwapsSize | Status: $status";
@@ -134,6 +134,41 @@ function runCoinSwaps(){
         //Change Transaction Status to Open
         //updateCoinSwapTransactionStatus('Open',$transactionID);
       }
+    }else if ($status == 'AwaitingSavingsSale'){
+      $orderSale = isSaleComplete($coinSwaps,$y);
+      if ($orderSale[0] == 'CLOSED'){
+        updateCoinSwapStatus('AwaitingSavingsBuy',$transID);
+      }
+    }else if ($status == 'AwaitingSavingsBuy'){
+      $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
+      $bitPrice = number_format($coinSwaps[$y][12],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
+      $orderSale = isSaleComplete($coinSwaps,$y);
+      $lowPrice = $orderSale[1]-(($orderSale[1]/100)*15);
+      if ($lowPrice <= $bitPrice){
+        if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
+        $liveCoinPrice = $bitPrice;
+        $rate = $newCoinSwap[0][4];
+        $quant = $totalAmount/$rate;
+        echo"<BR> bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
+        $obj = bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
+        $bittrexRef = $obj["id"];
+        if ($bittrexRef <> ""){
+          Echo "<BR> Bittrex ID: $bittrexRef";
+          updateCoinSwapBittrexID($bittrexRef,$transID,$ogCoinID,$liveCoinPrice);
+          //Change Status to AwaitingBuy
+          updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
+        }
+      }
+    }else if ($status == 'AwaitingSavingsPurchase'){
+      //Check if buy is complete
+      $orderBuy = isBuyComplete($coinSwaps,$y);
+      if ($orderBuy[0] == 'CLOSED'){
+        $ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13]; $orderBuy[1] = $finalPrice;$orderBuy[2] = $orderQty;
+        $transID = $coinSwaps[$y][0];
+        updateCoinSwapCoinDetails($ogCoinID,$finalPrice,$orderQty,"ORD".$ogSymbol.date("YmdHis", time()).$ruleID,"Open",$transID);
+        //Close CoinSwap
+        updateCoinSwapStatus('Closed',$transID);
+      }
     }
   }
 }
@@ -141,6 +176,6 @@ function runCoinSwaps(){
 
 // MAIN PROGRAMME
 runCoinSwaps();
-
+fixResidual();
 ?>
 </html>
