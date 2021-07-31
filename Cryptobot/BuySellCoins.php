@@ -1655,6 +1655,7 @@ while($completeFlag == False){
   echo "<BR> CHECK Sell Savings!! ";
   echo "<blockquote>";
   $spreadBuyBack = getSavingsData();
+  $versionNum = 3; $useAwards = False;
   $spreadBuyBackSize = COUNT($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     $purchasePrice = $spreadBuyBack[$u][4];
