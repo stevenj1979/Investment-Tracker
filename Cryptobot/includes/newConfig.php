@@ -1698,10 +1698,10 @@ function getNewCoinAllocation($baseCurrency,$userID,$lowFlag){
     $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
   }elseif ($baseCurrency == 'BTC'){
     echo "<BR> BaseCurrency2: $baseCurrency";
-    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+    $newCoinAlloc = getNewBTCAlloc($userID,$lowFlag);
   }elseif ($baseCurrency == 'ETH'){
     echo "<BR> BaseCurrency3: $baseCurrency";
-    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+    $newCoinAlloc = getNewETHAlloc($userID,$lowFlag);
   }
   echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
   return $newCoinAlloc[0][0]-$newCoinAlloc[0][1];
