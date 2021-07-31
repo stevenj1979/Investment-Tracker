@@ -1656,6 +1656,7 @@ while($completeFlag == False){
   echo "<blockquote>";
   $spreadBuyBack = getSavingsData();
   $versionNum = 3; $useAwards = False;
+  $profitTarget = 40.0;
   $spreadBuyBackSize = COUNT($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     $purchasePrice = $spreadBuyBack[$u][4];
@@ -1680,7 +1681,7 @@ while($completeFlag == False){
     $profit = ($sellPrice)-($buyPrice);
     $profitPCT = ($profit/($buyPrice))*100;
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
-    if ($profitPCT >= 100.0 AND ($sellPrice)>= $baseMin){
+    if ($profitPCT >= $profitTarget AND ($sellPrice)>= $baseMin){
       echo "<BR> $CoinID | $symbol | $profitPCT";
       $quant = $amount;
       $apiConfig = getAPIConfig($userID);
@@ -1698,7 +1699,7 @@ while($completeFlag == False){
       }else{
         newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
       }
-    }elseif ($profitPCT >= 100.0){ Echo "<BR> SellPrice: $sellPrice | Min: $baseMin";}
+    }elseif ($profitPCT >= $profitTarget){ Echo "<BR> SellPrice: $sellPrice | Min: $baseMin";}
   }
   echo "</blockquote>";
   sleep(15);
