@@ -1675,10 +1675,12 @@ while($completeFlag == False){
     $delayCoinSwap = $spreadBuyBack[$u][63];
     $noOfBounceSells = $spreadBuyBack[$u][64];
     $baseCurrency = $spreadBuyBack[$u][36];
-    $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
-    $profitPCT = ($profit/($purchasePrice * $amount))*100;
+    $sellPrice = $LiveCoinPrice * $amount;
+    $buyPrice = $purchasePrice * $amount;
+    $profit = ($sellPrice)-($buyPrice);
+    $profitPCT = ($profit/($buyPrice))*100;
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
-    if ($profitPCT >= 100.0 AND ($amount*$LiveCoinPrice)>= $baseMin){
+    if ($profitPCT >= 100.0 AND ($sellPrice)>= $baseMin){
       echo "<BR> $CoinID | $symbol | $profitPCT";
       $quant = $amount;
       $apiConfig = getAPIConfig($userID);
@@ -1696,7 +1698,7 @@ while($completeFlag == False){
       }else{
         newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
       }
-    }
+    }else{ Echo "<BR> SellPrice: $sellPrice";}
   }
   echo "</blockquote>";
   sleep(15);
