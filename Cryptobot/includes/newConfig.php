@@ -557,7 +557,7 @@ function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newC
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapTable",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapTable",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
