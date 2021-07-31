@@ -612,16 +612,16 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     $conn->close();
 }
 
-function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice,$buyFlag){
+function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice,$buyFlag, $sellFinalPrice = 0.0){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     if ($buyFlag == 'Buy'){
-        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice where `TransactionID` = $transID";
+        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transID";
     }else{
-      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice where `TransactionID` = $transID";
+      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transID";
     }
 
     //print_r($sql);
@@ -1738,13 +1738,13 @@ function getNewBTCAlloc($userID,$lowFlag){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   if ($lowFlag){
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT (`BTCAlloc`/100)*`PctOnLow` AllocTotal
-            , sum(`BTCOpen`) as OpenTotal
+    $sql = "SELECT ((`BTCAlloc`/100)*`PctOnLow`)*getBTCPrice() as AllocTotal
+            , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }else{
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `BTCAlloc` AllocTotal
-            , sum(`BTCOpen`) as OpenTotal
+    $sql = "SELECT `BTCAlloc`*getBTCPrice() as AllocTotal
+            , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
   //echo "<BR> $sql";
@@ -1762,13 +1762,13 @@ function getNewETHAlloc($userID,$lowFlag){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   if ($lowFlag){
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT (`ETHAlloc`/100)*`PctOnLow` AllocTotal
-            , sum(`ETHOpen`) as OpenTotal
+    $sql = "SELECT ((`ETHAlloc`/100)*`PctOnLow`)*getETHPrice() as AllocTotal
+            , sum(`ETHOpen`)*getETHPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }else{
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `ETHAlloc` AllocTotal
-            , sum(`ETHOpen`) as OpenTotal
+    $sql = "SELECT `ETHAlloc`*getETHPrice() as AllocTotal
+            , sum(`ETHOpen`)*getETHPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
   //echo "<BR> $sql";
@@ -5810,7 +5810,7 @@ function updateSpreadBetSellTarget($transactionID){
 
   $sql = "INSERT INTO `SpreadBetSellTarget`( `TransactionID`, `SBTransactionID`, `SellPct`)
   VALUES ($transactionID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = $transactionID )
-  ,(SELECT `PctProfitSell`/4 FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
+  ,(SELECT `PctProfitSell`/7 FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
   logToSQL("BittrexSQL", "$sql", 3, 1);
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {

@@ -116,7 +116,7 @@ function runCoinSwaps(){
           $bittrexRef = $obj["id"];
           if ($bittrexRef <> ""){
             Echo "<BR> Bittrex ID: $bittrexRef";
-            updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice,'Buy');
+            updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice,'Buy',$orderSale[1]);
             //Change Status to AwaitingBuy
             updateCoinSwapStatus('AwaitingBuy',$transID);
           }
@@ -155,7 +155,7 @@ function runCoinSwaps(){
         $bittrexRef = $obj["id"];
         if ($bittrexRef <> ""){
           Echo "<BR> Bittrex ID: $bittrexRef";
-          updateCoinSwapBittrexID($bittrexRef,$transID,$ogCoinID,$liveCoinPrice,'Buy');
+          updateCoinSwapBittrexID($bittrexRef,$transID,$ogCoinID,$liveCoinPrice,'Buy',$orderSale[1]);
           //Change Status to AwaitingBuy
           updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
         }
