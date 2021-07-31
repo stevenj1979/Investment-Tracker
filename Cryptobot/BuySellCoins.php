@@ -205,45 +205,36 @@ while($completeFlag == False){
           if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); continue;}
         }
     }
-    $coinAllocation = getCoinAllocation($userID);
-    Echo "<BR> Tracking CoinAllocation: $coinMode | ".$coinAllocation[0][2]." | ".$coinAllocation[0][0]."| ".$coinAllocation[0][1]." | $BTCAmount | $ruleIDBuy ";
-    //if ($coinMode > 0 AND ){if ($coinAllocation[0][2]<= 0){ continue;}}
-    //if ($coinMode == 0){if ($coinAllocation[0][0]<= 0){ continue;}}
-    //if (($coinMode == 0) and ($ruleIDBuy > 0) and ($coinAllocation[0][1]<$BTCAmount)){continue;}
-    if ($coinMode > 0 and $overrideCoinAlloc == 0){
-      if ($coinAllocation[0][1]<20){
-        //if ($coinAllocation[0][1] <= 0){
-          echo "<BR> EXIT1 COINMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][1];
-          //LogToSQL("CoinAllocation","EXIT1: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][1],3,1);
-           continue;
-        //}else{
-          //$BTCAmount = $coinAllocation[0][1];
-          //$indexLookup = 1;
-        //}
-      }else{ $indexLookup = 1;}
-    }elseif ($coinMode == 0 AND ($type == 'SpreadBuy' OR $type == 'SpreadSell')){
-      if ($coinAllocation[0][2]<20 and $overrideCoinAlloc == 0){
-        //if ($coinAllocation[0][2] <= 0){
-          echo "<BR> EXIT2 SPREADBUY: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][2];
-          //LogToSQL("CoinAllocation","EXIT2: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][2],3,1);
-          continue;
-        //}else{
-          //$BTCAmount = $coinAllocation[0][2];
-          //$indexLookup = 3;
-        //}
-      }else{ $indexLookup = 3;}
-    }elseif ($coinMode == 0 AND $type == 'Buy'){
-      if ($coinAllocation[0][0]<20 AND $overrideCoinAlloc == 0) {
-        //if ($coinAllocation[0][0] <= 0){
-          echo "<BR> EXIT3 RULEMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][0];
-          //LogToSQL("CoinAllocation","EXIT3: $coinMode | $type | $BTCAmount | ".$coinAllocation[0][0],3,1);
-          continue;
-        //}else{
-          //$BTCAmount = $coinAllocation[0][0];
-
-        //}
-      }else{ $indexLookup = 2;}
+    if ($overrideCoinAlloc == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
+    $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
+    //$coinAllocation = getCoinAllocation($userID);
+    Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy ";
+    if ($coinAllocation[0][0]<=0){
+        echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][0];
+        continue;
     }
+    if ($coinMode > 0 and $overrideCoinAlloc == 0){
+      $indexLookup = 1;
+    }elseif ($coinMode == 0 AND ($type == 'SpreadBuy' OR $type == 'SpreadSell')){
+      $indexLookup = 3;
+    }elseif ($coinMode == 0 AND $type == 'Buy'){
+      $indexLookup = 2;
+    }
+    //  if ($coinAllocation[0][1]<20){
+    //      echo "<BR> EXIT1 COINMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][1];
+    //       continue;
+  //    }else{ $indexLookup = 1;}
+  //  }elseif ($coinMode == 0 AND ($type == 'SpreadBuy' OR $type == 'SpreadSell')){
+  //    if ($coinAllocation[0][2]<20 and $overrideCoinAlloc == 0){
+  //        echo "<BR> EXIT2 SPREADBUY: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][2];
+  //        continue;
+  //    }else{ $indexLookup = 3;}
+  //  }elseif ($coinMode == 0 AND $type == 'Buy'){
+  //    if ($coinAllocation[0][0]<20 AND $overrideCoinAlloc == 0) {
+  //        echo "<BR> EXIT3 RULEMODE: $coinMode | $baseCurrency | $type | $BTCAmount | $ogBTCAmount | ".$coinAllocation[0][0];
+  //        continue;
+  //    }else{ $indexLookup = 2;}
+  //  }**/
     $openTransactionsSize = count($openTransactions);
     for ($h=0; $h<$openTransactionsSize; $h++){
       if ($openTransactions[$h][0] == $userID){
@@ -1341,6 +1332,7 @@ while($completeFlag == False){
     $ID = $spread[$y][0];  $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spread[$y][29];
     $spreadBetTransID = $spread[$y][30]; $Email =  $spread[$y][28]; $pctofSixMonthHigh = $spread[$y][34]; $pctofAllTimeHigh = $spread[$y][35];
+    $baseCurrency = $spread[$y][14];
     $disableUntil  = $spread[$y][36];
     $Hr1BuyPrice = $spread[$y][31];
     $Hr24BuyPrice = $spread[$y][32];
@@ -1387,7 +1379,8 @@ while($completeFlag == False){
       $availableTrans = $totalNoOfBuys - $openCoinsSize;
       Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy | $openCoinsSize | $totalNoOfBuys | $availableTrans";
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
-        $spreadBetToBuy = getCoinAllocation($UserID);
+        //$spreadBetToBuy = getCoinAllocation($UserID);
+        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,False);
         $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize)); //*$inverseAvgHighPct
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
