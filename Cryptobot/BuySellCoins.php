@@ -334,7 +334,7 @@ while($completeFlag == False){
   //$marketStats = getMarketstats();
   sleep(1);
   for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
-    $CoinPrice = $newTrackingSellCoins[$b][0]; $TrackDate = $newTrackingSellCoins[$b][1];  $userID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
+    $CoinPrice = $newTrackingSellCoins[$b][29]; $TrackDate = $newTrackingSellCoins[$b][1];  $userID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
     $BuyRule = $newTrackingSellCoins[$b][5]; $FixSellRule = $newTrackingSellCoins[$b][6]; $OrderNo = $newTrackingSellCoins[$b][7]; $Amount = $newTrackingSellCoins[$b][8]; $CoinID = $newTrackingSellCoins[$b][9];
     $APIKey = $newTrackingSellCoins[$b][10]; $APISecret = $newTrackingSellCoins[$b][11]; $KEK = $newTrackingSellCoins[$b][12]; $Email = $newTrackingSellCoins[$b][13]; $UserName = $newTrackingSellCoins[$b][14];
     $BaseCurrency = $newTrackingSellCoins[$b][15]; $SendEmail = $newTrackingSellCoins[$b][16]; $SellCoin = $newTrackingSellCoins[$b][17]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][18]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][19];
@@ -354,7 +354,7 @@ while($completeFlag == False){
         $profit = $salePrice - $PurchasePrice;
         $ProfitPct = ($profit/$PurchasePrice)*100;
         //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
+        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
           $oldAmount = $Amount;
           if ($origAmount == 0){
@@ -1025,6 +1025,8 @@ while($completeFlag == False){
             $fee = (($sellPrice)/100)*0.25;
             $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
             $profitPct = ($profit/$buyPrice)*100;
+            $realSellPrice = ($finalPrice*$originalAmount);
+            $realProfitPct = (($realSellPrice-$buyPrice)/$buyPrice)*100;
             //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "SELL - Order Is Open != 1 & CancelInitiated != 1");
             if ($sendEmail){
               $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell;
@@ -1068,8 +1070,8 @@ while($completeFlag == False){
                 //  newSpreadTransactionID($UserID,$spreadBetRuleID);
                 //}
               }
-              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $profitPct | $originalAmount",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
-              if ($saveResidualCoins == 1 and $profitPct >= 0.25 AND $originalAmount <> 0){
+              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+              if ($saveResidualCoins == 1 and $realProfitPct >= 0.25 AND $originalAmount <> 0){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
                 $residualAmount = $originalAmount - $amount;
