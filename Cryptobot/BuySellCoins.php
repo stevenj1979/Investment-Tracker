@@ -1068,8 +1068,8 @@ while($completeFlag == False){
                 //  newSpreadTransactionID($UserID,$spreadBetRuleID);
                 //}
               }
-              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $profitPct",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
-              if ($saveResidualCoins == 1 and $profitPct >= 0.25){
+              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $profitPct | $originalAmount",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+              if ($saveResidualCoins == 1 and $profitPct >= 0.25 AND $originalAmount <> 0){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
                 $residualAmount = $originalAmount - $amount;
