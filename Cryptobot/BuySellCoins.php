@@ -1692,7 +1692,7 @@ while($completeFlag == False){
       }else{
         newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
       }
-    }elseif ($profitPCT >= $profitTarget){ Echo "<BR> SellPrice: $sellPrice | Min: $baseMin";}
+    }elseif ($profitPCT >= $profitTarget){ Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";}
   }
   echo "</blockquote>";
   sleep(15);
