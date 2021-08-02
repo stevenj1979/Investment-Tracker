@@ -1137,7 +1137,7 @@ function ResidualCoinsToSaving($amount, $orderNo, $transactionID){
   }
   $conn->close();
   logAction("ResidualCoinsToSaving($sql)",'SellCoin', 0);
-  newLogToSQL("ResidualCoinsToSaving","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("ResidualCoinsToSaving","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
 }
 
 function BittrexStatstoSQL($coinID, $volume, $sellOrders, $buyOrders){
