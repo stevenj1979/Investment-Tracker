@@ -514,7 +514,7 @@ while($completeFlag == False){
       //    if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
       //  }
       //}
-      Echo "<BR> Buy Count 1 <BR>";
+      //Echo "<BR> Buy Count 1 <BR>";
       $delayCoinPurchaseSize = count($delayCoinPurchase);
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
@@ -522,7 +522,7 @@ while($completeFlag == False){
           echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
         }
       }
-      Echo "<BR> Buy Count 2 <BR>";
+      //Echo "<BR> Buy Count 2 <BR>";
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
@@ -538,7 +538,7 @@ while($completeFlag == False){
           }
       }
       //echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
-      Echo "<BR> Buy Count 3 <BR>";
+      //Echo "<BR> Buy Count 3 <BR>";
 
       if (isset($marketProfit[0][0])){
         if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $overrideDisableRule == 0){
@@ -551,7 +551,7 @@ while($completeFlag == False){
           pauseRule($ruleIDBuy,0, $userID);
         }
       }
-      Echo "<BR> Buy Count 4 <BR>";
+      //Echo "<BR> Buy Count 4 <BR>";
 
       $profitNum = findUserProfit($userProfit,$userID);
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
@@ -563,21 +563,21 @@ while($completeFlag == False){
         }
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}
-        Echo "<BR> Buy Count 4a $APIKey $APISecret $baseCurrency $limitToBaseCurrency $userBaseCurrency $symbol $limitToCoin<BR>";
+        //Echo "<BR> Buy Count 4a $APIKey $APISecret $baseCurrency $limitToBaseCurrency $userBaseCurrency $symbol $limitToCoin<BR>";
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
-      Echo "<BR> Buy Count 4a1<BR>";
-      if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
-      Echo "<BR> Buy Count 4a2<BR>";
-      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ continue;}
-      Echo "<BR> Buy Count 4b <BR>";
-      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ continue;}
-      Echo "<BR> Buy Count 4b1 <BR>";
-      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
-      Echo "<BR> Buy Count 4c <BR>";
-      if ($doNotBuy == 1){ continue;}
+      //Echo "<BR> Buy Count 4a1<BR>";
+      if ($APIKey=="NA" && $APISecret == "NA"){ Echo "<BR> EXIT: API Key Missing<BR>"; continue;}
+      //Echo "<BR> Buy Count 4a2<BR>";
+      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency<BR>";continue;}
+      //Echo "<BR> Buy Count 4b <BR>";
+      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ Echo "<BR> EXIT: Wrong User Base CurrencyBR>";continue;}
+      //Echo "<BR> Buy Count 4b1 <BR>";
+      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { Echo "<BR> EXIT: Limit to Coin<BR>"; continue;}
+      //Echo "<BR> Buy Count 4c <BR>";
+      if ($doNotBuy == 1){Echo "<BR> EXIT: Do Not Buy<BR>"; continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
-      Echo "<BR> Buy Count 5 <BR>";
+      //Echo "<BR> Buy Count 5 <BR>";
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
@@ -589,7 +589,7 @@ while($completeFlag == False){
         //}
         //}
       }
-      Echo "<BR> Buy Count 6 <BR>";
+      //Echo "<BR> Buy Count 6 <BR>";
 
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
         echo "<BR> Check if over daily limit! ";
@@ -599,13 +599,13 @@ while($completeFlag == False){
           if ($userDailyBTCSpent >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
       //  }
       }
-      Echo "<BR> Buy Count 7 <BR>";
+      //Echo "<BR> Buy Count 7 <BR>";
 
       if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID];continue;
       }else{ Echo "<BR> Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID];}
       if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"];continue;
       }else{ Echo "<BR> Number of Total Buys: $noOfBuys BuyCounter ".$buyCounter[$userID."-Total"];}
-      Echo "<BR> Buy Count 8 <BR>";
+      //Echo "<BR> Buy Count 8 <BR>";
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
