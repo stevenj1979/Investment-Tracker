@@ -563,12 +563,15 @@ while($completeFlag == False){
         }
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}
+        Echo "<BR> Buy Count 4a <BR>";
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
       if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ continue;}
+      Echo "<BR> Buy Count 4b <BR>";
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "All"){ continue;}
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
+      Echo "<BR> Buy Count 4c <BR>";
       if ($doNotBuy == 1){ continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
       Echo "<BR> Buy Count 5 <BR>";
