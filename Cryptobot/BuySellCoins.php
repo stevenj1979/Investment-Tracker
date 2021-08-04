@@ -211,9 +211,9 @@ while($completeFlag == False){
     if ($overrideCoinAlloc == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
-    Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy ";
-    if ($coinAllocation[0][0]<=0){
-        echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][0];
+    Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy | $baseCurrency";
+    if ($coinAllocation <= 0){
+        echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
         continue;
     }
     Echo "<BR> Tracking Buy Count 3 <BR>";
