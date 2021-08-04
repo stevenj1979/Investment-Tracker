@@ -1695,6 +1695,7 @@ function getNewCoinAllocation($baseCurrency,$userID,$lowFlag){
   if ($baseCurrency == 'USDT'){
     //call USDT SQL
     //echo "<BR> BaseCurrency1: $baseCurrency";
+    echo "<BR> getNewUSDTAlloc($userID,$lowFlag);";
     $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
   }elseif ($baseCurrency == 'BTC'){
     //echo "<BR> BaseCurrency2: $baseCurrency";
@@ -1704,6 +1705,7 @@ function getNewCoinAllocation($baseCurrency,$userID,$lowFlag){
     $newCoinAlloc = getNewETHAlloc($userID,$lowFlag);
   }
   //echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
+  echo "<BR> Return(".$newCoinAlloc[0][0]."-".$newCoinAlloc[0][1].");";
   return $newCoinAlloc[0][0]-$newCoinAlloc[0][1];
 }
 
