@@ -566,7 +566,9 @@ while($completeFlag == False){
         Echo "<BR> Buy Count 4a $APIKey $APISecret $baseCurrency $limitToBaseCurrency $userBaseCurrency $symbol $limitToCoin<BR>";
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
+      Echo "<BR> Buy Count 4a1<BR>";
       if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
+      Echo "<BR> Buy Count 4a2<BR>";
       if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ continue;}
       Echo "<BR> Buy Count 4b <BR>";
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ continue;}
