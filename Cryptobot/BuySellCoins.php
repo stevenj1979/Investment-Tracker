@@ -569,7 +569,7 @@ while($completeFlag == False){
       //Echo "<BR> Buy Count 4a1<BR>";
       if ($APIKey=="NA" && $APISecret == "NA"){ Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>"; continue;}
       //Echo "<BR> Buy Count 4a2<BR>";
-      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";continue;}
+      if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";continue;}
       //Echo "<BR> Buy Count 4b <BR>";
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";continue;}
       //Echo "<BR> Buy Count 4b1 <BR>";
