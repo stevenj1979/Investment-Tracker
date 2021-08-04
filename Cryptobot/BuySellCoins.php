@@ -563,7 +563,7 @@ while($completeFlag == False){
         }
         echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
         continue;}
-        Echo "<BR> Buy Count 4a <BR>";
+        Echo "<BR> Buy Count 4a $APIKey $APISecret $baseCurrency $limitToCoin<BR>";
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){ continue;}
