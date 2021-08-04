@@ -191,6 +191,8 @@ while($completeFlag == False){
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $logToSQLSetting,"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
       continue;
     }
+    Echo "<BR> Tracking Buy Count 1 <BR>";
+
     $ruleProfitSize = count($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
@@ -205,6 +207,7 @@ while($completeFlag == False){
           if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); continue;}
         }
     }
+    Echo "<BR> Tracking Buy Count 2 <BR>";
     if ($overrideCoinAlloc == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
@@ -213,6 +216,7 @@ while($completeFlag == False){
         echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| ".$coinAllocation[0][0];
         continue;
     }
+    Echo "<BR> Tracking Buy Count 3 <BR>";
     if ($coinMode > 0 and $overrideCoinAlloc == 0){
       $indexLookup = 1;
     }elseif ($coinMode == 0 AND ($type == 'SpreadBuy' OR $type == 'SpreadSell')){
@@ -235,6 +239,7 @@ while($completeFlag == False){
   //        continue;
   //    }else{ $indexLookup = 2;}
   //  }**/
+  Echo "<BR> Tracking Buy Count 4 <BR>";
     $openTransactionsSize = count($openTransactions);
     for ($h=0; $h<$openTransactionsSize; $h++){
       if ($openTransactions[$h][0] == $userID){
@@ -244,6 +249,7 @@ while($completeFlag == False){
         //LogToSQL("TrackingCoin","BTC Alloction: $oldBTCAmount | $BTCAmount | $indexLookup | $liveOpenTrans | $noOfBuys",3,1);
       }
     }
+    Echo "<BR> Tracking Buy Count 5 <BR>";
     if ($minsDisabled>0){ Echo "<BR> Exit Disabled : $minsDisabled"; continue;}
     if ($trackCounter[$userID."-Total"] >= $noOfBuys and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
     if ($trackCounter[$userID."-".$coinID] >= 1 and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
@@ -508,6 +514,7 @@ while($completeFlag == False){
       //    if ($ruleProfit[$g][4] == $ruleIDBuy and $ruleProfit[$g][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
       //  }
       //}
+      Echo "<BR> Buy Count 1 <BR>";
       $delayCoinPurchaseSize = count($delayCoinPurchase);
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
@@ -515,7 +522,7 @@ while($completeFlag == False){
           echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
         }
       }
-
+      Echo "<BR> Buy Count 2 <BR>";
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
@@ -531,6 +538,8 @@ while($completeFlag == False){
           }
       }
       //echo "<BR> Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0];
+      Echo "<BR> Buy Count 3 <BR>";
+
       if (isset($marketProfit[0][0])){
         if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $overrideDisableRule == 0){
           newLogToSQL("BuyCoins", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0]." | RuleID $ruleIDBuy", $userID,1,"MarketDropStop","RuleID:$ruleIDBuy CoinID:$coinID");
@@ -542,6 +551,7 @@ while($completeFlag == False){
           pauseRule($ruleIDBuy,0, $userID);
         }
       }
+      Echo "<BR> Buy Count 4 <BR>";
 
       $profitNum = findUserProfit($userProfit,$userID);
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
@@ -561,7 +571,7 @@ while($completeFlag == False){
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { continue;}
       if ($doNotBuy == 1){ continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
-
+      Echo "<BR> Buy Count 5 <BR>";
       //echo "<BR> Total Spend ".$totalBTCSpent[0][0]." Limit $TotalBTCLimit | Override: $overrideDailyLimit | Enable Total BTC Limit: $EnableTotalBTCLimit";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
@@ -573,6 +583,7 @@ while($completeFlag == False){
         //}
         //}
       }
+      Echo "<BR> Buy Count 6 <BR>";
 
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
         echo "<BR> Check if over daily limit! ";
@@ -582,11 +593,13 @@ while($completeFlag == False){
           if ($userDailyBTCSpent >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
       //  }
       }
+      Echo "<BR> Buy Count 7 <BR>";
 
       if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID];continue;
       }else{ Echo "<BR> Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID];}
       if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"];continue;
       }else{ Echo "<BR> Number of Total Buys: $noOfBuys BuyCounter ".$buyCounter[$userID."-Total"];}
+      Echo "<BR> Buy Count 8 <BR>";
 
       if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
       if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
