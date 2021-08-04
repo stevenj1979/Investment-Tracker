@@ -567,13 +567,13 @@ while($completeFlag == False){
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
       //Echo "<BR> Buy Count 4a1<BR>";
-      if ($APIKey=="NA" && $APISecret == "NA"){ Echo "<BR> EXIT: API Key Missing<BR>"; continue;}
+      if ($APIKey=="NA" && $APISecret == "NA"){ Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>"; continue;}
       //Echo "<BR> Buy Count 4a2<BR>";
-      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency<BR>";continue;}
+      if ($baseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";continue;}
       //Echo "<BR> Buy Count 4b <BR>";
-      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ Echo "<BR> EXIT: Wrong User Base CurrencyBR>";continue;}
+      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";continue;}
       //Echo "<BR> Buy Count 4b1 <BR>";
-      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { Echo "<BR> EXIT: Limit to Coin<BR>"; continue;}
+      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>"; continue;}
       //Echo "<BR> Buy Count 4c <BR>";
       if ($doNotBuy == 1){Echo "<BR> EXIT: Do Not Buy<BR>"; continue;}
       //Echo "<BR>Rule Limited to :  $limitToCoin";
