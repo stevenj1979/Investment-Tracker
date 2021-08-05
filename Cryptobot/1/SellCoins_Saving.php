@@ -241,8 +241,8 @@ $date = date('Y/m/d H:i:s', time());
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".number_format($livePrice,$baseNum)."</p></td>";
-            NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>MktCap: ".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>1HrPct: ".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
 
             echo "<td rowspan='3'><a href='ManualSell.php?manSave=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
@@ -251,8 +251,8 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$transactionID&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
-            NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>Vol: ".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>24HrPct: ".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
             echo "<td><p id='normalText'>LivePrice: ".number_format($liveTotalCost,$baseNum)." $baseCurrency</p></td>";
 
@@ -263,10 +263,10 @@ $date = date('Y/m/d H:i:s', time());
             //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
             $numCol = getNumberColour($priceDiff1);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
+            echo "<td><p id='smallText' style='color:$numCol'>Price Diff: ".round($priceDiff1,$roundVar)."</p></td>";
             echo "<td><p id='largeText' >".number_format($profit,$baseNum)." $baseCurrency</p></td>";
 
-            NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>Sell Ords: ".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>Profit: ".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
 
