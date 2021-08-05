@@ -252,7 +252,7 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-            echo "<td><p id='normalText'>$liveTotalCost $baseCurrency</p></td>";
+            echo "<td><p id='normalText'>".number_format($liveTotalCost,8)." $baseCurrency</p></td>";
 
             echo "</tr><tr>";
 
@@ -269,7 +269,7 @@ $date = date('Y/m/d H:i:s', time());
             $numCol = getNumberColour($profitBtc);
             if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice;} elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice;}
             else{ $baseMultiplier =1;}
-            $liveWithBase = $liveTotalCost * $baseMultiplier;
+            $liveWithBase = number_format($liveTotalCost * $baseMultiplier,8,",",".");
             echo "<td>$liveWithBase </td>";
         }
         print_r("</table>");
