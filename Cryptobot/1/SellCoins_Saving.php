@@ -267,9 +267,9 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
-            if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice;} elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice;}
-            else{ $baseMultiplier =1;}
-            $liveWithBase = number_format($liveTotalCost * $baseMultiplier,8,",",".");
+            if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice; $baseNum = 8; } elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice; $baseNum = 8;}
+            else{ $baseMultiplier =1; $baseNum = 2;}
+            $liveWithBase = number_format($liveTotalCost * $baseMultiplier,$baseNum);
             echo "<td>$liveWithBase </td>";
         }
         print_r("</table>");
