@@ -236,9 +236,11 @@ $date = date('Y/m/d H:i:s', time());
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             $btcPrice = $trackingSell[$x][53]; $ethPrice = $trackingSell[$x][54];
+            if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice; $baseNum = 8; } elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice; $baseNum = 8;}
+            else{ $baseMultiplier =1; $baseNum = 2;}
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
+            echo "<td rowspan='2'><p id='largeText' >".number_format($livePrice,$baseNum)."</p></td>";
             NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
@@ -252,7 +254,7 @@ $date = date('Y/m/d H:i:s', time());
             NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-            echo "<td><p id='normalText'>".number_format($liveTotalCost,8)." $baseCurrency</p></td>";
+            echo "<td><p id='normalText'>LivePrice: ".number_format($liveTotalCost,$baseNum)." $baseCurrency</p></td>";
 
             echo "</tr><tr>";
 
@@ -262,15 +264,14 @@ $date = date('Y/m/d H:i:s', time());
 
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
-            echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
+            echo "<td><p id='largeText' >".number_format($profit,$baseNum)." $baseCurrency</p></td>";
 
             NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>Profit: ".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
-            if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice; $baseNum = 8; } elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice; $baseNum = 8;}
-            else{ $baseMultiplier =1; $baseNum = 2;}
+
             $liveWithBase = number_format($liveTotalCost * $baseMultiplier,2);
-            echo "<td>$liveWithBase USDT</td>";
+            echo "<td>LivePrice: $liveWithBase USDT</td>";
         }
         print_r("</table>");
         Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
