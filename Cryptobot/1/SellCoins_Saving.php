@@ -269,7 +269,7 @@ $date = date('Y/m/d H:i:s', time());
             $numCol = getNumberColour($profitBtc);
             if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice; $baseNum = 8; } elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice; $baseNum = 8;}
             else{ $baseMultiplier =1; $baseNum = 2;}
-            $liveWithBase = number_format($liveTotalCost * $baseMultiplier,$baseNum);
+            $liveWithBase = number_format($liveTotalCost * $baseMultiplier,2);
             echo "<td>$liveWithBase USDT</td>";
         }
         print_r("</table>");
