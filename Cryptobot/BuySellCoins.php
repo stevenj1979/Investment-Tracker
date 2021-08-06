@@ -151,6 +151,7 @@ while($completeFlag == False){
   echo "<blockquote>";
   sleep(1);
   $ruleProfit = getRuleProfit();
+  $delayCoinPurchase = getDelayCoinPurchaseTimes();
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
     $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
     $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
@@ -185,6 +186,13 @@ while($completeFlag == False){
     }
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
+    $delayCoinPurchaseSize = count($delayCoinPurchase);
+    for ($b=0; $b<$delayCoinPurchaseSize; $b++){
+      $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
+      if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
+        echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
+      }
+    }
     if($minsFromDate >= $timeToCancelBuyMins){
       closeNewTrackingCoin($newTrackingCoinID, True);
       reOpenOneTimeBuyRule($trackingID);
