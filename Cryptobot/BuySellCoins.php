@@ -1000,6 +1000,23 @@ while($completeFlag == False){
           clearBittrexRef($transactionID);
           UpdateProfit();
           continue;
+        }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining){
+          bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
+          if ($sendEmail){
+            $subject = "Coin Purchase1: ".$coin;
+            $from = 'Coin Purchase <purchase@investment-tracker.net>';
+            sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
+          }
+          if($redirectPurchasesToSpread == 1){
+            $type = 'SpreadBuy';
+            updateBuyToSpread($spreadBetIDRedirect,$transactionID);
+          }
+          if ($type == 'SpreadBuy'){
+            //SpreadBetBittrexCancelPartialBuy($transactionID,$orderQty-$orderQtyRemaining);
+            updateToSpreadSell($transactionID);
+            newLogToSQL("BittrexBuyCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $logToSQLSetting,"PartialOrder","TransactionID:$transactionID");
+          }
+          bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
