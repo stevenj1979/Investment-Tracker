@@ -155,7 +155,7 @@ function runCoinSwaps(){
       if ($lowPrice <= $bitPrice){
         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
         $liveCoinPrice = $bitPrice;
-        $rate = $newCoinSwap[0][4];
+        $rate = $liveCoinPrice;
         $quant = $totalAmount/$rate;
         echo"<BR> bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
         $obj = bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
