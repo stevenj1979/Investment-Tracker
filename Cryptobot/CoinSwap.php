@@ -147,7 +147,7 @@ function runCoinSwaps(){
       }
     }else if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
-      $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
+      $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
       $finalPrice = $coinSwaps[$y][15];
       //$orderSale = isSaleComplete($coinSwaps,$y);
       $lowPrice = $finalPrice-(($finalPrice/100)*15);
