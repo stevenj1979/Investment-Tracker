@@ -96,6 +96,7 @@ function runCoinSwaps(){
     if ($status == 'AwaitingSale'){
       //Check if sale is complete
       $orderSale = isSaleComplete($coinSwaps,$y);
+      Echo "<BR> AwaitingSale: ".$orderSale[0];
       if ($orderSale[0] == 'CLOSED'){
         //Buy new COIN
         $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];
@@ -127,6 +128,7 @@ function runCoinSwaps(){
     }else if ($status == 'AwaitingBuy'){
       //Check if buy is complete
       $orderBuy = isBuyComplete($coinSwaps,$y);
+      Echo "<BR> AwaitingBuy: ".$orderBuy[0];
       if ($orderBuy[0] == 'CLOSED'){
         //Update Transaction
         updateCoinSwapCoinDetails($coinSwaps[$y][3],$orderBuy[1],$orderBuy[2],"ORD".$coin.date("YmdHis", time()).$ruleID,"Open",$coinSwaps[$y][0]);
@@ -136,7 +138,9 @@ function runCoinSwaps(){
         //updateCoinSwapTransactionStatus('Open',$transactionID);
       }
     }else if ($status == 'AwaitingSavingsSale'){
+
       $orderSale = isSaleComplete($coinSwaps,$y);
+      Echo "<BR> AwaitingSavingsSale: ".$orderSale[0];
       if ($orderSale[0] == 'CLOSED'){
         updateCoinSwapStatus('AwaitingSavingsBuy',$transID,$orderSale[1]);
       }
@@ -164,6 +168,7 @@ function runCoinSwaps(){
     }else if ($status == 'AwaitingSavingsPurchase'){
       //Check if buy is complete
       $orderBuy = isBuyComplete($coinSwaps,$y);
+      Echo "<BR> AwaitingSavingsPurchase: ".$orderBuy[0];
       if ($orderBuy[0] == 'CLOSED'){
         $ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13]; $orderBuy[1] = $finalPrice;$orderBuy[2] = $orderQty;
         $transID = $coinSwaps[$y][0];
