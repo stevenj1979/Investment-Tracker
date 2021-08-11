@@ -138,7 +138,7 @@ function runCoinSwaps(){
         //updateCoinSwapTransactionStatus('Open',$transactionID);
       }
     }else if ($status == 'AwaitingSavingsSale'){
-
+      $transID = $coinSwaps[$y][0];
       $orderSale = isSaleComplete($coinSwaps,$y);
       Echo "<BR> AwaitingSavingsSale: ".$orderSale[0];
       if ($orderSale[0] == 'CLOSED'){

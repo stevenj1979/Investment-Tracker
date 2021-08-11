@@ -1741,7 +1741,7 @@ while($completeFlag == False){
       if ($bittrexRef <> ""){
         updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
         newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-        updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,0,0,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
+        updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,$CoinID,$sellPrice,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
       }else{
         newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
       }
