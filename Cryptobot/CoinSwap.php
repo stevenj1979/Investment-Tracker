@@ -16,13 +16,14 @@ Function getOpenCoinSwaps(){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
-          ,`BittrexRefSell`,`SellFinalPrice`
-  FROM `CoinSwapView`";
+          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`
+  FROM `CoinSwapView`
+  join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
-    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice']);
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -146,10 +147,11 @@ function runCoinSwaps(){
       }
     }else if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
-      $bitPrice = number_format($coinSwaps[$y][12],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
+      $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
       $finalPrice = $coinSwaps[$y][15];
       //$orderSale = isSaleComplete($coinSwaps,$y);
       $lowPrice = $finalPrice-(($finalPrice/100)*15);
+      echo "<BR> TEST Buy: $lowPrice | $bitPrice";
       if ($lowPrice <= $bitPrice){
         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
         $liveCoinPrice = $bitPrice;
