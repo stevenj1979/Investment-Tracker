@@ -172,9 +172,9 @@ function runCoinSwaps(){
       $orderBuy = isBuyComplete($coinSwaps,$y);
       Echo "<BR> AwaitingSavingsPurchase: ".$orderBuy[0];
       if ($orderBuy[0] == 'CLOSED'){
-        $ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13]; $orderBuy[1] = $finalPrice;$orderBuy[2] = $orderQty;
+        $ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13]; $finalPrice = $orderBuy[1]; $orderQty = $orderBuy[2];
         $transID = $coinSwaps[$y][0];
-        updateCoinSwapCoinDetails($ogCoinID,$finalPrice,$orderQty,"ORD".$ogSymbol.date("YmdHis", time()).$ruleID,"Open",$transID);
+        updateCoinSwapCoinDetails($ogCoinID,$finalPrice,$orderQty,"ORD".$ogSymbol.date("YmdHis", time()).$ruleID,"Saving",$transID);
         //Close CoinSwap
         updateCoinSwapStatus('Closed',$transID);
       }
