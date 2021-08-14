@@ -152,7 +152,7 @@ function runCoinSwaps(){
       //$orderSale = isSaleComplete($coinSwaps,$y);
       $lowPrice = $finalPrice-(($finalPrice/100)*15);
       echo "<BR> TEST Buy: $lowPrice | $bitPrice";
-      if ($lowPrice <= $bitPrice){
+      if ($bitPrice <= $lowPrice){
         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
         $liveCoinPrice = $bitPrice;
         $rate = $liveCoinPrice;
