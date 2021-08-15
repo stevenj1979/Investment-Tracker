@@ -51,6 +51,24 @@ function pausePurchases($UserID){
     logAction("pausePurchases: ".$sql, 'BuySell', 0);
 }
 
+function clearTrackingCoinQueue($UserID,$coinID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' where `CoinID` = $coinID and `UserID` = $UserID ";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("clearTrackingCoinQueue",$sql,3,0,"SQL","UserID:$UserID; CoinID:$coinID");
+    logAction("clearTrackingCoinQueue: ".$sql, 'BuySell', 0);
+}
+
 
 function deleteFromBittrexAction($bittrexRef){
   $conn = getSQLConn(rand(1,3));

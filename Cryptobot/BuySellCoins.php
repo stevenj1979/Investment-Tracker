@@ -267,7 +267,7 @@ while($completeFlag == False){
     $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
-      newLogToSQL("TrackingCoin","trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct)$coinID|$overrideCoinAlloc|".$coinAllocation[0][0]." | $type | $coinMode;",$userID,1,"TrackingSuccess","TrackingCoinID:$newTrackingCoinID");
+      newLogToSQL("TrackingCoin","trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct)$coinID|$overrideCoinAlloc|".$coinAllocation[0][0]." | $type | $coinMode;",$userID,$logToSQLSetting,"TrackingSuccess","TrackingCoinID:$newTrackingCoinID");
       if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
       //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){ $ogBTCAmount = (float)$ogBTCAmount;}
       if ($buyAmountCalculationEnabled == 1){
@@ -275,7 +275,7 @@ while($completeFlag == False){
       }
 
       $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$noOfPurchases+1);
-      newLogToSQL("TrackingCoin","buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);",$userID,1,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
+      newLogToSQL("TrackingCoin","buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);",$userID,$logToSQLSetting,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
       //logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
       UpdateProfit();
       //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
@@ -290,6 +290,7 @@ while($completeFlag == False){
         }
 
       }
+      clearTrackingCoinQueue($userID,$coinID);
       updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
     }
@@ -373,7 +374,7 @@ while($completeFlag == False){
         $profit = $salePrice - $PurchasePrice;
         $ProfitPct = ($profit/$PurchasePrice)*100;
         //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
+        newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,$logToSQLSetting,"SaveResidualCoins","TransactionID:$TransactionID");
         if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
           $oldAmount = $Amount;
           if ($origAmount == 0){
@@ -382,10 +383,10 @@ while($completeFlag == False){
             $sellFee = ($PurchasePrice/100)*0.28;
             $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
           }
-          newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,1,"NewAmountToSQL","TransactionID:$TransactionID");
+          newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,$logToSQLSetting,"NewAmountToSQL","TransactionID:$TransactionID");
           updateSellAmount($TransactionID,$Amount, $oldAmount);
-          newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
-          newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
+          newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,$logToSQLSetting,"SaveResidualCoins4","TransactionID:$TransactionID");
+          newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,$logToSQLSetting,"SaveResidualCoins2","TransactionID:$TransactionID");
           $newOrderDate = date("YmdHis", time());
           $OrderString = "ORD".$coin.$newOrderDate.$BuyRule;
           $residualAmount = $oldAmount - $Amount;
@@ -393,7 +394,7 @@ while($completeFlag == False){
           //newLogToSQL("TrackingSell","ResidualCoinsToSaving($oldAmount-$Amount, ORD.$coin.$newOrderDate.$BuyRule,$TransactionID);",3,1,"SaveResidualCoins3","TransactionID:$TransactionID");
         }
       $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
-        newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,1,"Success","TransactionID:$TransactionID");
+        newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,$logToSQLSetting,"Success","TransactionID:$TransactionID");
       addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
       if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
     }
@@ -555,12 +556,12 @@ while($completeFlag == False){
 
       if (isset($marketProfit[0][0])){
         if ($MarketDropStopEnabled == 1 and $marketProfit[0][0] <= $marketDropStopPct and $overrideDisableRule == 0){
-          newLogToSQL("BuyCoins", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0]." | RuleID $ruleIDBuy", $userID,1,"MarketDropStop","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins", "Market Profit Enbled: $MarketDropStopEnabled Pct: $marketDropStopPct current: ".$marketProfit[0][0]." | RuleID $ruleIDBuy", $userID,$logToSQLSetting,"MarketDropStop","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($ruleIDBuy,4, $userID);
           pauseTracking($userID);
 
         }elseif ($MarketDropStopEnabled == 1 and $marketProfit[0][1] >= 0.3 and $overrideDisableRule == 0){
-          newLogToSQL("BuyCoins", "pauseRule($ruleIDBuy,0, $userID);| MarketProfit: ".$marketProfit[0][1], $userID,1,"MarketDropStart","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins", "pauseRule($ruleIDBuy,0, $userID);| MarketProfit: ".$marketProfit[0][1], $userID,$logToSQLSetting,"MarketDropStart","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($ruleIDBuy,0, $userID);
         }
       }
@@ -570,7 +571,7 @@ while($completeFlag == False){
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
         if ($rulesPauseEnabled == 1){
           echo "<BR> PAUSING RULES $rulesPause for $rulesPauseHours HOURS";
-          newLogToSQL("BuyCoins", "pauseRule($rulesPause, $rulesPauseHours);", $userID,1,"RulesPause","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins", "pauseRule($rulesPause, $rulesPauseHours);", $userID,$logToSQLSetting,"RulesPause","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($rulesPause, $rulesPauseHours);
           //$pauseRulesFlag = False;
         }
@@ -694,19 +695,19 @@ while($completeFlag == False){
           $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][0];
           //$buyQuantity = $BTCAmount;
-          newLogToSQL("BuyCoins","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,0,"BTCTest","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,$logToSQLSetting,"BTCTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }elseif ($baseCurrency == 'ETH'){
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][1];
           //$buyQuantity = $BTCAmount;
-          newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,0,"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,$logToSQLSetting,"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }else{
           $totalBal = $BTCBalance-$totalReserved;
           $buyQuantity = $BTCAmount;
         }
 
         //} else{ $totalBal = $BTCBalance;}
-        newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,0,"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
+        newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$logToSQLSetting,"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
         if ($totalBal > 20 OR $overrideCoinAlloc == 1) {
 
           //sif ($overrideCoinAlloc == 1){$BTCAmount = }
@@ -716,7 +717,7 @@ while($completeFlag == False){
           if($BTCAmount <= 0 ){ continue;}
 
           addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc);
-          newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,1,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
+          newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,$logToSQLSetting,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
           //logToSQL("TrackingCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,0);", $userID, $logToSQLSetting);
           $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
           $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
@@ -888,8 +889,8 @@ while($completeFlag == False){
         setTransactionPending($transactionID);
         logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $logToFileSetting);
         logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
-        newLogToSQL("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice);", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
-        newLogToSQL("SellCoins", "setTransactionPending($transactionID);", $userID, 1,"setTransactionPending","TransactionID:$transactionID");
+        newLogToSQL("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice);", $userID, $logToSQLSetting,"AddTrackingSellCoin","TransactionID:$transactionID");
+        newLogToSQL("SellCoins", "setTransactionPending($transactionID);", $userID, $logToSQLSetting,"setTransactionPending","TransactionID:$transactionID");
         //break;
         $to_time = date("Y-m-d H:i:s", time());
         $from_time = strtotime($orderDate);
@@ -1100,17 +1101,17 @@ while($completeFlag == False){
                 //Update Buy Rule
                 $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
                 $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
-                newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1,"updateBuyTrend","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $logToSQLSetting,"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
-                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, 1,"BuyBack","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, $logToSQLSetting,"BuyBack","TransactionID:$transactionID");
                 WriteBuyBack($transactionID,$realProfitPct,10, 60);
               }else{
                 //Update Coin ModeRule
                 $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
                 $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
-                newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, 1,"updateBuyTrend","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $logToSQLSetting,"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
-                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, 1,"BuyBack","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, $logToSQLSetting,"BuyBack","TransactionID:$transactionID");
                 WriteBuyBack($transactionID,$realProfitPct,10, 60);
               }
               if ($allocationType == 'SpreadBet'){
@@ -1121,13 +1122,13 @@ while($completeFlag == False){
                 //  newSpreadTransactionID($UserID,$spreadBetRuleID);
                 //}
               }
-              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount | $amount | $finalPrice | $cost | $buyPrice | $sellPrice | $realSellPrice",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+              newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount | $amount | $finalPrice | $cost | $buyPrice | $sellPrice | $realSellPrice",3,$logToSQLSetting,"SaveResidualCoins3","TransactionID:$transactionID");
               if ($saveResidualCoins == 1 and $realProfitPct >= 0.25 AND $originalAmount <> 0){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
                 $residualAmount = $originalAmount - $amount;
                 ResidualCoinsToSaving($residualAmount,$OrderString ,$transactionID);
-                newLogToSQL("BittrexSell","ResidualCoinsToSaving($residualAmount, $originalAmount, $amount, ORD.$coin.$newOrderDate.$ruleIDBTBuy, $transactionID, $realProfitPct);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell","ResidualCoinsToSaving($residualAmount, $originalAmount, $amount, ORD.$coin.$newOrderDate.$ruleIDBTBuy, $transactionID, $realProfitPct);",3,$logToSQLSetting,"SaveResidualCoins3","TransactionID:$transactionID");
               }
               UpdateProfit();
 
@@ -1437,7 +1438,7 @@ while($completeFlag == False){
         $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize)); //*$inverseAvgHighPct
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
-        LogToSQL("SpreadBetCoinAllocation","BTCAmount: $BTCAmount | DivAlloc: $divideAllocation | OpenCoinSize: $openCoinsSize | $inverseAvgHighPct | $totalNoOfBuys | $availableTrans | ".$spreadBetToBuy[0][0],3,1);
+        LogToSQL("SpreadBetCoinAllocation","BTCAmount: $BTCAmount | DivAlloc: $divideAllocation | OpenCoinSize: $openCoinsSize | $inverseAvgHighPct | $totalNoOfBuys | $availableTrans | ".$spreadBetToBuy[0][0],3,$logToSQLSetting);
         if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: ".$spreadBetToBuy[0][0]." | Div Alloc: $divideAllocation | inv pct: $inverseAvgHighPct | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
       //}elseif ($availableTrans == 0){
       //  $BTCAmount =  $spreadBetToBuy[0][0]/$spreadCoinsSize;
@@ -1447,12 +1448,12 @@ while($completeFlag == False){
         $BTCAmount = $buyPerCoin /$noOfLoops;
         $loopNum = rand(0,$spreadCoinsSize- $noOfLoops);
         $spreadCoinsSize = $loopNum + $noOfLoops;
-        LogToSQL("SpreadBetRePurchase","PurchasePrice: $purchasePrice | TotalAmountToBuy: $totalAmountToBuy | BuyPerCoin: $buyPerCoin | NoOfLoops:$noOfLoops | BTCAmount: $BTCAmount | LoppNum:$loopNum | SpreadCoinSize: $spreadCoinsSize" ,$UserID,1);
+        LogToSQL("SpreadBetRePurchase","PurchasePrice: $purchasePrice | TotalAmountToBuy: $totalAmountToBuy | BuyPerCoin: $buyPerCoin | NoOfLoops:$noOfLoops | BTCAmount: $BTCAmount | LoppNum:$loopNum | SpreadCoinSize: $spreadCoinsSize" ,$UserID,$logToSQLSetting);
         if ($BTCAmount < 10){ ECHO "<BR> EXIT: Coin Allocation: ".$spreadBetToBuy[0][0]." | Div Alloc: $divideAllocation | inv pct: $inverseAvgHighPct | Buy Per Coin: $buyPerCoin | BTCAmount: $BTCAmount"; continue;}
 
       }else{ ECHO "<BR> EXIT: $openCoinsSize | $totalNoOfBuys | $availableTrans"; continue;}
-      LogToSQL("SpreadBetBuy","1)ID: $ID | $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice;",3,1);
-      LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,1);
+      LogToSQL("SpreadBetBuy","1)ID: $ID | $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice;",3,$logToSQLSetting);
+      LogToSQL("SpreadBetBuy","Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize | BTCAmount: $BTCAmount",3,$logToSQLSetting);
       for ($t=$loopNum; $t<$spreadCoinsSize; $t++){
         Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
@@ -1466,25 +1467,25 @@ while($completeFlag == False){
         //$checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, 0, $noOfPurchases+1);
         $ogCoinPrice = $liveCoinPrice - (($liveCoinPrice/100)*1);
         if($BTCAmount<= 0 ){ continue;}
-        LogToSQL("SpreadBetTracking","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);",3,1);
+        LogToSQL("SpreadBetTracking","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID);",3,$logToSQLSetting);
         addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $BTCAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$ogCoinPrice,$spreadBetTransID,$spreadBetRuleID,0);
         updateSpreadBetTransactionAmount($buyPerCoin, $spreadBetRuleID,$BTCtoSQL);
-        LogToSQL("SpreadBetBuy","buyCoins($coinID)",3,1);
+        LogToSQL("SpreadBetBuy","buyCoins($coinID)",3,$logToSQLSetting);
         //update Transaction to Spread
         //updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);
-        LogToSQL("SpreadBetBuy","updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);",3,1);
+        LogToSQL("SpreadBetBuy","updateTransToSpread($ID,$coinID,$UserID,$spreadBetTransID);",3,$logToSQLSetting);
         //updateSpreadBuy($ID);
-        LogToSQL("SpreadBetBuy","updateSpreadBuy($ID);",3,1);
+        LogToSQL("SpreadBetBuy","updateSpreadBuy($ID);",3,$logToSQLSetting);
         //add new number in SpreadBetTransactions
         if ($t == $spreadCoinsSize-1 AND $spreadCoinsSize > 0){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
           //newSpreadTransactionID($UserID,$spreadBetRuleID);
-          LogToSQL("SpreadBetBuy","newSpreadTransactionID($UserID,$spreadBetRuleID);",3,1);
+          LogToSQL("SpreadBetBuy","newSpreadTransactionID($UserID,$spreadBetRuleID);",3,$logToSQLSetting);
           UpdateProfit();
-          LogToSQL("SpreadBetBuy","UpdateProfit();",3,1);
+          LogToSQL("SpreadBetBuy","UpdateProfit();",3,$logToSQLSetting);
         }
         //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
-        LogToSQL("SpreadBetBuy","subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);",3,1);
+        LogToSQL("SpreadBetBuy","subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);",3,$logToSQLSetting);
       }
     }
   }
@@ -1563,13 +1564,13 @@ while($completeFlag == False){
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
     echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
     if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0))){
-      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
+      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,$logToSQLSetting);
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
       $finalProfitPct = $profitPCT;
       if (($profitPCT < -20) AND ($bounceDifference >= 2.5) and ($LiveCoinPrice == $bounceTopPrice)){
           $finalProfitPct = $bounceDifference;
-          LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
+          LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,$logToSQLSetting);
       }
 
       if ($profitPCT > 0){
@@ -1581,11 +1582,11 @@ while($completeFlag == False){
           $totalRisesBuy = 15;
           $totalRisesSell = 1;
       }
-      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,1);
+      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,$logToSQLSetting);
       newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
-      LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
+      LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,$logToSQLSetting);
     }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum = 3; $useAwards = False;
         //Swap Coin
@@ -1633,7 +1634,7 @@ while($completeFlag == False){
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
-      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus",3,0);
+      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus",3,$logToSQLSetting);
       //BuyBack
       $marketStats = getMarketstats();
       $reOpenData = reOpenTransactionfromBuyBack($bBID);
@@ -1670,8 +1671,8 @@ while($completeFlag == False){
       if($tmpSalePrice <= 0 ){ continue;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);";
-      LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);",3,1);
-      LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,1);
+      LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);",3,$logToSQLSetting);
+      LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$logToSQLSetting);
       //CloseBuyBack
       closeBuyBack($bBID);
     }
@@ -1691,7 +1692,7 @@ while($completeFlag == False){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         enableBuyRule($buyRuleID);
-        LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1);
+        LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,$logToSQLSetting);
       }
     }
   }
