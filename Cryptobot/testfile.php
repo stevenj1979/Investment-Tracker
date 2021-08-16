@@ -284,8 +284,8 @@ function test(){
 }
 
 //test();
-$kek = "Bmk7xeSkkUqZCcYqrPg9yPFa9Z7L1faj8OntdTkapBc=";
-if (!Empty($Kek)){ $apiSecret = Decrypt($Kek,$apiSecret);}
+//$kek = "Bmk7xeSkkUqZCcYqrPg9yPFa9Z7L1faj8OntdTkapBc=";
+//if (!Empty($Kek)){ $apiSecret = Decrypt($Kek,$apiSecret);}
 //buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','RENBTC', 'stevenj1979@gmail.com', 3, '2021-07-27 00:10:29', 'USDT',1,1,471.9883000000, 0,'stevenj1979',125,0.000,0,1,240,8, 0, 0+1);
 $resultOrd = bittrexOrder($apikey, $apiSecret, "f2ec1652-3e4a-4da1-a1ff-4d39e38eb4ed", 3);
 $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
