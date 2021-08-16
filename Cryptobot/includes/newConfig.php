@@ -183,7 +183,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $execResult = curl_exec($ch);
       curl_close($ch);
       $obj = json_decode($execResult, true);
-      echo "<BR> URL : $url"; 
+      echo "<BR> URL : $url";
       var_dump($obj);
     }
 
@@ -611,7 +611,7 @@ function updateCoinSwapStatus($status,$transID,$finalPrice = 0){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapStatus",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
