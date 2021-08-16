@@ -183,6 +183,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $execResult = curl_exec($ch);
       curl_close($ch);
       $obj = json_decode($execResult, true);
+      echo "<BR> URL : $url"; 
       var_dump($obj);
     }
 
