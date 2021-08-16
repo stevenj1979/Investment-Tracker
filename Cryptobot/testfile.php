@@ -286,12 +286,8 @@ function test(){
 //test();
 
 //buyCoins('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb9dd32a70edd3b9f','RENBTC', 'stevenj1979@gmail.com', 3, '2021-07-27 00:10:29', 'USDT',1,1,471.9883000000, 0,'stevenj1979',125,0.000,0,1,240,8, 0, 0+1);
-echo "<BR> Test Result 1: ".getNewCoinAllocation('USDT',3,True);
-echo "<BR> Test Result 2: ".getNewCoinAllocation('USDT',3,False);
-echo "<BR> Test Result 3: ".getNewCoinAllocation('BTC',3,True);
-echo "<BR> Test Result 4: ".getNewCoinAllocation('BTC',3,False);
-echo "<BR> Test Result 5: ".getNewCoinAllocation('ETH',3,True);
-echo "<BR> Test Result 6: ".getNewCoinAllocation('ETH',3,False);
-
+$resultOrd = bittrexOrder($apikey, $apiSecret, "be086b66-1e7c-446c-a261-de431c07df7c", 3);
+$finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
+echo "<BR> Final Price : $finalPrice";
 ?>
 </html>
