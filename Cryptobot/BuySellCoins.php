@@ -141,6 +141,8 @@ $SpreadBetUserSettings = getSpreadBerUserSettings();
 $apiVersion = 1;
 $trackCounter = [];
 $openTransactionFlag = True;
+$coinPurchaseSettings = getCoinPurchaseSettings();
+$coinPurchaseSettingsSize = count($coinPurchaseSettings);
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
@@ -152,6 +154,10 @@ while($completeFlag == False){
   sleep(1);
   $ruleProfit = getRuleProfit();
   $delayCoinPurchase = getDelayCoinPurchaseTimes();
+  $totalCoinPurchases = getTotalCoinPurchases();
+  $totalCoinPurchasesSize = count($totalCoinPurchases);
+  $coinPurchasesPerCoin = getCoinPurchasesByCoin();
+  $coinPurchasesPerCoinSize = count($coinPurchasesPerCoin);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
     $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
     $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
@@ -185,6 +191,34 @@ while($completeFlag == False){
       $openTransactions = getOpenTransactions();
       $openTransactionFlag = False;
     }
+    $clearCoinQueueSize = count($clearCoinQueue);
+    for ($p=0; $p<$clearCoinQueueSize; $p++){
+      if ($coinID == $clearCoinQueue[$p][1] AND $userID == $clearCoinQueue[$p][0]){
+        echo "<BR> EXIT: CoinID and USERID in Clear Coin Queue: $coinID | $userID";
+        continue;
+      }
+    }
+    for ($u=0;$u<$totalCoinPurchasesSize;$u++){
+      for ($r=0;$r<$coinPurchaseSettingsSize;$r++){
+          if ($userID == $totalCoinPurchases[$u][0] and $userID == $coinPurchaseSettings[$r][0] and $totalCoinPurchases[$u][1]>=$coinPurchaseSettings[$r][2]){
+            echo "<BR> EXIT: User over total Coin Purchases: $coinID | $userID".$totalCoinPurchases[$u][1]."|".$coinPurchaseSettings[$r][2];
+            continue;
+          }
+      }
+    }
+    for ($e=0;$e<$coinPurchasesPerCoinSize;$e++){
+      for ($w=0;$w<$coinPurchaseSettingsSize;$w++){
+          if ($userID == $coinPurchasesPerCoin[$e][0] and $userID == $coinPurchaseSettings[$w][0]){
+            if($coinID == $coinPurchasesPerCoin[$e][1] ){
+              if($coinPurchasesPerCoin[$e][1]>=$coinPurchaseSettings[$w][1]){
+                echo "<BR> EXIT: User over Coin Purchases per Coin: $coinID | $userID".$coinPurchasesPerCoin[$e][1]."|".$coinPurchaseSettings[$w][1];
+                continue;
+              }
+            }
+          }
+      }
+    }
+
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     $delayCoinPurchaseSize = count($delayCoinPurchase);
@@ -291,6 +325,8 @@ while($completeFlag == False){
 
       }
       clearTrackingCoinQueue($userID,$coinID);
+      $aryCount = count($clearCoinQueue)
+      $clearCoinQueue[$aryCount] = Array($userID,$coinID);
       updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
     }

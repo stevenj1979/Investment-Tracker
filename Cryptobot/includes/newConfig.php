@@ -557,6 +557,50 @@ function getAPIConfig($userID){
     return $tempAry;
 }
 
+function getCoinPurchaseSettings(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT `Uscf`.`UserID`,`Uscf`.`NoOfCoinPurchase`,`Uscf`.`NoOfPurchases`
+            FROM `UserConfig` `Uscf`";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['NoOfCoinPurchase'],$row['NoOfPurchases']);}
+    $conn->close();
+    return $tempAry;
+}
+
+function getTotalCoinPurchases(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT `UserID`, count(`CoinID`)as CountOfCoinID FROM `Transaction` WHERE `Status` in ('Pending','Open')";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['CountOfCoinID']);}
+    $conn->close();
+    return $tempAry;
+}
+
+function getCoinPurchasesByCoin(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT `UserID`,`CoinID`, count(`CoinID`)as CountOfCoinID FROM `Transaction` WHERE `Status` in ('Pending','Open')
+            group by `CoinID`";
+    print_r($sql);
+    $result = $conn->query($sql);
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['CoinID'],$row['CountOfCoinID']);}
+    $conn->close();
+    return $tempAry;
+}
+
 function updateCoinSwapTable($transactionID,$status,$bittrexRef,$newCoinID,$newCoinPrice,$baseCurrency,$totalAmount,$purchasePrice,$buyFlag){
   $conn = getSQLConn(rand(1,3));
     // Check connection
