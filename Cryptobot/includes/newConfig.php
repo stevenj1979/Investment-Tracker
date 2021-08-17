@@ -598,7 +598,24 @@ function updateCoinSwapTransactionStatus($status,$transID){
     $conn->close();
 }
 
-function updateCoinSwapStatus($status,$transID,$finalPrice = 0){
+function updateCoinSwapStatus($status,$transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `TransactionID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapStatusFinalPrice($status,$transID,$finalPrice){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
