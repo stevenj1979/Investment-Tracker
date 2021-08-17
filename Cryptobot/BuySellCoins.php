@@ -328,7 +328,12 @@ while($completeFlag == False){
       clearTrackingCoinQueue($userID,$coinID);
       $aryCount = count($clearCoinQueue)
       //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
-      array_push($clearCoinQueue,$userID,$coinID);
+      if (!empty($clearCoinQueue)) {
+          array_push($clearCoinQueue,$userID,$coinID);
+      }else{
+        $clearCoinQueue = Array($userID,$coinID);
+      }
+
       updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
     }
