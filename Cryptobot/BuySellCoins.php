@@ -140,6 +140,7 @@ $autoBuyPrice = getAutoBuyPrices();
 $SpreadBetUserSettings = getSpreadBerUserSettings();
 $apiVersion = 1;
 $trackCounter = [];
+$clearCoinQueue = [];
 $openTransactionFlag = True;
 $coinPurchaseSettings = getCoinPurchaseSettings();
 $coinPurchaseSettingsSize = count($coinPurchaseSettings);
@@ -326,7 +327,8 @@ while($completeFlag == False){
       }
       clearTrackingCoinQueue($userID,$coinID);
       $aryCount = count($clearCoinQueue)
-      $clearCoinQueue[$aryCount] = Array($userID,$coinID);
+      //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
+      array_push($clearCoinQueue,$userID,$coinID);
       updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
     }
