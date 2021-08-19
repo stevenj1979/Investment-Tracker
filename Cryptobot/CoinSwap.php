@@ -152,7 +152,9 @@ function runCoinSwaps(){
       $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
       $finalPrice = $coinSwaps[$y][15];
       //$orderSale = isSaleComplete($coinSwaps,$y);
-      $lowPrice = $finalPrice-(($finalPrice/100)*15);
+      $sellPct = 15;
+      $sellPctwithTolerance = $sellPct-(($sellPct/100)*5);
+      $lowPrice = $finalPrice-(($finalPrice/100)*$sellPctwithTolerance);
       echo "<BR> TEST Buy: $lowPrice | $bitPrice";
       if ($bitPrice <= $lowPrice){
         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
