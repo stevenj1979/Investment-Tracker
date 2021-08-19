@@ -45,6 +45,7 @@ function isSaleComplete($saleAry,$num){
     $qtySold = $resultOrd["fillQuantity"];
     $saleStatus = $resultOrd["status"];
     $orderQtyRemaining = $orderQty-$qtySold;
+    newLogToSQL("CoinSwap","return Array($saleStatus,$finalPrice,$orderQty,$qtySold);",3,1,"updateCoinSwapStatus","TransID:$TransactionID");
     return Array($saleStatus,$finalPrice,$orderQty,$qtySold);
   }
 
