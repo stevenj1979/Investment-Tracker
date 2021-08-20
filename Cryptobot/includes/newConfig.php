@@ -1913,7 +1913,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
 
     $execResult = curl_exec($ch);
     curl_close($ch);
-    newLogToSQL("bittrexsell", "$execResult", $userID, $logToSQLSetting,"EXEC Result","TransactionID:$transactionID");
+    newLogToSQL("bittrexsell", "$execResult", 3, 0,"EXEC Result","");
     $obj = json_decode($execResult, true);
     return $obj;
 }
@@ -5707,7 +5707,7 @@ function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $
   }
   $conn->close();
   logAction("writeProfitToWebTable: ".$sql, 'SpreadBetSell', 0);
-  newLogToSQL("writeProfitToWebTable","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("writeProfitToWebTable","$sql",3,sQLUpdateLog,"SQL CALL","SBTransactionID:$spreadBetTransactionID");
 }
 
 function updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID){

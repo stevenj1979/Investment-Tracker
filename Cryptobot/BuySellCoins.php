@@ -572,7 +572,11 @@ while($completeFlag == False){
       //  }
       //}
       //Echo "<BR> Buy Count 1 <BR>";
-      $delayCoinPurchaseSize = count($delayCoinPurchase);
+      $delayCoinPurchaseSize = 0;
+      if (!empty($delayCoinPurchase)){
+        $delayCoinPurchaseSize = count($delayCoinPurchase);
+      }
+
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
