@@ -291,7 +291,7 @@ $resultOrd = bittrexOrder('714f3f7873a2481c9f89b7c1f3801f2d', '2377fc19e47b4c7fb
 $finalPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
 $status = $resultOrd["status"];
 $orderQty = $resultOrd["quantity"];
-$tempPrice = number_format((float)$finalPrice/$orderQty, 8, '.', '');
+$tempPrice = round($finalPrice/$orderQty, 8);
 echo "<BR> Final Price : $tempPrice | $status | $orderQty";
 ?>
 </html>
