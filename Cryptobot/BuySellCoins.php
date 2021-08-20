@@ -995,8 +995,9 @@ while($completeFlag == False){
       $cancelInit = $resultOrd["result"]["CancelInitiated"];$status = $resultOrd["success"];
       $qtySold = $orderQty-$orderQtyRemaining;
     }else{
-      $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
+      $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
       $orderQty = $resultOrd["quantity"];
+      $finalPrice = $tempPrice/$orderQty;
       //$cancelInit = $resultOrd["result"]["CancelInitiated"];
       $qtySold = $resultOrd["fillQuantity"];
 
