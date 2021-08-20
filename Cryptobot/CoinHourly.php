@@ -381,7 +381,7 @@ function writeBouncePrice($topPrice,$lowPrice, $diff, $coinID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeBouncePrice","$sql",3,0,"SQL CALL","UserID:$userID");
+  newLogToSQL("writeBouncePrice","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function getBounceIndex(){
@@ -403,6 +403,7 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
   $nPrice = $lowPrice;
   $buyPrice = 0;
   $nCounterBuy = 0;
+  $nCounter = 0;
   $nCounterSell = 0;
   $priceArySize = count($priceAry);
   for ($t=0;$t<$priceArySize;$t++){
@@ -433,7 +434,7 @@ function writeNoOfSells($coinID,$noOfSells){
       echo "<BR>Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeNoOfSells","$sql",3,0,"SQL CALL","UserID:$userID");
+  newLogToSQL("writeNoOfSells","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function runBounceTestBuy(){
