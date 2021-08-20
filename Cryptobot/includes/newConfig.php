@@ -1913,7 +1913,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
 
     $execResult = curl_exec($ch);
     curl_close($ch);
-    newLogToSQL("bittrexsell", "$execResult", 3, 0,"EXEC Result","");
+    newLogToSQL("bittrexsell", "$execResult", 3, 1,"EXEC Result","");
     $obj = json_decode($execResult, true);
     return $obj;
 }
@@ -3160,9 +3160,10 @@ function getCoinPriceMatchList($userID = 0){
 }
 
 function getDelayCoinPurchaseTimes(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   $whereClause = "";
-  if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
+  //if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
