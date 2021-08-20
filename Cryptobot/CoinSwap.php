@@ -39,13 +39,15 @@ function isSaleComplete($saleAry,$num){
   $resultOrd = bittrexOrder($apikey, $apiSecret, $bittrexRef, $apiVersion);
   echo "<BR> Status: ".$resultOrd["status"];
   if ($resultOrd["status"] == 'CLOSED'){
-    $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
+    //$finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
+    $finalPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
     $orderQty = $resultOrd["quantity"];
     //$cancelInit = $resultOrd["result"]["CancelInitiated"];
+    $tempPrice = $finalPrice/$orderQty;
     $qtySold = $resultOrd["fillQuantity"];
     $saleStatus = $resultOrd["status"];
     $orderQtyRemaining = $orderQty-$qtySold;
-    newLogToSQL("CoinSwap","return Array($saleStatus,$finalPrice,$orderQty,$qtySold);",3,1,"updateCoinSwapStatus","TransID:$TransactionID");
+    newLogToSQL("CoinSwap","return Array($saleStatus,$finalPrice,$orderQty,$qtySold);$tempPrice",3,1,"updateCoinSwapStatus","TransID:$TransactionID");
     return Array($saleStatus,$finalPrice,$orderQty,$qtySold);
   }
 
