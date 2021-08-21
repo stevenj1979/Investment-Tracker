@@ -9,25 +9,6 @@ include_once ('/home/stevenj1979/Encrypt.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 
-Function getOpenCoinSwaps(){
-  $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  //$query = "SET time_zone = 'Asia/Dubai';";
-  //$result = $conn->query($query);
-  $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
-          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`
-  FROM `CoinSwapView`
-  join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
-  print_r($sql);
-  $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
-    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice']);
-  }
-  $conn->close();
-  return $tempAry;
-}
 
 function isSaleComplete($saleAry,$num){
   $apiVersion = 3;
@@ -150,7 +131,7 @@ function runCoinSwaps(){
         newLogToSQL("CoinSwap","updateCoinSwapStatus('AwaitingSavingsBuy',$transID,$finalPrice);",3,1,"updateCoinSwapStatus","TransID:$transID");
         updateCoinSwapStatusFinalPrice('AwaitingSavingsBuy',$transID,$finalPrice);
       }
-    }else if ($status == 'AwaitingSavingsBuy'){
+    /*}else if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
       $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
       $finalPrice = $coinSwaps[$y][15];
@@ -173,7 +154,7 @@ function runCoinSwaps(){
           //Change Status to AwaitingBuy
           updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
         }
-      }
+      }*/
     }else if ($status == 'AwaitingSavingsPurchase'){
       //Check if buy is complete
       $orderBuy = isBuyComplete($coinSwaps,$y);

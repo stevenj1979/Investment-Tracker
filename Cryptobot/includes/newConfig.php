@@ -643,6 +643,26 @@ function updateCoinSwapTransactionStatus($status,$transID){
     $conn->close();
 }
 
+Function getOpenCoinSwaps(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
+          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`
+  FROM `CoinSwapView`
+  join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret']
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function updateCoinSwapStatus($status,$transID){
   $conn = getSQLConn(rand(1,3));
     // Check connection

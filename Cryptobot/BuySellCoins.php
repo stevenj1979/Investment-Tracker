@@ -1797,6 +1797,43 @@ while($completeFlag == False){
     }elseif ($profitPCT >= $profitTarget){ Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";}
   }
   echo "</blockquote>";
+  //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
+  echo "<BR> CHECK Re-Buy Savings!! ";
+  echo "<blockquote>";
+  $coinSwaps = getOpenCoinSwaps();
+  $coinSwapsSize = count($coinSwaps);
+  $apiVersion = 3; $ruleID = 111111;
+  for ($y=0; $y<$coinSwapsSize; $y++){
+    $status = $coinSwaps[$y][1];
+    if ($status == 'AwaitingSavingsBuy'){
+      $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
+      $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
+      $finalPrice = $coinSwaps[$y][15];
+      //$orderSale = isSaleComplete($coinSwaps,$y);
+      $sellPct = 15;
+      $sellPctwithTolerance = $sellPct-(($sellPct/100)*5);
+      $lowPrice = $finalPrice-(($finalPrice/100)*$sellPctwithTolerance);
+      echo "<BR> TEST Buy: $status | LowPrice:$lowPrice | BitPrice:$bitPrice";
+      if ($bitPrice <= $lowPrice){
+        if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
+        $liveCoinPrice = $bitPrice;
+        $rate = $liveCoinPrice;
+        $quant = $totalAmount/$rate;
+        echo"<BR> bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);";
+        $obj = bittrexbuy($apikey, $apisecret, $ogSymbol, $quant, $rate, $baseCurrency,$apiVersion,FALSE);
+        $bittrexRef = $obj["id"];
+        if ($bittrexRef <> ""){
+          Echo "<BR> Bittrex ID: $bittrexRef";
+          updateCoinSwapBittrexID($bittrexRef,$transID,$ogCoinID,$liveCoinPrice,'Buy');
+          //Change Status to AwaitingBuy
+          updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
+        }
+      }
+    }
+  }
+
+
+  echo "</blockquote>";
   sleep(15);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
