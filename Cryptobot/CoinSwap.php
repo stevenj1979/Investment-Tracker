@@ -21,10 +21,10 @@ function isSaleComplete($saleAry,$num){
   echo "<BR> Status: ".$resultOrd["status"];
   if ($resultOrd["status"] == 'CLOSED'){
     //$finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
-    $finalPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
+    $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
     $orderQty = $resultOrd["quantity"];
     //$cancelInit = $resultOrd["result"]["CancelInitiated"];
-    $tempPrice = $finalPrice/$orderQty;
+    $finalPrice = $tempPrice/$orderQty;
     $qtySold = $resultOrd["fillQuantity"];
     $saleStatus = $resultOrd["status"];
     $orderQtyRemaining = $orderQty-$qtySold;
@@ -60,8 +60,9 @@ function isBuyComplete($buyAry,$num){
   echo "<BR>bittrexOrder($apikey, $apiSecret, $bittrexRef, $apiVersion);";
   $resultOrd = bittrexOrder($apikey, $apiSecret, $bittrexRef, $apiVersion);
   if ($resultOrd["status"] == 'CLOSED'){
-    $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
+    $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
     $orderQty = $resultOrd["quantity"];
+    $finalPrice = $tempPrice/$orderQty;
     //$cancelInit = $resultOrd["result"]["CancelInitiated"];
     $qtySold = $resultOrd["fillQuantity"];
     $saleStatus = $resultOrd["status"];
