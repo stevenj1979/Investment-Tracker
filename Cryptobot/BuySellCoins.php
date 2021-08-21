@@ -1813,7 +1813,7 @@ while($completeFlag == False){
       $sellPct = 15;
       $sellPctwithTolerance = $sellPct-(($sellPct/100)*5);
       $lowPrice = $finalPrice-(($finalPrice/100)*$sellPctwithTolerance);
-      echo "<BR> TEST Buy: $status | LowPrice:$lowPrice | BitPrice:$bitPrice";
+      echo "<BR> TEST Buy: $status | $ogCoinID | $ogSymbol | LowPrice:$lowPrice | BitPrice:$bitPrice";
       if ($bitPrice <= $lowPrice){
         if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$coinSwaps[$y][9]);}
         $liveCoinPrice = $bitPrice;
