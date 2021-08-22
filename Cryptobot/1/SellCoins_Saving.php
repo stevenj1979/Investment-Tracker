@@ -38,6 +38,11 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   header('Location: SellCoins_Saving_Mob.php');
 }
 
+if($_POST['savingOrderSelect'] <> ""){
+  //Print_r("I'm HERE!!!".$_POST['submit']);
+  changeSelection();
+}
+
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -58,18 +63,22 @@ function getCoinsfromSQLLoc(){
 
 function getSavingSellCoins($userID){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  if ($userID <> 0){
+    $whereclause = "Where `UserID` = $userID";
+  }else{
+    $whereclause = $_SESSION['savingOrder'];
+  }
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
-  ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
-  , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`
-  ,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice
-  FROM `SellCoinSavings` $whereclause";
+    $sql = "SELECT `ID`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
+    ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
+    , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`
+    ,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice
+    FROM `SellCoinSavings` $whereclause Order by (((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`))/(`LiveCoinPrice`*`Amount`))*100 desc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -147,6 +156,19 @@ function sendEmailLoc($to, $symbol, $amount, $cost){
 
 }
 
+function changeSelection(){
+  //global $sql_option;
+  //global $dropArray;
+  //echo "<BR> TransSelect : ".$_POST['transSelect'];
+  if ($_POST['savingOrderSelect']=='USDT'){
+     $_SESSION['savingOrder'] = "order by ";
+     //$dropArray[] = Array("Open","Sold","All");
+  }
+  //print_r($globals['sql_Option']);
+  //echo "<BR> TransSelect AFTER : ".$_POST['TransListSelected'];
+
+}
+
 function bittrexbalanceLoc($apikey, $apisecret){
     $nonce=time();
     $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency=BTC&nonce='.$nonce;
@@ -217,6 +239,15 @@ $date = date('Y/m/d H:i:s', time());
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
          &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         Echo "<BR><H3>TotalSavings: ".round($savingTotal[0][1],2)." Profit: ".round($savingTotal[0][2],2)."</H3><BR>";
+        ?>
+        <form action='Transactions.php?dropdown=Yes' method='post'>
+        <select name='savingOrderSelect' id='savingOrderSelect' class='enableTextBox'>
+          <option  selected='selected' value=''></option>
+          <option  value=''></option>
+          <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
+        </form>
+
+        <?php
         for($x = 0; $x < $arrLengthSell; $x++) {
             //Variables
             //$roundNum = 2;
@@ -264,10 +295,10 @@ $date = date('Y/m/d H:i:s', time());
 
             $numCol = getNumberColour($priceDiff1);
             echo "<td><p id='smallText' style='color:$numCol'>Price Diff: ".round($priceDiff1,$roundVar)."</p></td>";
-            echo "<td><p id='largeText' >".number_format($profit,$baseNum)." $baseCurrency</p></td>";
+            echo "<td><p id='largeText' >Profit: ".number_format($profit,$baseNum)." $baseCurrency</p></td>";
 
             NewEcho("<td><p id='normalText'>Sell Ords: ".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>Profit: ".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>7D:".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitBtc);
 
             $liveWithBase = number_format($liveTotalCost * $baseMultiplier,2);
