@@ -258,6 +258,7 @@ $date = date('Y/m/d H:i:s', time());
             $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
             $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35];
             $sellRule = $trackingSell[$x][41]; $coinID = $trackingSell[$x][2];
+            $profitPct = $trackingSell[$x][55];
             $priceDiff1 = $livePrice - $LastCoinPrice;
             $fee = (($livePrice* $amount)/100)*0.28;
             $liveTotalCost = ($livePrice * $amount);
@@ -271,7 +272,7 @@ $date = date('Y/m/d H:i:s', time());
             else{ $baseMultiplier =1; $baseNum = 2;}
             echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".number_format($livePrice,$baseNum)."</p></td>";
+            echo "<td rowspan=><p id='largeText' >".number_format($livePrice,$baseNum)."</p></td>";
             NewEcho("<td><p id='normalText'>MktCap: ".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>1HrPct: ".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
@@ -282,6 +283,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$transactionID&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
+            echo "<td><p id='largeText' >ProfitPct: ".number_format($profitPct,$baseNum)." $baseCurrency</p></td>"
             NewEcho("<td><p id='normalText'>Vol: ".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>24HrPct: ".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
