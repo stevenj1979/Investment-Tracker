@@ -1836,7 +1836,7 @@ while($completeFlag == False){
 
 
   echo "</blockquote>";
-  sleep(15);
+  sleep(3);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
