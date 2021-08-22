@@ -283,7 +283,7 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td rowspan='3'><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$transactionID&CoinID=$coinID&UserID=$userID&Amount=$amount'><i class='fas fa-bolt' style='$fontSize;color:DodgerBlue'></a></td>";
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
-            echo "<td><p id='largeText' >ProfitPct: ".number_format($profitPct,$baseNum)." $baseCurrency</p></td>"
+            echo "<td><p id='largeText' >ProfitPct: ".number_format($profitPct,$baseNum)." $baseCurrency</p></td>";
             NewEcho("<td><p id='normalText'>Vol: ".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             NewEcho("<td><p id='normalText'>24HrPct: ".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
