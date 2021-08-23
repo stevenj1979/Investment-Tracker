@@ -579,6 +579,20 @@ function overNightBuyBackReduction(){
   }
 }
 
+function deleteCoinSwapClosed(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `SwapCoins` WHERE `Status` = 'Closed';";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("deleteCoinSwapClosed",$sql,3,0,"SQL CALL","");
+}
+
 
 
 
@@ -650,5 +664,6 @@ OptimiseTable("`BuyRules`");
 OptimiseTable("`SellRules`");
 
 overNightBuyBackReduction();
+deleteCoinSwapClosed();
 ?>
 </html>
