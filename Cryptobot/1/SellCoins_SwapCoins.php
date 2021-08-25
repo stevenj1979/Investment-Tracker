@@ -57,14 +57,14 @@ function getCoinSwap(){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "SELECT `Csv`.`ID`, `Csv`.`TransactionID`, `Csv`.`Status`, `Csv`.`BittrexRef`, `Csv`.`NewCoinIDCandidate`, `Csv`.`NewCoinPrice`, `Csv`.`BaseCurrency`, `Csv`.`TotalAmount`, `Csv`.`OriginalPurchaseAmount`
-            ,`Cp`.`LiveCoinPrice`, ((`Cp`.`LiveCoinPrice`-`Csv`.`NewCoinPrice`)/`Cp`.`LiveCoinPrice`)*100 as PctFromBuy
+            ,`Cp`.`LiveCoinPrice`, ((`Cp`.`LiveCoinPrice`-`Csv`.`NewCoinPrice`)/`Cp`.`LiveCoinPrice`)*100 as PctFromBuy,`OriginalSymbol`
             FROM `CoinSwapView` `Csv`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Csv`.`NewCoinIDCandidate`
             WHERE `Status` <> 'Closed'";
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate']
-      ,$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['LiveCoinPrice'],$row['PctFromBuy']);}
+      ,$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['LiveCoinPrice'],$row['PctFromBuy'],$row['OriginalSymbol']);}
     $conn->close();
     return $tempAry;
 }
@@ -101,7 +101,7 @@ function getCoinSwap(){
         for($x = 0; $x < $arrLengthSell; $x++) {
           $transID = $trackingSell[$x][1]; $status = $trackingSell[$x][2]; $bittrexRef = $trackingSell[$x][3]; $newCoinIDCandidate = $trackingSell[$x][4]; $newCoinPrice = $trackingSell[$x][5];
           $baseCurrency = $trackingSell[$x][6]; $totalAmount = $trackingSell[$x][7]; $originalPurchaseAmount = $trackingSell[$x][8]; //$Amount = $trackingSell[$x][8]; $CoinID = $trackingSell[$x][9];
-          $pctFromBuy = $trackingSell[$x][10];
+          $pctFromBuy = $trackingSell[$x][10]; $symbol = $trackingSell[$x][11];
           //$APIKey = $trackingSell[$x][10]; $APISecret = $trackingSell[$x][11]; $KEK = $trackingSell[$x][12]; $Email = $trackingSell[$x][13]; $UserName = $trackingSell[$x][14];
           //$BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           //$LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
@@ -113,7 +113,7 @@ function getCoinSwap(){
           //$purchasePrice = $CoinPrice * $Amount;
           NewEcho ("<td>|$bittrexRef</td>",$_SESSION['isMobile'],2);
           //NewEcho ("<td>|</td>",$_SESSION['isMobile'],2);
-          NewEcho ("<td>|$newCoinIDCandidate</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|$newCoinPrice</td>",$_SESSION['isMobile'],2);
 
           NewEcho ("<td>|$baseCurrency</td>",$_SESSION['isMobile'],2);
