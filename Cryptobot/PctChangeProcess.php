@@ -154,12 +154,12 @@ for ($i=0; $i<$coinCount; $i++){
     //variables
     $coinID = $coins[$i][0];
     //Get Prices from History
-    $Hr1Price = getPrice($coinID, 55, 65);
+    //$Hr1Price = getPrice($coinID, 55, 65);
     //echo "<BR> get1HrPrice($coinID); ".$Hr1Price[0][1];
 
     //Check if 0
-    if (!isset($Hr1Price[0][1]) OR is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
-      echo "<BR> IS NULL| 1hr | $coinID";
+    //if (!isset($Hr1Price[0][1]) OR is_null($Hr1Price[0][1]) OR $Hr1Price[0][1] == 0){
+    //  echo "<BR> IS NULL| 1hr | $coinID";
        //$CMCStats = getCMCstats($CMCStats, $coinStr);
        //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
        //$price1Hr = $tempPrice[0][2];
@@ -169,18 +169,18 @@ for ($i=0; $i<$coinCount; $i++){
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
       $price1Hr = (($price1Hrtmp[0][1]/100)*$price1Hrtmp[0][0])+$price1Hrtmp[0][1];
-    }else{
-      $price1Hr = $Hr1Price[0][1];
-    }
+    //}else{
+    //  $price1Hr = $Hr1Price[0][1];
+    //}
 
-    $Hr24Price = getPrice($coinID, 1415, 1445);
-    if (!isset($Hr24Price[0][1]) OR is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
-      echo "<BR> IS NULL| 24hr | $coinID";
+    //$Hr24Price = getPrice($coinID, 1415, 1445);
+    //if (!isset($Hr24Price[0][1]) OR is_null($Hr24Price[0][1]) OR $Hr24Price[0][1] == 0){
+    //  echo "<BR> IS NULL| 24hr | $coinID";
       $price24Hrtmp = getCMCPriceFromSQL($coinID, '24HrPrice');
       $price24Hr = (($price24Hrtmp[0][1]/100)*$price24Hrtmp[0][0])+$price24Hrtmp[0][1];
-    }else{
-      $price24Hr = $Hr24Price[0][1];
-    }
+    //}else{
+  //    $price24Hr = $Hr24Price[0][1];
+    //}
 
     $Hr48Price = getPrice($coinID, 2870, 2890);
     if (!isset($Hr48Price[0][1]) OR is_null($Hr48Price[0][1]) OR $Hr48Price[0][1] == 0){
@@ -200,15 +200,15 @@ for ($i=0; $i<$coinCount; $i++){
       $price72Hr = $Hr72Price[0][1];
     }
 
-    $D7Price = getPrice($coinID, 10000, 10500);
-    if (!isset($D7Price[0][1]) OR is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
+    //$D7Price = getPrice($coinID, 10000, 10500);
+    //if (!isset($D7Price[0][1]) OR is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
       $price7D = (($price7Dtmp[0][1]/100)*$price7Dtmp[0][0])+$price7Dtmp[0][1];
       echo "<BR> $coinID Live Price : ".$price7Dtmp[0][1]." | 7D Price : $price7D";
-    }else{
-      $price7D = $D7Price[0][1];
-    }
+    //}else{
+    //  $price7D = $D7Price[0][1];
+    //}
 
     $Min15Price = getPrice($coinID, 10, 20);
     $price15Min = 0;
