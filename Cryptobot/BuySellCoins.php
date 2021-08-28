@@ -1,6 +1,6 @@
 <html>
 <?php
-ini_set('max_execution_time', 600);
+ini_set('max_execution_time',1200);
 require('includes/newConfig.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
@@ -1894,7 +1894,7 @@ while($completeFlag == False){
 
 
   echo "</blockquote>";
-  sleep(3);
+  sleep(20);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
