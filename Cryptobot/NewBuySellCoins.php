@@ -124,7 +124,7 @@ function runReBuySavings($reBuySavingsFixed){
        $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
       $finalPrice = $coinSwaps[$y][15];
       $tempPrice = getCoinPrice($ogCoinID);
-      $bitPrice = $tempPrice[0][0];
+      $bitPrice = $tempPrice[0];
       //$bitPrice = number_format($coinSwaps[$y][16],8);
       //$orderSale = isSaleComplete($coinSwaps,$y);
       $sellPct = 15;
@@ -151,7 +151,7 @@ function runSellSavings($spreadBuyBack){
     $purchasePrice = $spreadBuyBack[$u][4];
     $amount = $spreadBuyBack[$u][5];$CoinID = $spreadBuyBack[$u][2];$userID = $spreadBuyBack[$u][3];
     $tempPrice = getCoinPrice($CoinID);
-    $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
+    $LiveCoinPrice = $tempPrice[0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
     $sellPrice = $LiveCoinPrice * $amount;$buyPrice = $purchasePrice * $amount;$profit = ($sellPrice)-($buyPrice);$profitPCT = ($profit/($buyPrice))*100;
@@ -194,7 +194,7 @@ function runBuyBack(){
     $allBuyBackAsOverride = $buyBackCoins[$t][27];
     $tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
-    $liveCoinPrice = $tempPrice[0][0];
+    $liveCoinPrice = $tempPrice[0];
     $priceDifferecePct = (($liveCoinPrice-$sellPriceBA)/$sellPriceBA)*100;
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
@@ -249,7 +249,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
     $bounceLowPrice = $spreadBuyBack[$u][61];$bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];
     $noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
     $tempPrice = getCoinPrice($CoinID);
-    $LiveCoinPrice = $tempPrice[0][0];
+    $LiveCoinPrice = $tempPrice[0];
     $profit = ($LiveCoinPrice * $amount)-($purchasePrice * $amount);
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
     echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
@@ -322,8 +322,8 @@ function runSellSpreadBet($sellSpread){
     $purchasePrice = $sellSpread[$w][59];// + $sellSpread[$w][63];
     //$livePrice = $tempProfit[0][1] + $tempProfit[0][2];
     $tempPrice = getCoinPrice($CoinID);
-    $hr1Pct = $tempPrice[0][1]; $hr24Pct = $tempPrice[0][2]; $d7Pct = $tempPrice[0][3];
-    $LiveCoinPriceTot = $tempPrice[0][0];
+    $hr1Pct = $tempPrice[1]; $hr24Pct = $tempPrice[2]; $d7Pct = $tempPrice[3];
+    $LiveCoinPriceTot = $tempPrice[0];
     $livePrice = ($LiveCoinPriceTot * $TotAmount);
     //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
     $profit = ($livePrice-$purchasePrice);//+$soldPrice;
