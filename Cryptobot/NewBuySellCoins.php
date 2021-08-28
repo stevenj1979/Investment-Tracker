@@ -187,7 +187,7 @@ function runPriceDipRule($priceDipRules){
   }
 }
 
-function runBuyBack(){
+function runBuyBack($buyBackCoins){
   $buyBackCoinsSize = count($buyBackCoins);
   for ($t=0; $t<$buyBackCoinsSize;$t++){
     $bBID = $buyBackCoins[$t][0];    $userID = $buyBackCoins[$t][12];    $TransactionID = $buyBackCoins[$t][1];    $coinID = $buyBackCoins[$t][7];    $spreadBetTransactionID = $buyBackCoins[$t][5];
