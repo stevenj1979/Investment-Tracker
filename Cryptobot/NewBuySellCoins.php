@@ -169,7 +169,7 @@ function runPriceDipRule($priceDipRules){
   for ($a=0; $a<$priceDipRulesSize;$a++){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
-    echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct";
+    echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
     if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
@@ -360,13 +360,13 @@ $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming', $logToFileSetting);
 
 while($completeFlag == False){
-  echo "<blockquote><BR> CHECK Re-Buy Savings!! ";
+  echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
           if ($i == 0){$reBuySavingsFixed = getOpenCoinSwaps();}
           runReBuySavings($reBuySavingsFixed);
-  echo "</blockquote><BR> CHECK Sell Savings!! <blockquote>";
+  echo "</blockquote><BR> CHECK Sell Savings!! $i<blockquote>";
           if ($i == 0){$spreadBuyBack = getSavingsData();}
           runSellSavings($spreadBuyBack);
-  echo "</blockquote><BR>CHECK PriceDip Rule Enable!! <blockquote>";
+  echo "</blockquote><BR>CHECK PriceDip Rule Enable!! $i<blockquote>";
         if ($i == 0){
           $priceDipRules = getPriceDipRules();
           $PDcurrent_date = date('Y-m-d H:i');
@@ -378,16 +378,16 @@ while($completeFlag == False){
           $priceDipRules = getPriceDipRules();
         }
         runPriceDipRule($priceDipRules);
-  echo "</blockquote><BR> CHECK BuyBack!!<blockquote>";
+  echo "</blockquote><BR> CHECK BuyBack!! $i<blockquote>";
         if ($i == 0){$buyBackCoins = getBuyBackData();}
         runBuyBack($buyBackCoins);
-  echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! <blockquote>";
+  echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
         if ($i == 0){$spreadBuyBack = getSpreadCoinSellDataFixed();}
         runSpreadBetSellAndBuyback($spreadBuyBack);
-  echo "</blockquote><BR>CHECK Sell Spread Bet!! <blockquote>";
+  echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
         if($i==0){$sellSpread = getSpreadBetSellData();}
         runSellSpreadBet($sellSpread);
-  echo "</blockquote><BR>CHECK Spread Bet!!<blockquote>";
+  echo "</blockquote><BR>CHECK Spread Bet!! $i<blockquote>";
 
   sleep(20);
   $i = $i+1;

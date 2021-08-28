@@ -676,7 +676,7 @@ Function getCoinPrice($coinID){
 from `CoinPrice` `Cp`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID`
 where `Cp`.`CoinID` = $coinID";
-  print_r($sql);
+  //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange']);
@@ -4985,7 +4985,7 @@ function getSavingsData($ID = 0){
   , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, 'SpreadBetTransactionID'
   ,'PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell','BounceTopPrice','BounceLowPrice','BounceDifference','DelayCoinSwap','NoOfSells'
   FROM `SellCoinSavings` $whereclause";
-  echo "<BR> $sql";
+  //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
