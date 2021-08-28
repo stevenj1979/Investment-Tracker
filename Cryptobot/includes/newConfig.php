@@ -3770,7 +3770,11 @@ function getSparklineData($coin){
 }
 
 function dataToString($seperator, $array){
-  $num = count($array);
+  $num = 0;
+  if(!empty($array)){
+      $num = count($array);
+  }
+
   $returnStr = "";
   for ($i=0; $i<$num; $i++){
     //echo "<BR> ".$array[$i][0];
