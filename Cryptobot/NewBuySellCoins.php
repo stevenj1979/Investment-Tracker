@@ -654,6 +654,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       //continue;
       }
     }
+  }
 }
 
 
