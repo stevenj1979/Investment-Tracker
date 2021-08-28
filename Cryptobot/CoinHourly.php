@@ -4,8 +4,8 @@ ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 
-Define("sQLUpdateLog","0");
-Define("SQLProcedureLog","0");
+//Define("sQLUpdateLog","0");
+//Define("SQLProcedureLog","0");
 
 function getTransStats(){
   $tempAry = [];
