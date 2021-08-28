@@ -154,13 +154,13 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
+    //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
-    echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
+    //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
     $buyPrice = ($purchasePrice * $amount);
-    echo "<BR> SellPrice:$sellPrice | BuyPrice:$buyPrice";
+    //echo "<BR> SellPrice:$sellPrice | BuyPrice:$buyPrice";
     $profit = ($sellPrice-$buyPrice);
-    echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
+    //echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
     $profitPCT = ($profit/$buyPrice)*100;
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
     if ($profitPCT >= $profitTarget AND ($sellPrice)>= $baseMin){
@@ -331,6 +331,7 @@ function runSellSpreadBet($sellSpread){
     $tempPrice = getCoinPrice($CoinID);
     $hr1Pct = $tempPrice[0][1]; $hr24Pct = $tempPrice[0][2]; $d7Pct = $tempPrice[0][3];
     $LiveCoinPriceTot = $tempPrice[0][0];
+    Echo "<BR> TEST!: $hr1Pct | $hr24Pct | $d7Pct | $CoinID";
     $livePrice = ($LiveCoinPriceTot * $TotAmount);
     //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
     $profit = ($livePrice-$purchasePrice);//+$soldPrice;
