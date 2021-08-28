@@ -114,8 +114,8 @@ function returnAlert($price,$livePrice,$action){
   return $returnBool;
 }
 
-function runReBuySavings($reBuySavingsFixed){
-  $reBuySavingsFixedSize = count($reBuySavingsFixed);
+function runReBuySavings($coinSwaps){
+  $$coinSwapsSize = count($coinSwaps);
   $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1];
@@ -154,7 +154,7 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $sellPrice = $LiveCoinPrice * $amount;$buyPrice = $purchasePrice * $amount;$profit = ($sellPrice)-($buyPrice);$profitPCT = ($profit/($buyPrice))*100;
+    $sellPrice = $LiveCoinPrice * $amount;$buyPrice = $purchasePrice * $amount;$profit = ($sellPrice-$buyPrice);$profitPCT = ($profit/$buyPrice)*100;
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
     if ($profitPCT >= $profitTarget AND ($sellPrice)>= $baseMin){
       newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
