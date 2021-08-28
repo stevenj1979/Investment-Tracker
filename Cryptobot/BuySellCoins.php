@@ -151,10 +151,12 @@ $coinPurchaseSettingsSize = count($coinPurchaseSettings);
 //$buyBackCoinsSize = count($buyBackCoins);
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
-  $newTrackingCoins = getNewTrackingCoins();
-  $newTrackingCoinsSize = count($newTrackingCoins);
+  /*$newTrackingCoins = getNewTrackingCoins();
   $marketStats = getMarketstats();
   $baseMultiplier = getBasePrices();
+
+  $newTrackingCoinsSize = count($newTrackingCoins);
+
   echo "<BR> Tracking COINS!! ";
   echo "<blockquote>";
   sleep(1);
@@ -360,7 +362,7 @@ while($completeFlag == False){
         updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
       }
-    }
+    }*/
     /*if (($pctProfit > 0 && $minsFromDate <= -5 && $pctProfit < 3 && $type == 'Sell') OR ($type == 'SpreadSell' && $minsFromDate <= -5 && )){
       //Buy
       if ($noOfRisesInPrice >= $risesInPrice){
