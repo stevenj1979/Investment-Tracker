@@ -282,7 +282,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
         //Swap Coin
           //Choose new Coin
           newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-          $newCoinSwap = getNewSwapCoin();
+          $newCoinSwap = getNewSwapCoin($baseCurrency);
           if (count($newCoinSwap)>0){
             //Change Transaction Status to CoinSwap
             updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
@@ -660,6 +660,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
 //set time
 setTimeZone();
+$i=0;
 $date = date("Y-m-d H:i", time());
 $current_date = date('Y-m-d H:i');
 $priceDipTimer = date('Y-m-d H:i');
