@@ -364,9 +364,6 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
   //$noOfBuys = 2;
   $SpreadBetUserSettingsSize = count($SpreadBetUserSettings);
 
-  echo "</blockquote>";
-  echo "<BR> CHECK Spread Bet!! ";
-  echo "<blockquote>";
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0]; $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
     $APIKey = $spread[$y][24]; $APISecret = $spread[$y][25]; $KEK = $spread[$y][26]; $UserID = $spread[$y][27];$UserName = $spread[$y][29];
