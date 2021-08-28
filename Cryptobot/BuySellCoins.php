@@ -144,11 +144,11 @@ $clearCoinQueue = [];
 $openTransactionFlag = True;
 $coinPurchaseSettings = getCoinPurchaseSettings();
 $coinPurchaseSettingsSize = count($coinPurchaseSettings);
-$coinSwaps = getOpenCoinSwaps();
-$coinSwapsSize = count($coinSwaps);
-$spreadBuyBack = getSavingsData();
-$buyBackCoins = getBuyBackData();
-$buyBackCoinsSize = count($buyBackCoins);
+//$coinSwaps = getOpenCoinSwaps();
+//$coinSwapsSize = count($coinSwaps);
+//$spreadBuyBack = getSavingsData();
+//$buyBackCoins = getBuyBackData();
+//$buyBackCoinsSize = count($buyBackCoins);
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
@@ -1467,7 +1467,7 @@ while($completeFlag == False){
     }
 }
 
-  $spread = getSpreadBetData();
+  /*$spread = getSpreadBetData();
   $spreadSize = count($spread);
   //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
   //$noOfBuys = 2;
@@ -1843,7 +1843,7 @@ while($completeFlag == False){
         updateCoinSwapTable($transactionID,'AwaitingSavingsSale',$bittrexRef,$CoinID,$LiveCoinPrice,$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
       }else{
         newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
-      }*/
+      }
       newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
       setTransactionPending($transactionID);
     }elseif ($profitPCT >= $profitTarget){ Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";}
@@ -1886,11 +1886,11 @@ while($completeFlag == False){
           updateCoinSwapBittrexID($bittrexRef,$transID,$ogCoinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
           updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
-        }*/
+        }
         addTrackingCoin($ogCoinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 90, 77777,1,1,10,'SavingBuy',$LiveCoinPrice,0,0,0);
       }
     }
-  }
+  }*/
 
 
   echo "</blockquote>";
