@@ -4679,6 +4679,34 @@ function getSpreadBetData(){
   return $tempAry;
 }
 
+function getSpreadBetDataFixed(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`, `Name`, 'Live1HrChange', 'Last1HrChange', 'Hr1ChangePctChange', 'Live24HrChange', 'Last24HrChange', 'Hr24ChangePctChange', 'Live7DChange', 'Last7DChange'
+  , 'D7ChangePctChange', 'LiveCoinPrice', 'LastCoinPrice', 'CoinPricePctChange',  `BaseCurrency`, 'Price4Trend', 'Price3Trend', 'LastPriceTrend', 'LivePriceTrend', 'AutoBuyPrice'
+  , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, 'Hr1BuyPrice', 'Hr24BuyPrice'
+  , 'D7BuyPrice',`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel` FROM `SpreadBetCoinStatsView` ";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
+      , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
+      , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
+      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getSpreadCoinData($ID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
