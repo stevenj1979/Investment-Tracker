@@ -322,15 +322,17 @@ function runSellSpreadBet($sellSpread){
     $purchasePrice = $sellSpread[$w][59];$currentPrice = $sellSpread[$w][60];
     $spreadBetPctProfitSell = $sellSpread[$w][55]; $spreadBetRuleID = $sellSpread[$w][56]; $orderDate = $sellSpread[$w][6];
     //$profitPct = ($profit/$purchasePrice)*100;
-    //$hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31];
+    $hr1Pct = $sellSpread[$w][25];  $hr24Pct = $sellSpread[$w][28]; $d7Pct = $sellSpread[$w][31];
     $baseCurrency_new = $sellSpread[$w][32];
     $fallsInPrice = $sellSpread[$w][61];
 
     $purchasePrice = $sellSpread[$w][59];// + $sellSpread[$w][63];
     //$livePrice = $tempProfit[0][1] + $tempProfit[0][2];
-    $tempPrice = getCoinPrice($CoinID);
-    $hr1Pct = $tempPrice[0][1]; $hr24Pct = $tempPrice[0][2]; $d7Pct = $tempPrice[0][3];
-    $LiveCoinPriceTot = $tempPrice[0][0];
+    //$livePrice = $sellSpread[$w][60];
+    //$tempPrice = getSBCoinPrice($spreadBetRuleID);
+    //$hr1Pct = $tempPrice[0][1]; $hr24Pct = $tempPrice[0][2]; $d7Pct = $tempPrice[0][3];
+    //$LiveCoinPriceTot = $tempPrice[0][0];
+    $LiveCoinPriceTot = $sellSpread[$w][15];
     //Echo "<BR> TEST!: $hr1Pct | $hr24Pct | $d7Pct | $CoinID";
     $livePrice = ($LiveCoinPriceTot * $TotAmount);
     //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
@@ -671,6 +673,7 @@ $current_date = date('Y-m-d H:i');
 $priceDipTimer = date('Y-m-d H:i');
 $spreadBetTimer = date('Y-m-d H:i');
 $trackingCoinTimer = date('Y-m-d H:i');
+$sellSpreadBetTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming', $logToFileSetting);
@@ -696,7 +699,11 @@ while($completeFlag == False){
         if ($i == 0){$spreadBuyBack = getSpreadCoinSellDataFixed();}
         runSpreadBetSellAndBuyback($spreadBuyBack);
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
-        if($i==0){$sellSpread = getSpreadBetSellData();}
+        if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer){
+          $sSBcurrent_date = date('Y-m-d H:i');
+          $sellSpreadBetTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($sSBcurrent_date)));
+          $sellSpread = getSpreadBetSellData();
+        }
         runSellSpreadBet($sellSpread);
   echo "</blockquote><BR>CHECK Spread Bet!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $spreadBetTimer){
