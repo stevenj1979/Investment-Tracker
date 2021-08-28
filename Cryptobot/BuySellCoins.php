@@ -144,6 +144,11 @@ $clearCoinQueue = [];
 $openTransactionFlag = True;
 $coinPurchaseSettings = getCoinPurchaseSettings();
 $coinPurchaseSettingsSize = count($coinPurchaseSettings);
+$coinSwaps = getOpenCoinSwaps();
+$coinSwapsSize = count($coinSwaps);
+$spreadBuyBack = getSavingsData();
+$buyBackCoins = getBuyBackData();
+$buyBackCoinsSize = count($buyBackCoins);
 //echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date EndTime $newTime";
 while($completeFlag == False){
   $newTrackingCoins = getNewTrackingCoins();
@@ -1705,8 +1710,7 @@ while($completeFlag == False){
   }
 
   //BuyBack
-  $buyBackCoins = getBuyBackData();
-  $buyBackCoinsSize = count($buyBackCoins);
+
   echo "</blockquote>";
   echo "<BR> CHECK BuyBack!! ";
   echo "<blockquote>";
@@ -1714,12 +1718,16 @@ while($completeFlag == False){
     $bBID = $buyBackCoins[$t][0];    $userID = $buyBackCoins[$t][12];    $TransactionID = $buyBackCoins[$t][1];    $coinID = $buyBackCoins[$t][7];    $spreadBetTransactionID = $buyBackCoins[$t][5];
     $spreadBetRuleID = $buyBackCoins[$t][6];
     $quantity = $buyBackCoins[$t][2];$sellPrice = $buyBackCoins[$t][3];$status = $buyBackCoins[$t][4];
-    $sellPriceBA = $buyBackCoins[$t][8];$liveCoinPrice = $buyBackCoins[$t][9];$priceDifferece = $buyBackCoins[$t][10];$priceDifferecePct = $buyBackCoins[$t][11];
+    $sellPriceBA = $buyBackCoins[$t][8];$priceDifferece = $buyBackCoins[$t][10];//$priceDifferecePct = $buyBackCoins[$t][11];
     $email = $buyBackCoins[$t][13];$userName = $buyBackCoins[$t][14];$apiKey = $buyBackCoins[$t][15];$apiSecret = $buyBackCoins[$t][16];$KEK = $buyBackCoins[$t][17];
     $originalSaleProfit = $buyBackCoins[$t][18];
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
     $allBuyBackAsOverride = $buyBackCoins[$t][27];
+    $tempPrice = getCoinPrice($CoinID);
+    //$liveCoinPrice = $buyBackCoins[$t][9];
+    $liveCoinPrice = $tempPrice[0][0];
+    $priceDifferecePct = (($liveCoinPrice-$sellPriceBA)/$sellPriceBA)*100;
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
@@ -1790,7 +1798,7 @@ while($completeFlag == False){
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   echo "<BR> CHECK Sell Savings!! ";
   echo "<blockquote>";
-  $spreadBuyBack = getSavingsData();
+
   $versionNum = 3; $useAwards = False;
   $profitTarget = 40.0;
   $spreadBuyBackSize = COUNT($spreadBuyBack);
@@ -1800,7 +1808,8 @@ while($completeFlag == False){
 
     $CoinID = $spreadBuyBack[$u][2];
     $userID = $spreadBuyBack[$u][3];
-    $LiveCoinPrice = $spreadBuyBack[$u][19];
+    $tempPrice = getCoinPrice($CoinID);
+    $LiveCoinPrice = $tempPrice[0][0];
     $symbol = $spreadBuyBack[$u][11];
     $transactionID = $spreadBuyBack[$u][0];
     $fallsInPrice = $spreadBuyBack[$u][56];
@@ -1843,15 +1852,17 @@ while($completeFlag == False){
   //logAction("Buy Sell Coins Sleep 10 ", 'BuySellTiming');
   echo "<BR> CHECK Re-Buy Savings!! ";
   echo "<blockquote>";
-  $coinSwaps = getOpenCoinSwaps();
-  $coinSwapsSize = count($coinSwaps);
+
   $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1];
     if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
-      $bitPrice = number_format($coinSwaps[$y][16],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
+       $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
       $finalPrice = $coinSwaps[$y][15];
+      $tempPrice = getCoinPrice($ogCoinID);
+      $bitPrice = $tempPrice[0][0];
+      //$bitPrice = number_format($coinSwaps[$y][16],8);
       //$orderSale = isSaleComplete($coinSwaps,$y);
       $sellPct = 15;
       $tolerance = 5;

@@ -663,6 +663,22 @@ Function getOpenCoinSwaps(){
   return $tempAry;
 }
 
+Function getCoinPrice($coinID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `LiveCoinPrice` from `CoinPrice` where `CoinID` = $coinID";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['LiveCoinPrice']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function updateCoinSwapStatus($status,$transID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -3786,7 +3802,7 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
   }
   $conn->close();
   logAction("newTrackingSellCoins: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("newTrackingSellCoins","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("newTrackingSellCoins","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
 }
 
 function setTransactionPending($id){
