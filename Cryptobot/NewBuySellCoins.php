@@ -331,7 +331,7 @@ function runSellSpreadBet($sellSpread){
     $tempPrice = getCoinPrice($CoinID);
     $hr1Pct = $tempPrice[0][1]; $hr24Pct = $tempPrice[0][2]; $d7Pct = $tempPrice[0][3];
     $LiveCoinPriceTot = $tempPrice[0][0];
-    Echo "<BR> TEST!: $hr1Pct | $hr24Pct | $d7Pct | $CoinID";
+    //Echo "<BR> TEST!: $hr1Pct | $hr24Pct | $d7Pct | $CoinID";
     $livePrice = ($LiveCoinPriceTot * $TotAmount);
     //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
     $profit = ($livePrice-$purchasePrice);//+$soldPrice;
