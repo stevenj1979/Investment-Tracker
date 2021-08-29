@@ -624,7 +624,7 @@ function fixQTUM(){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "UPDATE `HistoricBittrexBalances` SET `Multiplier`=1,`TotalUSD`=`Total`*`Price` WHERE `Symbol` = 'QTUM' and
-            month(date) = month(now()) and Year(`Date`) = year(now()) and day(`Date`) = day(now())";
+            month(date) = month(now()) and Year(`Date`) = year(now()) and day(`Date`) = day(now()) and `UserID` = 3";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
