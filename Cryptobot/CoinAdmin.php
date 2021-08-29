@@ -593,6 +593,29 @@ function deleteCoinSwapClosed(){
   newLogToSQL("deleteCoinSwapClosed",$sql,3,0,"SQL CALL","");
 }
 
+function runNewDashboard(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`)
+              SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`,`Bb`.`UserID`
+              ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(),if(`Cn`.`BaseCurrency` = 'ETH',getETHPrice(),1)) as Multiplier
+              FROM `BittrexBalances` `Bb`
+              join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol`
+              where `Cn`.`BuyCoin` = 1";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("runNewDashbaord",$sql,3,0,"SQL","UserID:$UserID");
+    logAction("runNewDashbaord: ".$sql, 'BuySell', 0);
+}
+
 
 
 
@@ -665,5 +688,6 @@ OptimiseTable("`SellRules`");
 
 overNightBuyBackReduction();
 deleteCoinSwapClosed();
+runNewDashboard();
 ?>
 </html>
