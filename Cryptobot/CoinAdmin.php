@@ -613,8 +613,27 @@ function runNewDashboard(){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("runNewDashbaord",$sql,3,0,"SQL","UserID:$UserID");
+    newLogToSQL("runNewDashbaord",$sql,3,0,"SQL","UserID:");
     logAction("runNewDashbaord: ".$sql, 'BuySell', 0);
+}
+
+function fixQTUM(){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `HistoricBittrexBalances` SET `Multiplier`=1,`TotalUSD`=`Total`*`Price` WHERE `Symbol` = 'QTUM' and
+            month(date) = month(now()) and Year(`Date`) = year(now()) and day(`Date`) = day(now())";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("fixQTUM",$sql,3,0,"SQL","UserID:");
+    logAction("fixQTUM: ".$sql, 'BuySell', 0);
 }
 
 
@@ -690,5 +709,6 @@ OptimiseTable("`SellRules`");
 overNightBuyBackReduction();
 deleteCoinSwapClosed();
 runNewDashboard();
+fixQTUM();
 ?>
 </html>
