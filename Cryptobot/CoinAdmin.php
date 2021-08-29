@@ -599,9 +599,10 @@ function runNewDashboard(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`)
+    $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`,`TotalUSD`)
               SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`,`Bb`.`UserID`
               ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(),if(`Cn`.`BaseCurrency` = 'ETH',getETHPrice(),1)) as Multiplier
+              ,`Bb`.`Total`*`Bb`.`Price`*if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(),if(`Cn`.`BaseCurrency` = 'ETH',getETHPrice(),1)) as TotalUSD
               FROM `BittrexBalances` `Bb`
               join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol`
               where `Cn`.`BuyCoin` = 1";
