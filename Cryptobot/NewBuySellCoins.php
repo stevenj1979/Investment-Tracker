@@ -1427,6 +1427,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         }
       } //end $type Buy Sell
     }else{
+      echo "<BR> NOT SET!!!";
       logAction("bittrexCheckOrder: ".$status, 'Bittrex', $GLOBALS['logToFileSetting'] );
       newLogToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$status, $userID, $GLOBALS['logToSQLSetting'],"Error","TransactionID:$transactionID");
     }//end bittrex order check
