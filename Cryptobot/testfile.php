@@ -283,15 +283,23 @@ function test(){
   echo "TEST";
 }
 
-//test();
-//$kek = "Bmk7xeSkkUqZCcYqrPg9yPFa9Z7L1faj8OntdTkapBc=";
-//if (!Empty($Kek)){ $apiSecret = Decrypt($Kek,$apiSecret);}
-//buyCoins($apikey, $apisecret,,'RENBTC', 'stevenj1979@gmail.com', 3, '2021-07-27 00:10:29', 'USDT',1,1,471.9883000000, 0,'stevenj1979',125,0.000,0,1,240,8, 0, 0+1);
-$resultOrd = bittrexOrder($apikey, $apisecret,"5dbd43ce-b8f0-4747-866e-c89d75ecc5eb", 3);
-$finalPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
-$status = $resultOrd["status"];
-$orderQty = $resultOrd["quantity"];
-$tempPrice = $finalPrice/$orderQty;
-echo "<BR> Final Price : $tempPrice | $status | $orderQty";
+function findCoinStats($CMCStats, $symbol){
+  echo "<BR> FIND: $symbol";
+  $tempStats = [];
+  $statsLength = count($CMCStats);
+  for($y = 0; $y < $statsLength; $y++) {
+    //echo "<br> FindCoin=".$CMCStats[$y][0];
+    if ($CMCStats[$y][0]== $symbol){
+      echo "<br> $statsLength Error Line ".$CMCStats[$y][0].",".$CMCStats[$y][1].",".$CMCStats[$y][2].",".$CMCStats[$y][3].",".$CMCStats[$y][4]."<br>";
+      $tempStats[] = Array($CMCStats[$y][0],$CMCStats[$y][1],$CMCStats[$y][2],$CMCStats[$y][3],$CMCStats[$y][4]);
+      return $tempStats;
+    }
+  }
+  return $tempStats;
+}
+
+$statsForCoin = findCoinStats($CMCStats,$symbol);
+Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[1].",".$statsForCoin[2].",".$statsForCoin[3].",".$statsForCoin[4].");";
+
 ?>
 </html>
