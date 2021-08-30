@@ -3649,7 +3649,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
     $finalMergeAry[$finalMergeArySize][3] = $toMergeAry[3];
     $finalMergeAry[$finalMergeArySize][4] = $toMergeAry[4];
     $finalMergeAry[$finalMergeArySize][5] = $toMergeAry[5];
-    //$finalMergeAry[$finalMergeArySize][6] = $toMergeAry[0][3].",";
+    $finalMergeAry[$finalMergeArySize][6] = "";
     $finalMergeAry[$finalMergeArySize][7] = 1;
     $finalMergeAry[$finalMergeArySize][8] = $toMergeAry[6];
     $finalMergeAry[$finalMergeArySize][9] = $toMergeAry[7];
