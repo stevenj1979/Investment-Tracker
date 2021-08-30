@@ -473,7 +473,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
   }
 }
 
-function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings){
+function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue){
   $coinPurchaseSettingsSize = count($coinPurchaseSettings);
   $newTrackingCoinsSize = count($newTrackingCoins);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
@@ -739,7 +739,7 @@ function runTrackingSellCoin($newTrackingSellCoins){
   }
 }
 
-function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice){
+function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter){
   $coinLength = Count($coins);
   $buyRulesSize = count($buyRules);
   for($x = 0; $x < $coinLength; $x++) {
@@ -951,6 +951,174 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   }//Coin Loop
 }
 
+function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice){
+  $sellRulesSize = count($sellRules);
+  $sellCoinsLength = count($sellCoins);
+  for($a = 0; $a < $sellCoinsLength; $a++) {
+    //Variables
+    $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
+    $SellOrdersPctChange = $sellCoins[$a][23]; $Hr1ChangePctChange = $sellCoins[$a][28]; $Hr24ChangePctChange = $sellCoins[$a][31];
+    $D7ChangePctChange = $sellCoins[$a][34]; $LiveCoinPrice = $sellCoins[$a][19]; $CoinPricePctChange = $sellCoins[$a][20];
+    $BaseCurrency = $sellCoins[$a][36]; $orderNo = $sellCoins[$a][10]; $amount = $sellCoins[$a][5]; $cost = $sellCoins[$a][4];
+    $transactionID = $sellCoins[$a][0]; $coinID = $sellCoins[$a][2]; $sellCoinsUserID = $sellCoins[$a][3];
+    $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
+    $lowPricePurchaseEnabled = $sellCoins[$a][45]; $purchaseLimit = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
+    $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44]; $orderDate = $sellCoins[$a][7];
+    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][54];
+    $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
+    for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
+      $sellResultAry = [];
+      $sellOutstanding = "";
+      //Variables
+      $BuyOrdersEnabled = $sellRules[$z][4]; $BuyOrdersTop = $sellRules[$z][5]; $BuyOrdersBtm = $sellRules[$z][6];
+      $MarketCapEnabled = $sellRules[$z][7]; $MarketCapTop = $sellRules[$z][8];$MarketCapBtm= $sellRules[$z][9];
+      $Hr1ChangeEnabled = $sellRules[$z][10]; $Hr1ChangeTop = $sellRules[$z][11]; $Hr1ChangeBtm = $sellRules[$z][12];
+      $Hr24ChangeEnabled = $sellRules[$z][13]; $Hr24ChangeTop = $sellRules[$z][14]; $Hr24ChangeBtm = $sellRules[$z][15];
+      $D7ChangeEnabled = $sellRules[$z][16]; $D7ChangeTop = $sellRules[$z][17]; $D7ChangeBtm = $sellRules[$z][18];
+      $ProfitPctEnabled = $sellRules[$z][19]; $ProfitPctTop_Sell = $sellRules[$z][20];  $ProfitPctBtm_Sell = $sellRules[$z][21];
+      $CoinPriceEnabled = $sellRules[$z][22]; $CoinPriceTop = $sellRules[$z][23]; $CoinPriceBtm = $sellRules[$z][24];
+      $SellOrdersEnabled = $sellRules[$z][25]; $SellOrdersTop = $sellRules[$z][26]; $SellOrdersBtm = $sellRules[$z][27];
+      $VolumeEnabled = $sellRules[$z][28]; $VolumeTop = $sellRules[$z][29]; $VolumeBtm = $sellRules[$z][30];
+      $SellCoin = $sellRules[$z][2]; $SendEmail = $sellRules[$z][3];
+      $Email = $sellRules[$z][31]; $UserName = $sellRules[$z][32]; $APIKey = $sellRules[$z][33];
+      $coinPricePatternSellEnabled = $sellRules[$z][44]; $coinPricePatternSell = $sellRules[$z][45]; $autoSellCoinEnabled = $sellRules[$z][46];
+      $fallsInPrice = $sellRules[$z][47]; $mergeCoinEnabled = $sellRules[$z][53]; $coinModeRule = $sellRules[$z][54];
+      $userID = $sellRules[$z][1]; $ruleIDSell = $sellRules[$z][0];
+      $sellCoinOffsetEnabled = $sellRules[$z][35]; $sellCoinOffsetPct = $sellRules[$z][36];
+      $sellPriceMinEnabled = $sellRules[$z][37]; $sellPriceMin = $sellRules[$z][38];
+      $KEKSell = $sellRules[$z][40];
+      $priceTrendEnabled = $sellRules[$z][41]; $newSellPattern = $sellRules[$z][42];
+      $limitToBuyRule = $sellRules[$z][43];
+      $sellAllCoinsEnabled = $sellRules[$z][48]; $sellAllCoinsPct = $sellRules[$z][49];
+      $profitNum = findUserProfit($userProfit,$userID);
+      $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
+      if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}
+      if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
+      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}
+      if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}
+      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',$apiVersion)), 8, '.', '');
+      $limitToCoinSell = $sellRules[$z][39];
+      $buyPrice = ($cost * $amount);
+      $sellPrice = ($LiveCoinPrice * $amount);
+      $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+      if ($captureTrend == 0 and $profit >= 0.5){
+        //Capture 1Hr / 24Hr and 7D trend
+        if ($coinModeRule > 0){
+            //Update Coin ModeRule
+            //updateBuyTrend($coinID, $transactionID, 'CoinMode', $BuyRule);
+        }else{
+            //Update Buy Rule
+            //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
+        }
+      }
+      if ($userID != $sellCoinsUserID){ continue; }
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { continue;}
+
+      $current_date = date('Y-m-d H:i');
+      $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
+      if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek > $noOfCoinSwapsThisWeek){
+        $now = time();
+        $your_date = strtotime($orderDate);
+        $datediff = $now - $your_date;
+        $daysSinceCoinPurchase = round($datediff / (60 * 60 * 24));
+        if ($profit < -4 and $daysSinceCoinPurchase > 21){
+          //lookup if any Coin in Buy Mode currently
+          $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
+          $coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
+          echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize";
+          if ($coinSwapBuyCoinIDSize > 0){
+            //CoinSwap
+            echo "<BR>coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);";
+            coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);
+          }
+        }
+      }
+      $GLOBALS['allDisabled'] = false;
+      $sTest12 = false;
+
+      $sTest1 = sellWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
+      $sellResultAry[] = Array($sTest1, "Market Cap $coin", $MarketCapPctChange);
+      //Echo "<BR> sTEST1: $sTest1";
+      $sTest2 = sellWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
+      $sellResultAry[] = Array($sTest2, "Volume $coin", $VolumePctChange);
+      $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
+      $sellResultAry[] = Array($sTest3, "Sell Orders $coin", $SellOrdersPctChange);
+      $sTest4 = sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
+      $sellResultAry[] = Array($sTest4, "1 Hour Price Change $coin", $Hr1ChangePctChange);
+      $sTest5 = sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
+      $sellResultAry[] = Array($sTest5, "24 Hour Price Change $coin", $Hr24ChangePctChange);
+      $sTest6 = sellWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled);
+      $sellResultAry[] = Array($sTest6, "7 Day Price Change $coin", $D7ChangePctChange);
+      if ($priceTrendEnabled){
+          $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
+      }else{ $sTest7 = True;}
+
+      $sellResultAry[] = Array($sTest7, "Price Trend Pattern $coin", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
+      $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
+      $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
+      $sTest9 = sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);
+      $sellResultAry[] = Array($sTest9, "Profit Percentage $coin", $profit);
+      //Echo "<BR>TEST Sell Price: $CoinPriceTop | $CoinPriceBtm | $CoinPricePctChange | $CoinPriceEnabled";
+      $sTest10 = sellWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled);
+      $sellResultAry[] = Array($sTest10, "Minimum Sell Price $coin", $CoinPricePctChange);
+      $sTest11 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$coin,1,$coinPricePatternSellEnabled,$ruleIDSell,1);
+      $sellResultAry[] = Array($sTest11, "Coin Price Match $coin", $LiveCoinPrice);
+      $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID);
+      //Echo "<BR> sTEST13: $sTest13";
+      $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
+      $sTest12 = $GLOBALS['allDisabled'];
+      //Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
+      //$sellOutstanding = getOutStandingBuy($sellResultAry);
+      $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11+$sTest12+$sTest13;
+      Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:$sTest1  2:$sTest2  3:$sTest3  4:$sTest4  5:$sTest5  6:$sTest6  7:$sTest7  8:$sTest8  9:$sTest9  10:$sTest10  11:$sTest11  12:$sTest12 13:$sTest13 TOTAL:$totalScore_Sell / 13, PROFIT:$profit";
+      if ($totalScore_Sell >= 12){
+        $sellOutstanding = getOutStandingBuy($sellResultAry);
+        logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8  9:  $sTest9  10:  $sTest10  11:  $sTest11  12:  $sTest12 13: $sTest13 TOTAL:  $totalScore_Sell / 13, PROFIT: $profit $sellOutstanding","SellScore", $logToFileSetting);
+        //logToSQL("SellCoins", "RuleID: $ruleIDSell | Coin : $coin | TOTAL: $totalScore_Sell $sellOutstanding", $userID, $logToSQLSetting);
+      }
+
+
+      if ($sTest1 == True && $sTest2 == True && $sTest3 == True && $sTest4 == True && $sTest5 == True && $sTest6 == True && $sTest7 == True && $sTest8 == True && $sTest9 == True && $sTest10 == True
+      && $sTest11 == True && $sTest12 == True && $sTest13 == True){
+        $date = date("Y-m-d H:i:s", time());
+        echo "<BR>Sell Coins: $APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
+        //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
+        //sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
+        newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');
+        setTransactionPending($transactionID);
+        logAction("sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $logToFileSetting);
+        logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $logToFileSetting);
+        newLogToSQL("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice);", $userID, $logToSQLSetting,"AddTrackingSellCoin","TransactionID:$transactionID");
+        newLogToSQL("SellCoins", "setTransactionPending($transactionID);", $userID, $logToSQLSetting,"setTransactionPending","TransactionID:$transactionID");
+        //break;
+        $to_time = date("Y-m-d H:i:s", time());
+        $from_time = strtotime($orderDate);
+        $holdingMins = round(abs($to_time - $from_time) / 60,2);
+        logHoldingTimeToSQL($coinID, $holdingMins);
+        //addSellRuletoSQL()
+      }
+      echo "<BR> NEXT RULE <BR>";
+    } //Sell Rules
+    $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
+    $buyPrice = ($cost * $amount);
+    $sellPrice = ($LiveCoinPrice * $amount);
+    $fee = (($LiveCoinPrice * $amount)/100)*0.25;
+    $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+    //echo "<BR> TESTING: Profit $profit PctToPurchase $pctToPurchase LowPricePurchaseEnabled $lowPricePurchaseEnabled NoOfPurchases $noOfPurchases PurchaseLimit $purchaseLimit ToMerge $toMerge";
+    if ($profit <= $pctToPurchase  && $BTCBalance >= 20 && $lowPricePurchaseEnabled == 1 && $noOfPurchases < $purchaseLimit && $toMerge == 0 && $mergeCoinEnabled == 1){
+      //Buy Coin
+      if($btcBuyAmountSell <= 0 ){ continue;}
+      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 1, 90, $fixSellRule,1,$noOfPurchases,1,'Buy',$LiveCoinPrice,0,0,0);
+      echo "<BR> TEST New Buy Coin addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 1, 90, $fixSellRule, 1);";
+      newLogToSQL("SellCoins", "addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $btcBuyAmountSell, 999991, 0, 0, 1, 90, $fixSellRule,1,$noOfPurchases);", $userID, $logToSQLSetting,"MergeCoins","TransactionID:$transactionID");
+      //Update ToMerge
+      updateTrackingCoinToMerge($transactionID,$noOfPurchases);
+      newLogToSQL("SellCoins", "updateTrackingCoinToMerge($transactionID,$noOfPurchases);", $userID, $logToSQLSetting,"MergeCoins","TransactionID:$transactionID");
+    }
+  }//Sell Coin Loop
+}
+
 
 //set time
 setTimeZone();
@@ -963,12 +1131,24 @@ $trackingCoinTimer = date('Y-m-d H:i');
 $trackingSellCoinTimer = date('Y-m-d H:i');
 $sellSpreadBetTimer = date('Y-m-d H:i');
 $buyCoinTimer = date('Y-m-d H:i');
+$sellCoinTimer = date('Y-m-d H:i');
+$sharedVariablesTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $apiVersion = 1;
+$trackCounter = [];
+$clearCoinQueue = [];
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming', $logToFileSetting);
 $SpreadBetUserSettings = getSpreadBerUserSettings();
 while($completeFlag == False){
+  if (date("Y-m-d H:i", time()) >= $sharedVariablesTimer){
+    $SVcurrent_date = date('Y-m-d H:i');
+    $sharedVariablesTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($SVcurrent_date)));
+    $coinPriceMatch = getCoinPriceMatchList();
+    $coinPricePatternList = getCoinPricePattenList();
+    $coin1HrPatternList = getCoin1HrPattenList();
+    $autoBuyPrice = getAutoBuyPrices();
+  }
   echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
           if ($i == 0){$reBuySavingsFixed = getOpenCoinSwaps();}
           runReBuySavings($reBuySavingsFixed);
@@ -1013,7 +1193,7 @@ while($completeFlag == False){
           $ruleProfit = getRuleProfit();
           $coinPurchaseSettings = getCoinPurchaseSettings();
         }
-        runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings);
+        runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingSellCoinTimer){
           $TSCcurrent_date = date('Y-m-d H:i');
@@ -1033,13 +1213,18 @@ while($completeFlag == False){
           $dailyBTCSpent = getDailyBTC();
           $baseMultiplier = getBasePrices();
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
-          $coinPriceMatch = getCoinPriceMatchList();
-          $coinPricePatternList = getCoinPricePattenList();
-          $coin1HrPatternList = getCoin1HrPattenList();
-          $autoBuyPrice = getAutoBuyPrices();
           $coins = getTrackingCoins();
         }
-        runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
+        runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter);
+  echo "</blockquote><BR> SELL COINS!! $i<blockquote>";
+        if ($i == 0){$sellRules = getUserSellRules();}
+        if (date("Y-m-d H:i", time()) >= $sellCoinTimer){
+          $SCcurrent_date = date('Y-m-d H:i');
+          $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($SCcurrent_date)));
+          $sellCoins = getTrackingSellCoins();
+          $userProfit = getTotalProfit();
+        }
+        runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
   sleep(20);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
