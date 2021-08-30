@@ -297,6 +297,8 @@ function findCoinStats($CMCStats, $symbol){
   }
   return $tempStats;
 }
+$symbol = 'BTC';
+$coinID = 84;
 $coinStr = getCoinList(getStats(),3);
 $CMCStats = newCoinMarketCapStats($coinStr);
 
