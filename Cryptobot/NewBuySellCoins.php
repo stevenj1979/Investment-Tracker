@@ -1170,7 +1170,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
-    if (!isset($resultOrd["quantity"])){
+    //if (!isset($resultOrd["quantity"])){
       if ($type == "Buy" or $type == "SpreadBuy"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
@@ -1426,11 +1426,11 @@ function runBittrex($BittrexReqs,$apiVersion){
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
       } //end $type Buy Sell
-    }else{
-      echo "<BR> NOT SET!!!";
-      logAction("bittrexCheckOrder: ".$status, 'Bittrex', $GLOBALS['logToFileSetting'] );
-      newLogToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$status, $userID, $GLOBALS['logToSQLSetting'],"Error","TransactionID:$transactionID");
-    }//end bittrex order check
+    //}else{
+    //  echo "<BR> NOT SET!!!";
+  //    logAction("bittrexCheckOrder: ".$status, 'Bittrex', $GLOBALS['logToFileSetting'] );
+  //    newLogToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$status, $userID, $GLOBALS['logToSQLSetting'],"Error","TransactionID:$transactionID");
+  //  }//end bittrex order check
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
     echo "<br>Time Since Action ".substr($timeSinceAction,0,4);
 
