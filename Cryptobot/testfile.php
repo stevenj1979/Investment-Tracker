@@ -283,7 +283,7 @@ function test(){
   echo "TEST";
 }
 
-function findCoinStats($CMCStats, $symbol){
+function findCoinStatsLoc($CMCStats, $symbol){
   echo "<BR> FIND: $symbol";
   $tempStats = [];
   $statsLength = count($CMCStats);
@@ -302,7 +302,7 @@ $coinID = 84;
 $coinStr = getCoinList(getStats(),3);
 $CMCStats = newCoinMarketCapStats($coinStr);
 
-$statsForCoin = findCoinStats($CMCStats,$symbol);
+$statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
 Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[1].",".$statsForCoin[2].",".$statsForCoin[3].",".$statsForCoin[4].");";
 
 ?>
