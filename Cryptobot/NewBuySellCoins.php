@@ -1218,7 +1218,7 @@ while($completeFlag == False){
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
           $coins = getTrackingCoins();
         }
-        $buyCounter = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter);
+        $buyCounter = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
   echo "</blockquote><BR> SELL COINS!! $i<blockquote>";
         if ($i == 0){$sellRules = getUserSellRules();}
         if (date("Y-m-d H:i", time()) >= $sellCoinTimer){
