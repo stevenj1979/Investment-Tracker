@@ -223,6 +223,7 @@ while($date <= $newTime){
           $Hr24P = $CMCStats[$k][3];
           $D7P = $CMCStats[$k][4];
           $D30P = $CMCStats[$k][5];
+          Echo "<BR>saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);";
           saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);
           //LogToSQL("CMCStats","saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);",3,1);
         }
