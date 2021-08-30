@@ -37,7 +37,7 @@ $table['cols'] = array(
     // I assumed your first column is a "string" type
     // and your second column is a "number" type
     // but you can change them if they are not
-    array('label' => 'Date', 'type' => 'string'),
+    array('label' => 'Date', 'type' => 'date'),
     array('label' => 'Symbol', 'type' => 'string'),
     array('label' => 'TotalUSD', 'type' => 'number')
 );
