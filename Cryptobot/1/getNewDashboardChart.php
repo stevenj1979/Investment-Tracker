@@ -49,7 +49,7 @@ while ($row = mysqli_fetch_assoc($result)){
     // each column needs to have data inserted via the $temp array
     $temp[] = array('v' => $row['Date']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
-    $temp[] = array('v' => (float) $row['Symbol']);
+    $temp[] = array('v' => $row['Symbol']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
     $temp[] = array('v' => (float) $row['TotalUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
