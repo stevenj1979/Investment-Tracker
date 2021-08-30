@@ -664,6 +664,80 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
   }
 }
 
+function runTrackingSellCoin($newTrackingSellCoins){
+  $newTrackingSellCoinsSize = count($newTrackingSellCoins);
+  //$marketStats = getMarketstats();
+  sleep(1);
+  for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
+    $CoinPrice = $newTrackingSellCoins[$b][29]; $TrackDate = $newTrackingSellCoins[$b][1];  $userID = $newTrackingSellCoins[$b][2]; $NoOfRisesInPrice = $newTrackingSellCoins[$b][3]; $TransactionID = $newTrackingSellCoins[$b][4];
+    $BuyRule = $newTrackingSellCoins[$b][5]; $FixSellRule = $newTrackingSellCoins[$b][6]; $OrderNo = $newTrackingSellCoins[$b][7]; $Amount = $newTrackingSellCoins[$b][8]; $CoinID = $newTrackingSellCoins[$b][9];
+    $APIKey = $newTrackingSellCoins[$b][10]; $APISecret = $newTrackingSellCoins[$b][11]; $KEK = $newTrackingSellCoins[$b][12]; $Email = $newTrackingSellCoins[$b][13]; $UserName = $newTrackingSellCoins[$b][14];
+    $BaseCurrency = $newTrackingSellCoins[$b][15]; $SendEmail = $newTrackingSellCoins[$b][16]; $SellCoin = $newTrackingSellCoins[$b][17]; $CoinSellOffsetEnabled = $newTrackingSellCoins[$b][18]; $CoinSellOffsetPct = $newTrackingSellCoins[$b][19];
+    $LiveCoinPrice = $newTrackingSellCoins[$b][20]; $minsFromDate = $newTrackingSellCoins[$b][21]; $profit = $newTrackingSellCoins[$b][22]; $fee = $newTrackingSellCoins[$b][23]; $ProfitPct = $newTrackingSellCoins[$b][24];
+    $totalRisesInPrice =  $newTrackingSellCoins[$b][33]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
+    $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
+    $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
+    $origAmount = $newTrackingSellCoins[$b][40];
+    $market1HrChangePct = $marketStats[0][1];
+    echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
+    $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct);
+    if ($readyToSell == True){
+      $PurchasePrice = ($Amount*$CoinPrice);
+      $salePrice = $LiveCoinPrice * $Amount;
+      $profit = $salePrice - $PurchasePrice;
+      $ProfitPct = ($profit/$PurchasePrice)*100;
+      if ($type == 'SavingSell'){
+        echo "<BR> $CoinID | $coin | $ProfitPct";
+        $quant = $Amount;
+        $apiConfig = getAPIConfig($userID);
+        $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
+
+        if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
+        newLogToSQL("SellSavings", "bittrexsell($apikey, $apisecret, $coin, $Amount, $LiveCoinPrice, $baseCurrency, 3, False);", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$transactionID");
+        $obj = bittrexsell($apikey, $apisecret, $coin, $Amount, $LiveCoinPrice, $baseCurrency, 3, False);
+        //Add to Swap Coin Table
+        $bittrexRef = $obj["id"];
+        if ($bittrexRef <> ""){
+          updateCoinSwapTransactionStatus('SavingsSell',$TransactionID);
+          newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $logToSQLSetting,"Sell Coin","TransactionID:$TransactionID");
+          updateCoinSwapTable($TransactionID,'AwaitingSavingsSale',$bittrexRef,$CoinID,$LiveCoinPrice,$baseCurrency,$LiveCoinPrice * $Amount,$CoinPrice * $Amount,'Sell');
+        }else{
+          newLogToSQL("SellSavingsError", var_dump($obj), $userID, $logToSQLSetting,"Sell Coin","TransactionID:$TransactionID");
+        }
+      }else{
+        if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
+
+
+
+          //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
+          newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,$logToSQLSetting,"SaveResidualCoins","TransactionID:$TransactionID");
+          if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
+            $oldAmount = $Amount;
+            if ($origAmount == 0){
+              //$tempFee = number_format(((($LiveCoinPrice*$Amount)/100)*0.25),8);
+              //$ogPurchasePrice = $LiveCoinPrice*$Amount;
+              $sellFee = ($PurchasePrice/100)*0.28;
+              $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
+            }
+            newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,$logToSQLSetting,"NewAmountToSQL","TransactionID:$TransactionID");
+            updateSellAmount($TransactionID,$Amount, $oldAmount);
+            newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,$logToSQLSetting,"SaveResidualCoins4","TransactionID:$TransactionID");
+            newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,$logToSQLSetting,"SaveResidualCoins2","TransactionID:$TransactionID");
+            $newOrderDate = date("YmdHis", time());
+            $OrderString = "ORD".$coin.$newOrderDate.$BuyRule;
+            $residualAmount = $oldAmount - $Amount;
+            //ResidualCoinsToSaving($residualAmount,$OrderString ,$TransactionID);
+            //newLogToSQL("TrackingSell","ResidualCoinsToSaving($oldAmount-$Amount, ORD.$coin.$newOrderDate.$BuyRule,$TransactionID);",3,1,"SaveResidualCoins3","TransactionID:$TransactionID");
+          }
+        $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
+          newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,$logToSQLSetting,"Success","TransactionID:$TransactionID");
+        addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
+        if ($checkSell){closeNewTrackingSellCoin($TransactionID);}
+      }
+    }
+  }
+}
+
 
 //set time
 setTimeZone();
@@ -673,6 +747,7 @@ $current_date = date('Y-m-d H:i');
 $priceDipTimer = date('Y-m-d H:i');
 $spreadBetTimer = date('Y-m-d H:i');
 $trackingCoinTimer = date('Y-m-d H:i');
+$trackingSellCoinTimer = date('Y-m-d H:i');
 $sellSpreadBetTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
@@ -723,7 +798,13 @@ while($completeFlag == False){
           $ruleProfit = getRuleProfit();
         }
         runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit);
-
+  echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
+        if (date("Y-m-d H:i", time()) >= $trackingSellCoinTimer){
+          $TSCcurrent_date = date('Y-m-d H:i');
+          $trackingSellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($TSCcurrent_date)));
+          $newTrackingSellCoins = getNewTrackingSellCoins();
+        }
+        runTrackingSellCoin($newTrackingSellCoins);
   sleep(20);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());

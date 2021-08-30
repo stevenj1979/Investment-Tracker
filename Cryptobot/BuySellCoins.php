@@ -416,7 +416,7 @@ while($completeFlag == False){
 
   }
   echo "</blockquote>";
-  echo "<BR> Tracking SELL COINS!! ";
+  /*echo "<BR> Tracking SELL COINS!! ";
   echo "<blockquote>";
   $newTrackingSellCoins = getNewTrackingSellCoins();
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
@@ -530,9 +530,9 @@ while($completeFlag == False){
       //Set new Tracking Price
       //setNewTrackingSellPrice($LiveCoinPrice, $TransactionID);
       echo "<BR> Reset No of rises in price for $coin : Price =  $LiveCoinPrice";
-    }*/
+    }
 
-  }
+  }*/
   echo "</blockquote>";
   echo "<BR> BUY COINS!! ";
   echo "<blockquote>";
