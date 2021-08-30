@@ -297,6 +297,8 @@ function findCoinStats($CMCStats, $symbol){
   }
   return $tempStats;
 }
+$coinStr = getCoinList(getStats(),3);
+$CMCStats = newCoinMarketCapStats($coinStr);
 
 $statsForCoin = findCoinStats($CMCStats,$symbol);
 Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[1].",".$statsForCoin[2].",".$statsForCoin[3].",".$statsForCoin[4].");";
