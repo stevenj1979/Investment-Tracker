@@ -122,28 +122,28 @@ $current_date = date('Y-m-d H:i');
 $completeFlag = False;
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming', $logToFileSetting);
-$buyRules = getUserRules();
-$buyRulesSize = count($buyRules);
-$sellRules = getUserSellRules();
+//$buyRules = getUserRules();
+//$buyRulesSize = count($buyRules);
+//$sellRules = getUserSellRules();
 $sellRulesSize = count($sellRules);
 $i = 0;
-$coins = getTrackingCoins();
-$coinLength = Count($coins);
+//$coins = getTrackingCoins();
+//$coinLength = Count($coins);
 //echo "<BR> coinPriceMatch";
-$coinPriceMatch = getCoinPriceMatchList();
+
 //echo "<BR> coinPricePatternList";
-$coinPricePatternList = getCoinPricePattenList();
+//$coinPricePatternList = getCoinPricePattenList();
 //echo "<BR> coin1HrPatternList";
-$coin1HrPatternList = getCoin1HrPattenList();
+//$coin1HrPatternList = getCoin1HrPattenList();
 //echo "<BR> autoBuyPrice";
-$autoBuyPrice = getAutoBuyPrices();
+//$autoBuyPrice = getAutoBuyPrices();
 $SpreadBetUserSettings = getSpreadBerUserSettings();
 $apiVersion = 1;
 $trackCounter = [];
 $clearCoinQueue = [];
 $openTransactionFlag = True;
-$coinPurchaseSettings = getCoinPurchaseSettings();
-$coinPurchaseSettingsSize = count($coinPurchaseSettings);
+//$coinPurchaseSettings = getCoinPurchaseSettings();
+//$coinPurchaseSettingsSize = count($coinPurchaseSettings);
 //$coinSwaps = getOpenCoinSwaps();
 //$coinSwapsSize = count($coinSwaps);
 //$spreadBuyBack = getSavingsData();
@@ -260,7 +260,7 @@ while($completeFlag == False){
   //        continue;
   //    }else{ $indexLookup = 2;}
   //  }**/
-  Echo "<BR> Tracking Buy Count 4 <BR>";
+  /*Echo "<BR> Tracking Buy Count 4 <BR>";
     $openTransactionsSize = count($openTransactions);
     for ($h=0; $h<$openTransactionsSize; $h++){
       if ($openTransactions[$h][0] == $userID){
@@ -533,7 +533,7 @@ while($completeFlag == False){
     }
 
   }*/
-  echo "</blockquote>";
+  /*echo "</blockquote>";
   echo "<BR> BUY COINS!! ";
   echo "<blockquote>";
   //logAction("Check Buy Coins Start", 'BuySellTiming');
@@ -1328,7 +1328,7 @@ while($completeFlag == False){
 
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
-  echo "</blockquote>";
+  echo "</blockquote>";*/
   echo "<BR> CHECK Alerts!! ";
   echo "<blockquote>";
   //logAction("Check Alerts Start", 'BuySellTiming');
