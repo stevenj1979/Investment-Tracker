@@ -3750,6 +3750,7 @@ function getNumberColour($ColourText){
 }
 
 function getSparklineData($coin){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
