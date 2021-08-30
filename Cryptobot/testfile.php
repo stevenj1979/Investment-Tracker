@@ -303,7 +303,7 @@ $coinStr = getCoinList(getStats(),3);
 $CMCStats = newCoinMarketCapStats($coinStr);
 
 $statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
-Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[1].",".$statsForCoin[2].",".$statsForCoin[3].",".$statsForCoin[4].");";
+Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
 
 ?>
 </html>
