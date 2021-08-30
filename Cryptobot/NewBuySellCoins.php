@@ -1169,6 +1169,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$cancelInit;
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
+    echo "<BR> New Test: $type | ".$resultOrd["quantity"];
     if (!isset($resultOrd["quantity"])){
       if ($type == "Buy" or $type == "SpreadBuy"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
@@ -1561,6 +1562,7 @@ $sellSpreadBetTimer = date('Y-m-d H:i');
 $buyCoinTimer = date('Y-m-d H:i');
 $sellCoinTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
+$alertRunTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
@@ -1673,7 +1675,12 @@ while($completeFlag == False){
           $spreadBetAlerts = getSpreadBetAlertsTotal();
           $refreshAlertsFlag = False;
         }
-        $refreshAlertsFlag = runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts);
+        if (date("Y-m-d H:i", time()) >= $alertRunTimer){
+          $ALcurrent_date = date('Y-m-d H:i');
+          $alertRunTimer = date("Y-m-d H:i",strtotime("+3 minutes", strtotime($ALcurrent_date)));
+          $refreshAlertsFlag = runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts);
+        }
+
   sleep(20);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
