@@ -125,8 +125,8 @@ logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming',
 //$buyRules = getUserRules();
 //$buyRulesSize = count($buyRules);
 //$sellRules = getUserSellRules();
-$sellRulesSize = count($sellRules);
-$i = 0;
+//$sellRulesSize = count($sellRules);
+//$i = 0;
 //$coins = getTrackingCoins();
 //$coinLength = Count($coins);
 //echo "<BR> coinPriceMatch";
@@ -137,11 +137,11 @@ $i = 0;
 //$coin1HrPatternList = getCoin1HrPattenList();
 //echo "<BR> autoBuyPrice";
 //$autoBuyPrice = getAutoBuyPrices();
-$SpreadBetUserSettings = getSpreadBerUserSettings();
-$apiVersion = 1;
-$trackCounter = [];
-$clearCoinQueue = [];
-$openTransactionFlag = True;
+//$SpreadBetUserSettings = getSpreadBerUserSettings();
+//$apiVersion = 1;
+//$trackCounter = [];
+//$clearCoinQueue = [];
+//$openTransactionFlag = True;
 //$coinPurchaseSettings = getCoinPurchaseSettings();
 //$coinPurchaseSettingsSize = count($coinPurchaseSettings);
 //$coinSwaps = getOpenCoinSwaps();
@@ -414,8 +414,8 @@ while($completeFlag == False){
     //}
     */
 
-  }
-  echo "</blockquote>";
+  //}
+  //echo "</blockquote>";
   /*echo "<BR> Tracking SELL COINS!! ";
   echo "<blockquote>";
   $newTrackingSellCoins = getNewTrackingSellCoins();
@@ -1329,7 +1329,7 @@ while($completeFlag == False){
   $coinAlerts = getCoinAlerts();
   $coinAlertsLength = count($coinAlerts);
   echo "</blockquote>";*/
-  echo "<BR> CHECK Alerts!! ";
+  /*echo "<BR> CHECK Alerts!! ";
   echo "<blockquote>";
   //logAction("Check Alerts Start", 'BuySellTiming');
   sleep(1);
@@ -1398,7 +1398,7 @@ while($completeFlag == False){
 
   }
 
-    $marketAlerts = getMarketAlertsTotal();
+    //$marketAlerts = getMarketAlertsTotal();
     $marketAlertsSize = count($marketAlerts);
     echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
     $marketStats = getMarketstats();
@@ -1435,7 +1435,7 @@ while($completeFlag == False){
       }
   }
 
-  $spreadBetAlerts = getSpreadBetAlertsTotal();
+  //$spreadBetAlerts = getSpreadBetAlertsTotal();
   $spreadBetAlertsSize = count($spreadBetAlerts);
   echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize";
   for ($g=0; $g<$spreadBetAlertsSize; $g++){
@@ -1467,7 +1467,7 @@ while($completeFlag == False){
         action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $logToFileSetting, $logToSQLSetting, $liveMarketCapAlert);
       }
     }
-}
+}*/
 
   /*$spread = getSpreadBetData();
   $spreadSize = count($spread);
