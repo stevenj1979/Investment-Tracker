@@ -168,8 +168,8 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
-      Echo "<BR> 1Hour: ".$price1Hrtmp[0][0]." | Live: ".$price1Hrtmp[0][1];
       $price1Hr = (($price1Hrtmp[0][1]/100)*$price1Hrtmp[0][0])+$price1Hrtmp[0][1];
+      Echo "<BR> 1Hour: ".$price1Hrtmp[0][0]." | Live: ".$price1Hrtmp[0][1]." | NewPrice: $price1Hr";
     //}else{
     //  $price1Hr = $Hr1Price[0][1];
     //}
