@@ -681,7 +681,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $totalRisesInPrice =  $newTrackingSellCoins[$b][33]; $coin = $newTrackingSellCoins[$b][26]; $ogPctProfit = $newTrackingSellCoins[$b][27]; $originalCoinPrice = $newTrackingSellCoins[$b][29];
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
     $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
-    $origAmount = $newTrackingSellCoins[$b][40];
+    $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41];
     $market1HrChangePct = $marketStats[0][1];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct);
@@ -690,7 +690,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
       $salePrice = $LiveCoinPrice * $Amount;
       $profit = $salePrice - $PurchasePrice;
       $ProfitPct = ($profit/$PurchasePrice)*100;
-      if ($type == 'SavingSell'){
+      if ($trackingType == 'SavingSell'){
         echo "<BR> $CoinID | $coin | $ProfitPct";
         $quant = $Amount;
         $apiConfig = getAPIConfig($userID);
