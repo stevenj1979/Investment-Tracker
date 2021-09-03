@@ -224,7 +224,7 @@ for ($i=0; $i<$coinCount; $i++){
         $price7D = $price7Dtmp[0][1]-$priceDiff;
       }
 
-      echo "<BR> $coinID Live Price : ".$price7Dtmp[0][1]." | 7D Price : $price7D";
+      echo "<BR> $coinID Live Price : ".$price7Dtmp[0][1]." | 7D Price : $price7D |  Pct:".$price7Dtmp[0][0]." | PriceDiff:$priceDiff ";
     //}else{
     //  $price7D = $D7Price[0][1];
     //}
