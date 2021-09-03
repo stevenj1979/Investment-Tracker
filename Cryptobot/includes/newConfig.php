@@ -640,7 +640,7 @@ function updateCoinSwapTransactionStatus($status,$transID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
@@ -5459,14 +5459,14 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
 
     if (($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $bottomSwing && $livePrice <= $topSwing && $pctProfit >= 2)){
-      newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 0,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
       echo "<BR> Option8: within Swing Ready to Sell";
       reopenTransaction($TransactionID);
       return True;
     }
 
     if ($pctProfit >= 20.0){
-      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 0,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
       return True;
@@ -5478,7 +5478,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     }
 
     if ($type == 'SpreadSell' && $minsFromDate > 14400){
-      newLogToSQL("TrackingSell", "OPT 6 (Mins over 14400): $type | $minsFromDate", 3, 1,"trackingCoinReadyToSell_6","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 6 (Mins over 14400): $type | $minsFromDate", 3, 0,"trackingCoinReadyToSell_6","TransactionID:$TransactionID");
       echo "<BR> Option6: Mins over 14400";
       updateSQLcancelSpreadBetTrackingSell($TransactionID);
       reopenTransaction($TransactionID);
@@ -5494,13 +5494,13 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       echo "<BR> Option2: Sell";
-      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       return True;
     }
     if (($livePrice <= $topSwing) AND($livePrice >= $bottomSwing)){
       //: OPT 3
-      newLogToSQL("TrackingSell", "OPT 3 (Add 1 to Counter): $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1,"trackingCoinReadyToSell_3","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 3 (Add 1 to Counter): $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 0,"trackingCoinReadyToSell_3","TransactionID:$TransactionID");
       //echo "<BR>updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);";
       echo "<BR> Option3: CurrentPrice less than Swing";
       updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);
