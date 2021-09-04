@@ -1578,7 +1578,7 @@ logAction("Buy Sell Coins Start : End set to $newTime : $date", 'BuySellTiming',
 while($completeFlag == False){
   if (date("Y-m-d H:i", time()) >= $sharedVariablesTimer){
     $SVcurrent_date = date('Y-m-d H:i');
-    $sharedVariablesTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($SVcurrent_date)));
+    $sharedVariablesTimer = date("Y-m-d H:i",strtotime("+2 minutes 50 seconds", strtotime($SVcurrent_date)));
     $coinPriceMatch = getCoinPriceMatchList();
     $coinPricePatternList = getCoinPricePattenList();
     $coin1HrPatternList = getCoin1HrPattenList();
@@ -1593,7 +1593,7 @@ while($completeFlag == False){
   echo "</blockquote><BR>CHECK PriceDip Rule Enable!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $priceDipTimer){
           $PDcurrent_date = date('Y-m-d H:i');
-          $priceDipTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($PDcurrent_date)));
+          $priceDipTimer = date("Y-m-d H:i",strtotime("+2 minutes 40 seconds", strtotime($PDcurrent_date)));
           $priceDipRules = getPriceDipRules();
         }
         runPriceDipRule($priceDipRules);
@@ -1606,7 +1606,7 @@ while($completeFlag == False){
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer){
           $sSBcurrent_date = date('Y-m-d H:i');
-          $sellSpreadBetTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($sSBcurrent_date)));
+          $sellSpreadBetTimer = date("Y-m-d H:i",strtotime("+2 minutes 28 seconds", strtotime($sSBcurrent_date)));
           $sellSpread = getSpreadBetSellData();
         }
         runSellSpreadBet($sellSpread);
@@ -1614,7 +1614,7 @@ while($completeFlag == False){
         if ($i == 0){$SpreadBetUserSettings = getSpreadBerUserSettings();}
         if (date("Y-m-d H:i", time()) >= $spreadBetTimer){
           $SBcurrent_date = date('Y-m-d H:i');
-          $spreadBetTimer = date("Y-m-d H:i",strtotime("+3 minutes", strtotime($SBcurrent_date)));
+          $spreadBetTimer = date("Y-m-d H:i",strtotime("+3 minutes 18 seconds", strtotime($SBcurrent_date)));
           $spread = getSpreadBetData();
         }
         runSpreadBet($spread,$SpreadBetUserSettings);
@@ -1622,7 +1622,7 @@ while($completeFlag == False){
   echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingCoinTimer){
           $TCcurrent_date = date('Y-m-d H:i');
-          $trackingCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($TCcurrent_date)));
+          $trackingCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 8 seconds", strtotime($TCcurrent_date)));
           $newTrackingCoins = getNewTrackingCoins();
           $marketStats = getMarketstats();
           $baseMultiplier = getBasePrices();
@@ -1634,7 +1634,7 @@ while($completeFlag == False){
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingSellCoinTimer){
           $TSCcurrent_date = date('Y-m-d H:i');
-          $trackingSellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($TSCcurrent_date)));
+          $trackingSellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 15 seconds", strtotime($TSCcurrent_date)));
           $newTrackingSellCoins = getNewTrackingSellCoins();
           $marketStats = getMarketstats();
         }
@@ -1643,7 +1643,7 @@ while($completeFlag == False){
         if ($i == 0){$buyRules = getUserRules();}
         if (date("Y-m-d H:i", time()) >= $buyCoinTimer){
           $BCcurrent_date = date('Y-m-d H:i');
-          $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($BCcurrent_date)));
+          $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
           $userProfit = getTotalProfit();
           $marketProfit = getMarketProfit();
           $ruleProfit = getRuleProfit();
@@ -1658,7 +1658,7 @@ while($completeFlag == False){
         if ($i == 0){$sellRules = getUserSellRules();}
         if (date("Y-m-d H:i", time()) >= $sellCoinTimer){
           $SCcurrent_date = date('Y-m-d H:i');
-          $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes", strtotime($SCcurrent_date)));
+          $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
           $sellCoins = getTrackingSellCoins();
           $userProfit = getTotalProfit();
         }
@@ -1678,7 +1678,7 @@ while($completeFlag == False){
         }
         if (date("Y-m-d H:i", time()) >= $alertRunTimer){
           $ALcurrent_date = date('Y-m-d H:i');
-          $alertRunTimer = date("Y-m-d H:i",strtotime("+3 minutes", strtotime($ALcurrent_date)));
+          $alertRunTimer = date("Y-m-d H:i",strtotime("+3 minutes 10 seconds", strtotime($ALcurrent_date)));
           $refreshAlertsFlag = runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts);
         }
 
