@@ -252,7 +252,7 @@ $userSubSize = count($userSub);
              ?>
 
              <br>Quick Links<br>
-             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/newBuySellCoins.php"> BuySellCoins </a> 10 mins
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/NewBuySellCoins.php"> BuySellCoins </a> 10 mins
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testfile.php"> Test </a>
              <br>
