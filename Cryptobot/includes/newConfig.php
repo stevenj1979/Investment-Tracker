@@ -5288,17 +5288,18 @@ function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
-    FROM `Transaction` `Tr`
-    join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
-    WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
-    group by `Tr`.`SpreadBetRuleID` ";
+    $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
+    ,count(`Tr`.`SpreadBetRuleID`) as NoOfTransactions
+      FROM `Transaction` `Tr`
+      join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+      WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
+      group by `Tr`.`SpreadBetRuleID` ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy'],$row['AmountPerCoin']);
+      $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy'],$row['AmountPerCoin'],$row['NoOfTransactions']);
   }
   $conn->close();
   return $tempAry;

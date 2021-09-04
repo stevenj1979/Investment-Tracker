@@ -411,7 +411,8 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
       $openCoins = checkOpenSpreadBet($UserID,$ID);
-      $openCoinsSize = count($openCoins);
+      $openCoinsSize = $openCoins[0][4];
+      if(!isset($openCoinsSize)){$openCoinsSize=0;}
       $purchasePrice = $openCoins[0][1]; $totalAmountToBuy = $openCoins[0][2];
       $savedBTCAmount = $openCoins[0][3];
       $loopNum = 0;
