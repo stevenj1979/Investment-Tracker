@@ -71,13 +71,13 @@ function getSavingSellCoins($userID){
     $whereclause = "Where `UserID` = $userID";
   }
   if (isset($_SESSION['savingAmountSelect'])){
-    if ($_SESSION['savingAmountSelect'] <> "none"){
+    if ($_SESSION['savingAmountSelect'] <> "none" and $_SESSION['savingAmountSelect'] <> ""){
       $whereclause = $_SESSION['savingAmountSelect'];
     }
 
   }
   if (isset($_SESSION['savingTotalSelect'])){
-    if ($_SESSION['savingTotalSelect'] <> "none"){
+    if ($_SESSION['savingTotalSelect'] <> "none" and $_SESSION['savingTotalSelect'] <> ""){
       if ($whereclause == ""){
         $whereclause2 = "having ".$_SESSION['savingTotalSelect'];
       }else{
