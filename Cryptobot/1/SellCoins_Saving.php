@@ -42,10 +42,10 @@ if(isset($_POST['savingAmountSelect']) and $_POST['savingAmountSelect'] <> "none
   //Print_r("I'm HERE!!!".$_POST['submit']);
   //changeSelection();
   $_SESSION['savingAmountSelect'] = "having ProfitPct > 40";
-}
+}else{ $_SESSION['savingAmountSelect'] = "";}
 if(isset($_POST['savingTotalSelect']) and $_POST['savingTotalSelect'] <> "none"){
   $_SESSION['savingTotalSelect'] = "TotalUSD > 20";
-}
+}else{$_SESSION['savingTotalSelect'] = "";}
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
