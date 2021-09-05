@@ -251,11 +251,11 @@ $date = date('Y/m/d H:i:s', time());
         ?>
         <form action='SellCoins_Saving.php?id=1' method='post'>
         <select name='savingAmountSelect' id='savingOrderSelect' class='enableTextBox'>
-          <option  selected='selected' value='none'></option>
-          <option  value='by Amount'></option></SELECT>
+          <option  selected='selected' value='none'>none</option>
+          <option  value='by Amount'>by Amount</option></SELECT>
           <select name='savingTotalSelect' id='savingOrderSelect' class='enableTextBox'>
-            <option  selected='selected' value='none'></option>
-            <option  value='by Total'></option></SELECT>
+            <option  selected='selected' value='none'>none</option>
+            <option  value='by Total'></option>by Total</SELECT>
           <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
         </form>
 
