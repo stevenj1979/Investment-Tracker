@@ -38,14 +38,36 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   header('Location: SellCoins_Saving_Mob.php');
 }
 
-if(isset($_POST['savingAmountSelect']) and $_POST['savingAmountSelect'] <> "none"){
+if(isset($_POST['savingAmountSelect'])){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   //changeSelection();
-  $_SESSION['savingAmountSelect'] = "having ProfitPct > 40";
-}else{ $_SESSION['savingAmountSelect'] = "";}
-if(isset($_POST['savingTotalSelect']) and $_POST['savingTotalSelect'] <> "none"){
-  $_SESSION['savingTotalSelect'] = "TotalUSD > 20";
-}else{$_SESSION['savingTotalSelect'] = "";}
+  //$_SESSION['savingAmountSelect'] = "having ProfitPct > 40";
+  changeAmountSelection($_POST['savingAmountSelect'],$_SESSION['savingAmountSelect']);
+}//else{ $_SESSION['savingAmountSelect'] = "";}
+if(isset($_POST['savingTotalSelect'])){
+  //$_SESSION['savingTotalSelect'] = "TotalUSD > 20";
+  changeTotalSelection($_POST['savingTotalSelect'],$_SESSION['savingTotalSelect']);
+}//else{$_SESSION['savingTotalSelect'] = "";}
+
+function changeAmountSelection($postAmount, $sessionAmount){
+  if (isset($_POST['savingAmountSelect'])){
+    if ($postAmount <> $sessionAmount){
+      if ($postAmount <> "" ){
+        $_SESSION['savingAmountSelect'] = $postAmount;
+      }
+    }
+  }
+}
+
+function changeTotalSelection($postTotal, $sessionTotal){
+  if (isset($_POST['savingTotalSelect'])){
+    if ($postAmount <> $sessionAmount){
+      if ($postAmount <> "" ){
+        $_SESSION['savingTotalSelect'] = $postAmount;
+      }
+    }
+  }
+}
 
 function getCoinsfromSQLLoc(){
     $conn = getSQLConn(rand(1,3));
@@ -72,18 +94,22 @@ function getSavingSellCoins($userID){
   }
   if (isset($_SESSION['savingAmountSelect'])){
     if ($_SESSION['savingAmountSelect'] <> "none" and $_SESSION['savingAmountSelect'] <> ""){
-      $whereclause = $_SESSION['savingAmountSelect'];
+      if ($_SESSION['savingAmountSelect'] = "By Amount"){
+        $whereclause = "having ProfitPct > 40";
+      }
+
     }
 
   }
   if (isset($_SESSION['savingTotalSelect'])){
     if ($_SESSION['savingTotalSelect'] <> "none" and $_SESSION['savingTotalSelect'] <> ""){
-      if ($whereclause == ""){
-        $whereclause2 = "having ".$_SESSION['savingTotalSelect'];
-      }else{
-        $whereclause2 = "and ".$_SESSION['savingTotalSelect'];
+      if ($_SESSION['savingTotalSelect'] == "By Total"){
+        if ($whereclause == ""){
+          $whereclause2 = "having TotalUSD > 20";
+        }else{
+          $whereclause2 = "and TotalUSD > 20";
+        }
       }
-
     }
   }
   $conn = getSQLConn(rand(1,3));
@@ -223,6 +249,15 @@ function profitScore($profit){
   return $tempNumber;
 }
 
+function displayOptions($option, $selected){
+  if ($option == $selected){
+    echo "<option  selected='selected' value='$option'>$option</option>";
+
+  }else{
+    echo "<option  value='$option'>$option</option>";
+  }
+}
+
 
 date_default_timezone_set('Asia/Dubai');
 $date = date('Y/m/d H:i:s', time());
@@ -252,11 +287,14 @@ $date = date('Y/m/d H:i:s', time());
         ?>
         <form action='SellCoins_Saving.php?id=1' method='post'>
         <select name='savingAmountSelect' id='savingOrderSelect' class='enableTextBox'>
-          <option  selected='selected' value='none'>none</option>
+          <?php displayOptions ("none",$_SESSION['savingAmountSelect']);
+          displayOptions ("By Amount",$_SESSION['savingAmountSelect']);
+          ?></SELECT>
           <option  value='by Amount'>by Amount</option></SELECT>
           <select name='savingTotalSelect' id='savingOrderSelect' class='enableTextBox'>
-            <option  selected='selected' value='none'>none</option>
-            <option  value='by Total'>by Total</option></SELECT>
+            <?php displayOptions ("none",$_SESSION['savingTotalSelect']);
+            displayOptions ("By Total",$_SESSION['savingTotalSelect']);
+            ?>
           <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
         </form>
 
