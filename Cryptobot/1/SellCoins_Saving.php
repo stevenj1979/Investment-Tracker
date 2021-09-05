@@ -101,6 +101,7 @@ function getSavingSellCoins($userID){
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
+  echo "$sql";
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
     $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
@@ -255,7 +256,7 @@ $date = date('Y/m/d H:i:s', time());
           <option  value='by Amount'>by Amount</option></SELECT>
           <select name='savingTotalSelect' id='savingOrderSelect' class='enableTextBox'>
             <option  selected='selected' value='none'>none</option>
-            <option  value='by Total'></option>by Total</SELECT>
+            <option  value='by Total'>by Total</option></SELECT>
           <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
         </form>
 
