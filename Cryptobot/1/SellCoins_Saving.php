@@ -38,12 +38,12 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   header('Location: SellCoins_Saving_Mob.php');
 }
 
-if($_POST['savingAmountSelect'] <> ""){
+if(isset($_POST['savingAmountSelect']) and $_POST['savingAmountSelect'] <> "none"){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   //changeSelection();
   $_SESSION['savingAmountSelect'] = "having ProfitPct > 40";
 }
-if($_POST['savingTotalSelect'] <> ""){
+if(isset($_POST['savingTotalSelect']) and $_POST['savingTotalSelect'] <> "none"){
   $_SESSION['savingTotalSelect'] = "TotalUSD > 20";
 }
 
