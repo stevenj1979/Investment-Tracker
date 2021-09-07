@@ -1240,7 +1240,7 @@ function runBittrex($BittrexReqs,$apiVersion){
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
 
-               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, $GLOBALS['logToSQLSetting'],"FullOrder","TransactionID:$transactionID");
+               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $GLOBALS['logToSQLSetting'],"FullOrder","TransactionID:$transactionID");
