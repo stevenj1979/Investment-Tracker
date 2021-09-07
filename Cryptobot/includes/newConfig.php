@@ -3420,7 +3420,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   ,$spreadBetTransID,$overrideCoinAlloc,$transID)";
 
   print_r($sql);
-  LogToSQL("SpreadBetTrackingSQL","$sql",3,1);
+  LogToSQL("SpreadBetTrackingSQL","$sql",3,0);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -3836,7 +3836,7 @@ function setTransactionPending($id){
   }
   $conn->close();
   logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$id");
+  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$id");
 }
 
 function fixResidual(){
@@ -5762,12 +5762,12 @@ function sellSpreadBetCoins($spreadSellCoins){
     //echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
     LogToSQL("SpreadBetSell","sellCoins($TransactionID,$CoinID);",3,1);
     //$checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
-    LogToSQL("SpreadBetTrackingSell","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,2);",3,1);
+    LogToSQL("SpreadBetTrackingSell","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,2);",3,0);
     newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,$SellCoin, $SendEmail,0,0.0,$fallsInPrice);
     setTransactionPending($TransactionID);
-    LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,1, 1,0,0.0,2);",3,1);
+    LogToSQL("SpreadBetTest1","newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,1, 1,0,0.0,2);",3,0);
     //newTrackingSellCoins($LiveCoinPrice,$userID, $TransactionID,1, 1,0,0.0,2);
-    LogToSQL("SpreadBetTest2","setTransactionPending($TransactionID);",3,1);
+    LogToSQL("SpreadBetTest2","setTransactionPending($TransactionID);",3,0);
     //setTransactionPending($TransactionID);
     updateSpreadSell($spreadBetRuleID,$orderDate);
     $buyTrendPct = updateBuyTrendHistorySB($spreadBetRuleID,$orderDate);
@@ -5775,9 +5775,9 @@ function sellSpreadBetCoins($spreadSellCoins){
     updateBuyTrend(0, 0, 'SpreadBet', $spreadBetRuleID, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
     if ($q == $spreadSellCoinsSize -1 AND $spreadSellCoinsSize > 0){
         updateSpreadBetPctAmount($spreadBetRuleID);
-        LogToSQL("SpreadBetSell","updateSpreadBetPctAmount($spreadBetRuleID);",3,1);
+        LogToSQL("SpreadBetSell","updateSpreadBetPctAmount($spreadBetRuleID);",3,0);
         UpdateProfit();
-        LogToSQL("SpreadBetSell","UpdateProfit();",3,1);
+        LogToSQL("SpreadBetSell","UpdateProfit();",3,0);
     }
     $profitPct = ($LiveCoinPrice-$CoinPrice)/$CoinPrice*100;
     $sellPrice = ($LiveCoinPrice*$Amount);
