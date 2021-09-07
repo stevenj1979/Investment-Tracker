@@ -1249,7 +1249,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             if ($result == 1){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
-              newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created. QTY: $orderQty | QTY Remaining: $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting'],"PartialOrder","TransactionID:$transactionID");
+              newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created. QTY: $orderQty | QTY Remaining: $orderQtyRemaining", $userID, 1,"PartialOrder","TransactionID:$transactionID");
               if ($sendEmail){
                 $subject = "Coin Purchase1: ".$coin;
                 $from = 'Coin Purchase <purchase@investment-tracker.net>';

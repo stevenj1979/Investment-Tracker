@@ -2232,7 +2232,7 @@ function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
   }
   $conn->close();
   logAction("bittrexBuyComplete: ".$sql, 'BuySell', 0);
-  newLogToSQL("bittrexBuyComplete","$sql",3,sQLUpdateLog,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
+  newLogToSQL("bittrexBuyComplete","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
 function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
