@@ -2249,7 +2249,7 @@ function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
   }
   $conn->close();
   logAction("bittrexSellComplete: ".$sql, 'BuySell', 0);
-  newLogToSQL("bittrexSellComplete","$sql",3,sQLUpdateLog,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
+  newLogToSQL("bittrexSellComplete","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
 function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
