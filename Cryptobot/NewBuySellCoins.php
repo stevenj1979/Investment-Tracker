@@ -125,7 +125,7 @@ function runReBuySavings($coinSwaps){
     if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
        $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
-      $finalPrice = $coinSwaps[$y][15];
+      $finalPrice = $coinSwaps[$y][15]; $userID = $coinSwaps[$y][17];
       $tempPrice = getCoinPrice($ogCoinID);
       $bitPrice = $tempPrice[0][0];
       //$bitPrice = number_format($coinSwaps[$y][16],8);
@@ -140,7 +140,7 @@ function runReBuySavings($coinSwaps){
         $liveCoinPrice = $bitPrice;
         $rate = $liveCoinPrice;
         $quant = $totalAmount/$rate;
-        addTrackingCoin($ogCoinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 90, 77777,1,1,10,'SavingBuy',$LiveCoinPrice,0,0,0);
+        addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 90, 77777,1,1,10,'SavingBuy',$liveCoinPrice,0,0,0);
       }
     }
   }
