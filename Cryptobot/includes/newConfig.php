@@ -3930,7 +3930,7 @@ function closeNewTrackingSellCoin($ID){
   }
   $conn->close();
   logAction("closeNewTrackingSellCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingSellCoin",$sql,3,0,"SQL","TrackingSellCoinsID:$ID");
+  newLogToSQL("closeNewTrackingSellCoin",$sql,3,1,"SQL","TrackingSellCoinsID:$ID");
 }
 
 function setNewTrackingSellPrice($coinPrice, $ID){
