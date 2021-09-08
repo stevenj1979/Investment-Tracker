@@ -141,7 +141,7 @@ function runReBuySavings($coinSwaps){
         $rate = $liveCoinPrice;
         $quant = $totalAmount/$rate;
         addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 90, 77777,1,1,10,'SavingBuy',$liveCoinPrice,0,0,0);
-        updateCoinSwapStatus('AwaitingSavingsPurchase',$transID);
+        updateCoinSwapStatus('AwaitingSavingsPurchaseTracking',$transID);
       }
     }
   }
