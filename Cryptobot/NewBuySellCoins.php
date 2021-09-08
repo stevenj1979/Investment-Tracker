@@ -726,6 +726,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
               //$ogPurchasePrice = $LiveCoinPrice*$Amount;
               $sellFee = ($PurchasePrice/100)*0.28;
               $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
+              newLogToSQL("TrackingSell","$PurchasePrice | $sellFee | $LiveCoinPrice | $Amount",3,1,"SaveResidual","TransactionID:$TransactionID");
             }
             newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,$GLOBALS['logToSQLSetting'],"NewAmountToSQL","TransactionID:$TransactionID");
             updateSellAmount($TransactionID,$Amount, $oldAmount);
