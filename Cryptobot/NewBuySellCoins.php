@@ -1282,7 +1282,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID, 1,"SellComplete","TransactionID:$transactionID");
-        if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
+        if (($orderIsOpen == 0) OR ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
             if ($originalAmount == 0){ $originalAmount = $amount;}
