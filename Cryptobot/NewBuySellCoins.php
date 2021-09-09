@@ -146,6 +146,7 @@ function runReBuySavings($coinSwaps){
       }
     }
   }
+  return False;
 }
 
 function runSellSavings($spreadBuyBack){
@@ -748,9 +749,11 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           closeNewTrackingSellCoin($TransactionID);
           newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDate, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,$GLOBALS['logToSQLSetting'],"Success","TransactionID:$TransactionID");
           addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
+          return True;
         }
       }
     }
+    return False;
   }
 }
 
@@ -1579,6 +1582,7 @@ $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $reRunBuySavingsFlag = False;
+$runTrackingSellCoinFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1646,13 +1650,13 @@ while($completeFlag == False){
         }
         runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
-        if (date("Y-m-d H:i", time()) >= $trackingSellCoinTimer){
+        if ((date("Y-m-d H:i", time()) >= $trackingSellCoinTimer) Or ($runTrackingSellCoinFlag == True)) {
           $TSCcurrent_date = date('Y-m-d H:i');
           $trackingSellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 15 seconds", strtotime($TSCcurrent_date)));
           $newTrackingSellCoins = getNewTrackingSellCoins();
           $marketStats = getMarketstats();
         }
-        runTrackingSellCoin($newTrackingSellCoins,$marketStats);
+        $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats);
   echo "</blockquote><BR> BUY COINS!! $i<blockquote>";
         if ($i == 0){$buyRules = getUserRules();}
         if (date("Y-m-d H:i", time()) >= $buyCoinTimer){
