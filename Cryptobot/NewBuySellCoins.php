@@ -142,6 +142,7 @@ function runReBuySavings($coinSwaps){
         $quant = $totalAmount/$rate;
         addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 90, 77777,1,1,10,'SavingBuy',$liveCoinPrice,0,0,1);
         updateCoinSwapStatus('AwaitingSavingsPurchaseTracking',$transID);
+        return True;
       }
     }
   }
@@ -1577,6 +1578,7 @@ $sellCoinTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
 $completeFlag = False;
+$reRunBuySavingsFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1597,8 +1599,8 @@ while($completeFlag == False){
     $autoBuyPrice = getAutoBuyPrices();
   }
   echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
-          if ($i == 0){$reBuySavingsFixed = getOpenCoinSwaps();}
-          runReBuySavings($reBuySavingsFixed);
+          if (($i == 0) or ($reRunBuySavingsFlag == True)){$reBuySavingsFixed = getOpenCoinSwaps();}
+          $reRunBuySavingsFlag = runReBuySavings($reBuySavingsFixed);
   echo "</blockquote><BR> CHECK Sell Savings!! $i<blockquote>";
           if ($i == 0){$spreadBuyBack = getSavingsData();}
           runSellSavings($spreadBuyBack);

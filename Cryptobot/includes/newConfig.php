@@ -3428,6 +3428,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
   $conn->close();
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addTrackingCoin","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function runLowMarketMode($userID,$mode){
