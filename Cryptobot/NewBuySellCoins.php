@@ -1603,7 +1603,10 @@ while($completeFlag == False){
     $autoBuyPrice = getAutoBuyPrices();
   }
   echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
-          if (($i == 0) or ($reRunBuySavingsFlag == True)){$reBuySavingsFixed = getOpenCoinSwaps();}
+          if (($i == 0) or ($reRunBuySavingsFlag == True)){
+            $reBuySavingsFixed = getOpenCoinSwaps();
+            $reRunBuySavingsFlag = Flase;
+          }
           $reRunBuySavingsFlag = runReBuySavings($reBuySavingsFixed);
   echo "</blockquote><BR> CHECK Sell Savings!! $i<blockquote>";
           if ($i == 0){$spreadBuyBack = getSavingsData();}
@@ -1655,6 +1658,7 @@ while($completeFlag == False){
           $trackingSellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 15 seconds", strtotime($TSCcurrent_date)));
           $newTrackingSellCoins = getNewTrackingSellCoins();
           $marketStats = getMarketstats();
+          $runTrackingSellCoinFlag = False;
         }
         $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats);
   echo "</blockquote><BR> BUY COINS!! $i<blockquote>";
