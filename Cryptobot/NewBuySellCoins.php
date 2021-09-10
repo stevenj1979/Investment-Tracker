@@ -528,14 +528,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($b=0; $b<$delayCoinPurchaseSize; $b++){
       $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
       if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-        echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
+        echo "<BR>EXIT: Delay CoinID: $coinID! "; return False;
       }
     }
     if($minsFromDate >= $timeToCancelBuyMins){
       closeNewTrackingCoin($newTrackingCoinID, True);
       reOpenOneTimeBuyRule($trackingID);
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
-      continue;
+      return False;
     }
     Echo "<BR> Tracking Buy Count 1 <BR>";
 
@@ -543,14 +543,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); return False;}
         }
         if ($limitBuyTransactionsEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); return False;}
         }elseif($coinModeOverridePriceEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
-          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); return False;}
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
@@ -560,7 +560,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy | $baseCurrency";
     if ($coinAllocation <= 0 and $overrideCoinAlloc == 0){
         echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
-        continue;
+        return False;
     }
     Echo "<BR> Tracking Buy Count 3 <BR>";
     if ($coinMode > 0 and $overrideCoinAlloc == 0){
@@ -581,9 +581,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       }
     }
     Echo "<BR> Tracking Buy Count 5 <BR>";
-    if ($minsDisabled>0){ Echo "<BR> Exit Disabled : $minsDisabled"; continue;}
-    if ($trackCounter[$userID."-Total"] >= $noOfBuys and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
-    if ($trackCounter[$userID."-".$coinID] >= 1 and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    if ($minsDisabled>0){ Echo "<BR> Exit Disabled : $minsDisabled"; return False;}
+    if ($trackCounter[$userID."-Total"] >= $noOfBuys and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-Total"];return False;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
+    if ($trackCounter[$userID."-".$coinID] >= 1 and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];return False;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
 
     Echo "<BR> Price Check: Live:$liveCoinPrice Original: $originalPrice";
     $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
@@ -598,14 +598,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       for ($p=0; $p<$clearCoinQueueSize; $p++){
         if ($coinID == $clearCoinQueue[$p][1] AND $userID == $clearCoinQueue[$p][0] and $overrideCoinAlloc < 1){
           echo "<BR> EXIT: CoinID and USERID in Clear Coin Queue: $coinID | $userID";
-          continue;
+          return False;
         }
       }
       for ($u=0;$u<$totalCoinPurchasesSize;$u++){
         for ($r=0;$r<$coinPurchaseSettingsSize;$r++){
             if ($userID == $totalCoinPurchases[$u][0] and $userID == $coinPurchaseSettings[$r][0] and $totalCoinPurchases[$u][1]>=$coinPurchaseSettings[$r][2] and $overrideCoinAlloc < 1){
               echo "<BR> EXIT: User over total Coin Purchases: $coinID | $userID".$totalCoinPurchases[$u][1]."|".$coinPurchaseSettings[$r][2];
-              continue;
+              return False;
             }
         }
       }
@@ -615,7 +615,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
               if($coinID == $coinPurchasesPerCoin[$e][1] ){
                 if($coinPurchasesPerCoin[$e][1]>=$coinPurchaseSettings[$w][1]){
                   echo "<BR> EXIT: User over Coin Purchases per Coin: $coinID | $userID".$coinPurchasesPerCoin[$e][1]."|".$coinPurchaseSettings[$w][1];
-                  continue;
+                  return False;
                 }
               }
             }
@@ -671,9 +671,11 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
         updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc);
       //continue;
+      return True;
       }
     }
   }
+  return False;
 }
 
 function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
@@ -1583,6 +1585,7 @@ $alertRunTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $reRunBuySavingsFlag = False;
 $runTrackingSellCoinFlag = False;
+$runNewTrackingCoinFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1641,7 +1644,7 @@ while($completeFlag == False){
         runSpreadBet($spread,$SpreadBetUserSettings);
 
   echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
-        if (date("Y-m-d H:i", time()) >= $trackingCoinTimer){
+        if (date("Y-m-d H:i", time()) >= $trackingCoinTimer OR $runNewTrackingCoinFlag == True){
           $TCcurrent_date = date('Y-m-d H:i');
           $trackingCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 8 seconds", strtotime($TCcurrent_date)));
           $newTrackingCoins = getNewTrackingCoins();
@@ -1650,8 +1653,9 @@ while($completeFlag == False){
           $ruleProfit = getRuleProfit();
           $coinPurchaseSettings = getCoinPurchaseSettings();
           $openTransactions = getOpenTransactions();
+          $runNewTrackingCoinFlag = False;
         }
-        runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions);
+        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if ((date("Y-m-d H:i", time()) >= $trackingSellCoinTimer) Or ($runTrackingSellCoinFlag == True)) {
           $TSCcurrent_date = date('Y-m-d H:i');

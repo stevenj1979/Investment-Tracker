@@ -5373,7 +5373,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   }
   if (($livePrice <= $topSwing) AND ($livePrice >= $bottomSwing)){
     Echo "<BR>Update No Of Rises | OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice";
-    newLogToSQL("TrackingCoin", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 1,"trackingCoinReadyToBuy_3","TrackingCoinID:$trackingID");
+    newLogToSQL("TrackingCoin", "OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice", 3, 0,"trackingCoinReadyToBuy_3","TrackingCoinID:$trackingID");
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
     //setNewTrackingPrice($livePrice, $trackingID, 'Buy');
@@ -5398,7 +5398,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
     //Cancel Transaction
     Echo "<BR>Cancel Transaction | OPT 5 : $type | $pctProfit";
-    newLogToSQL("TrackingCoin", "OPT 5 : $type | $pctProfit", 3, 1,"trackingCoinReadyToBuy_5","TrackingCoinID:$trackingID");
+    newLogToSQL("TrackingCoin", "OPT 5 : $type | $pctProfit", 3, 0,"trackingCoinReadyToBuy_5","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     reOpenOneTimeBuyRule($trackingID);
     closeNewTrackingCoin($trackingID, True);
