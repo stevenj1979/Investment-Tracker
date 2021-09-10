@@ -64,8 +64,8 @@ function showMain(){
           $ruleIDBuy = $tracking[$x][12];$coinID = $tracking[$x][0];$CoinSellOffsetPct = $tracking[$x][13];$CoinSellOffsetEnabled = $tracking[$x][14];
           $buyType = $tracking[$x][15];$timeToCancelBuyMins = $tracking[$x][16];$SellRuleFixed = $tracking[$x][17];
           $pctProfit = $tracking[$x][6]; $newTrackingCoinID = $tracking[$x][23]; $liveCoinPrice = $tracking[$x][4];
-          $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1]; $totalRisesInPrice = $tracking[$x][26];
-          $originalPrice = $tracking[$x][30]; $NoOfRisesInPrice = $tracking[$x][31];
+          $minsFromBuy = $tracking[$x][24]; $coinPrice = $tracking[$x][1]; $totalRisesInPrice = $tracking[$x][31];
+          $originalPrice = $tracking[$x][30]; $NoOfRisesInPrice = $tracking[$x][26];
           //TestRules
           Echo "<TR>";
           $differenceToBuy = round($liveCoinPrice - $originalPrice,$num);
