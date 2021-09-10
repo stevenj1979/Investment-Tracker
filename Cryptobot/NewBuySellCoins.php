@@ -755,8 +755,8 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
         }
       }
     }
-    return False;
   }
+  return False;
 }
 
 function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter){
