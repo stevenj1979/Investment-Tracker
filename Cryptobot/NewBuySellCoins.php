@@ -139,7 +139,7 @@ function runReBuySavings($coinSwaps){
       if ($bitPrice <= $lowPrice){
         $liveCoinPrice = $bitPrice;
         $rate = $liveCoinPrice;
-        $quant = $totalAmount/$rate;
+        $quant = $totalAmount;
         addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 240, 77777,1,1,10,'SavingBuy',$liveCoinPrice,0,0,1);
         updateCoinSwapStatus('AwaitingSavingsPurchaseTracking',$transID);
         return True;
