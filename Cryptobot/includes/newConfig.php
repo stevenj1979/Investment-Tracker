@@ -651,14 +651,14 @@ Function getOpenCoinSwaps(){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
-          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`UserID`
+          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`UserID`,`ID` as CoinSwapID
   FROM `CoinSwapView`
   join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret'] //9
-    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID']);
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID']);
   }
   $conn->close();
   return $tempAry;
@@ -686,13 +686,18 @@ where `Cp`.`CoinID` = $coinID";
   return $tempAry;
 }
 
-function updateCoinSwapStatus($status,$transID){
+function updateCoinSwapStatus($status,$transID, $whichID = False){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `TransactionID` = $transID";
+    if ($whichID == False){
+      $selectID = "`TransactionID`";
+    }else{
+      $selectID = "`ID`";
+    }
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where $selectID = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -3407,6 +3412,27 @@ $conn->close();
 return $tempAry;
 }
 
+function addCoinSwapIDtoTracking($coinSwapID,$transID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingCoins` SET `CoinSwapID` = $coinSwapID where `TransactionID` = $transID";
+
+  print_r($sql);
+  LogToSQL("SpreadBetTrackingSQL","$sql",3,0);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addCoinSwapIDtoTracking: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addCoinSwapIDtoTracking","$sql",3,1,"SQL CALL","UserID:$userID");
+}
+
 function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc, $transID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -3481,7 +3507,7 @@ function getNewTrackingCoins($userID = 0){
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
     ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
     ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-    ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`
+    ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`SwapCoinID`
     FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3492,7 +3518,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
-    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID']);
+    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['SwapCoinID']);
   }
   $conn->close();
   return $tempAry;
