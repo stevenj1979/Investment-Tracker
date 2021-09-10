@@ -5368,7 +5368,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
     Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice";
-    newLogToSQL("TrackingCoin", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToBuy_2","TrackingCoinID:$trackingID");
+    newLogToSQL("TrackingCoin", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToBuy_2","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     return True;
   }
