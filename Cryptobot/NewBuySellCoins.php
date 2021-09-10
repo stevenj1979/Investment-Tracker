@@ -596,14 +596,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       $coinPurchasesPerCoinSize = count($coinPurchasesPerCoin);
       $clearCoinQueueSize = count($clearCoinQueue);
       for ($p=0; $p<$clearCoinQueueSize; $p++){
-        if ($coinID == $clearCoinQueue[$p][1] AND $userID == $clearCoinQueue[$p][0] and $overrideCoinAlloc == 0){
+        if ($coinID == $clearCoinQueue[$p][1] AND $userID == $clearCoinQueue[$p][0] and $overrideCoinAlloc < 1){
           echo "<BR> EXIT: CoinID and USERID in Clear Coin Queue: $coinID | $userID";
           continue;
         }
       }
       for ($u=0;$u<$totalCoinPurchasesSize;$u++){
         for ($r=0;$r<$coinPurchaseSettingsSize;$r++){
-            if ($userID == $totalCoinPurchases[$u][0] and $userID == $coinPurchaseSettings[$r][0] and $totalCoinPurchases[$u][1]>=$coinPurchaseSettings[$r][2] and $overrideCoinAlloc == 0){
+            if ($userID == $totalCoinPurchases[$u][0] and $userID == $coinPurchaseSettings[$r][0] and $totalCoinPurchases[$u][1]>=$coinPurchaseSettings[$r][2] and $overrideCoinAlloc < 1){
               echo "<BR> EXIT: User over total Coin Purchases: $coinID | $userID".$totalCoinPurchases[$u][1]."|".$coinPurchaseSettings[$r][2];
               continue;
             }
@@ -611,7 +611,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       }
       for ($e=0;$e<$coinPurchasesPerCoinSize;$e++){
         for ($w=0;$w<$coinPurchaseSettingsSize;$w++){
-            if ($userID == $coinPurchasesPerCoin[$e][0] and $userID == $coinPurchaseSettings[$w][0] and $overrideCoinAlloc == 0){
+            if ($userID == $coinPurchasesPerCoin[$e][0] and $userID == $coinPurchaseSettings[$w][0] and $overrideCoinAlloc < 1){
               if($coinID == $coinPurchasesPerCoin[$e][1] ){
                 if($coinPurchasesPerCoin[$e][1]>=$coinPurchaseSettings[$w][1]){
                   echo "<BR> EXIT: User over Coin Purchases per Coin: $coinID | $userID".$coinPurchasesPerCoin[$e][1]."|".$coinPurchaseSettings[$w][1];
