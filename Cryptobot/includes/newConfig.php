@@ -66,7 +66,7 @@ function clearTrackingCoinQueue($UserID,$coinID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("clearTrackingCoinQueue",$sql,3,0,"SQL","UserID:$UserID; CoinID:$coinID");
+    newLogToSQL("clearTrackingCoinQueue",$sql,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
     logAction("clearTrackingCoinQueue: ".$sql, 'BuySell', 0);
 }
 
@@ -3597,6 +3597,7 @@ function closeNewTrackingCoin($ID, $deleteFlag){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
+  newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
 }
 
 function updateTrackingCoinToMerge($ID, $noOfPurchases){
