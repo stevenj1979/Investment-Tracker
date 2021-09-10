@@ -628,7 +628,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         $rate = $liveCoinPrice;
         $quant = $totalAmount/$rate;
         echo"<BR> bittrexbuy($APIKey, $APISecret, $symbol, $ogBTCAmount, $rate, $baseCurrency,3,FALSE);";
-        $obj = bittrexbuy($APISecret, $APISecret, $symbol, $ogBTCAmount, $rate, $baseCurrency,3,FALSE);
+        $obj = bittrexbuy($APIKey, $APISecret, $symbol, $ogBTCAmount, $rate, $baseCurrency,3,FALSE);
         $bittrexRef = $obj["id"];
         if ($bittrexRef <> ""){
           Echo "<BR> Bittrex ID: $bittrexRef";
