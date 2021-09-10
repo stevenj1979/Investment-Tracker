@@ -5378,6 +5378,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
     //setNewTrackingPrice($livePrice, $trackingID, 'Buy');
+    setLastPrice($livePrice,$trackingID, 'Buy');
     return False;
   }
   //if liveprice is greater than or less than, reset to 0
@@ -5386,14 +5387,14 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     //logToSQL("trackingCoinReadyToBuy", "OPT 4 : $currentPrice | $swingPrice - RESET TO 0 ", 3, 1);
     $tempPrice = $livePrice-$lastPrice;
     if ($livePrice > $lastPrice){ updateQuickBuyCount($trackingID);}else {resetQuickBuyCount($trackingID);}
-    Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice | $tempPrice - RESET TO 0 ";
+    Echo "<BR>Outside the swing | OPT 4 : $currentPrice | $swingPrice | $tempPrice | $livePrice | $topSwing | $bottomSwing - RESET TO 0 ";
     updateNoOfRisesInPrice($trackingID, 0);
     if ($livePrice < $bottomSwing){
       echo "<BR> SET New Price Test: $livePrice | $lastPrice | $tempPrice | $swingPrice";
       setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     }
 
-
+    setLastPrice($livePrice,$trackingID, 'Buy');
     return False;
   }
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
@@ -5403,6 +5404,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     //reopenTransaction($TransactionID);
     reOpenOneTimeBuyRule($trackingID);
     closeNewTrackingCoin($trackingID, True);
+    setLastPrice($livePrice,$trackingID, 'Buy');
     return False;
   }
   echo "<BR> Exit trackingCoinReadyToBuy";
