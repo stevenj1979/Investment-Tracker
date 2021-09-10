@@ -586,7 +586,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     if ($trackCounter[$userID."-".$coinID] >= 1 and $overrideCoinAlloc == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$trackCounter[$userID."-".$coinID];continue;}//else{ Echo "<BR> Number of Buys: $noOfBuys BuyCounter ".$trackCounter[$userID];}
 
     Echo "<BR> Price Check: Live:$liveCoinPrice Original: $originalPrice";
-    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
+    $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$risesInPrice,$pctProfit,$minsFromDate,$lastPrice,$noOfRisesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
     echo "<BR> Ready To Buy: $readyToBuy";
     if ($readyToBuy == True){
       $delayCoinPurchase = getDelayCoinPurchaseTimes();
