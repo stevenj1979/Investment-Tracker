@@ -5535,6 +5535,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       //echo "<BR>updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);";
       echo "<BR> Option3: CurrentPrice less than Swing";
       updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);
+      setLastPrice($livePrice,$trackingSellID, 'Sell');
       return False;
     }
     //if liveprice is greater than or less than, reset to 0
@@ -5547,7 +5548,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
         echo "<BR> Option4: Set New Tracking BasePrice";
         setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       }
-
+      setLastPrice($livePrice,$trackingSellID, 'Sell');
       return False;
     }
 
@@ -5557,6 +5558,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       echo "<BR> Option5: Cancel";
       reopenTransaction($TransactionID);
       closeNewTrackingSellCoin($TransactionID);
+      setLastPrice($livePrice,$trackingSellID, 'Sell');
       return False;
     }
 
