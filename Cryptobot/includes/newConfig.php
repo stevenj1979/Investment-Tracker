@@ -5496,7 +5496,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       return True;
     }
 
-    if ($pctProfit >= 20.0){
+    if ($pctProfit >= 60.0){
       newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 0,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
