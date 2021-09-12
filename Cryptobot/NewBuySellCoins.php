@@ -246,8 +246,8 @@ function runBuyBack($buyBackCoins){
       elseif ($tmpBaseCur == 'BTC'){ $tempConvAmt = $BTCPrice; }
       elseif ($tmpBaseCur == 'ETH'){ $tempConvAmt = $ETHPrice; }
 
-      $buyBackPurchasePrice = ($liveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
-      LogToSQL("BuyBackTEST","$liveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount | $buyBackPurchasePrice",3,1);
+      $buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
+      LogToSQL("BuyBackTEST","$tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount | $buyBackPurchasePrice",3,1);
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ continue;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
