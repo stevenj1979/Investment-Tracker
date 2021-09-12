@@ -3507,7 +3507,7 @@ function getNewTrackingCoins($userID = 0){
     ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
     ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
     ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-    ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`SwapCoinID`
+    ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`
     FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3518,7 +3518,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
-    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['SwapCoinID']);
+    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID']);
   }
   $conn->close();
   return $tempAry;
