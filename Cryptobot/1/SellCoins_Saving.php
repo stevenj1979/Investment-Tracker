@@ -95,7 +95,7 @@ function getCoinsfromSQLLoc(){
 function getSavingSellCoins($userID){
   $tempAry = [];
   if ($userID <> 0){
-    $whereclause = "Where `UserID` = $userID";
+    $whereclause3 = "Where `UserID` = $userID";
   }
   if (isset($_SESSION['savingProfitSelect'])){
     if ($_SESSION['savingProfitSelect'] <> "none" and $_SESSION['savingProfitSelect'] <> ""){
@@ -127,7 +127,7 @@ function getSavingSellCoins($userID){
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`
     ,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,(((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`))/(`LiveCoinPrice`*`Amount`))*100 as ProfitPct
     ,if(`BaseCurrency` = 'BTC',(`LiveCoinPrice`*`Amount`)*getBTCPrice() ,if(`BaseCurrency` = 'ETH',(`LiveCoinPrice`*`Amount`)*getETHPrice() ,(`LiveCoinPrice`*`Amount`))) as TotalUSD
-    FROM `SellCoinSavings` $whereclause $whereclause2 Order by ProfitPct desc";
+    FROM `SellCoinSavings` $whereclause3 $whereclause $whereclause2 Order by ProfitPct desc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
