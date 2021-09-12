@@ -109,7 +109,7 @@ function getSavingSellCoins($userID){
   if (isset($_SESSION['savingTotalSelect'])){
     if ($_SESSION['savingTotalSelect'] <> "none" and $_SESSION['savingTotalSelect'] <> ""){
       if ($_SESSION['savingTotalSelect'] == "By Total"){
-        if ($whereclause == ""){
+        if ($whereclause == "none"){
           $whereclause2 = "having TotalUSD > 20";
         }else{
           $whereclause2 = "and TotalUSD > 20";
