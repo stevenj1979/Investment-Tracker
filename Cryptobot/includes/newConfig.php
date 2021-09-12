@@ -5776,7 +5776,7 @@ function closeBuyBack($buyBackID){
   }
   $conn->close();
   logAction("closeBuyBack: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("closeBuyBack",$sql,3,0,"SQL","BuyBackID:$buyBackID");
+  newLogToSQL("closeBuyBack",$sql,3,1,"SQL","BuyBackID:$buyBackID");
 }
 
 function sellSpreadBetCoins($spreadSellCoins){
