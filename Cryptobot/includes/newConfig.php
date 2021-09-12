@@ -3503,12 +3503,12 @@ function getNewTrackingCoins($userID = 0){
 //12
   $whereClause = " ";
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
-  $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
-    ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
-    ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
-    ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-    ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`
-    FROM `TrackingCoinView`$whereClause";
+    $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
+      ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
+      ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
+      ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
+      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`
+      FROM `TrackingCoinView`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -5657,7 +5657,7 @@ function getBuyBackData(){
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
   , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
   , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel`,`BullBearStatus`,`Type`,`OverrideCoinAllocation`
-  ,`AllBuyBackAsOverride`
+  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice
    FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5667,7 +5667,7 @@ function getBuyBackData(){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
-      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride']);
+      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice']);
   }
   $conn->close();
   return $tempAry;

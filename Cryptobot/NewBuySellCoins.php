@@ -206,7 +206,7 @@ function runBuyBack($buyBackCoins){
     $originalSaleProfit = $buyBackCoins[$t][18];
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
-    $allBuyBackAsOverride = $buyBackCoins[$t][27];
+    $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];
     $tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $liveCoinPrice = $tempPrice[0][0];
@@ -242,7 +242,12 @@ function runBuyBack($buyBackCoins){
       if($allBuyBackAsOverride == 1){
         $overrideCoinAlloc = 1;
       }
-      $buyBackPurchasePrice = ($liveCoinPrice*$quantity)+$bbKittyAmount;
+      if ($tmpBaseCur == 'USDT'){ $tempConvAmt = 1; }
+      elseif ($tmpBaseCur == 'BTC'){ $tempConvAmt = $BTCPrice; }
+      elseif ($tmpBaseCur == 'ETH'){ $tempConvAmt = $ETHPrice; }
+
+      $buyBackPurchasePrice = ($liveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
+
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ continue;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
