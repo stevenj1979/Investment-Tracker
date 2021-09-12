@@ -206,10 +206,10 @@ function runBuyBack($buyBackCoins){
     $originalSaleProfit = $buyBackCoins[$t][18];
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
-    $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];
-    $tempPrice = getCoinPrice($CoinID);
+    $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];$liveCoinPrice = $buyBackCoins[$t][30];
+    //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
-    $liveCoinPrice = $tempPrice[0][0];
+
     $priceDifferecePct = (($liveCoinPrice-$sellPriceBA)/$sellPriceBA)*100;
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){

@@ -677,7 +677,7 @@ Function getCoinPrice($coinID){
 from `CoinPrice` `Cp`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID`
 where `Cp`.`CoinID` = $coinID";
-  print_r("<BR>".$sql);
+  //print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange']);
@@ -5657,7 +5657,7 @@ function getBuyBackData(){
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
   , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
   , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel`,`BullBearStatus`,`Type`,`OverrideCoinAllocation`
-  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice
+  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`
    FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5667,7 +5667,7 @@ function getBuyBackData(){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
-      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice']);
+      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice']);
   }
   $conn->close();
   return $tempAry;
