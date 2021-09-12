@@ -98,16 +98,15 @@ function getSavingSellCoins($userID){
     $whereclause = "Where `UserID` = $userID";
   }
   if (isset($_SESSION['savingProfitSelect'])){
-    if ($_SESSION['savingProfitSelect'] <> "none" and $_SESSION['savingProfitSelect'] <> ""){
+    //if ($_SESSION['savingProfitSelect'] <> "none" and $_SESSION['savingProfitSelect'] <> ""){
       if ($_SESSION['savingProfitSelect'] = "By Profit"){
         $whereclause = "having ProfitPct > 40";
       }
 
-    }
-
+    //}
   }
   if (isset($_SESSION['savingTotalSelect'])){
-    if ($_SESSION['savingTotalSelect'] <> "none" and $_SESSION['savingTotalSelect'] <> ""){
+    //if ($_SESSION['savingTotalSelect'] <> "" and $_SESSION['savingTotalSelect'] <> ""){
       if ($_SESSION['savingTotalSelect'] == "By Total"){
         if ($whereclause == "none"){
           $whereclause2 = "having TotalUSD > 20";
@@ -115,7 +114,7 @@ function getSavingSellCoins($userID){
           $whereclause2 = "and TotalUSD > 20";
         }
       }
-    }
+    //}
   }
   $conn = getSQLConn(rand(1,3));
   // Check connection
