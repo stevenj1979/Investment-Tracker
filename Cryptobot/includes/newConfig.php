@@ -535,6 +535,7 @@ function getNewSwapCoin($baseCurrency){
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
            Join `Coin` `Cn` on `Cn`.`ID` = `Bi`.`CoinID`
            where `Bi`.`Difference` > 2.5 and `Cn`.`BaseCurrency` = '$baseCurrency'
+           and `Cn`.`DoNotBuy` = 0 and `Cn`.`BuyCoin` = 1
             Order by `Difference` desc
             limit 1 ";
     print_r($sql);
