@@ -650,10 +650,10 @@ Function getOpenCoinSwaps(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `TransactionID`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`, `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`OriginalCoinID`,`OriginalSymbol`
-          ,`BittrexRefSell`,`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`UserID`,`ID` as CoinSwapID
-  FROM `CoinSwapView`
-  join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
+  $sql = "SELECT `CSV`.`TransactionID`, `CSV`.`Status`, `CSV`.`BittrexRef`, `CSV`.`NewCoinIDCandidate`, `CSV`.`NewCoinPrice`, `CSV`.`BaseCurrency`, `CSV`.`TotalAmount`, `CSV`.`OriginalPurchaseAmount`
+  , `CSV`.`Apikey`, `CSV`.`ApiSecret`, `CSV`.`KEK`,`CSV`.`Symbol`,`CSV`.`OriginalCoinID`,`CSV`.`OriginalSymbol` ,`CSV`.`BittrexRefSell`,`CSV`.`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`CSV`.`UserID`
+  ,`CSV`.`ID` as CoinSwapID
+  FROM `CoinSwapView` `CSV` join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
