@@ -297,6 +297,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,$GLOBALS['logToSQLSetting']);
+      return True;
     }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum = 3; $useAwards = False;
         //Swap Coin
@@ -319,11 +320,13 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
             if ($bittrexRef <> ""){
               newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID | $bittrexRef", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$transactionID");
               updateCoinSwapTable($transactionID,'AwaitingSale',$bittrexRef,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
+              return True;
             }
           }
 
     }
   }
+  return False;
 }
 
 function runSellSpreadBet($sellSpread){
@@ -1592,6 +1595,7 @@ $completeFlag = False;
 $reRunBuySavingsFlag = False;
 $runTrackingSellCoinFlag = False;
 $runNewTrackingCoinFlag = False;
+$runSpreadBetSellAndBuybackFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1631,8 +1635,11 @@ while($completeFlag == False){
         if ($i == 0){$buyBackCoins = getBuyBackData();}
         runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
-        if ($i == 0){$spreadBuyBack = getSpreadCoinSellDataFixed();}
-        runSpreadBetSellAndBuyback($spreadBuyBack);
+        if ($i == 0 OR $runSpreadBetSellAndBuybackFlag == True ){
+          $spreadBuyBack = getSpreadCoinSellDataFixed();
+          $runSpreadBetSellAndBuybackFlag = False;
+        }
+        $runSpreadBetSellAndBuybackFlag = runSpreadBetSellAndBuyback($spreadBuyBack);
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer){
           $sSBcurrent_date = date('Y-m-d H:i');
