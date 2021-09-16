@@ -214,7 +214,7 @@ function runBuyBack($buyBackCoins){
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
-      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus",3,$GLOBALS['logToSQLSetting']);
+      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice",3,1);
       //BuyBack
       $marketStats = getMarketstats();
       $reOpenData = reOpenTransactionfromBuyBack($bBID);
@@ -256,8 +256,10 @@ function runBuyBack($buyBackCoins){
       LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
       //CloseBuyBack
       closeBuyBack($bBID);
+      return True;
     }
   }
+  return False;
 }
 
 function runSpreadBetSellAndBuyback($spreadBuyBack){
@@ -1596,6 +1598,7 @@ $reRunBuySavingsFlag = False;
 $runTrackingSellCoinFlag = False;
 $runNewTrackingCoinFlag = False;
 $runSpreadBetSellAndBuybackFlag = False;
+$runBuyBackFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1632,8 +1635,11 @@ while($completeFlag == False){
         }
         runPriceDipRule($priceDipRules);
   echo "</blockquote><BR> CHECK BuyBack!! $i<blockquote>";
-        if ($i == 0){$buyBackCoins = getBuyBackData();}
-        runBuyBack($buyBackCoins);
+        if ($i == 0 or $runBuyBackFlag == True){
+          $buyBackCoins = getBuyBackData();
+          $runBuyBackFlag = False;
+        }
+        $runBuyBackFlag = runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
         if ($i == 0 OR $runSpreadBetSellAndBuybackFlag == True ){
           $spreadBuyBack = getSpreadCoinSellDataFixed();
