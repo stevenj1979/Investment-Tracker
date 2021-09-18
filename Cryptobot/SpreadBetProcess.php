@@ -565,7 +565,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
 
   $newRaisesinPrice = floor($raisesinPrice * ($avgPct/100));
   writeRaisesinPrice($newRaisesinPrice, $SBRuleID);
-  newLogToSQL("SpreadBetProcess","writeRaisesinPrice($newRaisesinPrice, $SBRuleID);",3,1,"","SBRuleID:$SBRuleID");
+  newLogToSQL("SpreadBetProcess","writeRaisesinPrice($newRaisesinPrice, $SBRuleID);",3,0,"","SBRuleID:$SBRuleID");
 }
 
 $progress = getSBProgress(3,20);
