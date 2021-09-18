@@ -552,7 +552,7 @@ for ($i=0;$i<$spreadBetSize;$i++){
   $allTimeFor24 = $allTimTotalPrice * ($pctOfAllTimeHigh / 100);
   $hr24Price = $startPrice - $month6For24 - $allTimeFor24;
 
-  update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
+  //update24Hrand7DPrice($hr24Price,$hr24Price,$SBRuleID);
 
   $avgPct = ($pctOfAllTimeHigh + $pctofSixMonthHigh)/2;
   Echo "<BR> MINSTOCANCEL: $minsToCancel | $avgPct ";
