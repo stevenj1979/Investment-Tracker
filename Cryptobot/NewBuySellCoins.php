@@ -1307,7 +1307,7 @@ function runBittrex($BittrexReqs,$apiVersion){
       }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
-        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID, 1,"SellComplete","TransactionID:$transactionID");
+        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID, 0,"SellComplete","TransactionID:$transactionID");
         if (($orderIsOpen == 0) OR ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
