@@ -1825,37 +1825,37 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   return $retSell;
 }
 
-function getNewCoinAllocation($baseCurrency,$userID,$lowFlag){
+function getNewCoinAllocation($baseCurrency,$userID,$overrideFlag){
   if ($baseCurrency == 'USDT'){
     //call USDT SQL
     //echo "<BR> BaseCurrency1: $baseCurrency";
-    echo "<BR> getNewUSDTAlloc($userID,$lowFlag);";
-    $newCoinAlloc = getNewUSDTAlloc($userID,$lowFlag);
+    echo "<BR> getNewUSDTAlloc($userID,$overrideFlag);";
+    $newCoinAlloc = getNewUSDTAlloc($userID,$overrideFlag);
   }elseif ($baseCurrency == 'BTC'){
     //echo "<BR> BaseCurrency2: $baseCurrency";
-    $newCoinAlloc = getNewBTCAlloc($userID,$lowFlag);
+    $newCoinAlloc = getNewBTCAlloc($userID,$overrideFlag);
   }elseif ($baseCurrency == 'ETH'){
     //echo "<BR> BaseCurrency3: $baseCurrency";
-    $newCoinAlloc = getNewETHAlloc($userID,$lowFlag);
+    $newCoinAlloc = getNewETHAlloc($userID,$overrideFlag);
   }
   //echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
   echo "<BR> Return(".$newCoinAlloc[0][0]."-".$newCoinAlloc[0][1].");";
   return $newCoinAlloc[0][0]-$newCoinAlloc[0][1];
 }
 
-function getNewUSDTAlloc($userID,$lowFlag){
+function getNewUSDTAlloc($userID,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  if ($lowFlag){
+  if ($overrideFlag){
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT (`USDTAlloc`/100)*`PctOnLow` AllocTotal
+    $sql = "SELECT (`USDTAlloc`) AllocTotal
             , sum(`USDTOpen`) as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }else{
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `USDTAlloc` AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,(`USDTAlloc`/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),(`USDTAlloc`/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
             , sum(`USDTOpen`) as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
@@ -1867,21 +1867,22 @@ function getNewUSDTAlloc($userID,$lowFlag){
   return $tempAry;
 }
 
-function getNewBTCAlloc($userID,$lowFlag){
+function getNewBTCAlloc($userID,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  if ($lowFlag){
+  if ($overrideFlag){
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT ((`BTCAlloc`/100)*`PctOnLow`)*getBTCPrice() as AllocTotal
-            , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
-            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
-  }else{
-    //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `BTCAlloc`*getBTCPrice() as AllocTotal
             , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+  }else{
+    //echo "<BR> Flag2: $lowFlag";
+    //$sql = "SELECT `BTCAlloc`*getBTCPrice() as AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
+            , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
+            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
   //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -1891,19 +1892,20 @@ function getNewBTCAlloc($userID,$lowFlag){
   return $tempAry;
 }
 
-function getNewETHAlloc($userID,$lowFlag){
+function getNewETHAlloc($userID,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  if ($lowFlag){
+  if ($overrideFlag){
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT ((`ETHAlloc`/100)*`PctOnLow`)*getETHPrice() as AllocTotal
+    $sql = "SELECT `ETHAlloc`*getETHPrice() as AllocTotal
             , sum(`ETHOpen`)*getETHPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }else{
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `ETHAlloc`*getETHPrice() as AllocTotal
+    //$sql = "SELECT `ETHAlloc`*getETHPrice() as AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
             , sum(`ETHOpen`)*getETHPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }

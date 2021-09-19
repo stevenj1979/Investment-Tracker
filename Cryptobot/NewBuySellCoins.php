@@ -262,7 +262,7 @@ function runBuyBack($buyBackCoins){
         $tempConvAmt = $ETHPrice;
         //$totalAvailable = $ETHAvailable*$tempConvAmt;
       }
-      if ($allBuyBackAsOverride == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
+      if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowBuyMode);
       if ($coinAllocation <= 20){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
@@ -461,8 +461,8 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
       Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy | $openCoinsSize | $totalNoOfBuys | $availableTrans";
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         //$spreadBetToBuy = getCoinAllocation($UserID);
-        if ($lowMarketModeEnabled > 0){ $lowMarketMode = True;}else {$lowMarketMode = False;}
-        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,$lowMarketMode);
+        //if ($lowMarketModeEnabled > 0){ $lowMarketMode = True;}else {$lowMarketMode = False;}
+        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,FALSE);
         $BTCtoSQL = ($spreadBetToBuy/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy/($divideAllocation - $openCoinsSize)); //*$inverseAvgHighPct
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
@@ -594,7 +594,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
-    if ($overrideCoinAlloc == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
+    if ($overrideCoinAlloc == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy | $baseCurrency";
