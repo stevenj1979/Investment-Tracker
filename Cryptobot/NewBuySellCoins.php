@@ -418,7 +418,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
     $disableUntil  = $spread[$y][36];
     $Hr1BuyPrice = $spread[$y][31];$Hr24BuyPrice = $spread[$y][32];$D7BuyPrice = $spread[$y][33]; $userID = $spread[$y][37];
     $inverseAvgHighPct = 100-(($pctofSixMonthHigh + $pctofAllTimeHigh)/2);
-    $risesInPrice = $spread[$y][38]; $timeToCancelBuyMins = $spread[$y][39];
+    $risesInPrice = $spread[$y][38]; $timeToCancelBuyMins = $spread[$y][39]; $lowMarketModeEnabled = $spread[$y][40];
     for ($q=0;$q<$SpreadBetUserSettingsSize;$q++){
       $tempUserID = $SpreadBetUserSettings[$q][3];
       if ($UserID == $tempUserID){
@@ -461,7 +461,8 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
       Echo "<BR> Test for SpreadBetRePurchase: $purchasePrice | $totalAmountToBuy | $openCoinsSize | $totalNoOfBuys | $availableTrans";
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         //$spreadBetToBuy = getCoinAllocation($UserID);
-        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,False);
+        if ($lowMarketModeEnabled > 0){ $lowMarketMode = True;}else {$lowMarketMode = False;}
+        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,$lowMarketMode);
         $BTCtoSQL = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy[0][0]/($divideAllocation - $openCoinsSize)); //*$inverseAvgHighPct
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;
