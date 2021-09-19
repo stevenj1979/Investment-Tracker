@@ -211,12 +211,12 @@ function runBuyBack($buyBackCoins){
     $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];$liveCoinPrice = $buyBackCoins[$t][30];
     //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
-    $priceDifferecePct = $buyBackCoins[$t][11];$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
-    if ($lowMarketModeEnabled > 0){ $lowMarketMultiplier = 100;}else{$lowMarketMultiplier = $pctOnLow;}
-    $BTCAvailable = (($buyBackCoins[$t][31]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][35];
-    $ETHAvailable = (($buyBackCoins[$t][32]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][36];
-    $USDTAvailable = (($buyBackCoins[$t][33]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][37];
-     $lowMarketModeDate = $buyBackCoins[$t][38];
+    $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
+    //if ($lowMarketModeEnabled > 0){ $lowMarketMultiplier = 100;}else{$lowMarketMultiplier = $pctOnLow;}
+    //$BTCAvailable = (($buyBackCoins[$t][31]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][35];
+    //$ETHAvailable = (($buyBackCoins[$t][32]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][36];
+    //$USDTAvailable = (($buyBackCoins[$t][33]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][37];
+    // $lowMarketModeDate = $buyBackCoins[$t][38];
     //$priceDifferecePct = (($liveCoinPrice-$sellPriceBA)/$sellPriceBA)*100;
 
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
@@ -254,21 +254,26 @@ function runBuyBack($buyBackCoins){
 
       if ($tmpBaseCur == 'USDT'){
         $tempConvAmt = 1;
-        $totalAvailable = $USDTAvailable*$tempConvAmt;
+        //$totalAvailable = $USDTAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'BTC'){
         $tempConvAmt = $BTCPrice;
-        $totalAvailable = $BTCAvailable*$tempConvAmt;
+        //$totalAvailable = $BTCAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'ETH'){
         $tempConvAmt = $ETHPrice;
-        $totalAvailable = $ETHAvailable*$tempConvAmt;
+        //$totalAvailable = $ETHAvailable*$tempConvAmt;
       }
-
+      if ($allBuyBackAsOverride == 1){ $lowBuyMode = False;}else{$lowBuyMode=True; }
+      $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowBuyMode);
+      if ($coinAllocation <= 20){
+          echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
+          return False;
+      }
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       $buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$quantity*$tempConvAmt)+$bbKittyAmount;
       LogToSQL("BuyBackTEST","$tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount | $buyBackPurchasePrice",3,1);
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ return False;}
-      if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
+      //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);";
       LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);",3,1);
@@ -592,7 +597,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation[0][0]." | $BTCAmount | $ruleIDBuy | $baseCurrency";
-    if ($coinAllocation <= 0 and $overrideCoinAlloc == 0){
+    if ($coinAllocation <= 20){
         echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
         return False;
     }

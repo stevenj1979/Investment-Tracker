@@ -5658,8 +5658,7 @@ function getBuyBackData(){
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
   , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
   , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel`,`BullBearStatus`,`Type`,`OverrideCoinAllocation`
-  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`,`BTCAlloc`, `ETHAlloc`, `USDTAlloc`, `PctOnLow`, `BTCOpen`, `ETHOpen`, `USDTOpen`, `LowMarketModeDate`
-  ,`LowMarketModeEnabled`
+  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`
    FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5669,8 +5668,7 @@ function getBuyBackData(){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
-      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['BTCAlloc'],$row['ETHAlloc'],$row['USDTAlloc'] //33
-      ,$row['PctOnLow'],$row['BTCOpen'],$row['ETHOpen'],$row['USDTOpen'],$row['LowMarketModeDate'],$row['LowMarketModeEnabled']); //39
+      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice']); 
   }
   $conn->close();
   return $tempAry;
