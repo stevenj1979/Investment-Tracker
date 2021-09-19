@@ -675,6 +675,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
           updateCoinSwapStatus('AwaitingSavingsPurchase',$swapCoinID, True);
+          return True;
         }
       }else{
         newLogToSQL("TrackingCoin","trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct)$coinID|$overrideCoinAlloc|".$coinAllocation[0][0]." | $type | $coinMode;",$userID,1,"TrackingSuccess","TrackingCoinID:$newTrackingCoinID");
@@ -1653,7 +1654,7 @@ while($completeFlag == False){
   echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
           if (($i == 0) or ($reRunBuySavingsFlag == True)){
             $reBuySavingsFixed = getOpenCoinSwaps();
-            $reRunBuySavingsFlag = Flase;
+            $reRunBuySavingsFlag = False;
           }
           $reRunBuySavingsFlag = runReBuySavings($reBuySavingsFixed);
   echo "</blockquote><BR> CHECK Sell Savings!! $i<blockquote>";
