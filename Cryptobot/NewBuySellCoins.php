@@ -157,8 +157,8 @@ function runSellSavings($spreadBuyBack){
   $spreadBuyBackSize = COUNT($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     $purchasePrice = $spreadBuyBack[$u][4];
-    $amount = $spreadBuyBack[$u][5];$CoinID = $spreadBuyBack[$u][2];$userID = $spreadBuyBack[$u][3];
-    $tempPrice = getCoinPrice($CoinID);
+    $amount = $spreadBuyBack[$u][5];$coinID = $spreadBuyBack[$u][2];$userID = $spreadBuyBack[$u][3];
+    $tempPrice = getCoinPrice($coinID);
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
