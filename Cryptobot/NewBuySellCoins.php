@@ -182,7 +182,7 @@ function runSellSavings($spreadBuyBack){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
   }elseif ($profitPCT <= -50 and $minsToDelay > 0){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
-      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 90, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
+      addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
       delaySavingBuy($transactionID);
     }
   }
