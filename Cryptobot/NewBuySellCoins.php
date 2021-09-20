@@ -178,7 +178,7 @@ function runSellSavings($spreadBuyBack){
       return True;
     }elseif ($profitPCT >= $profitTarget){
       Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
-    }elseif ($profitPCT <= -250){
+    }elseif ($profitPCT <= -200){
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 90, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
     }
   }
