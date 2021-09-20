@@ -1859,7 +1859,7 @@ function getNewUSDTAlloc($userID,$overrideFlag){
             , sum(`USDTOpen`) as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal'],$row['OpenTotal']);}
@@ -1884,7 +1884,7 @@ function getNewBTCAlloc($userID,$overrideFlag){
             , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal'],$row['OpenTotal']);}
