@@ -172,7 +172,9 @@ function runSellSavings($spreadBuyBack){
     //echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
     $profitPCT = ($profit/$buyPrice)*100;
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
-    echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay";
+    if ($profitPCT > 30 OR $profitPCT < -40){
+      echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay";
+    }
     if ($profitPCT >= $profitTarget AND ($sellPrice)>= $baseMin){
       newLogToSQL("runSellSavings","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
       newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
@@ -180,7 +182,7 @@ function runSellSavings($spreadBuyBack){
       return True;
     //}elseif ($profitPCT >= $profitTarget){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
-  }elseif ($profitPCT <= -50 and $minsToDelay > 0){
+    }elseif ($profitPCT <= -50 and $minsToDelay > 0){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
       delaySavingBuy($transactionID);
