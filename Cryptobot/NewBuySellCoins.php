@@ -609,7 +609,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation." | $BTCAmount | $ruleIDBuy | $baseCurrency";
-    if ($coinAllocation <= 20){
+    if ($coinAllocation <= 20 and $overrideCoinAlloc == 0){
         echo "<BR> EXIT CoinAllocation: $symbol | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
         return False;
     }
