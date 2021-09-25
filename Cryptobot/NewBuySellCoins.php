@@ -130,7 +130,7 @@ function runReBuySavings($coinSwaps){
       $bitPrice = $tempPrice[0][0];
       //$bitPrice = number_format($coinSwaps[$y][16],8);
       //$orderSale = isSaleComplete($coinSwaps,$y);
-      $sellPct = 15;
+      $sellPct = $coinSwaps[$y][19];
       $tolerance = 5;
       $sellPricePct = (($finalPrice/100)*$sellPct);
       $sellPriceTolerance = (($finalPrice/100)*$tolerance);
@@ -162,7 +162,7 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $minsToDelay = $spreadBuyBack[$u][65];
+    $minsToDelay = $spreadBuyBack[$u][65]; $bounceNoOfSells = $spreadBuyBack[$u][66];
     //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
     //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
@@ -182,11 +182,19 @@ function runSellSavings($spreadBuyBack){
       return True;
     //}elseif ($profitPCT >= $profitTarget){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
-    }elseif ($profitPCT <= -50 and $minsToDelay > 0){
+    }elseif ($profitPCT <= -50 and $minsToDelay > 0 and $bounceNoOfSells <= 1){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
       delaySavingBuy($transactionID);
+      return True;
+    }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $bounceNoOfSells >= 2 and $bounceDifference >= 2.5){
+      newLogToSQL("runSellSavings","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
+      newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
+      setTransactionPending($transactionID);
+      setBuyPct($bounceDifference,$transactionID);
+      return True;
     }
+
   }
   return False;
 }
@@ -1205,7 +1213,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $liveCoinPriceBit = $BittrexReqs[$b][22]; $buyCancelTime = substr($BittrexReqs[$b][23],0,strlen($BittrexReqs[$b][23])-1); $sellFlag = false; $spreadBetRuleID = $BittrexReqs[$b][30];
     $spreadBetTransactionID  = $BittrexReqs[$b][31]; $redirectPurchasesToSpread = $BittrexReqs[$b][32]; $spreadBetIDRedirect = $BittrexReqs[$b][33];
     $coinModeRule = $BittrexReqs[$b][27]; $pctToSave = $BittrexReqs[$b][29]; $minsToPause = $BittrexReqs[$b][34]; $originalAmount = $BittrexReqs[$b][35]; $saveResidualCoins = $BittrexReqs[$b][36];
-    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26];
+    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1299,7 +1307,8 @@ function runBittrex($BittrexReqs,$apiVersion){
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
-        if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
+        //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
+        if ( $minsSinceAction >= $timeToCancelMins){
           echo "<BR>CANCEL time exceeded! CANCELLING!";
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
