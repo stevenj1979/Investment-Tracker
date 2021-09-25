@@ -572,7 +572,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     //  $openTransactionFlag = False;
     //}
 
-
+    echo "<BR> Tracking Coin: Checking $symbol | $buyType";
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
     $delayCoinPurchaseSize = count($delayCoinPurchase);
