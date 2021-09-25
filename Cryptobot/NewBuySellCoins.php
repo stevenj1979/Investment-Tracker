@@ -277,13 +277,13 @@ function runBuyBack($buyBackCoins){
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowBuyMode);
       if ($coinAllocation <= 20 && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
-          return False;
+          continue;
       }
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       $buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$quantity*$tempConvAmt)+$bbKittyAmount;
       LogToSQL("BuyBackTEST","$tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount | $buyBackPurchasePrice",3,1);
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
-      if($tmpSalePrice <= 0 ){ return False;}
+      if($tmpSalePrice <= 0 ){ continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpOriginalPriceWithBuffer,$tmpSBTransID,$tmpSBRuleID);";
