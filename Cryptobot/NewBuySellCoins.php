@@ -535,7 +535,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
   return False;
 }
 
-function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions){
+function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase){
   $coinPurchaseSettingsSize = count($coinPurchaseSettings);
   $newTrackingCoinsSize = count($newTrackingCoins);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
@@ -1724,9 +1724,10 @@ while($completeFlag == False){
           $ruleProfit = getRuleProfit();
           $coinPurchaseSettings = getCoinPurchaseSettings();
           $openTransactions = getOpenTransactions();
+          $delayCoinPurchase = getDelayCoinPurchaseTimes();
           $runNewTrackingCoinFlag = False;
         }
-        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions);
+        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if ((date("Y-m-d H:i", time()) >= $trackingSellCoinTimer) Or ($runTrackingSellCoinFlag == True)) {
           $TSCcurrent_date = date('Y-m-d H:i');
