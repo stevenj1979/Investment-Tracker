@@ -161,8 +161,8 @@ function runSellSavings($spreadBuyBack){
     $tempPrice = getCoinPrice($coinID);
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
-    $bounceDifference = $spreadBuyBack[$u][62];$delayCoinSwap = $spreadBuyBack[$u][63];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $minsToDelay = $spreadBuyBack[$u][65]; $bounceNoOfSells = $spreadBuyBack[$u][66];
+    $bounceDifference = $spreadBuyBack[$u][62];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
+    $minsToDelay = $spreadBuyBack[$u][63]; 
     //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
     //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
@@ -182,12 +182,12 @@ function runSellSavings($spreadBuyBack){
       return True;
     //}elseif ($profitPCT >= $profitTarget){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
-    }elseif ($profitPCT <= -50 and $minsToDelay > 0 and $bounceNoOfSells <= 1){
+    }elseif ($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
       delaySavingBuy($transactionID);
       return True;
-    }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $bounceNoOfSells >= 2 and $bounceDifference >= 2.5){
+    }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $noOfBounceSells >= 2 and $bounceDifference >= 2.5){
       newLogToSQL("runSellSavings","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
       newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
       setTransactionPending($transactionID);
