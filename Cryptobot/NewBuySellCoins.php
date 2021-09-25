@@ -610,7 +610,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation." | $BTCAmount | $ruleIDBuy | $baseCurrency";
     if ($coinAllocation <= 20){
-        echo "<BR> EXIT CoinAllocation: $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
+        echo "<BR> EXIT CoinAllocation: $symbol | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
         return False;
     }
     Echo "<BR> Tracking Buy Count 3 <BR>";
