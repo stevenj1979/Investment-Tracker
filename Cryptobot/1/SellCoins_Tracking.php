@@ -69,7 +69,7 @@ if(isset($_GET['SellNow'])){
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
          &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         echo "<table border=1>";
-        NewEcho ("<th>Coin</th><th>Price</th><th>PurchasePrice</th>",$_SESSION['isMobile'],2);
+        NewEcho ("<th>Coin</th><TH>Type</th><th>Price</th><th>PurchasePrice</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Trans ID</th><th>OrderNo</th><th>Live Total Price</th>",$_SESSION['isMobile'],0);
         NewEcho ("<th>Base to Live Diff %</th><th>Profit</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>Fee</th>",$_SESSION['isMobile'],0);
@@ -85,9 +85,10 @@ if(isset($_GET['SellNow'])){
           $BaseCurrency = $trackingSell[$x][15]; $SendEmail = $trackingSell[$x][16]; $SellCoin = $trackingSell[$x][17]; $CoinSellOffsetEnabled = $trackingSell[$x][18]; $CoinSellOffsetPct = $trackingSell[$x][19];
           $LiveCoinPrice = $trackingSell[$x][20]; $minsFromDate = $trackingSell[$x][21]; $profit = $trackingSell[$x][22]; $fee = $trackingSell[$x][23]; $ProfitPct = $trackingSell[$x][24];
           $totalRisesInPrice =  $trackingSell[$x][33]; $coin = $trackingSell[$x][26];$ogPctProfit = $trackingSell[$x][27];$baseSellPrice = $trackingSell[$x][35];
+          $trackingType = $trackingSell[$x][41];
           if ($BaseCurrency == 'BTC'){ $num = 8;}
           echo "<tr>";
-          NewEcho ("<td>|$coin</td>",$_SESSION['isMobile'],2);
+          NewEcho ("<td>|$coin</td><td>$trackingType</td>",$_SESSION['isMobile'],2);
           NewEcho ("<td>|".number_format($CoinPrice,$num)."</td>",$_SESSION['isMobile'],2);
           $purchasePrice = $CoinPrice * $Amount;
           NewEcho ("<td>|".number_format( $purchasePrice,$num)."</td>",$_SESSION['isMobile'],2);
