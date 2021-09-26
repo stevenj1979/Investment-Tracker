@@ -694,7 +694,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           Echo "<BR> Bittrex ID: $bittrexRef";
           updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
-          updateCoinSwapStatus('AwaitingSavingsPurchase',$swapCoinID, True);
+          updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$swapCoinID);
           closeNewTrackingCoin($newTrackingCoinID, False);
           return True;
         }

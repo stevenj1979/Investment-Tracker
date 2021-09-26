@@ -690,18 +690,14 @@ where `Cp`.`CoinID` = $coinID";
   return $tempAry;
 }
 
-function updateCoinSwapStatus($status,$transID, $whichID = False){
+function updateCoinSwapStatus($status,$transID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    if ($whichID == False){
-      $selectID = "`TransactionID`";
-    }else{
-      $selectID = "`ID`";
-    }
-    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where $selectID = $transID";
+
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `TransactionID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -709,6 +705,24 @@ function updateCoinSwapStatus($status,$transID, $whichID = False){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     newLogToSQL("updateCoinSwapStatus",$sql,3,0,"SQL","BittrexID:$bittrexRef");
+    $conn->close();
+}
+
+function updateCoinSwapStatusCoinSwapID($status,$swapCoinID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `ID` = $swapCoinID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateCoinSwapStatusCoinSwapID",$sql,3,0,"SQL","CoinSwapID:$swapCoinID");
     $conn->close();
 }
 
@@ -747,16 +761,16 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     $conn->close();
 }
 
-function updateCoinSwapBittrexID($bittrexRef,$transID,$newCoinID,$newPrice,$buyFlag, $sellFinalPrice = 0.0){
+function updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$newCoinID,$newPrice,$buyFlag, $sellFinalPrice = 0.0){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     if ($buyFlag == 'Buy'){
-        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transID";
+        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `ID` = $swapCoinID";
     }else{
-      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transID";
+      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `ID` = $swapCoinID";
     }
 
     //print_r($sql);
