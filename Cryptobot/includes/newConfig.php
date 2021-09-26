@@ -5090,7 +5090,7 @@ function getSavingsData($ID = 0){
   , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
   , `Live1HrChange`, `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`
   , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, 'SpreadBetTransactionID'
-  ,'PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`
+  ,'PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice
   FROM `SellCoinSavings` $whereclause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5103,7 +5103,7 @@ function getSavingsData($ID = 0){
       ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
       ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
-    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells']); //64
+    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells'],$row['BTCPrice'],$row['ETHPrice']); //64
   }
   $conn->close();
   return $tempAry;
