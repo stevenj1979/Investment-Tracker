@@ -162,7 +162,7 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $minsToDelay = $spreadBuyBack[$u][63]; 
+    $minsToDelay = $spreadBuyBack[$u][63];
     //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
     //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
@@ -779,6 +779,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
         }else{
           newLogToSQL("SellSavingsError", var_dump($obj), $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$TransactionID");
         }
+
       }else{
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingSellCoins[$b][11]);}
 
@@ -815,6 +816,11 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           return True;
         }
       }
+    }
+    if ($minsFromDate > 1440 and $trackingType == 'SavingSell'){
+      closeNewTrackingSellCoin($TransactionID);
+      updateTransStatus($TransactionID,'Saving');
+      return True;
     }
   }
   return False;

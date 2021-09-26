@@ -1995,6 +1995,22 @@ function updateSQL($baseCurrency, $transactionID, $BittrexID){
     newLogToSQL("updateSQL",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
 }
 
+function updateTransStatus($transactionID,$status){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `Status` = '$status' WHERE `ID` = $transactionID";
+
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+    $conn->close();
+    newLogToSQL("updateTransStatus",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+}
+
 function clearBittrexRef($transactionID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
