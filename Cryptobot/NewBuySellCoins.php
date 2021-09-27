@@ -777,6 +777,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           updateCoinSwapTransactionStatus('SavingsSell',$TransactionID);
           newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$TransactionID");
           updateCoinSwapTable($TransactionID,'AwaitingSavingsSale',$bittrexRef,$CoinID,$LiveCoinPrice,$baseCurrency,$LiveCoinPrice * $Amount,$CoinPrice * $Amount,'Sell');
+          closeNewTrackingSellCoin($TransactionID);
         }else{
           newLogToSQL("SellSavingsError", var_dump($obj), $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$TransactionID");
         }

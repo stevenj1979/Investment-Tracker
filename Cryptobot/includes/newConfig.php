@@ -739,7 +739,7 @@ function updateCoinSwapStatusFinalPrice($status,$transID,$finalPrice){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapStatusFinalPrice",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
