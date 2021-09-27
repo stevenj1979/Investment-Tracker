@@ -176,7 +176,7 @@ function runSellSavings($spreadBuyBack){
       echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay | bounceSell: $noOfBounceSells | bounceDiff: $bounceDifference";
     }
     if ($profitPCT >= $profitTarget AND ($sellPrice >= $baseMin)){
-      newLogToSQL("runSellSavings_v1","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
+      newLogToSQL("runSellSavings_v1","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
       newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
       setTransactionPending($transactionID);
       return True;
@@ -184,12 +184,12 @@ function runSellSavings($spreadBuyBack){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
   }elseif ($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1 AND ($sellPrice >= $baseMin)){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
-      newLogToSQL("runSellSavings_v3","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
+      newLogToSQL("runSellSavings_v3","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1);
       delaySavingBuy($transactionID);
       return True;
     }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $noOfBounceSells >= 2 and $bounceDifference >= 2.5 AND ($sellPrice >= $baseMin)){
-      newLogToSQL("runSellSavings_v2","$baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $bounceTopPrice | $LiveCoinPrice | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
+      newLogToSQL("runSellSavings_v2","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $bounceTopPrice | $LiveCoinPrice | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
       newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingSell');
       setTransactionPending($transactionID);
       setBuyPct($bounceDifference,$transactionID);
