@@ -5087,9 +5087,9 @@ function getSpreadCoinSellDataFixed($ID = 0){
 
 function getSavingsData($ID = 0){
   if ($ID == 0){
-    $whereclause = "";
+    $whereclause = "Where `Amount` >= `MinTradeSize`";
   }else{
-    $whereclause = " WHERE `TransactionID` = $ID ";
+    $whereclause = " WHERE `ID` = $ID and `Amount` >= `MinTradeSize`";
   }
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
