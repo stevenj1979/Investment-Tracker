@@ -739,7 +739,7 @@ function updateCoinSwapStatusFinalPrice($status,$transID,$finalPrice){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapStatus",$sql,3,0,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
@@ -757,7 +757,7 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapCoinDetails",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapCoinDetails",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
@@ -3960,7 +3960,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
   }
   $conn->close();
   logAction("updateSellAmount: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateSellAmount",$sql,3,0,"SQL","TransactionID:$TransactionID");
+  newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");
 }
 
 function getNewTrackingSellCoins($userID = 0){
@@ -4249,7 +4249,7 @@ function updateSQLQuantity($uuid, $quantity){
   }
   $conn->close();
   logAction("updateSQLQuantity: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSQLQuantity",$sql,3,0,"SQL","BittrexRef:$uuid");
+  newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");
 }
 
 function getCoinPriceMatchNames($userID, $table, $limit){
@@ -4660,7 +4660,7 @@ function updateBuyAmount($transactionID, $amount){
   }
   $conn->close();
   logAction("updateBuyAmount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateBuyAmount",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function cancelTrackingBuy($ruleId){
@@ -4870,7 +4870,7 @@ function SpreadBetBittrexCancelPartialBuy($transactionID,$quantity){
   }
   $conn->close();
   logAction("SpreadBetBittrexCancelPartialBuy: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
