@@ -722,7 +722,7 @@ function updateCoinSwapStatusCoinSwapID($status,$swapCoinID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapStatusCoinSwapID",$sql,3,0,"SQL","CoinSwapID:$swapCoinID");
+    newLogToSQL("updateCoinSwapStatusCoinSwapID",$sql,3,1,"SQL","CoinSwapID:$swapCoinID");
     $conn->close();
 }
 
@@ -779,7 +779,7 @@ function updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$newCoinID,$newPrice,$b
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapBittrexID",$sql,3,sQLUpdateLog,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapBittrexID",$sql,3,1,"SQL","BittrexID:$bittrexRef");
     $conn->close();
 }
 
@@ -3659,7 +3659,7 @@ function closeNewTrackingCoin($ID, $deleteFlag){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin",$sql,3,0,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
 }
 
 function updateTrackingCoinToMerge($ID, $noOfPurchases){
