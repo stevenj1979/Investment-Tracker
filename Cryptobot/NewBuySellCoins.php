@@ -690,9 +690,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         echo"<BR> bittrexbuy($APIKey, $APISecret, $symbol, $quant, $rate, $baseCurrency,3,FALSE);";
         $obj = bittrexbuy($APIKey, $APISecret, $symbol,$quant , $rate, $baseCurrency,3,FALSE);
         $bittrexRef = $obj["id"];
+        newLogToSQL("CoinSwapBittrexID",$bittrexRef & " | " & $symbol,3,1,"SaveBittrexRef","BittrexID:$bittrexRef");
         if ($bittrexRef <> ""){
           Echo "<BR> Bittrex ID: $bittrexRef";
-          newLogToSQL("CoinSwapBittrexID",$bittrexRef & " | " & $symbol,3,1,"SaveBittrexRef","BittrexID:$bittrexRef");
           updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
           updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$swapCoinID);
