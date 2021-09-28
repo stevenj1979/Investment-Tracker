@@ -756,6 +756,13 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
     $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41];
     $market1HrChangePct = $marketStats[0][1];
+
+    if ($minsFromDate > 1440 and $trackingType == 'SavingSell'){
+      closeNewTrackingSellCoin($TransactionID);
+      updateTransStatus($TransactionID,'Saving');
+      return True;
+    }
+    
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct);
     if ($readyToSell == True){
@@ -820,11 +827,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
         }
       }
     }
-    if ($minsFromDate > 1440 and $trackingType == 'SavingSell'){
-      closeNewTrackingSellCoin($TransactionID);
-      updateTransStatus($TransactionID,'Saving');
-      return True;
-    }
+
   }
   return False;
 }
