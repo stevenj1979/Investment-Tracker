@@ -3900,7 +3900,7 @@ function setBuyPct($bounceDifference,$transactionID){
   }
   $conn->close();
   logAction("setBuyPct: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setBuyPct","$sql",3,0,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("setBuyPct","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
 }
 
 function setTransactionPending($id){
