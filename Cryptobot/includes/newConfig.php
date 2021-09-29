@@ -3469,7 +3469,7 @@ function addCoinSwapIDtoTracking($coinSwapID,$transID){
   newLogToSQL("addCoinSwapIDtoTracking","$sql",3,0,"SQL CALL","UserID:$userID");
 }
 
-function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc, $transID = 0){
+function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,$callName, $transID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -3490,7 +3490,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
   $conn->close();
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addTrackingCoin","$sql",3,1,"SQL CALL","UserID:$userID");
+  newLogToSQL("NewBuySellCoins:$callName","$sql",3,1,"addTrackingCoin","UserID:$userID");
 }
 
 function runLowMarketMode($userID,$mode){
@@ -3863,7 +3863,7 @@ function saveImage($coin, $url, $savePath){
   fclose($fp);
 }
 
-function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$type){
+function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$type,$callName){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -3880,7 +3880,7 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
   }
   $conn->close();
   logAction("newTrackingSellCoins: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("newTrackingSellCoins","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("BuySellCoins:$callName","$sql",3,1,"newTrackingSellCoins","TransactionID:$transactionID");
 }
 
 function setBuyPct($bounceDifference,$transactionID){
