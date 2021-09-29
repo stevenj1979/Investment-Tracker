@@ -141,7 +141,7 @@ function updateSQLactive($userID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateSQLactive",$sql,3,0,"SQL","UserID:$userID");
+    newLogToSQL("CoinAdmin",$sql,3,0,"updateSQLactive","UserID:$userID");
 }
 
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
@@ -204,7 +204,7 @@ function updateFixSellRule($newFixRule, $transactionID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateFixSellRule",$sql,3,0,"SQL","TransactionID:$transactionID");
+    newLogToSQL("CoinAdmin",$sql,3,0,"updateFixSellRule","TransactionID:$transactionID");
 }
 
 
@@ -228,7 +228,7 @@ function checkSellSequence(){
           for ($z =$y+1; $z<$sequenceCount; $z ++ ){
               if ( $sequence[$z][0] == $userID){
                 updateFixSellRule($sequence[$z][1],$transactionID);
-                logToSQL("Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID,1);
+                logToSQL("CoinAdmin-Sell Coin Sequence", "Change Fixed Sell Rule from ".$sequence[$y][1]." to ".$sequence[$z][1]." TransactionID: $transactionID", $userID,1);
               }
           }
 
@@ -293,7 +293,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writePrice",$sql,3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"writePrice","CoinID:$coinID");
 }
 
 
@@ -321,7 +321,7 @@ function checkRuleIsOpen($id){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("checkRuleIsOpen",$sql,3,0,"SQL CALL","RuleID:$id");
+  newLogToSQL("CoinAdmin",$sql,3,0,"checkRuleIsOpen","RuleID:$id");
 }
 
 function getSellRules(){
@@ -348,7 +348,7 @@ function clearOrphanedRules($sellRule, $coinID, $userID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("clearOrphanedRules",$sql,3,0,"SQL CALL","SellRuleID:$sellRule UserID:$userID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"clearOrphanedRules","SellRuleID:$sellRule UserID:$userID");
 }
 
 function getCoinHigh(){
@@ -388,7 +388,7 @@ function writeHigh($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeHigh",$sql,3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"writeHigh","CoinID:$coinID");
 }
 
 function writeLow($coinID, $price){
@@ -402,7 +402,7 @@ function writeLow($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeLow",$sql,3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"writeLow","CoinID:$coinID");
 }
 
 function updateCoinPct($coinID,$buyRuleID, $mode){
@@ -416,7 +416,7 @@ function updateCoinPct($coinID,$buyRuleID, $mode){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateCoinPct",$sql,3,0,"SQL CALL","CoinID:$coinID BuyRuleID:$buyRuleID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"updateCoinPct","CoinID:$coinID BuyRuleID:$buyRuleID");
 }
 
 function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
@@ -433,7 +433,7 @@ function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateSpreadPct",$sql,3,0,"SQL","CoinID:$coinID SBRuleID:$spreadBetRuleID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"updateSpreadPct","CoinID:$coinID SBRuleID:$spreadBetRuleID");
 }
 
 function updateCoinModeBuyPct(){
@@ -493,7 +493,7 @@ function updateSpreadBetCoinHistory(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateSpreadBetCoinHistory",$sql,3,0,"SQL CALL","");
+  newLogToSQL("CoinAdmin",$sql,3,0,"updateSpreadBetCoinHistory","");
 }
 
 function getSoldfromSQL(){
@@ -567,7 +567,7 @@ function updateBuyBackOvernight($bbID,$bbPct){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateBuyBackOvernight",$sql,3,0,"SQL CALL","");
+  newLogToSQL("CoinAdmin",$sql,3,0,"updateBuyBackOvernight","");
 }
 
 function overNightBuyBackReduction(){
@@ -590,7 +590,7 @@ function deleteCoinSwapClosed(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("deleteCoinSwapClosed",$sql,3,0,"SQL CALL","");
+  newLogToSQL("CoinAdmin",$sql,3,0,"deleteCoinSwapClosed","");
 }
 
 function runNewDashboard(){
@@ -613,7 +613,7 @@ function runNewDashboard(){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("runNewDashbaord",$sql,3,0,"SQL","UserID:");
+    newLogToSQL("CoinAdmin",$sql,3,0,"runNewDashbaord","UserID:");
     logAction("runNewDashbaord: ".$sql, 'BuySell', 0);
 }
 
@@ -632,7 +632,7 @@ function fixQTUM(){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("fixQTUM",$sql,3,0,"SQL","UserID:");
+    newLogToSQL("CoinAdmin",$sql,3,0,"fixQTUM","UserID:");
     logAction("fixQTUM: ".$sql, 'BuySell', 0);
 }
 

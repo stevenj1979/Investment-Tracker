@@ -59,7 +59,7 @@ function checkMarketforPctDip(){
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode";
           if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
-          LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+          LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,0);
         }
 
     //}elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
@@ -74,7 +74,7 @@ function checkMarketforPctDip(){
         $userID = $userIDs[$t][0];
         echo "<BR> Enabing LowMarketMode for: $userID Mode: 0";
         runLowMarketMode($userID,-1);
-        LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+        LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,0);
       }
     }
     WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
@@ -126,9 +126,9 @@ function SpreadBetTest(){
   $sbTrans = getWrongSpreadBet();
   $sbTransSize = count($sbTrans);
   if (isset($sbTransSize)){
-    newLogToSQL("SpreadBetTest",$sql,3,1,1,"Non-ZERO","Count:$sbTransSize");
+    newLogToSQL("SpreadBetTest",$sql,3,0,"Non-ZERO","Count:$sbTransSize");
   }else{
-    newLogToSQL("SpreadBetTest",$sql,3,1,1,"ZERO","Count:$sbTransSize");
+    newLogToSQL("SpreadBetTest",$sql,3,0,"ZERO","Count:$sbTransSize");
   }
 }
 
@@ -267,7 +267,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID, $ruleID, $newLowPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);
           echo "<BR>WritetoRule($coinID, $ruleID, $newLowPrice,$newProjectedMinPrice,$buyAmount, 1, 1,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelBuy,$hr1Top,$newMoinModeSellRuleEnabled,$coinModeOverridePriceEnabled,$coinPricePatternEnabled);";
           if ($modeID <> 1){
-            logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 1);
+            logToSQL("CoinModeBuy","Change Coin mode to 1 for: $symbol ($coinID) | $livePrice | $new6MonthHighPrice | $new6MonthLowPrice", $userID, 0);
             if ($coinModeEmailsEnabled == 1){
               sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Buy Mode Activated",$userName, "Buy Mode",$pctToBuy,$numOfRisesInPrice,$new6MonthHighPrice,$new6MonthLowPrice,$livePrice,$newProjectedMaxPrice,$newProjectedMinPrice,$buyAmount,$newLowPrice);
             }
@@ -336,7 +336,7 @@ function isBuyMode($coinAry, $minBuyAmount){
           WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelSell,0,0,0,$coinPricePatternEnabled);
           Echo "<BR>WritetoRule($coinID,$ruleID,$newProjectedMaxPrice,$newLowPrice, 0, 1, 2,$ruleIDSell,$numOfRisesInPrice,$newMinsToCancelSell,0,0);";
           if ($modeID <> 2 ){
-            logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 1);
+            logToSQL("CoinModeSell","Change Coin mode to 2 for: $symbol ($coinID) | $livePrice", $userID, 0);
             if ($coinModeEmailsEnabled == 1){
               sendCoinModeEmail($email,$symbol,$Hr1AveragePrice,$pctInc24Hours,$pctInc7Day, "$symbol Sell Mode Activated",$userName, "Sell Mode",$pctToBuy,$numOfRisesInPrice,$newProjectedMaxPrice,$newProjectedMinPrice,$livePrice,$newProjectedMaxPrice,$newProjectedMinPrice,0,$newLowPrice);
             }

@@ -213,7 +213,7 @@ function ConsolidatePriceHostory(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("ConsolidatePriceHostory",$sql,3,0,"SQL CALL","");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"ConsolidatePriceHostory","");
 }
 
 function update1Hr_24Hr_7DPct(){
@@ -261,7 +261,7 @@ function addBearBullStatsToSQL($price,$coinID){
   }
   $conn->close();
   logAction("addBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addBearBullStatsToSQL",$sql,3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addBearBullStatsToSQL","CoinID:$coinID");
 }
 
 function addMarketBearBullStatsToSQL($price){
@@ -278,7 +278,7 @@ function addMarketBearBullStatsToSQL($price){
   }
   $conn->close();
   logAction("addMarketBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addMarketBearBullStatsToSQL",$sql,3,0,"SQL","Price:$price");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addMarketBearBullStatsToSQL","Price:$price");
 }
 
 function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct){
@@ -296,7 +296,7 @@ function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,
   }
   $conn->close();
   logAction("addHistoryBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addHistoryBearBullStatsToSQL",$sql,3,0,"SQL","CoinID:$coinID");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addHistoryBearBullStatsToSQL","CoinID:$coinID");
 }
 
 function getBearBullStats(){
