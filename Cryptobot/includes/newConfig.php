@@ -749,7 +749,8 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `CoinID` = $coinID, `CoinPrice`= $coinPrice, `Amount` = $amount, `OrderNo` = '$orderNo', `Status` = '$status', `DelayCoinSwapUntil` = date_add(now(),INTERVAL 14 DAY),`OriginalAmount` = 0
+    $sql = "UPDATE `Transaction` SET `CoinID` = $coinID, `CoinPrice` = CASE When `CoinID` = $coinID THEN (`CoinPrice` + $coinPrice)/2 ELSE `CoinPrice`= $coinPrice END
+    `Amount` = $amount,`OrderNo` = '$orderNo', `Status` = '$status', `DelayCoinSwapUntil` = date_add(now(),INTERVAL 14 DAY),`OriginalAmount` = 0
     where `ID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
