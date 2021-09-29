@@ -3490,7 +3490,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
   $conn->close();
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addTrackingCoin","$sql",3,0,"SQL CALL","UserID:$userID");
+  newLogToSQL("addTrackingCoin","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function runLowMarketMode($userID,$mode){
@@ -3880,7 +3880,7 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
   }
   $conn->close();
   logAction("newTrackingSellCoins: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("newTrackingSellCoins","$sql",3,0,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("newTrackingSellCoins","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
 }
 
 function setBuyPct($bounceDifference,$transactionID){
