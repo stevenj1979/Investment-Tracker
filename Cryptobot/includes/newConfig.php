@@ -5572,14 +5572,14 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
 
     if (($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $bottomSwing && $livePrice <= $topSwing && $pctProfit >= 2)){
-      newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 0,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
       echo "<BR> Option8: within Swing Ready to Sell";
       reopenTransaction($TransactionID);
       return True;
     }
 
     if ($pctProfit >= 60.0){
-      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 0,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
       return True;
@@ -5607,7 +5607,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       echo "<BR> Option2: Sell";
-      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       return True;
     }

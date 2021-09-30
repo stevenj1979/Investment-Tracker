@@ -783,7 +783,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
         $bittrexRef = $obj["id"];
         if ($bittrexRef <> ""){
           updateCoinSwapTransactionStatus('SavingsSell',$TransactionID);
-          newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$TransactionID");
+          newLogToSQL("SellSavings", "Sell Savings Coin: $CoinID | $bittrexRef", $userID, 1,"Sell Coin","TransactionID:$TransactionID");
           updateCoinSwapTable($TransactionID,'AwaitingSavingsSale',$bittrexRef,$CoinID,$LiveCoinPrice,$baseCurrency,$LiveCoinPrice * $Amount,$CoinPrice * $Amount,'Sell');
           closeNewTrackingSellCoin($TransactionID);
         }else{
@@ -796,7 +796,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
 
           //LogToSQL("SaveResidualCoins","$saveResidualCoins",3,1);
-          newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins","TransactionID:$TransactionID");
+          newLogToSQL("TrackingSell","$coin | $CoinID | $CoinPrice | $LiveCoinPrice | $Amount | $TransactionID | $saveResidualCoins $type | $ProfitPct | $PurchasePrice | $salePrice | $profit",3,1,"SaveResidualCoins","TransactionID:$TransactionID");
           if ($saveResidualCoins == 1 and $ProfitPct >= 0.25){
             $oldAmount = $Amount;
             if ($origAmount == 0){
