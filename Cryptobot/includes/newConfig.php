@@ -644,7 +644,7 @@ function updateCoinSwapTransactionStatus($status,$transID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,1,"SQL","BittrexID:$bittrexRef");
+    newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,1,"SQL","TransID:$transID");
     $conn->close();
 }
 
@@ -3924,7 +3924,7 @@ function setTransactionPending($id){
   }
   $conn->close();
   logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$id");
+  newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$id");
 }
 
 function fixResidual(){
@@ -5091,9 +5091,9 @@ function getSpreadCoinSellDataFixed($ID = 0){
 
 function getSavingsData($ID = 0){
   if ($ID == 0){
-    $whereclause = "Where `Amount` >= `MinTradeSize`";
+    $whereclause = "Where `Amount` >= `MinTradeSize` and `BuyCoin` = 1";
   }else{
-    $whereclause = " WHERE `ID` = $ID and `Amount` >= `MinTradeSize`";
+    $whereclause = " WHERE `ID` = $ID and `Amount` >= `MinTradeSize` and `BuyCoin` = 1";
   }
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
