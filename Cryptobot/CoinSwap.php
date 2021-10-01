@@ -131,6 +131,7 @@ function runCoinSwaps(){
         $finalPrice = $orderSale[1];
         newLogToSQL("CoinSwap","updateCoinSwapStatus('AwaitingSavingsBuy',$transID,$finalPrice);",3,1,"updateCoinSwapStatus","TransID:$transID");
         updateCoinSwapStatusFinalPrice('AwaitingSavingsBuy',$transID,$finalPrice);
+        updateCoinSwapTransactionStatus('SavingsSell',$transID);
       }
     /*}else if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
