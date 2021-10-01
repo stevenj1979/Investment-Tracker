@@ -542,6 +542,32 @@ function DeleteCMCDisabledCoins(){
   $conn->close();
 }
 
+function DeleteClosedTracking(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `TrackingCoins` WHERE `Status` = 'Closed' and `TrackDate` < (curdate() - interval 14 day)";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
+function DeleteClosedTrackingSell(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "DELETE FROM `TrackingSellCoins` WHERE `Status` = 'Closed' and `TrackDate` < (curdate() - interval 14 day)";
+  //print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+}
+
 function getNewBuyBackData(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
@@ -696,6 +722,8 @@ updateSpreadBetCoinHistory();
 RunSellTrendUpdate();
 
 DeleteCMCDisabledCoins();
+DeleteClosedTracking();
+DeleteClosedTrackingSell();
 
 OptimiseHistoryTable("`PriceHistory`");
 OptimiseTable("`ActionLog`");
@@ -705,6 +733,7 @@ OptimiseTable("`TrackingCoins`");
 OptimiseTable("`CoinModeRules`");
 OptimiseTable("`BuyRules`");
 OptimiseTable("`SellRules`");
+OptimiseTable("`SpreadBetCoins`");
 
 overNightBuyBackReduction();
 deleteCoinSwapClosed();
