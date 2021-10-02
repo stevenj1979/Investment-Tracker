@@ -325,13 +325,13 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
     echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
     if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0))){
-      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,$GLOBALS['logToSQLSetting']);
+      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
       $finalProfitPct = $profitPCT;
       if (($profitPCT < -20) AND ($bounceDifference >= 2.5) and ($LiveCoinPrice == $bounceTopPrice)){
           $finalProfitPct = $bounceDifference;
-          LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,$GLOBALS['logToSQLSetting']);
+          LogToSQL("SellSpreadBet and BuyBack","Bounce ProfitPct: $finalProfitPct | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
       }
 
       if ($profitPCT > 0){
@@ -343,18 +343,18 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
           $totalRisesBuy = 15;
           $totalRisesSell = 1;
       }
-      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,$GLOBALS['logToSQLSetting']);
+      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,1);
       newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell,'Sell','runSpreadBetSellAndBuyback');
       setTransactionPending($transactionID);
       WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
-      LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,$GLOBALS['logToSQLSetting']);
+      LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
       logAction("runSpreadBetSellAndBuyback; newTrackingSellCoins_v1 : $symbol | $CoinID | $baseCurrency | $userID | $bounceDifference | $LiveCoinPrice | $amount | $bounceTopPrice | $delayCoinSwap | $totalRisesSell | $profitPCT | $transactionID", 'BuySellFlow', 1);
       return True;
     }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum = 3; $useAwards = False;
         //Swap Coin
           //Choose new Coin
-          newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$transactionID");
+          newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, 1,"Sell Coin","TransactionID:$transactionID");
           $newCoinSwap = getNewSwapCoin($baseCurrency);
           if (count($newCoinSwap)>0){
             //Change Transaction Status to CoinSwap
@@ -365,12 +365,12 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
             $apiConfig = getAPIConfig($userID);
             $apikey = $apiConfig[0][0];$apisecret = $apiConfig[0][1]; $kek = $apiConfig[0][2];
             if (!Empty($kek)){ $apisecret = Decrypt($kek,$apiConfig[0][1]);}
-            newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$transactionID");
+            newLogToSQL("SellSpreadBet and BuyBack", "bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);", $userID, 1,"Sell Coin","TransactionID:$transactionID");
             $obj = bittrexsell($apikey, $apisecret, $symbol, $amount, $LiveCoinPrice, $baseCurrency, $versionNum, $useAwards);
             //Add to Swap Coin Table
             $bittrexRef = $obj["id"];
             if ($bittrexRef <> ""){
-              newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID | $bittrexRef", $userID, $GLOBALS['logToSQLSetting'],"Sell Coin","TransactionID:$transactionID");
+              newLogToSQL("SellSpreadBet and BuyBack", "Sell Live Coin: $CoinID | $bittrexRef", $userID, 1,"Sell Coin","TransactionID:$transactionID");
               updateCoinSwapTable($transactionID,'AwaitingSale',$bittrexRef,$newCoinSwap[0][0],$newCoinSwap[0][2],$baseCurrency,$LiveCoinPrice * $amount,$purchasePrice * $amount,'Sell');
               logAction("runSpreadBetSellAndBuyback; bittrexsell : $symbol | $CoinID | $baseCurrency | $userID | $bounceDifference | $LiveCoinPrice | $amount | $bounceTopPrice | $delayCoinSwap | $totalRisesSell | $profitPCT | $transactionID", 'BuySellFlow', 1);
               return True;
