@@ -5872,7 +5872,7 @@ function sellSpreadBetCoins($spreadSellCoins){
     $Amount = $spreadSellCoins[$q][5]; $CoinPrice = $spreadSellCoins[$q][4]; $FixSellRule = $spreadSellCoins[$q][42];
     $orderDate = $spreadSellCoins[$q][7]; $pctToSave = $spreadSellCoins[$q][55]; $userID = $spreadSellCoins[$q][3];
     $type = $spreadSellCoins[$q][1]; $fallsInPrice = $spreadSellCoins[$q][56]; $spreadBetRuleID = $spreadSellCoins[$q][57];
-    LogToSQL("SpreadBetSell","profitPct :$profitPct | spreadBetPctProfitSell: $spreadBetPctProfitSell | ID: $spreadBetRuleID NoOfCoins:$spreadSellCoinsSize;",3,1);
+    LogToSQL("SpreadBetSell","profitPct :$profitPct | spreadBetPctProfitSell: $spreadBetPctProfitSell | ID: $spreadBetRuleID NoOfCoins:$spreadSellCoinsSize;",3,0);
     //echo "<BR> sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);";
     LogToSQL("SpreadBetSell","sellCoins($TransactionID,$CoinID);",3,1);
     //$checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice,$type);
@@ -5900,7 +5900,8 @@ function sellSpreadBetCoins($spreadSellCoins){
     $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
     $pctToSave = $pctToSave / 100;
     addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);
-    LogToSQL("SpreadBetSell","addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,1);
+    LogToSQL("SpreadBetSell","addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,0);
+    logAction("runSellSpreadBet; sellSpreadBetCoins : $q | $coin | $CoinID | $BaseCurrency | $LiveCoinPrice | $Amount | $CoinPrice | $type | $profitPct | $spreadBetRuleID | $TransactionID", 'BuySellFlow', 1);
   }
 }
 
