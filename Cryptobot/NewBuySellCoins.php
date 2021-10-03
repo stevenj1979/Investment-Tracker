@@ -573,6 +573,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $type = $newTrackingCoins[$a][39]; $lastPrice = $newTrackingCoins[$a][40]; $SBRuleID = $newTrackingCoins[$a][41]; $SBTransID = $newTrackingCoins[$a][42]; $buyCoinPrice = 0;
     $trackingID = $newTrackingCoins[$a][43]; $quickBuyCount = $newTrackingCoins[$a][44]; $minsDisabled = $newTrackingCoins[$a][45]; $overrideCoinAlloc  = $newTrackingCoins[$a][46];
     $market1HrChangePct = $marketStats[0][1]; $oneTimeBuy = $newTrackingCoins[$a][47]; $buyAmountCalculationEnabled = $newTrackingCoins[$a][48]; $allTimeHighPrice = $newTrackingCoins[$a][49];
+    $transactionID = $newTrackingCoins[$a][50];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100;
@@ -724,6 +725,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         UpdateProfit();
         //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
         closeNewTrackingCoin($newTrackingCoinID, False);
+        if ($type == 'SavingBuy'){
+          updateTypeToBittrex($type,$transactionID);
+        }
         $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
         $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
         if ($type == 'SpreadBuy'){
@@ -1279,7 +1283,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
     //if (!isset($resultOrd["quantity"])){
-      if ($type == "Buy" or $type == "SpreadBuy"){
+      if ($type == "Buy" or $type == "SpreadBuy" or $type == "SavingBuy"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
@@ -1337,6 +1341,9 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
+          if ($type == 'SavingBuy'){
+            setTransactionPending($transactionID);
+          }
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
@@ -1348,6 +1355,9 @@ function runBittrex($BittrexReqs,$apiVersion){
                bittrexBuyCancel($uuid, $transactionID);
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
+               //if ($type == "SavingBuy"){
+                 
+               //}
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $GLOBALS['logToSQLSetting'],"FullOrder","TransactionID:$transactionID");

@@ -4707,6 +4707,26 @@ function UpdateProfit(){
   newLogToSQL("UpdateProfit","$sql",3,sQLUpdateLog,"SQL CALL","All Users");
 }
 
+function updateTypeToBittrex($type,$transID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `BittrexAction` SET `Type` = '$type' where `TransactionID` = $transID ";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateTypeToBittrex: ".$sql, 'BuyCoin', 0);
+  newLogToSQL("updateTypeToBittrex","$sql",3,1,"SQL CALL","All Users");
+}
+
 function UpdateSpreadBetTotalProfit(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
