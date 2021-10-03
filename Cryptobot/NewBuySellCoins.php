@@ -345,12 +345,12 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
           $totalRisesBuy = 15;
           $totalRisesSell = 1;
       }
-      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell);",3,1);
-      newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,$totalRisesSell,'Sell','runSpreadBetSellAndBuyback');
+      LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,11);",3,1);
+      newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,11,'Sell','runSpreadBetSellAndBuyback');
       setTransactionPending($transactionID);
-      WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);
+      WriteBuyBack($transactionID,$finalProfitPct,11, $totalMins);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
-      logAction("runSpreadBetSellAndBuyback; newTrackingSellCoins_v1 : $symbol | $CoinID | $baseCurrency | $userID | $bounceDifference | $LiveCoinPrice | $amount | $bounceTopPrice | $delayCoinSwap | $totalRisesSell | $profitPCT | $transactionID", 'BuySellFlow', 1);
+      logAction("runSpreadBetSellAndBuyback; newTrackingSellCoins_v1 : $symbol | $CoinID | $baseCurrency | $userID | $bounceDifference | $LiveCoinPrice | $amount | $bounceTopPrice | $delayCoinSwap | 11 | $profitPCT | $transactionID", 'BuySellFlow', 1);
       return True;
     }else if(($profitPCT < -20) AND ($noOfBounceSells == 0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0)){
         $versionNum = 3; $useAwards = False;
