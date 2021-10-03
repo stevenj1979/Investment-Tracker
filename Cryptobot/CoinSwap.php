@@ -106,6 +106,7 @@ function runCoinSwaps(){
             updateCoinSwapBittrexID($bittrexRef,$transID,$coin,$liveCoinPrice,'Buy',$orderSale[1]);
             //Change Status to AwaitingBuy
             updateCoinSwapStatus('AwaitingBuy',$transID);
+            logAction("CoinSwap; AwaitingSale : $symbol | $quant | $rate | $baseCurrency | $bittrexRef | SET TO: AwaitingBuy", 'BuySellFlow', 1);
           }
         }
 
@@ -120,6 +121,7 @@ function runCoinSwaps(){
         updateCoinSwapCoinDetails($coinSwaps[$y][3],$orderBuy[1],$orderBuy[2],"ORD".$coin.date("YmdHis", time()).$ruleID,"Open",$coinSwaps[$y][0]);
         //Close CoinSwap
         updateCoinSwapStatus('Closed',$coinSwaps[$y][0]);
+        logAction("CoinSwap; AwaitingBuy : $symbol | $quant | $rate | $baseCurrency | ".$orderBuy[1]." | ".$orderBuy[2]." | SET TO: Closed", 'BuySellFlow', 1);
         //Change Transaction Status to Open
         //updateCoinSwapTransactionStatus('Open',$transactionID);
       }
@@ -132,6 +134,7 @@ function runCoinSwaps(){
         newLogToSQL("CoinSwap","updateCoinSwapStatus('AwaitingSavingsBuy',$transID,$finalPrice);",3,1,"updateCoinSwapStatus","TransID:$transID");
         updateCoinSwapStatusFinalPrice('AwaitingSavingsBuy',$transID,$finalPrice);
         updateCoinSwapTransactionStatus('SavingsSell',$transID);
+        logAction("CoinSwap; AwaitingSavingsSale : $symbol | $baseCurrency | $finalPrice | $transID | SET TO: AwaitingSavingsBuy", 'BuySellFlow', 1);
       }
     /*}else if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
@@ -167,6 +170,7 @@ function runCoinSwaps(){
         updateCoinSwapCoinDetails($ogCoinID,$finalPrice,$orderQty,"ORD".$ogSymbol.date("YmdHis", time()).$ruleID,"Saving",$transID);
         //Close CoinSwap
         updateCoinSwapStatus('Closed',$transID);
+        logAction("CoinSwap; AwaitingSavingsPurchase : $ogSymbol | $ogCoinID | $orderQty | $baseCurrency | $finalPrice | $transID | SET TO: Saving", 'BuySellFlow', 1);
       }
     }
   }
