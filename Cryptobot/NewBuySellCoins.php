@@ -692,7 +692,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             }
         }
       }
-      if ($type == 'SavingBuy'){
+      if ($type == 'SavingsBuy'){
         $swapCoinID = $newTrackingCoins[$a][50];
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
         //$liveCoinPrice = $bitPrice;
