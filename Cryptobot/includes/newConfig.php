@@ -187,8 +187,8 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $execResult = curl_exec($ch);
       curl_close($ch);
       $obj = json_decode($execResult, true);
-      echo "<BR> URL : $url";
-      newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
+      //echo "<BR> URL : $url";
+      //newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
       //var_dump($obj);
     }
 
