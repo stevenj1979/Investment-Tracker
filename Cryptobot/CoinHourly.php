@@ -437,6 +437,20 @@ function writeNoOfSells($coinID,$noOfSells){
   newLogToSQL("writeNoOfSells","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
+function coinSwapBuyPct($coinSwapID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `SwapCoins` SET `PctToBuy` = `PctToBuy`-0.24 where `ID` = $coinSwapID and `PctToBuy` >= 7.0 ";
+  print_r("<BR>".$sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "<BR>New record created successfully";
+  } else {
+      echo "<BR>Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("coinSwapBuyPct","$sql",3,0,"SQL CALL","CoinSwapID:$coinSwapID");
+}
+
 function runBounceTestBuy(){
   $bounceIDs = getBounceCoinIDs();
   $bounceIDSize = count($bounceIDs);
@@ -509,6 +523,31 @@ function runMerge($transStats,$mode){
   }
 }
 
+function  getCoinSwapIDs(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
+    //echo "<BR> Flag2: $lowFlag";
+    $sql = "SELECT `ID`  FROM `SwapCoins` WHERE `Status` = 'AwaitingSavingsBuy'";
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function runReduceCoinSwapPct(){
+  $coinSwapIDs = getCoinSwapIDs();
+  $coinSwapIDsSize = count($coinSwapIDs);
+  for ($u=0; $u<$coinSwapIDsSize; $u++){
+    $coinSwapID = $coinSwapIDs[$u][0];
+    coinSwapBuyPct($coinSwapID);
+  }
+}
+
 prepareToMergeSavings();
 
 $transStats = getTransStats();
@@ -534,5 +573,6 @@ updateWebSavings();
 
 getBounceIndex();
 runBounceTestBuy();
+runReduceCoinSwapPct();
 ?>
 </html>
