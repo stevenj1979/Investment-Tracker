@@ -1284,7 +1284,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
     //if (!isset($resultOrd["quantity"])){
-      if ($type == "Buy" or $type == "SpreadBuy" or $type == "SavingBuy"){
+      if ($type == "Buy" or $type == "SpreadBuy" or $type == "SavingsBuy"){
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
