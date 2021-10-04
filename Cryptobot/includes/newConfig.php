@@ -153,7 +153,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
     $nonce=time();
     if ($versionNum == 1){
       $uri='https://bittrex.com/api/v1.1/account/getorder?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
-      echo "<br>$uri<br>";
+      //echo "<br>$uri<br>";
       $sign=hash_hmac('sha512',$uri,$apisecret);
       $ch = curl_init($uri);
           curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
@@ -189,7 +189,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
       $obj = json_decode($execResult, true);
       echo "<BR> URL : $url";
       newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
-      var_dump($obj);
+      //var_dump($obj);
     }
 
     return $obj;

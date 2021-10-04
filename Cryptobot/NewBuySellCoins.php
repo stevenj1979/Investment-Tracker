@@ -1253,7 +1253,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $buyOrderCancelTime = $BittrexReqs[$b][24];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
     if ($liveCoinPriceBit != 0 && $cost != 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
-    echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
+    //echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
     $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, $apiVersion);
     if ($apiVersion == 1){
       $finalPrice = number_format((float)$resultOrd["result"]["PricePerUnit"], 8, '.', '');
@@ -1276,10 +1276,10 @@ function runBittrex($BittrexReqs,$apiVersion){
 
     //if ($orderQtyRemaining=0){$orderIsOpen = false;}
     echo "<BR> ------COIN to Sell: ".$coin."-------- USER: ".$userName;
-    echo "<BR> Buy Cancel Time: $buyCancelTime";
-    echo "TIME SINCE ACTION: $timeSinceAction";
-    Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
-    echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$cancelInit;
+    //echo "<BR> Buy Cancel Time: $buyCancelTime";
+    echo "TIME SINCE ACTION: $minsSinceAction | $timeToCancelMins";
+    //Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
+    //echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$cancelInit;
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
@@ -1342,7 +1342,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
-          if ($type == 'SavingBuy'){
+          if ($type == 'SavingsBuy'){
             setTransactionPending($transactionID);
           }
         }
