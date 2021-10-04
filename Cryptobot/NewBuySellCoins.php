@@ -727,6 +727,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         closeNewTrackingCoin($newTrackingCoinID, False);
         if ($type == 'SavingBuy'){
           updateTypeToBittrex($type,$transactionID);
+          updateTypeToTrans($type,$transactionID);
         }
         $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
         $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
