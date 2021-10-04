@@ -726,6 +726,24 @@ function updateCoinSwapStatusCoinSwapID($status,$swapCoinID){
     $conn->close();
 }
 
+function reopenCoinSwap($transID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE `SwapCoins` SET `Status` = 'AwaitingSavingBuy' where `TransactionID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("reopenCoinSwap",$sql,3,1,"SQL","TransID:$transID");
+    $conn->close();
+}
+
 function updateCoinSwapStatusFinalPrice($status,$transID,$finalPrice){
   $conn = getSQLConn(rand(1,3));
     // Check connection
