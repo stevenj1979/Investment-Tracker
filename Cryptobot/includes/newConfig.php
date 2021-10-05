@@ -857,7 +857,7 @@ function writeSQLTransBuy($type, $coinID,$userID, $cost,$amounttobuy, $date, $Bi
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    logAction("writeSQLTransBuy: ".$sql, 'BuySell', 0);
+    logAction("writeSQLTransBuy: ".$sql, 'SQL_INSERT', 1);
 }
 
 function writeBittrexActionBuy($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice,$ruleID){
