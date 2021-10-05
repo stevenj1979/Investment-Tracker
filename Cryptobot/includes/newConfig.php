@@ -107,7 +107,7 @@ function updateBuyToSpread($sbRuleID, $transactionID){
     }
     $conn->close();
     newLogToSQL("updateBuyToSpread",$sql,3,sQLUpdateLog,"SQL","SBRuleID:$sbRuleID TransID:$transactionID");
-    logAction("updateBuyToSpread: ".$sql, 'BuySell', 0);
+    logAction("updateBuyToSpread: ".$sql, 'SQL_UPDATE', 1);
 }
 
 function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit){
@@ -127,7 +127,7 @@ function updateSQLSold($amount,$livePrice, $cost, $date, $transactionID,$profit)
     }
     $conn->close();
     newLogToSQL("updateSQLSold",$sql,3,sQLUpdateLog,"SQL","ransID:$transactionID");
-    logAction("updateSQLSold: ".$sql, 'BuySell', 0);
+    logAction("updateSQLSold: ".$sql, 'SQL_UPDATE', 1);
 }
 
 function addCoinPurchaseDelay($coinID,$userID,$mins){
@@ -645,6 +645,7 @@ function updateCoinSwapTransactionStatus($status,$transID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     newLogToSQL("updateCoinSwapTransactionStatus",$sql,3,1,"SQL","TransID:$transID");
+    LogAction("updateCoinSwapTransactionStatus:".$sql, 'SQL_UPDATE', 1);
     $conn->close();
 }
 
@@ -780,6 +781,7 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     newLogToSQL("updateCoinSwapCoinDetails",$sql,3,1,"SQL","BittrexID:$bittrexRef");
+    LogAction("updateCoinSwapCoinDetails:",$sql, 'SQL_UPDATE', 1);
     $conn->close();
 }
 
@@ -2029,6 +2031,7 @@ function updateSQL($baseCurrency, $transactionID, $BittrexID){
     } else {echo "Error: " . $sql . "<br>" . $conn->error;}
     $conn->close();
     newLogToSQL("updateSQL",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+    LogAction("updateSQL:".$sql, 'SQL_UPDATE', 1);
 }
 
 function updateTransStatus($transactionID,$status){
@@ -2045,6 +2048,7 @@ function updateTransStatus($transactionID,$status){
     } else {echo "Error: " . $sql . "<br>" . $conn->error;}
     $conn->close();
     newLogToSQL("updateTransStatus",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+    LogAction("updateTransStatus:".$sql, 'SQL_UPDATE', 1);
 }
 
 function clearBittrexRef($transactionID){
@@ -2062,6 +2066,7 @@ function clearBittrexRef($transactionID){
     } else {echo "Error: " . $sql . "<br>" . $conn->error;}
     $conn->close();
     newLogToSQL("clearBittrexRef",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
+    LogAction("clearBittrexRef:".$sql, 'SQL_UPDATE', 1);
 }
 
 
@@ -2193,7 +2198,7 @@ function changeTransStatus($transactionID){
   }
   $conn->close();
   newLogToSQL("changeTransStatus",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
-  logAction("changeTransStatus: ".$sql, 'BuySell', 0);
+  logAction("changeTransStatus: ".$sql, 'SQL_UPDATE', 1);
 }
 
 function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $cost, $amount, $orderNo,$timeToCancelBuyMins){
@@ -2227,7 +2232,7 @@ function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
   }
   $conn->close();
   newLogToSQL("bittrexAddNoOfPurchases",$sql,3,0,"SQL","BittrexRef:$bittrexRef");
-  logAction("bittrexAddNoOfPurchases: ".$sql, 'BuySell', 0);
+  logAction("bittrexAddNoOfPurchases: ".$sql, 'SQL_UPDATE', 1);
 }
 
 function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID){
@@ -3547,7 +3552,7 @@ function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateCoinAllocationOverride: ".$sql,'TrackingCoins', 0);
+  logAction("updateCoinAllocationOverride: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateCoinAllocationOverride","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
 }
 
@@ -3700,7 +3705,7 @@ function updateTrackingCoinToMerge($ID, $noOfPurchases){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateTrackingCoinToMerge: ".$sql, 'TrackingCoins', 0);
+  logAction("updateTrackingCoinToMerge: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$ID");
 }
 
@@ -3941,7 +3946,7 @@ function setTransactionPending($id){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("setTransactionPending: ".$sql, 'TrackingCoins', 0);
+  logAction("setTransactionPending: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$id");
 }
 
@@ -3961,7 +3966,7 @@ function fixResidual(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("fixResidual: ".$sql, 'CoinSwaps', 0);
+  logAction("fixResidual: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("fixResidual",$sql,3,0,"SQL","NA");
 }
 
@@ -3981,7 +3986,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateSellAmount: ".$sql, 'TrackingCoins', 0);
+  logAction("updateSellAmount: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");
 }
 
@@ -4095,7 +4100,7 @@ function reopenTransaction($id){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("reopenTransaction: ".$sql, 'TrackingCoins', 0);
+  logAction("reopenTransaction: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("reopenTransaction",$sql,3,0,"SQL","TransactionID:$id");
 }
 
@@ -4270,7 +4275,7 @@ function updateSQLQuantity($uuid, $quantity){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateSQLQuantity: ".$sql, 'BuyCoin', 0);
+  logAction("updateSQLQuantity: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");
 }
 
@@ -4531,7 +4536,7 @@ function assignNewSellID($transID, $sellRuleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("assignNewSellID: ".$sql, 'BuyCoin', 0);
+  logAction("assignNewSellID: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("assignNewSellID",$sql,3,0,"SQL","TransactionID:$transID");
 }
 
@@ -4551,7 +4556,7 @@ function setTransStatus($status,$transID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("setTransStatus: ".$sql, 'SellCoin', 0);
+  logAction("setTransStatus: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("setTransStatus",$sql,3,0,"SQL","TransactionID:$transID");
 }
 
@@ -4681,7 +4686,7 @@ function updateBuyAmount($transactionID, $amount){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateBuyAmount: ".$sql, 'BuyCoin', 0);
+  logAction("updateBuyAmount: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
@@ -4761,7 +4766,7 @@ function updateTypeToTrans($type,$transID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateTypeToBittrex: ".$sql, 'BuyCoin', 0);
+  logAction("updateTypeToBittrex: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateTypeToBittrex","$sql",3,1,"SQL CALL","All Users");
 }
 
@@ -4912,7 +4917,7 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'BuyCoin', 0);
+  logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,0,"SQL","TransactionID:$oldID");
 }
 
@@ -4931,7 +4936,7 @@ function SpreadBetBittrexCancelPartialBuy($transactionID,$quantity){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("SpreadBetBittrexCancelPartialBuy: ".$sql, 'BuyCoin', 0);
+  logAction("SpreadBetBittrexCancelPartialBuy: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
@@ -4994,7 +4999,7 @@ function updateToSpreadSell($transID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateToSpreadSell: ".$sql, 'BuyCoin', 0);
+  logAction("updateToSpreadSell: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("updateToSpreadSell",$sql,3,0,"SQL","TransactionID:$transID");
 }
 
@@ -5303,7 +5308,7 @@ function delaySavingBuy($transactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("delaySavingBuy: ".$sql, 'BuyCoin', 0);
+  logAction("delaySavingBuy: ".$sql, 'SQL_UPDATE', 1);
   newLogToSQL("delaySavingBuy",$sql,3,0,"SQL","TransID:$transactionID");
 }
 
