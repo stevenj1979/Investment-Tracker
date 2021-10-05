@@ -725,10 +725,10 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         UpdateProfit();
         //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
         closeNewTrackingCoin($newTrackingCoinID, False);
-        if ($type == 'SavingsBuy'){
-          updateTypeToBittrex($type,$transactionID);
-          updateTypeToTrans($type,$transactionID);
-        }
+        //if ($type == 'SavingsBuy'){
+          //updateTypeToBittrex($type,$transactionID);
+          //updateTypeToTrans($type,$transactionID);
+        //}
         $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
         $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
         if ($type == 'SpreadBuy'){
