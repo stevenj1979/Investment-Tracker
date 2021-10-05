@@ -709,21 +709,21 @@ function updateCoinSwapStatus($status,$transID){
     $conn->close();
 }
 
-function updateCoinSwapStatusCoinSwapID($status,$swapCoinID){
+function updateCoinSwapStatusCoinSwapID($status,$transactionID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `ID` = $swapCoinID";
+    $sql = "UPDATE `SwapCoins` SET `Status` = '$status' where `TransactionID` = $transactionID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateCoinSwapStatusCoinSwapID",$sql,3,1,"SQL","CoinSwapID:$swapCoinID");
+    newLogToSQL("updateCoinSwapStatusCoinSwapID",$sql,3,1,"SQL","TransID:$transactionID");
     $conn->close();
 }
 
@@ -785,16 +785,16 @@ function updateCoinSwapCoinDetails($coinID, $coinPrice, $amount, $orderNo, $stat
     $conn->close();
 }
 
-function updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$newCoinID,$newPrice,$buyFlag, $sellFinalPrice = 0.0){
+function updateCoinSwapBittrexID($bittrexRef,$transactionID,$newCoinID,$newPrice,$buyFlag, $sellFinalPrice = 0.0){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     if ($buyFlag == 'Buy'){
-        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `ID` = $swapCoinID";
+        $sql = "UPDATE `SwapCoins` SET `BittrexRef` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transactionID";
     }else{
-      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `ID` = $swapCoinID";
+      $sql = "UPDATE `SwapCoins` SET `BittrexRefSell` = '$bittrexRef',`NewCoinIDCandidate`= $newCoinID,`NewCoinPrice` = $newPrice, `SellFinalPrice` = $sellFinalPrice where `TransactionID` = $transactionID";
     }
 
     //print_r($sql);

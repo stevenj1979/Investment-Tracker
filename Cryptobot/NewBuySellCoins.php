@@ -693,7 +693,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         }
       }
       if ($type == 'SavingsBuy'){
-        $swapCoinID = $newTrackingCoins[$a][50];
+        //$swapCoinID = $newTrackingCoins[$a][50];
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
         //$liveCoinPrice = $bitPrice;
         $rate = $liveCoinPrice;
@@ -704,11 +704,11 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         newLogToSQL("CoinSwapBittrexID",$bittrexRef." | ".$symbol,3,1,"SaveBittrexRef","BittrexID:$bittrexRef");
         if ($bittrexRef <> ""){
           Echo "<BR> Bittrex ID: $bittrexRef";
-          updateCoinSwapBittrexID($bittrexRef,$swapCoinID,$coinID,$liveCoinPrice,'Buy');
+          updateCoinSwapBittrexID($bittrexRef,$transactionID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
-          updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$swapCoinID);
+          updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$transactionID);
           closeNewTrackingCoin($newTrackingCoinID, False);
-          logAction("runNewTrackingCoins; SavingsBuy : $symbol | $swapCoinID | $coinID | $liveCoinPrice | $newTrackingCoinID | 'AwaitingSavingsPurchase' | $quant | $rate | $baseCurrency | $type", 'BuySellFlow', 1);
+          logAction("runNewTrackingCoins; SavingsBuy : $symbol | $transactionID | $coinID | $liveCoinPrice | $newTrackingCoinID | 'AwaitingSavingsPurchase' | $quant | $rate | $baseCurrency | $type", 'BuySellFlow', 1);
           return True;
         }
       }else{
