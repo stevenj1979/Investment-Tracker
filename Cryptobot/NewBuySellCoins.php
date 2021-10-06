@@ -1059,13 +1059,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
           if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
           logAction("runBuyCoins; addTrackingCoin : $symbol | $coinID | $LiveCoinPrice | $buyQuantity | $userID | $baseCurrency $timeToCancelBuyMins | $risesInPrice | $overrideCoinAlloc", 'BuySellFlow', 1);
+          return True;
         }else{ echo "<BR> EXIT: $totalBal Less than 20 | $totalBal";}
       }
 
       echo "<BR> NEXT RULE <BR>";
     }//Rule Loop
   }//Coin Loop
-  return $buyCounter;
+  return False;
 }
 
 function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice){
@@ -1699,6 +1700,7 @@ $runBuyBackFlag = False;
 $runSellSpreadBet = False;
 $runSpreadBetFlag = False;
 $runSellCoinsFlag == False;
+$runBuyCoinsFlag == False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1793,8 +1795,8 @@ while($completeFlag == False){
         }
         $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats);
   echo "</blockquote><BR> BUY COINS!! $i<blockquote>";
-        if ($i == 0){$buyRules = getUserRules();}
-        if (date("Y-m-d H:i", time()) >= $buyCoinTimer){
+        if ($i == 0 OR $runBuyCoinsFlag == True){$buyRules = getUserRules();}
+        if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runBuyCoinsFlag == True){
           $BCcurrent_date = date('Y-m-d H:i');
           $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
           $userProfit = getTotalProfit();
@@ -1805,8 +1807,9 @@ while($completeFlag == False){
           $baseMultiplier = getBasePrices();
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
           $coins = getTrackingCoins();
+          $runBuyCoinsFlag = False;
         }
-        $buyCounter = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
+        $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
   echo "</blockquote><BR> SELL COINS!! $i<blockquote>";
         if ($i == 0 OR $runSellCoinsFlag == True){$sellRules = getUserSellRules();}
         if (date("Y-m-d H:i", time()) >= $sellCoinTimer or $runSellCoinsFlag == True){
