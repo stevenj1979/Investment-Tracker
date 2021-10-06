@@ -1214,6 +1214,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $holdingMins = round(abs($to_time - $from_time) / 60,2);
         logHoldingTimeToSQL($coinID, $holdingMins);
         logAction("runSellCoins; newTrackingSellCoins : $coin | $coinID | $amount | $cost | $LiveCoinPrice | $BaseCurrency | $userID | $transactionID", 'BuySellFlow', 1);
+        return True;
         //addSellRuletoSQL()
       }
       echo "<BR> NEXT RULE <BR>";
@@ -1235,6 +1236,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       newLogToSQL("SellCoins", "updateTrackingCoinToMerge($transactionID,$noOfPurchases);", $userID, $GLOBALS['logToSQLSetting'],"MergeCoins","TransactionID:$transactionID");*/
     }
   }//Sell Coin Loop
+  return False;
 }
 
 function runBittrex($BittrexReqs,$apiVersion){
@@ -1696,6 +1698,7 @@ $runSellSavingsFlag = False;
 $runBuyBackFlag = False;
 $runSellSpreadBet = False;
 $runSpreadBetFlag = False;
+$runSellCoinsFlag == False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1805,14 +1808,15 @@ while($completeFlag == False){
         }
         $buyCounter = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
   echo "</blockquote><BR> SELL COINS!! $i<blockquote>";
-        if ($i == 0){$sellRules = getUserSellRules();}
-        if (date("Y-m-d H:i", time()) >= $sellCoinTimer){
+        if ($i == 0 OR $runSellCoinsFlag == True){$sellRules = getUserSellRules();}
+        if (date("Y-m-d H:i", time()) >= $sellCoinTimer or $runSellCoinsFlag == True){
           $SCcurrent_date = date('Y-m-d H:i');
           $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
           $sellCoins = getTrackingSellCoins();
           $userProfit = getTotalProfit();
+          $runSellCoinsFlag == False;
         }
-        runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
+        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
         if ($refreshBittrexFlag == True){
           $BittrexReqs = getBittrexRequests();
