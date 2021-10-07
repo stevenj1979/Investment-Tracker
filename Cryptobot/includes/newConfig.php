@@ -5728,12 +5728,12 @@ function updateSQLcancelSpreadBetTrackingSell($TransactionID){
   newLogToSQL("updateSQLcancelSpreadBetTrackingSell","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$TransactionID");
 }
 
-function enableBuyRule($buyRuleID){
+function enableBuyRule($buyRuleID, $buyCoin){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `BuyRules` SET `BuyCoin` = 1 where `ID` = $buyRuleID;";
+  $sql = "UPDATE `BuyRules` SET `BuyCoin` = $buyCoin where `ID` = $buyRuleID;";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -5744,6 +5744,7 @@ function enableBuyRule($buyRuleID){
   logAction("enableBuyRule: ".$sql, 'TrackingCoins', 0);
   newLogToSQL("enableBuyRule","$sql",3,sQLUpdateLog,"SQL CALL","BuyRuleID:$buyRuleID");
 }
+
 
 function getSpreadBetCount($SBTransID){
   $tempAry = [];

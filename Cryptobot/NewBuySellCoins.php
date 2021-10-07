@@ -214,9 +214,12 @@ function runPriceDipRule($priceDipRules){
     if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
-        enableBuyRule($buyRuleID);
+        enableBuyRule($buyRuleID, 1);
         LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,$GLOBALS['logToSQLSetting']);
       }
+    }
+    if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= 2 and isset($d7ChangePctChange) and $d7ChangePctChange >= 2){
+      enableBuyRule($buyRuleID, 0);
     }
   }
 }
