@@ -3966,7 +3966,7 @@ function fixResidual(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("fixResidual: ".$sql, 'SQL_UPDATE', 1);
+  logAction("fixResidual: ".$sql, 'SQL_UPDATE', 0);
   newLogToSQL("fixResidual",$sql,3,0,"SQL","NA");
 }
 
