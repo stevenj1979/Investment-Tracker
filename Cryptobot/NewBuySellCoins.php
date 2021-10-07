@@ -827,7 +827,9 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
               newLogToSQL("TrackingSell","$PurchasePrice | $sellFee | $LiveCoinPrice | $Amount",3,1,"SaveResidual","TransactionID:$TransactionID");
             }
             newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,$GLOBALS['logToSQLSetting'],"NewAmountToSQL","TransactionID:$TransactionID");
-            updateSellAmount($TransactionID,$Amount, $oldAmount);
+            if ($origAmount <> 0){
+              updateSellAmount($TransactionID,$Amount, $oldAmount);
+            }
             newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins4","TransactionID:$TransactionID");
             newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins2","TransactionID:$TransactionID");
             $newOrderDate = date("YmdHis", time());
