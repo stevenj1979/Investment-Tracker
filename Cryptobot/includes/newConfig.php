@@ -251,9 +251,9 @@ function getTrackingSellCoins($userID = 0){
   return $tempAry;
 }
 
-function getTrackingSellCoinsAll($userID = 0){
+function getTrackingSellCoinsAll(){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -265,7 +265,7 @@ function getTrackingSellCoinsAll($userID = 0){
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`
-  FROM `SellCoinStatsView_ALL` $whereclause order by @ProfitPct Desc ";
+  FROM `SellCoinStatsView_ALL` WHERE `Status` = 'Open' order by @ProfitPct Desc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
