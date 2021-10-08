@@ -1877,7 +1877,7 @@ while($completeFlag == False){
         }
   echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS!! $i<blockquote>";
         if ($buyToReduceLossFlag == True){
-          $lossCoins = getTrackingSellCoins();
+          $lossCoins = getTrackingSellCoinsAll();
           $buyToReduceLossFlag = False;
           $runSellCoinsFlag = True;
         }
