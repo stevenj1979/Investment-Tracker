@@ -1702,7 +1702,7 @@ function buyToreduceLoss($lossCoins){
       $quant = $totalAmount*$currentBuy;
       echo "<BR> buyToreduceLoss2: ".$openTransNoAry[0][0]." | $currentBuy | $quant";
       //Buy Coin with Merge
-      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 96, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);
+      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);
       //Set Merge for current Coin
       updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
