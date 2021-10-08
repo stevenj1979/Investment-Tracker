@@ -141,7 +141,7 @@ function runReBuySavings($coinSwaps){
         $rate = $liveCoinPrice;
         $quant = $totalAmount;
         newLogToSQL("ReBuySavings","addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 240, 77777,1,1,10,'SavingsBuy',$liveCoinPrice,0,0,1);",3,1,"AwaitingSavingsBuy","TransID:$transID");
-        addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 240, 77777,1,1,10,'SavingsBuy',$liveCoinPrice,0,0,1,'reBuySavings',$transID);
+        addTrackingCoin($ogCoinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 999996, 0, 0, 1, 240, 77777,0,1,10,'SavingsBuy',$liveCoinPrice,0,0,1,'reBuySavings',$transID);
         updateCoinSwapStatus('AwaitingSavingsPurchaseTracking',$transID);
         addCoinSwapIDtoTracking($coinSwapID,$transID);
         logAction("runReBuySavings; addTrackingCoin : $ogSymbol | $baseCurrency | $ogCoinID | $quant | $userID | $bitPrice | $lowPrice | $transID", 'BuySellFlow', 1);
@@ -1087,7 +1087,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $fixSellRule = $sellCoins[$a][41]; $BuyRule = $sellCoins[$a][43];
     $lowPricePurchaseEnabled = $sellCoins[$a][45]; $purchaseLimit = $sellCoins[$a][46]; $pctToPurchase = $sellCoins[$a][47]; $btcBuyAmountSell = $sellCoins[$a][48];
     $noOfPurchases = $sellCoins[$a][49]; $toMerge = $sellCoins[$a][44]; $orderDate = $sellCoins[$a][7];
-    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][54];
+    $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][59];
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
       $sellResultAry = [];
@@ -1681,6 +1681,36 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
   return False;
 }
 
+function buyToreduceLoss($lossCoins){
+  $lossCoinsSize = count($lossCoins);
+  //$apiVersion = 3; $ruleID = 111111;
+  for ($y=0; $y<$lossCoinsSize; $y++){
+    $pctProfit = $lossCoins[$y][58];
+    $transactionID = $lossCoins[$y][0];
+    $minsToDelay = $lossCoins[$y][60];
+    $userID = $lossCoins[$y][3];
+    $coinID = $lossCoins[$y][2];
+    $liveCoinPrice = $lossCoins[$y][19];
+    $baseCurrency = $lossCoins[$y][36];
+    $totalAmount = $lossCoins[$y][54];
+    echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount";
+    if ($pctProfit <= -30 and $minsToDelay > 0){
+      //get multiplier
+      $openTransNoAry = getOpenTransNo($userID, $coinID);
+      $currentBuy = $openTransNoAry[0][0]+1;
+      $quant = $totalAmount*$currentBuy;
+      //Buy Coin with Merge
+      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 96, 0, 0, 1, 240, 229,1,1,10,'SavingsBuy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);
+      //Set Merge for current Coin
+      updateTrackingCoinToMerge($transactionID, $currentBuy);
+      //Set Delay
+      delaySavingBuy($transactionID);
+      return True;
+    }
+  }
+return False;
+}
+
 //set time
 setTimeZone();
 $i=0;
@@ -1706,6 +1736,7 @@ $runSellSpreadBet = False;
 $runSpreadBetFlag = False;
 $runSellCoinsFlag == False;
 $runBuyCoinsFlag == False;
+$buyToReduceLossFlag == False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -1822,7 +1853,8 @@ while($completeFlag == False){
           $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
           $sellCoins = getTrackingSellCoins();
           $userProfit = getTotalProfit();
-          $runSellCoinsFlag == False;
+          $runSellCoinsFlag = False;
+          $buyToReduceLossFlag = True;
         }
         $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
@@ -1843,8 +1875,16 @@ while($completeFlag == False){
           $alertRunTimer = date("Y-m-d H:i",strtotime("+3 minutes 10 seconds", strtotime($ALcurrent_date)));
           $refreshAlertsFlag = runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts);
         }
+  echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS!! $i<blockquote>";
+        if ($buyToReduceLossFlag == True){
+          $lossCoins = getTrackingSellCoins();
+          $buyToReduceLossFlag = False;
+          $runSellCoinsFlag = True;
+        }
+        $buyToReduceLossFlag = buyToreduceLoss($lossCoins);
 
-  sleep(20);
+
+  sleep(15);
   $i = $i+1;
   $date = date("Y-m-d H:i:s", time());
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
