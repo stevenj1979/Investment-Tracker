@@ -55,7 +55,7 @@ function pausePurchases($UserID){
     logAction("pausePurchases: ".$sql, 'BuySell', 0);
 }
 
-function reopenCoinSwap($transID){
+function reopenCoinSwapCancel($transID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
