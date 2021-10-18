@@ -4000,6 +4000,26 @@ function setTransactionPending($id){
   newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$id");
 }
 
+function setTransactionStatus($id,$status){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `Status`= '$status' WHERE `ID` = $id ";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setTransactionStatus: ".$sql, 'SQL_UPDATE', 1);
+  newLogToSQL("setTransactionStatus",$sql,3,1,"SQL","TransactionID:$id");
+}
+
 function fixResidual(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
