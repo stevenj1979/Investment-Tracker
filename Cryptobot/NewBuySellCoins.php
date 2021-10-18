@@ -781,7 +781,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41];
     $market1HrChangePct = $marketStats[0][1];
 
-    if ($minsFromDate > 1440 and $trackingType == 'SavingSell'){
+    if ($minsFromDate > 1440 and $trackingType == 'SavingsSell'){
       closeNewTrackingSellCoin($TransactionID);
       updateTransStatus($TransactionID,'Saving');
       logAction("runTrackingSellCoin; CancelSavingSell : $coin | $CoinID | $baseCurrency | $userID | $minsFromDate | $TransactionID ", 'BuySellFlow', 1);
