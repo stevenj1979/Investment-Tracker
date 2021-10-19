@@ -4161,7 +4161,13 @@ function reopenTransaction($id){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status`= 'Open' WHERE `ID` = $id";
+  $sql = "UPDATE `Transaction`
+            SET `Status`= CASE
+             WHEN `Type` = 'SpreadSell' THEN 'Open'
+             WHEN `Type` = 'Sell' THEN 'Open'
+             WHEN `Type` = 'SavingsSell' THEN 'Saving'
+             END
+            WHERE `ID` = $id";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
