@@ -3714,6 +3714,25 @@ function setLastPrice($coinPrice, $ID, $mode){
   newLogToSQL("setNewTrackingPrice",$sql,3,0,"SQL","TrackingID:$mode:$ID");
 }
 
+function setNewTargetPrice($transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `SpreadBetSellTarget` SET `SellPct`=`SellPct` + 1.5  WHERE `TransactionID` = $transactionID ";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setNewTargetPrice: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("setNewTargetPrice",$sql,3,0,"SQL","TransID:$transactionID");
+}
+
 function closeNewTrackingCoin($ID, $deleteFlag){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -3768,13 +3787,13 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
       //User/Coin exist
       echo "<BR> EXISTING is TRUE ".$toMergeAry[0]."=".$finalMergeAry[$j][0]." & ".$toMergeAry[1]."=".$finalMergeAry[$j][1];
       $existing = True;
-      $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[4];
+      $finalMergeAry[$j][4] = $finalMergeAry[$j][4]+$toMergeAry[4]; //amount
       echo "<BR> adding ".$finalMergeAry[$j][4]."+".$toMergeAry[4];
-      $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[5];
+      $finalMergeAry[$j][5] = $finalMergeAry[$j][5]+$toMergeAry[5]; //cost
       echo "<BR> adding ".$finalMergeAry[$j][5]."+".$toMergeAry[5];
       $finalMergeAry[$j][6] = $finalMergeAry[$j][6].$toMergeAry[3].",";
       echo "<BR> adding ".$toMergeAry[5];
-      $finalMergeAry[$j][7] = $finalMergeAry[$j][7]+1;
+      $finalMergeAry[$j][7] = $finalMergeAry[$j][7]+1; //count
       echo "<BR> adding ".$finalMergeAry[$j][7]."+1";
       $finalMergeAry[$j][8] = $finalMergeAry[$j][8];
       $finalMergeAry[$j][9] = $finalMergeAry[$j][9];

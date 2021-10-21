@@ -233,7 +233,7 @@ function getOpenCoins($status){
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
   ,`CaptureTrend`
-  FROM `SellCoinStatsView_ALL` Where `Status` = '$status' and `ToMerge` = 1 order by @ProfitPct Desc ";
+  FROM `SellCoinStatsView_ALL` Where `Status` = '$status' and `ToMerge` = 1 order by `ID` Asc ";
   $result = $conn->query($sql);
   echo $sql;
   //$result = mysqli_query($link4, $query);
@@ -278,7 +278,7 @@ function mergeCoins($sellTrackingCoins){
     if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
       $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
       echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
-      newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,0,"MergeCoins","TransactionID:$transactionID");
+      newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
       $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
     }
   }
@@ -296,7 +296,7 @@ function mergeCoins($sellTrackingCoins){
       UpdateTransCount($count-1, $transactionID);
       closeOldTransSQL(rtrim($lastTransID, ','));
       //logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
-      newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,0,"MergeCoinsTotal","TransactionID:$transactionID");
+      newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
     }
   }
 }
