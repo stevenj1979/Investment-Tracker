@@ -334,7 +334,9 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
     echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
     if (($profitPCT <= $autoBuyBackSell) OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0))){
-      LogToSQL("SellSpreadBet and BuyBack","ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1);
+      if (!isset($autoBuyBackSell)){ continue; }
+      if (!isset($profitPCT)){ continue; }
+      newLogToSQL("NewBuySellCoins","$symbol | $CoinID | ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1,"SellSpreadBetandBuyBack","TransID:$transactionID");
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
       $finalProfitPct = $profitPCT;
