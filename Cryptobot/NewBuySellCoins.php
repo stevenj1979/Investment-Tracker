@@ -1263,7 +1263,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $liveCoinPriceBit = $BittrexReqs[$b][22]; $buyCancelTime = substr($BittrexReqs[$b][23],0,strlen($BittrexReqs[$b][23])-1); $sellFlag = false; $spreadBetRuleID = $BittrexReqs[$b][30];
     $spreadBetTransactionID  = $BittrexReqs[$b][31]; $redirectPurchasesToSpread = $BittrexReqs[$b][32]; $spreadBetIDRedirect = $BittrexReqs[$b][33];
     $coinModeRule = $BittrexReqs[$b][27]; $pctToSave = $BittrexReqs[$b][29]; $minsToPause = $BittrexReqs[$b][34]; $originalAmount = $BittrexReqs[$b][35]; $saveResidualCoins = $BittrexReqs[$b][36];
-    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38];
+    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38]; $buyBack = $BittrexReqs[$b][39];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1399,6 +1399,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );}
           }
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
+          if ($buyBack == 1){ reopenCoinSwapCancel($transactionID); }
           return True;
         }
       }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell

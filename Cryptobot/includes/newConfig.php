@@ -19,7 +19,7 @@ function getBittrexRequests($userID = 0){
   $sql = "SELECT `Bor`.`Type`,`Bor`.`BittrexRef`,`Bor`.`ActionDate`,`Bor`.`CompletionDate`,`Bor`.`Status`,`Bor`.`SellPrice`,`Bor`.`UserName`,`Bor`.`APIKey`,`Bor`.`APISecret`,`Bor`.`Symbol`,`Bor`.`Amount`
   ,`Bor`.`CoinPrice`,`Bor`.`UserID`,`Email`,`Bor`.`OrderNo`,`Bor`.`TransactionID`,`Bor`.`BaseCurrency`,`Bor`.`RuleID`,`Bor`.`DaysOutstanding`,`Bor`.`timeSinceAction`,`Bor`.`CoinID`,`Bor`.`RuleIDSell`
   ,`Bor`.`LiveCoinPrice`,`Bor`.`TimetoCancelBuy`,`Bor`.`BuyOrderCancelTime`,`Bor`.`KEK`,`Bor`.`Live7DChange`,`Bor`.`CoinModeRule`,`Bor`.`OrderDate`,`Bor`.`PctToSave`,`Bor`.`SpreadBetRuleID`,`Bor`.`SpreadBetTransactionID`
-  ,`Bor`.`RedirectPurchasesToSpread`,`Bor`.`SpreadBetRuleIDRedirect`,`Bor`.`MinsToPauseAfterPurchase`,`Bor`.`OriginalAmount`,`Bor`.`SaveResidualCoins`,`Bor`.`MinsSinceAction`,`Uc`.`TimetoCancelBuyMins`
+  ,`Bor`.`RedirectPurchasesToSpread`,`Bor`.`SpreadBetRuleIDRedirect`,`Bor`.`MinsToPauseAfterPurchase`,`Bor`.`OriginalAmount`,`Bor`.`SaveResidualCoins`,`Bor`.`MinsSinceAction`,`Uc`.`TimetoCancelBuyMins`,`BuyBack`
   FROM `BittrexOutstandingRequests` `Bor`
   join `UserConfig` `Uc` on `Uc`.`UserID` = `Bor`.`UserID`
   WHERE `Status` = '1' $bittrexQueue";
@@ -31,7 +31,7 @@ function getBittrexRequests($userID = 0){
     $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['RuleID'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
-    ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins']);
+    ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack']);
   }
   $conn->close();
   return $tempAry;
