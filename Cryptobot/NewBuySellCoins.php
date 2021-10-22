@@ -1708,12 +1708,16 @@ function buyToreduceLoss($lossCoins){
     $liveCoinPrice = $lossCoins[$y][19];
     $baseCurrency = $lossCoins[$y][36];
     $totalAmount = $lossCoins[$y][54];
+    $reduceLossEnabled = $lossCoins[$y][61];
+    $reduceLossSellPct = $lossCoins[$y][62];
+    $reduceLossMultiplier = $lossCoins[$y][63];
     echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount";
 
-    if ($pctProfit <= -30 and $minsToDelay > 0){
+    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $reduceLossEnabled == 1){
+      if (!isset($pctProfit)){ continue; }
       //get multiplier
       //$openTransNoAry = getOpenTransNo($userID, $coinID);
-      $currentBuy = 2;
+      $currentBuy = $reduceLossMultiplier;
       $quant = $totalAmount*$currentBuy;
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant";
       //Buy Coin with Merge
