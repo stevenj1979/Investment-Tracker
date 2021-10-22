@@ -1365,9 +1365,9 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              var_dump($cancelRslt);
-             $canStatus = $cancelRslt['status'];
+             $canStatus = $cancelRslt['status']; $errorCode = $cancelRslt['code'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
-             if ($cancelRslt == 1){
+             if ($canStatus == 1 OR $errorCode == "ORDER_NOT_OPEN"){
                bittrexBuyCancel($uuid, $transactionID);
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
