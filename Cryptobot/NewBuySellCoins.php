@@ -1364,6 +1364,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsSinceAction | $timeToCancelMins ";
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+             var_dump($cancelRslt);
              $canStatus = $cancelRslt['status'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
              if ($cancelRslt == 1){
