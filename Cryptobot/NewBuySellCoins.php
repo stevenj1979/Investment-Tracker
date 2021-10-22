@@ -1361,9 +1361,10 @@ function runBittrex($BittrexReqs,$apiVersion){
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
         if ( $minsSinceAction >= $timeToCancelMins){
-          echo "<BR>CANCEL time exceeded! CANCELLING!";
+          echo "<BR>CANCEL time exceeded! CANCELLING! $minsSinceAction | $timeToCancelMins ";
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+             echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $cancelRslt";
              if ($cancelRslt == 1){
                bittrexBuyCancel($uuid, $transactionID);
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
