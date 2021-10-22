@@ -1367,7 +1367,7 @@ function runBittrex($BittrexReqs,$apiVersion){
              var_dump($cancelRslt);
              $canStatus = $cancelRslt['status']; $errorCode = $cancelRslt['code'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
-             if ($canStatus == 1 OR $errorCode == "ORDER_NOT_OPEN"){
+             if ($canStatus == 'CLOSED' OR $errorCode == "ORDER_NOT_OPEN"){
                bittrexBuyCancel($uuid, $transactionID);
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
@@ -1378,7 +1378,8 @@ function runBittrex($BittrexReqs,$apiVersion){
              }
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
-            if ($result == 1){
+            $canStatus = $result['status'];
+            if ($canStatus == 'CLOSED'){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created. QTY: $orderQty | QTY Remaining: $orderQtyRemaining", $userID, 1,"PartialOrder","TransactionID:$transactionID");
               logAction("runBittrex; bittrexBuyCancelPartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
@@ -1485,7 +1486,8 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($orderQtyRemaining == $orderQty){
             //complete sell update amount
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
-            if ($cancelRslt == 1){
+            $canStatus = $cancelRslt['status'];
+            if ($canStatus == 'CLOSED'){
               bittrexSellCancel($uuid, $transactionID);
               logAction("runBittrex; bittrexSellCancelFull : $coin | $daysOutstanding | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFull","TransactionID:$transactionID");
@@ -1496,8 +1498,9 @@ function runBittrex($BittrexReqs,$apiVersion){
             }
           }else{
              $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+             $canStatus = $result['status'];
              if ($apiVersion == 1){ $resultStatus = $result;}
-             else{ if ($result == 'CLOSED'){$resultStatus = 1;}else{$resultStatus =0;}}
+             else{ if ($canStatus == 'CLOSED'){$resultStatus = 1;}else{$resultStatus =0;}}
              if ($resultStatus == 1){
                $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
                //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
@@ -1528,7 +1531,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($orderQtyRemaining == $orderQty){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             if($apiVersion == 1){ $canResStatus = $cancelRslt;}
-            else{ if ($cancelRslt == 'CLOSED'){$canResStatus = 1;}else{$canResStatus =0;}}
+            else{ if ($cancelRslt['status'] == 'CLOSED'){$canResStatus = 1;}else{$canResStatus =0;}}
             if ($canResStatus == 1){
               bittrexSellCancel($uuid, $transactionID);
               logAction("runBittrex; bittrexSellCancelFull_v2 : $coin | $pctFromSale | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
@@ -1541,7 +1544,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           }else{
             $canResult = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             if($apiVersion == 1){ $newCanResStatus = $canResult;}
-            else{ if ($canResult == 'CLOSED'){$newCanResStatus = 1;}else{$newCanResStatus =0;}}
+            else{ if ($canResult['status'] == 'CLOSED'){$newCanResStatus = 1;}else{$newCanResStatus =0;}}
             if ($newCanResStatus == 1){
               $newOrderNo = "ORD".$coin.date("YmdHis", time()).$ruleIDBTSell;
               //sendtoSteven($transactionID,"QTYRemaining: ".$orderQtyRemaining."_QTYSold: ".$qtySold."_OrderQTY: ".$orderQty."_UUID: ".$uuid, "NewOrderNo: ".$newOrderNo."_OrderNo: ".$orderNo, "SELL - Less -2 Greater 2.5");
