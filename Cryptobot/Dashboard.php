@@ -267,7 +267,7 @@ function updateMergeSaving(){
   $conn->close();
 }
 
-function mergeCoins($sellTrackingCoins){
+function mergeCoins($sellTrackingCoins, $nStatus){
   $sellTrackingCoinsSize = Count($sellTrackingCoins);
   $z = 0;$toMergeAry = []; $finalMergeAry = [];
   echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
@@ -278,7 +278,7 @@ function mergeCoins($sellTrackingCoins){
     if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
       $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
       echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
-      newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
+      //newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
       $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
     }
   }
@@ -296,7 +296,7 @@ function mergeCoins($sellTrackingCoins){
       UpdateTransCount($count-1, $transactionID);
       closeOldTransSQL(rtrim($lastTransID, ','));
       //logToSQL("TrackingCoins", "mergeTransactions($transactionID, $amount, $avCost, $lastTransID);", $userID);
-      newLogToSQL("Dashboard","mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
+      newLogToSQL("Dashboard","$nStatus | mergeTransactions($transactionID, $amount, $avCost);",3,1,"MergeCoinsTotal","TransactionID:$transactionID");
     }
   }
 }
@@ -340,9 +340,9 @@ for($x = 0; $x < $confSize; $x++) {
 
 updateMergeSaving();
 $savingCoins = getOpenCoins('Saving');
-mergeCoins($savingCoins);
+mergeCoins($savingCoins,'Saving');
 $sellTrackingCoins = getOpenCoins('Open');
-mergeCoins($sellTrackingCoins);
+mergeCoins($sellTrackingCoins,'Open');
 
 
 clearDailtBTCTbl("`DailyBTCTbl`");
