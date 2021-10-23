@@ -768,7 +768,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       //continue;
       if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID); }
       logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
-      $finalBool = True;
+       return True;
       }
     }
   }
