@@ -197,13 +197,13 @@ function runSellSavings($spreadBuyBack){
       logAction("runSellSavings; newTrackingSellCoins_v3 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells", 'BuySellFlow', 1);
       $finalBool = True;
     }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $noOfBounceSells >= 2 and $bounceDifference >= 2.5){
-      newLogToSQL("runSellSavings_v2","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $bounceTopPrice | $LiveCoinPrice | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
-      newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_2');
-      setTransactionStatus($transactionID,"SavingsSell");
-      setBuyPct($bounceDifference,$transactionID);
-      updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
-      logAction("runSellSavings; newTrackingSellCoins_v2 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells | $bounceDifference | $bounceTopPrice | $LiveCoinPrice", 'BuySellFlow', 1);
-      $finalBool = True;
+      //newLogToSQL("runSellSavings_v2","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $bounceTopPrice | $LiveCoinPrice | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
+      //newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_2');
+      //setTransactionStatus($transactionID,"SavingsSell");
+      //setBuyPct($bounceDifference,$transactionID);
+      //updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
+      //logAction("runSellSavings; newTrackingSellCoins_v2 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells | $bounceDifference | $bounceTopPrice | $LiveCoinPrice", 'BuySellFlow', 1);
+      //$finalBool = True;
     }
 
   }
