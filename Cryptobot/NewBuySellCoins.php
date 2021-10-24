@@ -123,6 +123,7 @@ function runReBuySavings($coinSwaps){
   $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1];
+    if (!isset($status)) { continue; }
     if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
        $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
@@ -174,6 +175,7 @@ function runSellSavings($spreadBuyBack){
     $profit = ($sellPrice-$buyPrice);
     //echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
     $profitPCT = ($profit/$buyPrice)*100;
+    if (!isset($profitPCT)){ continue; }
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
     if ($profitPCT > 30 OR $profitPCT < -20){
       echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay | bounceSell: $noOfBounceSells | bounceDiff: $bounceDifference";
