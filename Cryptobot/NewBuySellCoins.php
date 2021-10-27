@@ -1767,6 +1767,7 @@ $buyCoinTimer = date('Y-m-d H:i');
 $sellCoinTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
+$bittrexReqsTimer = date('Y-m-d H:i');
 $completeFlag = False;
 $reRunBuySavingsFlag = False;
 $runTrackingSellCoinFlag = False;
@@ -1900,7 +1901,9 @@ while($completeFlag == False){
         }
         $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
-        if ($refreshBittrexFlag == True){
+        if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or$refreshBittrexFlag == True){
+          $BRcurrent_date = date('Y-m-d H:i');
+          $bittrexReqsTimer = date("Y-m-d H:i",strtotime("+2 minutes 34 seconds", strtotime($BRcurrent_date)));
           $BittrexReqs = getBittrexRequests();
           $refreshBittrexFlag = False;
         }
