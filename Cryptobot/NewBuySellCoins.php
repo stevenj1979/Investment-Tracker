@@ -1308,7 +1308,9 @@ function runBittrex($BittrexReqs,$apiVersion){
 
     }
 
-
+    $newPurchasePrice = $amount*$cost;
+    $newCost = ($amount*$cost)/$liveCoinPriceBit;
+    $newResidualAmount =  $cost - $newCost;
     //if ($orderQtyRemaining=0){$orderIsOpen = false;}
     echo "<BR> ------COIN to Sell: ".$coin."-------- USER: ".$userName;
     //echo "<BR> Buy Cancel Time: $buyCancelTime";
@@ -1493,8 +1495,8 @@ function runBittrex($BittrexReqs,$apiVersion){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
                 $residualAmount = $originalAmount - $amount;
-                ResidualCoinsToSaving($residualAmount,$OrderString ,$transactionID);
-                newLogToSQL("BittrexSell","ResidualCoinsToSaving($residualAmount, $originalAmount, $amount, ORD.$coin.$newOrderDate.$ruleIDBTBuy, $transactionID, $realProfitPct);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
+                ResidualCoinsToSaving($newResidualAmount,$OrderString ,$transactionID);
+                newLogToSQL("BittrexSell","ResidualCoinsToSaving($newResidualAmount, $originalAmount, $amount, $OrderString, $transactionID, $realProfitPct);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
               }
               UpdateProfit();
 
