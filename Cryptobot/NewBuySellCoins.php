@@ -870,7 +870,10 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDate, $baseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,$GLOBALS['logToSQLSetting'],"Success","TransactionID:$TransactionID");
           addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
           logAction("runTrackingSellCoin; sellCoins : $coin | $CoinID | $baseCurrency | $LiveCoinPrice | $CoinPrice | $Amount | $userID | $minsFromDate | $type | $TransactionID", 'BuySellFlow', 1);
-
+          if ($saveResidualCoins == 1){
+            $finalResidual = ($oldAmount-$Amount)*$LiveCoinPrice;
+            saveResidualAmountToBittrex($TransactionID,$finalResidual);
+          }
         }
       }
       $finalBool = True;
@@ -1284,7 +1287,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $spreadBetTransactionID  = $BittrexReqs[$b][31]; $redirectPurchasesToSpread = $BittrexReqs[$b][32]; $spreadBetIDRedirect = $BittrexReqs[$b][33];
     $coinModeRule = $BittrexReqs[$b][27]; $pctToSave = $BittrexReqs[$b][29]; $minsToPause = $BittrexReqs[$b][34]; $originalAmount = $BittrexReqs[$b][35]; $saveResidualCoins = $BittrexReqs[$b][36];
     $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38]; $buyBack = $BittrexReqs[$b][39];
-    $oldBuyBackTransID = $BittrexReqs[$b][40];
+    $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1311,7 +1314,7 @@ function runBittrex($BittrexReqs,$apiVersion){
 
     $newPurchasePrice = $amount*$cost;
     $newCost = ($amount*$cost)/$liveCoinPriceBit;
-    $newResidualAmount =  $cost - $newCost;
+    //$newResidualAmount =  $cost - $newCost;
     //if ($orderQtyRemaining=0){$orderIsOpen = false;}
     echo "<BR> ------COIN to Sell: ".$coin."-------- USER: ".$userName;
     //echo "<BR> Buy Cancel Time: $buyCancelTime";
