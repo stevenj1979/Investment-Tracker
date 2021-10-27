@@ -5620,11 +5620,11 @@ function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
+    $sql = "SELECT `Sbt`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
     ,count(`Tr`.`SpreadBetRuleID`) as NoOfTransactions
       FROM `Transaction` `Tr`
-      join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
-      WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
+      left join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+      WHERE  `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
       group by `Tr`.`SpreadBetRuleID` ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
