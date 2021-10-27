@@ -1968,7 +1968,7 @@ function getNewCoinAllocation($baseCurrency,$userID,$overrideFlag){
     $newCoinAlloc = getNewETHAlloc($userID,$overrideFlag);
   }
   //echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
-  echo "<BR> Return(".$newCoinAlloc[0][0]."-".$newCoinAlloc[0][1].");";
+  echo "<BR> Return(".$newCoinAlloc[0][0]."-".$newCoinAlloc[0][1].") $baseCurrency;";
   return $newCoinAlloc[0][0]-$newCoinAlloc[0][1];
 }
 
