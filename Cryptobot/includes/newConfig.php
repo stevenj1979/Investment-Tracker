@@ -1052,6 +1052,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       $execResult = curl_exec($ch);
       curl_close($ch);
       $temp = json_decode($execResult, true);
+      echo "<BR> $url";
       $balance = $temp['total'];
     }
     return $balance;
