@@ -1984,9 +1984,10 @@ function getNewUSDTAlloc($userID,$overrideFlag){
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }else{
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT if(`LowMarketModeEnabled`>0,(`USDTAlloc`/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),(`USDTAlloc`/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,(`USDTAlloc`/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),
+          (`USDTAlloc`/100)*(`PctOnLow`*if (`LowMarketModeEnabled`>1,`LowMarketModeEnabled`,1))) as AllocTotal
             , sum(`USDTOpen`) as OpenTotal
-            FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
+            FROM `NewCoinAllocationView` WHERE `UserID` =$userID";
   }
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
