@@ -2010,7 +2010,8 @@ function getNewBTCAlloc($userID,$overrideFlag){
   }else{
     //echo "<BR> Flag2: $lowFlag";
     //$sql = "SELECT `BTCAlloc`*getBTCPrice() as AllocTotal
-    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),
+    ((`BTCAlloc`*getBTCPrice())/100)*(`PctOnLow`*if(`LowMarketModeEnabled`>1,`LowMarketModeEnabled`,1))) as AllocTotal
             , sum(`BTCOpen`)*getBTCPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
@@ -2035,7 +2036,8 @@ function getNewETHAlloc($userID,$overrideFlag){
   }else{
     //echo "<BR> Flag2: $lowFlag";
     //$sql = "SELECT `ETHAlloc`*getETHPrice() as AllocTotal
-    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1),((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`)) AllocTotal
+    $sql = "SELECT if(`LowMarketModeEnabled`>0,((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*`LowMarketModeEnabled`+1)
+    ,((`ETHAlloc`*getETHPrice())/100)*(`PctOnLow`*if(`LowMarketModeEnabled`>1,`LowMarketModeEnabled`,1))) as AllocTotal
             , sum(`ETHOpen`)*getETHPrice() as OpenTotal
             FROM `NewCoinAllocationView` WHERE `UserID` = $userID";
   }
