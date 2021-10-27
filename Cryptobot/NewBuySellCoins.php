@@ -1054,8 +1054,8 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True && $test13 == True && $test14 == True){
         $date = date("Y-m-d H:i:s", time());
-      echo "<BR> Call Bittrex Bal: bittrexbalance($apikey, $APISecret,$baseCurrency, $apiVersion);";
-        $BTCBalance = bittrexbalance($APIKey, $apisecret,$baseCurrency, $apiVersion);
+      echo "<BR> Call Bittrex Bal: bittrexbalance($APIKey, $APISecret,$baseCurrency, $apiVersion);";
+        $BTCBalance = bittrexbalance($APIKey, $APISecret,$baseCurrency, $apiVersion);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; $BTCAmount ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; $BTCAmount ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
