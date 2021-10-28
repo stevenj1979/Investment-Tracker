@@ -320,7 +320,7 @@ function runBuyBack($buyBackCoins){
       buyBackDelay($tmpCoinID,60);
       addOldBuyBackTransID($bBID,$tmpCoinID);
       logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
-      $finalBool = True;
+      return True;
     }
   }
   return $finalBool;
