@@ -5980,7 +5980,7 @@ function getBuyBackData(){
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
   , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
   , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel`,`BullBearStatus`,`Type`,`OverrideCoinAllocation`
-  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`
+  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`,`DelayMins`
    FROM `BuyBackView`";
   echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5990,7 +5990,7 @@ function getBuyBackData(){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
-      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice']);
+      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins']);
   }
   $conn->close();
   return $tempAry;
@@ -6100,6 +6100,23 @@ function closeBuyBack($buyBackID){
   $conn->close();
   logAction("closeBuyBack: ".$sql, 'TrackingCoins', 0);
   newLogToSQL("closeBuyBack",$sql,3,1,"SQL","BuyBackID:$buyBackID");
+}
+
+function buyBackDelay($coinID, $mins){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call AddDelayToBuyBack($coinID,$mins);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("buyBackDelay: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("buyBackDelay",$sql,3,1,"SQL","CoinID:$coinID");
 }
 
 function sellSpreadBetCoins($spreadSellCoins){

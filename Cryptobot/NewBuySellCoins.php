@@ -245,6 +245,7 @@ function runBuyBack($buyBackCoins){
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
     $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];$liveCoinPrice = $buyBackCoins[$t][30];
+    $delayMins = $buyBackCoins[$t][31];
     //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
@@ -257,7 +258,7 @@ function runBuyBack($buyBackCoins){
 
     ECHO "<BR> Check Price: $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
-
+      if($delayMins > 0){ continue; }
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
       LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice",3,1);
       //BuyBack
@@ -316,6 +317,7 @@ function runBuyBack($buyBackCoins){
       LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
       //CloseBuyBack
       closeBuyBack($bBID);
+      buyBackDelay($tmpCoinID,60);
       addOldBuyBackTransID($bBID,$tmpCoinID);
       logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
       $finalBool = True;
