@@ -871,8 +871,8 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
           logAction("runTrackingSellCoin; sellCoins : $coin | $CoinID | $baseCurrency | $LiveCoinPrice | $CoinPrice | $Amount | $userID | $minsFromDate | $type | $TransactionID", 'BuySellFlow', 1);
           if ($saveResidualCoins == 1){
-            $finalResidual = (($oldAmount*$LiveCoinPrice)-($oldAmount*$PurchasePrice));
-            newLogToSQL("TrackingSell:Residual","$finalResidual = (($oldAmount*$LiveCoinPrice)-($oldAmount*$PurchasePrice));",3,1,"ResidualAmount","TransactionID:$TransactionID");
+            $finalResidual = ($oldAmount-$Amount);
+            newLogToSQL("TrackingSell:Residual","$finalResidual = ($oldAmount-$Amount);",3,1,"ResidualAmount","TransactionID:$TransactionID");
             saveResidualAmountToBittrex($TransactionID,$finalResidual);
           }
         }
