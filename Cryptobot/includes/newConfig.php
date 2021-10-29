@@ -6102,12 +6102,12 @@ function closeBuyBack($buyBackID){
   newLogToSQL("closeBuyBack",$sql,3,1,"SQL","BuyBackID:$buyBackID");
 }
 
-function buyBackDelay($coinID, $mins){
+function buyBackDelay($coinID, $mins,$tmpUserID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call AddDelayToBuyBack($coinID,$mins);";
+  $sql = "Call AddDelayToBuyBack($coinID,$mins,$tmpUserID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
