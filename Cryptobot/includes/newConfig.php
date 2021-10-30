@@ -98,7 +98,7 @@ function removeTransactionDelay($coinID, $userID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = now() where `Status` = 'Open' and `UserID` = $userID and `CoinID` = $coinID Order by `CoinPrice` Desc Limit 1";
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = now() where `Status` = 'Open' and `UserID` = $userID and `CoinID` = $coinID and `DelayCoinSwapUntil` > now() Order by `CoinPrice` Desc Limit 1";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
