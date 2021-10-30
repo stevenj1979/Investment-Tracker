@@ -177,7 +177,7 @@ function runSellSavings($spreadBuyBack){
     $profitPCT = ($profit/$buyPrice)*100;
     if (!isset($profitPCT)){ continue; }
     if ($baseCurrency == 'USDT'){ $baseMin = 20;}elseif ($baseCurrency == 'BTC'){ $baseMin = 0.00048;}elseif ($baseCurrency == 'ETH'){ $baseMin = 0.0081;}
-    if ($profitPCT > 30 OR $profitPCT < -20){
+    if ($profitPCT > 30 OR $profitPCT < -20 OR $hr1PctChange > 13){
       echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay | bounceSell: $noOfBounceSells | bounceDiff: $bounceDifference | 1HrPct: $hr1PctChange";
     }
     $profitFlag = False;$hr1Flag = False; $buyMoreFlag = False;
