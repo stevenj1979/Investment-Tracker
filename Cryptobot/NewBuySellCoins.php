@@ -166,7 +166,7 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $minsToDelay = $spreadBuyBack[$u][63]; $BTCPrice = $spreadBuyBack[$u][65]; $ETHPrice = $spreadBuyBack[$u][66];
+    $minsToDelay = $spreadBuyBack[$u][63]; $BTCPrice = $spreadBuyBack[$u][65]; $ETHPrice = $spreadBuyBack[$u][66]; $hr1PctChange = $spreadBuyBack[$u][29];
     //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
     //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
@@ -180,16 +180,20 @@ function runSellSavings($spreadBuyBack){
     if ($profitPCT > 30 OR $profitPCT < -20){
       echo "<br> runSellSavings:  $coinID | $baseCurrency | PP:$buyPrice | LP:$sellPrice | Prft:$profit | pct:$profitPCT | mins:$minsToDelay | bounceSell: $noOfBounceSells | bounceDiff: $bounceDifference";
     }
-    if ($profitPCT >= $profitTarget){
-      newLogToSQL("runSellSavings_v1","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget",3,1,"Profit","TransID:$transactionID");
+    $profitFlag = False;$hr1Flag = False; $buyMoreFlag = False;
+    if ($profitPCT >= $profitTarget){ $profitFlag = True;}
+    if ($hr1PctChange >= 15 and $minsToDelay > 0 and $noOfBounceSells <= 1 and $bounceDifference >= 2.5){ $hr1Flag = True; }
+    if (($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1)){ $buyMoreFlag = True; }
+    if (($profitFlag == True) OR ($hr1Flag == True)){
+      newLogToSQL("runSellSavings_v1","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $hr1PctChange",3,1,"Profit","TransID:$transactionID");
       newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_1');
       setTransactionStatus($transactionID,"SavingsSell");
-      logAction("runSellSavings; newTrackingSellCoins_v1 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID", 'BuySellFlow', 1);
+      logAction("runSellSavings; newTrackingSellCoins_v1 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $hr1PctChange", 'BuySellFlow', 1);
       updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
       $finalBool = True;
     //}elseif ($profitPCT >= $profitTarget){
     //  Echo "<BR> CoinID: $CoinID | Sym: $symbol | SellPrice: $sellPrice | Min: $baseMin";
-    }elseif ($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1){
+  }elseif ($buyMoreFlag == True){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
       newLogToSQL("runSellSavings_v3","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1,'runSellSavings');
@@ -198,16 +202,7 @@ function runSellSavings($spreadBuyBack){
       //updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
       logAction("runSellSavings; newTrackingSellCoins_v3 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells", 'BuySellFlow', 1);
       $finalBool = True;
-    }elseif ($profitPCT <= -20 and $minsToDelay > 0 and $noOfBounceSells >= 2 and $bounceDifference >= 2.5){
-      //newLogToSQL("runSellSavings_v2","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $bounceTopPrice | $LiveCoinPrice | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
-      //newTrackingSellCoins($bounceTopPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_2');
-      //setTransactionStatus($transactionID,"SavingsSell");
-      //setBuyPct($bounceDifference,$transactionID);
-      //updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
-      //logAction("runSellSavings; newTrackingSellCoins_v2 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells | $bounceDifference | $bounceTopPrice | $LiveCoinPrice", 'BuySellFlow', 1);
-      //$finalBool = True;
     }
-
   }
   return $finalBool;
 }
