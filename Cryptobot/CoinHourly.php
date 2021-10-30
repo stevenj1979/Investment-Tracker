@@ -440,7 +440,7 @@ function writeNoOfSells($coinID,$noOfSells){
 function coinSwapBuyPct($coinSwapID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "UPDATE `SwapCoins` SET `PctToBuy` = `PctToBuy`-0.24 where `ID` = $coinSwapID and `PctToBuy` >= 7.0 ";
+  $sql = "call SubPctFromCoinSwap($coinSwapID);";
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "<BR>New record created successfully";
