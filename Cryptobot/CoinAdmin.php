@@ -735,7 +735,7 @@ OptimiseTable("`BuyRules`");
 OptimiseTable("`SellRules`");
 OptimiseTable("`SpreadBetCoins`");
 
-overNightBuyBackReduction();
+//overNightBuyBackReduction();
 deleteCoinSwapClosed();
 runNewDashboard();
 fixQTUM();
