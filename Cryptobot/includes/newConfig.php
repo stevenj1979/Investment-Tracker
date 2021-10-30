@@ -92,6 +92,24 @@ function reopenCoinSwapCancel($transID){
     logAction("reopenCoinSwap: ".$sql, 'BuySell', 0);
 }
 
+function removeTransactionDelay($coinID, $userID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = now() where `Status` = 'Open' and `UserID` = $userID and `CoinID` = $coinID Order by `CoinPrice` Desc Limit 1";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("removeTransactionDelay",$sql,3,0,"SQL","TransID:$transID");
+    logAction("removeTransactionDelay: ".$sql, 'BuySell', 0);
+}
+
 function bittrexActionBuyBack($coinID,$oldBuyBackTransID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
