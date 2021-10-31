@@ -739,39 +739,46 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         }
 
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$noOfPurchases+1);
-        newLogToSQL("TrackingCoin","buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);",$userID,1,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
-        //logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
-        UpdateProfit();
-        //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
-        closeNewTrackingCoin($newTrackingCoinID, False);
-        //if ($type == 'SavingsBuy'){
-          //updateTypeToBittrex($type,$transactionID);
-          //updateTypeToTrans($type,$transactionID);
-        //}
-        $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
-        $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
-        if ($type == 'SpreadBuy'){
-          updateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);
-          $finishedSBBuy = getSpreadBetCount($SBTransID);
-          if ((!isset($finishedSBBuy)) OR ($finishedSBBuy == 0)){
-            updateSpreadBuy($SBRuleID);
+        if ($checkBuy == 1){
+          newLogToSQL("TrackingCoin","buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);",$userID,1,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
+          //logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
+          UpdateProfit();
+          //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
+          closeNewTrackingCoin($newTrackingCoinID, False);
+          //if ($type == 'SavingsBuy'){
+            //updateTypeToBittrex($type,$transactionID);
+            //updateTypeToTrans($type,$transactionID);
+          //}
+          $trackCounter[$userID."-".$coinID] = $trackCounter[$userID."-".$coinID] + 1;
+          $trackCounter[$userID."-Total"] = $trackCounter[$userID."-Total"] + 1;
+          if ($type == 'SpreadBuy'){
+            updateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);
+            $finishedSBBuy = getSpreadBetCount($SBTransID);
+            if ((!isset($finishedSBBuy)) OR ($finishedSBBuy == 0)){
+              updateSpreadBuy($SBRuleID);
+            }
+
+          }
+          clearTrackingCoinQueue($userID,$coinID);
+          $aryCount = count($clearCoinQueue);
+          //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
+          if (!empty($clearCoinQueue)) {
+              array_push($clearCoinQueue,$userID,$coinID);
+          }else{
+            $clearCoinQueue = Array($userID,$coinID);
           }
 
+          updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge);
+          //continue;
+          if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID,$oldBuyBackTransID); }
+          logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
+          return True;
+        }elseif ($checkBuy == 2){
+          //2 = INSUFFICIENT BAL
+          closeNewTrackingCoin($newTrackingCoinID, False);
+          removeTransactionDelay($coinID, $userID);
+          reOpenTransactionfromBuyBack($oldBuyBackTransID);
         }
-        clearTrackingCoinQueue($userID,$coinID);
-        $aryCount = count($clearCoinQueue);
-        //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
-        if (!empty($clearCoinQueue)) {
-            array_push($clearCoinQueue,$userID,$coinID);
-        }else{
-          $clearCoinQueue = Array($userID,$coinID);
-        }
-
-        updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge);
-      //continue;
-      if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID,$oldBuyBackTransID); }
-      logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
-       return True;
       }
     }
   }

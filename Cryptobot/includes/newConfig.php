@@ -515,7 +515,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$noOfPurchases = 0){
   $apiVersion = 3;
-  $retBuy = False;
+  $retBuy = 0;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
@@ -595,7 +595,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
           logToSQL("AddBuyCoin", "$bittrexRef $status ".$obj['status']." $coinID $bitPrice $btcBuyAmount $orderNo", $userID,1);
           if ($bittrexRef <> ""){
-            $retBuy = True;
+            $retBuy = 1;
             echo "bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, $status, $ruleID, $bitPrice, $btcBuyAmount, $orderNo);";
             date_default_timezone_set('Asia/Dubai');
             //$tmpTime = $timeToCancelBuyMins;
@@ -614,10 +614,12 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //writeBittrexActionBuy($coinID,$userID,'Buy',$bittrexRef,$date,$status,$bitPrice,$ruleID);
             //if ($SellRuleFixed !== "ALL"){writeFixedSellRule($SellRuleFixed,$bittrexRef);}
             addCoinAllocationOverride($overrideCoinAlloc,$bittrexRef);
-
+            logAction("BITTREX BUY COIN| $coin | $bitPrice | $btcBuyAmount | ", 'BuySellFlow', 1);
           }
           logAction("Bittrex Status:  ".json_encode($obj), 'BuySell', 0);
           logToSQL("Bittrex", "Add Buy Coin: ".json_encode($obj), $userID,1);
+        }else{
+          $retBuy = 2;
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
@@ -625,7 +627,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         }
     }else{
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount;
-      logAction("BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySell', 0);
+      logAction("BITTREX BALANCE INSUFFICIENT| $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySellFlow', 1);
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", $userID,1);
     }
   //}
@@ -1973,6 +1975,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
       //writeBittrexAction($coinID,$transactionID,$userID,"Sell",$bittrexRef, $date, $status,$bitPrice);
       bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $status, $bitPrice, $ruleID);
       logToSQL("Bittrex", "Sell Coin Add $bitPrice ", $userID,1);
+      logAction("BITTREX SELL COIN| $coin | $bitPrice | $amount | $baseCurrency", 'BuySellFlow', 1);
     }
     logAction("SellCoins:  ".json_encode($obj), 'BuySell', 0);
     logToSQL("Bittrex", "Sell Coin Data: ".json_encode($obj)."|".$coin."|".$amount."|".$transactionID, $userID,1);
@@ -5736,6 +5739,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice";
     newLogToSQL("TrackingCoin", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToBuy_2","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
+    logAction("runTrackingCoin; ReadyToBuy : OPT2 | $coin | $minsFromDate | $quickBuyCount ", 'BuySellFlow', 1);
     return True;
   }
   if (($livePrice <= $topSwing) AND ($livePrice >= $bottomSwing)){
@@ -5833,6 +5837,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
       echo "<BR> Option8: within Swing Ready to Sell";
       reopenTransaction($TransactionID);
+      logAction("runTrackingSellCoin; ReadToSell : OPT8 | $coin | $type | $pctProfit", 'BuySellFlow', 1);
       return True;
     }
 
@@ -5840,6 +5845,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
+      logAction("runTrackingSellCoin; ReadToSell : OPT7 | $coin | $type | $pctProfit", 'BuySellFlow', 1);
       return True;
     }
     //if liveprice is stable, add 1 - -0.5 - 0.5
@@ -5867,6 +5873,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       echo "<BR> Option2: Sell";
       newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
+      logAction("runTrackingSellCoin; ReadToSell : OPT2 | $coin | $type | $pctProfit | $minsFromDate", 'BuySellFlow', 1);
       return True;
     }
     if (($livePrice <= $topSwing) AND($livePrice >= $bottomSwing)){
