@@ -312,7 +312,7 @@ function runBuyBack($buyBackCoins){
       LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
       //CloseBuyBack
       closeBuyBack($bBID);
-      buyBackDelay($tmpCoinID,60,$tmpUserID);
+      buyBackDelay($tmpCoinID,4320,$tmpUserID);
       addOldBuyBackTransID($bBID,$tmpCoinID);
       logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
       return True;
@@ -772,6 +772,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //continue;
           if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID,$oldBuyBackTransID); }
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
+          buyBackDelay($coinID,0,$userID);
           return True;
         }elseif ($checkBuy == 2){
           //2 = INSUFFICIENT BAL
