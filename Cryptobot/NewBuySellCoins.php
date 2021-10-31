@@ -1759,7 +1759,7 @@ function buyToreduceLoss($lossCoins){
       //Set Merge for current Coin
       updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
-      delaySavingBuy($transactionID);
+      delaySavingBuy($transactionID,4320);
       setNewTargetPrice($transactionID);
       $finalBool =  True;
     }
