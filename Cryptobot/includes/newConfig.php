@@ -3877,6 +3877,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
       echo "<BR> adding ".$finalMergeAry[$j][7]."+1";
       $finalMergeAry[$j][8] = $finalMergeAry[$j][8];
       $finalMergeAry[$j][9] = $finalMergeAry[$j][9];
+      $finalMergeAry[$j][10] = $finalMergeAry[$j][10]+$toMergeAry[8];
     }
   }
   if ($existing == False){
@@ -3895,6 +3896,7 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
     $finalMergeAry[$finalMergeArySize][7] = 1;
     $finalMergeAry[$finalMergeArySize][8] = $toMergeAry[6];
     $finalMergeAry[$finalMergeArySize][9] = $toMergeAry[7];
+    $finalMergeAry[$finalMergeArySize][10] = $toMergeAry[8];
   }
   return $finalMergeAry;
 }

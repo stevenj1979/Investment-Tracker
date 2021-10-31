@@ -275,9 +275,10 @@ function mergeCoins($sellTrackingCoins, $nStatus){
     $toMerge = $sellTrackingCoins[$x][44]; $userID = $sellTrackingCoins[$x][3]; $coinID = $sellTrackingCoins[$x][2]; $symbol = $sellTrackingCoins[$x][11];
     $transactionID = $sellTrackingCoins[$x][0]; $amount = $sellTrackingCoins[$x][5]; $cost = $sellTrackingCoins[$x][4]; $MaxCoinMerge = $sellTrackingCoins[$x][52];
     $noOfPurchases = $sellTrackingCoins[$x][49];
+    $usdAmount = $cost * $amount;
     if ($toMerge == 1 && $sellTrackingCoinsSize >= 2){
-      $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);
-      echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);";
+      $toMergeAry = Array($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases,$usdAmount);
+      echo "<BR> ARRAY($userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases,$usdAmount);";
       //newLogToSQL("Dashboard","$userID,$coinID,$symbol,$transactionID,$amount,$cost,$MaxCoinMerge, $noOfPurchases);",3,1,"MergeCoins","TransactionID:$transactionID");
       $finalMergeAry = updateMergeAry($toMergeAry,$finalMergeAry);
     }
@@ -288,7 +289,8 @@ function mergeCoins($sellTrackingCoins, $nStatus){
   for($x = 0; $x < $finalMergeArySize; $x++) {
     $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
     $amount = $finalMergeAry[$x][4]; $cost = $finalMergeAry[$x][5]; $lastTransID = $finalMergeAry[$x][6]; $count = $finalMergeAry[$x][7]; $MaxCoinMerge = $finalMergeAry[$x][8];
-    $avCost = $cost/$count; $noOfPurchases = $finalMergeAry[$x][9];
+    $usdAmount = $finalMergeAry[$x][10];
+    $avCost = $usdAmount/$amount; $noOfPurchases = $finalMergeAry[$x][9];
     echo "<BR> Count: $count";
     if ($count >= 2){
       echo "<BR> mergeTransactions($transactionID, $amount, $avCost, $lastTransID);";
