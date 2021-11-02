@@ -340,8 +340,8 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
     if ($autoBuyBackSell <> -999999.99999000 AND $profitPCT <= $autoBuyBackSell){ $runAutoBuyBack = True; }
     echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
     if ( $runAutoBuyBack == True OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0))){
-      if (!isset($autoBuyBackSell)){ continue; }
-      if (!isset($profitPCT)){ continue; }
+      if (!isset($autoBuyBackSell)){ continue; }elseif (!is_numeric($autoBuyBackSell)){ continue; }
+      if (!isset($profitPCT)){ continue; }elseif (!is_numeric($profitPCT)){ continue; }
       newLogToSQL("NewBuySellCoins","$symbol | $CoinID | ProfitPct: $profitPCT | AutoBuyBackSell: $autoBuyBackSell | ProfitSellTarget: $profitSellTarget",3,1,"SellSpreadBetandBuyBack","TransID:$transactionID");
       //$tempAry = $spreadBuyBack[$u];
       //sellSpreadBetCoins($tempAry);
@@ -1442,7 +1442,7 @@ function runBittrex($BittrexReqs,$apiVersion){
       }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
-        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID, 1,"SellComplete","TransactionID:$transactionID");
+        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
         if (($orderIsOpen == 0) OR ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
