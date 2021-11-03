@@ -52,7 +52,7 @@ function checkMarketforPctDip(){
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize";
-    if ($marketPctChangeHr24 <= -4.0 and $marketPctChangeHr1 > 0){
+    if ($marketPctChangeHr24 <= -4.0){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
           $mode = floor(abs($marketPctChangeHr24/-4));
