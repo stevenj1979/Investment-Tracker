@@ -1439,7 +1439,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($buyBack == 1){ reopenCoinSwapCancel($oldBuyBackTransID); }
           $finalBool = True;
         }
-      }elseif ($type == "Sell" or $type == "SpreadSell"){ // $type Sell
+      }elseif ($type == "Sell" or $type == "SpreadSell" or $type == "SavingsSell"){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
