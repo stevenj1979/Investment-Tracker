@@ -3755,7 +3755,7 @@ function setNewTrackingPrice($coinPrice, $ID, $mode){
   if ($mode == 'Buy'){
       $sql = "UPDATE `TrackingCoins` SET `CoinPrice` = $coinPrice WHERE `ID` = $ID";
   }else{
-    $sql = "UPDATE `TrackingSellCoins` SET `CoinPrice` = $coinPrice WHERE `ID` = $ID";
+    $sql = "UPDATE `TrackingSellCoins` SET `BaseSellPrice` = $coinPrice WHERE `ID` = $ID";
   }
 
 
@@ -5873,7 +5873,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       echo "<BR> Option2: Sell";
-      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice | $pctProfit", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       logAction("runTrackingSellCoin; ReadToSell : OPT2 | $coin | $type | $pctProfit | $minsFromDate", 'BuySellFlow', 1);
       return True;
