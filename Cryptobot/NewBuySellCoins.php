@@ -812,7 +812,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct);
-    if ($readyToSell == True){
+    if ($readyToSell == 1){
       $PurchasePrice = ($Amount*$CoinPrice);
       $salePrice = $LiveCoinPrice * $Amount;
       $profit = $salePrice - $PurchasePrice;
@@ -882,6 +882,8 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
           }
         }
       }
+      $finalBool = True;
+    }elseif ($readyToSell == 2){
       $finalBool = True;
     }
 
