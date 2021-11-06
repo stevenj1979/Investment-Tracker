@@ -4177,7 +4177,7 @@ function getNewTrackingSellCoins($userID = 0){
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
   ,TIMESTAMPDIFF(MINUTE,`TrackStartDate`,Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`,`SaveResidualCoins`
-  ,`OriginalAmount`,`TrackingType`
+  ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
   FROM `TrackingSellCoinView`$whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -4188,7 +4188,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
     ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID'] //38
-  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType']);
+  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -5822,7 +5822,7 @@ function updateQuickBuyCount($trackingID){
   newLogToSQL("updateQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");
 }
 
-function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct){
+function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct,$originalSellPrice){
     $swingPct = 0.5;
     if ($livePrice < 0.05){
       $swingPct = 0.75;
@@ -5832,10 +5832,11 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     $currentPrice = abs($livePrice-$basePrice);
     $topSwing = $basePrice + $swingPrice;
     $bottomSwing = $basePrice - $swingPrice;
+    $pctFromOrig = (($livePrice-$originalSellPrice)/$originalSellPrice)*100;
     //$bottomPrice = $livePrice-$swingPrice;
     //echo "<BR> SwingPrice: $swingPrice | currentPrice: $currentPrice | LivePrice: $livePrice | sellPrice: $sellPrice";
 
-    if (($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $bottomSwing && $livePrice <= $topSwing && $pctProfit >= 2)){
+    if (($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $bottomSwing && $livePrice <= $topSwing && $pctFromOrig >= 2)){
       newLogToSQL("TrackingSell", "OPT 8 (within Swing Ready to Sell): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_8","TransactionID:$TransactionID");
       echo "<BR> Option8: within Swing Ready to Sell";
       reopenTransaction($TransactionID);
@@ -5869,7 +5870,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
     }
     echo "<BR>trackingCoinReadyToSell_OPT2: $mins | $minsFromDate | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice | $trackingSellID | $TransactionID | $basePrice | $topSwing | $bottomSwing ";
-    if (($minsFromDate >= 60 && $pctProfit >= 3.0) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $basePrice && $pctProfit >= 0.5)){
+    if (($minsFromDate >= 60 && $pctProfit >= 3.0) OR ($NoOfRisesInPrice >= $totalRisesInPrice && $livePrice >= $basePrice && $pctFromOrig >= 0.5)){
       //if time is over 60 min and livePrice is > original price,  sell : OPT 2
       // if no of buys is greater than total needed - Buy
       echo "<BR> Option2: Sell";
