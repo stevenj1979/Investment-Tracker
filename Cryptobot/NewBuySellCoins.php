@@ -182,7 +182,7 @@ function runSellSavings($spreadBuyBack){
     }
     $profitFlag = False;$hr1Flag = False; $buyMoreFlag = False;
     if ($profitPCT >= $profitTarget){ $profitFlag = True;}
-    if ($hr1PctChange >= 15 and $minsToDelay > 0 and $noOfBounceSells <= 1 and $bounceDifference >= 2.5){ $hr1Flag = True; }
+    if ($hr1PctChange >= 7 and $minsToDelay > 0){ $hr1Flag = True; }
     if (($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1)){ $buyMoreFlag = True; }
     if (($profitFlag == True) OR ($hr1Flag == True)){
       newLogToSQL("runSellSavings_v1","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $hr1PctChange",3,1,"Profit","TransID:$transactionID");
