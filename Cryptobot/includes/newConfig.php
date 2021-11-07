@@ -5730,7 +5730,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
   //if liveprice is stable, add 1 - -0.5 - 0.5
   if ($minsFromDate < 5){
       Echo "<BR>Less Than 5 Mins | OPT 1 : $minsFromDate";
-      return False;
+      return 2;
   }
 
   if (abs($market1HrChangePct) > 0.25){
@@ -5743,7 +5743,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     newLogToSQL("TrackingCoin", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToBuy_2","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     logAction("runTrackingCoin; ReadyToBuy : OPT2 | $coin | $minsFromDate | $quickBuyCount ", 'BuySellFlow', 1);
-    return True;
+    return 1;
   }
   if (($livePrice <= $topSwing) AND ($livePrice >= $bottomSwing)){
     Echo "<BR>Update No Of Rises | OPT 3 : $currentPrice | $swingPrice | $NoOfRisesInPrice | $TransactionID | $livePrice";
@@ -5752,7 +5752,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     updateNoOfRisesInPrice($trackingID, $NoOfRisesInPrice+1);
     //setNewTrackingPrice($livePrice, $trackingID, 'Buy');
     setLastPrice($livePrice,$trackingID, 'Buy');
-    return False;
+    return 2;
   }
   //if liveprice is greater than or less than, reset to 0
   if (($livePrice > $topSwing) OR ($livePrice < $bottomSwing)){ //OR ($currentPrice < $swingPrice)
@@ -5768,7 +5768,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     }
 
     setLastPrice($livePrice,$trackingID, 'Buy');
-    return False;
+    return 2;
   }
   if (($type == 'Buy' && $pctProfit < -3) OR ($type == 'Buy' && $pctProfit > 3)){
     //Cancel Transaction
@@ -5778,11 +5778,11 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     reOpenOneTimeBuyRule($trackingID);
     closeNewTrackingCoin($trackingID, True);
     setLastPrice($livePrice,$trackingID, 'Buy');
-    return False;
+    return 2;
   }
   echo "<BR> Exit trackingCoinReadyToBuy";
   setLastPrice($livePrice,$trackingID, 'Buy');
-  return False;
+  return 0;
 }
 
 function resetQuickBuyCount($trackingID){
