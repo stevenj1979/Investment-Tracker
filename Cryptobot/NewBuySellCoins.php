@@ -678,7 +678,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     Echo "<BR> Price Check: Live:$liveCoinPrice Original: $originalPrice";
     $readyToBuy = trackingCoinReadyToBuy($liveCoinPrice,$timeToCancelBuyMins,$type,$originalPrice,$newTrackingCoinID,$noOfRisesInPrice,$pctProfit,$minsFromDate,$lastPrice,$risesInPrice,$trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy);
     echo "<BR> Ready To Buy: $readyToBuy";
-    if ($readyToBuy == True){
+    if ($readyToBuy == 1){
       $delayCoinPurchase = getDelayCoinPurchaseTimes();
       $totalCoinPurchases = getTotalCoinPurchases();
       $totalCoinPurchasesSize = count($totalCoinPurchases);
@@ -781,7 +781,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           reOpenTransactionfromBuyBack($oldBuyBackTransID);
         }
       }
-    }
+    }elseif ($readyToBuy == 2){ $finalBool = True;}
   }
   return $finalBool;
 }
