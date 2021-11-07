@@ -127,7 +127,7 @@ function runReBuySavings($coinSwaps){
     if ($status == 'AwaitingSavingsBuy'){
       $apikey = $coinSwaps[$y][8];$apisecret = $coinSwaps[$y][9];$KEK = $coinSwaps[$y][10];$ogCoinID = $coinSwaps[$y][12];$ogSymbol = $coinSwaps[$y][13];
        $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6]; $transID = $coinSwaps[$y][0];
-      $finalPrice = $coinSwaps[$y][15]; $userID = $coinSwaps[$y][17]; $coinSwapID = $coinSwaps[$y][18];
+      $finalPrice = $coinSwaps[$y][15]; $userID = $coinSwaps[$y][17]; $coinSwapID = $coinSwaps[$y][18]; $hr1PctChange = $coinSwaps[$y][20];
       $tempPrice = getCoinPrice($ogCoinID);
       $bitPrice = $tempPrice[0][0];
       //$bitPrice = number_format($coinSwaps[$y][16],8);
@@ -138,7 +138,7 @@ function runReBuySavings($coinSwaps){
       $sellPriceTolerance = (($finalPrice/100)*$tolerance);
       $lowPrice = $finalPrice-$sellPricePct+$sellPriceTolerance;
       echo "<BR> TEST Buy: $status | $ogCoinID | $ogSymbol | LowPrice:$lowPrice | BitPrice:$bitPrice";
-      if ($bitPrice <= $lowPrice){
+      if (($bitPrice <= $lowPrice) OR ($hr1PctChange <= -8)){
         $liveCoinPrice = $bitPrice;
         $rate = $liveCoinPrice;
         $quant = $totalAmount;
