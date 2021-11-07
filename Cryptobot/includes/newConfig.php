@@ -781,14 +781,14 @@ Function getOpenCoinSwaps(){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `CSV`.`TransactionID`, `CSV`.`Status`, `CSV`.`BittrexRef`, `CSV`.`NewCoinIDCandidate`, `CSV`.`NewCoinPrice`, `CSV`.`BaseCurrency`, `CSV`.`TotalAmount`, `CSV`.`OriginalPurchaseAmount`
-  , `CSV`.`Apikey`, `CSV`.`ApiSecret`, `CSV`.`KEK`,`CSV`.`Symbol`,`CSV`.`OriginalCoinID`,`CSV`.`OriginalSymbol` ,`CSV`.`BittrexRefSell`,`CSV`.`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`CSV`.`UserID`
-  ,`CSV`.`ID` as CoinSwapID,`CSV`.`PctToBuy`
-  FROM `CoinSwapView` `CSV` join `CoinPrice` `Cp` on `NewCoinIDCandidate` = `Cp`.`CoinID`";
+  , `CSV`.`Apikey`, `CSV`.`ApiSecret`, `CSV`.`KEK`,`CSV`.`Symbol`,`CSV`.`OriginalCoinID`,`CSV`.`OriginalSymbol` ,`CSV`.`BittrexRefSell`,`CSV`.`SellFinalPrice`,`CSV`.`LiveCoinPrice`,`CSV`.`UserID`
+  ,`CSV`.`ID` as CoinSwapID,`CSV`.`PctToBuy`, `CSV`.`Hr1PctChange`,`LiveCoinPrice`
+  FROM `CoinSwapView` `CSV`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret'] //9
-    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID'],$row['PctToBuy']);
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID'],$row['PctToBuy'],$row['Hr1PctChange'],$row['LiveCoinPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -4724,7 +4724,7 @@ function setTransStatus($status,$transID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status` = '$status', `SpreadBetRuleID` = 10,`SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = 10) 
+  $sql = "UPDATE `Transaction` SET `Status` = '$status', `SpreadBetRuleID` = 10,`SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = 10)
           WHERE `ID` = $transID";
 
   print_r($sql);
