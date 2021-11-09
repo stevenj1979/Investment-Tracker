@@ -625,7 +625,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     if($minsFromDate >= $timeToCancelBuyMins){
       closeNewTrackingCoin($newTrackingCoinID, True);
       reOpenOneTimeBuyRule($trackingID);
+      reopenCoinSwapCancel($oldBuyBackTransID);
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
+      $finalBool = True;
       continue;
     }
     Echo "<BR> Tracking Buy Count 1 <BR>";
