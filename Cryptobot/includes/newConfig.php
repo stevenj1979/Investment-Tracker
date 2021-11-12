@@ -110,13 +110,13 @@ function removeTransactionDelay($coinID, $userID){
     logAction("removeTransactionDelay: ".$sql, 'BuySell', 0);
 }
 
-function bittrexActionBuyBack($coinID,$oldBuyBackTransID){
+function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BittrexAction` SET `BuyBack` = 1, `oldBuyBackTransID` = $oldBuyBackTransID where `CoinID` = $coinID order by `ActionDate` desc limit 1 ";
+    $sql = "UPDATE `BittrexAction` SET `BuyBack` = $buyBack, `oldBuyBackTransID` = $oldBuyBackTransID where `CoinID` = $coinID order by `ActionDate` desc limit 1 ";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

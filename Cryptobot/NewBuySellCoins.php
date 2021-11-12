@@ -774,6 +774,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge);
           //continue;
           if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID,$oldBuyBackTransID); }
+          if ($type == 'Buy' and $oldBuyBackTransID <> 0) { bittrexActionBuyBack($coinID,$oldBuyBackTransID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
           buyBackDelay($coinID,0,$userID);
           return True;
@@ -1373,8 +1374,12 @@ function runBittrex($BittrexReqs,$apiVersion){
           addCoinPurchaseDelay($coinID,$userID,60);
           clearBittrexRef($transactionID);
           UpdateProfit();
+          if ($oldBuyBackTransID <> 0){ delaySavingBuy($oldBuyBackTransID,0); }
+          
+
           //continue;
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
+
           $finalBool = True;
         }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining){
           bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
