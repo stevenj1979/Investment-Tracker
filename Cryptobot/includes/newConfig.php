@@ -142,7 +142,7 @@ function clearTrackingCoinQueue($UserID,$coinID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("clearTrackingCoinQueue",$sql,3,0,"SQL","UserID:$UserID; CoinID:$coinID");
+    newLogToSQL("clearTrackingCoinQueue",$sql,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
     logAction("clearTrackingCoinQueue: ".$sql, 'BuySell', 0);
 }
 
@@ -6489,7 +6489,7 @@ function CloseAllBuyBack($spreadBetTransactionID){
   newLogToSQL("CloseAllBuyBack",$sql,3,0,"SQL","SBTransactionID:$spreadBetTransactionID");
 }
 
-function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
+function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID,$pctProfit){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";

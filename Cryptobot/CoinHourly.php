@@ -65,10 +65,12 @@ function getOpenTransactionsSB(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID FROM `SellCoinsSpreadView`";
+    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID
+     FROM `SellCoinsSpreadView`";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID'],$row['SpreadBetRuleID'],$row['TransactionID']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID']
+          ,$row['SpreadBetRuleID'],$row['TransactionID']);}
     $conn->close();
     return $tempAry;
 }
@@ -81,7 +83,7 @@ function subPctFromOpenSpreadBetTransactions(){
 
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][7]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
-    $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0];
+    $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0]; $pctProfit = $openTransSB[$l][9];
     echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID | SBTransID: $sBTransID";
     //if ($days >= 3){
       //if ($days % 2 == 0){
