@@ -668,7 +668,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($h=0; $h<$openTransactionsSize; $h++){
       if ($openTransactions[$h][0] == $userID){
         $oldBTCAmount = $BTCAmount;
-        $liveOpenTrans = $openTransactions[$h][$indexLookup];
+        $liveOpenTrans = $openTransactions[$h][$indexLookup]+$openTransactions[$h][4];
         //$BTCAmount = $BTCAmount / ($liveOpenTrans-$noOfBuys);
         //LogToSQL("TrackingCoin","BTC Alloction: $oldBTCAmount | $BTCAmount | $indexLookup | $liveOpenTrans | $noOfBuys",3,1);
       }

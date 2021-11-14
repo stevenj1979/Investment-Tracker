@@ -3732,15 +3732,17 @@ function getOpenTransactions(){
             , ifnull(`Oct`.`NoOfTransactions`,0) as CoinModeTransactions
             , ifnull(`Orbt`.`NoOfTransactions`,0) as RuleBasedTransactions
             , ifnull(`Osbt`.`NoOfTransactions`,0) as SpreadBetTransactions
+            , ifnull(count(`Ba`.`ID`),0) as OpenBittrexTransactions
             FROM `UserConfig` `Uc`
             left join `OpenCoinModeTransactions` `Oct` on `Oct`.`UserID` = `Uc`.`UserID`
             left join `OpenRuleBasedTransactions` `Orbt` on `Orbt`.`UserID` = `Uc`.`UserID`
-            left join `OpenSpreadBetTransactions` `Osbt` on `Osbt`.`UserID` =  `Uc`.`UserID`";
+            left join `OpenSpreadBetTransactions` `Osbt` on `Osbt`.`UserID` =  `Uc`.`UserID`
+            Left Join `BittrexAction` `Ba` on `Ba`.`UserID` = `Uc`.`UserID` and `Ba`.`Status` = '1' and `Ba`.`Type` in ('SpreadBuy','Buy')";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['UserID'],$row['CoinModeTransactions'],$row['RuleBasedTransactions'],$row['SpreadBetTransactions']);
+    $tempAry[] = Array($row['UserID'],$row['CoinModeTransactions'],$row['RuleBasedTransactions'],$row['SpreadBetTransactions'],$row['OpenBittrexTransactions']);
   }
   $conn->close();
   return $tempAry;
