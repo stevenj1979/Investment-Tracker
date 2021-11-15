@@ -87,8 +87,9 @@ function subPctFromOpenSpreadBetTransactions(){
     echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID | SBTransID: $sBTransID";
     //if ($days >= 3){
       //if ($days % 2 == 0){
-      if ($pctProfit >= 5.0){ $finalNum = $startNum * 2;}
-      elseif ($pctProfit < 5.0){ $finalNum = $startNum; }
+      if ($pctProfit >= 5.0){ $finalNum = $startNum * 3;}
+      elseif ($pctProfit < 5.0 AND $pctProfit > 0.25){ $finalNum = $startNum * 2;}
+      elseif ($pctProfit <= 0.25){ $finalNum = $startNum; }
           subPctFromProfitSB($sBTransID, $finalNum,$transactionID);
           echo "<BR> subPctFromProfitSB($sBTransID, $finalNum,$transactionID);";
       //}
