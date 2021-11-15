@@ -80,15 +80,17 @@ function getOpenTransactionsSB(){
 function subPctFromOpenSpreadBetTransactions(){
   $openTransSB = getOpenTransactionsSB();
   $openTransSBSize = Count($openTransSB);
-
+  $startNum = 0.01;
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][7]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
     $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0]; $pctProfit = $openTransSB[$l][9];
     echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID | SBTransID: $sBTransID";
     //if ($days >= 3){
       //if ($days % 2 == 0){
-          subPctFromProfitSB($sBTransID, 0.01,$transactionID);
-          echo "<BR> subPctFromProfitSB($sBTransID, 0.01,$transactionID);";
+      if ($pctProfit >= 5.0){ $finalNum = $startNum * 2;}
+      elseif ($pctProfit < 5.0){ $finalNum = $startNum; }
+          subPctFromProfitSB($sBTransID, $finalNum,$transactionID);
+          echo "<BR> subPctFromProfitSB($sBTransID, $finalNum,$transactionID);";
       //}
     //}
   }
