@@ -1374,7 +1374,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           addCoinPurchaseDelay($coinID,$userID,60);
           clearBittrexRef($transactionID);
           UpdateProfit();
-          if ($oldBuyBackTransID <> 0){ delaySavingBuy($oldBuyBackTransID,20); }
+          if ($oldBuyBackTransID <> 0){ delaySavingBuy($oldBuyBackTransID,80); }
 
 
           //continue;
