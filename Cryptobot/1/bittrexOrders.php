@@ -225,7 +225,7 @@ function displayOption($name){
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19];
-          //if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
+          if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp$coin</td>";
           //echo "<td>$totalScore</td>";
@@ -258,7 +258,7 @@ function displayOption($name){
           echo "<td>&nbsp".round($pctDifference,2)."</td>";
           echo "<td>&nbsp".round($livePricePct,2)."</td>";
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
-          //echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
+          echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
 				}
 				print_r("</table>");
 				displaySideColumn();
