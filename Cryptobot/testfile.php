@@ -307,8 +307,7 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 //phpinfo();
 
-$kek = 'Bmk7xeSkkUqZCcYqrPg9yPFa9Z7L1faj8OntdTkapBc=';
-$pw = decrypt($kek,'#5H6^K!WVAGncK');
+$pw = 'Stupid';
 echo "<BR> The password is: $pw";
 
 ?>
