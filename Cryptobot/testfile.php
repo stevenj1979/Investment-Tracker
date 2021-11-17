@@ -305,7 +305,10 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //$statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
 //Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
 
-phpinfo();
+//phpinfo();
+
+$kek = 'Bmk7xeSkkUqZCcYqrPg9yPFa9Z7L1faj8OntdTkapBc=';
+echo decrypt($kek,'#5H6^K!WVAGncK');
 
 ?>
 </html>
