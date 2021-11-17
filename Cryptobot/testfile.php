@@ -297,13 +297,15 @@ function findCoinStatsLoc($CMCStats, $symbol){
   }
   return $tempStats;
 }
-$symbol = 'BTC';
-$coinID = 84;
-$coinStr = getCoinList(getStats(),3);
-$CMCStats = newCoinMarketCapStats($coinStr);
+//$symbol = 'BTC';
+//$coinID = 84;
+//$coinStr = getCoinList(getStats(),3);
+//$CMCStats = newCoinMarketCapStats($coinStr);
 
-$statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
-Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
+//$statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
+//Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
+
+phpinfo();
 
 ?>
 </html>
