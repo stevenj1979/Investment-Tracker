@@ -5023,11 +5023,28 @@ function getSpreadBetData(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Name`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`, `Live7DChange`, `Last7DChange`
-          , `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`,  `BaseCurrency`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`
-          , `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
-          , `D7BuyPrice`,`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled` FROM `SpreadBetCoinStatsView`
-          where `Hr24ChangePctChange` < 0 and  `D7ChangePctChange` < 0";
+  $sql = "SELECT `Tr`.`ID`, `Name`, `Live1HrChange`, `Last1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24ChangePctChange`
+  , `Live7DChange`, `Last7DChange`
+          , ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 as `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, ((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `CoinPricePctChange`,  `Cn`.`BaseCurrency`
+          , if(`Cp`.`Price4` -`Cp`.`Price5` > 0, 1, if(`Cp`.`Price4` -`Cp`.`Price5` < 0, -1, 0)) as  `Price4Trend`
+          , if(`Cp`.`Price3` -`Cp`.`Price4` > 0, 1, if(`Cp`.`Price3` -`Cp`.`Price4` < 0, -1, 0)) as  `Price3Trend`
+          , if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` > 0, 1, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` < 0, -1, 0)) as  `LastPriceTrend`
+          , if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` > 0, 1, if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`
+          , 'AutoBuyPrice'
+          , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`Tr`.`UserID`,`Email`,`UserName`,`Tr`.`SpreadBetTransactionID` as `SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
+          , `D7BuyPrice`,(`Cp`.`LiveCoinPrice`-(SELECT MAX(`MaxPrice`) FROM `MonthlyMaxPrices` WHERE `CoinID` = `Tr`.`CoinID` and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH))/(SELECT MAX(`MaxPrice`)
+          FROM `MonthlyMaxPrices` WHERE `CoinID` = 84 and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH)))
+ as `PctofSixMonthHighPrice`,((`Cp`.`LiveCoinPrice`-`Athl`.`HighLow`)/`Athl`.`HighLow`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`Tr`.`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
+          FROM `Transaction` `Tr`
+          join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+          join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
+          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+          join `SpreadBetSettings` `Sbs` on `Sbs`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+          Join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tr`.`CoinID` and `HighLow` = 'High'
+          join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+          join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+          join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+          where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 and `Type` = 'SpreadSell' and `Status` = 'Open'";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
