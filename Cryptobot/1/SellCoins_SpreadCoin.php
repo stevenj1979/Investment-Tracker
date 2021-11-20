@@ -111,12 +111,33 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "SELECT `ID`,`Type`,'CoinID',`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo',`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
-    ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24PctChange`,`Last7DChange`,`Live7DChange`,`D7PctChange`,`BaseCurrency`
-    , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`PurchaseLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,`MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
-    ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
-    ,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName'
+    $sql = "SELECT `Tr`.`ID`,`Type`,'CoinID',`Tr`.`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo',`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,((`LiveBuyOrders`-`LastBuyOrders`)/`LastBuyOrders`)*100 as`BuyOrdersPctChange`
+    ,`LastMarketCap`,`LiveMarketCap`,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `CoinPricePctChange`,`LastSellOrders`
+    ,`LiveSellOrders`,((`LiveSellOrders`-`LastSellOrders`)/`LastSellOrders`)*100 as `SellOrdersPctChange`,`LastVolume`,`LiveVolume`,((`LiveVolume`-`LastVolume`)/`LastVolume`)*100 as `VolumePctChange`,`Last1HrChange`,`Live1HrChange`
+    ,((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1PctChange`,`Last24HrChange`,`Live24HrChange`,((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24PctChange`,`Last7DChange`,`Live7DChange`,((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 as `D7PctChange`,`Cn`.`BaseCurrency`
+    , if(`Cp`.`Price4` -`Cp`.`Price5` > 0, 1, if(`Cp`.`Price4` -`Cp`.`Price5` < 0, -1, 0)) as  `Price4Trend`
+          , if(`Cp`.`Price3` -`Cp`.`Price4` > 0, 1, if(`Cp`.`Price3` -`Cp`.`Price4` < 0, -1, 0)) as  `Price3Trend`
+          , if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` > 0, 1, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` < 0, -1, 0)) as  `LastPriceTrend`
+          , if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` > 0, 1, if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,'PurchaseLimit',`PctToPurchase`
+          ,`BTCBuyAmount`,`Tr`.`NoOfPurchases`,`Cn`.`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
+    ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice
+    , @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
+    ,`Sbr`.`Name` as `SpreadBetRuleName`
+          FROM `Transaction` `Tr`
+          join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+          join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
+          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+          join `SpreadBetSettings` `Sbs` on `Sbs`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+          Join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tr`.`CoinID` and `HighLow` = 'High'
+          join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+          join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+          join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
+          join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Tr`.`CoinID`
+          join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Tr`.`CoinID`
+          join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Tr`.`CoinID`
+          join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Tr`.`CoinID`
+          join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
+    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName' and `Type` = 'SpreadSell' and `Status` = 'Open'
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql."<BR>");
