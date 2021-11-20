@@ -3723,7 +3723,7 @@ function getNewTrackingCoins($userID = 0){
   }
 //12
   $whereClause = " ";
-  if ($userID <> 0){ $whereClause = " WHERE `Uc`.`UserID` = $userID";}
+  if ($userID <> 0){ $whereClause = " WHERE `Uc`.`UserID` = $userID and `Tc`.`Status` <> 'Closed'";}
     $sql = "SELECT `Cp`.`CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`Tc`.`UserID`
     ,`Cn`.`BaseCurrency`,`Tc`.`SendEmail`,`Cn`.`BuyCoin`,`Quantity`,`RuleIDBuy`,`Tc`.`CoinSellOffsetPct`
       ,`Tc`.`CoinSellOffsetEnabled`,`Tc`.`BuyType`,`MinsToCancelBuy`,`Tc`.`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Tc`.`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `Tc`.`NoOfPurchases`,`NoOfRisesInPrice`
@@ -4206,8 +4206,8 @@ function getNewTrackingSellCoins($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
-  $whereClause = "";
-  if ($userID <> 0){ $whereClause = " WHERE `Tr`.`UserID` = $userID";}
+  $whereClause = "WHERE `Tsc`.`Status` <> 'Closed'";
+  if ($userID <> 0){ $whereClause = " WHERE `Tr`.`UserID` = $userID and `Tsc`.`Status` <> 'Closed'";}
   $sql = "SELECT `Tr`.`CoinPrice`,`TrackDate`,`Tr`.`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`Tr`.`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Cn`.`BaseCurrency`
         ,`SendEmail`,`SellCoin`,`Tsc`.`CoinSellOffsetEnabled`,`Tsc`.`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate,(`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`) as `ProfitUSD`, ((`LiveCoinPrice`*`Amount`)/100)*0.28 as `Fee`
         ,(((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`))/(`Tr`.`CoinPrice`*`Amount`))*100`PctProfit`
