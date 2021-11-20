@@ -95,7 +95,7 @@ function getCoinsfromSQLLoc(){
 function getSavingSellCoins($userID){
   $tempAry = [];
   if ($userID <> 0){
-    $whereclause3 = "Where `UserID` = $userID and `Type` = 'Saving'";
+    $whereclause3 = "Where `Tr`.`UserID` = $userID and `Type` = 'Saving'";
   }
   if (isset($_SESSION['savingProfitSelect'])){
     if ($_SESSION['savingProfitSelect'] <> "none" and $_SESSION['savingProfitSelect'] <> ""){
