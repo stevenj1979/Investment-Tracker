@@ -3723,14 +3723,20 @@ function getNewTrackingCoins($userID = 0){
   }
 //12
   $whereClause = " ";
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
-    $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,`PriceDifference`,`PctDifference`,`UserID`,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
-      ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
-      ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
-      ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`Price` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`
+  if ($userID <> 0){ $whereClause = " WHERE `Uc`.`UserID` = $userID";}
+    $sql = "SELECT `Cp`.`CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`Tc`.`UserID`
+    ,`Cn`.`BaseCurrency`,`Tc`.`SendEmail`,`Cn`.`BuyCoin`,`Quantity`,`RuleIDBuy`,`Tc`.`CoinSellOffsetPct`
+      ,`Tc`.`CoinSellOffsetEnabled`,`Tc`.`BuyType`,`MinsToCancelBuy`,`Tc`.`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Tc`.`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `Tc`.`NoOfPurchases`,`NoOfRisesInPrice`
+      ,`TotalRisesInPrice`,`Us`.`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`Tc`.`BuyRisesInPrice`,`Br`.`LimitBuyAmountEnabled`, `LimitBuyAmount`,`Br`.`LimitBuyTransactionsEnabled`, `Br`.`LimitBuyTransactions`
+      ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`Tc`.`ID` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`Us`.`DisableUntil`) as MinsDisabled
+      ,`Br`.`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,Max(`Price`) as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`
       FROM `TrackingCoins` `Tc`
-		join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID` $whereClause";
+		join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
+    join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
+    join `UserConfig` `Uc` on `Uc`.`UserID` = `Tc`.`UserID`
+    join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
+    join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
+    join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `HighLow` = 'High' $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
