@@ -5394,7 +5394,7 @@ function getSavingsData($ID = 0){
                   join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
                   join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
                   join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID` $whereclause";
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
