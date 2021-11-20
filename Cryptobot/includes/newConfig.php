@@ -4207,17 +4207,21 @@ function getNewTrackingSellCoins($userID = 0){
   }
 //12
   $whereClause = "";
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
-  $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`BaseCurrency`
-        ,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate, `ProfitUSD`, `Fee`
-        ,`PctProfit`
+  if ($userID <> 0){ $whereClause = " WHERE `Tr`.`UserID` = $userID";}
+  $sql = "SELECT `Tr`.`CoinPrice`,`TrackDate`,`Tr`.`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`Tr`.`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Cn`.`BaseCurrency`
+        ,`SendEmail`,`SellCoin`,`Tsc`.`CoinSellOffsetEnabled`,`Tsc`.`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate,(`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`) as `ProfitUSD`, ((`LiveCoinPrice`*`Amount`)/100)*0.28 as `Fee`
+        ,(((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`))/(`Tr`.`CoinPrice`*`Amount`))*100`PctProfit`
         , `TotalRisesInPrice`, `Symbol`
-        , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
-        ,TIMESTAMPDIFF(MINUTE,`TrackStartDate`,Now()) as MinsFromStart, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`Amount`*`LiveSellPrice` as BTCBuyAmount, `TrackingSellID`,`SaveResidualCoins`
-        ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
+        , ((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice` * `Amount`))/ (`Tr`.`CoinPrice` * `Amount`) * 100 as `OgPctProfit`, `Tr`.`CoinPrice` * `Amount` as `OriginalPurchasePrice`,`Tr`.`CoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
+        ,TIMESTAMPDIFF(MINUTE,`TrackStartDate`,Now()) as MinsFromStart, `SellFallsInPrice`,`Tr`.`Type`,`BaseSellPrice`,`LastPrice`,(`LiveCoinPrice`*`Amount`) as BTCBuyAmount, `Tsc`.`ID` as `TrackingSellID`,`SaveResidualCoins`
+        ,`OriginalAmount`,`Tsc`.`Type` as `TrackingType`,`OriginalSellPrice`
         FROM `TrackingSellCoins` `Tsc`
       Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
-      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`  $whereClause";
+      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+      join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+      join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+       $whereClause";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
