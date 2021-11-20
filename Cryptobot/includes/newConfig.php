@@ -5358,7 +5358,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
 
 function getSavingsData($ID = 0){
   if ($ID == 0){
-    $whereclause = "Where `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Type` = 'Saving`'";
+    $whereclause = "Where `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Status` = 'Saving`'";
   }else{
     $whereclause = " WHERE `ID` = $ID and `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Type` = 'Saving`";
   }
