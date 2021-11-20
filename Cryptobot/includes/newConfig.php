@@ -16,14 +16,22 @@ function getBittrexRequests($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Bor`.`Type`,`Bor`.`BittrexRef`,`Bor`.`ActionDate`,`Bor`.`CompletionDate`,`Bor`.`Status`,`Bor`.`SellPrice`,`Bor`.`UserName`,`Bor`.`APIKey`,`Bor`.`APISecret`,`Bor`.`Symbol`,`Bor`.`Amount`
-  ,`Bor`.`CoinPrice`,`Bor`.`UserID`,`Email`,`Bor`.`OrderNo`,`Bor`.`TransactionID`,`Bor`.`BaseCurrency`,`Bor`.`RuleID`,`Bor`.`DaysOutstanding`,`Bor`.`timeSinceAction`,`Bor`.`CoinID`,`Bor`.`RuleIDSell`
-  ,`Bor`.`LiveCoinPrice`,`Bor`.`TimetoCancelBuy`,`Bor`.`BuyOrderCancelTime`,`Bor`.`KEK`,`Bor`.`Live7DChange`,`Bor`.`CoinModeRule`,`Bor`.`OrderDate`,`Bor`.`PctToSave`,`Bor`.`SpreadBetRuleID`,`Bor`.`SpreadBetTransactionID`
-  ,`Bor`.`RedirectPurchasesToSpread`,`Bor`.`SpreadBetRuleIDRedirect`,`Bor`.`MinsToPauseAfterPurchase`,`Bor`.`OriginalAmount`,`Bor`.`SaveResidualCoins`,`Bor`.`MinsSinceAction`,`Uc`.`TimetoCancelBuyMins`,`BuyBack`
-  ,`Bor`.`oldBuyBackTransID`,`Bor`.`ResidualAmount`
-  FROM `BittrexOutstandingRequests` `Bor`
-  join `UserConfig` `Uc` on `Uc`.`UserID` = `Bor`.`UserID`
-  WHERE `Status` = '1' $bittrexQueue";
+  $sql = "SELECT `BA`.`Type`,`BA`.`BittrexRef`,`BA`.`ActionDate`,`BA`.`CompletionDate`,`BA`.`Status`,`BA`.`SellPrice`,`Us`.`UserName`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Cn`.`Symbol`,`Tr`.`Amount`
+  ,`Tr`.`CoinPrice`,`Tr`.`UserID`,`Email`,`Tr`.`OrderNo`,`BA`.`TransactionID`,`Cn`.`BaseCurrency`,`Tr`.`BuyRule`,DateDiff(`BA`.`ActionDate`,now()) as `DaysOutstanding`,DateDiff(`BA`.`ActionDate`,now()) as `timeSinceAction`
+  ,`BA`.`CoinID`,`BA`.`RuleIDSell`
+  ,`Cp`.`LiveCoinPrice`,DATE_ADD(`BA`.`ActionDate`,INTERVAL `Uc`.`TimetoCancelBuyMins` MINUTE ) as `TimetoCancelBuy`,DATE_ADD(`BA`.`ActionDate`,INTERVAL `Uc`.`TimetoCancelBuyMins` MINUTE ) as `BuyOrderCancelTime`,`Uc`.`KEK`
+  ,`Cpc`.`Live7DChange`,'CoinModeRule',`Tr`.`OrderDate`,'PctToSave',`Tr`.`SpreadBetRuleID`,`Tr`.`SpreadBetTransactionID`
+  ,`Uc`.`RedirectPurchasesToSpread`,2 as`SpreadBetRuleIDRedirect`,`Uc`.`MinsToPauseAfterPurchase`,`Tr`.`OriginalAmount`,`Uc`.`SaveResidualCoins`,DateDiff(`BA`.`ActionDate`,now()) as `MinsSinceAction`,`Uc`.`TimetoCancelBuyMins`,`BuyBack`
+  ,`BA`.`oldBuyBackTransID`,`BA`.`ResidualAmount`
+    from (((((((`BittrexAction` `BA`
+    join `User` `Us` on((`Us`.`ID` = `BA`.`UserID`)))
+    join `UserConfig` `Uc` on((`Uc`.`UserID` = `BA`.`UserID`)))
+    join `Coin` `Cn` on((`Cn`.`ID` = `BA`.`CoinID`)))
+    join `CoinPrice` `Cp` on((`BA`.`CoinID` = `Cp`.`CoinID`)))
+    join `Transaction` `Tr` on(((`Tr`.`ID` = `BA`.`TransactionID`) and (`Tr`.`Type` = `BA`.`Type`))))
+    join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `BA`.`CoinID`)))
+    left join `SellRules` `Sr` on((`Sr`.`ID` = `Tr`.`FixSellRule`)))
+    where (`BA`.`Status` == '1') $bittrexQueue order by `BA`.`ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);

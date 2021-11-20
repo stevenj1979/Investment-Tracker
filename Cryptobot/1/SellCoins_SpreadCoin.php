@@ -140,7 +140,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
     WHERE `Tr`.`UserID` = $userID and `Sbr`.`Name` = '$spreadBetRuleName' and `Type` = 'SpreadSell' and `Status` = 'Open'
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
-    print_r($sql."<BR>");
+    //print_r($sql."<BR>");
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);`PctChange1Hr`, `PctChange24Hr`, `PctChange7D`
   while ($row = mysqli_fetch_assoc($result)){

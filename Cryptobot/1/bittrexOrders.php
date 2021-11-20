@@ -64,8 +64,16 @@ function getBTTrackingCoins($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-  `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK` FROM `BittrexOutstandingRequests` WHERE `userID` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
+  $sql = "SELECT `Tr`.`Type`,`Tr`.`BittrexRef`,`ActionDate`,`BA`.`CompletionDate`,`BA`.`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`Tr`.`UserID`,`Email`,`OrderNo`,
+          `TransactionID`,`Cn`.`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK` 
+        from (((((((`BittrexAction` `BA`
+        join `User` `Us` on((`Us`.`ID` = `BA`.`UserID`)))
+        join `UserConfig` `Uc` on((`Uc`.`UserID` = `BA`.`UserID`)))
+        join `Coin` `Cn` on((`Cn`.`ID` = `BA`.`CoinID`)))
+        join `CoinPrice` `Cp` on((`BA`.`CoinID` = `Cp`.`CoinID`)))
+        join `Transaction` `Tr` on(((`Tr`.`ID` = `BA`.`TransactionID`) and (`Tr`.`Type` = `BA`.`Type`))))
+        join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `BA`.`CoinID`)))
+        left join `SellRules` `Sr` on((`Sr`.`ID` = `Tr`.`FixSellRule`))) WHERE `userID` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
