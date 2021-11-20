@@ -333,8 +333,10 @@ function getSpreadBetIDOpen($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "SELECT `ID`,`SpreadBetRuleName`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID
+    $sql = "SELECT `Tr`.`ID`,`Sbr`.`Name` as `SpreadBetRuleName`
+    FROM `Transaction` `Tr`
+    join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
+    WHERE `Tr`.`UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open'
     group by `SpreadBetRuleName`";
   $result = $conn->query($sql);
     //print_r($sql);
