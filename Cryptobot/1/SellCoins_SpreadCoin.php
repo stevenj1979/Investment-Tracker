@@ -137,7 +137,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
           join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Tr`.`CoinID`
           join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Tr`.`CoinID`
           join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
-    FROM `SellCoinsSpreadView` WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName' and `Type` = 'SpreadSell' and `Status` = 'Open'
+    WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName' and `Type` = 'SpreadSell' and `Status` = 'Open'
     ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     print_r($sql."<BR>");
