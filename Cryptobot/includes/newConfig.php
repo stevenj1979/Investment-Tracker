@@ -5375,7 +5375,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
   if ($ID == 0){
     $whereclause = "";
   }else{
-    $whereclause = " WHERE `TransactionID` = $ID ";
+    $whereclause = " WHERE `Tr`.`ID` = $ID and `Tr`.`Status` = 'Open'";
   }
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -5386,12 +5386,17 @@ function getSpreadCoinSellDataFixed($ID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, 'LastBuyOrders', 'LiveBuyOrders','BuyOrdersPctChange','LastMarketCap'
+  $sql = "SELECT `Tr`.`ID`, `Type`, `Tr`.`CoinID`, `Tr`.`UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, 'LastBuyOrders', 'LiveBuyOrders','BuyOrdersPctChange','LastMarketCap'
   , 'LiveMarketCap', 'MarketCapPctChange', 'LastCoinPrice', 'LiveCoinPrice', 'CoinPricePctChange', 'LastSellOrders', 'LiveSellOrders', 'SellOrdersPctChange', 'LastVolume', 'LiveVolume', 'VolumePctChange', 'Last1HrChange'
-  , 'Live1HrChange', 'Hr1PctChange', 'Last24HrChange', 'Live24HrChange', 'Hr24PctChange', 'Last7DChange', 'Live7DChange', 'D7PctChange', `BaseCurrency`, 'AutoSellPrice', 'Price4Trend', 'Price3Trend', 'LastPriceTrend'
-  , 'LivePriceTrend', `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, `SpreadBetTransactionID`
-  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`BounceTopPrice`,`BounceLowPrice`,`BounceDifference`,`DelayCoinSwap`,`NoOfSells`
-  FROM `SellCoinsAllView` $whereclause";
+  , 'Live1HrChange', 'Hr1PctChange', 'Last24HrChange', 'Live24HrChange', 'Hr24PctChange', 'Last7DChange', 'Live7DChange', 'D7PctChange', `Cn`.`BaseCurrency`, 'AutoSellPrice', 'Price4Trend', 'Price3Trend', 'LastPriceTrend'
+  , 'LivePriceTrend', `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `Tr`.`NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, `Tr`.`SpreadBetTransactionID`
+  ,`PctToSave`,`CalculatedRisesInPrice`,`Tr`.`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`Bi`.`TopPrice` as `BounceTopPrice`,`Bi`.`LowPrice` as `BounceLowPrice`,`Bi`.`Difference` as `BounceDifference`,`Tr`.`DelayCoinswapUntil` as `DelayCoinSwap`,`NoOfSells`
+  FROM `Transaction` `Tr`
+  join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+  join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+  join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+  join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`
+  join `SpreadBetSettings` `Sbs` on `Sbs`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID` $whereclause";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
