@@ -2943,12 +2943,17 @@ function getCoinAlerts(){
 function getMarketstats(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `LiveCoinPrice`,((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1ChangePctChange`
-,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as `Hr24ChangePctChange`
-,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as `D7ChangePctChange`
-  ,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`
-  ,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange`
-  , `Live1HrChange`, `Live24HrChange`, `Live7DChange` FROM `MarketCoinStats` ";
+  $sql = "SELECT `Cp`.`LiveCoinPrice`,((`Cp`.`LiveCoinPrice`-`Cpc`.`Live1HrChange`)/`Cpc`.`Live1HrChange`)*100 as `Hr1ChangePctChange`
+            ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as `Hr24ChangePctChange`
+            ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as `D7ChangePctChange`
+              ,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as`LiveMarketPctChange`
+              ,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange`
+              , `Live1HrChange`, `Live24HrChange`, `Live7DChange`
+            From `CoinPrice` `Cp`
+            join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID`
+            join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
+            join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cp`.`CoinID`
+            where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0  ";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -3421,12 +3426,14 @@ function getCoinPriceMatchList($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinID`,`Price`,`Symbol`,`LowPrice` FROM `NewCoinPriceMatchView`$whereClause";
+  $sql = "select `Cpmr`.`BuyRuleID` AS `BuyRuleID`,`Cpmr`.`SellRuleID` AS `SellRuleID`,`Cpm`.`CoinID` AS `CoinID`,`Cpm`.`Price` AS `Price`,`Cn`.`Symbol` AS `Symbol`
+          ,`Cpm`.`LowPrice` AS `LowPrice`,`Cpm`.`UserID` AS `UserID`
+          from ((`CoinPriceMatchRules` `Cpmr` join `CoinPriceMatch` `Cpm` on((`Cpm`.`ID` = `Cpmr`.`CoinPriceMatchID`))) join `Coin` `Cn` on((`Cn`.`ID` = `Cpm`.`CoinID`)))$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice']);
+      $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['UserID']);
   }
   $conn->close();
   return $tempAry;
@@ -3483,7 +3490,9 @@ function getCoinPricePattenList($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`CoinPattern`,`UserID` FROM `NewCoinPricePatternView` $whereClause";
+  $sql = "SELECT `Cppr`.`BuyRuleID`,`Cppr`.`SellRuleID`,`Cpp`.`CoinPattern`,`Cppr`.`UserID`
+            FROM `CoinPricePatternRules` `Cppr`
+            join `CoinPricePattern` `Cpp` on `Cpp`.`ID` = `Cppr`.`PatternID`$whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -3523,7 +3532,9 @@ function getCoin1HrPattenList($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BuyRuleID`,`SellRuleID`,`Pattern`,`UserID` FROM `NewCoin1HrPatternView` $whereClause order by `BuyRuleID`,`SellRuleID`";
+  $sql = "SELECT `Cpr`.`BuyRuleID`,`Cpr`.`SellRuleID`,`Cp`.`Pattern`,`Cpr`.`UserID`
+        FROM `Coin1HrPatternRules` `Cpr`
+        join `Coin1HrPattern` `Cp` on `Cp`.`ID` = `Cpr`.`Coin1HrPatternID` $whereClause order by `Cpr`.`BuyRuleID`,`Cpr`.`SellRuleID`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
