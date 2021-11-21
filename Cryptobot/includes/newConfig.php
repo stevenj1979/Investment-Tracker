@@ -304,7 +304,7 @@ function getTrackingCoins($whereclause){
 
 function getTrackingSellCoins($userID = 0){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open'";}else{$whereclause = "Where `Status` = 'Open'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
