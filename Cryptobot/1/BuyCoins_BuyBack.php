@@ -150,8 +150,18 @@ $conn = getSQLConn(rand(1,3));
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-  $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`, `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
-  , `KEK`, `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol` FROM `BuyBackView` WHERE `UserID` = $userID";
+  $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`, `Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`, `Ba`.`SellPrice` as `SellPriceBA`, `LiveCoinPrice`
+            , (`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`) as `PriceDifferece`, ((`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`)/`Bb`.`SellPrice`)*100 as `PriceDifferecePct`, `Tr`.`UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
+            , `KEK`, (`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as `OriginalSaleProfit`
+            , (((`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`))/(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol` FROM `BuyBack` `Bb`
+            join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
+            join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+            join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+            join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+            join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
+            join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+            where `Bb`.`Status` <> 'Closed' and `Tr`.`UserID` = $userID";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);

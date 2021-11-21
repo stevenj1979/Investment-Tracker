@@ -6101,11 +6101,21 @@ function getBuyBackData(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBA`, `LiveCoinPrice`, `PriceDifferece`
-  , `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
-  , `OriginalSaleProfit`, `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`MinsToCancel`,`BullBearStatus`,`Type`,`OverrideCoinAllocation`
-  ,`AllBuyBackAsOverride`,getBTCPrice() as BTCPrice, getETHPrice() as ETHPrice,`LiveCoinPrice`,`DelayMins`
-   FROM `BuyBackView`";
+  $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`, `SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`, `Ba`.`SellPrice` as `SellPriceBA`, `Cp`.`LiveCoinPrice`
+            , (`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`) as `PriceDifferece`
+            , ((`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`)/`Bb`.`SellPrice`)*100 as `PriceDifferecePct`, `Tr`.`UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
+            , (`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as `OriginalSaleProfit`
+            , (((`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`))/(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`
+            ,`MinsToCancel`,'BullBearStatus',`Tr`.`Type`,`OverrideCoinAllocation`
+            ,`AllBuyBackAsOverride`,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice,`LiveCoinPrice`,TimeStampDiff(MINUTE, now(),`DelayCoinSwapUntil`) as `DelayMins`
+             FROM `BuyBack` `Bb`
+             join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
+             join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
+             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+             join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+             join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+             join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
+             where `Bb`.`Status` <> 'Closed' ";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
