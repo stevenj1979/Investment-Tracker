@@ -338,6 +338,7 @@ function getTrackingSellCoins($userID = 0){
           join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
           join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`$whereclause order by @ProfitPct Desc ";
   $result = $conn->query($sql);
+  echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -809,9 +810,15 @@ Function getOpenCoinSwaps(){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `CSV`.`TransactionID`, `CSV`.`Status`, `CSV`.`BittrexRef`, `CSV`.`NewCoinIDCandidate`, `CSV`.`NewCoinPrice`, `CSV`.`BaseCurrency`, `CSV`.`TotalAmount`, `CSV`.`OriginalPurchaseAmount`
-  , `CSV`.`Apikey`, `CSV`.`ApiSecret`, `CSV`.`KEK`,`CSV`.`Symbol`,`CSV`.`OriginalCoinID`,`CSV`.`OriginalSymbol` ,`CSV`.`BittrexRefSell`,`CSV`.`SellFinalPrice`,`CSV`.`LiveCoinPrice`,`CSV`.`UserID`
-  ,`CSV`.`ID` as CoinSwapID,`CSV`.`PctToBuy`, `CSV`.`Hr1PctChange`,`LiveCoinPrice`
-  FROM `CoinSwapView` `CSV`";
+            , `Uc`.`Apikey`, `Uc`.`ApiSecret`, `Uc`.`KEK`,`Cn`.`Symbol`,`Tr`.`CoinID` as `OriginalCoinID`,`Cn2`.`Symbol` as `OriginalSymbol` ,`CSV`.`BittrexRefSell`,`CSV`.`SellFinalPrice`,`Cp`.`LiveCoinPrice`,`Tr`.`UserID`
+            ,`CSV`.`ID` as CoinSwapID,`CSV`.`PctToBuy`, ((`LiveCoinPrice`-`Cpc`.`Live1HrChange`)/`Cpc`.`Live1HrChange`)*100 as `Hr1PctChange`,`LiveCoinPrice`
+            FROM `SwapCoins` `CSV`
+            join `Transaction` `Tr` on `Tr`.`ID` = `CSV`.`TransactionID`
+            join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+            join `Coin` `Cn` on `Cn`.`ID` = `CSV`.`NewCoinIDCandidate`
+            join `Coin` `Cn2` on `Cn2`.`ID` = `Tr`.`CoinID`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `CSV`.`NewCoinIDCandidate`
+            join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` =  `CSV`.`NewCoinIDCandidate`";
   print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
