@@ -307,8 +307,10 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 //phpinfo();
 
-$pw = 'Stupid';
-echo "<BR> The password is: $pw";
+$apikey = encrypt('711fdd4a2f0d47e78791b07c91fa6353');
+$apiSecret = encrypt('ec06e2f1d01c42d29a1f64cf35e162c5');
+echo "<BR> The API Key is: $apikey";
+echo "<BR> The API Secret is: $apiSecret";
 
 ?>
 </html>
