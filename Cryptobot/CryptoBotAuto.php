@@ -65,9 +65,10 @@ function getUserVariables(){
 }
 
 function findCoinStats($CMCStats, $symbol){
-  echo "<BR> FIND: $symbol";
+
   $tempStats = [];
   $statsLength = count($CMCStats);
+  echo "<BR> FIND: $symbol | length: $statsLength";
   for($y = 0; $y < $statsLength; $y++) {
     //echo "<br> FindCoin=".$CMCStats[$y][0];
     if ($CMCStats[$y][0]== $symbol){

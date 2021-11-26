@@ -103,22 +103,22 @@ function getTrackingSellCoinsLoc($userID){
   }
 
     $sql = "SELECT `ID`,`Type`,'CoinID',`UserID`,sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo','Symbol',sum(`LastBuyOrders`) as `LastBuyOrders`
-    , sum(`LiveBuyOrders`) as `LiveBuyOrders`,((sum(`LiveBuyOrders`)-sum(`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
-  ,((sum(`LiveMarketCap`)-sum(`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice `
-  , ((sum(`LiveCoinPrice`)-sum(`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
-  ,((sum(`LiveSellOrders`)-sum(`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume `, sum(`LiveVolume`) as `LiveVolume `
-  , ((sum(`LiveVolume`)-sum(`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange `, ((sum(`Live1HrChange`)-sum(`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1PctChange`
-  , sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange `, ((sum(`Live24HrChange`)-sum(`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24PctChange`, sum(`Last7DChange`) as `Last7DChange `
-  , sum(`Live7DChange`) as `Live7DChange `, ((sum(`Live7DChange`)-sum(`Last7DChange`))/sum(`Last7DChange`))*100 as `D7PctChange`,`BaseCurrency`
-    , if(sum(`Price4`) -sum(`Price5`) > 0, 1, if(sum(`Price4`) -sum(`Price5`) < 0, -1, 0)) as  `Price4Trend`
-    ,if(sum(`Price3`) -sum(`Price4`) > 0, 1, if(sum(`Price3`) -sum(`Price4`) < 0, -1, 0)) as `Price3Trend`
-    ,if(sum(`LastCoinPrice`) -sum(`Price3`) > 0, 1, if(sum(`LastCoinPrice`) -sum(`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
-    ,if(sum(`LiveCoinPrice`) -sum(`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`) -sum(`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`
+    , sum(`LiveBuyOrders`) as `LiveBuyOrders`,((sum(`LiveBuyOrders`-`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
+  ,((sum(`LiveMarketCap`-`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice `
+  , ((sum(`LiveCoinPrice`-`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
+  ,((sum(`LiveSellOrders`-`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume `, sum(`LiveVolume`) as `LiveVolume `
+  , ((sum(`LiveVolume`-`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange `, ((sum(`Live1HrChange`-`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1PctChange`
+  , sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange `, ((sum(`Live24HrChange`-`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24PctChange`, sum(`Last7DChange`) as `Last7DChange `
+  , sum(`Live7DChange`) as `Live7DChange `, ((sum(`Live7DChange`-`Last7DChange`))/sum(`Last7DChange`))*100 as `D7PctChange`,`BaseCurrency`
+    , if(sum(`Price4`-`Price5`) > 0, 1, if(sum(`Price4` -`Price5`) < 0, -1, 0)) as  `Price4Trend`
+    ,if(sum(`Price3` -`Price4`) > 0, 1, if(sum(`Price3` -`Price4`) < 0, -1, 0)) as `Price3Trend`
+    ,if(sum(`LastCoinPrice` -`Price3`) > 0, 1, if(sum(`LastCoinPrice`-`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+    ,if(sum(`LiveCoinPrice` -`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`-`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`
     ,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
-    ,(sum(`CoinPrice`)*sum(`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`)*sum(`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`)*sum(`Amount`)) as `LivePrice`
-    , (sum(`LiveCoinPrice`)*sum(`Amount`))-(sum(`CoinPrice`)*sum(`Amount`)) as `ProfitUSD`, ((sum(`LiveCoinPrice`)*sum(`Amount`))-(sum(`CoinPrice`)*sum(`Amount`))/(sum(`CoinPrice`)*sum(`Amount`)))*100  as `ProfitPct`
-    ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`)*sum(`Amount`))-(sum(`CoinPrice`)*sum(`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`)*sum(`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`)*sum(`Amount`)) as `LivePrice`
-    FROM `View7_SpreadBetSell` WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
+    ,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`*`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
+    , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`, ((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`))/(sum(`CoinPrice`*`Amount`)))*100  as `ProfitPct`
+    ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
+    FROM `View7_SpreadBetSell`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
