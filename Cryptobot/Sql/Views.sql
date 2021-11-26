@@ -180,6 +180,7 @@ Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
  ,`Cso`.`ID` AS `IDCso`,`Cso`.`CoinID` AS `CoinID7`,`Cso`.`LiveSellOrders` AS `LiveSellOrders`,`Cso`.`LastSellOrders` AS `LastSellOrders`
  , `Cv`.`ID` as `IDCv`, `Cv`.`CoinID` as `CoinID4`, `Cv`.`LiveVolume`, `Cv`.`LastVolume`
  ,`Bi`.`ID` as `IDBi`, `Bi`.`CoinID` as `CoinIDBi`, `Bi`.`TopPrice`, `Bi`.`LowPrice`, `Bi`.`Difference`, `Bi`.`NoOfSells`
+ ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
      FROM `Transaction` `Tr`
      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
@@ -193,10 +194,21 @@ Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
      join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
      join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Tr`.`CoinID`
      join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
-     join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`;
+     join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`
+      join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`;
 
-CREATE OR REPLACE VIEW `View8_SwapCoin` as
-;
+ CREATE OR REPLACE VIEW `View8_SwapCoin` as
+ SELECT `Sc`.`ID` as `IDSc`, `Sc`.`TransactionID` as `TransactionIDSc`, `Sc`.`Status`, `Sc`.`BittrexRef`, `Sc`.`NewCoinIDCandidate`, `Sc`.`NewCoinPrice`, `Sc`.`BaseCurrency` as `BaseCurrencySc`, `Sc`.`TotalAmount`, `Sc`.`OriginalPurchaseAmount`, `Sc`.`BittrexRefSell`, `Sc`.`SellFinalPrice`, `Sc`.`PctToBuy`
+ ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+ , `Cn`.`DoNotBuy`
+ , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
+ ,`Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.`UserID` AS `UserID`,`Tr`.`CoinPrice` AS `CoinPrice`,`Tr`.`Amount` AS `Amount`,`Tr`.`Status` AS `StatusTr`,`Tr`.`OrderDate` AS `OrderDate`,`Tr`.`CompletionDate` AS `CompletionDate`,`Tr`.`BittrexID` AS `BittrexID`,`Tr`.`OrderNo` AS `OrderNo`,`Tr`.`BittrexRef` AS `BittrexRefTr`,`Tr`.`BuyOrderCancelTime` AS `BuyOrderCancelTime`,`Tr`.`SellOrderCancelTime` AS `SellOrderCancelTime`,`Tr`.`FixSellRule` AS `FixSellRule`,`Tr`.`BuyRule` AS `BuyRule`,`Tr`.`SellRule` AS `SellRule`,`Tr`.`ToMerge` AS `ToMerge`,`Tr`.`NoOfPurchases` AS `NoOfPurchases`,`Tr`.`NoOfCoinSwapsThisWeek` AS `NoOfCoinSwapsThisWeek`,`Tr`.`NoOfCoinSwapPriceOverrides` AS `NoOfCoinSwapPriceOverrides`,`Tr`.`SpreadBetTransactionID` AS `SpreadBetTransactionID`,`Tr`.`CaptureTrend` AS `CaptureTrend`,`Tr`.`SpreadBetRuleID` AS `SpreadBetRuleID`,`Tr`.`OriginalAmount` AS `OriginalAmount`,`Tr`.`OverrideCoinAllocation` AS `OverrideCoinAllocation`,`Tr`.`DelayCoinSwapUntil` AS `DelayCoinSwapUntil`
+ ,`Cn2`.`Symbol` as `OriginalSymbol`
+ FROM `SwapCoins` `Sc`
+ join `Coin` `Cn` on `Cn`.`ID` = `Sc`.`NewCoinIDCandidate`
+ join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sc`.`NewCoinIDCandidate`
+ join `Transaction` `Tr` on `Tr`.`ID` = `Sc`.`TransactionID`
+ join `Coin` `Cn2` on `Cn2`.`ID` = `Tr`.`CoinID`;
 
 CREATE OR REPLACE VIEW `View9_BuyBack` as
 ;

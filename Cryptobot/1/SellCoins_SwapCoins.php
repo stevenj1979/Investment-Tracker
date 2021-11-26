@@ -56,11 +56,9 @@ function getCoinSwap(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT `Csv`.`ID`, `Csv`.`TransactionID`, `Csv`.`Status`, `Csv`.`BittrexRef`, `Csv`.`NewCoinIDCandidate`, `Csv`.`NewCoinPrice`, `Csv`.`BaseCurrency`, `Csv`.`TotalAmount`, `Csv`.`OriginalPurchaseAmount`
-            ,`Cp`.`LiveCoinPrice`, ((`Cp`.`LiveCoinPrice`-`Csv`.`NewCoinPrice`)/`Cp`.`LiveCoinPrice`)*100 as PctFromBuy,`OriginalSymbol`
-            FROM `CoinSwapView` `Csv`
-            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Csv`.`NewCoinIDCandidate`
-            WHERE `Status` <> 'Closed'";
+    $sql = "SELECT `IDSc`, `TransactionIDSc`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`
+            ,`LiveCoinPrice`, ((`LiveCoinPrice`-`NewCoinPrice`)/`LiveCoinPrice`)*100 as PctFromBuy,`OriginalSymbol`
+            FROM `View8_SwapCoin` WHERE `Status` <> 'Closed'";
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate']
