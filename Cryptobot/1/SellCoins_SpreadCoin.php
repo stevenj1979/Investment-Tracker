@@ -135,7 +135,8 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
       $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
       $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
       ,$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
-      ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['SpreadBetRuleName']); //54
+      ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['OriginalPrice']   //54
+      ,$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['SpreadBetRuleName']); //59
   }
   $conn->close();
   return $tempAry;
@@ -261,10 +262,10 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
       $priceDiff1 = $livePrice - $LastCoinPrice;
       $fee = (($livePrice* $amount)/100)*0.28;
-      $liveTotalCost = ($livePrice * $amount);
-      $originalPurchaseCost = ($purchaseCost * $amount);
-      $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
-      $profitBtc = $profit/($originalPurchaseCost)*100;
+      $liveTotalCost = $trackingSell[$x][56];
+      $originalPurchaseCost = $trackingSell[$x][54];
+      $profit = $trackingSell[$x][57];
+      $profitBtc = $trackingSell[$x][58];
       $userID = $_SESSION['ID'];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
       echo "<table><td rowspan='4'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
