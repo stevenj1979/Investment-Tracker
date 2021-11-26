@@ -121,7 +121,8 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
           , if(`LiveCoinPrice` -`LastCoinPrice` > 0, 1, if(`LiveCoinPrice` -`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,'PurchaseLimit',`PctToPurchase`
           ,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
     ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice
-    , ( `LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD, @ProfitPct:=( ( `LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28)/(`CoinPrice`*`Amount`))*100 as ProfitPct
+    , ( `LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
+    , ( ( `LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28)/(`CoinPrice`*`Amount`))*100 as ProfitPct
     ,`Name` as `SpreadBetRuleName` FROM `View7_SpreadBetSell`
     WHERE `UserID` = $userID and `SpreadBetRuleName` = '$spreadBetRuleName' and `Type` = 'SpreadSell' and `Status` = 'Open'
     ORDER BY `ProfitPct` Desc";
