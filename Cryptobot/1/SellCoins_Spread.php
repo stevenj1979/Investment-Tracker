@@ -114,7 +114,7 @@ function getTrackingSellCoinsLoc($userID){
     ,if(sum(`Price3` -`Price4`) > 0, 1, if(sum(`Price3` -`Price4`) < 0, -1, 0)) as `Price3Trend`
     ,if(sum(`LastCoinPrice` -`Price3`) > 0, 1, if(sum(`LastCoinPrice`-`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
     ,if(sum(`LiveCoinPrice` -`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`-`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`
-    ,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek'
+    ,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek',`SpreadBetRuleName`
     ,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`*`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
     , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`, ((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`))/(sum(`CoinPrice`*`Amount`)))*100  as `ProfitPct`
     ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
@@ -129,7 +129,7 @@ function getTrackingSellCoinsLoc($userID){
       $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
       ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['SpreadBetRuleName'] //54
-    ,$row['ProfitUSD'],$row['OriginalPrice'],$row['LivePrice']); //57
+    ,$row['OriginalPrice']$row['CoinFee']$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['SpreadBetRuleName'],$row['ProfitUSD'],$row['OriginalPrice'],$row['LivePrice']); //63
   }
   $conn->close();
   return $tempAry;
@@ -288,7 +288,8 @@ $date = date('Y/m/d H:i:s', time());
             $purchasePrice = $tempProfit[0][0];
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
             $profit = $livePrice-$purchasePrice;
-            $profitPct = ($profit/$purchasePrice)*100;
+            $profitPct = $trackingSell[$x][59];
+            //$profitPct = ($profit/$purchasePrice)*100;
             //echo "$profit | $livePrice | $purchasePrice | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
