@@ -95,7 +95,7 @@ function getCoinsfromSQLLoc(){
 function getSavingSellCoins($userID){
   $tempAry = [];
   if ($userID <> 0){
-    $whereclause3 = "Where `Tr`.`UserID` = $userID and `Status` = 'Saving'";
+    $whereclause3 = "Where `UserID` = $userID and `Status` = 'Saving'";
   }
   if (isset($_SESSION['savingProfitSelect'])){
     if ($_SESSION['savingProfitSelect'] <> "none" and $_SESSION['savingProfitSelect'] <> ""){
@@ -132,7 +132,7 @@ function getSavingSellCoins($userID){
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
-  echo "$sql";
+  //echo "$sql";
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
     $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
