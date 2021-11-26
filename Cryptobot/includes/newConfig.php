@@ -16,29 +16,18 @@ function getBittrexRequests($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `BA`.`Type`,`BA`.`BittrexRef`,`BA`.`ActionDate`,`BA`.`CompletionDate`,`BA`.`Status`,`BA`.`SellPrice`,`Us`.`UserName`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Cn`.`Symbol`,`Tr`.`Amount`
-  ,`Tr`.`CoinPrice`,`Tr`.`UserID`,`Email`,`Tr`.`OrderNo`,`BA`.`TransactionID`,`Cn`.`BaseCurrency`,`Tr`.`BuyRule`,DateDiff(`BA`.`ActionDate`,now()) as `DaysOutstanding`,DateDiff(`BA`.`ActionDate`,now()) as `timeSinceAction`
-  ,`BA`.`CoinID`,`BA`.`RuleIDSell`
-  ,`Cp`.`LiveCoinPrice`,DATE_ADD(`BA`.`ActionDate`,INTERVAL `Uc`.`TimetoCancelBuyMins` MINUTE ) as `TimetoCancelBuy`,DATE_ADD(`BA`.`ActionDate`,INTERVAL `Uc`.`TimetoCancelBuyMins` MINUTE ) as `BuyOrderCancelTime`,`Uc`.`KEK`
-  ,`Cpc`.`Live7DChange`,'CoinModeRule',`Tr`.`OrderDate`,'PctToSave',`Tr`.`SpreadBetRuleID`,`Tr`.`SpreadBetTransactionID`
-  ,`Uc`.`RedirectPurchasesToSpread`,2 as`SpreadBetRuleIDRedirect`,`Uc`.`MinsToPauseAfterPurchase`,`Tr`.`OriginalAmount`,`Uc`.`SaveResidualCoins`,DateDiff(`BA`.`ActionDate`,now()) as `MinsSinceAction`,`Uc`.`TimetoCancelBuyMins`,`BuyBack`
-  ,`BA`.`oldBuyBackTransID`,`BA`.`ResidualAmount`
-    from (((((((`BittrexAction` `BA`
-    join `User` `Us` on((`Us`.`ID` = `BA`.`UserID`)))
-    join `UserConfig` `Uc` on((`Uc`.`UserID` = `BA`.`UserID`)))
-    join `Coin` `Cn` on((`Cn`.`ID` = `BA`.`CoinID`)))
-    join `CoinPrice` `Cp` on((`BA`.`CoinID` = `Cp`.`CoinID`)))
-    join `Transaction` `Tr` on(((`Tr`.`ID` = `BA`.`TransactionID`) and (`Tr`.`Type` = `BA`.`Type`))))
-    join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `BA`.`CoinID`)))
-    left join `SellRules` `Sr` on((`Sr`.`ID` = `Tr`.`FixSellRule`)))
-    where (`BA`.`Status` == '1') $bittrexQueue order by `BA`.`ActionDate` desc";
+  $sql = "SELECT `Type`,`BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
+  ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,2 as`SpreadBetRuleIDRedirect`
+  ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`
+  FROM `View4_BittrexBuySell`
+  where (`Status` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
-    ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['RuleID'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
+    ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']); //41
   }
@@ -302,50 +291,30 @@ function getTrackingCoins($whereclause){
   return $tempAry;
 }
 
-function getTrackingSellCoins($userID = 0){
+function getTrackingSellCoins($type, $userID = 0){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open'";}else{$whereclause = "Where `Status` = 'Open'";}
+  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = '$type'";}else{$whereclause = "Where `Status` = 'Open' and `Type` = '$type'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`ID`,`Tr`.`Type`,`Tr`.`CoinID`,`Tr`.`UserID`,`Tr`.`CoinPrice`,`Tr`.`Amount`,`Tr`.`Status`,`Tr`.`OrderDate`,`Tr`.`CompletionDate`,`Tr`.`BittrexID`,`Tr`.`OrderNo`
-            ,`Cn`.`Symbol`,`Cbo`.`LastBuyOrders`, `Cbo`.`LiveBuyOrders`
-            ,((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)*100 as `BuyOrdersPctChange`,`Cmc`.`LastMarketCap`,`Cmc`.`LiveMarketCap`,((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100`MarketCapPctChange`,`Cp`.`LastCoinPrice`
-            ,`Cp`.`LiveCoinPrice`,((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100 as `CoinPricePctChange`,`Cso`.`LastSellOrders`
-            ,`Cso`.`LiveSellOrders`,((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100 as `SellOrdersPctChange`,`Cv`.`LastVolume`,`Cv`.`LiveVolume`,((`Cv`.`LiveVolume`-`Cv`.`LastVolume`)/`Cv`.`LastVolume`)*100 as `VolumePctChange`
-            ,`Cpc`.`Last1HrChange`,`Cpc`.`Live1HrChange`,((`Cpc`.`Live1HrChange` - `Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100 as `Hr1PctChange`,`Cpc`.`Last24HrChange`,`Cpc`.`Live24HrChange`
-            ,((`Cpc`.`Live24HrChange`-`Cpc`.`Last24HrChange`)/`Cpc`.`Last24HrChange`)*100 as `Hr24PctChange`,`Cpc`.`Last7DChange`,`Cpc`.`Live7DChange`,((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7PctChange`,`Cn`.`BaseCurrency`
-          ,if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` > 0, 1, if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`
-          ,if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` > 0, 1, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` < 0, -1, 0)) as  `LastPriceTrend`
-          ,if(`Cp`.`Price3` -`Cp`.`Price4` > 0, 1, if(`Cp`.`Price3` -`Cp`.`Price4` < 0, -1, 0)) as  `Price3Trend`
-          ,if(`Cp`.`Price4` -`Cp`.`Price5` > 0, 1, if(`Cp`.`Price4` -`Cp`.`Price5` < 0, -1, 0)) as  `Price4Trend`
-            ,`Tr`.`FixSellRule`,`Tr`.`SellRule`,`Tr`.`BuyRule`,`Tr`.`ToMerge`,`Uc`.`LowPricePurchaseEnabled`,`Uc`.`TotalPurchasesPerCoin` as `PurchaseLimit`
-          ,'PctToPurchase', 'BTCBuyAmount'
-          ,`Tr`.`NoOfPurchases`,`Cn`.`Name`,`Cn`.`Image`,10 as `MaxCoinMerges`,`Tr`.`NoOfCoinSwapsThisWeek`
-            ,@OriginalPrice:=`Tr`.`CoinPrice`*`Tr`.`Amount` as OriginalPrice, @CoinFee:=((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`Cp`.`LiveCoinPrice`*`Tr`.`Amount` as LivePrice
-            , @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
-            ,`Tr`.`CaptureTrend`,TimeStampDiff(MINUTE, `Tr`.`DelayCoinSwapUntil`, now()) as `minsToDelay`,TIMESTAMPDIFF(MINUTE, `Tr`.`OrderDate`, Now()) as MinsFromBuy
-           From `Transaction` `Tr`
-          join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-          join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Tr`.`CoinID`
-          join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Tr`.`CoinID`
-          join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Tr`.`CoinID`
-          join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Tr`.`CoinID`
-          join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
-          join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`$whereclause order by @ProfitPct Desc ";
+  $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
+  ,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
+  ,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
+  ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,'PctToPurchase', 'BTCBuyAmount',`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
+  ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`
+FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
+    $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'],
     $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
-    $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
-    ,$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
+    $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
+    ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy']); //61
   }
@@ -3742,19 +3711,13 @@ function getNewTrackingCoins($userID = 0){
 //12
   $whereClause = " ";
   if ($userID <> 0){ $whereClause = " WHERE `Uc`.`UserID` = $userID and `Tc`.`Status` <> 'Closed'";}
-    $sql = "SELECT `Cp`.`CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`Tc`.`UserID`
-    ,`Cn`.`BaseCurrency`,`Tc`.`SendEmail`,`Cn`.`BuyCoin`,`Quantity`,`RuleIDBuy`,`Tc`.`CoinSellOffsetPct`
-      ,`Tc`.`CoinSellOffsetEnabled`,`Tc`.`BuyType`,`MinsToCancelBuy`,`Tc`.`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Tc`.`ID`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `Tc`.`NoOfPurchases`,`NoOfRisesInPrice`
-      ,`TotalRisesInPrice`,`Us`.`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`Tc`.`BuyRisesInPrice`,`Br`.`LimitBuyAmountEnabled`, `LimitBuyAmount`,`Br`.`LimitBuyTransactionsEnabled`, `Br`.`LimitBuyTransactions`
-      ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`Type`, `LastPrice`,`SBRuleID`,`SBTransID`,`Tc`.`ID` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`Us`.`DisableUntil`) as MinsDisabled
-      ,`Br`.`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,Max(`Price`) as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`
-      FROM `TrackingCoins` `Tc`
-		join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
-    join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
-    join `UserConfig` `Uc` on `Uc`.`UserID` = `Tc`.`UserID`
-    join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
-    join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
-    join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `HighLow` = 'High' $whereClause";
+    $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`UserID`
+    ,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
+      ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`IDTc`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
+      ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
+      ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`TrackingType`, `LastPrice`,`SBRuleID`,`SBTransID`,`IDTc` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
+      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`
+      from `View2_TrackingBuyCoins` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -4226,19 +4189,11 @@ function getNewTrackingSellCoins($userID = 0){
 //12
   $whereClause = "WHERE `Tsc`.`Status` <> 'Closed'";
   if ($userID <> 0){ $whereClause = " WHERE `Tr`.`UserID` = $userID and `Tsc`.`Status` <> 'Closed'";}
-  $sql = "SELECT `Tr`.`CoinPrice`,`TrackDate`,`Tr`.`UserID`,`NoOfRisesInPrice`,`TransactionID`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`Tr`.`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`Cn`.`BaseCurrency`
-        ,`SendEmail`,`SellCoin`,`Tsc`.`CoinSellOffsetEnabled`,`Tsc`.`CoinSellOffsetPct`,`LiveCoinPrice`,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate,(`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`) as `ProfitUSD`, ((`LiveCoinPrice`*`Amount`)/100)*0.28 as `Fee`
-        ,(((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`))/(`Tr`.`CoinPrice`*`Amount`))*100`PctProfit`
-        , `TotalRisesInPrice`, `Symbol`
-        , ((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice` * `Amount`))/ (`Tr`.`CoinPrice` * `Amount`) * 100 as `OgPctProfit`, `Tr`.`CoinPrice` * `Amount` as `OriginalPurchasePrice`,`Tr`.`CoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`
-        ,TIMESTAMPDIFF(MINUTE,`TrackStartDate`,Now()) as MinsFromStart, `SellFallsInPrice`,`Tr`.`Type`,`BaseSellPrice`,`LastPrice`,(`LiveCoinPrice`*`Amount`) as BTCBuyAmount, `Tsc`.`ID` as `TrackingSellID`,`SaveResidualCoins`
-        ,`OriginalAmount`,`Tsc`.`Type` as `TrackingType`,`OriginalSellPrice`
-        FROM `TrackingSellCoins` `Tsc`
-      Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
-      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-      join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
-      join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
-      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+  $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
+            ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
+            ,  `OriginalPurchasePrice`,`CoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc`,`SaveResidualCoins`
+            ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
+            FROM `View6_TrackingSellCoins`
        $whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -5272,12 +5227,24 @@ function getSpreadBetSellData($ID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Type`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`, `LiveMarketCap`, `MarketCapPctChange`
-  , `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`, `Hr1PctChange`
-  , `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`
-  , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`PctProfitSell`
-  ,`SpreadBetRuleID`,`CaptureTrend`,`Profit`,`PurchasePrice`,`LivePrice`,`CalculatedRisesInPrice`,`PurchasePriceUSDT`,`PurchasePriceBTC`,`LivePriceUSDT`,`LivePriceBTC`,`SoldPriceUSDT`,`SoldPriceBTC`
-  FROM `SellCoinsSpreadGroupView` $whereClause";
+  $sql = "SELECT `ID`, `Type`, `UserID`, sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`, `Status`, `OrderDate`, `CompletionDate`, sum(`LastBuyOrders`) as `LastBuyOrders`, sum(`LiveBuyOrders`) as `LiveBuyOrders`
+  ,((sum(`LiveBuyOrders`)-sum(`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
+  ,((sum(`LiveMarketCap`)-sum(`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice `
+  , ((sum(`LiveCoinPrice`)-sum(`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
+  ,((sum(`LiveSellOrders`)-sum(`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume `, sum(`LiveVolume`) as `LiveVolume `
+  , ((sum(`LiveVolume`)-sum(`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange `
+  , ((sum(`Live1HrChange`)-sum(`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1PctChange`, sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange `
+  , ((sum(`Live24HrChange`)-sum(`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24PctChange`, sum(`Last7DChange`) as `Last7DChange `, sum(`Live7DChange`) as `Live7DChange `
+  , ((sum(`Live7DChange`)-sum(`Last7DChange`))/sum(`Last7DChange`))*100 as `D7PctChange`, `BaseCurrency`, 'AutoSellPrice'
+  ,if(sum(`LiveCoinPrice`) -sum(`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`) -sum(`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+  ,if(sum(`LastCoinPrice`) -sum(`Price3`) > 0, 1, if(sum(`LastCoinPrice`) -sum(`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+  ,if(sum(`Price3`) -sum(`Price4`) > 0, 1, if(sum(`Price3`) -sum(`Price4`) < 0, -1, 0)) as  `Price3Trend`
+  ,if(sum(`Price4`) -sum(`Price5`) > 0, 1, if(sum(`Price4`) -sum(`Price5`) < 0, -1, 0)) as  `Price4Trend`, `FixSellRule`
+  , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `DailyBTCLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
+  ,`PctProfitSell`,`SpreadBetRuleID`,`CaptureTrend`,(sum(`LiveCoinPrice`)*sum(`Amount`))-(sum(`CoinPrice`)*sum(`Amount`)) as `Profit`,(sum(`CoinPrice`)*sum(`Amount`)) as `PurchasePrice`
+  ,(sum(`LiveCoinPrice`)*sum(`Amount`)) `LivePrice`,`CalculatedRisesInPrice`,(sum(`CoinPrice`)*sum(`Amount`)) as `PurchasePriceUSDT`,(sum(`CoinPrice`)*sum(`Amount`))*getBTCPrice(84) as `PurchasePriceBTC`
+  ,(sum(`LiveCoinPrice`)*sum(`Amount`)) as `LivePriceUSDT`,(sum(`LiveCoinPrice`)*sum(`Amount`)) * getBTCPrice(84) as `LivePriceBTC`,(sum(`LiveCoinPrice`)*sum(`OriginalAmount`)) as `SoldPriceUSDT`
+  ,(sum(`LiveCoinPrice`)*sum(`OriginalAmount`))* getBTCPrice(84) as`SoldPriceBTC` FROM `View7_SpreadBetSell` $whereClause Group by `SpreadBetTransactionID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -5310,12 +5277,19 @@ function getSpreadCoinSellData($ID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
-  , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
-  , `Live1HrChange`, `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`
-  , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, `SpreadBetTransactionID`
-  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`BounceTopPrice`,`BounceLowPrice`,`BounceDifference`,`DelayCoinSwap`,`NoOfSells`
-  FROM `SellCoinsSpreadView` $whereclause";
+  $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`
+  , ((`LiveBuyOrders`-`LastBuyOrders`)/`LastBuyOrders`)*100 as `BuyOrdersPctChange`
+  , `LastMarketCap`, `LiveMarketCap`,((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as  `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, ((`LastCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `CoinPricePctChange`
+  , `LastSellOrders`, `LiveSellOrders`
+  , ((`LiveSellOrders`-`LastSellOrders`)/`LastSellOrders`)*100 as `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, ((`LiveVolume`-`LastVolume`)/`LastVolume`)*100 as `VolumePctChange`, `Last1HrChange`
+  , `Live1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24PctChange`, `Last7DChange`, `Live7DChange`
+  , ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 as `D7PctChange`, `BaseCurrency`, 'AutoSellPrice', if(`Price4` -`Price5` > 0, 1, if(`Price4` -`Price5` < 0, -1, 0)) as `Price4Trend`
+  , if(`Price3` -`Price4` > 0, 1, if(`Price3` -`Price4` < 0, -1, 0)) as   `Price3Trend`, if(`LastCoinPrice` -`Price3` > 0, 1, if(`LastCoinPrice` -`Price3` < 0, -1, 0)) as  `LastPriceTrend`
+  , if(`LiveCoinPrice` -`LastCoinPrice` > 0, 1, if(`LiveCoinPrice` -`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `DailyBTCLimit`, `PctToPurchase`, `BTCBuyAmount`
+  , `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, `SpreadBetTransactionID`
+  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`TopPrice` as `BounceTopPrice`,`LowPrice` as `BounceLowPrice`,`Difference` as `BounceDifference`
+  ,TimeStampDiff(MINUTE, `DelayCoinSwapUntil`, now()) as `DelayCoinSwap`,`NoOfSells`
+  FROM `View7_SpreadBetSell` $whereclause";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -5325,7 +5299,7 @@ function getSpreadCoinSellData($ID = 0){
       ,$row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'] //19
       ,$row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'] //28
       ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
-      ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
+      ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'] //47
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference'],$row['DelayCoinSwap'],$row['NoOfSells']);
   }
@@ -5429,38 +5403,22 @@ function getSavingsData($ID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Tr`.`ID`, `Type`, `Tr`.`CoinID`, `Tr`.`UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Cn`.`Symbol`, `LastBuyOrders`, `LiveBuyOrders`
-          , ((`LiveBuyOrders`-`LastBuyOrders`)/`LastBuyOrders`)*100 as `BuyOrdersPctChange`, `LastMarketCap`
-          , `LiveMarketCap`, ((`LiveMarketCap`-`LastMarketCap`)/`LastMarketCap`)*100 as `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, ((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `CoinPricePctChange`
-          , `LastSellOrders`, `LiveSellOrders`, ((`LiveSellOrders`-`LastSellOrders`)/`LastSellOrders`)*100`SellOrdersPctChange`, `LastVolume`, `LiveVolume`, ((`LiveVolume`-`LastVolume`)/`LastVolume`)*100` as VolumePctChange`, `Last1HrChange`
-          , `Live1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24PctChange`
-          , `Last7DChange`, `Live7DChange`, ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 as `D7PctChange`, `Cn`.`BaseCurrency`, 'AutoSellPrice'
-          , if(`Cp`.`Price4` -`Cp`.`Price5` > 0, 1, if(`Cp`.`Price4` -`Cp`.`Price5` < 0, -1, 0)) as  `Price4Trend`, if(`Cp`.`Price3` -`Cp`.`Price4` > 0, 1
-            , if(`Cp`.`Price3` -`Cp`.`Price4` < 0, -1, 0)) as  `Price3Trend`, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` > 0, 1, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` < 0, -1, 0))
-            as  `LastPriceTrend`
-            , if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` > 0, 1, if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`
-          , `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `Tr`.`NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, 'SpreadBetTransactionID'
-          ,'PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,TimeStampDiff(MINUTE,`Tr`.`DelayCoinSwapUntil`,now()) as `minsToDelay`,`NoOfSells`
+  $sql = "SELECT `IDTr`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
+          , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
+          , `Live1HrChange`, `Hr1ChangePctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24ChangePctChange`, `Last7DChange`, `Live7DChange`, `D7ChangePctChange`, `BaseCurrency`, 'AutoSellPrice'
+          ,   `Price4Trend`,  `Price3Trend`,  `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`
+          , `Image`, 10 as `MaxCoinMerges`, 'SpreadBetTransactionID','PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`
           ,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice
-        From `Transaction` `Tr`
-                    join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-                  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-                  join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Tr`.`CoinID`
-                  join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Tr`.`CoinID`
-                  join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Tr`.`CoinID`
-                  join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Tr`.`CoinID`
-                  join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
-                  join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
-                  join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID` $whereclause";
+          FROM `View5_SellCoins` $whereclause";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'] //10
+      $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'] //10
       ,$row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'] //19
       ,$row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'] //28
-      ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
+      ,$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
       ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells'],$row['BTCPrice'],$row['ETHPrice']); //66
@@ -6074,7 +6032,7 @@ function getSpreadBetCount($SBTransID){
   return $tempAry;
 }
 
-function getSpreadBerUserSettings(){
+function getSpreadBetUserSettings(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";

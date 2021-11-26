@@ -1868,7 +1868,7 @@ while($completeFlag == False){
         $runSellSpreadBet = runSellSpreadBet($sellSpread);
   echo "</blockquote><BR>CHECK Spread Bet!! $i<blockquote>";
         if ($i == 0 or $runSpreadBetFlag == True){
-          $SpreadBetUserSettings = getSpreadBerUserSettings();
+          $SpreadBetUserSettings = getSpreadBetUserSettings();
         }
         if (date("Y-m-d H:i", time()) >= $spreadBetTimer or $runSpreadBetFlag == True){
           $SBcurrent_date = date('Y-m-d H:i');
@@ -1922,7 +1922,7 @@ while($completeFlag == False){
         if (date("Y-m-d H:i", time()) >= $sellCoinTimer or $runSellCoinsFlag == True){
           $SCcurrent_date = date('Y-m-d H:i');
           $sellCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
-          $sellCoins = getTrackingSellCoins();
+          $sellCoins = getTrackingSellCoins("Sell");
           $userProfit = getTotalProfit();
           $runSellCoinsFlag = False;
           $buyToReduceLossFlag = True;
