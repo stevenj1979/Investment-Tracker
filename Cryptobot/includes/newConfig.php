@@ -4182,7 +4182,7 @@ function getNewTrackingSellCoins($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
-  $whereClause = "WHERE `Tsc`.`Status` <> 'Closed'";
+  $whereClause = "WHERE `Status` <> 'Closed'";
   if ($userID <> 0){ $whereClause = " WHERE `Tr`.`UserID` = $userID and `Tsc`.`Status` <> 'Closed'";}
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
