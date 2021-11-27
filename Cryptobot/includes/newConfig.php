@@ -783,7 +783,7 @@ Function getOpenCoinSwaps(){
             , `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`CoinID` as `OriginalCoinID`, `OriginalSymbol` ,`BittrexRefSell`,`SellFinalPrice`,`LiveCoinPrice`,`UserID`
             ,`IDSc` as CoinSwapID,`PctToBuy`, ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1PctChange`,`LiveCoinPrice`
             FROM `View8_SwapCoin`";
-  print_r($sql);
+  print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDTr'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret'] //9
