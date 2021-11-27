@@ -307,8 +307,8 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 //phpinfo();
 
-//$apikey = encrypt('711fdd4a2f0d47e78791b07c91fa6353');
-$encAry = encrypt('ec06e2f1d01c42d29a1f64cf35e162c5');
+//$apikey = encrypt('123123');
+$encAry = encrypt('123123');
 echo "<BR> The API Secret is: ".$encAry['data'];;
 echo "<BR> The KEK is: ".$encAry['secret'];;
 
