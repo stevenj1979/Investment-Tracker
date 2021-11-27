@@ -4188,7 +4188,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`CoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc`,`SaveResidualCoins`
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
-            FROM `View6_TrackingSellCoins`
+            FROM `View6_TrackingSellCoins` $whereClause 
        $whereClause";
   //echo $sql;
   $result = $conn->query($sql);

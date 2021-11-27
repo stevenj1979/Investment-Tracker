@@ -30,11 +30,11 @@ function get1HrChangeAll(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`Live1HrChange` FROM `CoinStatsView`";
+  $sql = "SELECT `IDCn`,`Live1HrChange` FROM `View1_BuyCoins`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['Live1HrChange']);
+      $tempAry[] = Array($row['IDCn'],$row['Live1HrChange']);
   }
   $conn->close();
   return $tempAry;
@@ -48,11 +48,11 @@ function getUserConfig(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Select `Active`, `DisableUntil`,`Email`, `UserName`,`ID` FROM `UserConfigView`";
+  $sql = "Select `Active`, `DisableUntil`,`Email`, `UserName`,`IDUs`  FROM `View12_UserConfig`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Active'],$row['DisableUntil'],$row['Email'],$row['UserName'],$row['ID']);
+      $tempAry[] = Array($row['Active'],$row['DisableUntil'],$row['Email'],$row['UserName'],$row['IDUs']);
   }
   $conn->close();
   return $tempAry;
