@@ -3705,7 +3705,7 @@ function getNewTrackingCoins($userID = 0){
   }
 //12
   $whereClause = " ";
-  if ($userID <> 0){ $whereClause = " WHERE `Uc`.`UserID` = $userID and `Tc`.`Status` <> 'Closed'";}
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `TrackingStatus` <> 'Closed'";}
     $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`UserID`
     ,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
       ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`IDTc`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
