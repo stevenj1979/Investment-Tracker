@@ -113,7 +113,7 @@ FROM `BittrexAction`  `Ba`
       ((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28 as CoinFee,
       `Cp`.`LiveCoinPrice`*`Tr`.`Amount` as LivePrice
       ,(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28) as ProfitUSD
-      ,((`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28) /(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as ProfitPct
+      ,(((`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28)) /(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as ProfitPct
       ,TimeStampDiff(MINUTE, `Tr`.`DelayCoinSwapUntil`, now()) as `minsToDelay`
       ,TIMESTAMPDIFF(MINUTE, `Tr`.`OrderDate`, Now()) as MinsFromBuy
       ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
