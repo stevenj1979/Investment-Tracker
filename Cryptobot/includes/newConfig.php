@@ -5348,7 +5348,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, 'LastBuyOrders', 'LiveBuyOrders','BuyOrdersPctChange','LastMarketCap'
+  $sql = "SELECT `IDTr`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, 'LastBuyOrders', 'LiveBuyOrders','BuyOrdersPctChange','LastMarketCap'
   , 'LiveMarketCap', 'MarketCapPctChange', 'LastCoinPrice', 'LiveCoinPrice', 'CoinPricePctChange', 'LastSellOrders', 'LiveSellOrders', 'SellOrdersPctChange', 'LastVolume', 'LiveVolume', 'VolumePctChange', 'Last1HrChange'
   , 'Live1HrChange', 'Hr1PctChange', 'Last24HrChange', 'Live24HrChange', 'Hr24PctChange', 'Last7DChange', 'Live7DChange', 'D7PctChange', `BaseCurrency`, 'AutoSellPrice', 'Price4Trend', 'Price3Trend', 'LastPriceTrend'
   , 'LivePriceTrend', `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, `SpreadBetTransactionID`
@@ -5359,7 +5359,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'] //10
+      $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['UserID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['OrderNo'] //10
       ,$row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'] //19
       ,$row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'] //28
       ,$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
