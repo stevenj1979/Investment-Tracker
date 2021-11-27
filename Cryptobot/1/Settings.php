@@ -63,7 +63,7 @@ function getUserIDs($userID){
   }
 
   $sql = "SELECT `IDUs`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`,`KEK`
-  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`,`NoOfCoinPurchase` FROM `View4_BittrexBuySell` WHERE `ID` = $userID";
+  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`,`NoOfCoinPurchase` FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
