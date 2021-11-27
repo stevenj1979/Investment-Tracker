@@ -5339,7 +5339,7 @@ function getSpreadCoinSellDataAll($ID = 0){
 
 function getSpreadCoinSellDataFixed($ID = 0){
   if ($ID == 0){
-    $whereclause = "";
+    $whereclause = "WHERE `Status` = 'Open'";
   }else{
     $whereclause = " WHERE `ID` = $ID and `Status` = 'Open'";
   }
