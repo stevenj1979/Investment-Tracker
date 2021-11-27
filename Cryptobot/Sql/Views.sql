@@ -187,6 +187,7 @@ Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
  , `Cv`.`ID` as `IDCv`, `Cv`.`CoinID` as `CoinID4`, `Cv`.`LiveVolume`, `Cv`.`LastVolume`
  ,`Bi`.`ID` as `IDBi`, `Bi`.`CoinID` as `CoinIDBi`, `Bi`.`TopPrice`, `Bi`.`LowPrice`, `Bi`.`Difference`, `Bi`.`NoOfSells`
  ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
+ ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1.0)) as BaseMultiplier
      FROM `Transaction` `Tr`
      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`

@@ -422,10 +422,13 @@ function runSellSpreadBet($sellSpread){
     //$LiveCoinPriceTot = $tempPrice[0][0];
     $LiveCoinPriceTot = $sellSpread[$w][15];
     //Echo "<BR> TEST!: $hr1Pct | $hr24Pct | $d7Pct | $CoinID";
-    $livePrice = ($LiveCoinPriceTot * $TotAmount);
+    //$livePrice = ($LiveCoinPriceTot * $TotAmount);
+    $livePrice = $sellSpread[$w][64];
     //$soldPrice = $sellSpread[$w][66] + $sellSpread[$w][67];
-    $profit = ($livePrice-$purchasePrice);//+$soldPrice;
-    $profitPct = (($profit-$purchasePrice)/$purchasePrice)*100;
+    //$profit = ($livePrice-$purchasePrice);//+$soldPrice;
+    $profit = $sellSpread[$w][58];
+    //$profitPct = (($profit-$purchasePrice)/$purchasePrice)*100;
+    $profitPct = $sellSpread[$w][65];
     echo "<BR> PROFIT: $profit / $purchasePrice * 100 = $profitPct";
     if (!Empty($KEK)){$APISecret = decrypt($KEK,$sellSpread[$w][51]);}
     //coinPriceHistorySpreadBet($ID,$LiveCoinPriceTot,$baseCurrency_new,date("Y-m-d H:i:s", time()),$hr1Pct,$hr24Pct,$d7Pct);

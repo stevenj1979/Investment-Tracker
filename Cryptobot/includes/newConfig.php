@@ -5228,10 +5228,14 @@ function getSpreadBetSellData($ID = 0){
   ,if(sum(`Price3`-`Price4`) > 0, 1, if(sum(`Price3`-`Price4`) < 0, -1, 0)) as  `Price3Trend`
   ,if(sum(`Price4`-`Price5`) > 0, 1, if(sum(`Price4`-`Price5`) < 0, -1, 0)) as  `Price4Trend`, `FixSellRule`
   , `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `DailyBTCLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
-  ,`PctProfitSell`,`SpreadBetRuleID`,`CaptureTrend`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `Profit`,(sum(`CoinPrice`*`Amount`)) as `PurchasePrice`
-  ,(sum(`LiveCoinPrice`*`Amount`)) `LivePrice`,`CalculatedRisesInPrice`,(sum(`CoinPrice`*`Amount`)) as `PurchasePriceUSDT`,(sum(`CoinPrice`*`Amount`))*getBTCPrice(84) as `PurchasePriceBTC`
-  ,(sum(`LiveCoinPrice`*`Amount`)) as `LivePriceUSDT`,(sum(`LiveCoinPrice`*`Amount`)) * getBTCPrice(84) as `LivePriceBTC`,(sum(`LiveCoinPrice`*`OriginalAmount`)) as `SoldPriceUSDT`
-  ,(sum(`LiveCoinPrice`*`OriginalAmount`))* getBTCPrice(84) as`SoldPriceBTC`
+  ,`PctProfitSell`,`SpreadBetRuleID`,`CaptureTrend`
+  ,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `Profit`,(sum(`CoinPrice`*`Amount`)) as `PurchasePrice`
+  ,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`,`CalculatedRisesInPrice`
+  ,(sum(`CoinPrice`*`Amount`))* `BaseMultiplier` as `PurchasePriceUSDT`
+
+  ,(sum(`LiveCoinPrice`*`Amount`))*`BaseMultiplier` as `LivePriceUSDT`
+  ,(sum(`LiveCoinPrice`*`OriginalAmount`))*`BaseMultiplier` as `SoldPriceUSDT`
+  ,(((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)))/(sum(`CoinPrice`*`Amount`)))*100 as `ProfitPct`
   FROM `View7_SpreadBetSell` $whereClause Group by `SpreadBetTransactionID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5243,8 +5247,8 @@ function getSpreadBetSellData($ID = 0){
       ,$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'] //29
       ,$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']//40
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
-      ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend'],$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['PurchasePriceBTC'] //63
-    ,$row['LivePriceUSDT'],$row['LivePriceBTC'],$row['SoldPriceUSDT'],$row['SoldPriceBTC']); //67
+      ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend']  //57
+      ,$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['LivePriceUSDT'],$row['SoldPriceUSDT'],$row['ProfitPct']); //65
   }
   $conn->close();
   return $tempAry;
