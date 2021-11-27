@@ -412,7 +412,7 @@ function getUserRules(){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
-  FROM `UserBuyRules` where `BuyCoin` = 1";
+   FROM `View13_UserBuyRules` where `BuyCoin` = 1";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
