@@ -3704,7 +3704,7 @@ function getNewTrackingCoins($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
-  $whereClause = " ";
+  $whereClause = " WHERE `TrackingStatus` <> 'Closed'";
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `TrackingStatus` <> 'Closed'";}
     $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`UserID`
     ,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
