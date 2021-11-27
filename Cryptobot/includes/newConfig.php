@@ -5204,7 +5204,7 @@ function updateToSpreadSell($transID){
 
 function getSpreadBetSellData($ID = 0){
   $tempAry = [];
-  $whereClause = '';
+  $whereClause = "Where `Status` = 'Open' and `Type` = 'SpreadSell'";
   if ($ID <> 0) { $whereClause = " Where `UserID` = $ID and `Status` = 'Open' and `Type` = 'SpreadSell'";}
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
