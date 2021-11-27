@@ -108,7 +108,7 @@ function getUserIDs($userID){
   return $tempAry;
 }
 
-function getRules($userID, $tableName){
+function getRules($userID, $enabled){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -116,14 +116,14 @@ function getRules($userID, $tableName){
   }
 
   $sql = "SELECT
-`UserID`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,
-`1HrChangeTop`,`1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,
-`CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,
-`VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
-, `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
-,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
-,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`,`HoursDisabled`,`RuleName`
-FROM $tableName WHERE `UserID` =  $userID Order by `CoinOrder` Asc";
+        `UserID`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,
+        `1HrChangeTop`,`1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,
+        `CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,
+        `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
+        , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
+        ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
+        ,`NameCpmn` AS `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hpn` as `Coin1HrPatternName`,TimeStampDiff(Hour,now(),`DisableUntil`) as`HoursDisabled`,`RuleName`
+        FROM `View13_UserBuyRules` WHERE `UserID` =  $userID and `BuyCoin` = $enabled Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -308,9 +308,9 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
 
 
-$userSettings = getRules($_SESSION['ID'],"`UserBuyRules`");
+$userSettings = getRules($_SESSION['ID'],1);
 $userSettingsLen = count($userSettings);
-$userSettingsDisabled = getRules($_SESSION['ID'],"`UserBuyRulesDisabled`");
+$userSettingsDisabled = getRules($_SESSION['ID'],0);
 $userSettingsDisabledLen = count($userSettingsDisabled);
 //echo $userDetails[0][1];
 
