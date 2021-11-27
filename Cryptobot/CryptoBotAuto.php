@@ -65,7 +65,6 @@ function getUserVariables(){
 }
 
 function findCoinStats($CMCStats, $symbol){
-
   $tempStats = [];
   $statsLength = count($CMCStats);
   echo "<BR> FIND: $symbol | length: $statsLength";
@@ -171,6 +170,7 @@ $i = 0;
 $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
 $coinLength = Count($coins);
 $coinStr = getCoinList(getStats(),3);
+echo "<BR>CoinStr: $coinStr";
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
 $historyFlag = False; $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
 //$marketCap_date = $current_date;

@@ -59,11 +59,15 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , `Br`.`CoinModeOverridePriceEnabled`, `Br`.`BuyModeActivate`, `Br`.`CoinMode`, `Br`.`OverrideCoinAllocation` as `OverrideCoinAllocation2`, `Br`.`OneTimeBuyRule`, `Br`.`LimitToBaseCurrency`, `Br`.`EnableRuleActivationAfterDip`
 , `Br`.`24HrPriceDipPct`, `Br`.`7DPriceDipPct`, `Br`.`BuyAmountCalculationEnabled`, `Br`.`TotalPurchasesPerRule`
 ,`Athl`.`ID` as `IDAthl`, `Athl`.`CoinID` as `CoinID3`, `Athl`.`HighLow`, MAX(`Athl`.`Price`) as `ATHPrice`
+, `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
+, `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
+, ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
 FROM `TrackingCoins` `Tc`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
 join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Tc`.`UserID`
 join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
+join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 Left join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
 left join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `HighLow` = 'High';
 
@@ -114,6 +118,7 @@ FROM `BittrexAction`  `Ba`
       ,TIMESTAMPDIFF(MINUTE, `Tr`.`OrderDate`, Now()) as MinsFromBuy
       ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
       ,`Bi`.`ID` as `IDBi`, `Bi`.`CoinID` as `CoinIDBi`, `Bi`.`TopPrice`, `Bi`.`LowPrice`, `Bi`.`Difference`, `Bi`.`NoOfSells`
+      ,`Rls`.`ID` as `IDRls`, `Rls`.`UserID` as `UserIDRls` , `Rls`.`Enabled`, `Rls`.`SellPct`, `Rls`.`OriginalPriceMultiplier`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -124,7 +129,8 @@ FROM `BittrexAction`  `Ba`
       join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `Tr`.`CoinID`)))
       join `UserConfig` `Uc` on((`Uc`.`UserID` = `Tr`.`UserID`)))
       join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
-      join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`;
+      join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`
+      Left Join `ReduceLossSettings` `Rls` on `Rls`.`UserID` = `Tr`.`UserID`;
 
 CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
 SELECT `Tsc`.`ID` as `IDTsc`, `Tsc`.`CoinPrice` as `CoinPriceTsc`, `Tsc`.`TrackDate`, `Tsc`.`UserID` as `UserIDTsc`, `Tsc`.`NoOfRisesInPrice`, `Tsc`.`TransactionID` as `TransactionIDTsc`, `Tsc`.`Status` as `StatusTsc`, `Tsc`.`SellCoin`, `Tsc`.`SendEmail`, `Tsc`.`CoinSellOffsetEnabled`, `Tsc`.`CoinSellOffsetPct`, `Tsc`.`TrackStartDate`, `Tsc`.`SellFallsInPrice`, `Tsc`.`BaseSellPrice`, `Tsc`.`LastPrice`, `Tsc`.`Type` as `TrackingType`, `Tsc`.`OriginalSellPrice`
@@ -204,11 +210,106 @@ Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
  , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
  ,`Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.`UserID` AS `UserID`,`Tr`.`CoinPrice` AS `CoinPrice`,`Tr`.`Amount` AS `Amount`,`Tr`.`Status` AS `StatusTr`,`Tr`.`OrderDate` AS `OrderDate`,`Tr`.`CompletionDate` AS `CompletionDate`,`Tr`.`BittrexID` AS `BittrexID`,`Tr`.`OrderNo` AS `OrderNo`,`Tr`.`BittrexRef` AS `BittrexRefTr`,`Tr`.`BuyOrderCancelTime` AS `BuyOrderCancelTime`,`Tr`.`SellOrderCancelTime` AS `SellOrderCancelTime`,`Tr`.`FixSellRule` AS `FixSellRule`,`Tr`.`BuyRule` AS `BuyRule`,`Tr`.`SellRule` AS `SellRule`,`Tr`.`ToMerge` AS `ToMerge`,`Tr`.`NoOfPurchases` AS `NoOfPurchases`,`Tr`.`NoOfCoinSwapsThisWeek` AS `NoOfCoinSwapsThisWeek`,`Tr`.`NoOfCoinSwapPriceOverrides` AS `NoOfCoinSwapPriceOverrides`,`Tr`.`SpreadBetTransactionID` AS `SpreadBetTransactionID`,`Tr`.`CaptureTrend` AS `CaptureTrend`,`Tr`.`SpreadBetRuleID` AS `SpreadBetRuleID`,`Tr`.`OriginalAmount` AS `OriginalAmount`,`Tr`.`OverrideCoinAllocation` AS `OverrideCoinAllocation`,`Tr`.`DelayCoinSwapUntil` AS `DelayCoinSwapUntil`
  ,`Cn2`.`Symbol` as `OriginalSymbol`
+ ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+ , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+ , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+ , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+ , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+ , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+ , `Uc`.`TotalPurchasesPerCoin`
+ ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+ , `Us`.`DisableUntil`
+ , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
+ , `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`
  FROM `SwapCoins` `Sc`
  join `Coin` `Cn` on `Cn`.`ID` = `Sc`.`NewCoinIDCandidate`
  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sc`.`NewCoinIDCandidate`
  join `Transaction` `Tr` on `Tr`.`ID` = `Sc`.`TransactionID`
- join `Coin` `Cn2` on `Cn2`.`ID` = `Tr`.`CoinID`;
+ join `Coin` `Cn2` on `Cn2`.`ID` = `Tr`.`CoinID`
+ join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+ join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+ join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Sc`.`NewCoinIDCandidate`;
 
 CREATE OR REPLACE VIEW `View9_BuyBack` as
-;
+SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Bb`.`Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`, `Bb`.`ProfitMultiply`, `Bb`.`NoOfRaisesInPrice`, `Bb`.`BuyBackPct`, `Bb`.`MinsToCancel`, `Bb`.`DateTimeAdded`, `Bb`.`DelayTime`
+,`Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.`UserID` AS `UserID`,`Tr`.`CoinPrice` AS `CoinPrice`,`Tr`.`Amount` AS `Amount`,`Tr`.`Status` AS `StatusTr`,`Tr`.`OrderDate` AS `OrderDate`,`Tr`.`CompletionDate` AS `CompletionDate`,`Tr`.`BittrexID` AS `BittrexID`,`Tr`.`OrderNo` AS `OrderNo`,`Tr`.`BittrexRef` AS `BittrexRefTr`,`Tr`.`BuyOrderCancelTime` AS `BuyOrderCancelTime`,`Tr`.`SellOrderCancelTime` AS `SellOrderCancelTime`,`Tr`.`FixSellRule` AS `FixSellRule`,`Tr`.`BuyRule` AS `BuyRule`,`Tr`.`SellRule` AS `SellRule`,`Tr`.`ToMerge` AS `ToMerge`,`Tr`.`NoOfPurchases` AS `NoOfPurchases`,`Tr`.`NoOfCoinSwapsThisWeek` AS `NoOfCoinSwapsThisWeek`,`Tr`.`NoOfCoinSwapPriceOverrides` AS `NoOfCoinSwapPriceOverrides`,`Tr`.`SpreadBetTransactionID` AS `SpreadBetTransactionID`,`Tr`.`CaptureTrend` AS `CaptureTrend`,`Tr`.`SpreadBetRuleID` AS `SpreadBetRuleID`,`Tr`.`OriginalAmount` AS `OriginalAmount`,`Tr`.`OverrideCoinAllocation` AS `OverrideCoinAllocation`,`Tr`.`DelayCoinSwapUntil` AS `DelayCoinSwapUntil`
+,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
+, `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
+,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+, `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+, `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+, `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+, `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+, `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+, `Uc`.`TotalPurchasesPerCoin`
+,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+, `Us`.`DisableUntil`
+,`Bbs`.`ID`, `Bbs`.`CoinID`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
+FROM `BuyBack` `Bb`
+join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
+join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
+join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
+join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`;
+
+CREATE OR REPLACE VIEW `View10_DelayCoinPurchase` as
+SELECT `Dcp`.`ID`, `Dcp`.`CoinID`, `Dcp`.`UserID`, `Dcp`.`DelayTime`
+,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+, `Cn`.`DoNotBuy`
+,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+, `Us`.`DisableUntil`
+,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+, `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+, `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+, `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+, `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+, `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+, `Uc`.`TotalPurchasesPerCoin`
+FROM `DelayCoinPurchase` `Dcp`
+join `Coin` `Cn` on `Cn`.`ID` = `Dcp`.`CoinID`
+join `User` `Us` on `Us`.`ID` = `Dcp`.`UserID`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Dcp`.`UserID`;
+
+CREATE OR REPLACE VIEW `View11_CoinAlerts` as
+SELECT `Ca`.`ID`, `Ca`.`CoinID`, `Ca`.`Action`, `Ca`.`Price`, `Ca`.`UserID`,`Ca`.`Status`, `Ca`.`Category`, `Ca`.`ReocurringAlert`, `Ca`.`DateTimeSent`, `Ca`.`CoinAlertRuleID`
+,`Car`.`ID` as `IDCar`, `Car`.`Name`
+,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name` as `NameCn`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+, `Cn`.`DoNotBuy`
+, `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinIDCp`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
+,((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100 as `CoinPricePctChange`
+, `Cmc`.`ID` as `IDCmc`, `Cmc`.`CoinID` as `CoinID2`, `Cmc`.`LiveMarketCap`, `Cmc`.`LastMarketCap`, ((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100 as `MarketCapPctChange`
+, `Cbo`.`ID` as `IDCbo`, `Cbo`.`CoinID` as `CoinID3`, `Cbo`.`LiveBuyOrders`, `Cbo`.`LastBuyOrders`, ((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100 as `BuyOrdersPctChange`
+, `Cv`.`ID` as `IDCv`, `Cv`.`CoinID` as `CoinID4`, `Cv`.`LiveVolume`, `Cv`.`LastVolume`, (( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100 as `VolumePctChange`
+, `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
+, `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
+, ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
+,`Cso`.`ID`as `IDCso`, `Cso`.`CoinID` as `CoinIDCso`, `Cso`.`LiveSellOrders`, `Cso`.`LastSellOrders`,((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100 as `SellOrdersPctChange`
+,if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` > 0, 1, if(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`
+          ,if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` > 0, 1, if(`Cp`.`LastCoinPrice` -`Cp`.`Price3` < 0, -1, 0)) as  `LastPriceTrend`
+          ,if(`Cp`.`Price3` -`Cp`.`Price4` > 0, 1, if(`Cp`.`Price3` -`Cp`.`Price4` < 0, -1, 0)) as  `Price3Trend`
+          ,if(`Cp`.`Price4` -`Cp`.`Price5` > 0, 1, if(`Cp`.`Price4` -`Cp`.`Price5` < 0, -1, 0)) as  `Price4Trend`
+,if(`Cpc`.`Live1HrChange`-`Last1HrChange` >0,1,if(`Cpc`.`Live1HrChange`-`Last1HrChange` <0,-1,0)) as `1HrPriceChangeLive`
+,if(`Last1HrChange`-`1HrChange3`>0,1,if(`Last1HrChange`-`1HrChange3`<0,-1,0)) as `1HrPriceChangeLast`
+,if(`1HrChange3`-`1HrChange4`>0,1,if(`1HrChange3`-`1HrChange4`<0,-1,0)) as `1HrPriceChange3`
+,if(`1HrChange4`-`1HrChange5`>0,1,if(`1HrChange4`-`1HrChange5`<0,-1,0)) as `1HrPriceChange4`
+ ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+ , `Us`.`DisableUntil`
+ ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+ , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+ , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+ , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+ , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+ , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+ , `Uc`.`TotalPurchasesPerCoin`
+FROM `CoinAlerts` `Ca`
+join `CoinAlertsRule`  `Car` on `Car`.`ID` = `Ca`.`CoinAlertRuleID`
+join `Coin` `Cn` on `Cn`.`ID` = `Ca`.`CoinID`
+join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Ca`.`CoinID`
+join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Ca`.`CoinID`
+join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Ca`.`CoinID`
+join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Ca`.`CoinID`
+join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Ca`.`CoinID`
+join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Ca`.`CoinID`
+join `User` `Us` on `Us`.`ID` = `Ca`.`UserID`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`;
