@@ -2488,7 +2488,9 @@ function getTotalBTC(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `AmountOpen`,`UserID`,`BaseCurrency` FROM `AllTimeBTC`";
+  $sql = "SELECT sum(`CoinPrice` * `Amount`) as `AmountOpen`,`UserID`,`BaseCurrency` FROM `View15_OpenTransactions`
+            where `StatusTr` in ('Open','Pending')
+            group by `BaseCurrency`, `UserID`";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
@@ -2511,7 +2513,8 @@ function getDailyBTC(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `AmountOpen`,`UserID`,`BaseCurrency` FROM `DailyBTC` where `AmountOpen` > 0";
+  $sql = "SELECT sum(`CoinPrice`*`Amount`) as `AmountOpen`,`UserID`,`BaseCurrency` FROM `View15_OpenTransactions` where timeStampDiff(Hour,`OrderDate`,now()) <  24
+          Group by `BaseCurrency`,`UserID`";
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
   $conn->close();
@@ -4498,10 +4501,10 @@ function getTotalProfit(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT sum(`LivePrice`) as TotalLivePrice,sum(`PurchasePrice`) as TotalPurchasePrice, sum(`Profit`) as TotalProfit
-        , if (sum(`Profit`)<0, -1*abs(sum(`Profit`))/sum(`PurchasePrice`)*100 , abs(sum(`Profit`))/sum(`PurchasePrice`)*100) as ProfitPct
+  $sql = "SELECT sum(`LiveCoinPrice` * `Amount`) as TotalLivePrice,sum(`CoinPrice` * `Amount`) as TotalPurchasePrice, sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice` * `Amount`)) as TotalProfit
+        ,(sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice` * `Amount`))/ sum(`CoinPrice` * `Amount`))*100 as ProfitPct
         ,`UserID`
-        FROM `NewUserProfit`
+        FROM `View15_OpenTransactions` WHERE `StatusTr` in ('Open','Pending')
         group by `UserID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -4668,7 +4671,8 @@ function getMarketProfit(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `5MinProfitPct`,`1HrProfitPct` FROM `MarketProfitPct` ";
+  $sql = "SELECT sum(`LiveCoinPrice`-`LastCoinPrice`)/sum(`LastCoinPrice`)*100  as `5MinProfitPct`
+          ,sum(`LiveCoinPrice`-`Live1HrChange`)/sum(`Live1HrChange`)*100 as `1HrProfitPct` FROM `View1_BuyCoins` ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4690,13 +4694,12 @@ function getRuleProfit(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT IFNULL(sum(`Nup`.`LivePrice`),0) as TotalLivePrice,IFNULL(sum(`Nup`.`PurchasePrice`),0) as TotalPurchasePrice, IFNULL(sum(`Nup`.`Profit`),0) as TotalProfit
-        , IFNULL(if (sum(`Nup`.`Profit`)<0, -1*abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100 , abs(sum(`Nup`.`Profit`))/sum(`Nup`.`PurchasePrice`)*100),0) as ProfitPct
-        ,`Br`.`ID` as RuleID
-        ,count(`Nup`.`RuleID`) as RuleIDCount
-        FROM `NewUserProfit` `Nup`
-        right join `BuyRules` `Br` on `Br`.`ID` =  `Nup`.`RuleID`
-        group by `RuleID`";
+  $sql = "SELECT sum(`LiveCoinPrice` * `Amount`) as `TotalLivePrice`, sum(`CoinPrice` * `Amount`) as `TotalPurchasePrice`
+        ,sum((`LiveCoinPrice` * `Amount`) - `CoinPrice` * `Amount`) as `TotalProfit`
+        ,(sum((`LiveCoinPrice` * `Amount`) - `CoinPrice` * `Amount`) /sum(`CoinPrice` * `Amount`)) * 100 as `ProfitPct`
+        ,`BuyRule`, count(`BuyRule`) as `RuleIDCount`
+        FROM `View15_OpenTransactions` WHERE `StatusTr` in ('Open','Pending')
+        group by `BuyRule` ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -6327,10 +6330,9 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice
-    ,getBTCPrice() as getBTCPrice, getETHPrice() as getETHPrice, `PctProfitSell`
-            FROM `SpreadBetTotalProfitView`
-            where `SpreadBetTransactionID` = $spreadBetTransactionID ";
+  $sql = "SELECT ifNull(sum(`CoinPrice`*`Amount`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveCoinPrice` * `Amount`),0) as LiveTotalPrice,ifNull(sum(`SellPrice`*`Amount`),0) as SaleTotalPrice
+    ,getBTCPrice(84) as getBTCPrice, getBTCPrice(85) as getETHPrice, ((sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice`*`Amount`)))/(`CoinPrice`*`Amount`))*100 as `PctProfitSell`
+            FROM `View15_OpenTransactions` $spreadBetTransactionID ";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
