@@ -33,12 +33,12 @@ function getCoinsfromSQL($userID){
         ,if(`BaseCurrency` = 'ETH',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)),0) as ETHProfit,
         if(`BaseCurrency` = 'BTC',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)) ,0)))as USDProfit
            ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
-        WHERE `UserID` = $UserID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
+        WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
         Group by `SpreadBetTransactionID` order by `CompletionDate` desc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
-  echo "<BR> $sql";
+  //echo "<BR> $sql";
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
         ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
