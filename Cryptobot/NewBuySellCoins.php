@@ -339,7 +339,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
     $profitPCT = ($profit/($purchasePrice * $amount))*100;
     $runAutoBuyBack = False;
     if ($autoBuyBackSell <> -999999.99999000 AND $profitPCT <= $autoBuyBackSell){ $runAutoBuyBack = True; }
-    echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap";
+    echo "<BR>CoinID: $CoinID | Bounce: $bounceDifference | LiveCoinPrice: $LiveCoinPrice |BounceTopPrice: $bounceTopPrice | DelayCoinSwap: $delayCoinSwap | ProfitPct: $profitPCT | ProfitSellTarget: $profitSellTarget";
     if ( $runAutoBuyBack == True OR ($profitPCT >= $profitSellTarget) OR (($profitPCT < -30) AND ($bounceDifference >= 2.0) AND ($LiveCoinPrice >= $bounceTopPrice) AND ($delayCoinSwap <= 0))){
       if (!isset($autoBuyBackSell)){ continue; }elseif (!is_numeric($autoBuyBackSell)){ continue; }
       if (!isset($profitPCT)){ continue; }elseif (!is_numeric($profitPCT)){ continue; }
