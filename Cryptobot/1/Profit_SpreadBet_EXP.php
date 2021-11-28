@@ -36,6 +36,7 @@ function getCoinsfromSQL($userID){
     WHERE `UserID` = $UserID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
     order by `CompletionDate` desc ";
     $result = $conn->query($sql);
+    echo "<BR> $sql";
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){

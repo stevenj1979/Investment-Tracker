@@ -38,6 +38,7 @@ function getCoinsfromSQL($userID){
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
+  echo "<BR> $sql";
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
         ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
