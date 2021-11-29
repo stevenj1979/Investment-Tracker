@@ -4199,7 +4199,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
             FROM `View6_TrackingSellCoins` $whereClause
        $whereClause";
-  //echo $sql;
+  echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
