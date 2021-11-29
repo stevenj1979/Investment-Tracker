@@ -20,7 +20,7 @@ function getBittrexRequests($userID = 0){
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,2 as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`
   FROM `View4_BittrexBuySell`
-  where (`Status` = '1') $bittrexQueue order by `ActionDate` desc";
+  where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
