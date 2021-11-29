@@ -823,8 +823,8 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     if ($readyToSell == 1){
       $PurchasePrice = ($Amount*$CoinPrice);
       $salePrice = $LiveCoinPrice * $Amount;
-      $profit = $salePrice - $PurchasePrice;
-      $ProfitPct = ($profit/$PurchasePrice)*100;
+      $profit = $newTrackingSellCoins[$b][43];
+      $ProfitPct = $newTrackingSellCoins[$b][44];
       if ($trackingType == 'SavingsSell'){
         echo "<BR> $CoinID | $coin | $ProfitPct";
         $quant = $Amount;
