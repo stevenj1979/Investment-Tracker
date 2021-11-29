@@ -4198,7 +4198,7 @@ function getNewTrackingSellCoins($userID = 0){
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`OriginalAmount` as `OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc` as `TrackingSellID`,`SaveResidualCoins`
-            ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
+            ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
             FROM `View6_TrackingSellCoins` $whereClause";
   echo $sql;
   $result = $conn->query($sql);
@@ -4209,7 +4209,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
     ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID'] //38
-  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice']);
+  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct']);
   }
   $conn->close();
   return $tempAry;
