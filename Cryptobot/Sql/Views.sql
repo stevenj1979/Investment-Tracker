@@ -191,6 +191,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
 ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1.0)) as BaseMultiplier
 ,`M6p`.`ID` as `IDM6p`, `M6p`.`CoinID` as `CoinIDM6p`, `M6p`.`MaxPrice` as `SixMonthHighPrice`, `M6p`.`Month`, `M6p`.`Year`
 ,`Bbs`.`ID` as `IDBbs`, `Bbs`.`CoinID` as `CoinIDBbs`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
+,`Sbst`.`ID` as `IDSbst`, `Sbst`.`TransactionID` as `TransactionIDSbst`, `Sbst`.`SBTransactionID`, `Sbst`.`SellPct`
     FROM `Transaction` `Tr`
     join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
     join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
@@ -209,7 +210,8 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
      left join `AllTimeHighLow` `Ath` on `Ath`.`CoinID` = `Tr`.`CoinID` and `Ath`.`HighLow` = 'High'
      left join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` = `Tr`.`CoinID` and `Atl`.`HighLow` = 'Low'
      left join `MonthlyMaxPrices` `M6p` on `Tr`.`CoinID` =`M6p`.`CoinID` and `Month` = Month(DATE_SUB(now(), INTERVAL 6 MONTH)) and `Year` = Year(DATE_SUB(now(), INTERVAL 6 MONTH))
-     join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`;
+     join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
+     JOIN `SpreadBetSellTarget` `Sbst` on `Sbst`.`TransactionID` = `Tr`.`ID`;
 
  CREATE OR REPLACE VIEW `View8_SwapCoin` as
  SELECT `Sc`.`ID` as `IDSc`, `Sc`.`TransactionID` as `TransactionIDSc`, `Sc`.`Status`, `Sc`.`BittrexRef`, `Sc`.`NewCoinIDCandidate`, `Sc`.`NewCoinPrice`, `Sc`.`BaseCurrency` as `BaseCurrencySc`, `Sc`.`TotalAmount`, `Sc`.`OriginalPurchaseAmount`, `Sc`.`BittrexRefSell`, `Sc`.`SellFinalPrice`, `Sc`.`PctToBuy`

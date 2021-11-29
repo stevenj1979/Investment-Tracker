@@ -5365,7 +5365,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
   , 'LiveMarketCap', 'MarketCapPctChange', 'LastCoinPrice', 'LiveCoinPrice', 'CoinPricePctChange', 'LastSellOrders', 'LiveSellOrders', 'SellOrdersPctChange', 'LastVolume', 'LiveVolume', 'VolumePctChange', 'Last1HrChange'
   , 'Live1HrChange', 'Hr1PctChange', 'Last24HrChange', 'Live24HrChange', 'Hr24PctChange', 'Last7DChange', 'Live7DChange', 'D7PctChange', `BaseCurrency`, 'AutoSellPrice', 'Price4Trend', 'Price3Trend', 'LastPriceTrend'
   , 'LivePriceTrend', `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, `SpreadBetTransactionID`
-  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`TopPrice` as `BounceTopPrice`,`LowPrice` as `BounceLowPrice`,`Difference` as `BounceDifference`,`DelayCoinswapUntil` as `DelayCoinSwap`,`NoOfSells`
+  ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`SellPct` as `PctProfitSell`,`AutoBuyBackSell`,`TopPrice` as `BounceTopPrice`,`LowPrice` as `BounceLowPrice`,`Difference` as `BounceDifference`,`DelayCoinswapUntil` as `DelayCoinSwap`,`NoOfSells`
   FROM `View7_SpreadBetSell` $whereclause";
   echo "<BR> $sql";
   $result = $conn->query($sql);
