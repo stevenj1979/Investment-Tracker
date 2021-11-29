@@ -132,8 +132,8 @@ function getCoinTrend(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`Symbol`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,(`Price4Trend`*1 +`Price3Trend`*1 +`LastPriceTrend`*1 +`LivePriceTrend`*1 ) as CoinPriceTrend
-  ,`1HrPriceChangeLive`,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`, (`1HrPriceChangeLive`*1 +`1HrPriceChangeLast`*1 +`1HrPriceChange3`*1 +`1HrPriceChange4`*1 ) as Hr1Trend FROM `CoinStatsView` ";
+  $sql = "SELECT `IDCn` as `ID`,`Symbol`,`Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,(`Price4Trend`*1 +`Price3Trend`*1 +`LastPriceTrend`*1 +`LivePriceTrend`*1 ) as CoinPriceTrend
+  ,`1HrPriceChangeLive`,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`, (`1HrPriceChangeLive`*1 +`1HrPriceChangeLast`*1 +`1HrPriceChange3`*1 +`1HrPriceChange4`*1 ) as Hr1Trend FROM `View1_BuyCoins`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -189,11 +189,11 @@ function refreshCoinStatsWebTable(){
             , `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`
             , `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`
             , `Live7DChange`, `D7PctChange`, `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`
-            , `Image`, `MaxCoinMerges`, `NoOfCoinSwapsThisWeek`, `CaptureTrend`)  SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
+            , `Image`, `MaxCoinMerges`, `NoOfCoinSwapsThisWeek`, `CaptureTrend`)  SELECT `IDTr` as `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
             , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`
-          , `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`, `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24PctChange`, `Last7DChange`, `Live7DChange`, `D7PctChange`
-          , `BaseCurrency`, `AutoSellPrice`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`
-          , `NoOfCoinSwapsThisWeek`, `CaptureTrend` FROM `SellCoinStatsView`";
+          , `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`, `Live1HrChange`, `Hr1ChangePctChange` as `Hr1PctChange`, `Last24HrChange`, `Live24HrChange`,`Hr24ChangePctChange` as `Hr24PctChange`, `Last7DChange`, `Live7DChange`,`D7ChangePctChange` as `D7PctChange`
+          , `BaseCurrency`, 'AutoSellPrice', `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`,`DailyBTCLimit` as `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`,10 as  `MaxCoinMerges`
+          , `NoOfCoinSwapsThisWeek`, `CaptureTrend`  FROM `View5_SellCoins` WHERE `Status` in ('Open','Pending')";
   echo "<BR>";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
