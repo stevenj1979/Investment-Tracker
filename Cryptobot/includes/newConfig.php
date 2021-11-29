@@ -4194,13 +4194,12 @@ function getNewTrackingSellCoins($userID = 0){
 
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `Status` <> 'Closed'";}
   else{ $whereClause = "WHERE `StatusTsc` <> 'Closed'"; }
-  
+
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`CoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc`,`SaveResidualCoins`
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`
-            FROM `View6_TrackingSellCoins` $whereClause
-       $whereClause";
+            FROM `View6_TrackingSellCoins` $whereClause";
   echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
