@@ -45,10 +45,11 @@ function UpdateMerge($coinID,$userID,$mode){
 
 function getCurrentMonthMinMax(){
   $conn = getHistorySQL(rand(1,4));
-  $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MonthLowPrice`
-  FROM `CurrentMonthHighPrice` `Cmhp`
-	join `CurrentMonthLowPrice` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`
-  where `Cmhp`.`MonthHighPrice` <> 0 and `Cmmp`.`MonthLowPrice` <> 0 ";
+  $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MaxPrice` as `MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MinPrice` as `MonthLowPrice`
+    FROM `MonthlyMaxPrices` `Cmhp`
+  	join `MonthlyMinPrices` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`
+    where `Cmhp`.`MaxPrice` <> 0 and `Cmmp`.`MinPrice` <> 0
+    and `Cmhp`.`Month` = month(now()) ";
   echo "<BR>".$sql;
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -66,7 +67,7 @@ function getOpenTransactionsSB(){
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
     $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID
-     FROM `SellCoinsSpreadView`";
+       FROM `View7_SpreadBetSell` where `Type` = 'SpreadSell' and `Status` = 'Open'";
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID']
@@ -248,10 +249,10 @@ function getUserData(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `APIKey`,`APISecret`,`ID`, `KEK` FROM `UserConfigView`";
+  $sql = "SELECT `APIKey`,`APISecret`,`IDUs`, `KEK` FROM `View12_UserConfig` ";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['ID'],$row['KEK']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['IDUs'],$row['KEK']);}
   $conn->close();
   return $tempAry;
 }
@@ -566,7 +567,7 @@ for ($i=0; $i<$minMaxPriceSize; $i++){
 }
 
 subPctFromOpenSpreadBetTransactions();
-subPctFromOpenCoinModeTransactions();
+//subPctFromOpenCoinModeTransactions();
 addToBuyBackMultiplierHourly();
 updateSellPricetoBuyBack();
 UpdateSpreadBetTotalProfit();
