@@ -480,9 +480,8 @@ function getWebSavings(){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `UserID`
-          ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getETHPrice(), 0)))) as TotalUSD
-          ,sum(`LiveCoinPrice` * `Amount`) as LivePrice
-           FROM `SellCoinSavings`
+          ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(84), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getBTCPrice(85), 0)))) as TotalUSD
+          ,sum(`LiveCoinPrice` * `Amount`) as LivePrice  FROM `View5_SellCoins` WHERE `Status` = 'Saving'
            group by `UserID`";
   print_r($sql);
   $result = $conn->query($sql);
