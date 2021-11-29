@@ -810,7 +810,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
     $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41]; $originalSellPrice = $newTrackingSellCoins[$b][42];
     $market1HrChangePct = $marketStats[0][1];
-
+    Echo "<BR> Check Sell: Cp: $CoinPrice | TRID: $TransactionID | Am: $Amount ";
     if ($minsFromDate > 1440 and $trackingType == 'SavingsSell'){
       closeNewTrackingSellCoin($TransactionID);
       updateTransStatus($TransactionID,'Saving');
