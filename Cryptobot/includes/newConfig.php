@@ -4192,7 +4192,7 @@ function getNewTrackingSellCoins($userID = 0){
   }
 //12
 
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `Status` <> 'Closed'";}
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `StatusTsc` <> 'Closed'";}
   else{ $whereClause = "WHERE `StatusTsc` <> 'Closed'"; }
 
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
