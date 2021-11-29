@@ -3018,7 +3018,7 @@ function getCoinAlertsUser($userId){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`,`CoinAlertRuleID`
-  FROM `CoinAlertsView` WHERE `UserID` = $userId group by `CoinAlertRuleID`";
+  FROM `View11_CoinAlerts` WHERE `UserID` = $userId group by `CoinAlertRuleID`";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -3033,7 +3033,7 @@ function getCoinAlertsbyID($id){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
-  FROM `CoinAlertsView` WHERE `CoinAlertRuleID` = $id";
+  FROM `View11_CoinAlerts` WHERE `CoinAlertRuleID` = $id";
   //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){

@@ -65,7 +65,7 @@ function get1HrChangeSum(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Hr1Diff`,`noOfCoins` FROM `AllCoinStatusView`";
+    $sql = "SELECT sum(((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100) as `Hr1Diff`,count(`CoinID`) as `noOfCoins` FROM `View1_BuyCoins`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -164,15 +164,15 @@ function updateTotalProfit(){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$date = date('Y-m-d H:i', time());
-  $sql = "Insert into `NewUserProfit`
-  SELECT `Tv`.`CoinID`,`Tv`.`CoinPrice`,`Tv`.`Amount`,`Tv`.`Status`,`Tv`.`UserID`, `Cp`.`LiveCoinPrice`
-  , `Tv`.`CoinPrice`*`Tv`.`Amount`as PurchasePrice
-  ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as LivePrice
-  ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as Profit
-  ,`Tv`.`BuyRule` as `RuleID`
-  FROM `TransactionsView` `Tv`
-  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
-  WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
+  $sql = "INSERT into `NewUserProfit`  ( `CoinID`, `CoinPrice`, `Amount`, `Status`, `UserID`, `LiveCoinPrice`, `PurchasePrice`, `LivePrice`, `Profit`, `RuleID`, `SpreadBetRuleID`, `SpreadBetTransactionID` )
+          SELECT `Tv`.`CoinID` as `CoinID`,`Tv`.`CoinPrice` as `CoinPrice`,`Tv`.`Amount` as `Amount` ,`Tv`.`Status` as `Status`,`Tv`.`UserID` as `UserID`, `Cp`.`LiveCoinPrice` as `LiveCoinPrice`
+            , `Tv`.`CoinPrice`*`Tv`.`Amount`as `PurchasePrice`
+            ,`Cp`.`LiveCoinPrice` *`Tv`.`Amount`as `LivePrice`
+            ,(`Cp`.`LiveCoinPrice` *`Tv`.`Amount`) - (`Tv`.`CoinPrice`*`Tv`.`Amount`)  as `Profit`
+            ,`Tv`.`BuyRule` as `RuleID`,`Tv`.`SpreadBetRuleID` as `SpreadBetRuleID`,`Tv`.`SpreadBetTransactionID` as `SpreadBetTransactionID`
+            FROM `Transaction` `Tv`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
+            WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -217,7 +217,7 @@ function ConsolidatePriceHostory(){
 }
 
 function update1Hr_24Hr_7DPct(){
-  $coins = getTrackingCoins();
+  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
   $coinsSize = count($coins);
   for ($u=0; $u<$coinsSize;$u++){
     $coinID = $coins[$u][0]; $bitPrice = $coins[$u][17]; $baseCurrency = $coins[$u][26]; $newhr1_Pct = $coins[$u][10]; $newhr24_Pct = $coins[$u][13];
@@ -306,14 +306,14 @@ function getBearBullStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`ID` FROM `CoinStatsView` ";
+  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`IDCn` FROM `View1_BuyCoins` ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['ID']);
+      $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['IDCn']);
   }
   $conn->close();
   return $tempAry;
@@ -378,7 +378,7 @@ function getMarketChange(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice` FROM `MarketCoinStats`";
+  $sql = "SELECT sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(`LastCoinPrice`) as `LastCoinPrice` FROM `View1_BuyCoins` WHERE `BuyCoin` = 1 and `DoNotBuy`= 0";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
