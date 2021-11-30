@@ -5214,8 +5214,8 @@ function updateToSpreadSell($transID){
 
 function getSpreadBetSellData($ID = 0){
   $tempAry = [];
-  $whereClause = "Where `Status` = 'Open' and `Type` = 'SpreadSell'";
-  if ($ID <> 0) { $whereClause = " Where `UserID` = $ID and `Status` = 'Open' and `Type` = 'SpreadSell'";}
+  $whereClause = "Where `Status` in ('Open','Pending','Sold') and `Type` = 'SpreadSell'";
+  if ($ID <> 0) { $whereClause = " Where `UserID` = $ID and `Status` in ('Open','Pending','Sold') and `Type` = 'SpreadSell'";}
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
@@ -5245,7 +5245,9 @@ function getSpreadBetSellData($ID = 0){
 
   ,(sum(`LiveCoinPrice`*`Amount`))*`BaseMultiplier` as `LivePriceUSDT`
   ,(sum(`LiveCoinPrice`*`OriginalAmount`))*`BaseMultiplier` as `SoldPriceUSDT`
-  ,(((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)))/(sum(`CoinPrice`*`Amount`)))*100 as `ProfitPct`
+,((if(`Status` = 'Sold', sum(`SellPrice`*`Amount`),if(`Status` in('Open','Pending'), sum(`LiveCoinPrice`*`Amount`),0)) - sum(`CoinPrice`*`Amount`))/sum(`CoinPrice`*`Amount`)) * 100 as `ProfitPct`
+  ,if(`Status` = 'Sold', sum(`SellPrice`*`Amount`),if(`Status` in('Open','Pending'), sum(`LiveCoinPrice`*`Amount`),0)) as `CurrentPrice`
+
   FROM `View7_SpreadBetSell` $whereClause Group by `SpreadBetTransactionID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -5258,7 +5260,7 @@ function getSpreadBetSellData($ID = 0){
       ,$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']//40
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
       ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend']  //57
-      ,$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['LivePriceUSDT'],$row['SoldPriceUSDT'],$row['ProfitPct']); //65
+      ,$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['LivePriceUSDT'],$row['SoldPriceUSDT'],$row['ProfitPct'],$row['CurrentPrice']); //66
   }
   $conn->close();
   return $tempAry;

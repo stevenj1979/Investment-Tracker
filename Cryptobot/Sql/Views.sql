@@ -207,6 +207,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
 ,`M6p`.`ID` as `IDM6p`, `M6p`.`CoinID` as `CoinIDM6p`, `M6p`.`MaxPrice` as `SixMonthHighPrice`, `M6p`.`Month`, `M6p`.`Year`
 ,`Bbs`.`ID` as `IDBbs`, `Bbs`.`CoinID` as `CoinIDBbs`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
 ,`Sbst`.`ID` as `IDSbst`, `Sbst`.`TransactionID` as `TransactionIDSbst`, `Sbst`.`SBTransactionID`, `Sbst`.`SellPct`
+,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID6`, `Ba`.`TransactionID` as `TransactionIDBa`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
     FROM `Transaction` `Tr`
     join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
     join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
@@ -226,7 +227,8 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
      left join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` = `Tr`.`CoinID` and `Atl`.`HighLow` = 'Low'
      left join `MonthlyMaxPrices` `M6p` on `Tr`.`CoinID` =`M6p`.`CoinID` and `Month` = Month(DATE_SUB(now(), INTERVAL 6 MONTH)) and `Year` = Year(DATE_SUB(now(), INTERVAL 6 MONTH))
      join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
-     JOIN `SpreadBetSellTarget` `Sbst` on `Sbst`.`TransactionID` = `Tr`.`ID`;
+     JOIN `SpreadBetSellTarget` `Sbst` on `Sbst`.`TransactionID` = `Tr`.`ID`
+     Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
 
  CREATE OR REPLACE VIEW `View8_SwapCoin` as
  SELECT `Sc`.`ID` as `IDSc`, `Sc`.`TransactionID` as `TransactionIDSc`, `Sc`.`Status`, `Sc`.`BittrexRef`, `Sc`.`NewCoinIDCandidate`, `Sc`.`NewCoinPrice`, `Sc`.`BaseCurrency` as `BaseCurrencySc`, `Sc`.`TotalAmount`, `Sc`.`OriginalPurchaseAmount`, `Sc`.`BittrexRefSell`, `Sc`.`SellFinalPrice`, `Sc`.`PctToBuy`
@@ -400,49 +402,49 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
  JOIN `NewCoinAllocations` `Nca` on `Nca`.`UserID` = `Us`.`ID`
  join `UserConfig` `Uc` on `Uc`.`UserID` = `Us`.`ID`;
 
- CREATE OR REPLACE VIEW `View17_SpreadBetAlerts` as
- SELECT `Ca`.`ID`, `Ca`.`Action`, `Ca`.`Price`, `Ca`.`UserID`,`Ca`.`Status`, `Ca`.`Category`, `Ca`.`ReocurringAlert`, `Ca`.`DateTimeSent`, `Ca`.`SpreadBetAlertRuleID`
- ,`Car`.`ID` as `IDCar`, `Car`.`Name`
- ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name` as `NameCn`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
- , `Cn`.`DoNotBuy`
- , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinIDCp`, sum(`Cp`.`LiveCoinPrice`)as `LiveCoinPrice`, sum(`Cp`.`LastCoinPrice`) as `LastCoinPrice`, sum(`Cp`.`Price3`) as `Price3`, sum(`Cp`.`Price4`) as `Price4`, sum(`Cp`.`Price5`) as `Price5`, `Cp`.`LastUpdated`
- ,sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
- , `Cmc`.`ID` as `IDCmc`, `Cmc`.`CoinID` as `CoinID2`, sum(`Cmc`.`LiveMarketCap`) as `LiveMarketCap`, sum(`Cmc`.`LastMarketCap`) as `LastMarketCap`, sum(((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
- , `Cbo`.`ID` as `IDCbo`, `Cbo`.`CoinID` as `CoinID3`, sum(`Cbo`.`LiveBuyOrders`)as `LiveBuyOrders`, sum(`Cbo`.`LastBuyOrders`) as `LastBuyOrders`, sum(((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
- , `Cv`.`ID` as `IDCv`, `Cv`.`CoinID` as `CoinID4`, sum(`Cv`.`LiveVolume`) as `LiveVolume`, sum(`Cv`.`LastVolume`) as `LastVolume`, sum((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
- , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, sum(`Cpc`.`Live1HrChange`) as `Live1HrChange`, sum(`Cpc`.`Last1HrChange`) as `Last1HrChange`, sum(`Cpc`.`Live24HrChange`) as `Live24HrChange`, sum(`Cpc`.`Last24HrChange`) as `Last24HrChange`, sum(`Cpc`.`Live7DChange`) as `Live7DChange`, sum(`Cpc`.`Last7DChange`) as `Last7DChange`, sum(`Cpc`.`1HrChange3`) as `1HrChange3`
- , sum(`Cpc`.`1HrChange4`) as `1HrChange4`, sum(`Cpc`.`1HrChange5`) as `1HrChange5`, sum(((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100)  as `Hr1ChangePctChange`, sum((( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100) as `Hr24ChangePctChange`
- , sum(((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100) as `D7ChangePctChange`
- ,`Cso`.`ID`as `IDCso`, `Cso`.`CoinID` as `CoinIDCso`, sum(`Cso`.`LiveSellOrders`) as `LiveSellOrders`, sum(`Cso`.`LastSellOrders`) as `LastSellOrders`,sum(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
- ,if(sum(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice`) > 0, 1, if(sum(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
-           ,if(sum(`Cp`.`LastCoinPrice` -`Cp`.`Price3`) > 0, 1, if(sum(`Cp`.`LastCoinPrice` -`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
-           ,if(sum(`Cp`.`Price3` -`Cp`.`Price4`) > 0, 1, if(sum(`Cp`.`Price3` -`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
-           ,if(sum(`Cp`.`Price4` -`Cp`.`Price5`) > 0, 1, if(sum(`Cp`.`Price4` -`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
- ,if(sum(`Cpc`.`Live1HrChange`-`Last1HrChange`) >0,1,if(sum(`Cpc`.`Live1HrChange`-`Last1HrChange`) <0,-1,0)) as `1HrPriceChangeLive`
- ,if(sum(`Last1HrChange`-`1HrChange3`)>0,1,if(sum(`Last1HrChange`-`1HrChange3`)<0,-1,0)) as `1HrPriceChangeLast`
- ,if(sum(`1HrChange3`-`1HrChange4`)>0,1,if(sum(`1HrChange3`-`1HrChange4`)<0,-1,0)) as `1HrPriceChange3`
- ,if(sum(`1HrChange4`-`1HrChange5`)>0,1,if(sum(`1HrChange4`-`1HrChange5`)<0,-1,0)) as `1HrPriceChange4`
-  ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
-  , `Us`.`DisableUntil`
-  ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
-  , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
-  , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
-  , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
-  , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
-  , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
-  , `Uc`.`TotalPurchasesPerCoin`
- FROM `SpreadBetAlerts` `Ca`
- join `SpreadBetAlertsRule`  `Car` on `Car`.`ID` = `Ca`.`SpreadBetAlertRuleID`
- join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` = `Ca`.`ID`
- join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
- join `Coin` `Cn` on `Cn`.`ID` = `Sbc`.`CoinID`
- join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Sbc`.`CoinID`
- join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
- join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Sbc`.`CoinID`
- join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Sbc`.`CoinID`
- join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Sbc`.`CoinID`
- join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Sbc`.`CoinID`
- join `User` `Us` on `Us`.`ID` = `Ca`.`UserID`
- join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
- where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
- group by `Sbt`.`ID`;
+   CREATE OR REPLACE VIEW `View17_SpreadBetAlerts` as
+   SELECT `Ca`.`ID`, `Ca`.`Action`, `Ca`.`Price`, `Ca`.`UserID`,`Ca`.`Status`, `Ca`.`Category`, `Ca`.`ReocurringAlert`, `Ca`.`DateTimeSent`, `Ca`.`SpreadBetAlertRuleID`
+   ,`Car`.`ID` as `IDCar`, `Car`.`Name`
+   ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name` as `NameCn`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+   , `Cn`.`DoNotBuy`
+   , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinIDCp`, sum(`Cp`.`LiveCoinPrice`)as `LiveCoinPrice`, sum(`Cp`.`LastCoinPrice`) as `LastCoinPrice`, sum(`Cp`.`Price3`) as `Price3`, sum(`Cp`.`Price4`) as `Price4`, sum(`Cp`.`Price5`) as `Price5`, `Cp`.`LastUpdated`
+   ,sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+   , `Cmc`.`ID` as `IDCmc`, `Cmc`.`CoinID` as `CoinID2`, sum(`Cmc`.`LiveMarketCap`) as `LiveMarketCap`, sum(`Cmc`.`LastMarketCap`) as `LastMarketCap`, sum(((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+   , `Cbo`.`ID` as `IDCbo`, `Cbo`.`CoinID` as `CoinID3`, sum(`Cbo`.`LiveBuyOrders`)as `LiveBuyOrders`, sum(`Cbo`.`LastBuyOrders`) as `LastBuyOrders`, sum(((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+   , `Cv`.`ID` as `IDCv`, `Cv`.`CoinID` as `CoinID4`, sum(`Cv`.`LiveVolume`) as `LiveVolume`, sum(`Cv`.`LastVolume`) as `LastVolume`, sum((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+   , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, sum(`Cpc`.`Live1HrChange`) as `Live1HrChange`, sum(`Cpc`.`Last1HrChange`) as `Last1HrChange`, sum(`Cpc`.`Live24HrChange`) as `Live24HrChange`, sum(`Cpc`.`Last24HrChange`) as `Last24HrChange`, sum(`Cpc`.`Live7DChange`) as `Live7DChange`, sum(`Cpc`.`Last7DChange`) as `Last7DChange`, sum(`Cpc`.`1HrChange3`) as `1HrChange3`
+   , sum(`Cpc`.`1HrChange4`) as `1HrChange4`, sum(`Cpc`.`1HrChange5`) as `1HrChange5`, sum(((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100)  as `Hr1ChangePctChange`, sum((( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100) as `Hr24ChangePctChange`
+   , sum(((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100) as `D7ChangePctChange`
+   ,`Cso`.`ID`as `IDCso`, `Cso`.`CoinID` as `CoinIDCso`, sum(`Cso`.`LiveSellOrders`) as `LiveSellOrders`, sum(`Cso`.`LastSellOrders`) as `LastSellOrders`,sum(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+   ,if(sum(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice`) > 0, 1, if(sum(`Cp`.`LiveCoinPrice` -`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+             ,if(sum(`Cp`.`LastCoinPrice` -`Cp`.`Price3`) > 0, 1, if(sum(`Cp`.`LastCoinPrice` -`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+             ,if(sum(`Cp`.`Price3` -`Cp`.`Price4`) > 0, 1, if(sum(`Cp`.`Price3` -`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+             ,if(sum(`Cp`.`Price4` -`Cp`.`Price5`) > 0, 1, if(sum(`Cp`.`Price4` -`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+   ,if(sum(`Cpc`.`Live1HrChange`-`Last1HrChange`) >0,1,if(sum(`Cpc`.`Live1HrChange`-`Last1HrChange`) <0,-1,0)) as `1HrPriceChangeLive`
+   ,if(sum(`Last1HrChange`-`1HrChange3`)>0,1,if(sum(`Last1HrChange`-`1HrChange3`)<0,-1,0)) as `1HrPriceChangeLast`
+   ,if(sum(`1HrChange3`-`1HrChange4`)>0,1,if(sum(`1HrChange3`-`1HrChange4`)<0,-1,0)) as `1HrPriceChange3`
+   ,if(sum(`1HrChange4`-`1HrChange5`)>0,1,if(sum(`1HrChange4`-`1HrChange5`)<0,-1,0)) as `1HrPriceChange4`
+    ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+    , `Us`.`DisableUntil`
+    ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+    , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+    , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+    , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+    , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+    , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+    , `Uc`.`TotalPurchasesPerCoin`
+   FROM `SpreadBetAlerts` `Ca`
+   join `SpreadBetAlertsRule`  `Car` on `Car`.`ID` = `Ca`.`SpreadBetAlertRuleID`
+   join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` = `Ca`.`ID`
+   join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
+   join `Coin` `Cn` on `Cn`.`ID` = `Sbc`.`CoinID`
+   join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Sbc`.`CoinID`
+   join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
+   join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Sbc`.`CoinID`
+   join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Sbc`.`CoinID`
+   join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Sbc`.`CoinID`
+   join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Sbc`.`CoinID`
+   join `User` `Us` on `Us`.`ID` = `Ca`.`UserID`
+   join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
+   where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
+   group by `Sbt`.`ID`;
