@@ -554,32 +554,44 @@ function runReduceCoinSwapPct(){
     coinSwapBuyPct($coinSwapID);
   }
 }
-
+Echo "<BR> CoinHourly";
+Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
 
+Echo "<BR> 2. runMerge($transStats,'Open');";
 $transStats = getTransStats();
 runMerge($transStats,'Open');
 
+Echo "<BR> 3. getCurrentMonthMinMax();";
 $minMaxPrice = getCurrentMonthMinMax();
 $minMaxPriceSize = count($minMaxPrice);
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
 }
-
+Echo "<BR> 4. subPctFromOpenSpreadBetTransactions();";
 subPctFromOpenSpreadBetTransactions();
+Echo "<BR> 5. subPctFromOpenCoinModeTransactions();";
 //subPctFromOpenCoinModeTransactions();
+Echo "<BR> 6. addToBuyBackMultiplierHourly();";
 addToBuyBackMultiplierHourly();
+Echo "<BR> 7. updateSellPricetoBuyBack();";
 updateSellPricetoBuyBack();
+Echo "<BR> 8. UpdateSpreadBetTotalProfit();";
 UpdateSpreadBetTotalProfit();
+Echo "<BR> 9. updateSplitBuyAmountforRule();";
 updateSplitBuyAmountforRule();
+Echo "<BR> 10. deleteBittrexBalances();";
 deleteBittrexBalances();
+Echo "<BR> 11. updateBittrexBals();";
 updateBittrexBals();
-
+Echo "<BR> 12. updateWebSavings();";
 updateWebSavings();
-
+Echo "<BR> 13. getBounceIndex();";
 getBounceIndex();
+Echo "<BR> 14. runBounceTestBuy();";
 runBounceTestBuy();
+Echo "<BR> 15. runReduceCoinSwapPct();";
 runReduceCoinSwapPct();
 ?>
 </html>
