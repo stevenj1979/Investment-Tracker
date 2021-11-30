@@ -197,8 +197,10 @@ function writeSellPriceToBuyBack($transactionID){
 function updateSellPricetoBuyBack(){
   $buyBackData = getbuyBack();
   $buyBackDataSize = count($buyBackData);
+  echo "<BR> Checking buyBack Sell Price | $buyBackDataSize";
   for ($f=0; $f<$buyBackDataSize; $f++){
     $transactionID = $buyBackData[$f][0];
+    echo "<BR> writeSellPriceToBuyBack($transactionID);";
     writeSellPriceToBuyBack($transactionID);
   }
 }
