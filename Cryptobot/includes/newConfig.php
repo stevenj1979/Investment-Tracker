@@ -768,7 +768,7 @@ function addOldBuyBackTransID($bBID,$tmpCoinID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("addOldBuyBackTransID",$sql,3,1,"SQL","TransID:$transID");
+    newLogToSQL("addOldBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID");
     LogAction("addOldBuyBackTransID:".$sql, 'SQL_UPDATE', 1);
     $conn->close();
 }
@@ -4712,7 +4712,7 @@ function getRuleProfit(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['RuleID'],$row['RuleIDCount']);
+      $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['BuyRule'],$row['RuleIDCount']);
   }
   $conn->close();
   return $tempAry;
@@ -5258,7 +5258,7 @@ function getSpreadBetSellData($ID = 0){
       ,$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'],$row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'] //19
       ,$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1PctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24PctChange'],$row['Last7DChange'] //29
       ,$row['Live7DChange'],$row['D7PctChange'],$row['BaseCurrency'],$row['AutoSellPrice'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule']//40
-      ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
+      ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['BTCBuyAmount'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['APIKey'],$row['APISecret'],$row['KEK'] //52
       ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend']  //57
       ,$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['LivePriceUSDT'],$row['SoldPriceUSDT'],$row['ProfitPct'],$row['CurrentPrice']); //66
   }
@@ -5391,7 +5391,7 @@ function getSavingsData($ID = 0){
   if ($ID == 0){
     $whereclause = "Where `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Status` = 'Saving`'";
   }else{
-    $whereclause = " WHERE `ID` = $ID and `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Type` = 'Saving`";
+    $whereclause = " WHERE `IDTr` = $ID and `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Type` = 'Saving`";
   }
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -6065,7 +6065,7 @@ function getBuyBackData(){
 
   $sql = "SELECT `ID`, `TransactionID`, `Quantity`, `SellPrice`, `Status`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPriceBa` as `SellPriceBA`, `LiveCoinPrice`
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`
-            , ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`, `KEK`
+            , ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `APIKey`, `APISecret`, `KEK`
             , (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`
             ,`MinsToCancel`,'BullBearStatus',`Type`,`OverrideCoinAllocation`
@@ -6078,7 +6078,7 @@ function getBuyBackData(){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
-      ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
+      ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins']);
   }
@@ -6548,7 +6548,7 @@ function CloseAllBuyBack($spreadBetTransactionID){
   newLogToSQL("CloseAllBuyBack",$sql,3,0,"SQL","SBTransactionID:$spreadBetTransactionID");
 }
 
-function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID,$pctProfit){
+function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";
