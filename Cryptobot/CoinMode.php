@@ -55,7 +55,7 @@ function checkMarketforPctDip(){
     if ($marketPctChangeHr24 <= -4.0){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
-          $mode = floor(abs($marketPctChangeHr24/-4));
+          $mode = floor(abs($marketPctChangeHr24/-7));
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode";
           if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
@@ -89,10 +89,10 @@ function getNewMarketstats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as Hr1MarketPctChange
-            ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as Hr24MarketPctChange
-            ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as D7MarketPctChange
-            FROM `MarketCoinStats`";
+  $sql = "SELECT (((sum(`LiveCoinPrice`-`Live1HrChange`))/ sum(`Live1HrChange`))*100) as Hr1MarketPctChange
+            ,(((sum(`LiveCoinPrice`-`Live24HrChange`))/ sum(`Live24HrChange`))*100) as Hr24MarketPctChange
+            ,(((sum(`LiveCoinPrice`-`Live7DChange`))/ sum(`Live7DChange`))*100) as D7MarketPctChange
+            FROM `View1_BuyCoins` WHERE `BuyCoin` = 1 ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -403,11 +403,11 @@ function isBuyMode($coinAry, $minBuyAmount){
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT `CoinID`,`RuleID`,`Avg6MonthMax`,`Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
-        ,`USDBuyAmount`,`LiveCoinPrice`,`1HourAvgPrice`,`ProjectedPriceMax`,`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
+        $sql = " SELECT `CoinID`,`RuleID`,`SixMonthHighPrice` as `Avg6MonthMax`,`SixMonthMinPrice` as `Avg6MonthMin`,`Live24HrChange`,`Last24HrChange`,`Live7DChange`,`Last7DChange`,`RuleIDSell`
+        ,`USDBuyAmount`,`LiveCoinPrice`,`Hr1ChangePctChange` as `1HourAvgPrice`,`15MinPppm` as `ProjectedPriceMax`,`15MinPppi` as`ProjectedPriceMin`,`UserID`,`ModeID`,`Hr1Top` ,`Hr1Btm` ,`Hr24Top` ,`Hr24Btm`
         ,`D7Top`,`D7Btm`,`SecondarySellRules`,`CoinModeEmails`,`Email`,`UserName`, `Symbol`,`CoinModeEmailsSell`,`CoinModeMinsToCancelBuy`,`CoinModeBuyRuleEnabled`
-        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`AllTimeHighPrice`,`AllTimeLowPrice`,`PctOfAllTimeHigh`,`BullBearStatus`,`1HrChange`
-        FROM `CoinModePricesView`";
+        ,`CoinModeSellRuleEnabled`,`PctToBuy`,`CountToActivateBuyMode`,`BuyModeCount`,`PriceAth` as `AllTimeHighPrice`,`PriceAtl` as `AllTimeLowPrice`,(`LiveCoinPrice`/`PriceAth`)*100 as `PctOfAllTimeHigh`,'BullBearStatus',`Hr1ChangePctChange` as `1HrChange`
+        FROM `View18_CoinMode`";
         $result = $conn->query($sql);
         //$result = mysqli_query($link4, $query);
         //mysqli_fetch_assoc($result);

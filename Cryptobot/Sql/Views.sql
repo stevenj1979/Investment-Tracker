@@ -228,7 +228,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
      left join `MonthlyMaxPrices` `M6p` on `Tr`.`CoinID` =`M6p`.`CoinID` and `Month` = Month(DATE_SUB(now(), INTERVAL 6 MONTH)) and `Year` = Year(DATE_SUB(now(), INTERVAL 6 MONTH))
      join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
      JOIN `SpreadBetSellTarget` `Sbst` on `Sbst`.`TransactionID` = `Tr`.`ID`
-     Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
+     Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
 
  CREATE OR REPLACE VIEW `View8_SwapCoin` as
  SELECT `Sc`.`ID` as `IDSc`, `Sc`.`TransactionID` as `TransactionIDSc`, `Sc`.`Status`, `Sc`.`BittrexRef`, `Sc`.`NewCoinIDCandidate`, `Sc`.`NewCoinPrice`, `Sc`.`BaseCurrency` as `BaseCurrencySc`, `Sc`.`TotalAmount`, `Sc`.`OriginalPurchaseAmount`, `Sc`.`BittrexRefSell`, `Sc`.`SellFinalPrice`, `Sc`.`PctToBuy`
@@ -448,3 +448,42 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
    where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
    group by `Sbt`.`ID`;
+
+   CREATE OR REPLACE VIEW `View18_CoinMode` as
+   SELECT `Cmr`.`ID`, `Cmr`.`CoinID`, `Cmr`.`RuleID`, `Cmr`.`ModeID`, `Cmr`.`RuleIDSell`, `Cmr`.`USDBuyAmount`, `Cmr`.`Hr1Top`, `Cmr`.`Hr1Btm`, `Cmr`.`Hr24Top`, `Cmr`.`Hr24Btm`, `Cmr`.`D7Top`, `Cmr`.`D7Btm`, `Cmr`.`SecondarySellRules`, `Cmr`.`UserID`, `Cmr`.`CoinModeBuyRuleEnabled`, `Cmr`.`CoinModeSellRuleEnabled`, `Cmr`.`PctToBuy`, `Cmr`.`CountToActivateBuyMode`, `Cmr`.`BuyModeCount`, `Cmr`.`NoOfTransactions`, `Cmr`.`LowestPctProfit`, `Cmr`.`AvgTimeToSell`, `Cmr`.`NextReviewDate`
+   ,`Ath`. `ID` as `IDAth`, `Ath`. `CoinID` as `CoinIDAth`, `Ath`. `HighLow` as `HighAth`, `Ath`. `Price` as `PriceAth`
+   ,`Atl`. `ID` as `IDAtl`, `Atl`. `CoinID` as `CoinIDAtl`, `Atl`. `HighLow` as `HighAtl`, `Atl`. `Price` as `PriceAtl`
+   ,`M6p`.`ID` as `IDM6p`, `M6p`.`CoinID` as `CoinIDM6p`, `M6p`.`MaxPrice` as `SixMonthHighPrice`, `M6p`.`Month`, `M6p`.`Year`
+   ,`M6pm`.`ID` as `IDM6pm`, `M6pm`.`CoinID` as `CoinIDM6pm`, `M6pm`.`MinPrice` as `SixMonthMinPrice`, `M6pm`.`Month` as `MonthM6pm`, `M6pm`.`Year` as `YearM6pm`
+   , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinIDCp`, `Cp`.`LiveCoinPrice` as `LiveCoinPrice`, `Cp`.`LastCoinPrice` as `LastCoinPrice`, `Cp`.`Price3` as `Price3`, `Cp`.`Price4` as `Price4`, `Cp`.`Price5` as `Price5`, `Cp`.`LastUpdated`
+   ,((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100 as `CoinPricePctChange`
+   , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange` as `Live1HrChange`, `Cpc`.`Last1HrChange` as `Last1HrChange`, `Cpc`.`Live24HrChange` as `Live24HrChange`, `Cpc`.`Last24HrChange` as `Last24HrChange`, `Cpc`.`Live7DChange` as `Live7DChange`, `Cpc`.`Last7DChange` as `Last7DChange`, `Cpc`.`1HrChange3` as `1HrChange3`
+   , `Cpc`.`1HrChange4` as `1HrChange4`, `Cpc`.`1HrChange5` as `1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
+   , ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
+   , `Pppm`.`ID` as `IDPppm`, `Pppm`.`CoinID` as `CoinIDPppm`, `Pppm`.`0Min` as `0MinPppm`, `Pppm`.`15Min` as `15MinPppm`, `Pppm`.`30Min` as `30MinPppm`, `Pppm`.`45Min` as `45MinPppm`, `Pppm`.`60Min` as `60MinPppm`, `Pppm`.`75Min` as `75MinPppm`
+   , `Pppi`.`ID` as `IDPppi`, `Pppi`.`CoinID` as `CoinIDPppi`, `Pppi`.`0Min` as `0MinPppi`, `Pppi`.`15Min` as `15MinPppi`, `Pppi`.`30Min` as `30MinPppi`, `Pppi`.`45Min` as `45MinPppi`, `Pppi`.`60Min` as `60MinPppi`, `Pppi`.`75Min` as `75MinPppi`
+   , `Bbs`.`ID` as `IDBbs`, `Bbs`.`CoinID` as `CoinIDBbs`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
+   ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+   , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+   , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+   , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+   , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+   , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+   , `Uc`.`TotalPurchasesPerCoin`
+   ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+   , `Us`.`DisableUntil`
+   ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name` as `NameCn`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+   , `Cn`.`DoNotBuy`
+   FROM `CoinModeRules` `Cmr`
+   left join `MonthlyMaxPrices` `M6p` on `Cmr`.`CoinID` =`M6p`.`CoinID` and `M6p`.`Month` = Month(DATE_SUB(now(), INTERVAL 6 MONTH)) and `M6p`.`Year` = Year(DATE_SUB(now(), INTERVAL 6 MONTH))
+   left join `MonthlyMinPrices` `M6pm` on `Cmr`.`CoinID` =`M6pm`.`CoinID` and `M6pm`.`Month` = Month(DATE_SUB(now(), INTERVAL 6 MONTH)) and `M6pm`.`Year` = Year(DATE_SUB(now(), INTERVAL 6 MONTH))
+   left join `AllTimeHighLow` `Ath` on `Ath`.`CoinID` = `Cmr`.`CoinID` and `Ath`.`HighLow` = 'High'
+   left join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` = `Cmr`.`CoinID` and `Atl`.`HighLow` = 'Low'
+   join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cmr`.`CoinID`
+   join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cmr`.`CoinID`
+   left join `ProjectedPriceMax` `Pppm` on `Pppm`.`CoinID` = `Cmr`.`CoinID`
+   left join `ProjectedPriceMin` `Pppi` on `Pppi`.`CoinID` = `Cmr`.`CoinID`
+   left Join `BearBullStats` `Bbs` on `Bbs`.`CoinID` = `Cmr`.`CoinID`
+   join `UserConfig` `Uc` on `Uc`.`UserID` = `Cmr`.`UserID`
+   join `User` `Us` on `Us`.`ID` = `Cmr`.`UserID`
+   join `Coin` `Cn` on `Cn`.`ID` = `Cmr`.`CoinID`;
