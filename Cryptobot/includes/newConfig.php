@@ -3728,7 +3728,7 @@ function getNewTrackingCoins($userID = 0){
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['CoinID'],$row['CoinPrice'],$row['TrackDate'],$row['Symbol'],$row['LiveCoinPrice'],$row['PriceDifference'],$row['PctDifference'],$row['UserID'],$row['BaseCurrency'],$row['SendEmail'] //9
     ,$row['BuyCoin'],$row['Quantity'],$row['RuleIDBuy'],$row['CoinSellOffsetPct'],$row['CoinSellOffsetEnabled'],$row['BuyType'],$row['MinsToCancelBuy'],$row['SellRuleFixed'],$row['APIKey'],$row['APISecret'] //19
-    ,$row['KEK'],$row['Email'],$row['UserName'],$row['ID'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
+    ,$row['KEK'],$row['Email'],$row['UserName'],$row['IDTc'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
     ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['oldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice']);
