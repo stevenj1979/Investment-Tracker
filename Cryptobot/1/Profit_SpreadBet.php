@@ -29,17 +29,17 @@ function getCoinsfromSQL($userID){
     }
 
     //$sql = "SELECT `UserID`,`OrderNo`,`Symbol`,`Amount`,`Cost`,`TradeDate`,`SellPrice`, `Profit`, `ETHProfit`, `DateSold`, `ID` FROM `Transaction` where `Status` = 'Sold' and `UserID` = $userID order by `DateSold` desc limit 50";
-        $sql = "SELECT sum(`CoinPrice`*`Amount`) as PurchasePrice,year(`CompletionDate`) as `Year`,month(`CompletionDate`) as `Month`,day(`CompletionDate`) as `Day`,sum(`SellPrice`*`Amount`) as SellPrice
-        ,sum(((`SellPrice`*`Amount`)/100)*0.28) as Fee, sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)) as Profit,'Symbol',if(`BaseCurrency` = 'BTC'
-          ,sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)),0) as BTCProfit, if(`BaseCurrency` = 'USDT'
-            ,sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)),0) as USDTProfit
-        ,if(`BaseCurrency` = 'ETH',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)),0) as ETHProfit,
-        if(`BaseCurrency` = 'BTC',sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
-          ,sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
-            ,sum((`SellPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`SellPrice`*`Amount`)/100)*0.28)) ,0)))as USDProfit
-           ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
-        WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
-        Group by `SpreadBetTransactionID` order by `CompletionDate` desc ";
+    $sql = "SELECT sum(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`)) as PurchasePrice,max(year(`CompletionDate`)) as `Year`,Max(month(`CompletionDate`)) as `Month`,Max(day(`CompletionDate`)) as `Day`,sum(`SellPrice`*`Amount`) as SellPrice
+              ,sum(((`SellPrice`*`Amount`)/100)*0.28) as Fee, sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)) as Profit,'Symbol',if(`BaseCurrency` = 'BTC'
+                ,sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as BTCProfit, if(`BaseCurrency` = 'USDT'
+                  ,sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as USDTProfit
+              ,if(`BaseCurrency` = 'ETH',sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as ETHProfit,
+              if(`BaseCurrency` = 'BTC',sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
+                ,sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
+                  ,sum((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)) ,0)))as USDProfit
+                 ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
+              WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
+              Group by `SpreadBetTransactionID` order by `CompletionDate` desc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
