@@ -666,7 +666,7 @@ function fixQTUM(){
 
 
 
-coinHistory(10);
+//coinHistory(10);
 DeleteHistory(168);
 checkSellSequence();
 $apisecret=getAPISecret();
