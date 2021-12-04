@@ -6113,9 +6113,9 @@ function getPriceDipRules(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `IDBr`,`EnableRuleActivationAfterDip`,`24HrPriceDipPct`, ((`LiveCoinPrice`-`Live24HrChange`)/`LiveCoinPrice`)*100 as Hr24ChangePctChange
-          , ((`LiveCoinPrice`-`Live7DChange`)/`LiveCoinPrice`)*100 as D7ChangePctChange,`7DPriceDipPct`
-            FROM `View2_TrackingBuyCoins`
+  $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`24HrPriceDipPct`,  `24HrMarketPriceChangeLive` as `Hr24ChangePctChange`
+          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`7DPriceDipPct`
+            FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` = 1 ";
 
   echo "<BR> $sql";
@@ -6123,7 +6123,7 @@ function getPriceDipRules(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['IDBr'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct']);
+      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['24HrMarketPriceChangeLive'],$row['7DMarketPriceChangeLive'],$row['7DPriceDipPct']);
   }
   $conn->close();
   return $tempAry;

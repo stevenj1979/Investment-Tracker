@@ -274,7 +274,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
    ,`Bbs`.`ID`, `Bbs`.`CoinID`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
    FROM `BuyBack` `Bb`
    join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
-   Left join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
+   join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
    join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
    join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
@@ -363,6 +363,9 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,`Cpmn`.`ID` as `IDCpmn`, `Cpmn`.`Name` as `NameCpmn`, `Cpmn`.`UserID` as `UserIDCpmn`, `Cpmn`.`BuySell`, `Cpmn`.`PriceProjectionEnabled`
 ,`Cppn`.`ID` as `IDCppn`, `Cppn`.`Name` as `NameCppn`, `Cppn`.`UserID` as `UserIDCppn`, `Cppn`.`BuySell` as `BuySellCppn`
 ,`C1hPn`.`ID` as `IDC1hPn`, `C1hPn`.`Name` as `NameC1hPn`, `C1hPn`.`UserID` as `UserIDC1hPn`, `C1hPn`.`BuySell` as `BuySellC1hPn`
+,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last1HrChange`))/ sum(`Cpc`.`Last1HrChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `1HrMarketPriceChangeLive`
+,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last24HrChange`))/ sum(`Cpc`.`Last24HrChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `24HrMarketPriceChangeLive`
+,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last7DChange`))/ sum(`Cpc`.`Last7DChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `7DMarketPriceChangeLive`
 from (((`BuyRules` `Br`
   join `User` `Us` on((`Us`.`ID` = `Br`.`UserID`)))
   join `UserConfig` `Uc` on((`Uc`.`UserID` = `Us`.`ID`)))
