@@ -211,7 +211,7 @@ function runSellSavings($spreadBuyBack){
 function runPriceDipRule($priceDipRules){
   $priceDipRulesSize = count($priceDipRules);
   echo "<BR>";
-  var_dump($priceDipRules)
+  var_dump($priceDipRules);
   for ($a=0; $a<$priceDipRulesSize;$a++){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
