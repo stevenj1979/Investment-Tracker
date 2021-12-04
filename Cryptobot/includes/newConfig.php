@@ -6123,7 +6123,7 @@ function getPriceDipRules(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['24HrMarketPriceChangeLive'],$row['7DMarketPriceChangeLive'],$row['7DPriceDipPct']);
+      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct']);
   }
   $conn->close();
   return $tempAry;
