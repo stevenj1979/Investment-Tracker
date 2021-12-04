@@ -174,6 +174,8 @@ function runSellSavings($spreadBuyBack){
     //echo "<BR> SellPrice:$sellPrice | BuyPrice:$buyPrice";
     $profit = ($sellPrice-$buyPrice);
     //echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
+    echo "<BR>";
+    var_dump($spreadBuyBack);
     $profitPCT = ($profit/$buyPrice)*100;
     if (!isset($profitPCT)){ continue; }
     if ($minsToDelay < 0) { continue; }
