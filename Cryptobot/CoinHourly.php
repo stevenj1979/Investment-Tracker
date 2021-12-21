@@ -544,8 +544,9 @@ function setPriceDipEnabled(){
 
 function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
-  $priceDipRulesSize = count($dipRules);
+  $priceDipRulesSize = count($priceDipRules);
   $dipHourCounter = 0;
+  
   for ($y=0; $y<$priceDipRulesSize; $y++){
       $dipStartTime = $priceDipRules[$y][9];
       $marketPrices = getMarketPrices($dipStartTime);
