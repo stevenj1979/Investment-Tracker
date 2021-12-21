@@ -531,7 +531,7 @@ function runMerge($transStats,$mode){
 }
 
 function runMarketPrice(){
-  $priceDip = getMarketPrice(1);
+  $priceDip = getLiveMarketPrice(1);
   $priceDipSize = count($priceDip);
   $liveCoinPrice = $priceDip[0][17];
   echo "<BR> MarketPrice: writeMarketPrice($liveCoinPrice);";
