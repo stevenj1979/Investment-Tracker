@@ -533,7 +533,8 @@ function runMerge($transStats,$mode){
 function runMarketPrice(){
   $priceDip = getMarketPrice(1);
   $priceDipSize = count($priceDip);
-  writeMarketPrice($priceDip[0][17]);
+  $liveCoinPrice = $priceDip[0][17];
+  writeMarketPrice($liveCoinPrice);
 }
 
 function runHoursforPriceDip(){
