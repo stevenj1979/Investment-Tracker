@@ -558,7 +558,8 @@ function runHoursforPriceDip(){
           if ($marketPrices[$t][0] <= $liveMarketPrice){
             $dipHourCounter = $dipHourCounter + 1;
           }else {
-            continue 2;
+            echo "<BR> ".$marketPrices[$t][0]." is less than $liveMarketPrice | EXIT ";
+            continue 1;
             //$dipHourCounter = 0;
           }
       }
