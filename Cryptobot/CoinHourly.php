@@ -534,6 +534,7 @@ function runMarketPrice(){
   $priceDip = getMarketPrice(1);
   $priceDipSize = count($priceDip);
   $liveCoinPrice = $priceDip[0][17];
+  echo "<BR> MarketPrice: writeMarketPrice($liveCoinPrice);";
   writeMarketPrice($liveCoinPrice);
 }
 
@@ -555,6 +556,7 @@ function runHoursforPriceDip(){
             //$dipHourCounter = 0;
           }
       }
+    echo "<BR> MarketDipHours: writePriceDipHours($ruleID,$dipHourCounter);";
     writePriceDipHours($ruleID,$dipHourCounter);
   }
 }
