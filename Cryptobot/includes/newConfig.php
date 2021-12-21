@@ -6170,8 +6170,8 @@ function getMarketPrices($dateTime){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-
-  $sql = "SELECT  `MarketPrice`, `DateTime` FROM `MarketPriceChange` where `DateTime`  >  '$dateTime' order by `DateTime` Desc ";
+  if ($dateTime == ''){ $timeVar = "now()";} else{ $timeVar = '$dateTime';}
+  $sql = "SELECT  `MarketPrice`, `DateTime` FROM `MarketPriceChange` where `DateTime`  >  $timeVar order by `DateTime` Desc ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
