@@ -555,10 +555,11 @@ function runHoursforPriceDip(){
       $liveMarketPriceAry = getLiveMarketPrice(1); $ruleID = $priceDipRules[$y][0];
       for ($t=0; $t<$marketPricesSize; $t++){
           $liveMarketPrice = $liveMarketPriceAry[0][17];
-          if ($marketPrices[$t][0] <= $liveMarketPrice){
+          $priceWithTolerance = $marketPrices[$t][0]-(($marketPrices[$t][0]/100)*0.25);
+          if ($priceWithTolerance <= $liveMarketPrice){
             $dipHourCounter = $dipHourCounter + 1;
           }else {
-            echo "<BR> ".$marketPrices[$t][0]." is less than $liveMarketPrice | EXIT ";
+            echo "<BR> $priceWithTolerance is less than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
             continue 1;
             //$dipHourCounter = 0;
           }
