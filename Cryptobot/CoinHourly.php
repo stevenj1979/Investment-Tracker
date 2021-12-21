@@ -536,6 +536,28 @@ function runMarketPrice(){
   writeMarketPrice($priceDip[0][17]);
 }
 
+function runHoursforPriceDip(){
+  $priceDipRules = getPriceDipRules();
+  $priceDipRulesSize = count($dipRules);
+  $dipHourCounter = 0;
+  for ($y=0; $y<$dipRulesSize; $y++){
+      $dipStartTime = $priceDipRules[$y][9];
+      $marketPrices = getMarketPrices($dipStartTime);
+      $marketPricesSize = count($marketPrices);
+      $liveMarketPriceAry = getLiveMarketPrice(1); $ruleID = $priceDipRules[$y][0];
+      for ($t=0; $t<$marketPricesSize; $t++){
+          $liveMarketPrice = $liveMarketPriceAry[0][17];
+          if ($marketPrices[$t][0] <= $liveMarketPrice){
+            $dipHourCounter = $dipHourCounter + 1;
+          }else {
+            continue 2;
+            //$dipHourCounter = 0;
+          }
+      }
+    writePriceDipHours($ruleID,$dipHourCounter);
+  }
+}
+
 function  getCoinSwapIDs(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -600,5 +622,6 @@ runBounceTestBuy();
 Echo "<BR> 15. runReduceCoinSwapPct();";
 runReduceCoinSwapPct();
 runMarketPrice();
+runHoursforPriceDip();
 ?>
 </html>

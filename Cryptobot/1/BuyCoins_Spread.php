@@ -268,9 +268,9 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
 displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-      $tracking = getMarketPrice(1);
+      $tracking = getLiveMarketPrice(1);
       $newArrLength = count($tracking);
-      $trackingDisabled = getMarketPrice(0);
+      $trackingDisabled = getLiveMarketPrice(0);
       $trackingDisabledSize = count($trackingDisabled);
       //echo $newArrLength;
       //$userConfig = getConfig($_SESSION['ID']);

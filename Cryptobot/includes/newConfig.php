@@ -4691,7 +4691,7 @@ function getMarketProfit(){
   return $tempAry;
 }
 
-function getMarketPrice($status){
+function getLiveMarketPrice($status){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -6164,6 +6164,26 @@ function getBuyBackKittyAmount($userID){
   return $tempAry;
 }
 
+function getMarketPrices($dateTime){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT  `MarketPrice`, `DateTime` FROM `MarketPriceChange` where `DateTime`  >  '$dateTime' order by `DateTime` Desc ";
+
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['MarketPrice'],$row['DateTime']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getPriceDipRules(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -6172,7 +6192,7 @@ function getPriceDipRules(){
   }
 
   $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`24HrPriceDipPct`,  `24HrMarketPriceChangeLive` as `Hr24ChangePctChange`
-          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`7DPriceDipPct`
+          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`7DPriceDipPct`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` = 1 ";
 
@@ -6181,10 +6201,28 @@ function getPriceDipRules(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct']);
+      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds']
+      ,$row['DipStartTimePds']);
   }
   $conn->close();
   return $tempAry;
+}
+
+function writePriceDipHours($ruleID,$dipHourCounter){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "call updatePriceDipHours($ruleID,$dipHourCounter);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writePriceDipHours: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
 }
 
 function reOpenTransactionfromBuyBack($buyBackID){

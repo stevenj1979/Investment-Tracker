@@ -217,16 +217,23 @@ function runPriceDipRule($priceDipRules){
   for ($a=0; $a<$priceDipRulesSize;$a++){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
+    $priceDipEnabled = $priceDipRules[$a][7]; $hoursFlat = $priceDipRules[$a][8]; $dipStartTime = $priceDipRules[$a][9];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
     if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
-        enableBuyRule($buyRuleID, 1);
+        //enableBuyRule($buyRuleID, 1);
+        setPriceDipEnable($buyRuleID, 1);
         LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,$GLOBALS['logToSQLSetting']);
       }
     }
     if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= 2 and isset($d7ChangePctChange) and $d7ChangePctChange >= 2){
       enableBuyRule($buyRuleID, 0);
+      setPriceDipEnable($buyRuleID, 0);
+    }
+
+    if ($hoursFlat >= 96 and $priceDipEnabled == 1){
+      enableBuyRule($buyRuleID, 1);
     }
   }
 }

@@ -366,13 +366,15 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last1HrChange`))/ sum(`Cpc`.`Last1HrChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `1HrMarketPriceChangeLive`
 ,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last24HrChange`))/ sum(`Cpc`.`Last24HrChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `24HrMarketPriceChangeLive`
 ,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last7DChange`))/ sum(`Cpc`.`Last7DChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `7DMarketPriceChangeLive`
+,`Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled` as `PriceDipEnabledPds`, `Pds`.`HoursFlat` as `HoursFlatPds`,`Pds`.`DipStartTime` as `DipStartTimePds`
 from (((`BuyRules` `Br`
   join `User` `Us` on((`Us`.`ID` = `Br`.`UserID`)))
   join `UserConfig` `Uc` on((`Uc`.`UserID` = `Us`.`ID`)))
   left join `Coin` `Cn` on((`Cn`.`ID` = `Br`.`LimitToCoinID`)))
   left join `CoinPriceMatchName` `Cpmn` on `Cpmn`.`ID` = `Br`.`CoinPriceMatchID`
   left join `CoinPricePatternName` `Cppn` on `Cppn`.`ID` = `Br`.`CoinPricePatternID`
-  left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`;
+  left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
+  left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`;
 
 
   CREATE OR REPLACE VIEW `View14_UserSellRules` as
