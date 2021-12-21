@@ -538,6 +538,10 @@ function runMarketPrice(){
   writeMarketPrice($liveCoinPrice);
 }
 
+function setPriceDipEnabled(){
+
+}
+
 function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
   $priceDipRulesSize = count($dipRules);
@@ -624,6 +628,7 @@ Echo "<BR> 14. runBounceTestBuy();";
 runBounceTestBuy();
 Echo "<BR> 15. runReduceCoinSwapPct();";
 runReduceCoinSwapPct();
+setPriceDipEnabled();
 runMarketPrice();
 runHoursforPriceDip();
 ?>
