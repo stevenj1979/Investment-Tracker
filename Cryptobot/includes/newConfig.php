@@ -4691,6 +4691,64 @@ function getMarketProfit(){
   return $tempAry;
 }
 
+function getMarketPrice($status){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `IDCn`,'Symbol'
+    ,sum(`LiveBuyOrders`) as LiveBuyOrders,sum(`LastBuyOrders`) as LastBuyOrders,(sum(`LiveBuyOrders`-`LastBuyOrders`)/ sum(`LastBuyOrders`) * 100) as`BuyOrdersPctChange`
+    ,sum(`LiveMarketCap`) as LiveMarketCap ,sum(`LastMarketCap`) as LastMarketCap,(sum(`LiveMarketCap`-`LastMarketCap`)/ sum(`LastMarketCap`)*100) as `MarketCapPctChange`
+    ,sum(`Live1HrChange`) as Live1HrChange,sum(`Last1HrChange`) as `Last1HrChange`,(sum(`Live1HrChange`-`Last1HrChange`)/ sum(`Last1HrChange`)*100) as `Hr1ChangePctChange`
+    ,sum(`Live24HrChange`) as `Live24HrChange`,sum(`Last24HrChange`) as `Last24HrChange`,(sum(`Live24HrChange`-`Last24HrChange`)/ sum(`Last24HrChange`)*100) as `Hr24ChangePctChange`
+    ,sum(`Live7DChange`) as `Live7DChange`,sum(`Last7DChange`) as `Last7DChange`,(sum(`Live7DChange`-`Last7DChange`)/ sum(`Last7DChange`)*100) as `D7ChangePctChange`
+    ,sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(`LastCoinPrice`) as `LastCoinPrice`,(sum(`LiveCoinPrice`-`LastCoinPrice`)/ sum(`LastCoinPrice`)*100) as `CoinPricePctChange`
+    ,sum(`LiveSellOrders`) as `LiveSellOrders`,sum(`LastSellOrders`) as `LastSellOrders`,(sum(`LiveSellOrders`-`LastSellOrders`)/ sum(`LastSellOrders`)*100) as  `SellOrdersPctChange`
+    ,sum(`LiveVolume`) as `LiveVolume`,sum(`LastVolume`) as `LastVolume`,(sum(`LiveVolume`-`LastVolume`)/ sum(`LastVolume`)*100) as `VolumePctChange`
+    ,`BaseCurrency`
+   ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
+   ,`Name`, 'Hr1BuyPrice', 'Hr24BuyPrice', 'D7BuyPrice',`BuyCoin`,'BullBearStatus'
+   FROM `View1_BuyCoins`  WHERE `BuyCoin` = $status
+   order by `Hr1ChangePctChange`+`Hr24ChangePctChange`+`D7ChangePctChange`asc";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'] //8
+      ,$row['Last1HrChange'],$row['Hr1ChangePctChange'],$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'] //17
+      ,$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'] //26
+    ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name'],$row['Hr1BuyPrice'],$row['Hr24BuyPrice'],$row['D7BuyPrice'],$row['Enabled'],$row['BullBearStatus']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function writeMarketPrice($price){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "INSERT INTO `MarketPriceChange`(`MarketPrice`) VALUES ($price)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeMarketPrice: ".$sql, 'SQL_UPDATE', 0);
+  newLogToSQL("writeMarketPrice",$sql,3,1,"SQL","M_Price:$price");
+}
+
 function getRuleProfit(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));

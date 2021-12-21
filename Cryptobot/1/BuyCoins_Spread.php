@@ -54,10 +54,19 @@ $conn = getSQLConn(rand(1,3));
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-  $sql = "SELECT `ID`,'Symbol',`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,
-   `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
-   ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`Name`, `Hr1BuyPrice`, `Hr24BuyPrice`, `D7BuyPrice`,`Enabled`,`BullBearStatus`
-   FROM `SpreadBetCoinStatsView_ALL`  WHERE `Enabled` = $status
+  $sql = "SELECT `IDCn`,'Symbol'
+    ,sum(`LiveBuyOrders`) as LiveBuyOrders,sum(`LastBuyOrders`) as LastBuyOrders,(sum(`LiveBuyOrders`-`LastBuyOrders`)/ sum(`LastBuyOrders`) * 100) as`BuyOrdersPctChange`
+    ,sum(`LiveMarketCap`) as LiveMarketCap ,sum(`LastMarketCap`) as LastMarketCap,(sum(`LiveMarketCap`-`LastMarketCap`)/ sum(`LastMarketCap`)*100) as `MarketCapPctChange`
+    ,sum(`Live1HrChange`) as Live1HrChange,sum(`Last1HrChange`) as `Last1HrChange`,(sum(`Live1HrChange`-`Last1HrChange`)/ sum(`Last1HrChange`)*100) as `Hr1ChangePctChange`
+    ,sum(`Live24HrChange`) as `Live24HrChange`,sum(`Last24HrChange`) as `Last24HrChange`,(sum(`Live24HrChange`-`Last24HrChange`)/ sum(`Last24HrChange`)*100) as `Hr24ChangePctChange`
+    ,sum(`Live7DChange`) as `Live7DChange`,sum(`Last7DChange`) as `Last7DChange`,(sum(`Live7DChange`-`Last7DChange`)/ sum(`Last7DChange`)*100) as `D7ChangePctChange`
+    ,sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(`LastCoinPrice`) as `LastCoinPrice`,(sum(`LiveCoinPrice`-`LastCoinPrice`)/ sum(`LastCoinPrice`)*100) as `CoinPricePctChange`
+    ,sum(`LiveSellOrders`) as `LiveSellOrders`,sum(`LastSellOrders`) as `LastSellOrders`,(sum(`LiveSellOrders`-`LastSellOrders`)/ sum(`LastSellOrders`)*100) as  `SellOrdersPctChange`
+    ,sum(`LiveVolume`) as `LiveVolume`,sum(`LastVolume`) as `LastVolume`,(sum(`LiveVolume`-`LastVolume`)/ sum(`LastVolume`)*100) as `VolumePctChange`
+    ,`BaseCurrency`
+   ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
+   ,`Name`, 'Hr1BuyPrice', 'Hr24BuyPrice', 'D7BuyPrice',`BuyCoin`,'BullBearStatus'
+   FROM `View1_BuyCoins`  WHERE `BuyCoin` = $status
    order by `Hr1ChangePctChange`+`Hr24ChangePctChange`+`D7ChangePctChange`asc";
 
    //echo $sql.getHost();
@@ -259,9 +268,9 @@ function displaySpreadBet($tracking, $title, $fontSize, $newArrLength,$num){
 displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-      $tracking = getTrackingCoinsLoc(1);
+      $tracking = getMarketPrice(1);
       $newArrLength = count($tracking);
-      $trackingDisabled = getTrackingCoinsLoc(0);
+      $trackingDisabled = getMarketPrice(0);
       $trackingDisabledSize = count($trackingDisabled);
       //echo $newArrLength;
       //$userConfig = getConfig($_SESSION['ID']);

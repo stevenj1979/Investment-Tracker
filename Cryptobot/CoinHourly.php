@@ -530,6 +530,12 @@ function runMerge($transStats,$mode){
   }
 }
 
+function runMarketPrice(){
+  $priceDip = getMarketPrice(1);
+  $priceDipSize = count($priceDip);
+  writeMarketPrice($priceDip[0][17]);
+}
+
 function  getCoinSwapIDs(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -593,5 +599,6 @@ Echo "<BR> 14. runBounceTestBuy();";
 runBounceTestBuy();
 Echo "<BR> 15. runReduceCoinSwapPct();";
 runReduceCoinSwapPct();
+runMarketPrice();
 ?>
 </html>
