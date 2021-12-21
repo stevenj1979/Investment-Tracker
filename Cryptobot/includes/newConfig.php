@@ -6214,7 +6214,7 @@ function writePriceDipHours($ruleID,$dipHourCounter){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "call updatePriceDipHours($ruleID,$dipHourCounter);";
-  //print_r($sql);
+  print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
