@@ -5467,7 +5467,7 @@ function getSavingsData($ID = 0){
           , `Image`, 10 as `MaxCoinMerges`, 'SpreadBetTransactionID','PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`
           ,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice
           FROM `View5_SellCoins` $whereclause";
-  //echo "<BR> $sql";
+  echo "<BR> GET SAVINGS SQL: $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
