@@ -555,7 +555,7 @@ function runHoursforPriceDip(){
       $liveMarketPriceAry = getLiveMarketPrice(1); $ruleID = $priceDipRules[$y][0];
       for ($t=0; $t<$marketPricesSize; $t++){
           $liveMarketPrice = $liveMarketPriceAry[0][17];
-          $priceWithTolerance = $liveMarketPrice-(($liveMarketPrice/100)*0.25);
+          $priceWithTolerance = $liveMarketPrice-(($liveMarketPrice/100)*0.5);
           if ($marketPrices[$t][0] >= $priceWithTolerance){
             $dipHourCounter = $dipHourCounter + 1;
           }else {
