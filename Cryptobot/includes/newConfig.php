@@ -6191,8 +6191,9 @@ function getPriceDipRules(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`24HrPriceDipPct`,  `24HrMarketPriceChangeLive` as `Hr24ChangePctChange`
-          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`7DPriceDipPct`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`
+  $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,  `24HrMarketPriceChangeLive` as `Hr24ChangePctChange`
+          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`PriceDipEnable7Day`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`,`HoursFlat`,`PctTolerance`
+          ,`PriceDipDisable24Hour`,`PriceDipDisable7Day`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` = 1 ";
 
@@ -6201,8 +6202,8 @@ function getPriceDipRules(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['24HrPriceDipPct'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['7DPriceDipPct'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds']
-      ,$row['DipStartTimePds']);
+      $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['PriceDipEnable7Day'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds'] //8
+      ,$row['DipStartTimePds'],$row['HoursFlat'],$row['PctTolerance'],$row['PriceDipDisable24Hour'],$row['PriceDipDisable7Day']);
   }
   $conn->close();
   return $tempAry;
