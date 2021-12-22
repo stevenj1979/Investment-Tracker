@@ -6208,6 +6208,24 @@ function getPriceDipRules(){
   return $tempAry;
 }
 
+function setPriceDipEnable($ruleID,$status){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call PriceDipEnable($status,$ruleID);";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("setPriceDipEnable: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("setPriceDipEnable","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
+}
+
 function writePriceDipHours($ruleID,$dipHourCounter){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
