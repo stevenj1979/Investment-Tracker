@@ -234,7 +234,7 @@ function runPriceDipRule($priceDipRules){
     }
 
     if ($hoursFlat >= $hoursFlatSetting and $priceDipEnabled == 1){
-      echo "<BR> $hoursFlat | "
+      echo "<BR> $hoursFlat | $hoursFlatSetting";
       enableBuyRule($buyRuleID, 1);
     }
   }
