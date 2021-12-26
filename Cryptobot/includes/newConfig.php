@@ -1157,7 +1157,7 @@ function getMinTradeAmount($apiKey, $apisecret){
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
   //print_r($obj);
-  $coins = getTrackingCoins();
+  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
   $coinsSize = count($coins);
   //echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
   for ($x=0; $x<$coinsSize; $x++){

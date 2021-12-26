@@ -166,7 +166,8 @@ function runSellSavings($spreadBuyBack){
     $LiveCoinPrice = $tempPrice[0][0];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];$fallsInPrice = $spreadBuyBack[$u][56];
     $profitSellTarget = $spreadBuyBack[$u][58];$autoBuyBackSell = $spreadBuyBack[$u][59];$bounceTopPrice = $spreadBuyBack[$u][60];$bounceLowPrice = $spreadBuyBack[$u][61];
     $bounceDifference = $spreadBuyBack[$u][62];$noOfBounceSells = $spreadBuyBack[$u][64];$baseCurrency = $spreadBuyBack[$u][36];
-    $minsToDelay = $spreadBuyBack[$u][63]; $BTCPrice = $spreadBuyBack[$u][65]; $ETHPrice = $spreadBuyBack[$u][66]; $hr1PctChange = $spreadBuyBack[$u][29];
+    $minsToDelay = $spreadBuyBack[$u][63]; $BTCPrice = $spreadBuyBack[$u][65];
+    $ETHPrice = $spreadBuyBack[$u][66]; $hr1PctChange = $spreadBuyBack[$u][29];
     //echo "<BR> LiveCoinPrice:$LiveCoinPrice | Amount:$amount";
     $sellPrice = ($LiveCoinPrice * $amount);
     //echo "<BR> PurchasePrice:$purchasePrice | Amount:$amount";
