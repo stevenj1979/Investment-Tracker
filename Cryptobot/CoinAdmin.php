@@ -626,13 +626,13 @@ function runNewDashboard(){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`,`TotalUSD`,`CoinID`,`BaseCurrency`)
-            SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`,`Bb`.`UserID`
-            ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1)) as Multiplier
-            ,`Bb`.`Total`*`Bb`.`Price`*if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1)) as TotalUSD
-            ,`Cn`.`ID`,`Cn`.`BaseCurrency`
-            FROM `BittrexBalances` `Bb`
-            join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol`
-            where `Cn`.`BuyCoin` = 1";
+      SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`, `Bb`.`UserID`
+      ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1)) as Multiplier
+      ,`Bb`.`Total`*`Bb`.`Price` as TotalUSD
+      ,`Cn`.`ID`,`Cn`.`BaseCurrency`
+      FROM `BittrexBalances` `Bb`
+      join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol`
+      where `Cn`.`BuyCoin` = 1";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
