@@ -218,7 +218,7 @@ function runPriceDipRule($priceDipRules){
     $buyRuleID = $priceDipRules[$a][0]; $enableRuleActivationAfterDip = $priceDipRules[$a][1]; $hr24PriceDipPct = $priceDipRules[$a][2];
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
     $priceDipEnabled = $priceDipRules[$a][7]; $hoursFlat = $priceDipRules[$a][8]; $dipStartTime = $priceDipRules[$a][9];
-    $priceDipDisable24Hour = $priceDipRules[$a][12]; $priceDipDisable7Day = $priceDipRules[$a][13]; $hoursFlat = $priceDipRules[$a][10];
+    $priceDipDisable24Hour = $priceDipRules[$a][12]; $priceDipDisable7Day = $priceDipRules[$a][13]; $hoursFlatSetting = $priceDipRules[$a][10];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
     if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
@@ -233,7 +233,8 @@ function runPriceDipRule($priceDipRules){
       setPriceDipEnable($buyRuleID, 0);
     }
 
-    if ($hoursFlat >= $hoursFlat and $priceDipEnabled == 1){
+    if ($hoursFlat >= $hoursFlatSetting and $priceDipEnabled == 1){
+      echo "<BR> $hoursFlat | "
       enableBuyRule($buyRuleID, 1);
     }
   }
