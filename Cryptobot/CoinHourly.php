@@ -66,7 +66,7 @@ function getOpenTransactionsSB(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`ID` as TransactionID
+    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`IDTr` as TransactionID
        FROM `View7_SpreadBetSell` where `Type` = 'SpreadSell' and `Status` = 'Open'";
     print_r($sql);
     $result = $conn->query($sql);
