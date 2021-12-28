@@ -36,8 +36,8 @@ function getCoinsfromSQL($userID){
             ,((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as BTCProfit, if(`BaseCurrency` = 'USDT'
               ,((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as USDTProfit
           ,if(`BaseCurrency` = 'ETH',((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)),0) as ETHProfit,
-          if(`BaseCurrency` = 'BTC',((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
-            ,((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
+          if(`BaseCurrency` = 'BTC',((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* 1) ,if(`BaseCurrency` = 'ETH'
+            ,((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)* 1) ,if(`BaseCurrency` = 'USDT'
               ,((`SellPrice`*`Amount`)-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*`Amount`)/100)*0.28)) ,0)))as USDProfit
              ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
           WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0

@@ -22,8 +22,9 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `Date`,`Symbol`,`TotalUSD` FROM `HistoricBittrexBalances` WHERE `UserID` =  $userID
+$query = "SELECT `Date`,`BaseCurrency`,sum(`TotalUSD`) as TotalUSD FROM `HistoricBittrexBalances` WHERE `UserID` =  3
 AND `Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
+group by Year(`Date`),Month(`Date`),Day(`Date`),`BaseCurrency`
 order by `Date` asc
 limit 50";
 $table = array();
@@ -38,7 +39,7 @@ $table['cols'] = array(
     // and your second column is a "number" type
     // but you can change them if they are not
     array('label' => 'Date', 'type' => 'date'),
-    array('label' => 'Symbol', 'type' => 'string'),
+    array('label' => 'BaseCurrency', 'type' => 'string'),
     array('label' => 'TotalUSD', 'type' => 'number')
 );
 
@@ -49,7 +50,7 @@ while ($row = mysqli_fetch_assoc($result)){
     // each column needs to have data inserted via the $temp array
     $temp[] = array('v' => $row['Date']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
-    $temp[] = array('v' => $row['Symbol']);
+    $temp[] = array('v' => $row['BaseCurrency']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
     $temp[] = array('v' => (float) $row['TotalUSD']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
