@@ -2350,7 +2350,7 @@ function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $
   }
   $conn->close();
   logAction("bittrexBuyAdd: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("bittrexBuyAdd","$sql",3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("bittrexBuyAdd","$sql",3,1,"SQL CALL","CoinID:$coinID");
 }
 
 function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
@@ -3730,7 +3730,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['BuyCoin'],$row['Quantity'],$row['RuleIDBuy'],$row['CoinSellOffsetPct'],$row['CoinSellOffsetEnabled'],$row['BuyType'],$row['MinsToCancelBuy'],$row['SellRuleFixed'],$row['APIKey'],$row['APISecret'] //19
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['IDTc'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
-    ,$row['CoinMode'],$row['Type'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
+    ,$row['CoinMode'],$row['TrackingType'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
     ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['oldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice']);
   }
   $conn->close();
