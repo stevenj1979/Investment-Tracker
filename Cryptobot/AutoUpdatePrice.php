@@ -243,7 +243,7 @@ for($x = 0; $x < $coinTrendSize; $x++) {
 
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
-$trackingCoins = getTrackingCoins();
+$trackingCoins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
 $coinSize = Count($trackingCoins);
 
 for ($j=0; $j<$coinSize; $j++){
