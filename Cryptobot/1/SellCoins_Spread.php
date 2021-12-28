@@ -49,7 +49,7 @@ if(isset($_GET['noOverride'])){
 
 if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   $_SESSION['roundVar'] = 2;
-  header('Location: SellCoins_Mobile_SB.php');
+  //header('Location: SellCoins_Mobile_SB.php');
 }
 
 function getCoinsfromSQLLoc(){
