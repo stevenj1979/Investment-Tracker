@@ -160,6 +160,7 @@ function runSellSavings($spreadBuyBack){
   $profitTarget = 40.0;
   $spreadBuyBackSize = COUNT($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
+    if (!isset($spreadBuyBack[$u][65])){ continue; }
     $purchasePrice = $spreadBuyBack[$u][4];
     $amount = $spreadBuyBack[$u][5];$coinID = $spreadBuyBack[$u][2];$userID = $spreadBuyBack[$u][3];
     $tempPrice = getCoinPrice($coinID);
