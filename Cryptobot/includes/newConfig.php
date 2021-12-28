@@ -337,7 +337,7 @@ function getTrackingSellCoinsAll(){
   ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`
- FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Desc ";
+ FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);

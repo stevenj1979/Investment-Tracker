@@ -176,7 +176,7 @@ function runSellSavings($spreadBuyBack){
     $profit = ($sellPrice-$buyPrice);
     //echo "<BR> Profit:$profit | BuyPrice:$buyPrice";
     echo "<BR>";
-    var_dump($spreadBuyBack);
+    //var_dump($spreadBuyBack);
     $profitPCT = ($profit/$buyPrice)*100;
     if (!isset($profitPCT)){ continue; }
     if ($minsToDelay < 0) { continue; }
@@ -1424,7 +1424,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsSinceAction | $timeToCancelMins ";
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
-             var_dump($cancelRslt);
+             //var_dump($cancelRslt);
              $canStatus = $cancelRslt['status']; $errorCode = $cancelRslt['code'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
              if ($canStatus == 'CLOSED' OR $errorCode == "ORDER_NOT_OPEN"){
