@@ -4150,7 +4150,7 @@ function fixResidual(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Amount` = `OriginalAmount`, `OriginalAmount` = 0 where `Status` = 'Open' and `OriginalAmount` <> 0";
+  $sql = "UPDATE `Transaction` SET `Amount` = `OriginalAmount`, `OriginalAmount` = 0 where `Status` = 'Open' and `OriginalAmount` <> 0 and `Status` <> 'Sold'";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
