@@ -4180,7 +4180,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
   }
   $conn->close();
   logAction("updateSellAmount: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateSellAmount",$sql,3,0,"SQL","TransactionID:$TransactionID");
+  newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");
 }
 
 function getNewTrackingSellCoins($userID = 0){
@@ -4474,7 +4474,7 @@ function updateSQLQuantity($uuid, $quantity){
   }
   $conn->close();
   logAction("updateSQLQuantity: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateSQLQuantity",$sql,3,0,"SQL","BittrexRef:$uuid");
+  newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");
 }
 
 function getCoinPriceMatchNames($userID, $table, $limit){
@@ -4944,7 +4944,7 @@ function updateBuyAmount($transactionID, $amount){
   }
   $conn->close();
   logAction("updateBuyAmount: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateBuyAmount",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
 function cancelTrackingBuy($ruleId){
