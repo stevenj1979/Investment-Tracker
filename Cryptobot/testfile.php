@@ -308,9 +308,12 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //phpinfo();
 
 //$apikey = encrypt('123123');
-$encAry = encrypt('123123');
-echo "<BR> The API Secret is: ".$encAry['data'];;
-echo "<BR> The KEK is: ".$encAry['secret'];;
+//$encAry = encrypt('123123');
+//echo "<BR> The API Secret is: ".$encAry['data'];;
+//echo "<BR> The KEK is: ".$encAry['secret'];;
+
+$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
+echo "<BR> $finalAmount";
 
 ?>
 </html>
