@@ -593,6 +593,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
 
 function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase){
   $finalBool = False;
+  $trackCounter = [];
   $coinPurchaseSettingsSize = count($coinPurchaseSettings);
   $newTrackingCoinsSize = count($newTrackingCoins);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {

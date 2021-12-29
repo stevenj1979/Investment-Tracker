@@ -5290,12 +5290,12 @@ function getSpreadBetSellData($ID = 0){
 
   $sql = "SELECT `ID`, `Type`, `UserID`, sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`, `Status`, `OrderDate`, `CompletionDate`, sum(`LastBuyOrders`) as `LastBuyOrders`, sum(`LiveBuyOrders`) as `LiveBuyOrders`
   ,((sum(`LiveBuyOrders`-`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
-  ,((sum(`LiveMarketCap`-`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice`
-  , ((sum(`LiveCoinPrice`-`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
-  ,((sum(`LiveSellOrders`-`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume `, sum(`LiveVolume`) as `LiveVolume`
-  , ((sum(`LiveVolume`-`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange`
-  , ((sum(`Live1HrChange`-`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1PctChange`, sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange`
-  , ((sum(`Live24HrChange`-`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24PctChange`, sum(`Last7DChange`) as `Last7DChange `, sum(`Live7DChange`) as `Live7DChange`
+  ,((sum(`LiveMarketCap`-`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice`, sum(`LiveCoinPrice`) as `LiveCoinPrice`
+  , ((sum(`LiveCoinPrice`-`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders`, sum(`LiveSellOrders`) as `LiveSellOrders`
+  ,((sum(`LiveSellOrders`-`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume`, sum(`LiveVolume`) as `LiveVolume`
+  , ((sum(`LiveVolume`-`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange`, sum(`Live1HrChange`) as `Live1HrChange`
+  , ((sum(`Live1HrChange`-`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1PctChange`, sum(`Last24HrChange`) as `Last24HrChange`, sum(`Live24HrChange`) as `Live24HrChange`
+  , ((sum(`Live24HrChange`-`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24PctChange`, sum(`Last7DChange`) as `Last7DChange`, sum(`Live7DChange`) as `Live7DChange`
   , ((sum(`Live7DChange`-`Last7DChange`))/sum(`Last7DChange`))*100 as `D7PctChange`, `BaseCurrency`, 'AutoSellPrice'
   ,if(sum(`LiveCoinPrice`-`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`-`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
   ,if(sum(`LastCoinPrice` -`Price3`) > 0, 1, if(sum(`LastCoinPrice`-`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
@@ -5863,7 +5863,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice";
     newLogToSQL("TrackingCoin", "OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice", 3, 0,"trackingCoinReadyToBuy_2","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
-    logAction("runTrackingCoin; ReadyToBuy : OPT2 | $coin | $minsFromDate | $quickBuyCount ", 'BuySellFlow', 1);
+    logAction("runTrackingCoin; ReadyToBuy : OPT2 | $minsFromDate | $quickBuyCount ", 'BuySellFlow', 1);
     return 1;
   }
   if (($livePrice <= $topSwing) AND ($livePrice >= $bottomSwing)){
