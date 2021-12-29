@@ -10,7 +10,7 @@ function getBittrexRequests($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   $bittrexQueue = "";
-  if ($userID <> 0){$bittrexQueue = " and `UserID` = $userID";}
+  if ($userID <> 0){$bittrexQueue = " and `UserIDBa` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
