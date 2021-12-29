@@ -1340,3 +1340,59 @@ where `TransactionID` in (Select `TransactionID` From tmpIDS);
 
 END$$
 DELIMITER ;
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddBittrexBuy`(IN `Coin_ID` INT, IN `User_ID` INT, IN `nType` VARCHAR(50), IN `Bittrex_Ref` VARCHAR(200), IN `nStatus` VARCHAR(10), IN `rule_ID` INT, IN `nCost` DECIMAL(20,14), IN `nAmount` DECIMAL(20,14), IN `Order_No` VARCHAR(150), IN `Cancel_Time` INT)
+    MODIFIES SQL DATA
+BEGIN
+INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BittrexRef`, `BuyOrderCancelTime`,  `BuyRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `OverrideCoinAllocation`,`FixSellRule`) VALUES (nType,Coin_ID,User_ID,nCost,nAmount,'Pending', now(),Order_No,Bittrex_Ref,Cancel_Time, rule_ID,1,0,0,0,0,0,0,(SELECT `SellRuleFixed` FROM `BuyRules` WHERE `ID` = rule_ID));
+INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `ActionDate`, `Status`, `RuleID`) VALUES (Coin_ID,(SELECT `ID` from `Transaction` Where `BittrexRef` = Bittrex_Ref),User_ID,nType,Bittrex_Ref,now(),nStatus,rule_ID);
+update `Transaction` set `BittrexID` = (SELECT `ID` from `BittrexAction` where `BittrexRef` = Bittrex_Ref) where `BittrexRef` = Bittrex_Ref;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `PriceDipEnable`(IN `n_status` INT, IN `rule_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+declare c_status INT;
+Select  `PriceDipEnabled` into c_status from `PriceDipStatus` WHERE `BuyRuleID` = rule_ID;
+	UPDATE `PriceDipStatus` SET `PriceDipEnabled`= n_status WHERE `BuyRuleID` = rule_ID;
+ if (c_status = 1 AND n_Status = 0) Then
+	UPDATE `PriceDipStatus` SET `DipStartTime` = DATE_ADD(now(), INTERVAL 1 YEAR) WHERE `BuyRuleID` = rule_ID;
+ ELSEIF (c_status = 0 AND n_Status = 1) THEN
+ 	UPDATE `PriceDipStatus` SET `DipStartTime` = now()   WHERE `BuyRuleID` = rule_ID;
+ end if;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CompleteBittrexBuy`(IN `Bittrex_Ref` VARCHAR(200), IN `Trans_ID` INT, IN `Final_Price` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+Update `Transaction` SET `Status` = 'Open', `CoinPrice` = Final_Price where `ID` = Trans_ID;
+Update `BittrexAction` SET `Status` = 'Closed' where `TransactionID` = Trans_ID;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CancelBittrexBuy`(IN `Bittrex_Ref` VARCHAR(200), IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+Update `Transaction` SET `Status` = 'Closed' where `ID` = Trans_ID;
+Update `BittrexAction` SET `Status` = 'Closed' where `TransactionID` = Trans_ID;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updatePriceDipHours`(IN `rule_ID` INT, IN `hours_Flat` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+If NOT EXISTS(SELECT `BuyRuleID` FROM `PriceDipStatus` WHERE `BuyRuleID` = rule_ID) THEN
+	INSERT INTO `PriceDipStatus`(`BuyRuleID`) VALUES (rule_ID);
+END IF;
+
+UPDATE `PriceDipStatus` SET `HoursFlat` = hours_Flat WHERE `BuyRuleID` = rule_ID;
+
+END$$
+DELIMITER ;
