@@ -48,7 +48,7 @@ $result = $conn->query($query);
 while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
     // each column needs to have data inserted via the $temp array
-    $temp[] = array('v' => $row['Date']);
+    $temp[] = array('v' => $row['ActionDate']);
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
     $temp[] = array('v' => $row['BaseCurrency']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
