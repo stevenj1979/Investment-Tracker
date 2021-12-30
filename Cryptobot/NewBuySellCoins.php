@@ -1780,9 +1780,10 @@ function buyToreduceLoss($lossCoins){
     $reduceLossMultiplier = $lossCoins[$y][63];
     $reduceLossCounter = $lossCoins[$y][64];
     $reduceLossMaxCounter = $lossCoins[$y][65];
+    $hoursFlat = $lossCoins[$y][66];
     echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct";
 
-    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $reduceLossEnabled == 1 AND $reduceLossCounter < $reduceLossMaxCounter){
+    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $reduceLossEnabled == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= 36){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       //get multiplier
