@@ -22,7 +22,7 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `Date`,`BaseCurrency`,sum(`TotalUSD`) as TotalUSD FROM `HistoricBittrexBalances` WHERE `UserID` =  3
+$query = "SELECT `Date` as `ActionDate`,`BaseCurrency`,sum(`TotalUSD`) as TotalUSD FROM `HistoricBittrexBalances` WHERE `UserID` =  3
 AND `Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
 group by Year(`Date`),Month(`Date`),Day(`Date`),`BaseCurrency`
 order by `Date` asc
@@ -38,7 +38,7 @@ $table['cols'] = array(
     // I assumed your first column is a "string" type
     // and your second column is a "number" type
     // but you can change them if they are not
-    array('label' => 'Date', 'type' => 'date'),
+    array('label' => 'ActionDate', 'type' => 'string'),
     array('label' => 'BaseCurrency', 'type' => 'string'),
     array('label' => 'TotalUSD', 'type' => 'number')
 );
