@@ -67,9 +67,9 @@ function getRules($userID){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`
-  ,`AutoSellCoinEnabled`,`AutoSellPrice`,`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`CoinPriceMatchName`,`CoinPricePatternName`,`Coin1HrPatternName`
+  ,`AutoSellCoinEnabled`,'AutoSellPrice',`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`NameCpmn` as `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hPn` as `Coin1HrPatternName`
   ,`RuleName`
-FROM `UserSellRules` WHERE `UserID` = $userID";
+FROM `View14_UserSellRules` WHERE `UserID` = $userID";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
