@@ -613,6 +613,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $trackingID = $newTrackingCoins[$a][43]; $quickBuyCount = $newTrackingCoins[$a][44]; $minsDisabled = $newTrackingCoins[$a][45]; $overrideCoinAlloc  = $newTrackingCoins[$a][46];
     $market1HrChangePct = $marketStats[0][1]; $oneTimeBuy = $newTrackingCoins[$a][47]; $buyAmountCalculationEnabled = $newTrackingCoins[$a][48]; $allTimeHighPrice = $newTrackingCoins[$a][49];
     $transactionID = $newTrackingCoins[$a][50]; $oldBuyBackTransID = $newTrackingCoins[$a][52]; $toMerge = $newTrackingCoins[$a][53]; $baseBuyPrice = $newTrackingCoins[$a][54];
+    $reduceLossCounter = $newTrackingCoins[$a][55];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100;
@@ -768,6 +769,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           UpdateProfit();
           //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
           closeNewTrackingCoin($newTrackingCoinID, False);
+          addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,'TrackingCoins');
           //if ($type == 'SavingsBuy'){
             //updateTypeToBittrex($type,$transactionID);
             //updateTypeToTrans($type,$transactionID);
@@ -1776,9 +1778,11 @@ function buyToreduceLoss($lossCoins){
     $reduceLossEnabled = $lossCoins[$y][61];
     $reduceLossSellPct = $lossCoins[$y][62];
     $reduceLossMultiplier = $lossCoins[$y][63];
+    $reduceLossCounter = $lossCoins[$y][64];
+    $reduceLossMaxCounter = $lossCoins[$y][65];
     echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct";
 
-    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $reduceLossEnabled == 1){
+    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $reduceLossEnabled == 1 AND $reduceLossCounter < $reduceLossMaxCounter){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       //get multiplier
@@ -1794,6 +1798,7 @@ function buyToreduceLoss($lossCoins){
       //Set Delay
       delaySavingBuy($transactionID,4320);
       setNewTargetPrice($transactionID);
+      updateReduceLossCounter($transactionID,'buyToreduceLoss');
       $finalBool =  True;
     }
   }

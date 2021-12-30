@@ -336,7 +336,7 @@ function getTrackingSellCoinsAll(){
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
-  ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`
+  ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -347,7 +347,8 @@ function getTrackingSellCoinsAll(){
     $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
-    ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier']); //60
+    ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
+    ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter']); //65
   }
   $conn->close();
   return $tempAry;
@@ -3675,6 +3676,49 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   newLogToSQL("NewBuySellCoins:$callName","$sql",3,1,"addTrackingCoin","UserID:$userID");
 }
 
+function updateReduceLossCounter($transID,$callName){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingCoins` SET `ReduceLossCounter`= `ReduceLossCounter` + 1 WHERE `TransactionID` = $transID";
+
+  print_r($sql);
+  LogToSQL("updateReduceLossCounter","$sql",3,0);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateReduceLossCounter: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("updateReduceLossCounter:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
+}
+
+function addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,$callName){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `ReduceLossCounter` = $reduceLossCounter WHERE `CoinID` = $coinID and `UserID` = $userID Order by `OrderDate` Desc Limit 1";
+
+  print_r($sql);
+  LogToSQL("addReduceLossCounterToTrans","$sql",3,0);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addReduceLossCounterToTrans: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addReduceLossCounterToTrans:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
+}
+
+
 function runLowMarketMode($userID,$mode){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
@@ -3726,7 +3770,7 @@ function getNewTrackingCoins($userID = 0){
       ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`IDTc`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
       ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
       ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`TrackingType`, `LastPrice`,`SBRuleID`,`SBTransID`,`IDTc` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`
+      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`oldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`
       from `View2_TrackingBuyCoins` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -3737,7 +3781,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['IDTc'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['TrackingType'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
-    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['oldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice']);
+    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['oldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice'],$row['ReduceLossCounter']); //55
   }
   $conn->close();
   return $tempAry;
