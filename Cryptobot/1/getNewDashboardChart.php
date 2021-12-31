@@ -38,7 +38,7 @@ $table['cols'] = array(
     // I assumed your first column is a "string" type
     // and your second column is a "number" type
     // but you can change them if they are not
-    array('label' => 'ActionDate', 'type' => 'string'),
+    array('label' => 'ActionDate', 'type' => 'date'),
     array('label' => 'BaseCurrency', 'type' => 'string'),
     array('label' => 'TotalUSD', 'type' => 'number')
 );
@@ -51,7 +51,7 @@ while ($row = mysqli_fetch_assoc($result)){
     //$nMonth = month($row['ActionDate']);
     //$nYear = Year($row['ActionDate']);
     // each column needs to have data inserted via the $temp array
-    $temp[] = array('v' => 'Date('.date('Y',strtotime($row['ActionDate'])).',' . 
+    $temp[] = array('v' => 'Date('.date('Y',strtotime($row['ActionDate'])).',' .
                                      (date('n',strtotime($row['ActionDate'])) - 1).','.
                                      date('d',strtotime($row['ActionDate'])).','.
                                      date('H',strtotime($row['ActionDate'])).','.
