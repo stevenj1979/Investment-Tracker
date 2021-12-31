@@ -546,13 +546,14 @@ function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
   $priceDipRulesSize = count($priceDipRules);
   echo "<BR> priceDipRulesSize: $priceDipRulesSize";
+  $liveMarketPriceAry = getLiveMarketPrice(1); 
   $dipHourCounter = 0;
   for ($y=0; $y<$priceDipRulesSize; $y++){
       $dipStartTime = $priceDipRules[$y][9]; $priceDipTolerance = $priceDipRules[$y][11];
       $marketPrices = getMarketPrices($dipStartTime);
       $marketPricesSize = count($marketPrices);
-      echo "<BR> marketPricesSize: $marketPricesSize";
-      $liveMarketPriceAry = getLiveMarketPrice(1); $ruleID = $priceDipRules[$y][0];
+      $ruleID = $priceDipRules[$y][0];
+      echo "<BR> marketPricesSize: $marketPricesSize | Checking Rule: $ruleID";
       for ($t=0; $t<$marketPricesSize; $t++){
           $liveMarketPrice = $liveMarketPriceAry[0][17];
           $priceWithTolerance = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
