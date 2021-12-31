@@ -22,10 +22,14 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `Date` as `ActionDate`,`BaseCurrency`,sum(`TotalUSD`) as TotalUSD FROM `HistoricBittrexBalances` WHERE `UserID` =  3
-AND `Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
-group by Year(`Date`),Month(`Date`),Day(`Date`),`BaseCurrency`
-order by `Date` asc
+$query = "SELECT `HbUSDT`.`Date` as `ActionDate`,sum(`HbBTC`.`TotalUSD`) as TotalBTC ,sum(`HbETH`.`TotalUSD`) as TotalETH,sum(`HbUSDT`.`TotalUSD`) as TotalUSDT
+FROM `HistoricBittrexBalances` `HbUSDT`
+left Join `HistoricBittrexBalances` `HbETH` on `HbUSDT`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH'
+left Join `HistoricBittrexBalances` `HbBTC` on `HbBTC`.`ID` = `HbUSDT`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC'
+WHERE `HbUSDT`.`UserID` =  3
+AND `HbUSDT`.`Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY and `HbUSDT`.`BaseCurrency` = 'USDT'
+group by Year(`HbUSDT`.`Date`),Month(`HbUSDT`.`Date`),Day(`HbUSDT`.`Date`),`HbUSDT`.`BaseCurrency`
+order by `HbUSDT`.`Date` asc
 limit 50";
 $table = array();
 $table['cols'] = array(
@@ -39,8 +43,9 @@ $table['cols'] = array(
     // and your second column is a "number" type
     // but you can change them if they are not
     array('label' => 'ActionDate', 'type' => 'date'),
-    array('label' => 'BaseCurrency', 'type' => 'string'),
-    array('label' => 'TotalUSD', 'type' => 'number')
+    array('label' => 'BTC', 'type' => 'number'),
+    array('label' => 'ETH', 'type' => 'number'),
+    array('label' => 'USDT', 'type' => 'number')
 );
 
 $rows = array();
@@ -58,9 +63,11 @@ while ($row = mysqli_fetch_assoc($result)){
                                      date('i',strtotime($row['ActionDate'])).','.
                                      date('s',strtotime($row['ActionDate'])).')');
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
-    $temp[] = array('v' => $row['BaseCurrency']);
+    //$temp[] = array('v' => $row['BaseCurrency']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
-    $temp[] = array('v' => (float) $row['TotalUSD']);
+    $temp[] = array('v' => (float) $row['TotalBTC']);
+    $temp[] = array('v' => (float) $row['TotalETH']);
+    $temp[] = array('v' => (float) $row['TotalUSDT']);
     //$temp[] = array('v' => (float) $row['TotalETH']*$ethPrice);
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
