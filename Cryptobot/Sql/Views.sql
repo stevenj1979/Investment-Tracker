@@ -378,7 +378,7 @@ from (((`BuyRules` `Br`
   left join `CoinPricePatternName` `Cppn` on `Cppn`.`ID` = `Br`.`CoinPricePatternID`
   left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
   left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`
-  left join `PriceDipSettings` `Pdse` on `Pdse`.`RuleID` = `Br`.`ID`;
+  left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`;
 
 
   CREATE OR REPLACE VIEW `View14_UserSellRules` as
