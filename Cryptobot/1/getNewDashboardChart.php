@@ -47,11 +47,16 @@ $rows = array();
 $result = $conn->query($query);
 while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
-    $nDay = day($row['ActionDate']);
-    $nMonth = month($row['ActionDate']);
-    $nYear = Year($row['ActionDate']);
+    //$nDay = day($row['ActionDate']);
+    //$nMonth = month($row['ActionDate']);
+    //$nYear = Year($row['ActionDate']);
     // each column needs to have data inserted via the $temp array
-    $temp[] = array('v' => "NEW DATE($nYear,$nMonth,$nDay)");
+    $temp[] = array('v' => 'Date('.date('Y',strtotime($row['ActionDate'])).',' . 
+                                     (date('n',strtotime($row['ActionDate'])) - 1).','.
+                                     date('d',strtotime($row['ActionDate'])).','.
+                                     date('H',strtotime($row['ActionDate'])).','.
+                                     date('i',strtotime($row['ActionDate'])).','.
+                                     date('s',strtotime($row['ActionDate'])).')');
     //$temp[] = array('v' => (float) $row['TotalBTC']*$btcPrice);
     $temp[] = array('v' => $row['BaseCurrency']);
     //$temp[] = array('v' => (float) $row['TotalUSDT']*$usdtPrice);
