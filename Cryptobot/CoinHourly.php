@@ -558,6 +558,7 @@ function runHoursforPriceDip(){
           $priceWithTolerance = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
           if ($marketPrices[$t][0] >= $priceWithTolerance){
             $dipHourCounter = $dipHourCounter + 1;
+            echo "<BR> Live Price is: $liveMarketPrice | Live with Tol: $priceWithTolerance | Prev Price: ".$marketPrices[$t][0]." | Counter: $dipHourCounter";
           }else {
             echo "<BR> $priceWithTolerance is less than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
             writePriceDipHours($ruleID,$dipHourCounter);
@@ -566,6 +567,7 @@ function runHoursforPriceDip(){
             //$dipHourCounter = 0;
           }
       }
+      echo "<BR> Cycle Finished: $dipHourCounter";
       writePriceDipHours($ruleID,$dipHourCounter);
       $dipHourCounter = 0;
   }
