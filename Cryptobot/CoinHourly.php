@@ -556,12 +556,13 @@ function runHoursforPriceDip(){
       echo "<BR> marketPricesSize: $marketPricesSize | Checking Rule: $ruleID";
       for ($t=0; $t<$marketPricesSize; $t++){
           $liveMarketPrice = $liveMarketPriceAry[0][17];
-          $priceWithTolerance = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
-          if ($marketPrices[$t][0] >= $priceWithTolerance){
+          $priceWithToleranceBtm = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
+          $priceWithToleranceTop = $liveMarketPrice+(($liveMarketPrice/100)*$priceDipTolerance);
+          if ($marketPrices[$t][0] >= $priceWithToleranceBtm AND $marketPrices[$t][0] <= $priceWithToleranceTop){
             $dipHourCounter = $dipHourCounter + 1;
-            echo "<BR> Live Price is: $liveMarketPrice | Live with Tol: $priceWithTolerance | Prev Price: ".$marketPrices[$t][0]." | Counter: $dipHourCounter";
+            echo "<BR> Live Price is: $liveMarketPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: ".$marketPrices[$t][0]." | Counter: $dipHourCounter";
           }else {
-            echo "<BR> $priceWithTolerance is less than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
+            echo "<BR> $priceWithToleranceBtm is less than $liveMarketPrice |$priceWithToleranceTop is Greater than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
             writePriceDipHours($ruleID,$dipHourCounter);
             $dipHourCounter = 0;
             continue 2;
