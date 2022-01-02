@@ -167,7 +167,7 @@ $newTime = date("Y-m-d H:i:s",strtotime($tmpTime, strtotime($current_date)));
 $coinStr = "";
 logAction('CryptoBotAuto Start','CoinPrice', $logToFileSetting);
 $i = 0;
-$coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+$coins = getTrackingCoins("WHERE `BuyCoin` = 1 ORDER BY `Symbol` ASC");
 $coinLength = Count($coins);
 $coinStr = getCoinList(getStats(),3);
 echo "<BR>CoinStr: $coinStr";
