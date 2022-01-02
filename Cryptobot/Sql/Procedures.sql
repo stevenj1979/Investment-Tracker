@@ -1396,3 +1396,24 @@ UPDATE `PriceDipStatus` SET `HoursFlat` = hours_Flat WHERE `BuyRuleID` = rule_ID
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddPctPrices`(IN `Coin_ID` INT, IN `Price_1Hr` DECIMAL(20,14), IN `Price_24Hr` DECIMAL(20,14), IN `Price_7D` DECIMAL(20,14), IN `Price_15Min` DECIMAL(20,14), IN `Price_30Min` DECIMAL(20,14), IN `Price_45Min` DECIMAL(20,14), IN `Price_75Min` DECIMAL(20,14), IN `Price_48Hr` DECIMAL(20,14), IN `Price_72Hr` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+
+If not EXISTS (SELECT `CoinID` FROM `CoinPctChange` WHERE `CoinID` = Coin_ID) THEN
+INSERT INTO `CoinPctChange`(`CoinID`) VALUES (Coin_ID);
+ENDIF;
+
+UPDATE `CoinPctChange` SET `1HrChange5`=`1HrChange4` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `1HrChange4`=`1HrChange3` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `1HrChange3`=`Last1HrChange` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Last1HrChange`=`Live1HrChange` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Last24HrChange`=`Live24HrChange` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Last7DChange`=`Live7DChange` WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Live1HrChange`=Price_1Hr WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Live24HrChange`=Price_24Hr WHERE `CoinID` = Coin_ID;
+UPDATE `CoinPctChange` SET `Live7DChange`=Price_7D WHERE `CoinID` = Coin_ID;
+END$$
+DELIMITER ;

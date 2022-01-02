@@ -170,9 +170,9 @@ for ($i=0; $i<$coinCount; $i++){
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
       $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
       if ($price1Hrtmp[0][0]>0){
-        $price1Hr = $price1Hrtmp[0][1]-$priceDiff;
+        $price1Hr = round($price1Hrtmp[0][1]-$priceDiff,8);
       }else{
-        $price1Hr = $price1Hrtmp[0][1]+$priceDiff;
+        $price1Hr = round($price1Hrtmp[0][1]+$priceDiff,8);
       }
 
       Echo "<BR> 1Hour: ".$price1Hrtmp[0][0]." | Live: ".$price1Hrtmp[0][1]." | NewPrice: $price1Hr";
@@ -186,9 +186,9 @@ for ($i=0; $i<$coinCount; $i++){
       $price24Hrtmp = getCMCPriceFromSQL($coinID, '24HrPrice');
       $priceDiff = ($price24Hrtmp[0][1]/100)*abs($price24Hrtmp[0][0]);
       if($price24Hrtmp[0][0]>0){
-        $price24Hr = $price24Hrtmp[0][1]-$priceDiff;
+        $price24Hr = round($price24Hrtmp[0][1]-$priceDiff,8);
       }else{
-        $price24Hr = $price24Hrtmp[0][1]+$priceDiff;
+        $price24Hr = round($price24Hrtmp[0][1]+$priceDiff,8);
       }
 
     //}else{
@@ -201,7 +201,7 @@ for ($i=0; $i<$coinCount; $i++){
       //$price48Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
       $price48Hr = 0;
     }else{
-      $price48Hr = $Hr48Price[0][1];
+      $price48Hr = round($Hr48Price[0][1],8);
     }
 
     $Hr72Price = getPrice($coinID, 4310, 4330);
@@ -210,7 +210,7 @@ for ($i=0; $i<$coinCount; $i++){
       //$price72Hrtmp = getCMCPriceFromSQL($coinID, '48HrPrice');
       $price72Hr = 0;
     }else{
-      $price72Hr = $Hr72Price[0][1];
+      $price72Hr = round($Hr72Price[0][1],8);
     }
 
     //$D7Price = getPrice($coinID, 10000, 10500);
@@ -219,9 +219,9 @@ for ($i=0; $i<$coinCount; $i++){
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
       $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
       if($price7Dtmp[0][0]>0){
-        $price7D = $price7Dtmp[0][1]-$priceDiff;
+        $price7D = round($price7Dtmp[0][1]-$priceDiff,8);
       }else{
-        $price7D = $price7Dtmp[0][1]+$priceDiff;
+        $price7D = round($price7Dtmp[0][1]+$priceDiff,8);
       }
 
       echo "<BR> $coinID Live Price : ".$price7Dtmp[0][1]." | 7D Price : $price7D |  Pct:".$price7Dtmp[0][0]." | PriceDiff:$priceDiff ";
@@ -232,27 +232,27 @@ for ($i=0; $i<$coinCount; $i++){
     $Min15Price = getPrice($coinID, 10, 20);
     $price15Min = 0;
     if (isset($Min15Price[0][1])){
-      $price15Min = $Min15Price[0][1];
+      $price15Min = round($Min15Price[0][1],8);
     }
 
 
     $Min30Price = getPrice($coinID, 25, 35);
         $price30Min = 0;
     if (isset($Min30Price[0][1])){
-        $price30Min = $Min30Price[0][1];
+        $price30Min = round($Min30Price[0][1],8);
     }
 
 
     $Min45Price = getPrice($coinID, 40, 50);
     $price45Min = 0;
     if (isset($Min45Price[0][1])){
-      $price45Min = $Min45Price[0][1];
+      $price45Min = round($Min45Price[0][1],8);
     }
 
     $Min75Price = getPrice($coinID, 70, 80);
     $price75Min = 0;
     if (isset($Min75Price[0][1])){
-      $price75Min = $Min75Price[0][1];
+      $price75Min = round($Min75Price[0][1],8);
     }
 
     //Write to PricePctChangeHistory
