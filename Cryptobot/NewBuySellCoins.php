@@ -829,7 +829,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $minsFromStart = $newTrackingSellCoins[$b][32]; $fallsInPrice = $newTrackingSellCoins[$b][33]; $type = $newTrackingSellCoins[$b][34]; $baseSellPrice = $newTrackingSellCoins[$b][35];
     $lastPrice  = $newTrackingSellCoins[$b][36]; $BTCAmount = $newTrackingSellCoins[$b][37]; $trackingSellID = $newTrackingSellCoins[$b][38]; $saveResidualCoins = $newTrackingSellCoins[$b][39];
     $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41]; $originalSellPrice = $newTrackingSellCoins[$b][42];
-    $market1HrChangePct = $marketStats[0][1];
+    $market1HrChangePct = $marketStats[0][1]; $reEnableBuyRule = $newTrackingSellCoins[$b][46]; $reEnableBuyRuleEnabled = $newTrackingSellCoins[$b][45];
     Echo "<BR> Check Sell: Cp: $CoinPrice | TRID: $TransactionID | Am: $Amount ";
     if ($minsFromDate > 1440 and $trackingType == 'SavingsSell'){
       closeNewTrackingSellCoin($TransactionID);
@@ -908,6 +908,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
             newLogToSQL("TrackingSell:Residual","$finalResidual = ($oldAmount-$Amount);",3,1,"ResidualAmount","TransactionID:$TransactionID");
             saveResidualAmountToBittrex($TransactionID,$finalResidual);
           }
+          if ($reEnableBuyRuleEnabled == 1){ enableBuyRule($reEnableBuyRule, 1);}
         }
       }
       $finalBool = True;
