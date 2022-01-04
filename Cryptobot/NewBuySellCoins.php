@@ -908,7 +908,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
             newLogToSQL("TrackingSell:Residual","$finalResidual = ($oldAmount-$Amount);",3,1,"ResidualAmount","TransactionID:$TransactionID");
             saveResidualAmountToBittrex($TransactionID,$finalResidual);
           }
-          if ($reEnableBuyRuleEnabled == 1){ enableBuyRule($reEnableBuyRule, 1);}
+          if ($reEnableBuyRuleEnabled == 1){ buySellProfitEnable($CoinID,$userID);}
         }
       }
       $finalBool = True;

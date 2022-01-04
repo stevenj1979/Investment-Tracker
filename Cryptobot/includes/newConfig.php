@@ -6117,6 +6117,22 @@ function enableBuyRule($buyRuleID, $buyCoin){
   newLogToSQL("enableBuyRule","$sql",3,sQLUpdateLog,"SQL CALL","BuyRuleID:$buyRuleID");
 }
 
+function buySellProfitEnable($coinID,$userID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "Call NewBuySellProfitSetup($coinID,$userID);";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("buySellProfitEnable: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("buySellProfitEnable","$sql",3,1,"SQL CALL","BuyRuleID:$buyRuleID");
+}
 
 function getSpreadBetCount($SBTransID){
   $tempAry = [];
