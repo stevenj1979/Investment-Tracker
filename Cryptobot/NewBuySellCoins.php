@@ -1103,6 +1103,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $usdtReserved = $reservedAmount[0][0] * $reservedAmount[0][3];
         $btcReserved = ($reservedAmount[0][1] * $reservedAmount[0][4])*$baseMultiplier[0][0];
         $ethReserved = ($reservedAmount[0][2] * $reservedAmount[0][5])*$baseMultiplier[0][1];
+        echo "<BR> $usdtReserved | $btcReserved | $ethReserved";
         $totalReserved = $usdtReserved+$btcReserved+$ethReserved;
 
         if ($baseCurrency == 'BTC'){
