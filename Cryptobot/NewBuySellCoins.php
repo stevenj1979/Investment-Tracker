@@ -1111,10 +1111,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $buyQuantity = $BTCAmount / $baseMultiplier[0][0];
           newLogToSQL("BuyCoins","BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],3,$GLOBALS['logToSQLSetting'],"BTCTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }elseif ($baseCurrency == 'ETH'){
+          echo "<BR> ETH Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][1];
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][1];
           newLogToSQL("BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],3,$GLOBALS['logToSQLSetting'],"ETHTest","RuleID:$ruleIDBuy CoinID:$coinID");
         }else{
+          echo "<BR> USDT Bal Test : $BTCBalance | $totalReserved ";
           $totalBal = $BTCBalance-$totalReserved;
           $buyQuantity = $BTCAmount;
         }
