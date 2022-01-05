@@ -58,7 +58,8 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , `Br`.`LimitBuyAmount`, `Br`.`OverrideCancelBuyTimeEnabled`, `Br`.`OverrideCancelBuyTimeMins`, `Br`.`LimitBuyTransactionsEnabled`, `Br`.`LimitBuyTransactions`, `Br`.`NoOfBuyModeOverrides`
 , `Br`.`CoinModeOverridePriceEnabled`, `Br`.`BuyModeActivate`, `Br`.`CoinMode`, `Br`.`OverrideCoinAllocation` as `OverrideCoinAllocation2`, `Br`.`OneTimeBuyRule`, `Br`.`LimitToBaseCurrency`, `Br`.`EnableRuleActivationAfterDip`
 , `Br`.`24HrPriceDipPct`, `Br`.`7DPriceDipPct`, `Br`.`BuyAmountCalculationEnabled`, `Br`.`TotalPurchasesPerRule`
-,`Athl`.`ID` as `IDAthl`, `Athl`.`CoinID` as `CoinID3`, `Athl`.`HighLow`, MAX(`Athl`.`Price`) as `ATHPrice`
+,`Athl`.`ID` as `IDAthl`, `Athl`.`CoinID` as `CoinID3`, `Athl`.`HighLow`
+, `v19Athl`.`Price` as `ATHPrice`
 , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
 , `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
 , ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
@@ -69,7 +70,8 @@ join `UserConfig` `Uc` on `Uc`.`UserID` = `Tc`.`UserID`
 join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 Left join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
-left join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `HighLow` = 'High';
+left join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `Athl`.`HighLow` = 'High'
+left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Tc`.`CoinID` and  `v19Athl`.`HighLow` = 'High';
 
 
 CREATE OR REPLACE VIEW `View3_SpreadBetBuy` as
@@ -504,3 +506,8 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    join `UserConfig` `Uc` on `Uc`.`UserID` = `Cmr`.`UserID`
    join `User` `Us` on `Us`.`ID` = `Cmr`.`UserID`
    join `Coin` `Cn` on `Cn`.`ID` = `Cmr`.`CoinID`;
+
+   CREATE OR REPLACE VIEW `View19_MaxHighLow` as
+   SELECT `CoinID`, Max(`HighLow`) as `HighLow`,`Price`
+   from `AllTimeHighLow`
+   group by `CoinID`,`HighLow`

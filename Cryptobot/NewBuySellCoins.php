@@ -1100,9 +1100,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; $BTCAmount ; ".$reservedAmount[0][0]."| "; //.$BTCBalance-$reservedAmount
         Echo "<BR> TEST BAL AND RES: $BTCBalance ; $BTCAmount ; ".$reservedAmount[0][0]." | "; //.$BTCBalance-$reservedAmount
-        $usdtReserved = $reservedAmount[0][0] * $reservedAmount[0][3];
-        $btcReserved = ($reservedAmount[0][1] * $reservedAmount[0][4])*$baseMultiplier[0][0];
-        $ethReserved = ($reservedAmount[0][2] * $reservedAmount[0][5])*$baseMultiplier[0][1];
+        $usdtReserved = $reservedAmount[0][3]/$reservedAmount[0][0];
+        $btcReserved = ($reservedAmount[0][4]/$reservedAmount[0][1]);
+        $ethReserved = ($reservedAmount[0][5]/$reservedAmount[0][2]);
         echo "<BR> $usdtReserved | $btcReserved | $ethReserved";
         $totalReserved = $usdtReserved+$btcReserved+$ethReserved;
 
