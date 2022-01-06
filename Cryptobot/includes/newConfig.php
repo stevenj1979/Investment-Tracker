@@ -1694,7 +1694,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
       return True;
       exit;
   }elseif ($LiveCoinPrice >= $BuyMin){
-      //echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice";
+      echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
