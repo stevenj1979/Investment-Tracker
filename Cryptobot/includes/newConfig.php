@@ -2428,12 +2428,12 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
   newLogToSQL("bittrexBuyCancel","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
-function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice){
+function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice, $type){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call CompleteBittrexBuy('$bittrexRef', $transactionID,$finalPrice);";
+  $sql = "call CompleteBittrexBuy('$bittrexRef', $transactionID,$finalPrice, $type);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
