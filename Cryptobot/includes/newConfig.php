@@ -1707,13 +1707,13 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
 }
 
 function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
-  //echo "BuyMin $sellMin LiveBTCPrice $LiveBTCPrice";
+  echo "<BR>BuyMin: $sellMin | LiveBTCPrice: $LiveBTCPrice | LiveCoinPrice: $LiveCoinPrice | Enabled: $sellMinEnabled";
   if ($sellMinEnabled == 0){
       //print_r("True");
       return True;
       exit;
   }elseif ($LiveBTCPrice >= $sellMin){
-      //echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
+      echo "<BR>SellMin  LiveBTCPrice $LiveBTCPrice is less than $sellMin";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
