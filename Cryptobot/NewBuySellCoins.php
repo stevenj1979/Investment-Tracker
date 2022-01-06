@@ -761,6 +761,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         if (!Empty($KEK)){ $APISecret = Decrypt($KEK,$newTrackingCoins[$a][19]);}
         //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){ $ogBTCAmount = (float)$ogBTCAmount;}
         if ($buyAmountCalculationEnabled == 1){
+            newLogToSQL("TrackingCoinAmountCalc","$pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100; | ($ogBTCAmount/100)*$pctToBuy",$userID,1,"BuyCoinAmountCalculation","TrackingCoinID:$newTrackingCoinID");
             $ogBTCAmount = ($ogBTCAmount/100)*$pctToBuy;
         }
 

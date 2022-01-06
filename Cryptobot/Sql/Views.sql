@@ -376,6 +376,7 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,(SELECT ((sum(`Cp`.`LiveCoinPrice`-`Cpc`.`Last7DChange`))/ sum(`Cpc`.`Last7DChange`))*100 FROM `CoinPrice` `Cp` join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID` join `Coin` `Cn` on `Cp`.`CoinID`  = `Cn`.`ID` where `BuyCoin` = 1 ) as `7DMarketPriceChangeLive`
 ,`Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled` as `PriceDipEnabledPds`, `Pds`.`HoursFlat` as `HoursFlatPds`,`Pds`.`DipStartTime` as `DipStartTimePds`
 ,`Pdse`.`ID` as `IDPdse`, `Pdse`.`RuleID` as `RuleIDPdse`, `Pdse`.`PriceDipEnable24Hour`, `Pdse`.`PriceDipEnable7Day`, `Pdse`.`HoursFlat`, `Pdse`.`PctTolerance`, `Pdse`.`PriceDipDisable24Hour`, `Pdse`.`PriceDipDisable7Day`
+,DateDiff(`Br`.`DisableUntil`,now()) as HoursDisableUntil
 from (((`BuyRules` `Br`
   join `User` `Us` on((`Us`.`ID` = `Br`.`UserID`)))
   join `UserConfig` `Uc` on((`Uc`.`UserID` = `Us`.`ID`)))
