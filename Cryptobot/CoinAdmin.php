@@ -674,12 +674,12 @@ $apikey=getAPIKey();
 getMinTradeAmount($apikey,$apisecret);
 
 
-//$minMaxPrice = getCurrentMonthMinMax();
-//$minMaxPriceSize = count($minMaxPrice);
+$minMaxPrice = getCurrentMonthMinMax();
+$minMaxPriceSize = count($minMaxPrice);
 
-//for ($i=0; $i<$minMaxPriceSize; $i++){
-//  writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
-//}
+for ($i=0; $i<$minMaxPriceSize; $i++){
+  writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
+}
 
 $secondarySellRulesAry = getSecondaryRules();
 $secondarySellRulesSize = count($secondarySellRulesAry);
