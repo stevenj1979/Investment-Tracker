@@ -1712,7 +1712,7 @@ function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
       //print_r("True");
       return True;
       exit;
-  }elseif ($LiveBTCPrice > $sellMin){
+  }elseif ($LiveBTCPrice >= $sellMin){
       //echo "BuyMin $BuyMin LiveBTCPrice $LiveBTCPrice";
       $GLOBALS['allDisabled'] = true;
       return True;
