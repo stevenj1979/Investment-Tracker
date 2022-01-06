@@ -1149,6 +1149,8 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           logAction("runBuyCoins; addTrackingCoin : $symbol | $coinID | $LiveCoinPrice | $buyQuantity | $userID | $baseCurrency $timeToCancelBuyMins | $risesInPrice | $overrideCoinAlloc", 'BuySellFlow', 1);
           $finalBool = True;
         }else{ echo "<BR> EXIT: $totalBal Less than 20 | $totalBal";}
+      }else{
+        if ($limitToCoin != "ALL"){ continue 2;}
       }
 
       echo "<BR> NEXT RULE <BR>";
