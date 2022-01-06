@@ -148,7 +148,7 @@ FROM `BittrexAction`  `Ba`
       join `CoinVolume` `Cv` on((`Cv`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `Tr`.`CoinID`)))
       join `UserConfig` `Uc` on((`Uc`.`UserID` = `Tr`.`UserID`)))
-      join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
+      Left join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Tr`.`SpreadBetRuleID`
       join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`
       Left Join `ReduceLossSettings` `Rls` on `Rls`.`UserID` = `Tr`.`UserID`
       left Join  `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Tr`.`BuyRule`;
