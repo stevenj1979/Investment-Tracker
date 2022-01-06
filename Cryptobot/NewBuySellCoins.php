@@ -1150,7 +1150,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $finalBool = True;
         }else{ echo "<BR> EXIT: $totalBal Less than 20 | $totalBal";}
       }else{
-        if ($limitToCoin != "ALL"){ continue 2;}
+        if ($limitToCoin != "ALL"){ echo "<BR> LimitToCoin Found: Continue Rules!"; continue 2;}
       }
 
       echo "<BR> NEXT RULE <BR>";
