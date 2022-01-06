@@ -1688,13 +1688,13 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
 }
 
 function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
-  echo "BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice | $buyMinEnabled";
+  echo "<BR>BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice | $buyMinEnabled";
   if ($buyMinEnabled == 0){
       //print_r("True");
       return True;
       exit;
-  }elseif ($LiveCoinPrice >= $BuyMin){
-      echo "BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice | Live Greater than Buy Min";
+  }elseif ($LiveCoinPrice <= $BuyMin){
+      echo "<BR>BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
