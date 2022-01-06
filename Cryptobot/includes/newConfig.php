@@ -4363,7 +4363,7 @@ function getReservedAmount($baseCurrency, $userID){
 //12
 
   $sql = "select (
-            SELECT sum(`CoinPrice`)
+            SELECT ifnull(sum(`CoinPrice`),0)
             from `TrackingCoins` where `BaseCurrency` = 'USDT' and `UserID` = $userID and `Status` = 'Open') as TotalCoinPriceUSDT
             ,ifnull((SELECT sum(`CoinPrice` )
             from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = $userID and `Status` = 'Open'),0)as TotalCoinPriceBTC
