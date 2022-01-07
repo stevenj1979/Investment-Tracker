@@ -182,6 +182,20 @@ function clearBuyBack($mins){
   }
 }
 
+function setBuySellPriceforProfit(){
+  $coinIDs = getCoinIDs();
+  $coinIDsSize = count($coinIDs);
+  $userIDs = getUserID();
+  $userIDsSize = count($userIDs);
+  for ($e=0; $e<$coinIDsSize; $e++){
+    $CoinID = $coinIDs[$e][0];
+    for ($w=0; $w<$userIDsSize; $w++){
+        $userID = $userIDs[$w][0]
+        buySellProfitEnable($CoinID,$userID,0,0);
+    }
+  }
+}
+
 function clearSQLLog($days){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -207,6 +221,6 @@ clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
 clearBuyBack(5760);
 clearSQLLog(90);
-
+setBuySellPriceforProfit();
 ?>
 </html>
