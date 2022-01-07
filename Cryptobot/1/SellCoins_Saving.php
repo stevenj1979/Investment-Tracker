@@ -326,7 +326,7 @@ $date = date('Y/m/d H:i:s', time());
             $btcPrice = $trackingSell[$x][53]; $ethPrice = $trackingSell[$x][54];
             if ($baseCurrency == 'BTC'){ $baseMultiplier = $btcPrice; $baseNum = 8; } elseif ($baseCurrency == 'ETH'){ $baseMultiplier = $ethPrice; $baseNum = 8;}
             else{ $baseMultiplier =1; $baseNum = 2;}
-            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image' width=60 height=60></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
             echo "<td rowspan=><p id='largeText' >".number_format($livePrice,$baseNum)."</p></td>";
             NewEcho("<td><p id='normalText'>MktCap: ".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
