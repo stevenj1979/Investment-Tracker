@@ -653,6 +653,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       if ($type == 'SavingsBuy'){ updateCoinSwapStatusCoinSwapID('AwaitingSavingsBuy',$transactionID);}
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
       $finalBool = True;
+      reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
       continue;
     }
     Echo "<BR> Tracking Buy Count 1 <BR>";
@@ -661,14 +662,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
         }
         if ($limitBuyTransactionsEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
         }elseif($coinModeOverridePriceEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
-          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
@@ -810,6 +811,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           closeNewTrackingCoin($newTrackingCoinID, False);
           removeTransactionDelay($coinID, $userID);
           reOpenTransactionfromBuyBack($oldBuyBackTransID);
+          reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
       }
     }elseif ($readyToBuy == 2){ $finalBool = True;}
