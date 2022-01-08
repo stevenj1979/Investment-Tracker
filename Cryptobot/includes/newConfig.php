@@ -14,7 +14,7 @@ function getBittrexRequests($userID = 0){
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  } 
+  }
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
@@ -3912,7 +3912,17 @@ function closeNewTrackingCoin($ID, $deleteFlag){
     $updateSQL = "UPDATE `TrackingCoins` SET `Status` = 'Closed' ";
   }
 
-  function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
+  $sql = "$updateSQL WHERE `ID` = $ID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+
+  $conn->close();
+  logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
+  newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
+}
+
+function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
