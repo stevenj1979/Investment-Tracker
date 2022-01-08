@@ -3916,7 +3916,10 @@ function closeNewTrackingCoin($ID, $deleteFlag){
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
-
+    echo "New record created successfully";
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+  }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
   newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
