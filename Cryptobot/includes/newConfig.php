@@ -3912,7 +3912,14 @@ function closeNewTrackingCoin($ID, $deleteFlag){
     $updateSQL = "UPDATE `TrackingCoins` SET `Status` = 'Closed' ";
   }
 
-  $sql = "$updateSQL WHERE `ID` = $ID";
+  function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+  $sql = "call CancelBuySellProfit($ruleID, $userID, $coinID)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -3921,8 +3928,8 @@ function closeNewTrackingCoin($ID, $deleteFlag){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
+  logAction("reOpenBuySellProfitRule: ".$sql. $conn->error, 'TrackingCoins', 0);
+  newLogToSQL("reOpenBuySellProfitRule",$sql,3,1,"SQL","RuleID:$ruleID");
 }
 
 function updateTrackingCoinToMerge($ID, $noOfPurchases){
