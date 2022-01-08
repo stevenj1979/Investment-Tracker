@@ -1496,6 +1496,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           if ($buyBack == 1){ reopenCoinSwapCancel($oldBuyBackTransID); }
           $finalBool = True;
+          reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
       }elseif ($type == "Sell" or $type == "SpreadSell" or $type == "SavingsSell"){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
