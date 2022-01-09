@@ -1419,7 +1419,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewBuySellProfitSetup`(IN `Coin_ID` INT, IN `User_ID` INT, IN `Enable_Buy` INT, IN `Enable_Sell` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewBuySellProfitSetup`(IN `Coin_ID` INT, IN `User_ID` INT, IN `Enable_Buy` INT, IN `Enable_Sell` INT, IN `nPct` DECIMAL(20,14))
     MODIFIES SQL DATA
 Begin
 Declare nSellRule INT;
@@ -1438,8 +1438,8 @@ END IF;
 Select `ID` into nSellRule FROM `SellRules` where `RuleName` = concat('BuySellProfit ' , nSymbol) and `UserID` = User_ID;
 Select `ID` into nBuyRule FROM `BuyRules` Where `RuleName` =  concat('BuySellProfit ' , nSymbol) and `UserID` = User_ID;
 
-Update `BuyRules` SET `SellRuleFixed` = nSellRule, `UserID` = User_ID,  `BuyPriceMinEnabled` = 1, `BuyPriceMin` = AvgMinPrice(Coin_ID) where `ID` = nBuyRule;
-Update `SellRules` SET `ReEnableBuyRule` = nBuyRule, `LimitToBuyRule` = nBuyRule, `UserID` = User_ID, `SellPriceMinEnabled` = 1, `SellPriceMin` = AvgMaxPrice(Coin_ID) where `ID` = nSellRule;
+Update `BuyRules` SET `SellRuleFixed` = nSellRule, `UserID` = User_ID,  `BuyPriceMinEnabled` = 1, `BuyPriceMin` = AvgMinPrice(Coin_ID,nPct) where `ID` = nBuyRule;
+Update `SellRules` SET `ReEnableBuyRule` = nBuyRule, `LimitToBuyRule` = nBuyRule, `UserID` = User_ID, `SellPriceMinEnabled` = 1, `SellPriceMin` = AvgMaxPrice(Coin_ID,nPct) where `ID` = nSellRule;
 
 if (Enable_Buy = 1) THEN
 Update `BuyRules` SET  `BuyCoin` = 1 where `ID` = nBuyRule;
