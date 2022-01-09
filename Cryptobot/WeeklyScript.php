@@ -191,7 +191,7 @@ function setBuySellPriceforProfit(){
     $CoinID = $coinIDs[$e][0];
     for ($w=0; $w<$userIDsSize; $w++){
         $userID = $userIDs[$w][0]
-        buySellProfitEnable($CoinID,$userID,0,0);
+        buySellProfitEnable($CoinID,$userID,0,0,20);
     }
   }
 }
