@@ -542,13 +542,41 @@ function setPriceDipEnabled(){
 
 }
 
-function runHoursforCoinPriceDip(){
+function runCoinPriceDipPrices(){
   //Get Coins + Price
   $coin = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
   $coinSize = count($coin);
   for ($t=0;$t<$coinSize; $t++){
       $coinID = $coin[$t][0]; $price = $coin[$t][17];
       writeCoinPriceDipPrice($coinID,$price);
+  }
+}
+
+function runHoursforCoinPriceDip(){
+  $priceDipTolerance = 1.0;
+  $dipHourCounter = 0;
+  //get ID's
+  $coinIDAry = getCoinIDs();
+  $coinIDArySize = count($coinIDAry);
+  for ($u=0;$u<$coinIDArySize; $u++){
+    $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][17];
+    //getPrice
+    $coinPriceAry = getPriceDipCoinPrices($coinID);
+    $coinPriceArySize = count($coinPriceAry);
+    for ($p=0;$p<$coinPriceArySize; $p++){
+      $coinDipPrice = $coinPriceAry[$p][2]; $coinDipDate = $coinPriceAry[$p][3];
+      $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
+      $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
+      if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
+        $dipHourCounter = $dipHourCounter + 1;
+      }else{
+        writePriceDipCoinHours($coinID,$dipHourCounter);
+        $dipHourCounter = 0;
+        continue 2;
+      }
+    }
+    writePriceDipCoinHours($coinID,$dipHourCounter);
+    $dipHourCounter = 0;
   }
 }
 
@@ -651,6 +679,7 @@ runReduceCoinSwapPct();
 setPriceDipEnabled();
 runMarketPrice();
 runHoursforPriceDip(); //Market
+runCoinPriceDipPrices();
 runHoursforCoinPriceDip();
 ?>
 </html>
