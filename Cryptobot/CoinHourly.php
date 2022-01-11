@@ -558,6 +558,7 @@ function runHoursforCoinPriceDip(){
   //get ID's
   $coinIDAry = getCoinIDs();
   $coinIDArySize = count($coinIDAry);
+  echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){
     $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][17];
     //getPrice
@@ -569,7 +570,9 @@ function runHoursforCoinPriceDip(){
       $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
       if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
         $dipHourCounter = $dipHourCounter + 1;
+        echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
       }else{
+        echo "<BR> $coinID : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
         writePriceDipCoinHours($coinID,$dipHourCounter);
         $dipHourCounter = 0;
         continue 2;
@@ -583,7 +586,7 @@ function runHoursforCoinPriceDip(){
 function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
   $priceDipRulesSize = count($priceDipRules);
-  echo "<BR> priceDipRulesSize: $priceDipRulesSize";
+  echo "<BR>***** runHoursforPriceDip ***** priceDipRulesSize: $priceDipRulesSize";
   $liveMarketPriceAry = getLiveMarketPrice(1);
   $dipHourCounter = 0;
   for ($y=0; $y<$priceDipRulesSize; $y++){
