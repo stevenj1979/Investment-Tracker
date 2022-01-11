@@ -542,6 +542,16 @@ function setPriceDipEnabled(){
 
 }
 
+function runHoursforCoinPriceDip(){
+  //Get Coins + Price
+  $coin = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+  $coinSize = count($coin);
+  for ($t=0;$t<$coinSize; $t++){
+      $coinID = $coin[$t][0]; $price = $coin[$t][17];
+      writeCoinPriceDipPrice($coinID,$price);
+  }
+}
+
 function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
   $priceDipRulesSize = count($priceDipRules);
@@ -640,6 +650,7 @@ Echo "<BR> 15. runReduceCoinSwapPct();";
 runReduceCoinSwapPct();
 setPriceDipEnabled();
 runMarketPrice();
-runHoursforPriceDip();
+runHoursforPriceDip(); //Market
+runHoursforCoinPriceDip();
 ?>
 </html>

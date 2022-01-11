@@ -6346,6 +6346,23 @@ function writePriceDipHours($ruleID,$dipHourCounter){
   newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
 }
 
+function writeCoinPriceDipPrice($coinID,$price){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "INSERT INTO `PriceDipCoins`(`CoinID`, `Price`) VALUES ($coinID,$price)";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeCoinPriceDipPrice: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("writeCoinPriceDipPrice","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
+}
+
 function reOpenTransactionfromBuyBack($buyBackID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
