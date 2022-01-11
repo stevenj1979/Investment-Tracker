@@ -556,7 +556,7 @@ function runHoursforCoinPriceDip(){
   $priceDipTolerance = 1.0;
   $dipHourCounter = 0;
   //get ID's
-  $coinIDAry = getCoinIDs();
+  $coinIDAry = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
   $coinIDArySize = count($coinIDAry);
   echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){
