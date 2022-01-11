@@ -572,7 +572,7 @@ function runHoursforCoinPriceDip(){
         $dipHourCounter = $dipHourCounter + 1;
         echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
       }else{
-        echo "<BR> $coinID : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
+        echo "<BR> $coinID : $liveCoinPrice : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
         writePriceDipCoinHours($coinID,$dipHourCounter);
         $dipHourCounter = 0;
         continue 2;
