@@ -1463,3 +1463,17 @@ UPDATE `BuyRules` SET  `BuyCoin` = 1 where `RuleName` = concat('BuySellProfit ',
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updatePriceDipCoinHours`(IN `Coin_ID` INT, IN `nHours` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+If NOT Exists (SELECT `ID` FROM `PriceDipCoinStatus` WHERE `CoinID` = Coin_ID) THEN
+	INSERT INTO `PriceDipCoinStatus`(`CoinID`) VALUES (Coin_ID);
+End IF;
+
+UPDATE `PriceDipCoinStatus` SET `HoursFlat`= nHours WHERE `CoinID` = Coin_ID;
+
+END$$
+DELIMITER ;
