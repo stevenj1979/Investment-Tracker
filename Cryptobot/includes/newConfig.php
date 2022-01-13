@@ -291,6 +291,31 @@ function getTrackingCoins($whereclause){
   return $tempAry;
 }
 
+function getHoursforCoinPriceDip($whereclause){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "SELECT `IDCn`,`LiveCoinPrice`, `Us`.`ID` as `UserID`, `Usc`.`HoursFlatTolerance`
+    FROM `View1_BuyCoins`
+    join `User` `Us`
+    join `UserConfig` `Usc` on `Usc`.`UserID` = `Us`.`ID`
+    $whereclause
+    order by `ID`,`IDCn`";
+    //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['IDCn'],$row['LiveCoinPrice'],$row['UserID'],$row['HoursFlatTolerance']);//42
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getTrackingSellCoins($type, $userID = 0){
   $tempAry = [];
   if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = '$type'";}else{$whereclause = "Where `Status` = 'Open' and `Type` = '$type'";}
@@ -6380,12 +6405,12 @@ function writePriceDipHours($ruleID,$dipHourCounter){
   newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
 }
 
-function writePriceDipCoinHours($coinID,$dipHourCounter){
+function writePriceDipCoinHours($coinID,$dipHourCounter,$userID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call updatePriceDipCoinHours($coinID,$dipHourCounter);";
+  $sql = "call updatePriceDipCoinHours($coinID,$dipHourCounter,$userID);";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

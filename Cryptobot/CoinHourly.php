@@ -553,14 +553,14 @@ function runCoinPriceDipPrices(){
 }
 
 function runHoursforCoinPriceDip(){
-  $priceDipTolerance = 1.0;
+  //$priceDipTolerance = 1.0;
   $dipHourCounter = 0;
   //get ID's
-  $coinIDAry = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+  $coinIDAry = getHoursforCoinPriceDip("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
   $coinIDArySize = count($coinIDAry);
   echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){
-    $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][17];
+    $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][1]; $userID = $coinIDAry[$u][1]; $priceDipTolerance = $coinIDAry[$u][3];
     //getPrice
     $coinPriceAry = getPriceDipCoinPrices($coinID);
     $coinPriceArySize = count($coinPriceAry);
@@ -573,7 +573,7 @@ function runHoursforCoinPriceDip(){
         echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
       }else{
         echo "<BR> $coinID : $liveCoinPrice : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
-        writePriceDipCoinHours($coinID,$dipHourCounter);
+        writePriceDipCoinHours($coinID,$dipHourCounter,$userID);
         $dipHourCounter = 0;
         continue 2;
       }
