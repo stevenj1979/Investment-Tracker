@@ -560,7 +560,7 @@ function runHoursforCoinPriceDip(){
   $coinIDArySize = count($coinIDAry);
   echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){
-    $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][1]; $userID = $coinIDAry[$u][1]; $priceDipTolerance = $coinIDAry[$u][3];
+    $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][1]; $userID = $coinIDAry[$u][2]; $priceDipTolerance = $coinIDAry[$u][3];
     //getPrice
     $coinPriceAry = getPriceDipCoinPrices($coinID);
     $coinPriceArySize = count($coinPriceAry);
