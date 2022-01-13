@@ -29,7 +29,7 @@ join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
 join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
-join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
+Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
 where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
 
 
