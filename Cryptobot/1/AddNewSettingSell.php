@@ -626,7 +626,7 @@ function displayEdit($id){
   addNewText('Pct From High Sell Price: ','PctFromHighSellPrice',$formSettings[0][47],37, '5%', False,$formSettings[0][44]);
   echo "</div>";
 
-  echo "</div>";
+
   echo "<div class='settingsform'>";
   echo "<H3>Hours Flat</H3>";
   addNewTwoOption('Hours Flat Enable: ','HoursFlatEnable',$formSettings[0][45]);
