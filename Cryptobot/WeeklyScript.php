@@ -183,15 +183,15 @@ function clearBuyBack($mins){
 }
 
 function setBuySellPriceforProfit(){
-  $coinIDs = getCoinIDs();
+  $coinIDs = getCoinIDRuleID();
   $coinIDsSize = count($coinIDs);
   $userIDs = getUserID();
   $userIDsSize = count($userIDs);
   for ($e=0; $e<$coinIDsSize; $e++){
-    $CoinID = $coinIDs[$e][0];
+    $CoinID = $coinIDs[$e][1]; $sellRuleID = $coinIDs[$e][0];
     for ($w=0; $w<$userIDsSize; $w++){
         $userID = $userIDs[$w][0]
-        buySellProfitEnable($CoinID,$userID,0,0,20);
+        buySellProfitEnable($CoinID,$userID,0,0,20,$sellRuleID);
     }
   }
 }

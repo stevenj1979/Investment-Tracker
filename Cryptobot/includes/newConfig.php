@@ -734,6 +734,21 @@ function getCoinIDs(){
   return $tempAry;
 }
 
+function getCoinIDRuleID(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `ID`,`LimitToCoinID` FROM `SellRules` WHERE `PctFromHighSellPriceEnabled` = 1";
+  print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['LimitToCoinID']);}
+  $conn->close();
+  return $tempAry;
+}
+
 function getPriceDipCoinPrices($coinID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -6214,12 +6229,12 @@ function enableBuyRule($buyRuleID, $buyCoin){
   newLogToSQL("enableBuyRule","$sql",3,sQLUpdateLog,"SQL CALL","BuyRuleID:$buyRuleID");
 }
 
-function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct){
+function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixSellRule){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call NewBuySellProfitSetup($coinID,$userID,$enableBuy,$enableSell,$nPct);";
+  $sql = "Call NewBuySellProfitSetup($coinID,$userID,$enableBuy,$enableSell,$nPct,$FixSellRule);";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
