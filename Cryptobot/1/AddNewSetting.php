@@ -189,17 +189,20 @@ function copyRule($ID){
       die("Connection failed: " . $conn->connect_error);
   }
   $userID = $_SESSION['ID'];
-  $sql = "INSERT INTO `BuyRules`(`RuleName`, `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`
-    , `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `BuyCoin`, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`
-    , `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`
-    , `BuyAmountOverride`, `NewBuyPattern`, `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`, `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`
-    , `DisableUntil`, `OverrideDisableRule`, `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`, `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`
-    , `CoinMode`, `OverrideCoinAllocation`, `OneTimeBuyRule`,`LimitToBaseCurrency`)
+  $sql = "INSERT INTO `BuyRules`(`RuleName`, `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`
+    , `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `BuyCoin`, `SendEmail`, `BTCAmount`
+    , `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`,`AutoBuyCoinEnabled`
+    , `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`, `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`
+    , `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`, `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
+    , `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`, `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`
+    , `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctOverMinPrice`)
 Select `RuleName`, `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`
-, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `BuyCoin`, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`
-, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`, `SellRuleFixed`
-, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`, `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`, `LimitBuyAmountEnabled`
-, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`, `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`, `OneTimeBuyRule`,`LimitToBaseCurrency`
+, `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, 0, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`
+, `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`
+, `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`, `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`
+, `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`, `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`
+, `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`, `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`
+, `NoOfHoursFlat`, `PctOverMinPrice`
 from `BuyRules`
 where `ID` = $ID";
   //print_r($sql);

@@ -221,6 +221,6 @@ clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
 clearBuyBack(5760);
 clearSQLLog(90);
-setBuySellPriceforProfit();
+//setBuySellPriceforProfit();
 ?>
 </html>
