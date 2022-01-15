@@ -272,7 +272,11 @@ function updateEditedUser(){
   $sellPattern =  $_POST['SellPattern'];
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   $coinPricePatternEnabled = postDataYesNo($_POST['CoinPricePatternEnabled']);
-  $coinPricePattern = $_POST['CoinPricePattern'];
+  $coinPricePattern = $_POST['PctFromHighSellPriceEnable'];
+  $pctFromHighSellPriceEnable = postDataYesNo($_POST['PctFromHighSellPriceEnable']);
+  $pctFromHighSellPrice = $_POST['PctFromHighSellPrice'];
+  $hoursFlatEnable = postDataYesNo($_POST['HoursFlatEnable']);
+  $hoursFlat = $_POST['HoursFlat'];
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -286,7 +290,8 @@ function updateEditedUser(){
   `7DChangeTop`=$PriceChange7DTop,`7DChangeBtm`=$PriceChange7DBtm,`ProfitPctEnabled`=$ProfitSaleEnable,`ProfitPctTop`=$ProfitSaleTop,`ProfitPctBtm`=$ProfitSaleBtm,`CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm,
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
   ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
-  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled
+  `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled,`PctFromHighSellPriceEnabled` = $pctFromHighSellPriceEnable,`NoOfHoursFlatEnabled` = $hoursFlatEnable,`NoOfHoursFlat` = $hoursFlat
+  ,`PctUnderMaxPrice` = $pctFromHighSellPrice
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -313,7 +318,7 @@ function getRules($id){
  `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`,`24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`,
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
-  ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`
+  ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -326,7 +331,7 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],//27
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
-    );//44
+    ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice']);//47
   }
   $conn->close();
   return $tempAry;
@@ -614,6 +619,18 @@ function displayEdit($id){
   //echo "<a href='AddNewSetting.php?add=$id'>Add</a>";
   //displayListBox($pricePattern,'listbox',$coinPricePatEnabled);
   //echo "<input type='submit' name='publish' value='+'><input type='submit' name='remove' value='-'></div></div>";
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>% From High Sell Price</H3>";
+  addNewTwoOption('Pct From High Sell Price Enable: ','PctFromHighSellPriceEnable',$formSettings[0][44]);
+  addNewText('Pct From High Sell Price: ','PctFromHighSellPrice',$formSettings[0][47],37, '5%', False,$formSettings[0][44]);
+  echo "</div>";
+
+  echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>Hours Flat</H3>";
+  addNewTwoOption('Hours Flat Enable: ','HoursFlatEnable',$formSettings[0][45]);
+  addNewText('Hours Flat: ','HoursFlat',$formSettings[0][46],37, '30', False,$formSettings[0][45]);
   echo "</div>";
 
   echo "<div class='settingsform'>";

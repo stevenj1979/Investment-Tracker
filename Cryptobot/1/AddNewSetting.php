@@ -367,9 +367,9 @@ function updateEditedUser(){
   $coinOrder = $_POST['CoinOrderTxt'];
   $hr1ChangePattern = $_POST['Hr1ChangePattern'];
   $overrideDailyLimitEnabled = postDataYesNo($_POST['OverrideDailyLimitEnabled']);
-  $coinPctFromLowBuyPriceEnabled = $_POST['CoinPctFromLowBuyPriceEnabled'];
+  $coinPctFromLowBuyPriceEnabled = postDataYesNo($_POST['CoinPctFromLowBuyPriceEnabled']);
   $pctFromLowBuyPrice = $_POST['PctFromLowBuyPrice'];
-  $coinHoursFlatEnabled = $_POST['CoinHoursFlatEnabled'];
+  $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
     $coinHoursFlat = $_POST['CoinHoursFlat'];
   //$nActive = $_POST['nActive'];
   // Create connection
