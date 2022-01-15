@@ -367,6 +367,10 @@ function updateEditedUser(){
   $coinOrder = $_POST['CoinOrderTxt'];
   $hr1ChangePattern = $_POST['Hr1ChangePattern'];
   $overrideDailyLimitEnabled = postDataYesNo($_POST['OverrideDailyLimitEnabled']);
+  $coinPctFromLowBuyPriceEnabled = $_POST['CoinPctFromLowBuyPriceEnabled'];
+  $pctFromLowBuyPrice = $_POST['PctFromLowBuyPrice'];
+  $coinHoursFlatEnabled = $_POST['CoinHoursFlatEnabled'];
+    $coinHoursFlat = $_POST['CoinHoursFlat'];
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -388,7 +392,8 @@ function updateEditedUser(){
          END
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
-  ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency'
+  ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
+  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
