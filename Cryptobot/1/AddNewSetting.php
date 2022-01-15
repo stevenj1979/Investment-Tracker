@@ -776,18 +776,16 @@ function displayEdit($id){
   //echo "</div>";
 
   echo "<div class='settingsform'>";
-
-  echo "<div class='settingsformCmbo'>";
+  echo "<H3>Coin % from Low Buy Price</H3>";
   addNewTwoOption('Coin Pct from Low Buy Price: ', 'CoinPctFromLowBuyPriceEnabled', $formSettings[0][67]);
   addNewText('Pct From Low Buy Price: ', 'PctFromLowBuyPrice', $formSettings[0][68], 48, '10%', False,$formSettings[0][67]);
+  echo "</div>";
 
-  echo "<input type='submit' name='publish' value='Apply'></div></div>";
-
-  //echo "<div class='settingsform'>";
-  //echo "<H3>1Hr Change Pattern</H3>";
-  //addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
-  //addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
-  //echo "</div>";
+  echo "<div class='settingsform'>";
+  echo "<H3>New Coin Hours Flat</H3>";
+  addNewTwoOption('Coin Hours Flat: ', 'CoinHoursFlatEnabled', $formSettings[0][69]);
+  addNewText('Coin Hours Flat: ', 'CoinHoursFlat', $formSettings[0][70], 48, '10', False,$formSettings[0][69]);
+  echo "</div>";
 
   echo "<div class='settingsform'>";
 
