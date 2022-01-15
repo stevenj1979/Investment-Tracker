@@ -417,6 +417,7 @@ function getRules($id){
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
+,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -431,7 +432,8 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']//44
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
-   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency']);
+   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
+ ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat']); //70
   }
   $conn->close();
   return $tempAry;
@@ -774,6 +776,21 @@ function displayEdit($id){
   //echo "</div>";
 
   echo "<div class='settingsform'>";
+
+  echo "<div class='settingsformCmbo'>";
+  addNewTwoOption('Coin Pct from Low Buy Price: ', 'CoinPctFromLowBuyPriceEnabled', $formSettings[0][67]);
+  addNewText('Pct From Low Buy Price: ', 'PctFromLowBuyPrice', $formSettings[0][68], 48, '10%', False,$formSettings[0][67]);
+
+  echo "<input type='submit' name='publish' value='Apply'></div></div>";
+
+  //echo "<div class='settingsform'>";
+  //echo "<H3>1Hr Change Pattern</H3>";
+  //addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
+  //addNewText('1Hr Change Pattern: ', 'Hr1ChangePattern', $formSettings[0][56], 52, 'Eg BTC:7000,ETH:140,BCH:230', True);
+  //echo "</div>";
+
+  echo "<div class='settingsform'>";
+
   echo "<H3>New 1Hr Change Pattern</H3>";
   addNewTwoOption('1Hr Change Enabled: ', 'Hr1ChangeEnabled', $formSettings[0][55]);
   echo "<div class='settingsformCmbo'>";
