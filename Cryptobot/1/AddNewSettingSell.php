@@ -279,6 +279,7 @@ function updateEditedUser(){
   $hoursFlatEnable = postDataYesNo($_POST['HoursFlatEnable']);
   $hoursFlat = $_POST['HoursFlat'];
   $reEnableBuyRuleEnable = postDataYesNo($_POST['ReEnableBuyRuleEnable']);
+  $ruleName  = $_POST['RuleName'];
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -293,7 +294,7 @@ function updateEditedUser(){
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
   ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled,`PctFromHighSellPriceEnabled` = $pctFromHighSellPriceEnable,`NoOfHoursFlatEnabled` = $hoursFlatEnable,`NoOfHoursFlat` = $hoursFlat
-  ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable
+  ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName'
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -321,7 +322,7 @@ function getRules($id){
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
-,`ReEnableBuyRuleEnabled`
+,`ReEnableBuyRuleEnabled`,`RuleName`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -334,7 +335,7 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],//27
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
-    ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled']);//48
+    ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']);//49
   }
   $conn->close();
   return $tempAry;
@@ -524,6 +525,9 @@ function displayEdit($id){
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSettingSell.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
+  addNewText('Rule Name: ','RuleName',$formSettings[0][49],37, 'Eg 50', False,1);
+  echo "</div>";
+  echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
   addNewTwoOption('MarketCapEnable: ','VolumeEnable',$formSettings[0][7]);
   addNewText('MarketCapTop: ','VolumeTop',$formSettings[0][8],37, 'Eg 50', False,$formSettings[0][7]);

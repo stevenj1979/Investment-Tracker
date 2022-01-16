@@ -374,6 +374,7 @@ function updateEditedUser(){
   $pctFromLowBuyPrice = $_POST['PctFromLowBuyPrice'];
   $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
     $coinHoursFlat = $_POST['CoinHoursFlat'];
+    $ruleName = $_POST['RuleName'];
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -396,7 +397,7 @@ function updateEditedUser(){
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
-  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice
+  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName'
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -425,7 +426,7 @@ function getRules($id){
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
-,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
+,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -441,7 +442,7 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
    ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
- ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat']); //70
+ ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName']); //71
   }
   $conn->close();
   return $tempAry;
@@ -655,6 +656,9 @@ function displayEdit($id){
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
+  addNewText('Rule Name: ', 'RuleName', $formSettings[0][71], 2, 'Eg 50', False,1);
+  echo "</div>";
+  echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
     addNewTwoOption('MarketCapEnable: ', 'MarketCapEnable', $formSettings[0][4]);
     addNewText('MarketCapTop: ', 'MarketCapTop', $formSettings[0][5], 2, 'Eg 50', False,$formSettings[0][4]);
