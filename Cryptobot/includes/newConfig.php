@@ -3528,7 +3528,7 @@ function getDelayCoinPurchaseTimes(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `CoinID`, `UserID`, `DelayTime`  FROM `View10_DelayCoinPurchase`";
+  $sql = "SELECT `ID`, `CoinID`, `UserID`, `DelayTime`  FROM `View10_DelayCoinPurchase` WHERE `DelayTime` > now()";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
