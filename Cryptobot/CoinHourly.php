@@ -640,6 +640,38 @@ function runReduceCoinSwapPct(){
     coinSwapBuyPct($coinSwapID);
   }
 }
+
+function runSQLAvgPrice($coinID, $highLow){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Call AddAvgCoinPrice($coinID,'$highLow');";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+
+}
+
+function runUpdateAvgPrices(){
+  $coin = getCoinIDs();
+  $coinSize = count($coin);
+
+  for ($v=0; $v<$coinSize; $v++){
+    $coinID = $coin[$v][0];
+    runSQLAvgPrice($coinID,'High');
+    runSQLAvgPrice($coinID,'Low');
+  }
+}
+
 Echo "<BR> CoinHourly";
 Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
@@ -684,5 +716,6 @@ runMarketPrice();
 runHoursforPriceDip(); //Market
 runCoinPriceDipPrices();
 runHoursforCoinPriceDip();
+runUpdateAvgPrices();
 ?>
 </html>
