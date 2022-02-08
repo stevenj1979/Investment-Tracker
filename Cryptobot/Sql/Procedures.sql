@@ -1475,11 +1475,15 @@ BEGIN
 
 Declare month3Avg DEC(20,14);
 Declare month6Avg DEC(20,14);
+Declare daysFromUpdate INT;
+
+SELECT DATEDIFF(`LastUpdated`, CURDATE()) AS DateDiff into daysFromUpdate FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
 
 If NOT EXISTS (SELECT `ID` FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low) THEN
 INSERT INTO `AvgHighLow`( `CoinID`, `HighLow`) VALUES (Coin_ID,High_Low);
 END IF;
 
+if (daysFromUpdate >= 90) THEN
 if High_Low = 'High' THEN
 SELECT MAX(`MaxPrice`) into month3Avg FROM `MonthlyMaxPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 3 MONTH);
 
@@ -1491,8 +1495,7 @@ SELECT MIN(`MinPrice`) INTO month3Avg FROM `MonthlyMinPrices` WHERE `CoinID` = C
 SELECT MIN(`MinPrice`) INTO month6Avg FROM `MonthlyMinPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 6 MONTH);
 
 END IF;
-
-
+END IF;
 
 Update `AvgHighLow` SET `HighLow` = High_Low, `3MonthPrice` = month3Avg, `6MonthPrice` = month6Avg where `CoinID` = Coin_ID and `HighLow` = High_Low;
 END$$

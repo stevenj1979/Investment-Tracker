@@ -24,15 +24,13 @@ Set avg3Month = 0.0;
 Set avgAllTime = 0.0;
 Set reducePct = 0.0;
 
-SELECT MAX(`MaxPrice`) INTO avg3Month FROM `MonthlyMaxPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 3 MONTH);
+SELECT `3MonthPrice` INTO avg3Month FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = 'High';
 
-SELECT MAX(`MaxPrice`) INTO avg6Month FROM `MonthlyMaxPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 6 MONTH);
-
-SELECT MAX(`MaxPrice`) INTO avgAllTime FROM `MonthlyMaxPrices` WHERE `CoinID` = Coin_ID;
+SELECT `6MonthPrice` INTO avg6Month FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = 'High';
 
 Set avgPrice = ((avg6Month + avg3Month) /2);
-Set reducePct = ((avgPrice/100)*nPct);
-Return avgPrice-reducePct;
+
+Return avgPrice;
 
 END$$
 DELIMITER ;
@@ -52,15 +50,13 @@ Set avg3Month = 0.0;
 Set avgAllTime = 0.0;
 Set addPct = 0.0;
 
-SELECT MIN(`MinPrice`) INTO avg3Month FROM `MonthlyMinPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 3 MONTH);
+SELECT `3MonthPrice` INTO avg3Month FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = 'Low';
 
-SELECT MIN(`MinPrice`) INTO avg6Month FROM `MonthlyMinPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL 6 MONTH);
-
-SELECT MIN(`MinPrice`) INTO avgAllTime FROM `MonthlyMinPrices` WHERE `CoinID` = Coin_ID;
+SELECT `6MonthPrice` INTO avg6Month FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = 'Low';
 
 Set avgPrice = ((avg6Month+avg3Month)/2);
-Set addPct = ((avgPrice/100)*nPct);
-Return avgPrice+addPct;
+
+Return avgPrice;
 
 END$$
 DELIMITER ;
