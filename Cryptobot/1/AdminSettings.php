@@ -256,7 +256,8 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/testfile.php"> Test </a>
              <br>
-             <a href="https://n1plcpnl0035.prod.ams1.secureserver.net:2083/logout/?locale=en"> cPanel </a>
+            <!-- <a href="https://n1plcpnl0035.prod.ams1.secureserver.net:2083/logout/?locale=en"> cPanel </a> -->
+             <a href="https://sxb1plzcpnl489902.prod.sxb1.secureserver.net:2083/logout/?locale=en"> cPanel </a>
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/AutoUpdatePrice.php"> Auto Update Price </a> 15 mins
              <br>
