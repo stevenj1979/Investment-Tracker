@@ -1411,6 +1411,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             $from = 'Coin Purchase <purchase@investment-tracker.net>';
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
+          newLogToSQL("BittrexBuy", "bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type);", $userID, 1,"OrderComplete","TransactionID:$transactionID");
           bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type); //add buy price - $finalPrice
           //updateAmount $uuid  $resultOrd["result"]["Quantity"]
           updateSQLQuantity($uuid,$orderQty);
