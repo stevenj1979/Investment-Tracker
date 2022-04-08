@@ -320,8 +320,8 @@ function runBuyBack($buyBackCoins){
       }
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
-      $buyBackPurchasePrice = ((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.28))*$tempConvAmt)+$bbKittyAmount;
-      LogToSQL("BuyBackTEST","((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.28))*$tempConvAmt)+$bbKittyAmount; | $buyBackPurchasePrice",3,1);
+      $buyBackPurchasePrice = ((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.75))*$tempConvAmt)+$bbKittyAmount;
+      LogToSQL("BuyBackTEST","((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.75))*$tempConvAmt)+$bbKittyAmount; | $buyBackPurchasePrice",3,1);
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
