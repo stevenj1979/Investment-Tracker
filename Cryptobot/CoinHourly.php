@@ -694,7 +694,7 @@ Echo "<BR> 5. subPctFromOpenCoinModeTransactions();";
 Echo "<BR> 6. addToBuyBackMultiplierHourly();";
 addToBuyBackMultiplierHourly();
 Echo "<BR> 7. updateSellPricetoBuyBack();";
-updateSellPricetoBuyBack();
+//updateSellPricetoBuyBack();
 Echo "<BR> 8. UpdateSpreadBetTotalProfit();";
 UpdateSpreadBetTotalProfit();
 Echo "<BR> 9. updateSplitBuyAmountforRule();";
