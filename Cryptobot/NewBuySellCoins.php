@@ -382,7 +382,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
       LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,11);",3,1);
       newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,11,'Sell','runSpreadBetSellAndBuyback');
       setTransactionPending($transactionID);
-      WriteBuyBack($transactionID,$finalProfitPct,11, $totalMins);
+      WriteBuyBack($transactionID,$finalProfitPct,11, $totalMins,$LiveCoinPrice,$amount);
       LogToSQL("SellSpreadBet and BuyBack","WriteBuyBack($transactionID,$finalProfitPct,$totalRisesBuy, $totalMins);",3,1);
       logAction("runSpreadBetSellAndBuyback; newTrackingSellCoins_v1 : $symbol | $CoinID | $baseCurrency | $userID | $bounceDifference | $LiveCoinPrice | $amount | $bounceTopPrice | $delayCoinSwap | 11 | $profitPCT | $transactionID", 'BuySellFlow', 1);
       $finalBool = True;
@@ -1560,7 +1560,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, $GLOBALS['logToSQLSetting'],"BuyBack","TransactionID:$transactionID");
-                WriteBuyBack($transactionID,$realProfitPct,10, 60);
+                WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount);
               }else{
                 //Update Coin ModeRule
                 $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
@@ -1568,7 +1568,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60);", $userID, $GLOBALS['logToSQLSetting'],"BuyBack","TransactionID:$transactionID");
-                WriteBuyBack($transactionID,$realProfitPct,10, 60);
+                WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount);
               }
               if ($allocationType == 'SpreadBet'){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
