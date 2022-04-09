@@ -17,7 +17,7 @@ $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
   WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL $time)) and ID = (select Max(`ID`) from `Coin` where `Symbol` = '$coinID')
   order by `ActionDate` asc
   limit 500";
-  echo "<br>$query<br>";
+  //echo "<br>$query<br>";
 //$query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice FROM `CoinBuyHistory` WHERE ID = (
 //  select `ID` from `Coin` where `Symbol` = '$coinID')
 //   and DATE_ADD(`ActionDate`, INTERVAL 24 HOUR) >= now() order by `ActionDate` asc";
