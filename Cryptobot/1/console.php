@@ -48,14 +48,15 @@ function getHeaders(){
   return $tempAry;
 }
 
-function getsubHeaders(){
+function getsubHeaders($consoleSelect){
+  if ($consoleSelect == 1){ $sql_subject = 1;}else { $sql_subject = `Subject` = $consoleSelect;}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT DISTINCT(`SubTitle`) as `SubTitle` FROM `ActionLog` order by `SubTitle` ";
+  $sql = "SELECT DISTINCT(`SubTitle`) as `SubTitle` FROM `ActionLog` where $sql_subject order by `SubTitle` ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -103,7 +104,7 @@ function displayDropDown($headers,$selected){
 function main(){
   displayHeader(9);
   $headers = getHeaders();
-  $subHeaders = getsubHeaders();
+  $subHeaders = getsubHeaders($_SESSION['ConsoleSelected']);
   $consoleData = getConsoleData($_SESSION['ConsoleSelected'], $_SESSION['ID'],$_SESSION['ConsoleSubSelected']);
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
