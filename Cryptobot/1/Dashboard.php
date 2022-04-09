@@ -207,6 +207,7 @@ displayHeader(0);
               $btcPrice = (float)$uProfit[0][1];
               $usdtPrice = (float)$uProfit[0][2];
               $ethProfit = (float)$uProfit[0][3];
+              $bittrexTotal = $btcPrice + $usdtPrice + $ethProfit;
               //echo "<BR> $btcPrice : $usdtPrice : $ethProfit ";
               //$LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
               //$LiveBTCPrice = (float)$uProfit[0][3];
@@ -218,12 +219,12 @@ displayHeader(0);
               //$totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice)+$pendingUSDT;
               echo "<h3>Dashboard</h3>";
               echo "<BR><H3>1Hr:".round($webMarketStats[0][0],2)."% \t| 24Hr:".round($webMarketStats[0][1],2)."%\t| 7D:".round($webMarketStats[0][2],2)."%\t </H3><BR>";
-              echo "<table><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><tr>";
+              echo "<table><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
               if ($_SESSION['isMobile']){
-                $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td>";
+                $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);$bittrexTotal = round($bittrexTotal,3);
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
               }else{
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td>";
+                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
               }
               echo "</table>";
 
