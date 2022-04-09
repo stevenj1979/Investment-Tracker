@@ -173,6 +173,7 @@ displayHeader(2);
         echo "<input type='submit' value='Update'/></form>";?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
+        echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
         echo "<table><TH>ID</TH><TH>Symbol</TH> <TH>LiveBuyOrders</TH> <TH>LastBuyOrders</TH> <TH>BuyOrdersPctChange</TH> <TH>LiveMarketCap</TH> <TH>LastMarketCap</TH> <TH>MarketCapPctChange</TH>
         <TH>Live1HrChange</TH> <TH>Last1HrChange</TH> <TH>Hr1ChangePctChange</TH> <TH>Live24HrChange</TH> <TH>Last24HrChange</TH> <TH>Hr24ChangePctChange</TH> <TH>Live7DChange</TH> <TH>Last7DChange</TH>
         <TH>D7ChangePctChange</TH> <TH>LiveCoinPrice</TH> <TH>LastCoinPrice</TH> <TH>CoinPricePctChange</TH> <TH>LiveSellOrders</TH> <TH>LastSellOrders</TH> <TH>SellOrdersPctChange</TH> <TH>LiveVolume</TH>
