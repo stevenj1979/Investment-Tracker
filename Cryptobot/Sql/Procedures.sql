@@ -1504,7 +1504,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeCoinBuyHistoryStats`(IN `Coin_ID` INT, IN `bit_price` DECIMAL(20,14), IN `base_curr` VARCHAR(20), IN `nDate` DATE)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeCoinBuyHistoryStats`(IN `Coin_ID` INT, IN `bit_price` DECIMAL(20,14), IN `base_curr` VARCHAR(20), IN `nDate` DATETIME)
     MODIFIES SQL DATA
 BEGIN
 DECLARE last_Live DEC(20,14);
