@@ -19,14 +19,15 @@ include_once ('/home/stevenj1979/SQLData.php');
 setStyle($_SESSION['isMobile']);
 
 if (!empty($_POST['submit'])){
-  changeSetting($_POST['transSelect']);
+  changeSetting($_POST['transSelect'],$_POST['transSubSelect']);
   main();
 }else{
   main();
 }
 
-function changeSetting($change){
+function changeSetting($change,$subChange){
   $_SESSION['ConsoleSelected'] = $change;
+  $_SESSION['ConsoleSubSelected'] = $subChange;
 }
 
 function getHeaders(){
@@ -65,15 +66,16 @@ function getsubHeaders(){
   return $tempAry;
 }
 
-function getConsoleData($console, $userID){
+function getConsoleData($console, $userID, $consolsub){
   if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = '$console'";}
+  if ($console == 1){$sql_option2 = $consolsub;} else {$sql_option2 = "`SubTitle` = '$consolsub'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option Limit 100";
+  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option and $sql_option2 Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -102,7 +104,7 @@ function main(){
   displayHeader(9);
   $headers = getHeaders();
   $subHeaders = getsubHeaders();
-  $consoleData = getConsoleData($_SESSION['ConsoleSelected'], $_SESSION['ID']);
+  $consoleData = getConsoleData($_SESSION['ConsoleSelected'], $_SESSION['ID'],$_SESSION['ConsoleSubSelected']);
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
   echo "<form action='console.php?dropdown=Yes' method='post'>";
@@ -111,7 +113,7 @@ function main(){
     echo "</select>";
 
   echo "<select name='transSubSelect' id='transSelect' class='enableTextBox'>";
-      displayDropDown($subHeaders, $_SESSION['ConsoleSelected']);
+      displayDropDown($subHeaders, $_SESSION['ConsoleSubSelected']);
       echo "</select>";
       echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
       echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
