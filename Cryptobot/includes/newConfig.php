@@ -2651,7 +2651,7 @@ function copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHisto
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,1,"SQL CALL","CoinID:$coinID");
 }
 
 function copyBuyHistory($coinID){
