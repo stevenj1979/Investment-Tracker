@@ -59,7 +59,7 @@ function getCoinSwap(){
     $sql = "SELECT `IDSc`, `TransactionIDSc`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`
             ,`LiveCoinPrice`, ((`LiveCoinPrice`-`NewCoinPrice`)/`LiveCoinPrice`)*100 as PctFromBuy,`OriginalSymbol`,`BittrexRefSell`
             FROM `View8_SwapCoin` WHERE `Status` <> 'Closed'";
-    print_r($sql);
+    //print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['IDSc'],$row['TransactionIDSc'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate']
       ,$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['LiveCoinPrice'],$row['PctFromBuy'],$row['OriginalSymbol'],$row['BittrexRefSell']);}

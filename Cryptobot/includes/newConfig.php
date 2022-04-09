@@ -4379,7 +4379,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
             ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`
             FROM `View6_TrackingSellCoins` $whereClause";
-  echo $sql;
+  //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
