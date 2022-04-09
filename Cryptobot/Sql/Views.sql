@@ -29,7 +29,7 @@ join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
 join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
-Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID` and
+Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
 where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
 
 
@@ -286,13 +286,15 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
    ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
    , `Us`.`DisableUntil`
    ,`Bbs`.`ID`, `Bbs`.`CoinID`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
+   ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`
    FROM `BuyBack` `Bb`
    join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
    join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
    join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
    join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
-   join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`;
+   join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
+   Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Tr`.`CoinID`;
 
 CREATE OR REPLACE VIEW `View10_DelayCoinPurchase` as
 SELECT `Dcp`.`ID`, `Dcp`.`CoinID`, `Dcp`.`UserID`, `Dcp`.`DelayTime`
