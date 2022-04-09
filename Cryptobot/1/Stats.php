@@ -95,6 +95,7 @@ function getHistoryFromSQL(){
     FROM `CoinBuyHistory` WHERE `Symbol` = '$sql_option' and `BaseCurrency` = '$sql_option_base' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` desc";
     //$result = $conn->query($sql);
+    echo $sql;
     $result = $conn->query($sql);
 
       while ($row = mysqli_fetch_assoc($result)){
