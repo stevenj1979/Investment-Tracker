@@ -22,6 +22,7 @@ if (!empty($_POST['submit'])){
   changeSetting($_POST['transSelect'],$_POST['transSubSelect']);
   main();
 }else{
+  changeSetting('ALL','ALL');
   main();
 }
 
@@ -67,8 +68,8 @@ function getsubHeaders(){
 }
 
 function getConsoleData($console, $userID, $consolsub){
-  if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = '$console'";}
-  if ($consolsub == 'ALL'){$sql_option2 = $consolsub;} else {$sql_option2 = "`SubTitle` = '$consolsub'";}
+  if ($console == 'ALL'){$sql_option =  " `Subject`like '%%'";} else {$sql_option = " `Subject` = '$console'";}
+  if ($consolsub == 'ALL'){$sql_option2 = " `SubTitle`like '%%'";} else {$sql_option2 = " `SubTitle` = '$consolsub'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
