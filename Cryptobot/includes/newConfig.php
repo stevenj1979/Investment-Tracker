@@ -661,6 +661,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         }
     }else{
       addCoinPurchaseDelay($coinID,$userID,120);
+      clearTrackingCoinQueue($userID,$coinID);
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount;
       logAction("BITTREX BALANCE INSUFFICIENT| $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySellFlow', 1);
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", $userID,1);
