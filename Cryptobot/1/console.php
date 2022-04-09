@@ -68,7 +68,7 @@ function getsubHeaders(){
 
 function getConsoleData($console, $userID, $consolsub){
   if ($console == 1){$sql_option = $console;} else {$sql_option = "`Subject` = '$console'";}
-  if ($console == 1){$sql_option2 = $consolsub;} else {$sql_option2 = "`SubTitle` = '$consolsub'";}
+  if ($consolsub == 'ALL'){$sql_option2 = $consolsub;} else {$sql_option2 = "`SubTitle` = '$consolsub'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
