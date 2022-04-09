@@ -67,7 +67,7 @@ function saveResidualAmountToBittrex($TransactionID,$residualAmount){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("saveResidualAmountToBittrex",$sql,3,0,"SQL","UserID:$UserID");
+    newLogToSQL("saveResidualAmountToBittrex",$sql,3,1,"SQL","UserID:$UserID");
     logAction("saveResidualAmountToBittrex: ".$sql, 'BuySell', 0);
 }
 

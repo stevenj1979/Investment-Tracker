@@ -887,14 +887,14 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
               //$ogPurchasePrice = $LiveCoinPrice*$Amount;
               $sellFee = ($PurchasePrice/100)*0.28;
               $Amount = (($PurchasePrice+$sellFee) / $LiveCoinPrice);
-              newLogToSQL("TrackingSell","$PurchasePrice | $sellFee | $LiveCoinPrice | $Amount",3,1,"SaveResidual","TransactionID:$TransactionID");
+              newLogToSQL("TrackingSell","$PurchasePrice | $sellFee | $LiveCoinPrice | $Amount | $oldAmount",3,1,"SaveResidual","TransactionID:$TransactionID");
             }
             newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,1,"NewAmountToSQL","TransactionID:$TransactionID");
             if ($origAmount == 0){
               updateSellAmount($TransactionID,$Amount, $oldAmount);
             }
-            newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins4","TransactionID:$TransactionID");
-            newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins2","TransactionID:$TransactionID");
+            newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
+            newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
             $newOrderDate = date("YmdHis", time());
             $OrderString = "ORD".$coin.$newOrderDate.$BuyRule;
             $residualAmount = $oldAmount - $Amount;
