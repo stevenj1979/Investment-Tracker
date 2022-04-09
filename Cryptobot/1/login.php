@@ -68,6 +68,7 @@ if(isset($_POST['submit'])){
       $_SESSION['TransListSelected'] = "Open";
       $_SESSION['BittrexListSelected'] = "1";
       $_SESSION['ConsoleSelected'] = "1";
+      $_SESSION['ConsoleSubSelected'] = "1";
       $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($temp[0][2]));
       $_SESSION['bittrexQueue'] = count(getBittrexRequests($temp[0][2]));
       $ruleID = getBuyRulesIDs($temp[0][2]);

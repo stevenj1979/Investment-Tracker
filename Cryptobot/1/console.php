@@ -22,7 +22,7 @@ if (!empty($_POST['submit'])){
   changeSetting($_POST['transSelect'],$_POST['transSubSelect']);
   main();
 }else{
-  changeSetting('ALL','ALL');
+  //changeSetting('ALL','ALL');
   main();
 }
 
