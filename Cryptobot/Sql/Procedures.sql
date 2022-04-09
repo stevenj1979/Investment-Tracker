@@ -1502,3 +1502,23 @@ END IF;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeCoinBuyHistoryStats`(IN `Coin_ID` INT, IN `bit_price` DECIMAL(20,14), IN `base_curr` VARCHAR(20), IN `nDate` DATE)
+    MODIFIES SQL DATA
+BEGIN
+DECLARE last_Live DEC(20,14);
+DECLARE nSymbol VARCHAR(20);
+
+SELECT `LiveCoinPrice` INTO last_Live FROM `CoinBuyHistory` WHERE `ID` = Coin_ID order by `ActionDate` Desc Limit 1;
+
+if (last_Live is null) THEN
+	set last_Live = bit_price;
+END IF;
+
+Select `Symbol` INTO nSymbol from `Coin` where `ID` = Coin_ID;
+
+INSERT INTO `CoinBuyHistory`(`ID`, `LiveCoinPrice`,`Symbol`,`BaseCurrency`,`ActionDate`,`LastCoinPrice`) VALUES (Coin_ID,bit_price,nSymbol ,base_curr,nDate,last_Live);
+
+END$$
+DELIMITER ;

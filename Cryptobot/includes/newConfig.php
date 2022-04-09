@@ -2640,6 +2640,20 @@ function copyCoinHistory($coin){
   newLogToSQL("copyCoinHistory","$sql",3,sQLUpdateLog,"SQL CALL","Coin:$coin");
 }
 
+function copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "call writeCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime);";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
+}
+
 function copyBuyHistory($coinID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
