@@ -68,8 +68,8 @@ function getsubHeaders(){
 }
 
 function getConsoleData($console, $userID, $consolsub){
-  if ($console == 'ALL'){$sql_option =  " `Subject`like '%%'";} else {$sql_option = " `Subject` = '$console'";}
-  if ($consolsub == 'ALL'){$sql_option2 = " `SubTitle`like '%%'";} else {$sql_option2 = " `SubTitle` = '$consolsub'";}
+  if ($console == '1'){$sql_option =  " `Subject`like '%%'";} else {$sql_option = " `Subject` = '$console'";}
+  if ($consolsub == '1'){$sql_option2 = " `SubTitle`like '%%'";} else {$sql_option2 = " `SubTitle` = '$consolsub'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
