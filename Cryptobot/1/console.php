@@ -36,12 +36,30 @@ function getHeaders(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT DISTINCT(`Subject`) as `Subject`  FROM `ActionLog` ";
+  $sql = "SELECT DISTINCT(`Subject`) as `Subject`  FROM `ActionLog`  order by `Subject` ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Subject']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getsubHeaders(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT DISTINCT(`SubTitle`) as `SubTitle` FROM `ActionLog` order by `SubTitle` ";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['SubTitle']);
   }
   $conn->close();
   return $tempAry;
@@ -83,6 +101,7 @@ function displayDropDown($headers,$selected){
 function main(){
   displayHeader(9);
   $headers = getHeaders();
+  $subHeaders = getsubHeaders();
   $consoleData = getConsoleData($_SESSION['ConsoleSelected'], $_SESSION['ID']);
   $dataCount = count($consoleData);
   print_r("<h2>Console</h2>");
@@ -90,8 +109,12 @@ function main(){
   echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
     displayDropDown($headers, $_SESSION['ConsoleSelected']);
     echo "</select>";
-    echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
-    echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
+
+  echo "<select name='transSubSelect' id='transSelect' class='enableTextBox'>";
+      displayDropDown($subHeaders, $_SESSION['ConsoleSelected']);
+      echo "</select>";
+      echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
+      echo "<textarea class='FormElement' name='term' id='term' style='width: 100%; height: 90%;'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";
     }
