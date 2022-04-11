@@ -24,7 +24,7 @@ $userID = $_GET['ID'];
 //$ethPrice = getLiveCoinPriceUSD('ETH');
 $query = "SELECT `ActionDate`,`BittrexBTC`,`BittrexUSDT`,`BittrexETH`,`BTCinUSD`,`ETHinUSD`,`USDTinUSD`,`PendingCoinsUSD`,`TotalUSD`
 FROM `UserProfitView`
-WHERE `UserID` = $userID AND `ActionDate` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
+WHERE `UserID` = $userID AND `ActionDate` >= curdate() - INTERVAL DAYOFWEEK(curdate())+30 DAY
 order by `ActionDate` asc
 limit 50";
 $table = array();
