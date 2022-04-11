@@ -591,7 +591,7 @@ End$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `ResidualCoinToSaving`(IN `new_Amount` DECIMAL(20,14), IN `Order_ID` VARCHAR(100), IN `Trans_ID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `ResidualCoinToSaving`(IN `new_Amount` DECIMAL(20,14), IN `Order_ID` VARCHAR(100), IN `Trans_ID` INT,IN `old_Amount` DECIMAL(20,14))
     MODIFIES SQL DATA
 BEGIN
 Declare to_Merge Int;
@@ -599,7 +599,7 @@ Set to_Merge = 0;
 Select `AutoMergeSavings` into to_Merge from `UserConfig` where `UserID` = (Select `UserID` From `Transaction` where `ID` = Trans_ID );
 
 INSERT INTO `Transaction`( `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `BittrexRef`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `CaptureTrend`, `SpreadBetRuleID`, `OriginalAmount`)
-SELECT `Type`, `CoinID`, `UserID`, `CoinPrice`, new_Amount, 'Saving', now(), `CompletionDate`, 0, Order_ID, '', `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, to_Merge, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = 10), `CaptureTrend`, 10, `OriginalAmount` FROM `Transaction` WHERE `ID` = Trans_ID;
+SELECT `Type`, `CoinID`, `UserID`, `CoinPrice`, new_Amount, 'Saving', now(), `CompletionDate`, 0, Order_ID, '', `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, to_Merge, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = 10), `CaptureTrend`, 10, old_Amount FROM `Transaction` WHERE `ID` = Trans_ID;
 
 END$$
 DELIMITER ;

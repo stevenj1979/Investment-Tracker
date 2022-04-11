@@ -1587,7 +1587,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 $newOrderDate = date("YmdHis", time());
                 $OrderString = "ORD".$coin.$newOrderDate.$ruleIDBTBuy;
                 $residualAmount = $originalAmount - $amount;
-                ResidualCoinsToSaving($newResidualAmount,$OrderString ,$transactionID);
+                ResidualCoinsToSaving($amount,$OrderString ,$transactionID,$originalAmount);
                 newLogToSQL("BittrexSell","ResidualCoinsToSaving($newResidualAmount, $originalAmount, $amount, $OrderString, $transactionID, $realProfitPct);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
               }
               UpdateProfit();

@@ -1505,12 +1505,12 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
   newLogToSQL("CoinMarketCapStatstoSQL","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
 }
 
-function ResidualCoinsToSaving($amount, $orderNo, $transactionID){
+function ResidualCoinsToSaving($amount, $orderNo, $transactionID,$originalAmount){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call ResidualCoinToSaving($amount, '$orderNo',$transactionID);";
+  $sql = "call ResidualCoinToSaving($amount, '$orderNo',$transactionID,$originalAmount);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
