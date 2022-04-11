@@ -26,7 +26,7 @@ $query = "SELECT `ActionDate`,`BittrexBTC`,`BittrexUSDT`,`BittrexETH`,`BTCinUSD`
 FROM `UserProfitView`
 WHERE `UserID` = $userID AND `ActionDate` >= curdate() - INTERVAL DAYOFWEEK(curdate())+30 DAY
 order by `ActionDate` asc
-limit 50";
+limit 500";
 $table = array();
 $table['cols'] = array(
     /* define your DataTable columns here
