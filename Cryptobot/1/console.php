@@ -29,7 +29,7 @@ if (!empty($_POST['submit'])){
 function changeSetting($change,$subChange,$searchTxt){
   if ($change == 'ALL'){ $change = '1';}else{  $_SESSION['ConsoleSelected'] = $change;}
   if ($subChange == 'ALL'){ $subChange = '1';}else{ $_SESSION['ConsoleSubSelected'] = $subChange;}
-  if ($searchTxt == '1'){ $subChange = '1';}else{ $_SESSION['ConsoleSearchTxt'] = $searchTxt;]
+  if ($searchTxt == '1'){ $subChange = '1';}else{ $_SESSION['ConsoleSearchTxt'] = $searchTxt;}
 }
 
 function getHeaders(){
