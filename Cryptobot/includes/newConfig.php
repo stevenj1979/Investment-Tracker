@@ -4925,7 +4925,7 @@ function writeMarketPrice($price){
   }
   $conn->close();
   logAction("writeMarketPrice: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("writeMarketPrice",$sql,3,1,"SQL","M_Price:$price");
+  newLogToSQL("writeMarketPrice",$sql,3,0,"SQL","M_Price:$price");
 }
 
 function getRuleProfit(){
