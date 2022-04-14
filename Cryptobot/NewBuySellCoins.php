@@ -894,8 +894,9 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
             newLogToSQL("TrackingSell","$oldAmount | $Amount | $PurchasePrice | $sellFee | $LiveCoinPrice | $ProfitPct",3,1,"NewAmountToSQL","TransactionID:$TransactionID");
             if ($origAmount == 0){
               updateSellAmount($TransactionID,$Amount, $oldAmount);
+              newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
             }
-            newLogToSQL("TrackingSell","updateSellAmount($TransactionID,$Amount, $oldAmount);",3,1,"SaveResidualCoins4","TransactionID:$TransactionID");
+
             newLogToSQL("TrackingSell","$coin | $CoinID | $oldAmount | $CoinPrice | $PurchasePrice | $LiveCoinPrice | $Amount | $TransactionID | $tempFee",3,1,"SaveResidualCoins2","TransactionID:$TransactionID");
             $newOrderDate = date("YmdHis", time());
             $OrderString = "ORD".$coin.$newOrderDate.$BuyRule;
