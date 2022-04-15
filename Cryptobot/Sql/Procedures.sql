@@ -1523,3 +1523,27 @@ INSERT INTO `CoinBuyHistory`(`ID`, `LiveCoinPrice`,`Symbol`,`BaseCurrency`,`Acti
 DELETE FROM `CoinBuyHistory` WHERE `ActionDate` < now() - interval 8 DAY;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `savingToLivewithMerge`(IN `User_ID` INT, IN `Coin_ID` INT, IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+Declare SpreadBet_RuleID INT;
+Declare SpreadBet_TransID INT;
+Declare nStatus VARCHAR(50);
+
+Select `SpreadbetRuleID` Into SpreadBet_RuleID FROM `Transaction` where `ID` = Trans_ID;
+Select `SpreadbetTransactionID` Into SpreadBet_TransID FROM `Transaction` where `ID` = Trans_ID;
+Select `Status` Into nStatus FROM `Transaction` where `ID` = Trans_ID;
+
+IF EXISTS (SELECT `ID` from `Transaction` Where `Status` = 'Saving' and `CoinID`  = Coin_ID and `UserID` =  User_ID) THEN
+
+UPDATE `Transaction` SET `Status` = nStatus, `ToMerge` = 1, `SpreadBetRuleID` = SpreadBet_RuleID, `SpreadBetTransactionID` = SpreadBet_TransID WHERE `CoinID` = Coin_ID and `UserID` = User_ID and `Status` = 'Saving';
+
+UPDATE `Transaction` SET `ToMerge` = 1 WHERE `ID` = Trans_ID;
+
+END IF;
+
+END$$
+DELIMITER ;
