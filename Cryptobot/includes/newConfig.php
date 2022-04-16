@@ -18,7 +18,7 @@ function getBittrexRequests($userID = 0){
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
-  ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`
+  ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -30,7 +30,7 @@ function getBittrexRequests($userID = 0){
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']
-    ,$row['MergeSavingWithPurchase'] ); //42
+    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'] ); //43
   }
   $conn->close();
   return $tempAry;
@@ -884,13 +884,14 @@ Function getOpenCoinSwaps(){
   //$result = $conn->query($query);
   $sql = "SELECT `IDTr`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`
             , `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`CoinID` as `OriginalCoinID`, `OriginalSymbol` ,`BittrexRefSell`,`SellFinalPrice`,`LiveCoinPrice`,`UserID`
-            ,`IDSc` as CoinSwapID,`PctToBuy`, ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1PctChange`,`LiveCoinPrice`
+            ,`IDSc` as CoinSwapID,`PctToBuy`, ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1PctChange`,`LiveCoinPrice`,`RebuySavingsEnabled`
             FROM `View8_SwapCoin`";
   print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDTr'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['Apikey'],$row['ApiSecret'] //9
-    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID'],$row['PctToBuy'],$row['Hr1PctChange'],$row['LiveCoinPrice']);
+    ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID'],$row['PctToBuy'],$row['Hr1PctChange'],$row['LiveCoinPrice'] //21
+  ,$row['RebuySavingsEnabled']);
   }
   $conn->close();
   return $tempAry;
@@ -4398,7 +4399,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`OriginalAmount` as `OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc` as `TrackingSellID`,`SaveResidualCoins`
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
-            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`
+            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`
             FROM `View6_TrackingSellCoins` $whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -4409,7 +4410,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['CoinID'],$row['APIKey'],$row['APISecret'],$row['KEK'],$row['Email'],$row['UserName'],$row['BaseCurrency'],$row['SendEmail'],$row['SellCoin'],$row['CoinSellOffsetEnabled'],$row['CoinSellOffsetPct'] //19
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
     ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['BTCBuyAmount'], $row['TrackingSellID'] //38
-  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct'], $row['ReEnableBuyRuleEnabled'], $row['ReEnableBuyRule']);
+  , $row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct'], $row['ReEnableBuyRuleEnabled'], $row['ReEnableBuyRule'], $row['BuyBackEnabled']); //47
   }
   $conn->close();
   return $tempAry;
@@ -5665,7 +5666,7 @@ function getSavingsData($ID = 0){
           , `Live1HrChange`, `Hr1ChangePctChange`, `Last24HrChange`, `Live24HrChange`, `Hr24ChangePctChange`, `Last7DChange`, `Live7DChange`, `D7ChangePctChange`, `BaseCurrency`, 'AutoSellPrice'
           ,   `Price4Trend`,  `Price3Trend`,  `LastPriceTrend`, `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`
           , `Image`, 10 as `MaxCoinMerges`, 'SpreadBetTransactionID','PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`
-          ,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice
+          ,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice, `SellSavingsEnabled`
           FROM `View5_SellCoins` $whereclause";
   echo "<BR> GET SAVINGS SQL: $sql";
   $result = $conn->query($sql);
@@ -5678,7 +5679,7 @@ function getSavingsData($ID = 0){
       ,$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'],$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['AutoSellPrice'] //37
       ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'],$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'] //47
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
-    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells'],$row['BTCPrice'],$row['ETHPrice']); //66
+    ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells'],$row['BTCPrice'],$row['ETHPrice'],$row['SellSavingsEnabled']); //67
   }
   $conn->close();
   return $tempAry;

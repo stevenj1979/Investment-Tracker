@@ -27,6 +27,9 @@ if(isset($_POST['submit'])){
     $btcBuyAmount = $_POST['BTCBuyAmount']; $baseCurrency = $_POST['userBaseCurrency']; $enableLowPurchasePrice = $_POST['lowPricePurchaseEnabled'];
     $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];$totalRisesInPriceSell = $_POST['TotalRisesInPriceSell'];
     $noOfCoinPurchase = $_POST['NoOfCoinPurchase'];
+    $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['enableLowMarketMode'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
+    $reduceLossEnabled = $_POST['enableReduceLoss'];$redirectPurchasesToSpread = $_POST['enableRedirectToSB'];$redirectPurchasesToSpreadID = $_POST['redirectSBID'];$buyBackEnabled = $_POST['enableBuyBack'];
+    $allBuyBackAsOverride = $_POST['enableAllBBasOverride'];$sellSavingsEnabled = $_POST['enableSellSavings'];$rebuySavingsEnabled = $_POST['enableReBuySaving'];$autoMergeSavings = $_POST['enableAutoMerge'];$mergeSavingWithPurchase = $_POST['enableMergeWithPurchase'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -38,8 +41,13 @@ if(isset($_POST['submit'])){
     if(empty($_POST['TotalRisesInPrice'])){$totalRisesInPrice = 0;}
     if(empty($_POST['TotalRisesInPriceSell'])){$totalRisesInPriceSell = 0;}
     if(empty($_POST['NoOfCoinPurchase'])){$noOfCoinPurchase = 0;}
+    if(empty($_POST['minsPauseAfterPurchase'])){$minsToPauseAfterPurchase = 0;}
+    if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
+    if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
     echo "Here1!";
-    updateUser($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase);
+    $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
+    $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase);
+    updateUser($settingsUpdateAry);
     echo "Here2!";
 
     //header('Location: Settings.php');
@@ -63,25 +71,48 @@ function getUserIDs($userID){
   }
 
   $sql = "SELECT `IDUs`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`,`KEK`
-  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`,`NoOfCoinPurchase` FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
+  ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`,`NoOfCoinPurchase`,`ReduceLossEnabled`,`RebuySavingsEnabled`,`SellSavingsEnabled`,`BuyBackEnabled`
+  ,`SaveResidualCoins`,`RedirectPurchasesToSpreadID`,`RedirectPurchasesToSpread`,`MinsToPauseAfterPurchase`,`LowMarketModeEnabled`,`AllBuyBackAsOverride`,`HoursFlatTolerance`,`MergeSavingWithPurchase`
+  ,`AutoMergeSavings`
+  FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['IDUs'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'],
-      $row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK'],$row['LowPricePurchaseEnabled'],$row['NoOfPurchases'],$row['PctToPurchase']
-      ,$row['TotalRisesInPrice'],$row['TotalRisesInPriceSell'],$row['NoOfCoinPurchase']);
+      $tempAry[] = Array($row['IDUs'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'] //7
+      ,$row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK'],$row['LowPricePurchaseEnabled'],$row['NoOfPurchases'],$row['PctToPurchase'] //16
+      ,$row['TotalRisesInPrice'],$row['TotalRisesInPriceSell'],$row['NoOfCoinPurchase'],$row['ReduceLossEnabled'],$row['RebuySavingsEnabled'],$row['SellSavingsEnabled'],$row['BuyBackEnabled'] //23
+      ,$row['SaveResidualCoins'],$row['RedirectPurchasesToSpreadID'],$row['RedirectPurchasesToSpread'],$row['MinsToPauseAfterPurchase'],$row['LowMarketModeEnabled'],$row['AllBuyBackAsOverride'] //29
+      ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings']); //32
   }
   $conn->close();
   return $tempAry;
 }
 
 
-function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTCLimit, $totalBTCLimit,$enableDailyBTCLimit, $enableTotalBTCLimit, $BTCBuyAmount, $userBaseCurrency, $lowPricePurchaseEnabled, $noOfPurchases, $pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase){
+function updateUser($settingsUpdateAry){
+  $userID = $settingsUpdateAry[0][0]; $newusername = $settingsUpdateAry[0][1]; $email = $settingsUpdateAry[0][2]; $apikey = $settingsUpdateAry[0][3]; $apisecret = $settingsUpdateAry[0][4];
+  $dailyBTCLimit = $settingsUpdateAry[0][5]; $totalBTCLimit = $settingsUpdateAry[0][6];$enableDailyBTCLimit = $settingsUpdateAry[0][7]; $enableTotalBTCLimit = $settingsUpdateAry[0][8];
+  $BTCBuyAmount = $settingsUpdateAry[0][9]; $userBaseCurrency = $settingsUpdateAry[0][10]; $lowPricePurchaseEnabled = $settingsUpdateAry[0][11]; $noOfPurchases = $settingsUpdateAry[0][12];
+  $pctToPurchase = $settingsUpdateAry[0][13];$totalRisesInPrice = $settingsUpdateAry[0][14];$totalRisesInPriceSell = $settingsUpdateAry[0][15];$noOfCoinPurchase = $settingsUpdateAry[0][16];
+  $hoursFlatTolerance = $settingsUpdateAry[0][17];$lowMarketModeEnabled = $settingsUpdateAry[0][18];$minsToPauseAfterPurchase = $settingsUpdateAry[0][19];$saveResidualCoins = $settingsUpdateAry[0][20];
+  $reduceLossEnabled = $settingsUpdateAry[0][21];$redirectPurchasesToSpread = $settingsUpdateAry[0][22];$redirectPurchasesToSpreadID = $settingsUpdateAry[0][23];$buyBackEnabled = $settingsUpdateAry[0][24];
+  $allBuyBackAsOverride = $settingsUpdateAry[0][25];$sellSavingsEnabled = $settingsUpdateAry[0][26];$rebuySavingsEnabled = $settingsUpdateAry[0][27];$autoMergeSavings = $settingsUpdateAry[0][28];
+  $mergeSavingWithPurchase = $settingsUpdateAry[0][29];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
+  if ($lowMarketModeEnabled == "Yes"){$lowMarketModeEnabled = 1;}else{ $lowMarketModeEnabled = 0;}
+  if ($saveResidualCoins == "Yes"){$saveResidualCoins = 1;}else{$saveResidualCoins = 0;}
+  if ($reduceLossEnabled == "Yes"){$reduceLossEnabled = 1;}else{$reduceLossEnabled = 0;}
+  if ($redirectPurchasesToSpread == "Yes"){$redirectPurchasesToSpread = 1;}else{$redirectPurchasesToSpread = 0;}
+  if ($buyBackEnabled == "Yes"){$buyBackEnabled = 1;}else{$buyBackEnabled = 0;}
+  if ($allBuyBackAsOverride == "Yes"){$allBuyBackAsOverride = 1;}else{$allBuyBackAsOverride = 0;}
+  if ($sellSavingsEnabled == "Yes"){$sellSavingsEnabled = 1;}else{$sellSavingsEnabled = 0;}
+  if ($rebuySavingsEnabled == "Yes"){$rebuySavingsEnabled = 1;}else{$rebuySavingsEnabled = 0;}
+  if ($autoMergeSavings == "Yes"){$autoMergeSavings = 1;}else{$autoMergeSavings = 0;}
+  if ($mergeSavingWithPurchase == "Yes"){$mergeSavingWithPurchase = 1;}else{$mergeSavingWithPurchase = 0;}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -94,9 +125,12 @@ function updateUser($userID, $newusername, $email, $apikey, $apisecret,$dailyBTC
   $sql = "UPDATE `UserConfig` SET `APIKey`='$apikey', `APISecret`='$enc_apiSecret',`EnableDailyBTCLimit`=$enableDailyBTCLimitNum
          ,`EnableTotalBTCLimit`=$enableTotalBTCLimitNum,`DailyBTCLimit`=$dailyBTCLimit,`TotalBTCLimit`=$totalBTCLimit,`BTCBuyAmount`=$BTCBuyAmount, `BaseCurrency`='$userBaseCurrency',`KEK`='$enc_KEK'
          ,`LowPricePurchaseEnabled` = $lowPricePurchaseEnabled, `NoOfPurchases` = $noOfPurchases,`PctToPurchase` = $pctToPurchase,`TotalRisesInPrice` = $totalRisesInPrice, `TotalRisesInPriceSell` = $totalRisesInPriceSell
-         ,`NoOfCoinPurchase` = $noOfCoinPurchase
+         ,`NoOfCoinPurchase` = $noOfCoinPurchase,`HoursFlatTolerance`=$hoursFlatTolerance,`LowMarketModeEnabled`=$lowMarketModeEnabled,`MinsToPauseAfterPurchase`=$minsToPauseAfterPurchase,`SaveResidualCoins`=$saveResidualCoins
+         ,`RedirectPurchasesToSpread`=$redirectPurchasesToSpread,`RedirectPurchasesToSpreadID`=$redirectPurchasesToSpreadID,`BuyBackEnabled`=$buyBackEnabled,`AllBuyBackAsOverride`=$allBuyBackAsOverride,`SellSavingsEnabled`=$sellSavingsEnabled
+         ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase
          WHERE `UserID` = $userID;
-         UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID";
+         UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
+         UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled WHERE `UserID` = $userID";
   //print_r($sql);
   if ($conn->multi_query($sql) === TRUE) {
       echo "New record created successfully";
@@ -233,7 +267,87 @@ $userDetails = getUserIDs($_SESSION['ID']);
                           <input type="text" name="NoOfCoinPurchase" id="noOfCoinPurchase" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][19]; ?>" tabindex="9">
                           <p class="comments">Amount in BTC for each buy</p>
                         </div>
-                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="8">
+                        <div class="form-group">
+                            <b>Buy Admin: </b><br/>
+                            <div class="form-group">
+                    <b>HoursFlatTolerance: </b><br/>
+                    <input type="text" name="hoursFlatTol" id="hoursFlatTol" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][30]; ?>" tabindex="10">
+                    <p class="comments">Amount in BTC for each buy</p>
+                  </div>
+                  <?php if ($userDetails[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                    <div class='settingsform'>
+                      <b>Low Market Mode Enabled: </b><br/><select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
+                        echo "<option value='".$option1."'>".$option1."</option>
+                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                        <div class="form-group">
+                    <b>Mins To Pause After Purchase: </b><br/>
+                    <input type="text" name="minsPauseAfterPurchase" id="minsPauseAfterPurchase" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][27]; ?>" tabindex="11">
+                    <p class="comments">Amount in BTC for each buy</p>
+                  </div>
+
+                  <?php if ($userDetails[0][24] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                      <div class='settingsform'>
+                                        <b>Enable Save Residual: </b><br/><select name='saveResidual' id='saveResidual' class='enableTextBox'><?php
+                                          echo "<option value='".$option1."'>".$option1."</option>
+                                          <option value='".$option2."'>".$option2."</option></select></div>";?>
+
+
+                  <?php if ($userDetails[0][20] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                    <div class='settingsform'>
+                      <b>Enable Reduce Loss: </b><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
+                        echo "<option value='".$option1."'>".$option1."</option>
+                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                        </div>
+        <div class="form-group">
+                <b>Redirect: </b><br/>
+                <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                  <div class='settingsform'>
+                    <b>Redirect All Purchases To SpreadBet: </b><br/><select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
+                      echo "<option value='".$option1."'>".$option1."</option>
+                      <option value='".$option2."'>".$option2."</option></select></div>";?>
+                      <div class="form-group">
+                                          <b>Redirect SpreadBet ID: </b><br/>
+                                          <input type="text" name="redirectSBID" id="redirectSBID" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][25]; ?>" tabindex="13">
+                                          <p class="comments">Amount in BTC for each buy</p>
+                                        </div>
+        </div>
+        <div class="form-group">
+                <b>Buyback: </b><br/>
+                <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                    <div class='settingsform'>
+                                      <b>Enable BuyBack: </b><br/><select name='enableBuyBack' id='enableBuyBack' class='enableTextBox'><?php
+                                        echo "<option value='".$option1."'>".$option1."</option>
+                                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                <?php if ($userDetails[0][29] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                    <div class='settingsform'>
+                                      <b>Enable All BuyBack as Override: </b><br/><select name='enableAllBBasOverride' id='enableAllBBasOverride' class='enableTextBox'><?php
+                                        echo "<option value='".$option1."'>".$option1."</option>
+                                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                    </div>
+                    <div class="form-group">
+                            <b>Savings: </b><br/>
+                            <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                                <div class='settingsform'>
+                                                  <b>Enable Sell Savings: </b><br/><select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
+                                                    echo "<option value='".$option1."'>".$option1."</option>
+                                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                            <?php if ($userDetails[0][21] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                              <div class='settingsform'>
+                                                <b>Enable ReBuy Savings: </b><br/><select name='enableReBuySaving' id='enableReBuySaving' class='enableTextBox'><?php
+                                                  echo "<option value='".$option1."'>".$option1."</option>
+                                                  <option value='".$option2."'>".$option2."</option></select></div>";?>
+                            <?php if ($userDetails[0][32] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                                <div class='settingsform'>
+                                                  <b>Enable Auto Merge Savings: </b><br/><select name='enableAutoMerge' id='enableAutoMerge' class='enableTextBox'><?php
+                                                    echo "<option value='".$option1."'>".$option1."</option>
+                                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                            <?php if ($userDetails[0][31] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                <div class='settingsform'>
+                                  <b>Enable Merge Saving With Purchase: </b><br/><select name='enableMergeWithPurchase' id='enableMergeWithPurchase' class='enableTextBox'><?php
+                                    echo "<option value='".$option1."'>".$option1."</option>
+                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                    </DIV>
+                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="14">
               </div>
             </form><?php
             displaySideColumn(); ?>
