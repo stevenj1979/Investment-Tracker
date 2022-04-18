@@ -22,6 +22,7 @@ SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn
 ,if(`1HrChange4`-`1HrChange5`>0,1,if(`1HrChange4`-`1HrChange5`<0,-1,0)) as `1HrPriceChange4`
 ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`
 ,avgMinPrice(`Cn`.`ID`,20) as `MinPriceFromLow`, ((`Cp`.`LiveCoinPrice`- avgMinPrice(`Cn`.`ID`,20))/avgMinPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToLow`
+,`Ahl`.`ID` as `IDAhl`, `Ahl`.`HighLow`, `Ahl`.`3MonthPrice`, `Ahl`.`6MonthPrice`, `Ahl`.`CoinID` as `CoinIDAhl`, `Ahl`.`LastUpdated` as `LastUpdatedAhl` ,(`Ahl`.`6MonthPrice`+`Ahl`.`3MonthPrice`)/2 as AverageLowPrice
 FROM `Coin` `Cn`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
 join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
@@ -30,6 +31,7 @@ join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
 Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
+join `AvgHighLow` `Ahl` on `Ahl`.`CoinID` = `Cn`.`ID` and `Ahl`.`HighLow` = 'Low'
 where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
 
 
