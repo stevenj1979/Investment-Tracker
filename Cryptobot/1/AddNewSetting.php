@@ -832,7 +832,7 @@ function displayEdit($id){
       }
 
     }
-    if ($savedSym == 'ALL'){ echo "<option value='-1' selected>ALL</option>";}
+    if ($savedSym == 'ALL'){ echo "<option value='-1' selected>ALL</option>";}else{echo "<option value='-1'>ALL</option>";}
     echo "</select>";Echo ":Limit To Coin";
     addNewText('Limit To BaseCurrency: ', 'limitToBaseCurrency', $formSettings[0][66], 46, 'Eg ALL', False,1);
     addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,1);
