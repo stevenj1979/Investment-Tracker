@@ -49,7 +49,7 @@ if (isset($_GET['startTimer'])){
   start_Timer($_GET['id']);
 }else if (isset($_GET['resetTimer'])){
   reset_Timer($_GET['id']);
-}else if (isset($_GET['setAsDefault']){
+}else if (isset($_GET['setAsDefault'])){
   flipDefault($id,$_SESSION['ID']);
 }
 //define page title
