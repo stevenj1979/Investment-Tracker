@@ -268,7 +268,7 @@ function updateEditedUser(){
 
   $sellPriceMinEnabled = postDataYesNo($_POST['sellPriceMinEnabled']);
   $sellPriceMin = postData($_POST['sellPriceMin']);
-  $limitToCoin = $_POST['limitToCoin'];
+  $limitToCoin = $_POST['LimitToCoinID'];
   $sellPatternEnabled = postDataYesNo($_POST['SellPatternEnabled']);
   $sellPattern =  $_POST['SellPattern'];
   $autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
@@ -520,6 +520,7 @@ function displayEdit($id){
   $priceTrendList = getPriceTrendSell($id);
   $symbolList = getSymbols();
   $cryptoAutoPrices = getAutoPrices();
+  $coinList = getCoinIDs();
   $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
@@ -648,7 +649,23 @@ function displayEdit($id){
   addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
   addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37, 'Eg 50', False,1);
 
-  addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
+  //addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
+  $coinListSize = Count($coinList);
+    Echo "<select name='LimitToCoinID'>";
+    for ($w=0; $w<$coinListSize;$w++){
+      $limitCoinID = $coinList[$w][0];   $sym = $coinList[$w][1]; $base = $coinList[$w][2];
+      $savedSym = $formSettings[0][37];
+      $symBase = $sym."-".$base;
+      //echo "<BR> $w Here!! $limitCoinID $symBase $sym $base $savedSym";
+      if ($savedSym == $sym){
+          echo "<option value='$sym' selected>$symBase</option>";
+      }else{
+          echo "<option value='$sym' >$symBase</option>";
+      }
+
+    }
+    if ($savedSym == 'ALL'){ echo "<option value='ALL' selected>ALL</option>";}else{echo "<option value='ALL'>ALL</option>";}
+    echo "</select>";Echo ":Limit To Coin";
   addNewTwoOption('ReEnable Buy Rule Enable: ','ReEnableBuyRuleEnable',$formSettings[0][48]);
   //addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
