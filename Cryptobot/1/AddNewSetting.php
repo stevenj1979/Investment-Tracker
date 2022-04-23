@@ -823,7 +823,7 @@ function displayEdit($id){
     for ($w=0; $w<$coinListSize;$w++){
       $limitCoinID = $coinList[$w][0];   $sym = $coinList[$w][1]; $base = $coinList[$w][2];
       $symBase = $sym & "-" & $base;
-      if ($formSettings[0][45] == $coinList[1][$w]){
+      if ($formSettings[0][45] == $sym){
           echo "<option value='$limitCoinID' selected>$symBase</option>";
       }else{
           echo "<option value='$limitCoinID' >$symBase</option>";
