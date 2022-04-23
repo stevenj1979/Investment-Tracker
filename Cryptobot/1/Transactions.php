@@ -105,7 +105,7 @@ if($_POST['transSelect'] <> ""){
     removeFromSpread($transID);
   }else{
     $ruleID = $_POST['Spread_Rules'];
-    updateToSpread($ruleID, $transID);  
+    updateToSpread($ruleID, $transID);
   }
 
   //echo "Update SpreadRules $ruleID";
@@ -240,7 +240,10 @@ function updateMerge($transID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `ID` = $transID";
+    //$sql = "UPDATE `Transaction` SET `ToMerge`= 1 WHERE `ID` = $transID";
+    $sql = "UPDATE `Transaction` SET `ToMerge`= CASE
+             WHEN `ToMerge`= 1 THEN 0
+             ELSE 1 end WHERE `ID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
