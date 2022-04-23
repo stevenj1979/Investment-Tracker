@@ -100,15 +100,15 @@ if($_POST['transSelect'] <> ""){
   </form>
   <?php
 }elseif($_POST['Spread_Rules'] <> ""){
+  $transID = $_POST['Trans_ID'];
   if ($_POST['Spread_Rules'] == -1){
     removeFromSpread($transID);
   }else{
     $ruleID = $_POST['Spread_Rules'];
-    $transID = $_POST['Trans_ID'];
+    updateToSpread($ruleID, $transID);  
   }
 
   //echo "Update SpreadRules $ruleID";
-  updateToSpread($ruleID, $transID);
   header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
