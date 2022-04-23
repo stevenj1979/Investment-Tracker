@@ -50,7 +50,7 @@ if (isset($_GET['startTimer'])){
 }else if (isset($_GET['resetTimer'])){
   reset_Timer($_GET['id']);
 }else if (isset($_GET['setAsDefault'])){
-  flipDefault($_GET['id'],$_SESSION['ID']);
+  flipDefault($_GET['setAsDefault'],$_SESSION['ID']);
 }
 //define page title
 $title = 'CryptoBot';
