@@ -61,7 +61,7 @@ function removeFromSpread($transID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-        $sql = "UPDATE `Transaction` SET `Status` = 'Open', `SpreadBetTransactionID` = 0,`SpreadBetRuleID` = 0 where  `ID` = $transID;";
+        $sql = "UPDATE `Transaction` SET `Status` = 'Open', `SpreadBetTransactionID` = 0,`SpreadBetRuleID` = 0, `Type` = 'Sell' where  `ID` = $transID;";
 
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
