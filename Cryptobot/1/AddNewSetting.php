@@ -822,13 +822,14 @@ function displayEdit($id){
     Echo "Limit To Coin:$coinListSize: <select name='LimitToCoinID'>";
     for ($w=0; $w<$coinListSize;$w++){
       $limitCoinID = $coinList[$w][0];   $sym = $coinList[$w][1]; $base = $coinList[$w][2];
+      $savedSym = $formSettings[0][45];
       $symBase = $sym & "-" & $base;
-      if ($formSettings[0][45] == $sym){
+      if ($savedSym == $sym){
           echo "<option value='$limitCoinID' selected>$symBase</option>";
       }else{
           echo "<option value='$limitCoinID' >$symBase</option>";
       }
-      echo "<BR>Here!! $limitCoinID $symBase $sym $base ";
+      echo "<BR> $w Here!! $limitCoinID $symBase $sym $base $savedSym";
     }
     echo "</select>";
     addNewText('Limit To BaseCurrency: ', 'limitToBaseCurrency', $formSettings[0][66], 46, 'Eg ALL', False,1);
