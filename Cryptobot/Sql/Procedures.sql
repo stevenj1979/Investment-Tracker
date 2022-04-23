@@ -1547,3 +1547,12 @@ END IF;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `setDefaultBuyRule`(IN `User_ID` INT, IN `Rule_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+	UPDATE `BuyRules` SET `DefaultRule` = 0 where `UserID` = User_ID;
+	UPDATE `BuyRules` SET `DefaultRule` = 1 where `ID` = Rule_ID;
+End$$
+DELIMITER ;

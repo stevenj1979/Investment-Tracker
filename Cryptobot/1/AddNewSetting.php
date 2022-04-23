@@ -651,6 +651,7 @@ function displayEdit($id){
   $Hr1ChangeList = get1HrchangeBuy($id);
   $priceTrendList = getPriceTrendBuy($id);
   $cryptoAutoPrices = getAutoPrices();
+  $coinList = getCoinIDs();
   $comboList = Array('-1','0','1','*');
   $_GET['edit'] = null;
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a></h3>";
@@ -816,7 +817,19 @@ function displayEdit($id){
     addNewTwoOption('Send Email: ', 'sendEmail', $formSettings[0][26]);
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
     //addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
-    addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
+    //addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
+    $coinListSize = Count($coinList);
+    Echo "<select name='LimitToCoinID'>";
+    for ($w=0; $w<$coinListSize;$w++){
+      $limitCoinID = $coinList[0][$w];  $symBase = $coinList[1][$w] + "-" + $coinList[2][$w];
+      if ($formSettings[0][45] == $coinList[1][$w]){
+          echo "<option value='$limitCoinID' selected>$symBase</option>";
+      }else{
+          echo "<option value='$limitCoinID' >$symBase</option>";
+      }
+
+    }
+    echo "</select>";
     addNewText('Limit To BaseCurrency: ', 'limitToBaseCurrency', $formSettings[0][66], 46, 'Eg ALL', False,1);
     addNewText('Sell Rule Fixed: ', 'sellRuleFixed', $formSettings[0][51], 50, 'Eg ALL', False,1);
     addNewText('Coin Order: ', 'CoinOrderTxt', $formSettings[0][52], 51, 'Eg ALL', False,1);

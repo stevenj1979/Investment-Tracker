@@ -767,10 +767,10 @@ function getCoinIDs(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
+  $sql = "SELECT `ID`, `Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1 ";
   print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['BaseCurrency']);}
   $conn->close();
   return $tempAry;
 }
