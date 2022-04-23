@@ -819,7 +819,7 @@ function displayEdit($id){
     //addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
     //addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
     $coinListSize = Count($coinList);
-    Echo "Limit To Coin: <select name='LimitToCoinID'>";
+    Echo "Limit To Coin:$coinListSize: <select name='LimitToCoinID'>";
     for ($w=0; $w<$coinListSize;$w++){
       $limitCoinID = $coinList[0][$w];   $sym = $coinList[1][$w]; $base = $coinList[2][$w];
       $symBase = $sym & "-" & $base;
