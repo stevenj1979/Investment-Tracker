@@ -81,8 +81,7 @@ function flipDefault($id,$userID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-      $sql = "UPDATE `BuyRules` SET `DefaultRule` = 0 where `UserID` = $userID;
-            UPDATE `BuyRules` SET `DefaultRule` = 1 where `ID` = $id;";
+      $sql = "call setDefaultBuyRule($userID,$id);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
