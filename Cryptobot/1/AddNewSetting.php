@@ -821,13 +821,13 @@ function displayEdit($id){
     $coinListSize = Count($coinList);
     Echo "<select name='LimitToCoinID'>";
     for ($w=0; $w<$coinListSize;$w++){
-      $limitCoinID = $coinList[0][$w];  $symBase = $coinList[1][$w] + "-" + $coinList[2][$w];
+      $limitCoinID = $coinList[0][$w];  $symBase = $coinList[1][$w] & "-" & $coinList[2][$w];
       if ($formSettings[0][45] == $coinList[1][$w]){
           echo "<option value='$limitCoinID' selected>$symBase</option>";
       }else{
           echo "<option value='$limitCoinID' >$symBase</option>";
       }
-
+      echo "<BR> $limitCoinID $symBase ";
     }
     echo "</select>";
     addNewText('Limit To BaseCurrency: ', 'limitToBaseCurrency', $formSettings[0][66], 46, 'Eg ALL', False,1);
