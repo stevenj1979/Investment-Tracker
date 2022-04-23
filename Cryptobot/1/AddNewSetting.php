@@ -360,7 +360,7 @@ function updateEditedUser(){
   //$TimeToCancelBuyMins = postData($_POST['TimeToCancelBuyMins']);
   $BuyPriceMinEnabled = postDataYesNo($_POST['BuyPriceMinEnabled']);
   $BuyPriceMin = postData($_POST['BuyPriceMin']);
-  $limitToCoin = $_POST['limitToCoin'];
+  $limitToCoin = $_POST['LimitToCoinID'];
   $limitToBaseCurrency = $_POST['limitToBaseCurrency'];
   $autoBuyCoinEnabled = postDataYesNo($_POST['AutoBuyEnabled']);
   $autoBuyPrice = $_POST['AutoBuyPrice'];
@@ -375,6 +375,7 @@ function updateEditedUser(){
   $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
     $coinHoursFlat = $_POST['CoinHoursFlat'];
     $ruleName = $_POST['RuleName'];
+
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -826,9 +827,9 @@ function displayEdit($id){
       $symBase = $sym."-".$base;
       //echo "<BR> $w Here!! $limitCoinID $symBase $sym $base $savedSym";
       if ($savedSym == $sym){
-          echo "<option value='$limitCoinID' selected>$symBase</option>";
+          echo "<option value='$sym' selected>$symBase</option>";
       }else{
-          echo "<option value='$limitCoinID' >$symBase</option>";
+          echo "<option value='$sym' >$symBase</option>";
       }
 
     }
