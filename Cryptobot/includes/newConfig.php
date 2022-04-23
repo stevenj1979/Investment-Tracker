@@ -55,6 +55,24 @@ function setSavingToLivewithMerge($userID, $coinID, $transactionID){
     logAction("setSavingToLivewithMerge: ".$sql, 'BuySell', 0);
 }
 
+function removeFromSpread($transID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+        $sql = "UPDATE `Transaction` SET `Status` = 'Open', `SpreadBetTransactionID` = 0,`SpreadBetRuleID` = 0 where  `ID` = $transID;";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("removeFromSpread",$sql,3,1,"SQL","TransID:$transID");
+    logAction("removeFromSpread: ".$sql, 'BuySell', 0);
+}
 
 function pausePurchases($UserID){
   $conn = getSQLConn(rand(1,3));

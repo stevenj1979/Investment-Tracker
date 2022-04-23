@@ -92,6 +92,7 @@ if($_POST['transSelect'] <> ""){
         $ruleName = $rules[$e][0]; $ruleID = $rules[$e][1];
           echo "<option value='$ruleID'>$ruleName</option>";
       }
+      echo "<option value='-1'>Remove from Spread</option>";
       ?>
       </select>
       <input type="text" name="Trans_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
@@ -99,8 +100,13 @@ if($_POST['transSelect'] <> ""){
   </form>
   <?php
 }elseif($_POST['Spread_Rules'] <> ""){
-  $ruleID = $_POST['Spread_Rules'];
-  $transID = $_POST['Trans_ID'];
+  if ($_POST['Spread_Rules'] == -1){
+    removeFromSpread($transID);
+  }else{
+    $ruleID = $_POST['Spread_Rules'];
+    $transID = $_POST['Trans_ID'];
+  }
+
   //echo "Update SpreadRules $ruleID";
   updateToSpread($ruleID, $transID);
   header('Location: Transactions.php');
@@ -118,7 +124,6 @@ if(isset($_POST['coin_ID'])){
   updateCoinAmount($transID,$amount);
   header('Location: Transactions.php');
 }
-
 
 
 function getRuleNames($userID){
