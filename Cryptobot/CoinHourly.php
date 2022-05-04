@@ -554,7 +554,8 @@ function runCoinPriceDipPrices(){
 
 function runHoursforCoinPriceDip(){
   //$priceDipTolerance = 1.0;
-  $dipHourCounter = 0;
+  $dipHourCounter = 0; $dipHourCounterLow = 0; $dipHourCounterHigh = 0;
+  $lowFlag = False;$highFlag = False;
   //get ID's
   $coinIDAry = getHoursforCoinPriceDip("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ");
   $coinIDArySize = count($coinIDAry);
@@ -568,18 +569,32 @@ function runHoursforCoinPriceDip(){
       $coinDipPrice = $coinPriceAry[$p][2]; $coinDipDate = $coinPriceAry[$p][3];
       $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
       $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
-      if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
+      if ($coinDipPrice >= $priceWithToleranceBtm){
+        $dipHourCounterLow = $dipHourCounterLow + 1;
+        $dipHourCounterHigh = 0;
+        $lowFlag = true;
+      }
+      if ($coinDipPrice <= $priceWithToleranceTop){
+        $dipHourCounterHigh = $dipHourCounterHigh + 1;
+        $dipHourCounterLow = 0;
+        $highFlag = true;
+
+
+      }
+      if ($lowFlag == True AND $highFlag == True){
+
         $dipHourCounter = $dipHourCounter + 1;
         echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
-      }else{
+      }elseif($coinDipPrice <= $priceWithToleranceBtm){
         echo "<BR> $coinID : $liveCoinPrice : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
-        writePriceDipCoinHours($coinID,$dipHourCounter);
+        //writePriceDipCoinHours($coinID,0);
         $dipHourCounter = 0;
-        continue 2;
+        //continue 2;
       }
     }
-    writePriceDipCoinHours($coinID,$dipHourCounter);
+    writePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipHourCounterHigh);
     $dipHourCounter = 0;
+    $lowFlag = False;$highFlag = False;
   }
 }
 

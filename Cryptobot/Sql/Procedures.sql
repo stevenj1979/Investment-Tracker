@@ -1454,7 +1454,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updatePriceDipCoinHours`(IN `Coin_ID` INT, IN `nHours` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updatePriceDipCoinHours`(IN `Coin_ID` INT, IN `nHours` INT, IN `nLowHours` INT, IN `nHighHours` INT)
     MODIFIES SQL DATA
 BEGIN
 
@@ -1462,7 +1462,7 @@ If NOT Exists (SELECT `ID` FROM `PriceDipCoinStatus` WHERE `CoinID` = Coin_ID) T
 	INSERT INTO `PriceDipCoinStatus`(`CoinID`) VALUES (Coin_ID);
 End IF;
 
-UPDATE `PriceDipCoinStatus` SET `HoursFlat`= nHours WHERE `CoinID` = Coin_ID;
+UPDATE `PriceDipCoinStatus` SET `HoursFlat`= nHours, `HoursFlatLow`= nLowHours,`HoursFlatHigh` = nHighHours WHERE `CoinID` = Coin_ID;
 
 END$$
 DELIMITER ;
