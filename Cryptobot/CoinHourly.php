@@ -555,7 +555,7 @@ function runCoinPriceDipPrices(){
 function runHoursforCoinPriceDip(){
   //$priceDipTolerance = 1.0;
   $dipHourCounter = 0; $dipHourCounterLow = 0; $dipHourCounterHigh = 0;
-  $lowFlag = False;$highFlag = False;
+  $lowFlag = True;$highFlag = True;$flatFlag = True;
   //get ID's
   $coinIDAry = getHoursforCoinPriceDip("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ");
   $coinIDArySize = count($coinIDAry);
@@ -569,31 +569,41 @@ function runHoursforCoinPriceDip(){
       $coinDipPrice = $coinPriceAry[$p][2]; $coinDipDate = $coinPriceAry[$p][3];
       $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
       $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
-      if ($coinDipPrice < $priceWithToleranceBtm){
-        $dipHourCounterLow = $dipHourCounterLow + 1;
-        $dipHourCounterHigh = 0;
-        //$lowFlag = true;
+      if ($lowFlag == true){
+      	if ($coinDipPrice < $priceWithToleranceBtm){
+              $dipHourCounterLow = $dipHourCounterLow + 1;
+        }else{
+      		    $lowFlag = False;
+      	}
       }
-      if ($coinDipPrice > $priceWithToleranceTop){
-        $dipHourCounterHigh = $dipHourCounterHigh + 1;
-        $dipHourCounterLow = 0;
-        //$highFlag = true;
 
-
+      if ($highFlag == true){
+          if ($coinDipPrice > $priceWithToleranceTop){
+              $dipHourCounterHigh = $dipHourCounterHigh + 1;
+          }else{
+      		    $highFlag = False;
+      	  }
       }
-      if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
-        $dipHourCounter = $dipHourCounter + 1;
-        echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
-      }elseif($coinDipPrice <= $priceWithToleranceBtm OR $coinDipPrice >= $priceWithToleranceTop){
-        echo "<BR> $coinID : $liveCoinPrice : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
-        //writePriceDipCoinHours($coinID,0);
-        $dipHourCounter = 0;
-        //continue 2;
+
+      if ($flatFlag == true){
+            if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
+              $dipHourCounter = $dipHourCounter + 1;
+              echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
+            }else{
+             	$flatFlag = False;
+            }
+      }
+
+      if ($flatFlag == False AND $highFlag == False AND $lowFlag == False){
+      	writePriceDipCoinHours($coinID, $dipHourCounter, $dipHourCounterLow , $dipHourCounterHigh);
+          	$dipHourCounter = 0; $dipHourCounterLow = 0; $dipHourCounterHigh = 0;
+         	$lowFlag = True;$highFlag = True; $flatFlag = True;
+      	continue 2;
       }
     }
-    writePriceDipCoinHours($coinID,0,0,0);
-    $dipHourCounter = 0;
-    $lowFlag = False;$highFlag = False;
+    writePriceDipCoinHours($coinID, $dipHourCounter, $dipHourCounterLow , $dipHourCounterHigh);
+    $dipHourCounter = 0; $dipHourCounterLow = 0; $dipHourCounterHigh = 0;
+    $lowFlag = True;$highFlag = True; $flatFlag = True;
   }
 }
 
