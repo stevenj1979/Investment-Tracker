@@ -569,23 +569,22 @@ function runHoursforCoinPriceDip(){
       $coinDipPrice = $coinPriceAry[$p][2]; $coinDipDate = $coinPriceAry[$p][3];
       $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
       $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
-      if ($coinDipPrice >= $priceWithToleranceBtm){
+      if ($coinDipPrice < $priceWithToleranceBtm){
         $dipHourCounterLow = $dipHourCounterLow + 1;
         $dipHourCounterHigh = 0;
-        $lowFlag = true;
+        //$lowFlag = true;
       }
-      if ($coinDipPrice <= $priceWithToleranceTop){
+      if ($coinDipPrice > $priceWithToleranceTop){
         $dipHourCounterHigh = $dipHourCounterHigh + 1;
         $dipHourCounterLow = 0;
-        $highFlag = true;
+        //$highFlag = true;
 
 
       }
-      if ($lowFlag == True AND $highFlag == True){
-
+      if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
         $dipHourCounter = $dipHourCounter + 1;
         echo "<BR> $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
-      }elseif($coinDipPrice <= $priceWithToleranceBtm){
+      }elseif($coinDipPrice <= $priceWithToleranceBtm OR $coinDipPrice >= $priceWithToleranceTop){
         echo "<BR> $coinID : $liveCoinPrice : $priceWithToleranceBtm is less than $coinDipPrice |$priceWithToleranceTop is Greater than $coinDipPrice | EXIT | OriginalPrice: $coinDipPrice";
         //writePriceDipCoinHours($coinID,0);
         $dipHourCounter = 0;
