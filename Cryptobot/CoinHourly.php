@@ -591,7 +591,7 @@ function runHoursforCoinPriceDip(){
         //continue 2;
       }
     }
-    writePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipHourCounterHigh);
+    writePriceDipCoinHours($coinID,0,0,0);
     $dipHourCounter = 0;
     $lowFlag = False;$highFlag = False;
   }
