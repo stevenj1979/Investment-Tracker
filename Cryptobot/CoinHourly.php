@@ -570,7 +570,7 @@ function runHoursforCoinPriceDip(){
       $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
       $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
       if ($lowFlag == true){
-      	if ($coinDipPrice < $priceWithToleranceBtm){
+      	if ($coinDipPrice > $priceWithToleranceBtm){
               $dipHourCounterLow = $dipHourCounterLow + 1;
         }else{
       		    $lowFlag = False;
@@ -578,7 +578,7 @@ function runHoursforCoinPriceDip(){
       }
 
       if ($highFlag == true){
-          if ($coinDipPrice > $priceWithToleranceTop){
+          if ($coinDipPrice < $priceWithToleranceTop){
               $dipHourCounterHigh = $dipHourCounterHigh + 1;
           }else{
       		    $highFlag = False;
