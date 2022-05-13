@@ -93,7 +93,7 @@ function getUserIDs($userID){
 
 
 function updateUser($settingsUpdateAry){
-  //var_dump($settingsUpdateAry);
+  var_dump($settingsUpdateAry);
   $userID = $settingsUpdateAry[0][0]; $newusername = $settingsUpdateAry[0][1]; $email = $settingsUpdateAry[0][2]; $apikey = $settingsUpdateAry[0][3]; $apisecret = $settingsUpdateAry[0][4];
   $dailyBTCLimit = $settingsUpdateAry[0][5]; $totalBTCLimit = $settingsUpdateAry[0][6];$enableDailyBTCLimit = $settingsUpdateAry[0][7]; $enableTotalBTCLimit = $settingsUpdateAry[0][8];
   $BTCBuyAmount = $settingsUpdateAry[0][9]; $userBaseCurrency = $settingsUpdateAry[0][10]; $lowPricePurchaseEnabled = $settingsUpdateAry[0][11]; $noOfPurchases = $settingsUpdateAry[0][12];
@@ -133,7 +133,7 @@ function updateUser($settingsUpdateAry){
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled WHERE `UserID` = $userID";
-  print_r("<br>".$sql."<br>");
+  //print_r("<br>".$sql."<br>");
   if ($conn->multi_query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
