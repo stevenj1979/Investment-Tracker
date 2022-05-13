@@ -90,7 +90,7 @@ SELECT `Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba
 , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
 , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
 , `Uc`.`RedirectPurchasesToSpread` as `RedirectPurchasesToSpreadUc`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
-, `Uc`.`TotalPurchasesPerCoin`,`Uc`.`MergeSavingWithPurchase`,`Uc`.`BuyBackEnabled`,`Uc`.`HoursFlatTolerance`,`Uc`.`RedirectPurchasesToSpreadID`,`Uc`.`SellSavingsEnabled`,`Uc`.`RebuySavingsEnabled`
+, `Uc`.`TotalPurchasesPerCoin`,`Uc`.`MergeSavingWithPurchase`,`Uc`.`BuyBackEnabled`,`Uc`.`HoursFlatTolerance`,`Uc`.`RedirectPurchasesToSpreadID`,`Uc`.`SellSavingsEnabled`,`Uc`.`RebuySavingsEnabled`,`Uc`.`LowMarketModeStartPct`,`Uc`.`LowMarketModeIncrements`
 ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
 , `Us`.`DisableUntil`
 , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`

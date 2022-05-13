@@ -33,12 +33,12 @@ function getUserID(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `UserID` FROM `UserConfig` where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
+  $sql = "SELECT `UserID`,`LowMarketModeStartPct`,`LowMarketModeIncrements` FROM `UserConfig` where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['UserID']);
+    $tempAry[] = Array($row['UserID'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements']);
   }
   $conn->close();
   return $tempAry;
@@ -52,10 +52,11 @@ function checkMarketforPctDip(){
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize";
-    if ($marketPctChangeHr24 <= -4.0){
+    $lowMarketModeStartPct = $userIDs[$t][1]; $lowMarketModeIncrements = $userIDs[$t][2];
+    if ($marketPctChangeHr24 <= $lowMarketModeStartPct){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
-          $mode = floor(abs($marketPctChangeHr24/-7));
+          $mode = floor(abs($marketPctChangeHr24/$lowMarketModeIncrements));
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode";
           if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
