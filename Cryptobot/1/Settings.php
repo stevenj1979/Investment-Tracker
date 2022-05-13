@@ -30,6 +30,7 @@ if(isset($_POST['submit'])){
     $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['enableLowMarketMode'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
     $reduceLossEnabled = $_POST['enableReduceLoss'];$redirectPurchasesToSpread = $_POST['enableRedirectToSB'];$redirectPurchasesToSpreadID = $_POST['redirectSBID'];$buyBackEnabled = $_POST['enableBuyBack'];
     $allBuyBackAsOverride = $_POST['enableAllBBasOverride'];$sellSavingsEnabled = $_POST['enableSellSavings'];$rebuySavingsEnabled = $_POST['enableReBuySaving'];$autoMergeSavings = $_POST['enableAutoMerge'];$mergeSavingWithPurchase = $_POST['enableMergeWithPurchase'];
+    $usdtAlloc = $_POST['usdtAllocTxt']; $btcAlloc = $_POST['btcAllocTxt']; $ethAlloc = $_POST['ethAllocTxt']; $pctOnLow = $_POST['pctOnLowTxt'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -46,7 +47,8 @@ if(isset($_POST['submit'])){
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
     echo "Here1!";
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
-    $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase);
+    $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
+    $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     //$hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase);";
@@ -74,7 +76,7 @@ function getUserIDs($userID){
   $sql = "SELECT `IDUs`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit`,`Email`,`BTCBuyAmount`,`BaseCurrency`,`KEK`
   ,`LowPricePurchaseEnabled`,`NoOfPurchases`,`PctToPurchase`,`TotalRisesInPrice`,`TotalRisesInPriceSell`,`NoOfCoinPurchase`,`ReduceLossEnabled`,`RebuySavingsEnabled`,`SellSavingsEnabled`,`BuyBackEnabled`
   ,`SaveResidualCoins`,`RedirectPurchasesToSpreadID`,`RedirectPurchasesToSpread`,`MinsToPauseAfterPurchase`,`LowMarketModeEnabled`,`AllBuyBackAsOverride`,`HoursFlatTolerance`,`MergeSavingWithPurchase`
-  ,`AutoMergeSavings`
+  ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -85,7 +87,7 @@ function getUserIDs($userID){
       ,$row['DailyBTCLimit'],$row['TotalBTCLimit'],$row['Email'],$row['BTCBuyAmount'],$row['BaseCurrency'],$row['KEK'],$row['LowPricePurchaseEnabled'],$row['NoOfPurchases'],$row['PctToPurchase'] //16
       ,$row['TotalRisesInPrice'],$row['TotalRisesInPriceSell'],$row['NoOfCoinPurchase'],$row['ReduceLossEnabled'],$row['RebuySavingsEnabled'],$row['SellSavingsEnabled'],$row['BuyBackEnabled'] //23
       ,$row['SaveResidualCoins'],$row['RedirectPurchasesToSpreadID'],$row['RedirectPurchasesToSpread'],$row['MinsToPauseAfterPurchase'],$row['LowMarketModeEnabled'],$row['AllBuyBackAsOverride'] //29
-      ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings']); //32
+      ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings'],$row['USDTAlloc'],$row['BTCAlloc'],$row['ETHAlloc'],$row['PctOnLow']); //36
   }
   $conn->close();
   return $tempAry;
@@ -93,7 +95,7 @@ function getUserIDs($userID){
 
 
 function updateUser($settingsUpdateAry){
-  var_dump($settingsUpdateAry);
+  //var_dump($settingsUpdateAry);
   $userID = $settingsUpdateAry[0]; $newusername = $settingsUpdateAry[1]; $email = $settingsUpdateAry[2]; $apiKey = $settingsUpdateAry[3]; $apisecret = $settingsUpdateAry[4];
   $dailyBTCLimit = $settingsUpdateAry[5]; $totalBTCLimit = $settingsUpdateAry[6];$enableDailyBTCLimit = $settingsUpdateAry[7]; $enableTotalBTCLimit = $settingsUpdateAry[8];
   $BTCBuyAmount = $settingsUpdateAry[9]; $userBaseCurrency = $settingsUpdateAry[10]; $lowPricePurchaseEnabled = $settingsUpdateAry[11]; $noOfPurchases = $settingsUpdateAry[12];
@@ -102,6 +104,7 @@ function updateUser($settingsUpdateAry){
   $reduceLossEnabled = $settingsUpdateAry[21];$redirectPurchasesToSpread = $settingsUpdateAry[22];$redirectPurchasesToSpreadID = $settingsUpdateAry[23];$buyBackEnabled = $settingsUpdateAry[24];
   $allBuyBackAsOverride = $settingsUpdateAry[25];$sellSavingsEnabled = $settingsUpdateAry[26];$rebuySavingsEnabled = $settingsUpdateAry[27];$autoMergeSavings = $settingsUpdateAry[28];
   $mergeSavingWithPurchase = $settingsUpdateAry[29];
+  $usdtAlloc = $settingsUpdateAry[30]; $btcAlloc = $settingsUpdateAry[31]; $ethAlloc = $settingsUpdateAry[32]; $pctOnLow = $settingsUpdateAry[33];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -133,7 +136,8 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
-         UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled WHERE `UserID` = $userID";
+         UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled WHERE `UserID` = $userID;
+         UPDATE `NewCoinAllocations` SET `USDTAlloc` = $usdtAlloc,`BTCAlloc` = $btcAlloc, `ETHAlloc` = $ethAlloc, `PctOnLow` = $pctOnLow WHERE `UserID` = $userID";
   //print_r("<br>".$sql."<br>");
   if ($conn->multi_query($sql) === TRUE) {
       echo "New record created successfully";
@@ -350,7 +354,18 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                     echo "<option value='".$option1."'>".$option1."</option>
                                     <option value='".$option2."'>".$option2."</option></select></div>";?>
                     </DIV>
-                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="14">
+                    <div class="form-group">
+                        <b>Coin Allocation: </b><br/>
+                        <input type="text" name="usdtAllocTxt" id="usdtAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][33]; ?>" tabindex="14">
+                        <p class="comments">USDT Allocation</p>
+                        <input type="text" name="btcAllocTxt" id="btcAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][34]; ?>" tabindex="15">
+                        <p class="comments">BTC Allocation</p>
+                        <input type="text" name="ethAllocTxt" id="ethAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][35]; ?>" tabindex="16">
+                        <p class="comments">ETH Allocation</p>
+                        <input type="text" name="pctOnLowTxt" id="pctOnLowTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][36]; ?>" tabindex="17">
+                        <p class="comments">% on Low Market Mode</p>
+                    </DIV>
+                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="18">
               </div>
             </form><?php
             displaySideColumn(); ?>
