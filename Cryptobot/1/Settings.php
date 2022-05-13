@@ -94,7 +94,7 @@ function getUserIDs($userID){
 
 function updateUser($settingsUpdateAry){
   var_dump($settingsUpdateAry);
-  $userID = $settingsUpdateAry[0][0]; $newusername = $settingsUpdateAry[0][1]; $email = $settingsUpdateAry[0][2]; $apiKey = $settingsUpdateAry[0][3]; $apisecret = $settingsUpdateAry[0][4];
+  $userID = $settingsUpdateAry[0][0]; $newusername = $settingsUpdateAry[0][1]; $email = $settingsUpdateAry[2]; $apiKey = $settingsUpdateAry[0][3]; $apisecret = $settingsUpdateAry[0][4];
   $dailyBTCLimit = $settingsUpdateAry[0][5]; $totalBTCLimit = $settingsUpdateAry[0][6];$enableDailyBTCLimit = $settingsUpdateAry[0][7]; $enableTotalBTCLimit = $settingsUpdateAry[0][8];
   $BTCBuyAmount = $settingsUpdateAry[0][9]; $userBaseCurrency = $settingsUpdateAry[0][10]; $lowPricePurchaseEnabled = $settingsUpdateAry[0][11]; $noOfPurchases = $settingsUpdateAry[0][12];
   $pctToPurchase = $settingsUpdateAry[0][13];$totalRisesInPrice = $settingsUpdateAry[0][14];$totalRisesInPriceSell = $settingsUpdateAry[0][15];$noOfCoinPurchase = $settingsUpdateAry[0][16];
@@ -115,7 +115,7 @@ function updateUser($settingsUpdateAry){
   if ($rebuySavingsEnabled == "Yes"){$rebuySavingsEnabled = 1;}else{$rebuySavingsEnabled = 0;}
   if ($autoMergeSavings == "Yes"){$autoMergeSavings = 1;}else{$autoMergeSavings = 0;}
   if ($mergeSavingWithPurchase == "Yes"){$mergeSavingWithPurchase = 1;}else{$mergeSavingWithPurchase = 0;}
-  echo "<BR> Email $email ".$settingsUpdateAry[0][2]." APIKey $apiKey ".$settingsUpdateAry[0][3]."<br>";
+  echo "<BR> Email $email ".$settingsUpdateAry[2]." APIKey $apiKey ".$settingsUpdateAry[3]."<br>";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
