@@ -368,9 +368,9 @@ $userDetails = getUserIDs($_SESSION['ID']);
                       <b>Low Market Mode: </b><br/>
                       <?php if ($userDetails[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                         <div class='settingsform'>
-                          <br><select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
+                          <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
                             echo "<option value='".$option1."'>".$option1."</option>
-                            <option value='".$option2."'>".$option2."</option></select></div>";?>
+                            <option value='".$option2."'>".$option2."</option></select></div><br>";?>
                       <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="18">
                       <p class="comments">Low Market Mode Start Pct</p>
                       <input type="text" name="LowMarketModeIncrements" id="LowMarketModeIncrements" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][38]; ?>" tabindex="19">
