@@ -45,7 +45,7 @@ if(isset($_POST['submit'])){
     if(empty($_POST['minsPauseAfterPurchase'])){$minsToPauseAfterPurchase = 0;}
     if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
-    echo "Here1!";
+    //echo "Here1!";
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow);
@@ -118,7 +118,7 @@ function updateUser($settingsUpdateAry){
   if ($rebuySavingsEnabled == "Yes"){$rebuySavingsEnabled = 1;}else{$rebuySavingsEnabled = 0;}
   if ($autoMergeSavings == "Yes"){$autoMergeSavings = 1;}else{$autoMergeSavings = 0;}
   if ($mergeSavingWithPurchase == "Yes"){$mergeSavingWithPurchase = 1;}else{$mergeSavingWithPurchase = 0;}
-  echo "<BR> Email $email ".$settingsUpdateAry[2]." APIKey $apiKey ".$settingsUpdateAry[3]."<br>";
+  //echo "<BR> Email $email ".$settingsUpdateAry[2]." APIKey $apiKey ".$settingsUpdateAry[3]."<br>";
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
