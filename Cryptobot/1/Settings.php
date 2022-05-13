@@ -1,4 +1,4 @@
-<html>
+[<html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
@@ -94,14 +94,14 @@ function getUserIDs($userID){
 
 function updateUser($settingsUpdateAry){
   var_dump($settingsUpdateAry);
-  $userID = $settingsUpdateAry[0][0]; $newusername = $settingsUpdateAry[0][1]; $email = $settingsUpdateAry[2]; $apiKey = $settingsUpdateAry[0][3]; $apisecret = $settingsUpdateAry[0][4];
-  $dailyBTCLimit = $settingsUpdateAry[0][5]; $totalBTCLimit = $settingsUpdateAry[0][6];$enableDailyBTCLimit = $settingsUpdateAry[0][7]; $enableTotalBTCLimit = $settingsUpdateAry[0][8];
-  $BTCBuyAmount = $settingsUpdateAry[0][9]; $userBaseCurrency = $settingsUpdateAry[0][10]; $lowPricePurchaseEnabled = $settingsUpdateAry[0][11]; $noOfPurchases = $settingsUpdateAry[0][12];
-  $pctToPurchase = $settingsUpdateAry[0][13];$totalRisesInPrice = $settingsUpdateAry[0][14];$totalRisesInPriceSell = $settingsUpdateAry[0][15];$noOfCoinPurchase = $settingsUpdateAry[0][16];
-  $hoursFlatTolerance = $settingsUpdateAry[0][17];$lowMarketModeEnabled = $settingsUpdateAry[0][18];$minsToPauseAfterPurchase = $settingsUpdateAry[0][19];$saveResidualCoins = $settingsUpdateAry[0][20];
-  $reduceLossEnabled = $settingsUpdateAry[0][21];$redirectPurchasesToSpread = $settingsUpdateAry[0][22];$redirectPurchasesToSpreadID = $settingsUpdateAry[0][23];$buyBackEnabled = $settingsUpdateAry[0][24];
-  $allBuyBackAsOverride = $settingsUpdateAry[0][25];$sellSavingsEnabled = $settingsUpdateAry[0][26];$rebuySavingsEnabled = $settingsUpdateAry[0][27];$autoMergeSavings = $settingsUpdateAry[0][28];
-  $mergeSavingWithPurchase = $settingsUpdateAry[0][29];
+  $userID = $settingsUpdateAry[0]; $newusername = $settingsUpdateAry[1]; $email = $settingsUpdateAry[2]; $apiKey = $settingsUpdateAry[3]; $apisecret = $settingsUpdateAry[4];
+  $dailyBTCLimit = $settingsUpdateAry[5]; $totalBTCLimit = $settingsUpdateAry[6];$enableDailyBTCLimit = $settingsUpdateAry[7]; $enableTotalBTCLimit = $settingsUpdateAry[8];
+  $BTCBuyAmount = $settingsUpdateAry[9]; $userBaseCurrency = $settingsUpdateAry[10]; $lowPricePurchaseEnabled = $settingsUpdateAry[11]; $noOfPurchases = $settingsUpdateAry[12];
+  $pctToPurchase = $settingsUpdateAry[13];$totalRisesInPrice = $settingsUpdateAry[14];$totalRisesInPriceSell = $settingsUpdateAry[15];$noOfCoinPurchase = $settingsUpdateAry[16];
+  $hoursFlatTolerance = $settingsUpdateAry[17];$lowMarketModeEnabled = $settingsUpdateAry[18];$minsToPauseAfterPurchase = $settingsUpdateAry[19];$saveResidualCoins = $settingsUpdateAry[20];
+  $reduceLossEnabled = $settingsUpdateAry[21];$redirectPurchasesToSpread = $settingsUpdateAry[22];$redirectPurchasesToSpreadID = $settingsUpdateAry[23];$buyBackEnabled = $settingsUpdateAry[24];
+  $allBuyBackAsOverride = $settingsUpdateAry[25];$sellSavingsEnabled = $settingsUpdateAry[26];$rebuySavingsEnabled = $settingsUpdateAry[27];$autoMergeSavings = $settingsUpdateAry[28];
+  $mergeSavingWithPurchase = $settingsUpdateAry[29];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
