@@ -46,8 +46,8 @@ if(isset($_POST['submit'])){
     if(empty($_POST['minsPauseAfterPurchase'])){$minsToPauseAfterPurchase = 0;}
     if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
-    if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
-    echo "Here1! $lowMarketModeEnabled";
+    //if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
+    //echo "Here1! $lowMarketModeEnabled _ $setLowMarket";
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     $hoursFlatTolerance,$setLowMarket,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements);
@@ -112,7 +112,7 @@ function updateUser($settingsUpdateAry){
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
-  if ($lowMarketModeEnabled == "Yes"){$lowMarketModeEnabled = 1;}else{ $lowMarketModeEnabled = 0;}
+  if ($lowMarketModeEnabled == "Yes"){$lowMarketModeEnabled = -1;}else{ $lowMarketModeEnabled = 0;}
   if ($saveResidualCoins == "Yes"){$saveResidualCoins = 1;}else{$saveResidualCoins = 0;}
   if ($reduceLossEnabled == "Yes"){$reduceLossEnabled = 1;}else{$reduceLossEnabled = 0;}
   if ($redirectPurchasesToSpread == "Yes"){$redirectPurchasesToSpread = 1;}else{$redirectPurchasesToSpread = 0;}
