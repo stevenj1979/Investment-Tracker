@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
     $btcBuyAmount = $_POST['BTCBuyAmount']; $baseCurrency = $_POST['userBaseCurrency']; $enableLowPurchasePrice = $_POST['lowPricePurchaseEnabled'];
     $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];$totalRisesInPriceSell = $_POST['TotalRisesInPriceSell'];
     $noOfCoinPurchase = $_POST['NoOfCoinPurchase'];
-    $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['LowMarketModeNum'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
+    $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['enableLowMarketMode'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
     $reduceLossEnabled = $_POST['enableReduceLoss'];$redirectPurchasesToSpread = $_POST['enableRedirectToSB'];$redirectPurchasesToSpreadID = $_POST['redirectSBID'];$buyBackEnabled = $_POST['enableBuyBack'];
     $allBuyBackAsOverride = $_POST['enableAllBBasOverride'];$sellSavingsEnabled = $_POST['enableSellSavings'];$rebuySavingsEnabled = $_POST['enableReBuySaving'];$autoMergeSavings = $_POST['enableAutoMerge'];$mergeSavingWithPurchase = $_POST['enableMergeWithPurchase'];
     $usdtAlloc = $_POST['usdtAllocTxt']; $btcAlloc = $_POST['btcAllocTxt']; $ethAlloc = $_POST['ethAllocTxt']; $pctOnLow = $_POST['pctOnLowTxt'];
@@ -46,9 +46,10 @@ if(isset($_POST['submit'])){
     if(empty($_POST['minsPauseAfterPurchase'])){$minsToPauseAfterPurchase = 0;}
     if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
+    if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
     //echo "Here1!";
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
-    $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
+    $hoursFlatTolerance,$setLowMarket,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
