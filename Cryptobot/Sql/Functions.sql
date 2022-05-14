@@ -60,3 +60,44 @@ Return avgPrice;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getCoinAllocation`(`nCoin` VARCHAR(15), `User_ID` INT, `nOverride` INT) RETURNS decimal(20,14)
+    READS SQL DATA
+BEGIN
+
+Declare LowMarket_ModeEnabled INT;
+Declare PctOn_Low DEC(20,14);
+Declare Coin_Alloc DEC(20,14);
+Declare Trans_Open DEC(20,14);
+DECLARE finalAlloc DEC(20,14);
+
+SELECT `LowMarketModeEnabled` INTO LowMarket_ModeEnabled FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
+SELECT `PctOnLow` INTO PctOn_Low FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
+
+if nCoin = "USDT" THEN
+	SELECT `USDTAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+ELSEIF nCoin = "BTC" THEN
+	SELECT `BTCAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+ELSE
+	SELECT `ETHAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+END IF;
+
+SELECT sum(`CoinPrice`*`Amount`) into Trans_Open
+              FROM `View15_OpenTransactions` WHERE `UserID` = User_ID and `StatusTr` in ('Open','Pending') and `BaseCurrency` = nCoin;
+
+if LowMarket_ModeEnabled > 0 AND PctOn_Low > 0 THEN
+    set finalAlloc = (Coin_Alloc / 100)*(PctOn_Low/(6-LowMarket_ModeEnabled))-Trans_Open;
+elseif LowMarket_ModeEnabled < 0 AND (100-PctOn_Low) > 0 THEN
+    set finalAlloc = (Coin_Alloc / 100)*((100-PctOn_Low)) - Trans_Open;
+elseif LowMarket_ModeEnabled = 0 THEN
+    set finalAlloc = Coin_Alloc - Trans_Open;
+else
+    set finalAlloc = 0;
+End if;
+if nOverride = 1 THEN
+	set finalAlloc = Coin_Alloc - Trans_Open;
+END if;
+return finalAlloc;
+END$$
+DELIMITER ;
