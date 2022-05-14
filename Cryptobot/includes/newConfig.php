@@ -18,7 +18,7 @@ function getBittrexRequests($userID = 0){
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
-  ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`
+  ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -30,7 +30,7 @@ function getBittrexRequests($userID = 0){
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']
-    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'] ); //43
+    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ); //44
   }
   $conn->close();
   return $tempAry;
@@ -5691,24 +5691,16 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");
 }
 
-function addProfitToAllocation($UserID, $totalProfit, $type, $profitPct, $coinID){
-  $savingUsdt = $totalProfit * $profitPct;
-  $typeUsdt = $totalProfit - $savingUsdt;
+function addProfitToAllocation($UserID, $totalProfitUSD){
+
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  if ($type == 'CoinMode'){
+
       $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
-              SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt),`Ca`.`CoinMode`= (`Ca`.`CoinMode` + $typeUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
-  }elseif ($type == 'SpreadBet'){
-      $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
-      SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt),`Ca`.`SpreadBet`=(`Ca`.`SpreadBet` + $typeUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
-  }else{
-      $sql = "UPDATE `CoinAllocations` `Ca` join `UserConfig` `Uc` on `Uc`.`UserID` = `Ca`.`UserID`
-      SET `Ca`.`Saving`=(`Ca`.`Saving`+ $savingUsdt) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
-  }
+      SET `Ca`.`Saving`=(`Ca`.`Saving`+ $totalProfitUSD) WHERE `Ca`.`UserID` = $UserID and `Uc`.`SaveResidualCoins` = 0";
 
   print_r($sql);
   logToSQL("ProfitAllocation","$sql | $coinID",$UserID,1);
@@ -6599,7 +6591,7 @@ function sellSpreadBetCoins($spreadSellCoins){
     $fee = (($sellPrice)/100)*0.25;
     $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
     $pctToSave = $pctToSave / 100;
-    addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);
+    addProfitToAllocation($userID, $profit);
     LogToSQL("SpreadBetSell","addProfitToAllocation($userID, $profit, 'SpreadBet', $pctToSave,$CoinID);",3,0);
     logAction("runSellSpreadBet; sellSpreadBetCoins : $q | $coin | $CoinID | $BaseCurrency | $LiveCoinPrice | $Amount | $CoinPrice | $type | $profitPct | $spreadBetRuleID | $TransactionID", 'BuySellFlow', 1);
   }

@@ -1372,7 +1372,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38]; $buyBack = $BittrexReqs[$b][39];
     $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41]; $mergeSavingwithPurchase = $BittrexReqs[$b][42]; $buyBackEnabled = $BittrexReqs[$b][43];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
-    $buyOrderCancelTime = $BittrexReqs[$b][24];
+    $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
     if ($liveCoinPriceBit != 0 && $cost != 0){$liveProfitPct = ($liveCoinPriceBit-$cost)/$cost*100;}
     //echo "<BR> bittrexOrder($apiKey, $apiSecret, $uuid);";
@@ -1560,8 +1560,15 @@ function runBittrex($BittrexReqs,$apiVersion){
               extendPctToBuy($coinID,$userID);
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
-              $pctToSave = $pctToSave / 100;
-              addProfitToAllocation($userID, $profit,$allocationType, $pctToSave, $coinID);
+              if ($saveMode == 1 AND $profitPct > 0.25){
+                $newProfit = ($profit / 100)*$pctToSave;
+                addProfitToAllocation($userID, $newProfit);
+              }elseif ($saveMode == 2 AND $profitPct > 0.25){
+                //$newProfit = ($profit / 100)*$pctToSave;
+                addProfitToAllocation($userID, $profit);
+              }
+              //SaveMode: 0 = Off ; 1 = Save % of Total Profit ; 2 = Save Residual as USDT.
+
               newLogToSQL("BittrexSell", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $GLOBALS['logToSQLSetting'],"SellComplete","TransactionID:$transactionID");
               if ((is_null($coinModeRule)) OR ($coinModeRule == 0) ){
                 //Update Buy Rule
