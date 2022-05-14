@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
     $btcBuyAmount = $_POST['BTCBuyAmount']; $baseCurrency = $_POST['userBaseCurrency']; $enableLowPurchasePrice = $_POST['lowPricePurchaseEnabled'];
     $noOfPurchases = $_POST['NoOfPurchases']; $pctToPurchase = $_POST['PctToPurchase']; $totalRisesInPrice = $_POST['TotalRisesInPrice'];$totalRisesInPriceSell = $_POST['TotalRisesInPriceSell'];
     $noOfCoinPurchase = $_POST['NoOfCoinPurchase'];
-    $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['enableLowMarketMode'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
+    $hoursFlatTolerance = $_POST['hoursFlatTol'];$lowMarketModeEnabled = $_POST['LowMarketModeNum'];$minsToPauseAfterPurchase = $_POST['minsPauseAfterPurchase'];$saveResidualCoins = $_POST['saveResidual'];
     $reduceLossEnabled = $_POST['enableReduceLoss'];$redirectPurchasesToSpread = $_POST['enableRedirectToSB'];$redirectPurchasesToSpreadID = $_POST['redirectSBID'];$buyBackEnabled = $_POST['enableBuyBack'];
     $allBuyBackAsOverride = $_POST['enableAllBBasOverride'];$sellSavingsEnabled = $_POST['enableSellSavings'];$rebuySavingsEnabled = $_POST['enableReBuySaving'];$autoMergeSavings = $_POST['enableAutoMerge'];$mergeSavingWithPurchase = $_POST['enableMergeWithPurchase'];
     $usdtAlloc = $_POST['usdtAllocTxt']; $btcAlloc = $_POST['btcAllocTxt']; $ethAlloc = $_POST['ethAllocTxt']; $pctOnLow = $_POST['pctOnLowTxt'];
@@ -366,17 +366,19 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     </DIV>
                     <div class="form-group">
                       <b>Low Market Mode: </b><br/>
-                      <?php if ($userDetails[0][28] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                      <?php if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}?>
                         <div class='settingsform'>
                           <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
                             echo "<option value='".$option1."'>".$option1."</option>
                             <option value='".$option2."'>".$option2."</option></select></div><br>";?>
-                      <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="18">
+                      <input type="text" name="LowMarketModeNum" id="LowMarketModeNum" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][28]; ?>" tabindex="18">
+                      <p class="comments">Low Market Mode Number</p>
+                      <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="19">
                       <p class="comments">Low Market Mode Start Pct</p>
-                      <input type="text" name="LowMarketModeIncrements" id="LowMarketModeIncrements" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][38]; ?>" tabindex="19">
+                      <input type="text" name="LowMarketModeIncrements" id="LowMarketModeIncrements" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][38]; ?>" tabindex="20">
                       <p class="comments">Low Market Mode Increments</p>
                     </DIV>
-                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="20">
+                <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="21">
               </div>
             </form><?php
             displaySideColumn(); ?>
