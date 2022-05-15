@@ -322,7 +322,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     <div class='settingsform'>
                       <b>Enable Reduce Loss: </b><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                        <option value='".$option2."'>".$option2."</option></select>";?>
                         <input type="text" name="SellPct" id="SellPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][41]; ?>" tabindex="22">
                         <p class="comments">Reduce Loss Sell %</p>
                         <input type="text" name="OriginalPriceMultiplier" id="OriginalPriceMultiplier" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][42]; ?>" tabindex="22">
