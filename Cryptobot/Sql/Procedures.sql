@@ -1003,14 +1003,21 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addCoinPurchaseDelay`(IN `Coin_ID` INT, IN `User_ID` INT, IN `delay_Min` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addCoinPurchaseDelay`(IN `Coin_ID` INT, IN `User_ID` INT, IN `delay_Min` INT, IN `Days_Enabled` INT)
     MODIFIES SQL DATA
 BEGIN
-
-If EXISTS (SELECT `ID` FROM `DelayCoinPurchase` WHERE `CoinID` = Coin_ID and `UserID` = User_ID) THEN
-	UPDATE `DelayCoinPurchase` SET `DelayTime`= date_add(now(), Interval delay_Min MINUTE) WHERE `CoinID`= Coin_ID and `UserID`=User_ID;
+If Days_Enabled = 1 Then
+  If EXISTS (SELECT `ID` FROM `DelayCoinPurchase` WHERE `CoinID` = Coin_ID and `UserID` = User_ID) THEN
+  	UPDATE `DelayCoinPurchase` SET `DelayTime`= date_add(now(), Interval delay_Min DAY) WHERE `CoinID`= Coin_ID and `UserID`=User_ID;
+  else
+  	INSERT INTO `DelayCoinPurchase`(`CoinID`, `UserID`, `DelayTime`) VALUES (Coin_ID, User_ID, date_add(now(), Interval delay_Min DAY));
+  end if;
 else
-	INSERT INTO `DelayCoinPurchase`(`CoinID`, `UserID`, `DelayTime`) VALUES (Coin_ID, User_ID, date_add(now(), Interval delay_Min MINUTE));
+  If EXISTS (SELECT `ID` FROM `DelayCoinPurchase` WHERE `CoinID` = Coin_ID and `UserID` = User_ID) THEN
+    UPDATE `DelayCoinPurchase` SET `DelayTime`= date_add(now(), Interval delay_Min MINUTE) WHERE `CoinID`= Coin_ID and `UserID`=User_ID;
+  else
+    INSERT INTO `DelayCoinPurchase`(`CoinID`, `UserID`, `DelayTime`) VALUES (Coin_ID, User_ID, date_add(now(), Interval delay_Min MINUTE));
+  end if;
 end if;
 
 END$$
