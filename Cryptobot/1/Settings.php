@@ -48,7 +48,7 @@ if(isset($_POST['submit'])){
     if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
     //if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
-    if ($saveMode > 0 ){ $saveResidualCoins = 0;}
+    if ($saveMode > 0 ){ $saveResidualCoins = 'No';}
     //echo "Here1! $lowMarketModeEnabled _ $setLowMarket";
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
