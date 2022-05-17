@@ -330,54 +330,54 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         <input type="text" name="ReduceLossMaxCounter" id="ReduceLossMaxCounter" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][43]; ?>" tabindex="22">
                         <p class="comments">Reduce Loss Max Counter</p>
                         </div>
-        <div class="form-group">
+        <div class='settingsform'>
                 <b>Redirect: </b><br/>
                 <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                  <div class='settingsform'>
+
                     <b>Redirect All Purchases To SpreadBet: </b><br/><select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
                       echo "<option value='".$option1."'>".$option1."</option>
-                      <option value='".$option2."'>".$option2."</option></select></div>";?>
-                      <div class="form-group">
+                      <option value='".$option2."'>".$option2."</option></select>";?>
+                      <div class='settingsform'>
                                           <b>Redirect SpreadBet ID: </b><br/>
                                           <input type="text" name="redirectSBID" id="redirectSBID" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][25]; ?>" tabindex="13">
                                           <p class="comments">Amount in BTC for each buy</p>
                                         </div>
         </div>
-        <div class="form-group">
+        <div class='settingsform'>
                 <b>Buyback: </b><br/>
                 <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                    <div class='settingsform'>
+
                                       <b>Enable BuyBack: </b><br/><select name='enableBuyBack' id='enableBuyBack' class='enableTextBox'><?php
                                         echo "<option value='".$option1."'>".$option1."</option>
-                                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                        <option value='".$option2."'>".$option2."</option></select>";?>
                 <?php if ($userDetails[0][29] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                    <div class='settingsform'>
+
                                       <b>Enable All BuyBack as Override: </b><br/><select name='enableAllBBasOverride' id='enableAllBBasOverride' class='enableTextBox'><?php
                                         echo "<option value='".$option1."'>".$option1."</option>
-                                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                        <option value='".$option2."'>".$option2."</option></select>";?>
                     </div>
                     <div class="form-group">
                             <b>Savings: </b><br/>
                             <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                                <div class='settingsform'>
+
                                                   <b>Enable Sell Savings: </b><br/><select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
                                                     echo "<option value='".$option1."'>".$option1."</option>
-                                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                                    <option value='".$option2."'>".$option2."</option></select>";?>
                             <?php if ($userDetails[0][21] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                              <div class='settingsform'>
+
                                                 <b>Enable ReBuy Savings: </b><br/><select name='enableReBuySaving' id='enableReBuySaving' class='enableTextBox'><?php
                                                   echo "<option value='".$option1."'>".$option1."</option>
-                                                  <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                                  <option value='".$option2."'>".$option2."</option></select>";?>
                             <?php if ($userDetails[0][32] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                                <div class='settingsform'>
+
                                                   <b>Enable Auto Merge Savings: </b><br/><select name='enableAutoMerge' id='enableAutoMerge' class='enableTextBox'><?php
                                                     echo "<option value='".$option1."'>".$option1."</option>
-                                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                                    <option value='".$option2."'>".$option2."</option></select>";?>
                             <?php if ($userDetails[0][31] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                <div class='settingsform'>
+
                                   <b>Enable Merge Saving With Purchase: </b><br/><select name='enableMergeWithPurchase' id='enableMergeWithPurchase' class='enableTextBox'><?php
                                     echo "<option value='".$option1."'>".$option1."</option>
-                                    <option value='".$option2."'>".$option2."</option></select></div>";?>
+                                    <option value='".$option2."'>".$option2."</option></select>";?>
                     </DIV>
                     <div class="form-group">
                         <b>Coin Allocation: </b><br/>
@@ -390,20 +390,22 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         <input type="text" name="pctOnLowTxt" id="pctOnLowTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][36]; ?>" tabindex="17">
                         <p class="comments">% on Low Market Mode</p>
                     </DIV>
-                    <div class="form-group">
+                    <div class='settingsform'>
                       <b>Low Market Mode: </b><br/>
                       <?php if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}?>
-                        <div class='settingsform'>
+
                           <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
                             echo "<option value='".$option1."'>".$option1."</option>
-                            <option value='".$option2."'>".$option2."</option></select></div><br>";?>
+                            <option value='".$option2."'>".$option2."</option></select><br>";?>
                       <input type="text" name="LowMarketModeNum" id="LowMarketModeNum" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][28]; ?>" tabindex="18">
                       <p class="comments">Low Market Mode Number</p>
                       <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="19">
                       <p class="comments">Low Market Mode Start Pct</p>
                       <input type="text" name="LowMarketModeIncrements" id="LowMarketModeIncrements" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][38]; ?>" tabindex="20">
                       <p class="comments">Low Market Mode Increments</p>
-                    </DIV>
+
+                      </DIV>
+
                     <div class="form-group">
                         <b>Save Mode: </b><br/>
                         <input type="text" name="SaveMode" id="SaveMode" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][39]; ?>" tabindex="21">
