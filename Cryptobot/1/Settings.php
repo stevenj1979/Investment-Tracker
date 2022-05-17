@@ -337,11 +337,11 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     <b>Redirect All Purchases To SpreadBet: </b><br/><select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
                       echo "<option value='".$option1."'>".$option1."</option>
                       <option value='".$option2."'>".$option2."</option></select>";?>
-                      <div class='settingsform'>
+
                                           <b>Redirect SpreadBet ID: </b><br/>
                                           <input type="text" name="redirectSBID" id="redirectSBID" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][25]; ?>" tabindex="13">
                                           <p class="comments">Amount in BTC for each buy</p>
-                                        </div>
+                                      
         </div>
         <div class='settingsform'>
                 <b>Buyback: </b><br/>
