@@ -4990,7 +4990,7 @@ function setTransStatus($status,$transID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status` = '$status', `SpreadBetRuleID` = 10,`SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = 10)
+  $sql = "UPDATE `Transaction` SET `Status` = '$status', `SpreadBetRuleID` = 0,`SpreadBetTransactionID` = 0, `Type` = 'Sell'
           WHERE `ID` = $transID";
 
   print_r($sql);

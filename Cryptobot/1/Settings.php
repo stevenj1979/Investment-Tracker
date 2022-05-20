@@ -341,7 +341,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                           <b>Redirect SpreadBet ID: </b><br/>
                                           <input type="text" name="redirectSBID" id="redirectSBID" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][25]; ?>" tabindex="13">
                                           <p class="comments">Amount in BTC for each buy</p>
-                                      
+
         </div>
         <div class='settingsform'>
                 <b>Buyback: </b><br/>
@@ -356,7 +356,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                         echo "<option value='".$option1."'>".$option1."</option>
                                         <option value='".$option2."'>".$option2."</option></select>";?>
                     </div>
-                    <div class="form-group">
+                    <div class='settingsform'>
                             <b>Savings: </b><br/>
                             <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
@@ -379,7 +379,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                     echo "<option value='".$option1."'>".$option1."</option>
                                     <option value='".$option2."'>".$option2."</option></select>";?>
                     </DIV>
-                    <div class="form-group">
+                    <div class='settingsform'>
                         <b>Coin Allocation: </b><br/>
                         <input type="text" name="usdtAllocTxt" id="usdtAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][33]; ?>" tabindex="14">
                         <p class="comments">USDT Allocation</p>
@@ -406,7 +406,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
                       </DIV>
 
-                    <div class="form-group">
+                    <div class='settingsform'>
                         <b>Save Mode: </b><br/>
                         <input type="text" name="SaveMode" id="SaveMode" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][39]; ?>" tabindex="21">
                         <p class="comments">Save Mode</p>
