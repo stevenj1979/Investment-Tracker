@@ -969,7 +969,6 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8))
     MODIFIES SQL DATA
 BEGIN
-Declare nAmount DEC(20,8);
 
 If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
 UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price WHERE `TransactionID` = Trans_ID;
@@ -1063,19 +1062,16 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addToBuyBackMultiply`(IN `Bu
     MODIFIES SQL DATA
 Begin
 Declare nAddNum DEC(20,14);
-Declare nSellPrice DEC(20,14);
+Declare nBuyBackPct DEC(20,14);
 Declare nLivePrice DEC(20,14);
 Declare nMultiply INT;
-Set nAddNum = 0.01;
-SELECT `SellPrice` into nSellPrice FROM `BuyBack` WHERE `ID` = BuyBackID;
-Select `LiveCoinPrice` into nLivePrice from `CoinPrice` where `CoinID` = (Select `CoinID` from `Transaction` where `ID` = (SELECT `TransactionID` from `BuyBack` where `ID` = BuyBackID));
-SET nMultiply = FLOOR(
-					ABS(
-							((((nLivePrice-nSellPrice)/nSellPrice)*100)/5)
-						)
-					)+1;
 
-UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nAddNum * nMultiply)) WHERE `BuyBackPct` < -0.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+SELECT `BuyBackPct` into nBuyBackPct FROM `BuyBack` WHERE `ID` = BuyBackID;
+Select `LiveCoinPrice` into nLivePrice from `CoinPrice` where `CoinID` = (Select `CoinID` from `Transaction` where `ID` = (SELECT `TransactionID` from `BuyBack` where `ID` = BuyBackID));
+Set nAddNum = 0.3521126761 * ABS(nBuyBackPct);
+SET nMultiply = (nBuyBackPct /100)*nAddNum;
+
+UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -0.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
 
 End$$
 DELIMITER ;
