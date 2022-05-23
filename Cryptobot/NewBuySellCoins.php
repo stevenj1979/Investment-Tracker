@@ -1178,7 +1178,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
-  Echo "<BR> HERE! $sellCoinsLength";
+  //Echo "<BR> HERE! $sellCoinsLength";
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -1192,7 +1192,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][59]; $minsFromBuy = $sellCoins[$a][61];
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63];
-    Echo "<BR> HERE2! $sellRulesSize";
+    //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
       $sellResultAry = [];
       $sellOutstanding = "";
@@ -1222,10 +1222,10 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $priceDipMaxPriceEnabled = $sellRules[$z][55]; $priceDipCoinFlatEnabled = $sellRules[$z][56]; $priceDipHoursFlatTarget = $sellRules[$z][57];
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
-      if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}else{Echo "<BR> HERE3!";}
+      if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}else{Echo "<BR> HERE4!";}
-      if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}else{Echo "<BR> HERE5!";}
+      if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}//else{Echo "<BR> HERE4!";}
+      if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
       $buyPrice = ($cost * $amount);
