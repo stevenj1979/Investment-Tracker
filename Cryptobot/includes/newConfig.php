@@ -1843,18 +1843,19 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
 function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
   echo "<BR>BuyMin: $sellMin | LiveBTCPrice: $LiveBTCPrice | LiveCoinPrice: $LiveCoinPrice | Enabled: $sellMinEnabled";
   if ($sellMinEnabled == 0){
-      //print_r("True");
+      print_r("True");
       return True;
       exit;
   }elseif ($LiveBTCPrice >= $sellMin){
       echo "<BR>SellMin  LiveBTCPrice $LiveBTCPrice is less than $sellMin";
       $GLOBALS['allDisabled'] = true;
+      print_r("True");
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    //print_r("False");
+    print_r("False");
     return False;
   }
 }
