@@ -894,6 +894,25 @@ function addOldBuyBackTransID($bBID,$tmpCoinID){
     $conn->close();
 }
 
+function addBuyBackTransID($bBID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `BuyBackTransactionID` = (SELECT `BuyBackTransactionID` FROM `Transaction` Where `ID` = (
+            SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $bBID)) ORDER BY `ID` Desc Limit 1;";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID");
+    LogAction("addBuyBackTransID:".$sql, 'SQL_UPDATE', 1);
+    $conn->close();
+}
+
 Function getOpenCoinSwaps(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
