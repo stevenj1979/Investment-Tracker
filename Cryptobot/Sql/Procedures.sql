@@ -1068,10 +1068,10 @@ Declare nMultiply INT;
 
 SELECT `BuyBackPct` into nBuyBackPct FROM `BuyBack` WHERE `ID` = BuyBackID;
 Select `LiveCoinPrice` into nLivePrice from `CoinPrice` where `CoinID` = (Select `CoinID` from `Transaction` where `ID` = (SELECT `TransactionID` from `BuyBack` where `ID` = BuyBackID));
-Set nAddNum = 0.3521126761 * ABS(nBuyBackPct);
+Set nAddNum = ABS(nBuyBackPct)/(0.35*(ABS(nBuyBackPct)/10));
 SET nMultiply = Abs((nBuyBackPct /100)*nAddNum);
 
-UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -0.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -1.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
 
 End$$
 DELIMITER ;
