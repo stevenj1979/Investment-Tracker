@@ -160,7 +160,7 @@ function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("bittrexActionBuyBack",$sql,3,0,"SQL","TransID:$transID");
+    newLogToSQL("bittrexActionBuyBack",$sql,3,1,"SQL","TransID:$transID");
     logAction("bittrexActionBuyBack: ".$sql, 'BuySell', 0);
 }
 
@@ -894,7 +894,7 @@ function addOldBuyBackTransID($bBID,$tmpCoinID){
     $conn->close();
 }
 
-function addBuyBackTransID($bBID){
+function addBuyBackTransID($bBID,$trackingID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
@@ -908,7 +908,7 @@ function addBuyBackTransID($bBID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID");
+    newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID;TrackID:$trackingID");
     LogAction("addBuyBackTransID:".$sql, 'SQL_UPDATE', 1);
     $conn->close();
 }

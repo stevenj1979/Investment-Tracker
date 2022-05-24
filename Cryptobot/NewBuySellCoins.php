@@ -806,11 +806,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
           updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge);
           //continue;
-          if ($type == 'BuyBack'){  bittrexActionBuyBack($coinID,$oldBuyBackTransID); }
+          if ($type == 'BuyBack'){
+            bittrexActionBuyBack($coinID,$oldBuyBackTransID);
+            addBuyBackTransID($oldBuyBackTransID,$trackingID);
+          }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
           buyBackDelay($coinID,0,$userID);
-          addBuyBackTransID($oldBuyBackTransID);
+
           return True;
         }elseif ($checkBuy == 2){
           //2 = INSUFFICIENT BAL
