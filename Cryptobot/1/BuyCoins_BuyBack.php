@@ -314,7 +314,7 @@ function displayMain(){
     $buyBackPct = $tracking[$x][22];
     $image = $tracking[$x][23];
     $symbol = $tracking[$x][24];
-    $USD_Amount = = $tracking[$x][25];
+    $USD_Amount = $tracking[$x][25];
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
