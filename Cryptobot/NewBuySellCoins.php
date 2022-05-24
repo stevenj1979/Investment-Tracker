@@ -260,6 +260,7 @@ function runBuyBack($buyBackCoins){
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
     $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];$liveCoinPrice = $buyBackCoins[$t][30];
     $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];$coinPrice = $buyBackCoins[$t][34]; $saveMode = $buyBackCoins[$t][35];
+    $coinPriceBB = $buyBackCoins[$t][36];
     //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
@@ -324,7 +325,7 @@ function runBuyBack($buyBackCoins){
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
-      $origPurchasePrice = $quantity * $coinPrice;
+      $origPurchasePrice = $quantity * $coinPriceBB;
       $sellPrice = $quantity * $sellPriceBA;
       $profit = $sellPrice - $origPurchasePrice;
       $profitPct = ($profit/$origPurchasePrice)*100;
