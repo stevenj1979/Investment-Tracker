@@ -40,9 +40,10 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     $quantity = $_GET['Quantity'];
     $livePrice = $_GET['LivePrice'];
     $sellPrice = $_GET['SellPrice'];
+    $usd_Amount = $_GET['usd'];
     //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
-    displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice);
+    displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount);
   }elseif($_GET['Mode'] == 2){
     if (isset($_POST['refreshBtn'])){
       $ID = $_POST['ID'];
@@ -52,7 +53,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
       $newQuant = $priceUSD / $livePrice;
-      displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice);
+      displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice,$priceUSD);
     }elseif (isset($_POST['submitBtn'])){
       echo "<BR>Submit button";
       $ID = $_POST['ID'];
@@ -61,7 +62,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $livePrice = $_POST['LivePrice'];
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
-      writeBuyBackToSQL($ID,$quantity);
+      writeBuyBackToSQL($ID,$priceUSD);
       header('Location: BuyCoins_BuyBack.php');
     }elseif (isset($_POST['backBtn'])){
       header('Location: BuyCoins_BuyBack.php');
@@ -94,13 +95,13 @@ function deleteBuyBackToSQL($ID){
   logAction("deleteBuyBackToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
-function writeBuyBackToSQL($ID, $quantity){
+function writeBuyBackToSQL($ID, $usd_Amount){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `BuyBack` SET `Quantity`= $quantity  WHERE `ID` = $ID ";
+  $sql = "UPDATE `BuyBack` SET `USDBuyBackAmount` = $usd_Amount  WHERE `ID` = $ID ";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -111,7 +112,7 @@ function writeBuyBackToSQL($ID, $quantity){
   logAction("writeBuyBackToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
-function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
+function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount){
   displayHeader(3);
   echo "<form action='BuyCoins_BuyBack.php?Mode=2' method='post'>";
   echo "<input type='text' name='ID' id='ID' class='' placeholder='' value='$ID' style='color:Gray' readonly tabindex=''>";
@@ -119,8 +120,8 @@ function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice){
   echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='LivePrice' id='LivePrice' class='' placeholder='' value='$livePrice' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='SellPrice' id='SellPrice' class='' placeholder='' value='$sellPrice' style='color:Gray' readonly tabindex=''>";
-  $priceUSD =  $livePrice * $quantity;
-  echo "<input type='text' name='PriceUSD' id='PriceUSD' class='' placeholder='' value='$priceUSD' tabindex=''>";
+  //$priceUSD =  $livePrice * $quantity;
+  echo "<input type='text' name='PriceUSD' id='PriceUSD' class='' placeholder='' value='$usd_Amount' tabindex=''>";
   echo "<BR><input type='submit' name='refreshBtn' value='Refresh'>";
   echo "<BR><input type='submit' name='submitBtn' value='Submit'>";
   echo "<BR><input type='submit' name='backBtn' value='Back'>";
@@ -153,7 +154,9 @@ if ($conn->connect_error) {
   $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`, `Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`, `Ba`.`SellPrice` as `SellPriceBA`, `LiveCoinPrice`
             , (`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`) as `PriceDifferece`, ((`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`)/`Bb`.`SellPrice`)*100 as `PriceDifferecePct`, `Tr`.`UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as `OriginalSaleProfit`
-            , (((`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`))/(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol` FROM `BuyBack` `Bb`
+            , (((`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`))/(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
+            ,`USDBuyBackAmount`
+            FROM `BuyBack` `Bb`
             join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
             join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
@@ -168,7 +171,7 @@ $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
-    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol']);
+    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount']);
 }
 $conn->close();
 return $tempAry;
@@ -311,6 +314,7 @@ function displayMain(){
     $buyBackPct = $tracking[$x][22];
     $image = $tracking[$x][23];
     $symbol = $tracking[$x][24];
+    $USD_Amount = = $tracking[$x][25];
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
@@ -334,10 +338,10 @@ function displayMain(){
     //$numCol = getNumberColour($priceDiff1);
     Echo "<td>Price Dif: ".round($priceDifferecePct,$num)." %</td>";
     Echo "<td>Org: ".round($originalSaleProfitPct,$num)."</td>";
-    Echo "<td></td>";
+    Echo "<td>USD".round($USD_Amount,$num)."</td>";
     Echo "<td></td>";
     echo "</tr><tr>";
-    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA'>Edit</a></td>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>Delete</a></td>";
     Echo "<td></td>";
     Echo "<td></td>";
