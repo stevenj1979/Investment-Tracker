@@ -148,8 +148,8 @@ FROM `BittrexAction`  `Ba`
       ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
       ,`Bi`.`ID` as `IDBi`, `Bi`.`CoinID` as `CoinIDBi`, `Bi`.`TopPrice`, `Bi`.`LowPrice`, `Bi`.`Difference`, `Bi`.`NoOfSells`
       ,`Rls`.`ID` as `IDRls`, `Rls`.`UserID` as `UserIDRls` , `Rls`.`Enabled`, `Rls`.`SellPct`, `Rls`.`OriginalPriceMultiplier`,`Rls`.`ReduceLossMaxCounter`
-      , `Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled`, `Pds`.`HoursFlat`, `Pds`.`DipStartTime`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`
-      ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`
+      , `Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled`, `Pds`.`HoursFlat`, `Pds`.`DipStartTime`
+      ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`
       ,avgMaxPrice(`Cn`.`ID`,20) as `MaxPriceFromHigh`, ((`Cp`.`LiveCoinPrice`- avgMaxPrice(`Cn`.`ID`,20))/avgMaxPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToHigh`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
