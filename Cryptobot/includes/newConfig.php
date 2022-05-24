@@ -19,6 +19,7 @@ function getBittrexRequests($userID = 0){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
+  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -30,7 +31,7 @@ function getBittrexRequests($userID = 0){
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']
-    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase']); //46
+    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['BTCPrice'],$row['ETHPrice'],$row['DaysToPauseCoinIDAfterPurchase']); //48
   }
   $conn->close();
   return $tempAry;
@@ -6343,7 +6344,7 @@ function getBuyBackData(){
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`
             ,`MinsToCancel`,'BullBearStatus',`Type`,`OverrideCoinAllocation`
             ,`AllBuyBackAsOverride`,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice,`LiveCoinPrice`,TimeStampDiff(MINUTE, now(),`DelayCoinSwapUntil`) as `DelayMins`
-            ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`,`CoinPriceBB`
+            ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`,`CoinPriceBB`,`USDBuyBackAmount`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6355,7 +6356,7 @@ function getBuyBackData(){
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
-      ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB']);
+      ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount']);
   }
   $conn->close();
   return $tempAry;
@@ -6618,14 +6619,14 @@ function sellSpreadBetCoins($spreadSellCoins){
   }
 }
 
-function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost){
+function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost);";
+  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount);";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
