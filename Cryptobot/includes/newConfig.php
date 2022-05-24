@@ -5711,7 +5711,7 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");
 }
 
-function addProfitToAllocation($UserID, $totalProfitUSD){
+function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode){
 
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -5731,7 +5731,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD){
   }
   $conn->close();
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("addProfitToAllocation",$sql,3,1,"SQL","UserID:$UserID");
+  newLogToSQL("addProfitToAllocation",$sql,3,1,"SQL","UserID:$UserID;SaveMode:$saveMode");
 }
 
 function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
