@@ -335,7 +335,8 @@ function runBuyBack($buyBackCoins){
         LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,1);
       }else{
         $buyBackPurchasePrice = $sellPrice + $bbKittyAmount;
-        LogToSQL("BuyBackTEST2","$buyBackPurchasePrice = $sellPrice + $bbKittyAmount; | $originalAmount * $sellPriceBA;| $saveMode | $profitPct",3,1);
+        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $sellPriceBA | $sellPrice Profit: $profit PCT: $profitPct",3,1);
+        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $sellPrice + $bbKittyAmount; | $originalAmount * $sellPriceBA;| $saveMode | $profitPct",3,1);
       }
 
 
