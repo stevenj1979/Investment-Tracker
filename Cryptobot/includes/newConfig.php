@@ -5731,7 +5731,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD){
   }
   $conn->close();
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("addProfitToAllocation",$sql,3,0,"SQL","UserID:$UserID");
+  newLogToSQL("addProfitToAllocation",$sql,3,1,"SQL","UserID:$UserID");
 }
 
 function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
