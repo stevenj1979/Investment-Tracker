@@ -2581,7 +2581,7 @@ function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
   }
   $conn->close();
   logAction("bittrexSellComplete: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("bittrexSellComplete","$sql",3,0,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
+  newLogToSQL("bittrexSellComplete","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
 function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
@@ -6343,7 +6343,7 @@ function getBuyBackData(){
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`
             ,`MinsToCancel`,'BullBearStatus',`Type`,`OverrideCoinAllocation`
             ,`AllBuyBackAsOverride`,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice,`LiveCoinPrice`,TimeStampDiff(MINUTE, now(),`DelayCoinSwapUntil`) as `DelayMins`
-            ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`
+            ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6354,7 +6354,8 @@ function getBuyBackData(){
       $tempAry[] = Array($row['IDBb'],$row['TransactionIDBb'],$row['Quantity'],$row['SellPriceBb'],$row['StatusBb'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'] //7
       ,$row['SellPriceBA'],$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['KEK'] //17
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
-      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs']);
+      ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
+      ,$row['CoinPrice'],$row['SaveMode']);
   }
   $conn->close();
   return $tempAry;

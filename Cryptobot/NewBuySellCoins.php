@@ -259,7 +259,7 @@ function runBuyBack($buyBackCoins){
     $originalSaleProfitPct = $buyBackCoins[$t][19]; $profitMultiply = $buyBackCoins[$t][20]; $buyBackPct = $buyBackCoins[$t][22]; $noOfRaisesInPrice = $buyBackCoins[$t][21];
     $minsToCancel = $buyBackCoins[$t][23]; $bullBearStatus = $buyBackCoins[$t][24];$type = $buyBackCoins[$t][25]; $overrideCoinAlloc = $buyBackCoins[$t][26];
     $allBuyBackAsOverride = $buyBackCoins[$t][27]; $BTCPrice = $buyBackCoins[$t][28];$ETHPrice = $buyBackCoins[$t][29];$liveCoinPrice = $buyBackCoins[$t][30];
-    $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
+    $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];$coinPrice = $buyBackCoins[$t][34]; $saveMode = $buyBackCoins[$t][35];
     //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
@@ -323,8 +323,20 @@ function runBuyBack($buyBackCoins){
 
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
-      $buyBackPurchasePrice = ((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.75))*$tempConvAmt)+$bbKittyAmount;
-      LogToSQL("BuyBackTEST","((($sellPriceBA * $originalAmount) -(($sellPriceBA/100)*0.75))*$tempConvAmt)+$bbKittyAmount; | $buyBackPurchasePrice",3,1);
+      $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
+      $origPurchasePrice = $originalAmount * $coinPrice;
+      $sellPrice = $originalAmount * $sellPriceBA;
+      $profit = $sellPrice - $origPurchasePrice;
+      $profitPct = ($profit/$origPurchasePrice)*100;
+      if ($profitPct > 0.25 AND $saveMode = 2){
+        $buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount;
+        LogToSQL("BuyBackTEST1","($buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,1);
+      }else{
+        $buyBackPurchasePrice = $sellPrice + $bbKittyAmount;
+        LogToSQL("BuyBackTEST2","$buyBackPurchasePrice = $sellPrice + $bbKittyAmount; | $saveMode | $profitPct",3,1);
+      }
+
+
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       if($tmpSalePrice <= 0 ){ continue;}
       if ($hoursFlat<3){ continue;}
@@ -1539,7 +1551,7 @@ function runBittrex($BittrexReqs,$apiVersion){
       }elseif ($type == "Sell" or $type == "SpreadSell" or $type == "SavingsSell"){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
-        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
+        newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,1,"SellComplete","TransactionID:$transactionID");
         if (($orderIsOpen == 0) OR ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
@@ -1566,7 +1578,7 @@ function runBittrex($BittrexReqs,$apiVersion){
 
             //}else{
               echo "<BR> Bittrex Sell Complete: $uuid | $transactionID | $finalPrice";
-              newLogToSQL("BittrexSell", "bittrexSellComplete($uuid, $transactionID, $finalPrice);", $userID, 1,"bittrexSellComplete","TransactionID:$transactionID");
+              newLogToSQL("BittrexSell", "bittrexSellComplete($uuid, $transactionID, $finalPrice); $originalAmount ", $userID, 1,"bittrexSellComplete","TransactionID:$transactionID");
               bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
               extendPctToBuy($coinID,$userID);
               $allocationType = 'Standard';
