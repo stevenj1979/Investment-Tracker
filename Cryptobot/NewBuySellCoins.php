@@ -789,7 +789,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             newLogToSQL("TrackingCoinAmountCalc","$symbol | $coinID | $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100; | ($ogBTCAmount/100)*$pctToBuy",$userID,1,"BuyCoinAmountCalculation","TrackingCoinID:$newTrackingCoinID");
             $ogBTCAmount = ($ogBTCAmount/100)*$pctToBuy;
         }
-
+        $date = date("Y-m-d H:i:s", time());
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$noOfPurchases+1);
         if ($checkBuy == 1){
           newLogToSQL("TrackingCoin","buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);",$userID,1,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
