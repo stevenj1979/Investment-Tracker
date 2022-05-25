@@ -1362,7 +1362,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       }
       echo "<BR> NEXT RULE <BR>";
     } //Sell Rules
-    $BTCBalance = bittrexbalance($apikey, $apisecret,$BaseCurrency, $apiVersion);
+    $BTCBalance = bittrexbalance($APIKey, $APISecret,$BaseCurrency, $apiVersion);
     $buyPrice = ($cost * $amount);
     $sellPrice = ($LiveCoinPrice * $amount);
     $fee = (($LiveCoinPrice * $amount)/100)*0.25;
