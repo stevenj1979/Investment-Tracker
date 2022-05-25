@@ -787,6 +787,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){ $ogBTCAmount = (float)$ogBTCAmount;}
         if ($buyAmountCalculationEnabled == 1){
             newLogToSQL("TrackingCoinAmountCalc","$symbol | $coinID | $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100; | ($ogBTCAmount/100)*$pctToBuy",$userID,1,"BuyCoinAmountCalculation","TrackingCoinID:$newTrackingCoinID");
+            if ($type == 'BuyBack'){
+              $pctToBuy = 100;
+            }
             $ogBTCAmount = ($ogBTCAmount/100)*$pctToBuy;
         }
         $date = date("Y-m-d H:i:s", time());
