@@ -1232,7 +1232,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       curl_close($ch);
       $temp = json_decode($execResult, true);
       echo "<BR> $url";
-      newLogtoSQL("BittrexAPI",var_dump($temp),3,1,"Balance","Base:$base");
+      newLogtoSQL("BittrexAPI",var_dump($temp),3,0,"Balance","Base:$base");
       $balance = $temp['total'];
     }
     return $balance;
