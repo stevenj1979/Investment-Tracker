@@ -264,6 +264,7 @@ function runBuyBack($buyBackCoins){
     //$tempPrice = getCoinPrice($CoinID);
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
+    $hr1ChangePctChange = $buyBackCoins[$t][38];$hr24ChangePctChange = $buyBackCoins[$t][39];$d7ChangePctChange = $buyBackCoins[$t][40];
     //if ($lowMarketModeEnabled > 0){ $lowMarketMultiplier = 100;}else{$lowMarketMultiplier = $pctOnLow;}
     //$BTCAvailable = (($buyBackCoins[$t][31]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][35];
     //$ETHAvailable = (($buyBackCoins[$t][32]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][36];
@@ -341,8 +342,9 @@ function runBuyBack($buyBackCoins){
       }
 
 
+
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
-      if($tmpSalePrice <= 0 ){ continue;}
+      if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ continue;}
       if ($hoursFlat<3){ continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'RunBuyBack');
