@@ -1762,7 +1762,7 @@ function copyCoinPrice($coinID,$CoinPrice){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "call NewUpdateCoinPrice($coinID, $CoinPrice);";
-  //print_r($sql);
+  print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
