@@ -1072,11 +1072,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($APIKey=="NA" && $APISecret == "NA"){
         //Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>";
         continue;}
-      echo "<BR> I'm here1A!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
+      //echo "<BR> I'm here1A!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){
         //Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";
         continue;}
-      echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
+      //echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
+      echo "<BR> BASE!! $baseCurrency : $userBaseCurrency";
       if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){
         //Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";
         continue;}
