@@ -697,7 +697,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
-    if ($overrideCoinAlloc == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
+    if ($overrideCoinAlloc == 1){ $lowBuyMode = 1;}else{$lowBuyMode=0; }
     $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation." | $BTCAmount | $ruleIDBuy | $baseCurrency";
