@@ -1082,10 +1082,10 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
         //Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>";
         continue;}
+      echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($doNotBuy == 1){
         //Echo "<BR> EXIT: Do Not Buy<BR>";
         continue;}
-      echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
         $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
