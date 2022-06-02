@@ -1077,11 +1077,11 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         //Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";
         continue;}
       //echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
-      echo "<BR> BASE!! $baseCurrency : $userBaseCurrency";
-      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){
+      //echo "<BR> BASE!! $baseCurrency : $userBaseCurrency";
+      //if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){
         //Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";
-        continue;}
-      echo "<BR> I'm here1C!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
+      //  continue;}
+      //echo "<BR> I'm here1C!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
         //Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>";
         continue;}
