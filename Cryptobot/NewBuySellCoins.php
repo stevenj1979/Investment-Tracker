@@ -1067,11 +1067,21 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         continue;}
       $GLOBALS['allDisabled'] = false;
       if (empty($APIKey) && empty($APISecret)){ continue;}
-      if ($APIKey=="NA" && $APISecret == "NA"){ Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>"; continue;}
-      if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){ Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";continue;}
-      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){ Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";continue;}
-      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) { Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>"; continue;}
-      if ($doNotBuy == 1){Echo "<BR> EXIT: Do Not Buy<BR>"; continue;}
+      if ($APIKey=="NA" && $APISecret == "NA"){
+        //Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>";
+        continue;}
+      if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){
+        //Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";
+        continue;}
+      if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){
+        //Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";
+        continue;}
+      if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
+        //Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>";
+        continue;}
+      if ($doNotBuy == 1){
+        //Echo "<BR> EXIT: Do Not Buy<BR>";
+        continue;}
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
         echo "<BR> Check if over total limit! ";
         $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
@@ -1083,6 +1093,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
           if ($userDailyBTCSpent >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
       }
+      echo "<BR> I'm here!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID];continue;
       }else{ Echo "<BR> Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID];}
       if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"];continue;
