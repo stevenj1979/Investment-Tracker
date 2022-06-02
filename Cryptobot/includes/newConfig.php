@@ -4738,6 +4738,7 @@ function findUserProfit($userProfit, $userID){
     $userProfitSize = count($userProfit);
     for ($i=0; $i<$userProfitSize; $i++){
       if ($userProfit[$i][4] == $userID){
+        echo "<BR> Return User Profit: ".$userProfit[$i][3];
         return $userProfit[$i][3];
       }
     }
