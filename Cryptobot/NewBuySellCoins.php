@@ -669,8 +669,8 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       }
     }
     if($minsFromDate >= $timeToCancelBuyMins){
-      closeNewTrackingCoin($newTrackingCoinID, True);
       reOpenOneTimeBuyRule($trackingID);
+      closeNewTrackingCoin($newTrackingCoinID, True);
       if ($oldBuyBackTransID <> 0){
         reopenCoinSwapCancel($oldBuyBackTransID);
       }

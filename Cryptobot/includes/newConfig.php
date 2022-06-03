@@ -1177,6 +1177,7 @@ function reOpenOneTimeBuyRule($trackingID){
   }
   $conn->close();
   logAction("reOpenOneTimeBuyRule: ".$sql, 'BuySell', 0);
+  newLogToSQL("reOpenOneTimeBuyRule",$sql,3,1,"SQL","TrackingID:$trackingID");
 }
 
 function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
