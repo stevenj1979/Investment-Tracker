@@ -1617,7 +1617,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               }elseif ($saveMode == 2 AND $profitPct > 0.25){
                 //$newProfit = ($profit / 100)*$pctToSave;
                 $newProfit = $profit;
-                addProfitToAllocation($userID, $newProfit,$saveMode);
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency);
               }elseif ($profitPct < 0.25){
                 $newProfit = 0;
               }
