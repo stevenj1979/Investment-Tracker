@@ -1580,11 +1580,11 @@ INSERT INTO `UserCoinSavings`(`UserID`) VALUES (User_ID);
 end if;
 
 if  nBase = 'USDT' THEN
-UPDATE `UserCoinSavings` SET `SavingUSDT`= nSaving WHERE `UserID` = User_ID;
+UPDATE `UserCoinSavings` SET `SavingUSDT`= `SavingUSDT` + nSaving WHERE `UserID` = User_ID;
 ELSEIF nBase = 'BTC' THEN
-UPDATE `UserCoinSavings` SET `SavingBTC`= nSaving WHERE `UserID` = User_ID;
+UPDATE `UserCoinSavings` SET `SavingBTC`= `SavingBTC` + nSaving WHERE `UserID` = User_ID;
 ELSE
- UPDATE `UserCoinSavings` SET`SavingETH`= nSaving WHERE `UserID` = User_ID;
+ UPDATE `UserCoinSavings` SET `SavingETH` = `SavingETH` + nSaving WHERE `UserID` = User_ID;
 end if;
 END$$
 DELIMITER ;
