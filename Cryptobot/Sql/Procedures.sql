@@ -1569,3 +1569,22 @@ BEGIN
 	UPDATE `Transaction` SET `Status` = 'Sold', `CompletionDate` = now() where `BittrexRef` = Bittrex_Ref;
 End$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToUserCoinSavings`(IN `User_ID` INT, IN `nSaving` DECIMAL(20,14), IN `nBase` VARCHAR(50))
+    MODIFIES SQL DATA
+BEGIN
+
+if NOT Exists (SELECT `UserID` FROM `UserCoinSavings` WHERE `UserID` = User_ID) THEN
+INSERT INTO `UserCoinSavings`(`UserID`) VALUES (User_ID);
+end if;
+
+if  nBase = 'USDT' THEN
+UPDATE `UserCoinSavings` SET `SavingUSDT`= nSaving WHERE `UserID` = User_ID;
+ELSEIF nBase = 'BTC' THEN
+UPDATE `UserCoinSavings` SET `SavingBTC`= nSaving WHERE `UserID` = User_ID;
+ELSE
+ UPDATE `UserCoinSavings` SET`SavingETH`= nSaving WHERE `UserID` = User_ID;
+end if;
+END$$
+DELIMITER ;

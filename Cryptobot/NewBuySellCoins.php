@@ -1613,7 +1613,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
               if ($saveMode == 1 AND $profitPct > 0.25){
                 $newProfit = ($profit / 100)*$pctToSave;
-                addProfitToAllocation($userID, $newProfit,$saveMode);
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency);
               }elseif ($saveMode == 2 AND $profitPct > 0.25){
                 //$newProfit = ($profit / 100)*$pctToSave;
                 $newProfit = $profit;

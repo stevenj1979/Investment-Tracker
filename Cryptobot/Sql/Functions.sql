@@ -75,17 +75,20 @@ Declare nSaving DEC(20,14);
 
 SELECT `LowMarketModeEnabled` INTO LowMarket_ModeEnabled FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
 SELECT `PctOnLow` INTO PctOn_Low FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
-SELECT `Saving` into nSaving FROM `CoinAllocations` WHERE `UserID` = User_ID;
+
 
 if nCoin = "USDT" THEN
 	SELECT `USDTAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+    SELECT `SavingUSDT` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
 ELSEIF nCoin = "BTC" THEN
 	SELECT `BTCAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+    SELECT `SavingBTC` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
 ELSE
 	SELECT `ETHAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+    SELECT `SavingETH` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
 END IF;
 
-SELECT sum(`CoinPrice`*`Amount`) into Trans_Open
+SELECT ifnull(sum(`CoinPrice`*`Amount`),0) into Trans_Open
               FROM `View15_OpenTransactions` WHERE `UserID` = User_ID and `StatusTr` in ('Open','Pending') and `BaseCurrency` = nCoin;
 
 if LowMarket_ModeEnabled > 0 AND PctOn_Low > 0 THEN
