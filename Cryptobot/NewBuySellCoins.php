@@ -320,6 +320,7 @@ function runBuyBack($buyBackCoins){
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowBuyMode);
       if ($coinAllocation <= 20 && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
+          newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,1,"Exit","BBID:$bBID");
           continue;
       }
 
