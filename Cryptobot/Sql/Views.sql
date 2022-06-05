@@ -302,10 +302,13 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
   ,if(((`Cpc`.`Last1HrChange` - `Cpc`.`1HrChange3`) > 0),1,if(((`Cpc`.`Last1HrChange` - `Cpc`.`1HrChange3`) < 0),-(1),0)) AS `1HrPriceChangeLast`
   ,if(((`Cpc`.`1HrChange3` - `Cpc`.`1HrChange4`) > 0),1,if(((`Cpc`.`1HrChange3` - `Cpc`.`1HrChange4`) < 0),-(1),0)) AS `1HrPriceChange3`
   ,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) > 0),1,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) < 0),-(1),0)) AS `1HrPriceChange4`
+  ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+  , `Cn`.`DoNotBuy`
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+ join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
  join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
  join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
  join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`

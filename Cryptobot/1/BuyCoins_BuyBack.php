@@ -151,27 +151,21 @@ $conn = getSQLConn(rand(1,3));
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-  $sql = "SELECT `Bb`.`ID`, `Bb`.`TransactionID`, `Quantity`, `Bb`.`SellPrice`, `Bb`.`Status`, `Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`, `Tr`.`CoinID`, `Ba`.`SellPrice` as `SellPriceBA`, `LiveCoinPrice`
-            , (`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`) as `PriceDifferece`, ((`Cp`.`LiveCoinPrice`- `Bb`.`SellPrice`)/`Bb`.`SellPrice`)*100 as `PriceDifferecePct`, `Tr`.`UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
-            , `KEK`, (`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`) as `OriginalSaleProfit`
-            , (((`Tr`.`CoinPrice`*`Tr`.`Amount`)-(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`))/(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
-            ,`USDBuyBackAmount`
-            FROM `BuyBack` `Bb`
-            join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
-            join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
-            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-            join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
-            join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
-            join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
-            join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-            where `Bb`.`Status` <> 'Closed' and `Tr`.`UserID` = $userID";
+  $sql = "SELECT `IDBb`, `TransactionID`, `Quantity`, `SellPrice`, `StatusBb`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPrice` as `SellPriceBA`, `LiveCoinPrice`
+            , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
+            , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
+            , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
+            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`
+            FROM `View9_BuyBack`
+            where `StatusBb` <> 'Closed' and `UserID` = $userID";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['Status'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
+    $tempAry[] = Array($row['IDBb'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['StatusBb'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
-    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount']);
+    ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
+    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs']);
 }
 $conn->close();
 return $tempAry;
@@ -315,6 +309,9 @@ function displayMain(){
     $image = $tracking[$x][23];
     $symbol = $tracking[$x][24];
     $USD_Amount = $tracking[$x][25];
+    $hoursFlatLow = $tracking[$x][26];
+    $hoursFlatHigh = $tracking[$x][27];
+
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
@@ -331,7 +328,7 @@ function displayMain(){
 
     echo "</tr><tr>";
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
-    Echo "<td></td>";
+    Echo "<td>HoursFlat: $hoursFlatHigh</td>";
     Echo "<td></td>";
 
     echo "</tr><tr>";
