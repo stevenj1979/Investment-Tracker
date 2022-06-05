@@ -332,8 +332,8 @@ function runBuyBack($buyBackCoins){
       $profitPct = ($profit/$origPurchasePrice)*100;
       if ($profitPct > 0.25 AND $saveMode = 2){
         $buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount;
-        LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $sellPrice | $sellPrice Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,1);
-        LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,1);
+        LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $sellPrice | $sellPrice Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
+        LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,0);
       }else{
         $buyBackPurchasePrice = $sellPrice + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
@@ -344,8 +344,8 @@ function runBuyBack($buyBackCoins){
 
 
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
-      if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ continue;}
-      if ($hoursFlat<3){ continue;}
+      if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");continue;}
+      if ($hoursFlat<3){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,1,"Exit","BBID:$bBID");continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'RunBuyBack');
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
