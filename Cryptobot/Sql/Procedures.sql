@@ -353,6 +353,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewAddBittrexSell`(IN `Coin_
 BEGIN
 Declare Og_Price DEC(20,8);
 Declare Live_Price DEC(20,8);
+Declare Bittrex_ID INT;
 
 select `CoinPrice` into Og_Price from `Transaction` where `ID` = Trans_ID;
 
@@ -361,8 +362,9 @@ select `liveCoinPrice` into Live_Price from `CoinPrice` where `CoinID` = Coin_ID
 if NOT EXISTS (Select `TransactionID` from `BittrexAction` where `TransactionID` = Trans_ID and `Type` = n_Type) THEN
 INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `Status`, `SellPrice`, `RuleID`) VALUES (Coin_ID,Trans_ID, User_ID, n_Type, Bittrex_Ref,n_Status,Live_Price,Rule_ID);
 end if;
+ SELECT `ID` INTO Bittrex_ID FROM `BittrexAction` WHERE `BittrexRef` = Bittrex_Ref;
 
- UPDATE `Transaction` SET `Status` = 'Pending', `Type` = n_Type WHERE `ID` = Trans_ID;
+ UPDATE `Transaction` SET `Status` = 'Pending', `Type` = n_Type, `BittrexID` = Bittrex_ID, `BittrexRef` = Bittrex_Ref WHERE `ID` = Trans_ID;
 
 END$$
 DELIMITER ;
