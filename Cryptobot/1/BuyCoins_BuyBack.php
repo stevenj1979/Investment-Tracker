@@ -155,7 +155,7 @@ if ($conn->connect_error) {
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
-            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`
+            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' and `UserID` = $userID";
 
@@ -165,7 +165,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDBb'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['StatusBb'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
-    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs']);
+    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange']);
 }
 $conn->close();
 return $tempAry;
@@ -311,6 +311,7 @@ function displayMain(){
     $USD_Amount = $tracking[$x][25];
     $hoursFlatLow = $tracking[$x][26];
     $hoursFlatHigh = $tracking[$x][27];
+    $hr1PctChange = $tracking[$x][28];
 
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
@@ -329,7 +330,7 @@ function displayMain(){
     echo "</tr><tr>";
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
     Echo "<td>HoursFlat: $hoursFlatHigh</td>";
-    Echo "<td></td>";
+    Echo "<td>1Hr Pct Change: $hr1PctChange</td>";
 
     echo "</tr><tr>";
     //$numCol = getNumberColour($priceDiff1);
