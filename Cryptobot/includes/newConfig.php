@@ -4273,8 +4273,8 @@ function checkMultiSellRules($sellRule, $multiRuleAry){
   $ruleFlag = false;
   echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
-    echo "<BR> ".$multiRuleAry[0][$i]." - $sellRule";
-    if ($multiRuleAry[0][$i] == $sellRule){ $ruleFlag = true;}
+    echo "<BR> ".$multiRuleAry[$i][0]." - $sellRule";
+    if ($multiRuleAry[$i][0] == $sellRule){ $ruleFlag = true;}
   }
   return $ruleFlag;
 }
