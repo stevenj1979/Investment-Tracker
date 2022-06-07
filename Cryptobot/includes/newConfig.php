@@ -4191,7 +4191,8 @@ function closeOldTransSQL($id){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("closeOldTransSQL: $sql",'TrackingCoins', 0);
+  logAction("closeOldTransSQL: $sql",'TrackingCoins',0);
+  newLogToSQL("closeOldTransSQL",$sql,3,1,"SQL","TransID:$id");
 }
 
 function updateNoOfRisesInPrice($newTrackingCoinID, $num){
@@ -4211,7 +4212,7 @@ function updateNoOfRisesInPrice($newTrackingCoinID, $num){
   }
   $conn->close();
   logAction("updateNoOfRisesInPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TrackingCoinID:$newTrackingCoinID");
+  newLogToSQL("updateNoOfRisesInPrice",$sql,3,0,"SQL","TrackingCoinID:$newTrackingCoinID");
 }
 
 function getNumberColour($ColourText){
