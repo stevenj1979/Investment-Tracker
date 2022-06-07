@@ -312,8 +312,16 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //echo "<BR> The API Secret is: ".$encAry['data'];;
 //echo "<BR> The KEK is: ".$encAry['secret'];;
 
-$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
-echo "<BR> $finalAmount";
+//$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
+//echo "<BR> $finalAmount";
+
+$multiSellRules = getMultiSellRules($transactionID);
+$result = checkMultiSellRules(536,$multiSellRules);
+echo "<BR> Result1: $result";
+$result = checkMultiSellRules(529,$multiSellRules);
+echo "<BR> Result2: $result";
+$result = checkMultiSellRules(531,$multiSellRules);
+echo "<BR> Result3: $result";
 
 ?>
 </html>

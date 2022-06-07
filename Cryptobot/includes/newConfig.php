@@ -4248,6 +4248,35 @@ function getSparklineData($coin){
     return $tempAry;
 }
 
+function getMultiSellRules($transID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `SellRuleID` FROM `MultiSellRuleConfig` WHERE `TransactionID` = $transID";
+    $result = $conn->query($sql);
+    //$result = mysqli_query($link4, $query);
+    //mysqli_fetch_assoc($result);
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['SellRuleID']);
+    }
+    $conn->close();
+    return $tempAry;
+}
+
+function checkMultiSellRules($sellRule, $multiRuleAry){
+  $multiSellRuleArySize = count($multiRuleAry);
+  $ruleFlag = false;
+  for ($i=0; $i<$multiSellRuleArySize; $i++){
+    echo "<BR> ".$multiRuleAry[0][$i]." - $sellRule";
+    if ($multiRuleAry[0][$i] == $sellRule){ $ruleFlag = true;}
+  }
+  return $ruleFlag;
+}
+
 function dataToString($seperator, $array){
   $num = 0;
   if(!empty($array)){
