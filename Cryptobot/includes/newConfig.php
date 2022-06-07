@@ -4257,6 +4257,7 @@ function getMultiSellRules($transID){
   }
 
   $sql = "SELECT `SellRuleID` FROM `MultiSellRuleConfig` WHERE `TransactionID` = $transID";
+  echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
@@ -4272,8 +4273,8 @@ function checkMultiSellRules($sellRule, $multiRuleAry){
   $ruleFlag = false;
   echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
-    echo "<BR> ".$multiRuleAry[0][$i]." - $sellRule";
-    if ($multiRuleAry[0][$i] == $sellRule){ $ruleFlag = true;}
+    echo "<BR> ".$multiRuleAry[$i]." - $sellRule";
+    if ($multiRuleAry[$i] == $sellRule){ $ruleFlag = true;}
   }
   return $ruleFlag;
 }
