@@ -1520,7 +1520,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           UpdateProfit();
           if ($oldBuyBackTransID <> 0){
             addBuyBackTransID($oldBuyBackTransID,$transactionID);
-            delaySavingBuy($oldBuyBackTransID,80); 
+            delaySavingBuy($oldBuyBackTransID,80);
           }
 
 
@@ -1689,6 +1689,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               }
               UpdateProfit();
               addCoinPurchaseDelay($coinID,$userID,1,0);
+              deleteMultiSellRuleConfig($transactionID);
               logAction("runBittrex; bittrexSellComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             $finalBool = True;

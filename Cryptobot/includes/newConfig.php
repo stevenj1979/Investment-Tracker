@@ -705,7 +705,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       addCoinPurchaseDelay($coinID,$userID,120,0);
       clearTrackingCoinQueue($userID,$coinID);
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount;
-      logAction("BITTREX BALANCE INSUFFICIENT| $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySellFlow', 1);
+      logAction("BITTREX BALANCE INSUFFICIENT| $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySellFlow', 0);
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", $userID,1);
     }
   //}
@@ -893,7 +893,7 @@ function addOldBuyBackTransID($bBID,$tmpCoinID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     newLogToSQL("addOldBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID");
-    LogAction("addOldBuyBackTransID:".$sql, 'SQL_UPDATE', 1);
+    LogAction("addOldBuyBackTransID:".$sql, 'SQL_UPDATE', 0);
     $conn->close();
 }
 
@@ -911,7 +911,25 @@ function addBuyBackTransID($bBTransID,$transactionID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID;TrackID:$trackingID");
-    LogAction("addBuyBackTransID:".$sql, 'SQL_UPDATE', 1);
+    LogAction("addBuyBackTransID:".$sql, 'SQL_UPDATE', 0);
+    $conn->close();
+}
+
+function deleteMultiSellRuleConfig($transactionID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "DELETE FROM `MultiSellRuleConfig` WHERE `TransactionID` =  $transactionID; ";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("deleteMultiSellRuleConfig",$sql,3,1,"SQL","BbID:$bBID;TrackID:$trackingID");
+    LogAction("deleteMultiSellRuleConfig:".$sql, 'SQL_UPDATE', 0);
     $conn->close();
 }
 
@@ -3904,8 +3922,8 @@ function getNewTrackingCoins($userID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
 //12
-  $whereClause = " WHERE `TrackingStatus` <> 'Closed'";
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `TrackingStatus` <> 'Closed'";}
+  $whereClause = " WHERE `TrackingStatus`  not in  ('Closed','Cancelled')";
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `TrackingStatus`  not in  ('Closed','Cancelled')";}
     $sql = "SELECT `CoinID`,`CoinPrice`,`TrackDate`,`Symbol`,`LiveCoinPrice`,(`LiveCoinPrice`-`LastCoinPrice`) as `PriceDifference`,((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `PctDifference`,`UserID`
     ,`BaseCurrency`,`SendEmail`,`BuyCoin`,`Quantity`,`RuleIDBuy`,`CoinSellOffsetPct`
       ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`IDTc`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`

@@ -144,15 +144,11 @@ function getTotalHoldings($userID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `Hb`.`Date` as `ActionDate`, ifnull(sum(`HbBTC`.`TotalUSD`),0) as TotalBTC ,ifnull(sum(`HbETH`.`TotalUSD`),0) as TotalETH,ifnull(sum(`HbUSDT`.`TotalUSD`),0) as TotalUSDT
-FROM `HistoricBittrexBalances` `Hb`
-left Join `HistoricBittrexBalances` `HbETH` on `Hb`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH'
-left Join `HistoricBittrexBalances` `HbBTC` on `Hb`.`ID` = `HbBTC`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC'
-left Join `HistoricBittrexBalances` `HbUSDT` on `Hb`.`ID` = `HbUSDT`.`ID` and `HbUSDT`.`BaseCurrency` = 'USDT'
-WHERE `Hb`.`UserID` =  $userID
-and YEAR(`Hb`.`Date`) = YEAR(CURDATE())
-and MONTH(`Hb`.`Date`) = MONTH(CURDATE())
-and DAY(`Hb`.`Date`) = DAY(CURDATE())-1";
+  $sql = "SELECT
+            (SELECT  `Date`FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as ActionDate
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as TotalBTC
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'ETH') as TotalETH
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'USDT') as TotalUSDT";
   //echo $sql;
   $result = $conn->query($sql);
 

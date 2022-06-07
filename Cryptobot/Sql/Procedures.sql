@@ -1393,8 +1393,8 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CancelBittrexBuy`(IN `Bittrex_Ref` VARCHAR(200), IN `Trans_ID` INT)
     MODIFIES SQL DATA
 BEGIN
-Update `Transaction` SET `Status` = 'Closed' where `ID` = Trans_ID;
-Update `BittrexAction` SET `Status` = 'Closed' where `TransactionID` = Trans_ID;
+Update `Transaction` SET `Status` = 'Cancelled' where `ID` = Trans_ID;
+Update `BittrexAction` SET `Status` = 'Cancelled' where `TransactionID` = Trans_ID;
 END$$
 DELIMITER ;
 
@@ -1598,5 +1598,14 @@ UPDATE `UserCoinSavings` SET `SavingBTC`= `SavingBTC` + nSaving WHERE `UserID` =
 ELSE
  UPDATE `UserCoinSavings` SET `SavingETH` = `SavingETH` + nSaving WHERE `UserID` = User_ID;
 end if;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CancelBittrexSell`(IN `Bittrex_Ref` VARCHAR(100), IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+	UPDATE `Transaction` SET `Status` = 'Cancelled', `SellOrderCancelTime` = now()  WHERE `ID` = Trans_ID;
+	UPDATE `BittrexAction` SET `Status` = 'Cancelled' where `BittrexRef` = Bittrex_Ref and `Type` in ('Sell','SpreadSell');
 END$$
 DELIMITER ;
