@@ -316,6 +316,7 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //echo "<BR> $finalAmount";
 
 $multiSellRules = getMultiSellRules($transactionID);
+var_dump($multiSellRules);
 $result = checkMultiSellRules(536,$multiSellRules);
 echo "<BR> Result1: $result";
 $result = checkMultiSellRules(529,$multiSellRules);

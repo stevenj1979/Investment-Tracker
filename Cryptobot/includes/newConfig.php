@@ -4270,6 +4270,7 @@ function getMultiSellRules($transID){
 function checkMultiSellRules($sellRule, $multiRuleAry){
   $multiSellRuleArySize = count($multiRuleAry);
   $ruleFlag = false;
+  echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
     echo "<BR> ".$multiRuleAry[0][$i]." - $sellRule";
     if ($multiRuleAry[0][$i] == $sellRule){ $ruleFlag = true;}
