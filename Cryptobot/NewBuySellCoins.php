@@ -1327,6 +1327,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
       $sellResultAry[] = Array($sTest3, "Sell Orders $coin", $SellOrdersPctChange);
       $sTest4 = sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
+      Echo "<BR> 1Hour % $Hr1ChangePctChange ";
       $sellResultAry[] = Array($sTest4, "1 Hour Price Change $coin", $Hr1ChangePctChange);
       $sTest5 = sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
       $sellResultAry[] = Array($sTest5, "24 Hour Price Change $coin", $Hr24ChangePctChange);
@@ -1426,6 +1427,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][38]; $buyBack = $BittrexReqs[$b][39];
     $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41]; $mergeSavingwithPurchase = $BittrexReqs[$b][42]; $buyBackEnabled = $BittrexReqs[$b][43];
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
+    $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1478,10 +1480,22 @@ function runBittrex($BittrexReqs,$apiVersion){
           newLogToSQL("BittrexBuy", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice | Type: $type", $userID, $GLOBALS['logToSQLSetting'],"OrderComplete","TransactionID:$transactionID");
           //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
           echo "<BR>Buy Order COMPLETE!";
-          setCustomisedSellRule($ruleIDBTBuy,$coinID);
-          if ($type == 'Buy' and $coinModeRule == 0){
-              setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
+
+          if ($multiSellRuleEnabled == 1){
+              $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
+              $str_arr = explode (",", $ruleStr);
+              $str_arrSize = count($str_arr);
+              for ($t=0; $t<$str_arrSize; $t++){
+                $sellRuleIDFromTemplate = $str_arr[$t][0];
+                writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
+              }
+          }else{
+            setCustomisedSellRule($ruleIDBTBuy,$coinID);
+            if ($type == 'Buy' and $coinModeRule == 0){
+                setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
+            }
           }
+
           updateBuyAmount($transactionID,$orderQty);
           if($redirectPurchasesToSpread == 1){
             $type = 'SpreadBuy';
