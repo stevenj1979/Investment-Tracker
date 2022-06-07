@@ -1351,7 +1351,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       //Echo "<BR> sTEST13: $sTest13";
       $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
-
+      Echo "<BR> Hours Flat  $priceDipHours $priceDipHoursFlatTarget";
       $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours);
       $sellResultAry[] = Array($sTest14, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest15 = sellWithMin($priceDipMaxPriceEnabled,$finalPriceDipMaxPrice,$LiveCoinPrice,$LiveBTCPrice);
