@@ -1852,7 +1852,7 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
       //print_r("True");
       return True;
       exit;
-  }elseif ($priceDipHours <= $priceDipHoursFlatTarget){
+  }elseif ($priceDipHours >= $priceDipHoursFlatTarget){
       echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
       return True;
