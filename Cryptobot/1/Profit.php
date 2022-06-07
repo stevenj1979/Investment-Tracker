@@ -40,7 +40,7 @@ function getCoinsfromSQL($userID){
             ,((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )/100)*0.28)* 1) ,if(`BaseCurrency` = 'USDT'
               ,((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
              ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
-          WHERE `UserID` = $userID and `Type` = 'Sell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` = 0
+          WHERE `UserID` = $userID and `Type` = 'Sell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` = 0 and `BuyBackTransactionID` = 0
           order by `CompletionDate` desc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
