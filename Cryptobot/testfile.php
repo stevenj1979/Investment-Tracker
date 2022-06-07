@@ -315,7 +315,7 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
 //echo "<BR> $finalAmount";
 
-$multiSellRules = getMultiSellRules($transactionID);
+$multiSellRules = getMultiSellRules(11137);
 var_dump($multiSellRules);
 $result = checkMultiSellRules(536,$multiSellRules);
 echo "<BR> Result1: $result";
