@@ -971,6 +971,16 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8))
     MODIFIES SQL DATA
 BEGIN
+DECLARE BuyBack_TransID INT;
+DECLARE newRuleID INT;
+
+SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
+
+If BuyBack_TransID = 0 THEN
+	INSERT into `BuyBackTransaction` (`Name`) VALUES ('BuyBack_' & Trans_ID);
+	Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = 'BuyBack_' & Trans_ID;
+	UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
+END if;
 
 If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
 UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = USD_Amount WHERE `TransactionID` = Trans_ID;

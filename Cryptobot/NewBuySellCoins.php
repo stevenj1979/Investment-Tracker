@@ -831,7 +831,6 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //continue;
           if ($type == 'BuyBack'){
             bittrexActionBuyBack($coinID,$oldBuyBackTransID);
-            addBuyBackTransID($oldBuyBackTransID,$trackingID);
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
@@ -1519,7 +1518,10 @@ function runBittrex($BittrexReqs,$apiVersion){
 
           clearBittrexRef($transactionID);
           UpdateProfit();
-          if ($oldBuyBackTransID <> 0){ delaySavingBuy($oldBuyBackTransID,80); }
+          if ($oldBuyBackTransID <> 0){
+            addBuyBackTransID($oldBuyBackTransID,$transactionID);
+            delaySavingBuy($oldBuyBackTransID,80); 
+          }
 
 
           //continue;
