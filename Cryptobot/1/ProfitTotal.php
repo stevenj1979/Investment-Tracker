@@ -199,7 +199,7 @@ displayHeader(5);
         $totalBalance =  $profit + $bittrexBal;
         $totalBalanceUSD = number_format((float)$totalBalance*$btcPrice, 2, '.', '');
         //echo "<br><h2>Profit</h2>";
-        echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
+        echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='Profit_BuyBack.php'>BuyBack Profit</a> &nbsp > &nbsp <a href='Profit_SpreadBet.php'>SpreadBet Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
         echo "<HTML><Table><TH>Purchase Price BTC</TH><TH>Sale Price BTC</TH><TH>Profit BTC</TH><TH>Bittrex Balance</TH><TH>Total Balance</TH><TH>Purchase Price USD</TH><TH>Sale Price USD</TH><TH>Profit USD</TH><TH>Bittrex Balance</TH><TH>Total Balance USD</TH><TH>No of Transactions</TH><TR>";
         print_r("<tr><td>".$purchasePrice."</td><td>".$salePrice."</td><td>".$profit."</td><td>$bittrexBal</td><td>$totalBalance</td><td> $".$purchaseCostUSD."</td><td> $".$salePriceUSD."</td><td> $".$profitUSD."</td>");
         print_r("<td>$".$bittrexBalUSD."</td><td>$".$totalBalanceUSD."</td><td>".$count."</td></tr>");
