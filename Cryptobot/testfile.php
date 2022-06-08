@@ -319,6 +319,7 @@ $resultOrd = bittrexOrder($apiKey, $apiSecret, 'a5be650b-a80e-4a15-b29d-eb087423
 $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
 $orderQty = $resultOrd["quantity"];
 $finalPrice = $tempPrice/$orderQty;
+var_dump($resultOrd);
 Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice";
 ?>
 </html>
