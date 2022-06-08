@@ -977,8 +977,8 @@ DECLARE newRuleID INT;
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
 If BuyBack_TransID = 0 THEN
-	INSERT into `BuyBackTransaction` (`Name`) VALUES ('BuyBack_' & Trans_ID);
-	Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = 'BuyBack_' & Trans_ID;
+	INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
+	Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
 	UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
 END if;
 
