@@ -3892,7 +3892,7 @@ function runLowMarketMode($userID,$mode){
   }
   $conn->close();
   logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-  newLogToSQL("runLowMarketMode","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+  newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge){
