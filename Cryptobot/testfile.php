@@ -314,8 +314,8 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 //$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
 //echo "<BR> $finalAmount";
-
-$resultOrd = bittrexOrder($apiKey, $apiSecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
+Echo "<BR>API:$apikey secret: $apisecret";
+$resultOrd = bittrexOrder($apikey, $apisecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
 $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
 $orderQty = $resultOrd["quantity"];
 $finalPrice = $tempPrice/$orderQty;
