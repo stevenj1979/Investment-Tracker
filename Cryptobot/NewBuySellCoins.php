@@ -1444,6 +1444,7 @@ function runBittrex($BittrexReqs,$apiVersion){
       $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
       $orderQty = $resultOrd["quantity"];
       $finalPrice = $tempPrice/$orderQty;
+      newLogToSQL("Bittrex", "Final Price: $tempPrice / $orderQty = $finalPrice", $userID, 1,"UpdateQtyFilled","TransactionID:$transactionID");
       //$cancelInit = $resultOrd["result"]["CancelInitiated"];
       $qtySold = $resultOrd["fillQuantity"];
 
@@ -1662,7 +1663,10 @@ function runBittrex($BittrexReqs,$apiVersion){
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
 
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
-                if ($buyBackEnabled == 1){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);}
+                if ($buyBackEnabled == 1){
+
+                  WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);
+                }
               }else{
                 //Update Coin ModeRule
                 $buyTrendPct = updateBuyTrendHistory($coinID,$orderDate);
