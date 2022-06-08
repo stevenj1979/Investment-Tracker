@@ -315,14 +315,10 @@ function findCoinStatsLoc($CMCStats, $symbol){
 //$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
 //echo "<BR> $finalAmount";
 
-$multiSellRules = getMultiSellRules(11137);
-var_dump($multiSellRules);
-$result = checkMultiSellRules(536,$multiSellRules);
-echo "<BR> Result1: $result";
-$result = checkMultiSellRules(529,$multiSellRules);
-echo "<BR> Result2: $result";
-$result = checkMultiSellRules(531,$multiSellRules);
-echo "<BR> Result3: $result";
-
+$resultOrd = bittrexOrder($apiKey, $apiSecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
+$tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
+$orderQty = $resultOrd["quantity"];
+$finalPrice = $tempPrice/$orderQty;
+Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice";
 ?>
 </html>
