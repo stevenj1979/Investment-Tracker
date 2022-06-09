@@ -674,7 +674,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     }
     if($minsFromDate >= $timeToCancelBuyMins){
       reOpenOneTimeBuyRule($trackingID);
-      closeNewTrackingCoin($newTrackingCoinID, True);
+      closeNewTrackingCoin($newTrackingCoinID, True,1);
       if ($oldBuyBackTransID <> 0){
         reopenCoinSwapCancel($oldBuyBackTransID);
       }
@@ -784,7 +784,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           updateCoinSwapBittrexID($bittrexRef,$transactionID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
           updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$transactionID);
-          closeNewTrackingCoin($newTrackingCoinID, False);
+          closeNewTrackingCoin($newTrackingCoinID, False,2);
           logAction("runNewTrackingCoins; SavingsBuy : $symbol | $transactionID | $coinID | $liveCoinPrice | $newTrackingCoinID | 'AwaitingSavingsPurchase' | $quant | $rate | $baseCurrency | $type", 'BuySellFlow', 1);
           $finalBool = True;
         }
@@ -806,7 +806,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
           UpdateProfit();
           //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
-          closeNewTrackingCoin($newTrackingCoinID, False);
+          closeNewTrackingCoin($newTrackingCoinID, False,3);
           addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,'TrackingCoins');
           //if ($type == 'SavingsBuy'){
             //updateTypeToBittrex($type,$transactionID);
@@ -843,7 +843,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           return True;
         }elseif ($checkBuy == 2){
           //2 = INSUFFICIENT BAL
-          closeNewTrackingCoin($newTrackingCoinID, False);
+          closeNewTrackingCoin($newTrackingCoinID, False,4);
           removeTransactionDelay($coinID, $userID);
           newLogToSQL("TrackingCoins","$oldBuyBackTransID",3,1,"ReOpen BuyBack","TrackingCoinID:$newTrackingCoinID");
           reOpenTransactionfromBuyBack($oldBuyBackTransID);

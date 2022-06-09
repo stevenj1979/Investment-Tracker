@@ -4044,7 +4044,7 @@ function setNewTargetPrice($transactionID){
   newLogToSQL("setNewTargetPrice",$sql,3,0,"SQL","TransID:$transactionID");
 }
 
-function closeNewTrackingCoin($ID, $deleteFlag){
+function closeNewTrackingCoin($ID, $deleteFlag, $verNum){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -4066,7 +4066,7 @@ function closeNewTrackingCoin($ID, $deleteFlag){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin",$sql,3,1,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin$verNum",$sql,3,1,"SQL","TrackingCoinID:$ID");
 }
 
 function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
@@ -6185,7 +6185,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     newLogToSQL("TrackingCoin", "OPT 5 : $type | $pctProfit", 3, 0,"trackingCoinReadyToBuy_5","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     reOpenOneTimeBuyRule($trackingID);
-    closeNewTrackingCoin($trackingID, True);
+    closeNewTrackingCoin($trackingID, True,5);
     setLastPrice($livePrice,$trackingID, 'Buy');
     return 2;
   }
