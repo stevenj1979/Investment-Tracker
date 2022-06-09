@@ -220,7 +220,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
         echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='Profit_BuyBack.php'>BuyBack Profit</a> &nbsp > &nbsp <a href='Profit_SpreadBet.php'>SpreadBet Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
         Echo "<BR><h3><a href='Profit_BuyBack_EXP.php'>Expand</a></h3>";
         //echo "<HTML><Table><TH>Symbol</TH><TH>Original Purchase Price</TH><TH>Sale Price</TH><TH>Fee</TH><TH>Profit BTC</TH><TH>Original Purchase Price USD</TH><TH>Sale Price USD</TH><TH>Fee USD</TH><TH>Profit USD</TH><TH>Year Sold</TH><TH>Month Sold</TH><TH>Day Sold</TH><TR>";
-        tableHeader('SB_TransactionID','Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold','Day Sold');
+        tableHeader('BB_TransactionID','Original Purchase Price','Sale Price','Fee','Profit BTC','Profit USDT','Profit ETH','Profit USD','Year Sold','Month Sold','Day Sold');
         for($x = 0; $x < $arrlength; $x++) {
 
                     //$price = $coins[$x][9];
