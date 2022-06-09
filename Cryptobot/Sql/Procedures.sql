@@ -1359,7 +1359,7 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddBittrexBuy`(IN `Coin_ID` INT, IN `User_ID` INT, IN `nType` VARCHAR(50), IN `Bittrex_Ref` VARCHAR(200), IN `nStatus` VARCHAR(10), IN `rule_ID` INT, IN `nCost` DECIMAL(20,14), IN `nAmount` DECIMAL(20,14), IN `Order_No` VARCHAR(150), IN `Cancel_Time` INT)
     MODIFIES SQL DATA
 BEGIN
-INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BittrexRef`, `BuyOrderCancelTime`,  `BuyRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `OverrideCoinAllocation`,`FixSellRule`) VALUES (nType,Coin_ID,User_ID,nCost,nAmount,'Pending', now(),Order_No,Bittrex_Ref,Cancel_Time, rule_ID,1,0,0,0,0,0,0,(SELECT `SellRuleFixed` FROM `BuyRules` WHERE `UserID` = User_ID and `BuyCoin` = 1 limit 1 ));
+INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BittrexRef`, `BuyOrderCancelTime`,  `BuyRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `OverrideCoinAllocation`,`FixSellRule`) VALUES (nType,Coin_ID,User_ID,nCost,nAmount,'Pending', now(),Order_No,Bittrex_Ref,Cancel_Time, rule_ID,1,0,0,0,0,0,0,Sell_Rule_Fixed);
 INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `ActionDate`, `Status`, `RuleID`) VALUES (Coin_ID,(SELECT `ID` from `Transaction` Where `BittrexRef` = Bittrex_Ref),User_ID,nType,Bittrex_Ref,now(),nStatus,rule_ID);
 update `Transaction` set `BittrexID` = (SELECT `ID` from `BittrexAction` where `BittrexRef` = Bittrex_Ref) where `BittrexRef` = Bittrex_Ref;
 END$$
