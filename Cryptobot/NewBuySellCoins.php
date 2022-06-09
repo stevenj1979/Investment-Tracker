@@ -274,7 +274,7 @@ function runBuyBack($buyBackCoins){
 
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
     if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
-      if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
+      //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
 
       //BuyBack
