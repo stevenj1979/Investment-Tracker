@@ -330,7 +330,8 @@ function runBuyBack($buyBackCoins){
       $origPurchasePrice = $buyBackCoins[$t][41];
       $livePriceUSD =  $buyBackCoins[$t][42];
       $profit = $buyBackCoins[$t][43];
-      $profitPct = $buyBackCoins[$t][11]; 
+      $profitPct = $buyBackCoins[$t][11];
+      echo "<BR> BB: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice";
       if ($profitPct > 0.25 AND $saveMode = 2){
         $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
         LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
