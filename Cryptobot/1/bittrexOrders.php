@@ -41,7 +41,7 @@ function changeSelection(){
   global $dropArray;
   unset($dropArray);
   if ($_POST['transSelect']=='Closed'){
-     $_SESSION['BittrexListSelected'] = "Closed'";
+     $_SESSION['BittrexListSelected'] = "Closed";
      //$dropArray[] = Array("Closed","Open","All");
   }elseif ($_POST['transSelect']=='Open'){
      $_SESSION['BittrexListSelected'] = "1";
