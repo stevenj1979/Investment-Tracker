@@ -209,11 +209,17 @@ function displayOption($name){
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
 				print_r("<h2>Bittrex Orders</h2>");
         echo "<form action='bittrexOrders.php?dropdown=Yes' method='post'>";
+        $sqlOption = $_SESSION['BittrexListSelected'];
+        $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';
+        if ($sqlOption == $dropArray[0][0]){ $selected1 = ' selected';}
+        elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
+        elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
+        elseif ($sqlOption == $dropArray[0][3]){ $selected4 = ' selected';}
             echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
-           <option value='".$dropArray[0][0]."'>".$dropArray[0][0]."</option>
-            <option value='".$dropArray[0][1]."'>".$dropArray[0][1]."</option>
-            <option value='".$dropArray[0][2]."'>".$dropArray[0][2]."</option>
-            <option value='".$dropArray[0][3]."'>".$dropArray[0][3]."</option></select>
+           <option value='".$dropArray[0][0]."'$selected1>".$dropArray[0][0]."</option>
+            <option value='".$dropArray[0][1]."'$selected2>".$dropArray[0][1]."</option>
+            <option value='".$dropArray[0][2]."'$selected3>".$dropArray[0][2]."</option>
+            <option value='".$dropArray[0][3]."'$selected4>".$dropArray[0][3]."</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
