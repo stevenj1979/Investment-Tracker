@@ -274,7 +274,7 @@ function runBuyBack($buyBackCoins){
     $origPurchasePrice = $buyBackCoins[$t][41];
     $livePriceUSD =  $buyBackCoins[$t][42];
     $profit = $buyBackCoins[$t][43];
-     = $buyBackCoins[$t][11];
+    $profitPct = $buyBackCoins[$t][11];
 
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
     if (($profitPct <=  $buyBackPct) OR ($bullBearStatus == 'BULL') OR ($hr1ChangePctChange > -7)){
