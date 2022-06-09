@@ -1605,7 +1605,7 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CancelBittrexSell`(IN `Bittrex_Ref` VARCHAR(100), IN `Trans_ID` INT)
     MODIFIES SQL DATA
 BEGIN
-	UPDATE `Transaction` SET `Status` = 'Cancelled', `SellOrderCancelTime` = now()  WHERE `ID` = Trans_ID;
+	UPDATE `Transaction` SET `Status` = 'Open', `SellOrderCancelTime` = now()  WHERE `ID` = Trans_ID;
 	UPDATE `BittrexAction` SET `Status` = 'Cancelled' where `BittrexRef` = Bittrex_Ref and `Type` in ('Sell','SpreadSell');
 END$$
 DELIMITER ;
