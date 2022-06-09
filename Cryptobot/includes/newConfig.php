@@ -318,7 +318,7 @@ function getTrackingCoins($whereclause){
     ,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,`6MonthPrice`,`3MonthPrice`,`AverageLowPrice`
     FROM `View1_BuyCoins` $whereclause ";
-    echo "<BR> $sql";
+    //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -326,7 +326,7 @@ function getTrackingCoins($whereclause){
     $tempAry[] = Array($row['IDCn'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'],$row['Last1HrChange'],$row['Hr1ChangePctChange'] //10
     ,$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders']//21
     ,$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'] //33
-    ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice']);//42
+    ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice']);//45
   }
   $conn->close();
   return $tempAry;
