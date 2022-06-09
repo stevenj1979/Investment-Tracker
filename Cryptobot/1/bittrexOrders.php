@@ -29,7 +29,7 @@ setStyle($_SESSION['isMobile']);
 if(empty($sql_option)){
   //$GLOBALS['sql_option'] = "`Status` = '1'";
   //unset($dropArray);
-  $dropArray[] = Array("Open","Closed","All");
+  $dropArray[] = Array("Open","Closed","Cancelled","All");
 }
 if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
   //Print_r("I'm HERE!!!");
