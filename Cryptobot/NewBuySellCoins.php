@@ -845,6 +845,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //2 = INSUFFICIENT BAL
           closeNewTrackingCoin($newTrackingCoinID, False);
           removeTransactionDelay($coinID, $userID);
+          newLogToSQL("TrackingCoins","$oldBuyBackTransID",3,1,"ReOpen BuyBack","TrackingCoinID:$newTrackingCoinID");
           reOpenTransactionfromBuyBack($oldBuyBackTransID);
           reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
