@@ -271,9 +271,13 @@ function runBuyBack($buyBackCoins){
     //$USDTAvailable = (($buyBackCoins[$t][33]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][37];
     // $lowMarketModeDate = $buyBackCoins[$t][38];
     //$priceDifferecePct = (($liveCoinPrice-$sellPriceBA)/$sellPriceBA)*100;
+    $origPurchasePrice = $buyBackCoins[$t][41];
+    $livePriceUSD =  $buyBackCoins[$t][42];
+    $profit = $buyBackCoins[$t][43];
+     = $buyBackCoins[$t][11];
 
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
-    if (($priceDifferecePct <=  $buyBackPct) OR ($bullBearStatus == 'BULL')){
+    if (($profitPct <=  $buyBackPct) OR ($bullBearStatus == 'BULL') OR ($hr1ChangePctChange > -7)){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
 
@@ -285,6 +289,7 @@ function runBuyBack($buyBackCoins){
       $tmpOffset = $reOpenData[0][8];$tmpOffsetEnabled = $reOpenData[0][9];$tmpBuyType = $reOpenData[0][10];$d11 = $reOpenData[0][11];$tmpFixSellRule = $reOpenData[0][12];$tmpToMerge = $reOpenData[0][13];
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19]; $tmpSymbol = $reOpenData[0][20];
+
       LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,1);
       if ($bullBearStatus == 'BULL'){
         $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
@@ -327,26 +332,23 @@ function runBuyBack($buyBackCoins){
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
-      $origPurchasePrice = $buyBackCoins[$t][41];
-      $livePriceUSD =  $buyBackCoins[$t][42];
-      $profit = $buyBackCoins[$t][43];
-      $profitPct = $buyBackCoins[$t][11];
+
       echo "<BR> BB2: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice";
-      if ($profitPct > 0.25 AND $saveMode = 2){
-        $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
-        LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
-        LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,0);
-      }else{
+      //if ($profitPct > 0.25 AND $saveMode = 2){
+      //  $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
+      //  LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
+      //  LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,0);
+      //}else{
         $buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
         LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",3,1);
         LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",3,1);
-      }
+      //}
 
 
 
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
-      if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");echo "<B> EXIT: PctProfit:$tmpSalePrice | $profitPct | $hr1ChangePctChange"; continue;}
+      //if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");echo "<B> EXIT: PctProfit:$tmpSalePrice | $profitPct | $hr1ChangePctChange"; continue;}
       if ($hoursFlat<3){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,1,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'RunBuyBack');
