@@ -44,8 +44,11 @@ function changeSelection(){
      $_SESSION['BittrexListSelected'] = "Closed'";
      //$dropArray[] = Array("Closed","Open","All");
   }elseif ($_POST['transSelect']=='Open'){
-    $_SESSION['BittrexListSelected'] = "1";
-    //$dropArray[] = Array("All","Closed","Open");
+     $_SESSION['BittrexListSelected'] = "1";
+     //$dropArray[] = Array("All","Closed","Open");
+  }elseif ($_POST['transSelect']=='Cancelled'){
+     $_SESSION['BittrexListSelected'] = "Cancelled";
+     //$dropArray[] = Array("All","Closed","Open");
   }else{
     $_SESSION['BittrexListSelected'] = "1A";
     //$dropArray[] = Array("All","Closed","Open");
