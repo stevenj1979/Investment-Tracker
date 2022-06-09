@@ -1098,7 +1098,7 @@ function addCoinAllocationOverride($overrideCoinAlloc, $bittrexRef){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `OverrideCoinAllocation`= $overrideCoinAlloc WHERE `BittrexRef` = $bittrexRef";
+    $sql = "UPDATE `Transaction` SET `OverrideCoinAllocation`= $overrideCoinAlloc WHERE `BittrexRef` = '$bittrexRef'";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
