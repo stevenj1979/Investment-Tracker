@@ -327,19 +327,19 @@ function runBuyBack($buyBackCoins){
       //$buyBackPurchasePrice = ($tmpLiveCoinPrice*$quantity*$tempConvAmt)+$bbKittyAmount;
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
-      $origPurchasePrice = $quantity * $coinPriceBB;
-      $sellPrice = $quantity * $sellPrice;
-      $profit = $sellPrice - $origPurchasePrice;
-      $profitPct = ($profit/$origPurchasePrice)*100;
+      $origPurchasePrice = $buyBackCoins[$t][41];
+      $livePriceUSD =  $buyBackCoins[$t][42];
+      $profit = $buyBackCoins[$t][43];
+      $profitPct = $buyBackCoins[$t][11]; 
       if ($profitPct > 0.25 AND $saveMode = 2){
-        $buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount;
-        LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $sellPrice | $sellPrice Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
-        LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($sellPrice - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,0);
+        $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
+        LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
+        LogToSQL("BuyBackTEST1B","($buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount; | $saveMode | $profitPct",3,0);
       }else{
-        $buyBackPurchasePrice = $sellPrice + $bbKittyAmount;
+        $buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
-        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $sellPrice | $sellPrice Profit: $profit PCT: $profitPct",3,1);
-        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $sellPrice + $bbKittyAmount; | $originalAmount * $sellPrice;| $saveMode | $profitPct",3,1);
+        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",3,1);
+        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",3,1);
       }
 
 
