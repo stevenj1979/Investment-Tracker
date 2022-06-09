@@ -212,7 +212,8 @@ function displayOption($name){
             echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
            <option value='".$dropArray[0][0]."'>".$dropArray[0][0]."</option>
             <option value='".$dropArray[0][1]."'>".$dropArray[0][1]."</option>
-            <option value='".$dropArray[0][2]."'>".$dropArray[0][2]."</option></select>
+            <option value='".$dropArray[0][2]."'>".$dropArray[0][2]."</option>
+            <option value='".$dropArray[0][3]."'>".$dropArray[0][3]."</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
