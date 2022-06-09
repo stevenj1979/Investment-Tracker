@@ -210,16 +210,17 @@ function displayOption($name){
 				print_r("<h2>Bittrex Orders</h2>");
         echo "<form action='bittrexOrders.php?dropdown=Yes' method='post'>";
         $sqlOption = $_SESSION['BittrexListSelected'];
-        $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';
+        $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';$selected5 = '';
         if ($sqlOption == $dropArray[0][0]){ $selected1 = ' selected';}
         elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
         elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
-        elseif ($sqlOption == $dropArray[0][3]){ $selected4 = ' selected';}
+        elseif ($sqlOption == "1"){ $selected4 = ' selected';}
+        elseif ($sqlOption == "1A"){ $selected5 = ' selected';}
             echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
            <option value='".$dropArray[0][0]."'$selected1>".$dropArray[0][0]."</option>
             <option value='".$dropArray[0][1]."'$selected2>".$dropArray[0][1]."</option>
             <option value='".$dropArray[0][2]."'$selected3>".$dropArray[0][2]."</option>
-            <option value='".$dropArray[0][3]."'$selected4>".$dropArray[0][3]."</option></select>
+            <option value='".$dropArray[0][3]."'$selected4 $selected5>".$dropArray[0][3]."</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
