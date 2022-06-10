@@ -1615,11 +1615,14 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addOldBuyBackTransID`(IN `Tr
     MODIFIES SQL DATA
 BEGIN
 Declare BB_TransID INT;
+Declare MultiSellRule_TemplateID Int;
 
 
-SELECT `BuyBackTransactionID` into BB_TransID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
+SELECT `MultiSellRuleTemplateID` into BB_TransID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
 
-UPDATE `Transaction` SET `BuyBackTransactionID` = BB_TransID Where `ID` = Trans_ID;
+SELECT `BuyBackTransactionID` into MultiSellRule_TemplateID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
+
+UPDATE `Transaction` SET `BuyBackTransactionID` = BB_TransID, `MultiSellRuleTemplateID` = MultiSellRule_TemplateID Where `ID` = Trans_ID;
 
 End$$
 DELIMITER ;

@@ -954,6 +954,22 @@ Function getOpenCoinSwaps(){
   return $tempAry;
 }
 
+Function getOldMultiSell($oldBuyBackTransID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT `MultiSellRuleEnabled`,`MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = $oldBuyBackTransID";
+  print_r("<BR>".$sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 Function getCoinPrice($coinID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -4327,6 +4343,25 @@ function writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID){
   newLogToSQL("writeMultiRule","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
 }
 
+function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `MultiSellRuleTemplateID` = $multiSellRuleTemplateID where `ID` = $transactionID; ";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeMultiRuleTemplateID: ".$sql, 'SQL_CALL', 0);
+  newLogToSQL("writeMultiRuleTemplateID","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
+
 function checkMultiSellRules($sellRule, $multiRuleAry){
   $multiSellRuleArySize = count($multiRuleAry);
   $ruleFlag = false;
@@ -6602,11 +6637,11 @@ function reOpenTransactionfromBuyBack($buyBackID){
 
   $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1 as SendEmail,1 as BuyCoin,
             (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)and `Type` in ('Sell','SpreadSell')) * `Tr`.`Amount` as SalePrice, `Tr`.`BuyRule`, 0.0 as CoinOffset,0 as CoinOffsetEnabled,1 as BuyType
-            ,90 as MinsToCancel, `Tr`.`FixSellRule`,0 as toMerge,0 as noOfPurchases,5 as RisesInPrice, 'BuyBack' as Type ,`Tr`.`CoinPrice` as OriginalPrice,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`,`Cn`.`Symbol`
+            ,90 as MinsToCancel, `Tr`.`FixSellRule`,0 as toMerge,0 as noOfPurchases,5 as RisesInPrice, 'BuyBack' as Type ,`Tr`.`CoinPrice` as OriginalPrice,`Tr`.`SpreadBetTransactionID`, `Tr`.`SpreadBetRuleID`,`Cn`.`Symbol`, `Tr`.`MultiSellRuleTemplateID`
             from `Transaction` `Tr`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-            where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)";
+            where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID";
 
             echo "<BR> $sql";
             $result = $conn->query($sql);
@@ -6615,7 +6650,7 @@ function reOpenTransactionfromBuyBack($buyBackID){
             while ($row = mysqli_fetch_assoc($result)){
                 $tempAry[] = Array($row['CoinID'],$row['LiveCoinPrice'],$row['UserID'],$row['BaseCurrency'],$row['SendEmail'],$row['BuyCoin'],$row['SalePrice'],$row['BuyRule'] //7
               ,$row['CoinOffset'],$row['CoinOffsetEnabled'],$row['BuyType'],$row['MinsToCancel'],$row['FixSellRule'],$row['toMerge'],$row['noOfPurchases'],$row['RisesInPrice'],$row['Type'],$row['OriginalPrice']  //17
-            ,$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Symbol']); //20
+            ,$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Symbol'],$row['MultiSellRuleTemplateID']); //21
             }
             $conn->close();
             return $tempAry;
