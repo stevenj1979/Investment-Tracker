@@ -70,7 +70,7 @@ function getBTTrackingCoins($userID){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
           `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
-  echo "<BR>$sql";
+  //echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
@@ -211,7 +211,7 @@ function displayOption($name){
         echo "<form action='bittrexOrders.php?dropdown=Yes' method='post'>";
         $sqlOption = $_SESSION['BittrexListSelected'];
         $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';$selected5 = '';
-        Echo "<BR> $sqlOption | ".$dropArray[0][0].$dropArray[0][1].$dropArray[0][2].$dropArray[0][3];
+        //Echo "<BR> $sqlOption | ".$dropArray[0][0].$dropArray[0][1].$dropArray[0][2].$dropArray[0][3];
         if ($sqlOption == "1"){ $selected1 = ' selected';}
         elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
         elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
