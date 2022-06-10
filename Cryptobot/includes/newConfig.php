@@ -4361,6 +4361,7 @@ function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
   $conn->close();
   logAction("writeMultiRuleTemplateID: ".$sql, 'SQL_CALL', 0);
   newLogToSQL("writeMultiRuleTemplateID","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
+}
 
 function checkMultiSellRules($sellRule, $multiRuleAry){
   $multiSellRuleArySize = count($multiRuleAry);
