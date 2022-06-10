@@ -6657,6 +6657,23 @@ function reOpenTransactionfromBuyBack($buyBackID){
             return $tempAry;
 }
 
+function reOpenTransactionfromBuyBackNew($buyBackID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = $buyBackID;";
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("reOpenTransactionfromBuyBackNew: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("reOpenTransactionfromBuyBackNew","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");
+}
+
 function addToBuyBackMultiplier($buyBackID){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
