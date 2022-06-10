@@ -212,10 +212,10 @@ function displayOption($name){
         $sqlOption = $_SESSION['BittrexListSelected'];
         $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';$selected5 = '';
         Echo "<BR> $sqlOption | ".$dropArray[0][0].$dropArray[0][1].$dropArray[0][2].$dropArray[0][3];
-        if ($sqlOption == $dropArray[0][0]){ $selected1 = ' selected';}
+        if ($sqlOption == "1"){ $selected1 = ' selected';}
         elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
         elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
-        elseif ($sqlOption == "1"){ $selected4 = ' selected';}
+        //elseif ($sqlOption == "1"){ $selected4 = ' selected';}
         elseif ($sqlOption == "1A"){ $selected5 = ' selected';}
             echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
            <option value='".$dropArray[0][0]."'$selected1>".$dropArray[0][0]."</option>
