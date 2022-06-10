@@ -729,6 +729,7 @@ function runMultiSellRulesConfig(){
   $multiSellRulesSize = count($multiSellRules);
   for ($p=0; $p<$multiSellRulesSize; $p++){
     $sellRuleStr = $multiSellRules[$p][3];
+    Echo "<BR> Sell Rule String: $sellRuleStr";
     $sellRuleAry = explode(",",$sellRuleStr);
     $sellRuleArySize = count($sellRuleAry);
     for ($o=0; $o<$sellRuleArySize; $o++){
