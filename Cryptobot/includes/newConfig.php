@@ -2552,7 +2552,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
   }
   $conn->close();
   logAction("bittrexSellAdd: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("bittrexSellAdd","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID TransactionID:$transactionID");
+  newLogToSQL("bittrexSellAdd","$sql",3,1,"SQL CALL","CoinID:$coinID TransactionID:$transactionID");
 }
 
 function bittrexSellCancel($bittrexRef, $transactionID){

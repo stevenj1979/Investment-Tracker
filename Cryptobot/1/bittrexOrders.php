@@ -211,6 +211,7 @@ function displayOption($name){
         echo "<form action='bittrexOrders.php?dropdown=Yes' method='post'>";
         $sqlOption = $_SESSION['BittrexListSelected'];
         $selected1 = ''; $selected2 = ''; $selected3 = ''; $selected4 = '';$selected5 = '';
+        Echo "<BR> $sqlOption | ".$dropArray[0][0].$dropArray[0][1].$dropArray[0][2].$dropArray[0][3];
         if ($sqlOption == $dropArray[0][0]){ $selected1 = ' selected';}
         elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
         elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
