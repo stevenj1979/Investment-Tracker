@@ -1525,7 +1525,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               $str_arr = explode (",", $ruleStr);
               $str_arrSize = count($str_arr);
               for ($t=0; $t<$str_arrSize; $t++){
-                $sellRuleIDFromTemplate = $str_arr[$t][0];
+                $sellRuleIDFromTemplate = $str_arr[$t];
                 writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
               }
               writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID);
