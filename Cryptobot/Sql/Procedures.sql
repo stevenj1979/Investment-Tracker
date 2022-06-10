@@ -1609,3 +1609,17 @@ BEGIN
 	UPDATE `BittrexAction` SET `Status` = 'Cancelled' where `BittrexRef` = Bittrex_Ref and `Type` in ('Sell','SpreadSell');
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addOldBuyBackTransID`(IN `Trans_ID` INT, IN `Old_Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+Declare BB_TransID INT;
+
+
+SELECT `BuyBackTransactionID` into BB_TransID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
+
+UPDATE `Transaction` SET `BuyBackTransactionID` = BB_TransID Where `ID` = Trans_ID;
+
+End$$
+DELIMITER ;
