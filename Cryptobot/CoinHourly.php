@@ -685,6 +685,60 @@ function runSQLAvgPrice($coinID, $highLow){
 
 }
 
+function getMultiSellRulesData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
+    //echo "<BR> Flag2: $lowFlag";
+    $sql = "SELECT `Tr`.`ID`,`Tr`.`MultiSellRuleEnabled`,`Tr`.`MultiSellRuleTemplateID`,  `Mti`.`MultiRuleStr`,`Tr`.`UserID`
+              FROM `Transaction` `Tr`
+              Join `MultiSellRuleTemplate` `Mti` on `Mti`.`ID` = `Tr`.`MultiSellRuleEnabled`
+              WHERE  `Tr`.`Status` = 'Open' and `Tr`.`Type` = 'Sell' and `Tr`.`MultiSellRuleEnabled` = 1";
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['MultiRuleStr'],$row['UserID']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call updateMultiSellRuleConfig($currentSellRule,$userID,$transactionID);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("UpdateMultiSellRuleConfig: ".$sql, 'SellCoin', 0);
+
+}
+
+function runMultiSellRulesConfig(){
+  $multiSellRules = getMultiSellRulesData();
+  $multiSellRulesSize = count($multiSellRules);
+  for ($p=0; $p<$multiSellRulesSize; $p++){
+    $sellRuleStr = $multiSellRules[$p][3];
+    $sellRuleAry = explode(",",$sellRuleStr);
+    $sellRuleArySize = count($sellRuleAry);
+    for ($o=0; $o<$sellRuleArySize; $o++){
+      $currentSellRule =  $sellRuleAry[$o][0]; $userID = $multiSellRules[$p][4]; $transactionID = $multiSellRules[$p][0];
+      UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID);
+    }
+
+  }
+}
+
 function runUpdateAvgPrices(){
   $coin = getCoinIDs();
   $coinSize = count($coin);
@@ -741,5 +795,6 @@ runHoursforPriceDip(); //Market
 runCoinPriceDipPrices();
 runHoursforCoinPriceDip();
 runUpdateAvgPrices();
+runMultiSellRulesConfig();
 ?>
 </html>

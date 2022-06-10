@@ -1626,3 +1626,15 @@ UPDATE `Transaction` SET `BuyBackTransactionID` = BB_TransID, `MultiSellRuleTemp
 
 End$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateMultiSellRuleConfig`(IN `Sell_Rule` INT, IN `User_ID` INT, IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+If NOT EXISTS (SELECT `ID` FROM `MultiSellRuleConfig` WHERE `SellRuleID` = Sell_Rule and `UserID` = User_ID and `TransactionID` = Trans_ID ) THEN
+INSERT INTO `MultiSellRuleConfig`(`SellRuleID`, `UserID`, `TransactionID`) VALUES (Sell_Rule,User_ID,Trans_ID);
+END If;
+
+END$$
+DELIMITER ;
