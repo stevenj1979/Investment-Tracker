@@ -1504,6 +1504,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           updateBuyAmount($transactionID,$orderQty);
           if($redirectPurchasesToSpread == 1){
             $type = 'SpreadBuy';
+            newLogToSQL("BittrexBuy", "Redirect All to SpreadBet: $redirectPurchasesToSpread | $spreadBetIDRedirect", $userID, 1,"SpreadBuy","TransactionID:$transactionID");
             updateBuyToSpread($spreadBetIDRedirect,$transactionID);
           }
           if ($type == 'SpreadBuy'){
