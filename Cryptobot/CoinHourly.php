@@ -733,7 +733,7 @@ function runMultiSellRulesConfig(){
     $sellRuleAry = explode(",",$sellRuleStr);
     $sellRuleArySize = count($sellRuleAry);
     for ($o=0; $o<$sellRuleArySize; $o++){
-      $currentSellRule =  $sellRuleAry[0]; $userID = $multiSellRules[$p][4]; $transactionID = $multiSellRules[$p][0];
+      $currentSellRule =  $sellRuleAry[$o]; $userID = $multiSellRules[$p][4]; $transactionID = $multiSellRules[$p][0];
       Echo "<BR>UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID); ";
       UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID);
     }
