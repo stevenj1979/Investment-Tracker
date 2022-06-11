@@ -1571,7 +1571,7 @@ function runBittrex($BittrexReqs,$apiVersion){
              $canStatus = $cancelRslt['status']; $errorCode = $cancelRslt['code'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
              if ($canStatus == 'CLOSED' OR $errorCode == "ORDER_NOT_OPEN"){
-               bittrexBuyCancel($uuid, $transactionID);
+               bittrexBuyCancel($uuid, $transactionID, "CancelMins: $minsSinceAction");
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
                reopenCoinSwapCancel($oldBuyBackTransID);
@@ -1715,7 +1715,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
             $canStatus = $cancelRslt['status'];
             if ($canStatus == 'CLOSED'){
-              bittrexSellCancel($uuid, $transactionID);
+              bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
               logAction("runBittrex; bittrexSellCancelFull : $coin | $daysOutstanding | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFull","TransactionID:$transactionID");
               $finalBool = True;
@@ -1760,7 +1760,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             if($apiVersion == 1){ $canResStatus = $cancelRslt;}
             else{ if ($cancelRslt['status'] == 'CLOSED'){$canResStatus = 1;}else{$canResStatus =0;}}
             if ($canResStatus == 1){
-              bittrexSellCancel($uuid, $transactionID);
+              bittrexSellCancel($uuid, $transactionID, "PctFromSale: $pctFromSale");
               logAction("runBittrex; bittrexSellCancelFull_v2 : $coin | $pctFromSale | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFullPriceRise","TransactionID:$transactionID");
               $finalBool = True;

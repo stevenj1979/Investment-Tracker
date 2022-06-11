@@ -2555,7 +2555,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
   newLogToSQL("bittrexSellAdd","$sql",3,1,"SQL CALL","CoinID:$coinID TransactionID:$transactionID");
 }
 
-function bittrexSellCancel($bittrexRef, $transactionID){
+function bittrexSellCancel($bittrexRef, $transactionID, $errorCode){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -2569,10 +2569,10 @@ function bittrexSellCancel($bittrexRef, $transactionID){
   }
   $conn->close();
   logAction("bittrexSellCancel: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("bittrexSellCancel","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
+  newLogToSQL("bittrexSellCancel","$sql :$errorCode",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
-function bittrexBuyCancel($bittrexRef, $transactionID){
+function bittrexBuyCancel($bittrexRef, $transactionID, $errorCode){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -2586,7 +2586,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID){
   }
   $conn->close();
   logAction("bittrexBuyCancel: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("bittrexBuyCancel","$sql",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
+  newLogToSQL("bittrexBuyCancel","$sql :$errorCode",3,1,"SQL CALL","BittrexRef:$bittrexRef TransactionID:$transactionID");
 }
 
 function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice, $type){
