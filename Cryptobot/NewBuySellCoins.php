@@ -1953,6 +1953,7 @@ function buyToreduceLoss($lossCoins){
       $profitMultiplier = ABS($reduceLossSellPct)/ABS($pctProfit);
       $quant = $totalAmount*($currentBuy*$profitMultiplier);
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
+      newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       //Buy Coin with Merge
       addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);
       //Set Merge for current Coin
