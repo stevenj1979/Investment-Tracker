@@ -4122,7 +4122,7 @@ function updateTrackingCoinToMerge($ID, $noOfPurchases){
   }
   $conn->close();
   logAction("updateTrackingCoinToMerge: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$ID");
+  newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$ID");
 }
 
 function updateMergeAry($toMergeAry, $finalMergeAry){
