@@ -6642,7 +6642,7 @@ function reOpenTransactionfromBuyBack($buyBackID){
             from `Transaction` `Tr`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-            where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID";
+            where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)";
 
             echo "<BR> $sql";
             $result = $conn->query($sql);
