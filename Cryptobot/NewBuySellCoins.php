@@ -325,7 +325,7 @@ function runBuyBack($buyBackCoins){
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowBuyMode);
       if ($coinAllocation <= 20 && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
-          newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,1,"Exit","BBID:$bBID");
+          newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
           continue;
       }
 
@@ -349,7 +349,7 @@ function runBuyBack($buyBackCoins){
 
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       //if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");echo "<B> EXIT: PctProfit:$tmpSalePrice | $profitPct | $hr1ChangePctChange"; continue;}
-      if ($hoursFlat<4){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,1,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
+      if ($hoursFlat<4){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,0,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'RunBuyBack');
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
