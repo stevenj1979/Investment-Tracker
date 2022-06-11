@@ -290,7 +290,7 @@ function runBuyBack($buyBackCoins){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19]; $tmpSymbol = $reOpenData[0][20];
       $tmpMultiSellRuleTemplateID = $reOpenData[0][21];
-      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,1);
+      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,0);
       if ($bullBearStatus == 'BULL'){
         $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
       }else{
@@ -341,8 +341,8 @@ function runBuyBack($buyBackCoins){
       //}else{
         $buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
-        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",3,1);
-        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",3,1);
+        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",3,0);
+        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",3,0);
       //}
 
 
