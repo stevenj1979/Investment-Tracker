@@ -3927,7 +3927,7 @@ function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerg
   }
   $conn->close();
   logAction("updateCoinAllocationOverride: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateCoinAllocationOverride","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+  newLogToSQL("updateCoinAllocationOverride","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function getNewTrackingCoins($userID = 0){
