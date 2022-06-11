@@ -172,7 +172,7 @@ function clearTrackingCoinQueue($UserID,$coinID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' where `CoinID` = $coinID and `UserID` = $UserID ";
+    $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' where `CoinID` = $coinID and `UserID` = $UserID and `Type` <> 'BuyBack'";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
