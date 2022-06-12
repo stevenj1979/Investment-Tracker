@@ -1448,7 +1448,7 @@ function runBittrex($BittrexReqs,$apiVersion){
       $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
       $orderQty = $resultOrd["quantity"];
       $finalPrice = $tempPrice/$orderQty;
-      newLogToSQL("Bittrex", "Final Price: $tempPrice / $orderQty = $finalPrice", $userID, 1,"UpdateQtyFilled","TransactionID:$transactionID");
+      newLogToSQL("Bittrex", "Final Price: $tempPrice / $orderQty = $finalPrice", $userID, 0,"UpdateQtyFilled","TransactionID:$transactionID");
       //$cancelInit = $resultOrd["result"]["CancelInitiated"];
       $qtySold = $resultOrd["fillQuantity"];
 
