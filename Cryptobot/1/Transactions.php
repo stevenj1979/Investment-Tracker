@@ -113,7 +113,7 @@ if($_POST['transSelect'] <> ""){
 }elseif($_POST['stopBuyBack'] <> ""){
   $transID = $_GET['SellRule'];
   runStopBuyBack($transID);
-  header('Location: Transactions.php');
+  //header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -142,7 +142,7 @@ function runStopBuyBack($transID){
     $sql = "UPDATE `Transaction` SET `StopBuyBack`= CASE
              WHEN `StopBuyBack`= 1 THEN 0
              ELSE 1 end WHERE `ID` = $transID";
-    //print_r($sql);
+    print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
