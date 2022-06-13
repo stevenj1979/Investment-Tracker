@@ -110,7 +110,7 @@ if($_POST['transSelect'] <> ""){
 
   //echo "Update SpreadRules $ruleID";
   header('Location: Transactions.php');
-}elseif($_POST['stopBuyBack'] <> ""){
+}elseif($_GET['stopBuyBack'] <> ""){
   $transID = $_GET['SellRule'];
   runStopBuyBack($transID);
   //header('Location: Transactions.php');
