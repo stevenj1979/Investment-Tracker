@@ -340,11 +340,12 @@ function displayDefault(){
   newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Status</th><th>FixSellRule</th><th>Type</th>");
 
-  print_r("<th>To Merge</th>");
+  print_r("<th>To Merge</th><th>StopBuyBack</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<th>Merge</th>");
   print_r("<th>Fix Coin Amount</th>");
   print_r("<th>Add To Spread</th>");
+  print_r("<th>Run Stop BuyBack</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
