@@ -19,7 +19,7 @@ function getBittrexRequests($userID = 0){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,'CoinModeRule',`OrderDate`,'PctToSave',`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
-  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`
+  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -32,7 +32,7 @@ function getBittrexRequests($userID = 0){
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']
     ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['BTCPrice'],$row['ETHPrice'],$row['DaysToPauseCoinIDAfterPurchase'],$row['MultiSellRuleEnabled'] //49
-    ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack']); //51
+    ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack'],$row['MultiSellRuleID']); //52
   }
   $conn->close();
   return $tempAry;
@@ -154,7 +154,8 @@ function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BittrexAction` SET `BuyBack` = $buyBack, `oldBuyBackTransID` = $oldBuyBackTransID where `CoinID` = $coinID and `Type` = 'BuyBack' order by `ID` desc limit 1 ";
+    $sql = "UPDATE `BittrexAction` SET `BuyBack` = $buyBack, `oldBuyBackTransID` = $oldBuyBackTransID, `MultiSellRuleID` = (SELECT `MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = $oldBuyBackTransID)
+             where `CoinID` = $coinID and `Type` = 'BuyBack' order by `ID` desc limit 1 ";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -4350,7 +4351,7 @@ function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `MultiSellRuleTemplateID` = $multiSellRuleTemplateID where `ID` = $transactionID; ";
+  $sql = "UPDATE `Transaction` SET `MultiSellRuleTemplateID` = $multiSellRuleTemplateID,`MultiSellRuleEnabled` = 1 where `ID` = $transactionID; ";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
