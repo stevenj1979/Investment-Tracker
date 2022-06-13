@@ -110,6 +110,10 @@ if($_POST['transSelect'] <> ""){
 
   //echo "Update SpreadRules $ruleID";
   header('Location: Transactions.php');
+}elseif($_POST['stopBuyBack'] <> ""){
+  $transID = $_GET['SellRule'];
+  runStopBuyBack($transID);
+  header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -123,6 +127,28 @@ if(isset($_POST['coin_ID'])){
   //Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
   updateCoinAmount($transID,$amount);
   header('Location: Transactions.php');
+}
+
+function runStopBuyBack($transID){
+  //$newID = $_POST['newSellID'];
+  //$transID = $_POST['transID'];
+
+  $conn = getSQLConn(rand(1,3));
+  //$current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `StopBuyBack`= CASE
+             WHEN `StopBuyBack`= 1 THEN 0
+             ELSE 1 end WHERE `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
 }
 
 
@@ -263,14 +289,14 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `IDTr`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,'BittrexStatus',`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
-    ,`FixSellRule`,`ToMerge`,`BaseCurrency` FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
+    ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack` FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency'],$row['StopBuyBack']);
     }
     $conn->close();
     return $tempAry;
@@ -324,7 +350,7 @@ function displayDefault(){
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
       $orderDate = $coin[$x][6]; $type = $coin[$x][1];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
-      $purchasePrice = ($amount*$coinPrice);
+      $purchasePrice = ($amount*$coinPrice); $stopBuyBack = $coin[$x][19];
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$symbol</td><td>".round($amount,$roundNum)."</td><td>".round($coinPrice,$roundNum)."</td>");
@@ -333,10 +359,12 @@ function displayDefault(){
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$status</td><td>$fixSellRule</td><td>$type</td>");
       print_r("<td>$toMerge</td>");
+      print_r("<td>$stopBuyBack</td>");
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?addToSpread=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?stopBuyBack=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
