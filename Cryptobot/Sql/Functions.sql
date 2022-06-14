@@ -72,6 +72,7 @@ Declare Coin_Alloc DEC(20,14);
 Declare Trans_Open DEC(20,14);
 DECLARE finalAlloc DEC(20,14);
 Declare nSaving DEC(20,14);
+DECLARE nMultiplier DEC(20,14);
 
 SELECT `LowMarketModeEnabled` INTO LowMarket_ModeEnabled FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
 SELECT `PctOnLow` INTO PctOn_Low FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID;
@@ -80,15 +81,20 @@ SELECT `PctOnLow` INTO PctOn_Low FROM `View16_CoinAllocation`  WHERE `UserID` = 
 if nCoin = "USDT" THEN
 	SELECT `USDTAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
     SELECT `SavingUSDT` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+    SET nMultiplier = 1;
 ELSEIF nCoin = "BTC" THEN
-	SELECT `BTCAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
-    SELECT `SavingBTC` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+    SELECT getBTCPrice(84) into nMultiplier;
+	  SELECT `BTCAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+    SELECT `SavingBTC`* nMultiplier into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+
 ELSE
-	SELECT `ETHAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
-    SELECT `SavingETH` into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+    SELECT getBTCPrice(85) into nMultiplier;
+	  SELECT `ETHAlloc` into Coin_Alloc FROM `View16_CoinAllocation`  WHERE `UserID` = User_ID Limit 1;
+    SELECT `SavingETH`* nMultiplier into nSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+
 END IF;
 
-SELECT ifnull(sum(`CoinPrice`*`Amount`),0) into Trans_Open
+SELECT ifnull(sum(`CoinPrice`*`Amount`)*nMultiplier,0) into Trans_Open
               FROM `View15_OpenTransactions` WHERE `UserID` = User_ID and `StatusTr` in ('Open','Pending') and `BaseCurrency` = nCoin;
 
 if LowMarket_ModeEnabled > 0 AND PctOn_Low > 0 THEN
