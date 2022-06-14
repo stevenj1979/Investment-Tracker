@@ -1662,9 +1662,9 @@ function runBittrex($BittrexReqs,$apiVersion){
               $newBuyBackAmount = $amount*$cost;
               $usd_Amount = $sellPrice-$newProfit;
               if ($baseCurrency == 'BTC'){
-                $usd_Amount = $newBuyBackAmount * $btc_Price;
+                //$usd_Amount = $newBuyBackAmount * $btc_Price;
               }elseif ($baseCurrency == 'ETH'){
-                $usd_Amount = $newBuyBackAmount * $eth_Price;
+                //$usd_Amount = $newBuyBackAmount * $eth_Price;
               }
               newLogToSQL("BittrexSell", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $GLOBALS['logToSQLSetting'],"SellComplete","TransactionID:$transactionID");
               if ((is_null($coinModeRule)) OR ($coinModeRule == 0) ){
