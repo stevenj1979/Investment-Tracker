@@ -239,8 +239,8 @@ while($date <= $newTime){
       //copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
       //copyNewPctChange($coinID, $statsForCoin[0][2], $statsForCoin[0][3], $statsForCoin[0][4]);
       //echo "<br> MarketCap=".$statsForCoin[0][1]."PCTChange= ".$statsForCoin[0][2]." ".$statsForCoin[0][3]." ".$statsForCoin[0][4];
-      Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
-      CoinMarketCapStatstoSQL($coinID,$statsForCoin[0][1],$statsForCoin[0][2],$statsForCoin[0][3],$statsForCoin[0][4]);
+      Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[1].",".$statsForCoin[2].",".$statsForCoin[3].",".$statsForCoin[4].");";
+      CoinMarketCapStatstoSQL($coinID,$statsForCoin[1],$statsForCoin[2],$statsForCoin[3],$statsForCoin[4]);
       //logAction("CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].",)",'CMC');
       $price1Hr = get1HrChange($coinID);
       update1HrPriceChange($price1Hr[0][0],$coinID);
