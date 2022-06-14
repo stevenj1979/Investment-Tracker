@@ -4541,8 +4541,8 @@ function getNewTrackingSellCoins($userID = 0){
   }
 //12
 
-  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `StatusTsc` in ('Closed','Cancelled')";}
-  else{ $whereClause = " WHERE `StatusTsc` <> 'Closed'"; }
+  if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `StatusTsc` not in ('Closed','Cancelled')";}
+  else{ $whereClause = " WHERE `StatusTsc` not in ('Closed','Cancelled')"; }
 
   $sql = "SELECT `CoinPrice`,`TrackDate`,`UserID`,`NoOfRisesInPrice`,`TransactionIDTsc`,`BuyRule`,`FixSellRule`,`OrderNo`,`Amount`,`CoinID`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
