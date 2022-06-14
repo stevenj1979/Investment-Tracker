@@ -315,10 +315,12 @@ function runBuyBack($buyBackCoins){
         $tempConvAmt = 1;
         //$totalAvailable = $USDTAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'BTC'){
-        $tempConvAmt = $BTCPrice;
+        //$tempConvAmt = $BTCPrice;
+        $usdBBAmount = $usdBBAmount * $BTCPrice;
         //$totalAvailable = $BTCAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'ETH'){
-        $tempConvAmt = $ETHPrice;
+        //$tempConvAmt = $ETHPrice;
+        $usdBBAmount = $usdBBAmount * $ETHPrice;
         //$totalAvailable = $ETHAvailable*$tempConvAmt;
       }
       if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
@@ -1657,11 +1659,12 @@ function runBittrex($BittrexReqs,$apiVersion){
                 $newProfit = 0;
               }
               //SaveMode: 0 = Off ; 1 = Save % of Total Profit ; 2 = Save Residual as USDT.
+              $newBuyBackAmount = $amount*$cost;
               $usd_Amount = $sellPrice-$newProfit;
               if ($baseCurrency == 'BTC'){
-                $usd_Amount = $usd_Amount / $btc_Price;
+                $usd_Amount = $newBuyBackAmount * $btc_Price;
               }elseif ($baseCurrency == 'ETH'){
-                $usd_Amount = $usd_Amount / $eth_Price;
+                $usd_Amount = $newBuyBackAmount * $eth_Price;
               }
               newLogToSQL("BittrexSell", "Sell Order Complete for OrderNo: $orderNo Final Price: $finalPrice", $userID, $GLOBALS['logToSQLSetting'],"SellComplete","TransactionID:$transactionID");
               if ((is_null($coinModeRule)) OR ($coinModeRule == 0) ){
