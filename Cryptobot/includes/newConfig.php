@@ -6627,7 +6627,7 @@ function writeCoinPriceDipPrice($coinID,$price){
   }
   $conn->close();
   logAction("writeCoinPriceDipPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writeCoinPriceDipPrice","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("writeCoinPriceDipPrice","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
 }
 
 function reOpenTransactionfromBuyBack($buyBackID){
