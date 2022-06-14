@@ -316,11 +316,11 @@ function runBuyBack($buyBackCoins){
         //$totalAvailable = $USDTAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'BTC'){
         //$tempConvAmt = $BTCPrice;
-        $usdBBAmount = $usdBBAmount * $BTCPrice;
+        //$usdBBAmount = $usdBBAmount * $BTCPrice;
         //$totalAvailable = $BTCAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'ETH'){
         //$tempConvAmt = $ETHPrice;
-        $usdBBAmount = $usdBBAmount * $ETHPrice;
+        //$usdBBAmount = $usdBBAmount * $ETHPrice;
         //$totalAvailable = $ETHAvailable*$tempConvAmt;
       }
       if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
