@@ -1814,110 +1814,115 @@ function runBittrex($BittrexReqs,$apiVersion){
 
 function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
   $finalBool = False;
-  $coinAlertsLength = count($coinAlerts);
-  for($d = 0; $d < $coinAlertsLength; $d++) {
-    $id = $coinAlerts[$d][0];
-    $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
-    $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7]; $category = $coinAlerts[$d][8];
-    $Live1HrChangeAlrt = $coinAlerts[$d][9]; $Live24HrChangeAlrt = $coinAlerts[$d][10]; $Live7DChangeAlrt = $coinAlerts[$d][11];
-    $reocurring = $coinAlerts[$d][12]; $dateTimeSent = $coinAlerts[$d][13]; $liveSellOrderAlert = $coinAlerts[$d][14];
-    $liveBuyOrderAlert = $coinAlerts[$d][15];$liveMarketCapAlert = $coinAlerts[$d][16];
-    $userID = $coinAlerts[$d][17]; $livePricePct = $coinAlerts[$d][19];
-    $minutes = $coinAlerts[$d][18];
-    $returnFlag = False; $tempPrice = 0;
-    Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
+  if (isset($coinAlerts)){
+    $coinAlertsLength = count($coinAlerts);
+    for($d = 0; $d < $coinAlertsLength; $d++) {
+      $id = $coinAlerts[$d][0];
+      $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
+      $userName  = $coinAlerts[$d][5]; $email  = $coinAlerts[$d][6]; $liveCoinPrice = $coinAlerts[$d][7]; $category = $coinAlerts[$d][8];
+      $Live1HrChangeAlrt = $coinAlerts[$d][9]; $Live24HrChangeAlrt = $coinAlerts[$d][10]; $Live7DChangeAlrt = $coinAlerts[$d][11];
+      $reocurring = $coinAlerts[$d][12]; $dateTimeSent = $coinAlerts[$d][13]; $liveSellOrderAlert = $coinAlerts[$d][14];
+      $liveBuyOrderAlert = $coinAlerts[$d][15];$liveMarketCapAlert = $coinAlerts[$d][16];
+      $userID = $coinAlerts[$d][17]; $livePricePct = $coinAlerts[$d][19];
+      $minutes = $coinAlerts[$d][18];
+      $returnFlag = False; $tempPrice = 0;
+      Echo "<BR> Checking $symbol, $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
 
-    if ($category == "Price"){
-      $tempPrice = $liveCoinPrice;
-    }elseif ($category == "Pct Price in 1 Hour"){
-      $tempPrice = $Live1HrChangeAlrt;
-    }elseif ($category == "Market Cap Pct Change"){
-      $tempPrice = $liveMarketCapAlert;
-    }elseif ($category == "Live Price Pct Change"){
-      $tempPrice = $livePricePct;
-    }elseif ($category == "Pct Price in 24 Hours"){
-      $tempPrice = $Live24HrChangeAlrt;
-    }elseif ($category == "Pct Price in 7 Days"){
-      $tempPrice = $Live7DChangeAlrt;
-    }
-    $returnFlag = returnAlert($price,$tempPrice,$action);
-    if ($returnFlag){
-      echo "<BR> $category Alert True. Sending Alert for $symbol $price $action $tempPrice";
-      action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'],$tempPrice);
-      $finalBool = True;
-    }
-  }
-  $marketAlertsSize = count($marketAlerts);
-  echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
-  $marketStats = getMarketstats();
-  for ($q=0; $q<$marketAlertsSize; $q++){
-    $userName  = $marketAlerts[$q][1];$email = $marketAlerts[$q][2];$userID = $marketAlerts[$q][0];
-    $dateTimeSent = $marketAlerts[$q][8];
-    $Live1HrChangeAlrt = $marketStats[0][1];$Live24HrChangeAlrt = $marketStats[0][2];$Live7DChangeAlrt = $marketStats[0][3]; $liveCoinPrice = $marketStats[0][0];$liveMarketCapAlert = $marketStats[0][5];
-    $category = $marketAlerts[$q][5];$price = $marketAlerts[$q][9];$action = $marketAlerts[$q][6];$reocurring = $marketAlerts[$q][4];
-    $minutes = $marketAlerts[$q][7]; $id = $marketAlerts[$q][8];
-    $liveHr1Price = $marketStats[0][6];$liveHr24Price = $marketStats[0][7];$liveD7Price = $marketStats[0][8];
-    Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
-    if ($category == "Price"){
-      //Price
-      $returnFlag = returnAlert($price,$liveCoinPrice,$action);
-      if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveCoinPrice);
-        $finalBool = True;
+      if ($category == "Price"){
+        $tempPrice = $liveCoinPrice;
+      }elseif ($category == "Pct Price in 1 Hour"){
+        $tempPrice = $Live1HrChangeAlrt;
+      }elseif ($category == "Market Cap Pct Change"){
+        $tempPrice = $liveMarketCapAlert;
+      }elseif ($category == "Live Price Pct Change"){
+        $tempPrice = $livePricePct;
+      }elseif ($category == "Pct Price in 24 Hours"){
+        $tempPrice = $Live24HrChangeAlrt;
+      }elseif ($category == "Pct Price in 7 Days"){
+        $tempPrice = $Live7DChangeAlrt;
       }
-    }elseif ($category == "Pct Price in 1 Hour"){
-      //1Hr
-      $Live24HrChangeAlrt = (($liveCoinPrice - $liveHr1Price)/$liveHr1Price)*100;
-      $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
+      $returnFlag = returnAlert($price,$tempPrice,$action);
       if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $Live1HrChangeAlrt);
-        $finalBool = True;
-      }
-    }elseif ($category == "Market Cap Pct Change"){
-      //MarketCap
-      $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
-      if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveMarketCapAlert);
+        echo "<BR> $category Alert True. Sending Alert for $symbol $price $action $tempPrice";
+        action_Alert($minutes,$email,$symbol,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'],$tempPrice);
         $finalBool = True;
       }
     }
   }
-
-  $spreadBetAlertsSize = count($spreadBetAlerts);
-  echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize";
-  for ($g=0; $g<$spreadBetAlertsSize; $g++){
-    $userName  = $spreadBetAlerts[$g][6];$email = $spreadBetAlerts[$g][7];$userID = $spreadBetAlerts[$g][5];
-    $dateTimeSent = $spreadBetAlerts[$g][8];
-    $Live1HrChangeAlrt = $spreadBetAlerts[$g][1];$Live24HrChangeAlrt = $spreadBetAlerts[$g][2];$Live7DChangeAlrt = $spreadBetAlerts[$g][3]; $liveCoinPrice = $spreadBetAlerts[$g][0];$liveMarketCapAlert = $spreadBetAlerts[$g][4];
-    $category = $spreadBetAlerts[$g][10];$price = $spreadBetAlerts[$g][14];$action = $spreadBetAlerts[$g][11];$reocurring = $spreadBetAlerts[$g][9];
-    $minutes = $spreadBetAlerts[$g][12]; $id = $spreadBetAlerts[$g][13];
-    Echo "<BR> Checking SpreadBet Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
-    if ($category == "Price"){
-      //Price
-      $returnFlag = returnAlert($price,$liveCoinPrice,$action);
-      if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveCoinPrice);
-        $finalBool = True;
+  if (isset($marketAlerts)){
+    $marketAlertsSize = count($marketAlerts);
+    echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
+    $marketStats = getMarketstats();
+    for ($q=0; $q<$marketAlertsSize; $q++){
+      $userName  = $marketAlerts[$q][1];$email = $marketAlerts[$q][2];$userID = $marketAlerts[$q][0];
+      $dateTimeSent = $marketAlerts[$q][8];
+      $Live1HrChangeAlrt = $marketStats[0][1];$Live24HrChangeAlrt = $marketStats[0][2];$Live7DChangeAlrt = $marketStats[0][3]; $liveCoinPrice = $marketStats[0][0];$liveMarketCapAlert = $marketStats[0][5];
+      $category = $marketAlerts[$q][5];$price = $marketAlerts[$q][9];$action = $marketAlerts[$q][6];$reocurring = $marketAlerts[$q][4];
+      $minutes = $marketAlerts[$q][7]; $id = $marketAlerts[$q][8];
+      $liveHr1Price = $marketStats[0][6];$liveHr24Price = $marketStats[0][7];$liveD7Price = $marketStats[0][8];
+      Echo "<BR> Checking Market Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
+      if ($category == "Price"){
+        //Price
+        $returnFlag = returnAlert($price,$liveCoinPrice,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveCoinPrice);
+          $finalBool = True;
+        }
+      }elseif ($category == "Pct Price in 1 Hour"){
+        //1Hr
+        $Live24HrChangeAlrt = (($liveCoinPrice - $liveHr1Price)/$liveHr1Price)*100;
+        $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $Live1HrChangeAlrt);
+          $finalBool = True;
+        }
+      }elseif ($category == "Market Cap Pct Change"){
+        //MarketCap
+        $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_Market_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveMarketCapAlert);
+          $finalBool = True;
+        }
       }
-    }elseif ($category == "Pct Price in 1 Hour"){
-      //1Hr
-      $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
-      if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $Live1HrChangeAlrt);
-        $finalBool = True;
-      }
-    }elseif ($category == "Market Cap Pct Change"){
-      //MarketCap
-      $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
-      if ($returnFlag){
-        echo "<BR> $category Alert True. Sending Alert for $price $action";
-        action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveMarketCapAlert);
-        $finalBool = True;
+    }
+  }
+  if (isset($spreadBetAlerts)){
+    $spreadBetAlertsSize = count($spreadBetAlerts);
+    echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize";
+    for ($g=0; $g<$spreadBetAlertsSize; $g++){
+      $userName  = $spreadBetAlerts[$g][6];$email = $spreadBetAlerts[$g][7];$userID = $spreadBetAlerts[$g][5];
+      $dateTimeSent = $spreadBetAlerts[$g][8];
+      $Live1HrChangeAlrt = $spreadBetAlerts[$g][1];$Live24HrChangeAlrt = $spreadBetAlerts[$g][2];$Live7DChangeAlrt = $spreadBetAlerts[$g][3]; $liveCoinPrice = $spreadBetAlerts[$g][0];$liveMarketCapAlert = $spreadBetAlerts[$g][4];
+      $category = $spreadBetAlerts[$g][10];$price = $spreadBetAlerts[$g][14];$action = $spreadBetAlerts[$g][11];$reocurring = $spreadBetAlerts[$g][9];
+      $minutes = $spreadBetAlerts[$g][12]; $id = $spreadBetAlerts[$g][13];
+      Echo "<BR> Checking SpreadBet Alerts $price, $action, $userName , $liveCoinPrice, $category, $dateTimeSent, $minutes, $reocurring, $Live1HrChangeAlrt";
+      if ($category == "Price"){
+        //Price
+        $returnFlag = returnAlert($price,$liveCoinPrice,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveCoinPrice);
+          $finalBool = True;
+        }
+      }elseif ($category == "Pct Price in 1 Hour"){
+        //1Hr
+        $returnFlag = returnAlert($price,$Live1HrChangeAlrt,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $Live1HrChangeAlrt);
+          $finalBool = True;
+        }
+      }elseif ($category == "Market Cap Pct Change"){
+        //MarketCap
+        $returnFlag = returnAlert($price,$liveMarketCapAlert,$action);
+        if ($returnFlag){
+          echo "<BR> $category Alert True. Sending Alert for $price $action";
+          action_SpreadBet_Alert($minutes,$email,$price,$action,$userName,$category,$reocurring,$id,$userID, $GLOBALS['logToFileSetting'], $GLOBALS['logToSQLSetting'], $liveMarketCapAlert);
+          $finalBool = True;
+        }
       }
     }
   }
