@@ -3088,6 +3088,7 @@ function displayFooter(){
 }
 
 function getCoinAlerts(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
@@ -3104,6 +3105,7 @@ function getCoinAlerts(){
 }
 
 function getMarketstats(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `Cp`.`LiveCoinPrice`,((`Cp`.`LiveCoinPrice`-`Cpc`.`Live1HrChange`)/`Cpc`.`Live1HrChange`)*100 as `Hr1ChangePctChange`
@@ -3128,6 +3130,7 @@ function getMarketstats(){
 }
 
 function getMarketAlerts($userID = 0){
+  $tempAry = [];
   $whereClause = " where `UserID` = $userID";
   if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
@@ -3145,6 +3148,7 @@ function getMarketAlerts($userID = 0){
 }
 
 function getMarketAlertsTotal(){
+  $tempAry = [];
   //$whereClause = " where `UserID` = $userID";
   //if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
@@ -3162,6 +3166,7 @@ function getMarketAlertsTotal(){
 }
 
 function getSpreadBetAlerts($userID = 0){
+  $tempAry = [];
   $whereClause = " where `UserID` = $userID";
   if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
@@ -3180,6 +3185,7 @@ function getSpreadBetAlerts($userID = 0){
 }
 
 function getSpreadBetAlertsTotal(){
+  $tempAry = [];
   //$whereClause = " where `UserID` = $userID";
   //if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
@@ -3198,6 +3204,7 @@ function getSpreadBetAlertsTotal(){
 }
 
 function getCoinAlertsUser($userId){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`,`CoinAlertRuleID`
@@ -3213,6 +3220,7 @@ function getCoinAlertsUser($userId){
 }
 
 function getCoinAlertsbyID($id){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
@@ -3393,6 +3401,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
 }
 
 function getStats(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
