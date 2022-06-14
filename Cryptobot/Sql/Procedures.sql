@@ -1640,3 +1640,14 @@ END If;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CompleteBittrexBuyUpdateAmount`(IN `Trans_ID` INT, IN `nAmount` DECIMAL(20,14))
+    MODIFIES SQL DATA
+Begin
+
+UPDATE `BittrexAction` SET `Status` = 'Closed' WHERE `TransactionID` = Trans_ID;
+UPDATE `Transaction` SET `Amount` = nAmount, `Status` = 'Open',`Type` = 'Sell' where `ID` = Trans_ID;
+
+END$$
+DELIMITER ;
