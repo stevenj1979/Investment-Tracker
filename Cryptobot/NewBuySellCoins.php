@@ -1285,9 +1285,9 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
-          if ($multiSellResult == False){continue;}
+          if ($multiSellResult == False){echo "Exit: No1 | $coin | $userID | $BuyRule"; continue;}
       }else{
-          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){ continue;}//else{Echo "<BR> HERE4!";}
+          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echo "Exit: No2 | $coin | $userID | $BuyRule"; continue;}//else{Echo "<BR> HERE4!";}
       }
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
@@ -1306,8 +1306,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-      if ($userID != $sellCoinsUserID){ continue; }
-      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { continue;}
+      if ($userID != $sellCoinsUserID){ echo "Exit: No3 | $coin | $userID | $BuyRule";continue; }
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echo "Exit: No4 | $coin | $userID | $BuyRule";continue;}
 
       $current_date = date('Y-m-d H:i');
       $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
