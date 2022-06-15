@@ -622,7 +622,11 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);
   $userSaving = getNewSavingTotal($userID,$baseCurrency);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
-  LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: ".$userSaving[0][0]." | BuyMin: $buyMin",3,1);
+  //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
+    //$btcBuyAmount = $btcBuyAmount;
+    $userSavingAmount = $userSaving[0][0];
+  //}
+  LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: $userSavingAmount | BuyMin: $buyMin",3,1);
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
@@ -661,9 +665,10 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          if ($BTCBalance < $btcBuyAmount AND $BTCBalance-$userSaving[0][0] >= $buyMin){ $btcBuyAmount = round($BTCBalance-$userSaving[0][0],10);}
+          if ($BTCBalance < $btcBuyAmount AND $BTCBalance-$userSavingAmount >= $buyMin){ $btcBuyAmount = round($BTCBalance-$userSavingAmount,10);}
           $btcBuyAmount = number_format($btcBuyAmount,10);
           $bitPrice = number_format($bitPrice,8);
+          $btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
           LogToSQL("BuyCoinTest","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
