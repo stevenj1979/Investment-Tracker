@@ -1328,7 +1328,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           }
         }
       }
-      echo "Exit: No5 | $coin | $userID | $BuyRule";
+      echo "Checking:  $coin | $userID | $BuyRule";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
@@ -1340,7 +1340,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sTest3 = sellWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled);
       $sellResultAry[] = Array($sTest3, "Sell Orders $coin", $SellOrdersPctChange);
       $sTest4 = sellWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);
-      Echo "<BR> 1Hour % $Hr1ChangePctChange ";
+      //Echo "<BR> 1Hour % $Hr1ChangePctChange ";
       $sellResultAry[] = Array($sTest4, "1 Hour Price Change $coin", $Hr1ChangePctChange);
       $sTest5 = sellWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled);
       $sellResultAry[] = Array($sTest5, "24 Hour Price Change $coin", $Hr24ChangePctChange);
@@ -1349,7 +1349,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($priceTrendEnabled){
           $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
       }else{ $sTest7 = True;}
-      echo "Exit: No6 | $coin | $userID | $BuyRule";
+      //echo "Exit: No6 | $coin | $userID | $BuyRule";
       $sellResultAry[] = Array($sTest7, "Price Trend Pattern $coin", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
       $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);
@@ -1364,7 +1364,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       //Echo "<BR> sTEST13: $sTest13";
       $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
-      Echo "<BR> Hours Flat  $priceDipHours $priceDipHoursFlatTarget";
+      //Echo "<BR> Hours Flat  $priceDipHours $priceDipHoursFlatTarget";
       $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours);
       $sellResultAry[] = Array($sTest14, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest15 = sellWithMin($priceDipMaxPriceEnabled,$finalPriceDipMaxPrice,$LiveCoinPrice,$LiveBTCPrice);

@@ -1585,7 +1585,7 @@ function newCoinMarketCapStats($coinMarketID){
   ));
 
   $response = curl_exec($curl); // Send the request, save the response
-  var_dump($response);
+  //var_dump($response);
   $temp = json_decode($response, true);
   //$tempCount = count($temp);
   //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
@@ -1912,13 +1912,13 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
 }
 
 function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours){
-  echo "<BR>BuyMin $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
+  //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
   if ($priceDipCoinFlatEnabled == 0){
       //print_r("True");
       return True;
       exit;
   }elseif ($priceDipHours >= $priceDipHoursFlatTarget){
-      echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
+      //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
       return True;
       exit;
@@ -1931,21 +1931,21 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
 }
 
 function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
-  echo "<BR>BuyMin: $sellMin | LiveBTCPrice: $LiveBTCPrice | LiveCoinPrice: $LiveCoinPrice | Enabled: $sellMinEnabled";
+  //echo "<BR>BuyMin: $sellMin | LiveBTCPrice: $LiveBTCPrice | LiveCoinPrice: $LiveCoinPrice | Enabled: $sellMinEnabled";
   if ($sellMinEnabled == 0){
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }elseif ($LiveBTCPrice >= $sellMin){
-      echo "<BR>SellMin  LiveBTCPrice $LiveBTCPrice is less than $sellMin";
+      //echo "<BR>SellMin  LiveBTCPrice $LiveBTCPrice is less than $sellMin";
       $GLOBALS['allDisabled'] = true;
-      print_r("True");
+      //print_r("True");
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("False");
+    //print_r("False");
     return False;
   }
 }
