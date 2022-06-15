@@ -661,7 +661,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          if ($BTCBalance < $btcBuyAmount AND $BTCBalance-$userSaving[0][0] >= $buyMin){ $btcBuyAmount = $BTCBalance-$userSaving[0][0];}
+          if ($BTCBalance < $btcBuyAmount AND $BTCBalance-$userSaving[0][0] >= $buyMin){ $btcBuyAmount = round($BTCBalance-$userSaving[0][0],10);}
           $btcBuyAmount = number_format($btcBuyAmount,10);
           $bitPrice = number_format($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
