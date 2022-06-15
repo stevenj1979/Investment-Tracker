@@ -620,8 +620,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
   LogToSQL("BuyCoinAmount","returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);",3,1);
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);
+  $userSaving = getNewSavingTotal($userID,$baseCurrency);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
-  LogToSQL("BuyCoinAmount","btcBuyAmount $btcBuyAmount ",3,1);
+  LogToSQL("BuyCoinAmount","btcBuyAmount $btcBuyAmount | Saving ".$userSaving[0][0],3,1);
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
@@ -660,6 +661,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
+          if ($BTCBalance < $coinAllocation){ $btcBuyAmount = $BTCBalance-$userSaving[0][0];}
           $btcBuyAmount = number_format($btcBuyAmount,10);
           $bitPrice = number_format($bitPrice,8);
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
@@ -6922,6 +6924,31 @@ function getSavingTotal($userID){
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['TotalUSDT'],$row['LivePrice'],$row['Profit']);
+      //13  14  15
+
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getNewSavingTotal($userID, $baseCurrency){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  if ($baseCurrency == 'USDT'){ $nCol = '`SavingUSDT`'}
+  elseif ($baseCurrency == 'BTC'){ $nCol = '`SavingBTC`'}
+  elseif ($baseCurrency == 'ETH'){ $nCol = '`SavingETH`'}
+
+  $sql = "SELECT $nCol as `Saving`, getBTCPrice(84) as `BTCPrice`, getBTCPrice(85) as `ETHPrice`  FROM `UserCoinSavings` WHERE `UserID` = $userID";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Saving'],$row['BTCPrice'],$row['ETHPrice']);
       //13  14  15
 
   }
