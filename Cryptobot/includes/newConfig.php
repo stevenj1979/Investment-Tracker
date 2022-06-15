@@ -6937,9 +6937,9 @@ function getNewSavingTotal($userID, $baseCurrency){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  if ($baseCurrency == 'USDT'){ $nCol = '`SavingUSDT`'}
-  elseif ($baseCurrency == 'BTC'){ $nCol = '`SavingBTC`'}
-  elseif ($baseCurrency == 'ETH'){ $nCol = '`SavingETH`'}
+  if ($baseCurrency == 'USDT'){ $nCol = '`SavingUSDT`';}
+  elseif ($baseCurrency == 'BTC'){ $nCol = '`SavingBTC`';}
+  elseif ($baseCurrency == 'ETH'){ $nCol = '`SavingETH`';}
 
   $sql = "SELECT $nCol as `Saving`, getBTCPrice(84) as `BTCPrice`, getBTCPrice(85) as `ETHPrice`  FROM `UserCoinSavings` WHERE `UserID` = $userID";
 
