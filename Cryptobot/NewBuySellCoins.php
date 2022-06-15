@@ -1285,7 +1285,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
-          if ($multiSellResult == False){ continue;} //echo "Exit: No1 | $coin | $userID | $BuyRule";
+          if ($multiSellResult == False){ echo "Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult";continue;} //echo "Exit: No1 | $coin | $userID | $BuyRule";
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
