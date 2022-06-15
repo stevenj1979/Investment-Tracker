@@ -652,10 +652,10 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     if ($baseCurrency == 'BTC'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
       Echo "<BR> Base Multiplier $BTCAmount | ".$baseMultiplier[0][0];
-      $BTCAmount = $BTCAmount / $baseMultiplier[0][0];
+      $BTCAmount = $BTCAmount /$liveCoinPrice;
     }elseif ($baseCurrency == 'ETH'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
-      $BTCAmount = $BTCAmount / $baseMultiplier[0][1];
+      $BTCAmount = $BTCAmount /$liveCoinPrice;
     }else{
       $ogBTCAmount = $BTCAmount;
     }
