@@ -694,7 +694,7 @@ function getMultiSellRulesData(){
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `Tr`.`ID`,`Tr`.`MultiSellRuleEnabled`,`Tr`.`MultiSellRuleTemplateID`,  `Mti`.`MultiRuleStr`,`Tr`.`UserID`
               FROM `Transaction` `Tr`
-              Join `MultiSellRuleTemplate` `Mti` on `Mti`.`ID` = `Tr`.`MultiSellRuleEnabled`
+              Join `MultiSellRuleTemplate` `Mti` on `Mti`.`ID` = `Tr`.`MultiSellRuleTemplateID`
               WHERE  `Tr`.`Status` = 'Open' and `Tr`.`Type` = 'Sell' and `Tr`.`MultiSellRuleEnabled` = 1";
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
