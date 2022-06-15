@@ -1280,19 +1280,19 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $priceDipMaxPriceEnabled = $sellRules[$z][55]; $priceDipCoinFlatEnabled = $sellRules[$z][56]; $priceDipHoursFlatTarget = $sellRules[$z][57];
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
-      echo "<BR> Starting: $coin | $ruleIDSell";
+      //echo "<BR> Starting: $coin | $ruleIDSell";
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      echo "<BR> PlaceHolder: 1";
+      //echo "<BR> PlaceHolder: 1";
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
-          echo "<BR> PlaceHolder: 1A Checking MultiSell";
+          //echo "<BR> PlaceHolder: 1A Checking MultiSell";
           if ($multiSellResult == False){ continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}//echo "Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult";
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
-      echo "<BR> PlaceHolder: 2";
+      //echo "<BR> PlaceHolder: 2";
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -1300,7 +1300,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
-      echo "<BR> PlaceHolder: 3";
+      //echo "<BR> PlaceHolder: 3";
       if ($captureTrend == 0 and $profit >= 0.5){
         //Capture 1Hr / 24Hr and 7D trend
         if ($coinModeRule > 0){
@@ -1311,10 +1311,10 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-      echo "<BR> PlaceHolder: 4";
+    //  echo "<BR> PlaceHolder: 4";
       if ($userID != $sellCoinsUserID){ continue; } //echo "Exit: No3 | $coin | $userID | $BuyRule";
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echo "Exit: No4 | $coin | $userID | $ruleIDSell | $limitToCoinSell";continue;}
-      echo "<BR> PlaceHolder: 5";
+      //echo "<BR> PlaceHolder: 5";
       $current_date = date('Y-m-d H:i');
       $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
       if ($coinSwapEnabled == 1 and $noOfCoinSwapsPerWeek > $noOfCoinSwapsThisWeek){

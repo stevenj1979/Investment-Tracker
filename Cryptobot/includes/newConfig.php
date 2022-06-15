@@ -4411,9 +4411,9 @@ function checkMultiSellRules($sellRule, $multiRuleAry){
   $ruleFlag = false;
   //echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
-    echo "<BR> MultiSellRule Check: ".$multiRuleAry[$i][0]." - $sellRule";
+    //echo "<BR> MultiSellRule Check: ".$multiRuleAry[$i][0]." - $sellRule";
     if ($multiRuleAry[$i][0] == $sellRule){
-      echo "<BR> Multi Sell Rule Found: $sellRule";
+      //echo "<BR> Multi Sell Rule Found: $sellRule";
       $ruleFlag = true;
     }
   }
