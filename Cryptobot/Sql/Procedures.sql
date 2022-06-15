@@ -1579,8 +1579,9 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CompleteBittrexSell`(IN `Bittrex_Ref` VARCHAR(50), IN `Trans_ID` INT, IN `Final_Price` DECIMAL(20,14))
     MODIFIES SQL DATA
 BEGIN
-	UPDATE `BittrexAction` SET `SellPrice` = Final_Price, `CompletionDate` = now(), `Status` = 'Closed' where `BittrexRef` = Bittrex_Ref;
-	UPDATE `Transaction` SET `Status` = 'Sold', `CompletionDate` = now() where `BittrexRef` = Bittrex_Ref;
+
+	UPDATE `BittrexAction` SET `SellPrice` = Final_Price, `CompletionDate` = now(), `Status` = 'Closed',`BittrexRef` = Bittrex_Ref, `Type` = 'Sell' where  `TransactionID` = Trans_ID and `Type` = 'Sell';
+	UPDATE `Transaction` SET `Status` = 'Sold', `CompletionDate` = now(),`BittrexRef` = Bittrex_Ref where `ID` = Trans_ID;
 End$$
 DELIMITER ;
 
