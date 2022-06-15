@@ -392,7 +392,7 @@ function getTrackingSellCoins($type, $userID = 0){
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
 FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
-  echo "<BR>$sql<BR>";
+  //echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -456,7 +456,7 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/markets/".$symbol.'-'.$baseCurrency."/summary";
       //$url = "https://api.bittrex.com/v3/markets/".$symbol."/summary";
-      echo "<BR> $url";
+      //echo "<BR> $url";
       $method = "GET";
       $content = "";
       $subaccountId = "";
@@ -1478,7 +1478,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       }elseif ($versionNum == 3){
         $timestamp = time()*1000;
         $url = "https://api.bittrex.com/v3/markets/".$coin."-".$baseCoin."/ticker";
-        echo "<BR>".$url;
+        //echo "<BR>".$url;
         $method = "GET";
         $content = "";
         $subaccountId = "";
