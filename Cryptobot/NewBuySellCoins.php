@@ -1306,7 +1306,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-      if ($userID != $sellCoinsUserID){ echo "Exit: No3 | $coin | $userID | $BuyRule";continue; }
+      if ($userID != $sellCoinsUserID){ continue; } //echo "Exit: No3 | $coin | $userID | $BuyRule";
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echo "Exit: No4 | $coin | $userID | $BuyRule";continue;}
 
       $current_date = date('Y-m-d H:i');
@@ -1328,6 +1328,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           }
         }
       }
+      echo "Exit: No5 | $coin | $userID | $BuyRule";
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
@@ -1348,7 +1349,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($priceTrendEnabled){
           $sTest7 = newBuywithPattern($price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDSell,1);
       }else{ $sTest7 = True;}
-
+      echo "Exit: No6 | $coin | $userID | $BuyRule";
       $sellResultAry[] = Array($sTest7, "Price Trend Pattern $coin", $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend);
       $sTest8 = sellWithMin($sellPriceMinEnabled,$sellPriceMin,$LiveCoinPrice,$LiveBTCPrice);
       $sellResultAry[] = Array($sTest8, "Minimum Price $coin", $LiveCoinPrice);

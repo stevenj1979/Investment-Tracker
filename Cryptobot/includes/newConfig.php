@@ -1502,7 +1502,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         $balance = curl_exec($ch);
         curl_close($ch);
         $temp = json_decode($balance, true);
-        var_dump($temp);
+        //var_dump($temp);
         $balance = $temp['lastTradeRate'];
       }
 
