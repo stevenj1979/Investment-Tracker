@@ -593,6 +593,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;
+  $originalBuyAmount = $btcBuyAmount;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
   elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
@@ -665,11 +666,13 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          if ($BTCBalance < $btcBuyAmount AND $BTCBalance-$userSavingAmount >= $buyMin){ $btcBuyAmount = round($BTCBalance-$userSavingAmount,10);}
+          if ($BTCBalance < $originalBuyAmount){ $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);}
+            //if ($BTCBalance-$userSavingAmount >= $buyMin){
+              
           $btcBuyAmount = number_format($btcBuyAmount,10);
           $bitPrice = number_format($bitPrice,8);
           if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
-            $btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
+            //$btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
           }
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
           LogToSQL("BuyCoinTest","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
