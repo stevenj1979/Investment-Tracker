@@ -622,7 +622,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   $btcBuyAmount = returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);
   $userSaving = getNewSavingTotal($userID,$baseCurrency);
   echo "<BR> btcBuyAmount $btcBuyAmount ";
-  LogToSQL("BuyCoinAmount","btcBuyAmount $btcBuyAmount | Saving ".$userSaving[0][0],3,1);
+  LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: ".$userSaving[0][0]." | BuyMin: $buyMin",3,1);
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
