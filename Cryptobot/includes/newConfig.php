@@ -668,7 +668,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         if ($buyCoin){
           if ($BTCBalance < $originalBuyAmount){ $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);}
             //if ($BTCBalance-$userSavingAmount >= $buyMin){
-              
+
           $btcBuyAmount = number_format($btcBuyAmount,10);
           $bitPrice = number_format($bitPrice,8);
           if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
@@ -980,6 +980,7 @@ Function getOldMultiSell($oldBuyBackTransID){
     $tempAry[] = Array($row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID']);
   }
   $conn->close();
+  newLogToSQL("getOldMultiSell", "$sql", 3, 1,"SQL CALL","TransactionID:$oldBuyBackTransID");
   return $tempAry;
 }
 
