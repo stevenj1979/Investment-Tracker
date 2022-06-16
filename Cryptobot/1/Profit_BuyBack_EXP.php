@@ -39,7 +39,7 @@ function getCoinsfromSQL($userID){
           if(`BaseCurrency` = 'BTC',((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )/100)*0.28)* 1) ,if(`BaseCurrency` = 'ETH'
             ,((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )/100)*0.28)* 1) ,if(`BaseCurrency` = 'USDT'
               ,((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
-             ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID` FROM `View15_OpenTransactions`
+             ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(84) as `ETHPrice` FROM `View15_OpenTransactions`
           WHERE `UserID` = $userID and `Type` = 'Sell' and `StatusTr` = 'Sold' and `BuyBackTransactionID` <> 0
           order by `CompletionDate` desc";
     $result = $conn->query($sql);
@@ -48,7 +48,7 @@ function getCoinsfromSQL($userID){
 	//mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
-        ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['BuyBackTransactionID']);
+        ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['BuyBackTransactionID'],$row['BTCPrice'],$row['ETHPrice']);
     }
     $conn->close();
     return $tempAry;
@@ -246,14 +246,17 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
                     //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
                     $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $profitUSD = $coins[$x][11];
-                    $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
                     $totalProfitSumETH = $totalProfitSumETH + $profitETH;
                     $totalProfitSumBTC = $totalProfitSumBTC + $profitBTC;
-                    $buyBackTransID = $coins[$x][14];
+                    $BuyBackTransID = $coins[$x][14]; $btcPrice = $coins[$x][15]; $ethPrice = $coins[$x][16];
+                    $btcProfitInUSD = ($profitBTC * $btcPrice);
+                    $ethProfitInUSD = ($profitETH * $ethPrice);
+                    $profitUSD =  $profitUSDT + $ethProfitInUSD + $btcProfitInUSD;
+                    $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     //print_r("<tr><td>".$symbol."</td><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
-                    tableRow($symbol,$buyBackTransID,$purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth,$sellDay);
+                    tableRow($symbol,$buyBackTransID,$purchasePrice,$sellPrice,$fee,$btcProfitInUSD, $profitUSDT, $ethProfitInUSD, $profitUSD,$sellYear,$sellMonth,$sellDay);
 
 
         }
