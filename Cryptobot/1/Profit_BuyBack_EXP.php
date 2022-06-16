@@ -246,14 +246,15 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
                     //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
                     $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $profitUSD = $coins[$x][11];
-                    $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
-                    $totalProfitSumETH = $totalProfitSumETH + $profitETH;
-                    $totalProfitSumBTC = $totalProfitSumBTC + $profitBTC;
+
                     $BuyBackTransID = $coins[$x][14]; $btcPrice = $coins[$x][15]; $ethPrice = $coins[$x][16];
                     $btcProfitInUSD = ($profitBTC * $btcPrice);
                     $ethProfitInUSD = ($profitETH * $ethPrice);
                     $profitUSD =  $profitUSDT + $ethProfitInUSD + $btcProfitInUSD;
                     $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
+                    $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
+                    $totalProfitSumETH = $totalProfitSumETH + $ethProfitInUSD;
+                    $totalProfitSumBTC = $totalProfitSumBTC + $btcProfitInUSD;
                     //print_r("<tr><td>".$symbol."</td><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
                     tableRow($symbol,$buyBackTransID,$purchasePrice,$sellPrice,$fee,$btcProfitInUSD, $profitUSDT, $ethProfitInUSD, $profitUSD,$sellYear,$sellMonth,$sellDay);
