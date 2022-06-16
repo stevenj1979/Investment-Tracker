@@ -193,7 +193,7 @@ function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10,$td11,$td12
 }
 
 function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
-  echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>$sumBTC</td><td class='totalRow'>$sumUSDT</td><td class='totalRow'>$sumETH</td><td class='totalRow'>$sumUSD</td>";
+  echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>$sumBTC</td><td class='totalRow'>$sumUSDT</td><td class='totalRow'>$sumETH</td><td class='totalRow'>$sumUSD</td>";
   echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
 }
 
