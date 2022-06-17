@@ -842,7 +842,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             bittrexActionBuyBack($coinID,$oldBuyBackTransID);
           }
           if ($type == 'buyToreduceLoss'){
-            //bittrexActionReduceLoss($coinID);
+            bittrexActionReduceLoss($coinID);
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
@@ -1447,6 +1447,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41]; $mergeSavingwithPurchase = $BittrexReqs[$b][42]; $buyBackEnabled = $BittrexReqs[$b][43];
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
+    $reduceLossBuy = $BittrexReqs[$b][54];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1524,7 +1525,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($pauseCoinIDAfterPurchaseEnabled == 1 ){
               addCoinPurchaseDelay($coinID,$userID,$daysToPauseCoinIDAfterPurchase,1);
           }
-          if ($typeBA = 'buyToreduceLoss'){
+          if ($reduceLossBuy = 1){
             updateTrackingCoinToMerge($transactionID);
           }
 
