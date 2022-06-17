@@ -1531,7 +1531,7 @@ function runBittrex($BittrexReqs,$apiVersion){
 
           clearBittrexRef($transactionID);
           UpdateProfit();
-          newLogToSQL("CheckOldTransID","$oldBuyBackTransID | $multiSellRuleTemplateID",3,1,"RunBittrex","TransID:$transactionID");
+          newLogToSQL("CheckOldTransID","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,1,"RunBittrex","TransID:$transactionID");
           if ($oldBuyBackTransID <> 0){
             addBuyBackTransID($oldBuyBackTransID,$transactionID);
             delaySavingBuy($oldBuyBackTransID,80);
