@@ -155,7 +155,7 @@ function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
         die("Connection failed: " . $conn->connect_error);
     }
     $sql = "UPDATE `BittrexAction` SET `BuyBack` = $buyBack, `oldBuyBackTransID` = $oldBuyBackTransID, `MultiSellRuleID` = (SELECT `MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = $oldBuyBackTransID)
-             where `CoinID` = $coinID and `Type` = 'BuyBack' order by `ID` desc limit 1 ";
+             where `CoinID` = $coinID order by `ID` desc limit 1 ";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
