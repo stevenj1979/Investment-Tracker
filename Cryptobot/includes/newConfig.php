@@ -30,7 +30,7 @@ function getBittrexRequests($userID = 0){
     $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
     ,$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
-    ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount']
+    ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount'] //41
     ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['BTCPrice'],$row['ETHPrice'],$row['DaysToPauseCoinIDAfterPurchase'],$row['MultiSellRuleEnabled'] //49
     ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack'],$row['MultiSellRuleID'],$row['TypeBa']); //53
   }

@@ -1530,6 +1530,7 @@ function runBittrex($BittrexReqs,$apiVersion){
 
           clearBittrexRef($transactionID);
           UpdateProfit();
+          newLogToSQL("CheckOldTransID","$oldBuyBackTransID",3,1,"RunBittrex","TransID:$transactionID");
           if ($oldBuyBackTransID <> 0){
             addBuyBackTransID($oldBuyBackTransID,$transactionID);
             delaySavingBuy($oldBuyBackTransID,80);
