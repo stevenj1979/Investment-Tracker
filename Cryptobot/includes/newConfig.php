@@ -916,7 +916,8 @@ function addOldBuyBackTransID($bBID,$tmpCoinID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `TrackingCoins` SET `OldBuyBackTransID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $bBID) WHERE `CoinID` = $tmpCoinID order by `TrackDate` desc limit 1";
+    $sql = "UPDATE `TrackingCoins` SET `OldBuyBackTransID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $bBID),`Type` = 'BuyBack'
+    WHERE `CoinID` = $tmpCoinID order by `TrackDate` desc limit 1";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
