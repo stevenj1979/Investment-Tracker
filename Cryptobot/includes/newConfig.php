@@ -4356,6 +4356,7 @@ function getMultiSellRulesTemplate($ruleID){
 
   $sql = "SELECT `MultiRuleStr` FROM `MultiSellRuleTemplate` WHERE `ID` = $ruleID";
   //echo "<BR> $sql";
+  newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 1,"SQL CALL","RULEID:$ruleID");
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
