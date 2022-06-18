@@ -1579,6 +1579,32 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($mergeSavingwithPurchase == 1){
 	           setSavingToLivewithMerge($userID,$coinID,$transactionID);
           }
+          if ($reduceLossBuy = 1){
+            updateTrackingCoinToMerge($transactionID);
+          }
+
+          if ($oldBuyBackTransID <> 0){
+            addBuyBackTransID($oldBuyBackTransID,$transactionID);
+            delaySavingBuy($oldBuyBackTransID,80);
+            $oldMultiSellStatus = getOldMultiSell($oldBuyBackTransID);
+            echo "<br> Old MultiSell : ".$oldMultiSellStatus[0][0]." | ".$oldMultiSellStatus[0][1];
+            if ($oldMultiSellStatus[0][0] == 1){$multiSellRuleEnabled = 1;$multiSellRuleTemplateID=$oldMultiSellStatus[0][1];}
+          }
+          if ($multiSellRuleTemplateID <> 0){
+              $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
+              $str_arr = explode (",", $ruleStr);
+              $str_arrSize = count($str_arr);
+              for ($t=0; $t<$str_arrSize; $t++){
+                $sellRuleIDFromTemplate = $str_arr[$t];
+                writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
+              }
+              writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID);
+          }else{
+            setCustomisedSellRule($ruleIDBTBuy,$coinID);
+            if ($type == 'Buy' and $coinModeRule == 0){
+                setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
+            }
+          }
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
