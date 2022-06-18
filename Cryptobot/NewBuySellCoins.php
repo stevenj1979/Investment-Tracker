@@ -1487,6 +1487,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
     //if (!isset($resultOrd["quantity"])){
       if ($type == "Buy" or $type == "SpreadBuy"){
+        newLogToSQL("CheckOldTransIDBuy","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,1,"RunBittrex","TransID:$transactionID");
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
@@ -1494,15 +1495,6 @@ function runBittrex($BittrexReqs,$apiVersion){
             $from = 'Coin Purchase <purchase@investment-tracker.net>';
             sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
           }
-          newLogToSQL("BittrexBuy", "bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type);", $userID, 1,"OrderComplete","TransactionID:$transactionID");
-          bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type); //add buy price - $finalPrice
-          //updateAmount $uuid  $resultOrd["result"]["Quantity"]
-          updateSQLQuantity($uuid,$orderQty);
-          newLogToSQL("BittrexBuy", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice | Type: $type", $userID, $GLOBALS['logToSQLSetting'],"OrderComplete","TransactionID:$transactionID");
-          //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
-          echo "<BR>Buy Order COMPLETE!";
-
-
 
           updateBuyAmount($transactionID,$orderQty);
           if($redirectPurchasesToSpread == 1){
@@ -1555,6 +1547,13 @@ function runBittrex($BittrexReqs,$apiVersion){
                 setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
             }
           }
+          newLogToSQL("BittrexBuy", "bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type);", $userID, 1,"OrderComplete","TransactionID:$transactionID");
+          bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type); //add buy price - $finalPrice
+          //updateAmount $uuid  $resultOrd["result"]["Quantity"]
+          updateSQLQuantity($uuid,$orderQty);
+          newLogToSQL("BittrexBuy", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice | Type: $type", $userID, $GLOBALS['logToSQLSetting'],"OrderComplete","TransactionID:$transactionID");
+          //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
+          echo "<BR>Buy Order COMPLETE!";
           //continue;
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
 
@@ -1575,7 +1574,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             updateToSpreadSell($transactionID);
             newLogToSQL("BittrexBuyCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $GLOBALS['logToSQLSetting'],"PartialOrder","TransactionID:$transactionID");
           }
-          bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+
           if ($mergeSavingwithPurchase == 1){
 	           setSavingToLivewithMerge($userID,$coinID,$transactionID);
           }
@@ -1605,6 +1604,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 setCustomisedSellRuleBased($coinID, $ruleIDBTBuy, 40.00);
             }
           }
+          bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
