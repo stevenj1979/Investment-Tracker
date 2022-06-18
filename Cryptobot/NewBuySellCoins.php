@@ -838,6 +838,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
           updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge);
           //continue;
+          newLogToSQL("CheckBuyBackType","bittrexActionBuyBack($coinID,$oldBuyBackTransID); | $type",$userID,1,"BuyCoin","TrackingCoinID:$newTrackingCoinID");
           if ($type == 'BuyBack'){
             bittrexActionBuyBack($coinID,$oldBuyBackTransID);
           }
@@ -1721,7 +1722,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
                 if ($buyBackEnabled == 1){
                   if ($stopBuyBack == 0){
-                      WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);
+                      WriteB  uyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);
                   }
                 }
               }else{
