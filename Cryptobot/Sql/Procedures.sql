@@ -1618,19 +1618,26 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addOldBuyBackTransID`(IN `Trans_ID` INT, IN `Old_Trans_ID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addOldBuyBackTransID`(IN `Trans_ID` INT, IN `Bittrex_ID` INT)
     MODIFIES SQL DATA
 BEGIN
-Declare BB_TransID INT;
+Declare BB_Trans_ID Int;
 Declare MultiSellRule_TemplateID Int;
+Declare Old_BB_Trans_ID Int;
 
+SELECT `OldBuyBackTransID` into Old_BB_Trans_ID from `BittrexAction` Where `ID` = Bittrex_ID;
 
-SELECT `MultiSellRuleTemplateID` into BB_TransID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
+SELECT `MultiSellRuleTemplateID` into MultiSellRule_TemplateID FROM `Transaction` WHERE `ID` = Old_BB_Trans_ID;
 
-SELECT `BuyBackTransactionID` into MultiSellRule_TemplateID FROM `Transaction` WHERE `ID` = Old_Trans_ID;
+SELECT `BuyBackTransactionID` into BB_Trans_ID FROM `Transaction` WHERE `ID` = Old_BB_Trans_ID;
 
-UPDATE `Transaction` SET `BuyBackTransactionID` = BB_TransID, `MultiSellRuleTemplateID` = MultiSellRule_TemplateID Where `ID` = Trans_ID;
+if Old_BB_Trans_ID <> 0 THEN
+	UPDATE `Transaction` SET `BuyBackTransactionID` = BB_Trans_ID Where `ID` = Trans_ID;
+End if;
 
+if MultiSellRule_TemplateID <> 0 Then
+	UPDATE `Transaction` SET  `MultiSellRuleTemplateID` = MultiSellRule_TemplateID Where `ID` = Trans_ID;
+end if;
 End$$
 DELIMITER ;
 

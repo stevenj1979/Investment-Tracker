@@ -992,7 +992,7 @@ Function getOldMultiSell($oldBuyBackTransID){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `MultiSellRuleEnabled`,`MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = $oldBuyBackTransID";
+  $sql = "SELECT `MultiSellRuleEnabled`,`MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $BittrexID)";
   print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
