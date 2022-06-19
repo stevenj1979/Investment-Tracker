@@ -1525,13 +1525,13 @@ function runBittrex($BittrexReqs,$apiVersion){
           clearBittrexRef($transactionID);
           UpdateProfit();
           newLogToSQL("CheckOldTransID","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,1,"RunBittrex","TransID:$transactionID");
-          if ($oldBuyBackTransID <> 0){
-            addBuyBackTransID($oldBuyBackTransID,$transactionID);
-            delaySavingBuy($oldBuyBackTransID,80);
+          //if ($oldBuyBackTransID <> 0){
+            addBuyBackTransID($BittrexID,$transactionID);
+            //delaySavingBuy($oldBuyBackTransID,80);
             $oldMultiSellStatus = getOldMultiSell($oldBuyBackTransID);
             echo "<br> Old MultiSell : ".$oldMultiSellStatus[0][0]." | ".$oldMultiSellStatus[0][1];
             if ($oldMultiSellStatus[0][0] == 1){$multiSellRuleEnabled = 1;$multiSellRuleTemplateID=$oldMultiSellStatus[0][1];}
-          }
+          //}
 
           if ($multiSellRuleTemplateID <> 0){
               $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
