@@ -1444,7 +1444,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $liveCoinPriceBit = $BittrexReqs[$b][22]; $buyCancelTime = substr($BittrexReqs[$b][23],0,strlen($BittrexReqs[$b][23])-1); $sellFlag = false; $spreadBetRuleID = $BittrexReqs[$b][30];
     $spreadBetTransactionID  = $BittrexReqs[$b][31]; $redirectPurchasesToSpread = $BittrexReqs[$b][32]; $spreadBetIDRedirect = $BittrexReqs[$b][33];
     $coinModeRule = $BittrexReqs[$b][27]; $pctToSave = $BittrexReqs[$b][29]; $minsToPause = $BittrexReqs[$b][34]; $originalAmount = $BittrexReqs[$b][35]; $saveResidualCoins = $BittrexReqs[$b][36];
-    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][56]; $buyBack = $BittrexReqs[$b][39];
+    $KEK = $BittrexReqs[$b][25]; $Day7Change = $BittrexReqs[$b][26]; $minsSinceAction = $BittrexReqs[$b][37]; $timeToCancelMins = $BittrexReqs[$b][57]; $buyBack = $BittrexReqs[$b][39];
     $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41]; $mergeSavingwithPurchase = $BittrexReqs[$b][42]; $buyBackEnabled = $BittrexReqs[$b][43];
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
