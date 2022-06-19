@@ -6230,7 +6230,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     $totalRisesInPrice = $totalRisesInPrice * (abs($market1HrChangePct)/0.25);
   }
   Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $buyPrice | $NoOfRisesInPrice | $totalRisesInPrice | $quickBuyCount | $pctProfit";
-  if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice) OR ($quickBuyCount >= 3) OR ($NoOfRisesInPrice > $totalRisesInPrice && $pctProfit >= 2.0) ){
+  if (($minsFromDate >= 60 && $livePrice <= $buyPrice) OR ($NoOfRisesInPrice > $totalRisesInPrice && $livePrice <= $buyPrice) OR ($quickBuyCount >= 3) OR ($NoOfRisesInPrice > $totalRisesInPrice && $pctProfit <= -1.25) ){
     //if time is over 60 min and livePrice is > original price,  sell
     // if no of buys is greater than total needed - Buy
     Echo "<BR>Sell the Coin | OPT 2 : $minsFromDate| $mins | $livePrice | $NoOfRisesInPrice | $totalRisesInPrice";
