@@ -126,7 +126,7 @@ function reopenCoinSwapCancel($transID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("reopenCoinSwap",$sql,3,0,"SQL","TransID:$transID");
+    newLogToSQL("reopenCoinSwap",$sql,3,1,"SQL","TransID:$transID");
     logAction("reopenCoinSwap: ".$sql, 'BuySell', 0);
 }
 

@@ -1619,13 +1619,13 @@ function runBittrex($BittrexReqs,$apiVersion){
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
              if ($canStatus == 'CLOSED' OR $errorCode == "ORDER_NOT_OPEN"){
                bittrexBuyCancel($uuid, $transactionID, "CancelMins: $minsSinceAction");
-               logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
+               logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID | $minsSinceAction | $timeToCancelMins", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
                reopenCoinSwapCancel($oldBuyBackTransID);
                removeTransactionDelay($coinID, $userID);
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
-               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt", $userID, $GLOBALS['logToSQLSetting'],"FullOrder","TransactionID:$transactionID");
+               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt | $timeToCancelMins | $minsSinceAction", $userID, 1,"FullOrder","TransactionID:$transactionID");
              }
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
