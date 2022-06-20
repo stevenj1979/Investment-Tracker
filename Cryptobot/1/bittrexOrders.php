@@ -68,7 +68,7 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`
+          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
@@ -76,7 +76,8 @@ function getBTTrackingCoins($userID){
 //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
-      ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK']);  //19
+      ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
+    ,$row['MinsSinceAction'],$row['MinsToCancelAction']);  //21
   }
   $conn->close();
   return $tempAry;
@@ -231,13 +232,14 @@ function displayOption($name){
               NewEcho("<TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>&nbspCancel&nbsp</TH><TR>";
+              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TR>";
 
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
-          $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19];
+          $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
+          $minsUntilCancel = $tracking[$x][21];
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp$coin</td>";
@@ -267,10 +269,12 @@ function displayOption($name){
             $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, 3, '.', '');
             $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
           }
+          $minsRemaining = $minsUntilCancel-$minsFromAction;
           echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
           echo "<td>&nbsp".round($pctDifference,2)."</td>";
           echo "<td>&nbsp".round($livePricePct,2)."</td>";
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
+          echo "<td>&nbsp$minsRemaining</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
 				}
 				print_r("</table>");
