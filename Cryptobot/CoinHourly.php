@@ -721,7 +721,6 @@ function UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID){
   }
   $conn->close();
   logAction("UpdateMultiSellRuleConfig: ".$sql, 'SellCoin', 0);
-
 }
 
 function runMultiSellRulesConfig(){
@@ -738,6 +737,52 @@ function runMultiSellRulesConfig(){
       UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID);
     }
 
+  }
+}
+
+function getLiveCoinTable(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
+    //echo "<BR> Flag2: $lowFlag";
+    $sql = "SELECT `ID`, `Symbol`, `Name`, `BaseCurrency`, `BuyCoin`, `CMCID`, `SecondstoUpdate`, `Image`, `MinTradeSize`, `CoinPrecision`, `DoNotBuy` FROM `Coin` ";
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['CMCID'],$row['SecondstoUpdate'],$row['Image']
+    ,$row['MinTradeSize'],$row['CoinPrecision'],$row['DoNotBuy']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function writeCoinTableToHistory($coinAry){
+  $conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $ID = $coinAry[0][0]; $Symbol = $coinAry[0][0]; $Name = $coinAry[0][0]; $BaseCurrency = $coinAry[0][0]; $BuyCoin = $coinAry[0][0]; $CMCID = $coinAry[0][0];
+  $SecondstoUpdate = $coinAry[0][0]; $Image = $coinAry[0][0]; $MinTradeSize = $coinAry[0][0]; $CoinPrecision = $coinAry[0][0]; $DoNotBuy = $coinAry[0][0];
+
+  $sql = "call writeCoinTableToHistory($ID, $Symbol, $Name, $BaseCurrency, $BuyCoin,$CMCID,$SecondstoUpdate, $Image,$MinTradeSize,$CoinPrecision,$DoNotBuy);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeCoinTableToHistory: ".$sql, 'SQL Call', 0);
+  newLogToSQL("writeCoinTableToHistory","$sql",3,1,"SQL CALL","ID:None");
+}
+
+function copyCoinTableToHistory(){
+  $liveCoinTblAry = getLiveCoinTable();
+  $liveCoinTblArySize = Count($liveCoinTblAry);
+  for ($y=0; $y<$liveCoinTblArySize; $y++){
+    writeCoinTableToHistory($liveCoinTblAry[$y]);
   }
 }
 
@@ -798,5 +843,6 @@ runCoinPriceDipPrices();
 runHoursforCoinPriceDip();
 runUpdateAvgPrices();
 runMultiSellRulesConfig();
+copyCoinTableToHistory();
 ?>
 </html>
