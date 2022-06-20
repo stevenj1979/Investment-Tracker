@@ -747,7 +747,8 @@ function getLiveCoinTable(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `ID`, `Symbol`, `Name`, `BaseCurrency`, `BuyCoin`, `CMCID`, `SecondstoUpdate`, `Image`, `MinTradeSize`, `CoinPrecision`, `DoNotBuy` FROM `Coin` ";
+    $sql = "SELECT `ID`, `Symbol`, `Name`, `BaseCurrency`, `BuyCoin`, `CMCID`, ifNull(`SecondstoUpdate`,0) as SecondstoUpdate, `Image`, `MinTradeSize`, `CoinPrecision`, ifNull(`DoNotBuy`,0) as DoNotBuy
+    FROM `Coin` Where `BuyCoin` = 1";
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
