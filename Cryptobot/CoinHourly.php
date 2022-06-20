@@ -776,7 +776,7 @@ function writeCoinTableToHistory($coinAry){
   }
   $conn->close();
   logAction("writeCoinTableToHistory: ".$sql, 'SQL Call', 0);
-  newLogToSQL("writeCoinTableToHistory","$sql",3,1,"SQL CALL","ID:None");
+  newLogToSQL("writeCoinTableToHistory","$sql",3,0,"SQL CALL","ID:None");
 }
 
 function copyCoinTableToHistory(){
