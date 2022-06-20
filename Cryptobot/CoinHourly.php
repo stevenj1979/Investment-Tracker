@@ -766,7 +766,7 @@ function writeCoinTableToHistory($coinAry){
   $ID = $coinAry[0]; $Symbol = $coinAry[1]; $Name = $coinAry[2]; $BaseCurrency = $coinAry[3]; $BuyCoin = $coinAry[4]; $CMCID = $coinAry[5];
   $SecondstoUpdate = $coinAry[6]; $Image = $coinAry[7]; $MinTradeSize = $coinAry[8]; $CoinPrecision = $coinAry[9]; $DoNotBuy = $coinAry[10];
 
-  $sql = "call writeCoinTableToHistory($ID, $Symbol, $Name, $BaseCurrency, $BuyCoin,$CMCID,$SecondstoUpdate, $Image,$MinTradeSize,$CoinPrecision,$DoNotBuy);";
+  $sql = "call writeCoinTableToHistory($ID, '$Symbol', '$Name', '$BaseCurrency', $BuyCoin,$CMCID,$SecondstoUpdate, '$Image',$MinTradeSize,$CoinPrecision,$DoNotBuy);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
