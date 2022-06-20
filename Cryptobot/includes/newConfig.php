@@ -118,7 +118,7 @@ function reopenCoinSwapCancel($transID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = $transID order by `ID` desc limit 1";
+    $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $transID) where `TransactionID` <> 0";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

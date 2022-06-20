@@ -677,9 +677,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     if($minsFromDate >= $timeToCancelBuyMins){
       reOpenOneTimeBuyRule($trackingID);
       closeNewTrackingCoin($newTrackingCoinID, True,1);
-      if ($oldBuyBackTransID <> 0){
-        reopenCoinSwapCancel($oldBuyBackTransID);
-      }
+      //if ($oldBuyBackTransID <> 0){
+      reopenCoinSwapCancel($BittrexID);
+      //}
       if ($type == 'SavingsBuy'){ updateCoinSwapStatusCoinSwapID('AwaitingSavingsBuy',$transactionID);}
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
       $finalBool = True;
@@ -1622,7 +1622,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                bittrexBuyCancel($uuid, $transactionID, "CancelMins: $minsSinceAction");
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID | $minsSinceAction | $timeToCancelMins", 'BuySellFlow', 1);
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
-               reopenCoinSwapCancel($oldBuyBackTransID);
+               reopenCoinSwapCancel($BittrexID);
                removeTransactionDelay($coinID, $userID);
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
@@ -1655,7 +1655,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );}
           }
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
-          if ($buyBack == 1){ reopenCoinSwapCancel($oldBuyBackTransID); }
+          if ($buyBack == 1){ reopenCoinSwapCancel($BittrexID); }
           $finalBool = True;
           reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
