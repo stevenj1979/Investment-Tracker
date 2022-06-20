@@ -68,7 +68,7 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`
+          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
@@ -77,7 +77,7 @@ function getBTTrackingCoins($userID){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
       ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
-    ,$row['MinsSinceAction'],$row['MinsToCancelAction']);  //21
+    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining']);  //22
   }
   $conn->close();
   return $tempAry;
@@ -239,7 +239,7 @@ function displayOption($name){
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
-          $minsUntilCancel = $tracking[$x][21];
+          $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22];
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp$coin</td>";
@@ -269,7 +269,8 @@ function displayOption($name){
             $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, 3, '.', '');
             $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
           }
-          $minsRemaining = $minsUntilCancel-$minsFromAction;
+          //240 - 52
+
           echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
           echo "<td>&nbsp".round($pctDifference,2)."</td>";
           echo "<td>&nbsp".round($livePricePct,2)."</td>";
