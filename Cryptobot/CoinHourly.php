@@ -762,8 +762,8 @@ function writeCoinTableToHistory($coinAry){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $ID = $coinAry[0][0]; $Symbol = $coinAry[0][0]; $Name = $coinAry[0][0]; $BaseCurrency = $coinAry[0][0]; $BuyCoin = $coinAry[0][0]; $CMCID = $coinAry[0][0];
-  $SecondstoUpdate = $coinAry[0][0]; $Image = $coinAry[0][0]; $MinTradeSize = $coinAry[0][0]; $CoinPrecision = $coinAry[0][0]; $DoNotBuy = $coinAry[0][0];
+  $ID = $coinAry[0]; $Symbol = $coinAry[1]; $Name = $coinAry[2]; $BaseCurrency = $coinAry[3]; $BuyCoin = $coinAry[4]; $CMCID = $coinAry[5];
+  $SecondstoUpdate = $coinAry[6]; $Image = $coinAry[7]; $MinTradeSize = $coinAry[8]; $CoinPrecision = $coinAry[9]; $DoNotBuy = $coinAry[10];
 
   $sql = "call writeCoinTableToHistory($ID, $Symbol, $Name, $BaseCurrency, $BuyCoin,$CMCID,$SecondstoUpdate, $Image,$MinTradeSize,$CoinPrecision,$DoNotBuy);";
 
