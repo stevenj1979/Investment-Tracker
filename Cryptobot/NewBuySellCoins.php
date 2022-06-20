@@ -1560,7 +1560,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
 
           $finalBool = True;
-        }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining){
+        }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining && $finalBool == False){
           bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
           if ($sendEmail){
             $subject = "Coin Purchase1: ".$coin;
@@ -1611,7 +1611,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
-        if ( $minsRemaining <= 0){
+        if ( $minsRemaining <= 0 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
           newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed | $minsRemaining | $BittrexID", $userID, 1,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
@@ -1660,7 +1660,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           $finalBool = True;
           reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
-      }elseif ($type == "Sell" or $type == "SpreadSell" or $type == "SavingsSell"){ // $type Sell
+      }elseif (($type == "Sell" && $finalBool == False)or ($type == "SpreadSell" && $finalBool == False) or ($type == "SavingsSell" && $finalBool == False) ){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
@@ -1803,7 +1803,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-        if ($pctFromSale <= -3 or $pctFromSale >= 4){
+        if (($pctFromSale <= -3&& $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
           if ($type == 'SpreadSell') { continue;}
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
