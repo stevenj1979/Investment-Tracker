@@ -3445,7 +3445,7 @@ function getStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Symbol`,`IDCn`,`BaseCurrency`,`CMCID` FROM `View1_BuyCoins` order by `Symbol` asc";
+  $sql = "SELECT `Symbol`,`IDCn`,`BaseCurrency`,`CMCID` FROM `View20_CoinPrices` order by `Symbol` asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
