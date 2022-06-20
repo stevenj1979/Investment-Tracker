@@ -752,7 +752,7 @@ function getLiveCoinTable(){
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['CMCID'],$row['SecondstoUpdate'],$row['Image']
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['BuyCoin'],$row['CMCID'],$row['SecondstoUpdate'],$row['Image']
     ,$row['MinTradeSize'],$row['CoinPrecision'],$row['DoNotBuy']);}
   $conn->close();
   return $tempAry;
