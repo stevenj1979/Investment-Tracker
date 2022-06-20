@@ -217,7 +217,7 @@ function ConsolidatePriceHostory(){
 }
 
 function update1Hr_24Hr_7DPct(){
-  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
   $coinsSize = count($coins);
   for ($u=0; $u<$coinsSize;$u++){
     $coinID = $coins[$u][0]; $bitPrice = $coins[$u][17]; $baseCurrency = $coins[$u][26]; $newhr1_Pct = $coins[$u][10]; $newhr24_Pct = $coins[$u][13];

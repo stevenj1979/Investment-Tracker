@@ -171,7 +171,7 @@ function getUserIDs($userID){
 displayHeader(3);
 
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-				$tracking = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+				$tracking = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
 				$newArrLength = count($tracking);
         //echo $newArrLength;
         //$userConfig = getConfig($_SESSION['ID']);

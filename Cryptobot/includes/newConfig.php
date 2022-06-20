@@ -330,7 +330,7 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
     return $obj;
 }
 
-function getTrackingCoins($whereclause){
+function getTrackingCoins($whereclause, $table){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -341,7 +341,7 @@ function getTrackingCoins($whereclause){
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,`6MonthPrice`,`3MonthPrice`,`AverageLowPrice`
-    FROM `View1_BuyCoins` $whereclause ";
+    $table $whereclause ";
     //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -1374,7 +1374,7 @@ function getMinTradeAmount($apiKey, $apisecret){
   //$minTradeSize = count($minTrade);
   $tradeArraySize = count($obj);
   //print_r($obj);
-  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC");
+  $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
   $coinsSize = count($coins);
   //echo "<BR> array sizes | TRadeArySize: ".$tradeArraySize." coinsSize: $coinsSize entry1: ";
   for ($x=0; $x<$coinsSize; $x++){
