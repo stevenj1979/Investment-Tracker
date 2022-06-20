@@ -119,7 +119,7 @@ function reopenCoinSwapCancel($transID, $nFlag){
         die("Connection failed: " . $conn->connect_error);
     }
     if ($nFlag == 1){
-        $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $transID) where `TransactionID` <> 0";
+        $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $transID) and `TransactionID` <> 0";
     }else{
       $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = $transID where `TransactionID` <> 0";
     }
