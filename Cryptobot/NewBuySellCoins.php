@@ -290,7 +290,7 @@ function runBuyBack($buyBackCoins){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19]; $tmpSymbol = $reOpenData[0][20];
       $tmpMultiSellRuleTemplateID = $reOpenData[0][21];
-      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,0);
+      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,1);
       if ($bullBearStatus == 'BULL'){
         $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
       }else{
@@ -352,6 +352,7 @@ function runBuyBack($buyBackCoins){
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       //if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");echo "<B> EXIT: PctProfit:$tmpSalePrice | $profitPct | $hr1ChangePctChange"; continue;}
       if ($hoursFlat<4){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,0,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
+
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack');
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
