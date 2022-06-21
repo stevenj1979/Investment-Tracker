@@ -320,6 +320,6 @@ $tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
 $orderQty = $resultOrd["quantity"];
 $finalPrice = $tempPrice/$orderQty;
 var_dump($resultOrd);
-Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice";
+Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice     ";
 ?>
 </html>
