@@ -4181,7 +4181,7 @@ function updateReduceLossSettings($ID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call updateReduceLossSettings($ID);";
+  $sql = "call updateReduceLossSettings($ID);"; 
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -4190,7 +4190,7 @@ function updateReduceLossSettings($ID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0); 
+  logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0);
   newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
 }
 
