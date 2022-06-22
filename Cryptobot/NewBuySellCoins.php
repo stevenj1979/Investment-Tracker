@@ -844,7 +844,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             bittrexActionBuyBack($coinID,$oldBuyBackTransID);
           }
           if ($type == 'buyToreduceLoss'){
-            bittrexActionReduceLoss($coinID);
+            bittrexActionReduceLoss($coinID,$oldBuyBackTransID);
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
@@ -1520,7 +1520,8 @@ function runBittrex($BittrexReqs,$apiVersion){
               addCoinPurchaseDelay($coinID,$userID,$daysToPauseCoinIDAfterPurchase,1);
           }
           if ($reduceLossBuy = 1){
-            updateTrackingCoinToMerge($transactionID);
+            updateTrackingCoinToMerge($transactionID); 
+            updateReduceLossSettings($transactionID); 
           }
 
           clearBittrexRef($transactionID);
