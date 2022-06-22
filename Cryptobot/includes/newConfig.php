@@ -172,13 +172,13 @@ function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
     logAction("bittrexActionBuyBack: ".$sql, 'BuySell', 0);
 }
 
-function bittrexActionReduceLoss($coinID){
+function bittrexActionReduceLoss($coinID,$oldBuyBackTransID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BittrexAction` SET `ReduceLossBuy` = 1 where `CoinID` = $coinID order by `ID` desc limit 1 ";
+    $sql = "UPDATE `BittrexAction` SET `ReduceLossBuy` = 1, `OldBuyBackTransID` = $oldBuyBackTransID where `CoinID` = $coinID order by `ID` desc limit 1 ";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -4172,6 +4172,26 @@ function updateTrackingCoinToMerge($ID){
   $conn->close();
   logAction("updateTrackingCoinToMerge: ".$sql, 'SQL_UPDATE', 0);
   newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$ID");
+}
+
+function updateReduceLossSettings($ID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call updateReduceLossSettings($ID);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0); 
+  newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
 }
 
 function updateMergeAry($toMergeAry, $finalMergeAry){
