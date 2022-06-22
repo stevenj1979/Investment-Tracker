@@ -4190,7 +4190,7 @@ function updateReduceLossSettings($ID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0);
+  logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0); 
   newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
 }
 
