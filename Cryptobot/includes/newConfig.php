@@ -4175,6 +4175,7 @@ function updateTrackingCoinToMerge($ID){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 function updateReduceLossSettings($ID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -4195,6 +4196,8 @@ function updateReduceLossSettings($ID){
   newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
 }
 
+=======
+>>>>>>> parent of 7f25baf5 (updatewReduceLoss settings)
 =======
 >>>>>>> parent of 7f25baf5 (updatewReduceLoss settings)
 function updateMergeAry($toMergeAry, $finalMergeAry){
