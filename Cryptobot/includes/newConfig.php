@@ -4191,7 +4191,7 @@ function updateReduceLossSettings($ID){
   }
   $conn->close();
   logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
+  newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID"); 
 }
 
 function updateMergeAry($toMergeAry, $finalMergeAry){
