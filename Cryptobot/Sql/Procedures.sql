@@ -1663,3 +1663,24 @@ UPDATE `Transaction` SET `Amount` = nAmount, `Status` = 'Open',`Type` = 'Sell' w
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateReduceLossSettings`(IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+DECLARE Old_ID INT;
+DECLARE MultiSellRule_Enabled INT;
+DECLARE MultiSellRuleTemplate_ID INT;
+DECLARE BuyBackTransaction_ID INT;
+
+SELECT `OldBuyBackTransID` into  Old_ID FROM `BittrexAction` WHERE `TransactionID` = Trans_ID;
+
+SELECT  `MultiSellRuleEnabled` into MultiSellRule_Enabled FROM `Transaction` Where `ID` = Old_ID;
+SELECT  `MultiSellRuleTemplateID` into MultiSellRuleTemplate_ID FROM `Transaction` Where `ID` = Old_ID;
+SELECT  `BuyBackTransactionID` into BuyBackTransaction_ID FROM `Transaction` Where `ID` = Old_ID;
+
+UPDATE `Transaction`  SET `MultiSellRuleEnabled` = MultiSellRule_Enabled, `MultiSellRuleTemplateID`  = MultiSellRuleTemplate_ID,  `BuyBackTransactionID` = BuyBackTransaction_ID WHERE `ID` = Trans_ID;
+
+END$$
+DELIMITER ;
