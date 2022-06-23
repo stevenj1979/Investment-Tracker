@@ -276,6 +276,10 @@ displayHeader(0);
               }else{
                 echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
                 echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td></tr>";
+                echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td></td></tr>";
               }
               echo "</table>";
 
