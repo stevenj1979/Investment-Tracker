@@ -146,14 +146,17 @@ function getTotalHoldings($userID){
   }
   $sql = "SELECT
             (SELECT  `Date`FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as ActionDate
-            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as TotalBTC
-            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'ETH') as TotalETH
-            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'USDT') as TotalUSDT";
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'BTC' and `UserID` = $userID) as TotalBTC
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'ETH' and `UserID` = $userID) as TotalETH
+            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
+            ,(SELECT `SavingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(84) as SavingBTC
+            ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
+            ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH";
   //echo $sql;
   $result = $conn->query($sql);
 
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ActionDate'],$row['TotalBTC'],$row['TotalETH'],$row['TotalUSDT']);
+      $tempAry[] = Array($row['ActionDate'],$row['TotalBTC'],$row['TotalETH'],$row['TotalUSDT'],$row['SavingBTC'],$row['SavingUSDT'],$row['SavingETH']);
   }
   $conn->close();
   return $tempAry;
@@ -204,6 +207,10 @@ displayHeader(0);
               $usdtPrice = (float)$uProfit[0][2];
               $ethProfit = (float)$uProfit[0][3];
               $bittrexTotal = $btcPrice + $usdtPrice + $ethProfit;
+              $btcSaving = $uProfit[0][4];
+              $usdtSaving = $uProfit[0][5];
+              $ethSaving = $uProfit[0][6];
+
               //echo "<BR> $btcPrice : $usdtPrice : $ethProfit ";
               //$LiveBTCPrice = number_format((float)(bittrexCoinPrice($apiKey, $apiSecret,'USDT','BTC')), 8, '.', '');
               //$LiveBTCPrice = (float)$uProfit[0][3];
@@ -215,12 +222,14 @@ displayHeader(0);
               //$totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice)+$pendingUSDT;
               echo "<h3>Dashboard</h3>";
               echo "<BR><H3>1Hr:".round($webMarketStats[0][0],2)."% \t| 24Hr:".round($webMarketStats[0][1],2)."%\t| 7D:".round($webMarketStats[0][2],2)."%\t </H3><BR>";
-              echo "<table><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
+              echo "<table><TH></TH><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
               if ($_SESSION['isMobile']){
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);$bittrexTotal = round($bittrexTotal,3);
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
+                echo "<td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
+                echo "<td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td>";
               }else{
-                echo "<td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
+                echo "<td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
+                echo "<td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td>";
               }
               echo "</table>";
 
