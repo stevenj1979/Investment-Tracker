@@ -225,11 +225,11 @@ displayHeader(0);
               echo "<table><TH></TH><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
               if ($_SESSION['isMobile']){
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);$bittrexTotal = round($bittrexTotal,3);
-                echo "<td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
-                echo "<td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td>";
+                echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
+                echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td></tr>";
               }else{
-                echo "<td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td>";
-                echo "<td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td>";
+                echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
+                echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td></tr>";
               }
               echo "</table>";
 
