@@ -270,15 +270,15 @@ displayHeader(0);
               echo "<table><TH></TH><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
               if ($_SESSION['isMobile']){
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);$bittrexTotal = round($bittrexTotal,3);
-                echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
-                echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$savingTotal</td></tr>";
+                echo "<tr><td>&nbspHolding</td><td>&nbspUSD".round($btcPrice,2)." </td><td>&nbspUSD".round($usdtPrice,2)."</td><td>&nbspUSD".round($ethProfit,2)."</td><td>USD".round($bittrexTotal,2)."</td></tr>";
+                echo "<tr><td>&nbspSaving</td><td>&nbspUSD".round($btcSaving,2)."</td><td>&nbspUSD".round($usdtSaving,2)."</td><td>&nbspUSD".round($ethSaving,2)."</td><td>USD".round($savingTotal,2)."</td></tr>";
                 echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 echo "<td></td></tr>";
               }else{
-                echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
-                echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$savingTotal</td></tr>";
+                echo "<tr><td>&nbspHolding</td><td>&nbspUSD".round($btcPrice,2)."</td><td>&nbspUSD".round($usdtPrice,2)."</td><td>&nbspUSD".round($ethProfit,2)."</td><td>USD".round($bittrexTotal,2)."</td></tr>";
+                echo "<tr><td>&nbspSaving</td><td>&nbspUSD".round($btcSaving,2)."</td><td>&nbspUSD".round($usdtSaving,2)."</td><td>&nbspUSD".round($ethSaving,2)."</td><td>USD".round($savingTotal,2)."</td></tr>";
                 echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
