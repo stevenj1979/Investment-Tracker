@@ -108,6 +108,43 @@ setStyle($_SESSION['isMobile']);
 <body>
 <?php
 
+if ($_GET['zeroBTCSaving'] <> ""){
+  $userID = $_GET['UserID'];
+  runZeroSaving('BTC',$userID);
+}elseif ($_GET['zeroUSDTSaving'] <> ""){
+  $userID = $_GET['UserID'];
+  runZeroSaving('USDT',$userID);
+}elseif ($_GET['zeroETHSaving'] <> ""){
+  $userID = $_GET['UserID'];
+  runZeroSaving('ETH',$userID);
+}
+
+function runZeroSaving($coin,$userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  if ($coin == 'BTC'){
+    $sql = "UPDATE `UserCoinSavings` SET `SavingBTC`= 0 WHERE `UserID` = $userID";
+  }elseif ($coin == 'USDT'){
+    $sql = "UPDATE `UserCoinSavings` SET `SavingUSDT`= 0 WHERE `UserID` = $userID ";
+  }elseif ($coin == 'ETH'){
+    $sql = "UPDATE `UserCoinSavings` SET `SavingETH`= 0 WHERE `UserID` = $userID";
+  }
+
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("runZeroSaving",$sql,3,1,"SQL","CoinID:$coin");
+  logAction("runZeroSaving: ".$sql, 'BuySell', 0);
+}
+
 function getLiveCoinPriceUSD($symbol){
     $limit = 100;
     $cnmkt = "https://api.coinmarketcap.com/v1/ticker/?limit=".$limit;
@@ -187,7 +224,11 @@ $webMarketStats = getWebMarketStats();
 
 displayHeader(0);
               //$profitUSD = $uProfit[0][2]*$btcPrice;
-
+              if ($_SESSION['isMobile']){
+                $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";
+              }else{
+                $num = 8; $fontSize = "<i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd H:i:s";
+              }
               //echo "<form action='Dashboard.php?dropdown=Yes' method='post'><select name='currencySelect'>";
               //echo "<Option value='BTC'>BTC</option>";
               //echo "<Option value='USD'>USD</option>";
@@ -202,6 +243,7 @@ displayHeader(0);
                  $curSymbol = '$';
                  $round = 2;
               //}
+              $Id = $_SESSION['ID'];
               $apiKey = getAPIKeyread(); $apiSecret = getAPISecretRead();
               $btcPrice = (float)$uProfit[0][1];
               $usdtPrice = (float)$uProfit[0][2];
@@ -227,6 +269,10 @@ displayHeader(0);
                 $btcPrice = round($btcPrice,3); $usdtPrice = round($usdtPrice,3); $ethProfit = round($ethProfit,3);$totalProfit = round($totalProfit,3);$bittrexTotal = round($bittrexTotal,3);
                 echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
                 echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td></tr>";
+                echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                echo "<td></td></tr>";
               }else{
                 echo "<tr><td>&nbspHolding</td><td>&nbspBTC $btcPrice</td><td>&nbspETH $usdtPrice</td><td>&nbspUSDT $ethProfit</td><td>$bittrexTotal</td></tr>";
                 echo "<tr><td>&nbspSaving</td><td>&nbspBTC $btcSaving</td><td>&nbspETH $usdtSaving</td><td>&nbspUSDT $ethSaving</td><td>$bittrexTotal</td></tr>";
