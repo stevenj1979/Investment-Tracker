@@ -187,7 +187,7 @@ function getTotalHoldings($userID){
             (SELECT  `Date`FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as ActionDate
             ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'BTC' and `UserID` = $userID) as TotalBTC
             ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'ETH' and `UserID` = $userID) as TotalETH
-            ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
+            ,(SELECT `Total` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
             ,(SELECT `SavingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(84) as SavingBTC
             ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
             ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH";
