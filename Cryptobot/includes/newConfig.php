@@ -172,13 +172,13 @@ function bittrexActionBuyBack($coinID,$oldBuyBackTransID,$buyBack = 1){
     logAction("bittrexActionBuyBack: ".$sql, 'BuySell', 0);
 }
 
-function bittrexActionReduceLoss($coinID){
+function bittrexActionReduceLoss($coinID,$oldBuyBackTransID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BittrexAction` SET `ReduceLossBuy` = 1 where `CoinID` = $coinID order by `ID` desc limit 1 ";
+    $sql = "UPDATE `BittrexAction` SET `ReduceLossBuy`  = 1, `OldBuyBackTransID` = $oldBuyBackTransID where `CoinID` = $coinID order by `ID` desc limit 1 ";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -186,7 +186,7 @@ function bittrexActionReduceLoss($coinID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("bittrexActionReduceLoss",$sql,3,1,"SQL","TransID:$transID");
+    newLogToSQL("bittrexActionReduceLoss",$sql,3,1,"SQL","TransID:$oldBuyBackTransID");
     logAction("bittrexActionReduceLoss: ".$sql, 'BuySell', 0);
 }
 
