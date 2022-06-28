@@ -281,7 +281,7 @@ displayHeader(0);
                 //echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 $btcAlloc = $uProfit[0][7];$usdtAlloc = $uProfit[0][8];$ethAlloc = $uProfit[0][9]; $lowMarketMode = $uProfit[0][10];
                 echo "<tr><td>Coin Allocation</td><td>$btcAlloc</td><td>$ethAlloc</td><td>$usdtAlloc</td><td>$lowMarketMode</td></tr>";
-                echo "<td></td></tr>";
+                echo "</tr>";
 
               echo "</table>";
 
