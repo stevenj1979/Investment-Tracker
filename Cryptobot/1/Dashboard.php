@@ -190,12 +190,17 @@ function getTotalHoldings($userID){
             ,(SELECT `Total` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
             ,(SELECT `SavingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(84) as SavingBTC
             ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
-            ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH";
+            ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH
+            ,getCoinAllocation('BTC',$userID,0) As BTCAllocation
+            ,getCoinAllocation('USDT',$userID,0) As USDTAllocation
+            ,getCoinAllocation('ETH',$userID,0) As ETHAllocation
+            ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode";
   //echo $sql;
   $result = $conn->query($sql);
 
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ActionDate'],$row['TotalBTC'],$row['TotalETH'],$row['TotalUSDT'],$row['SavingBTC'],$row['SavingUSDT'],$row['SavingETH']);
+      $tempAry[] = Array($row['ActionDate'],$row['TotalBTC'],$row['TotalETH'],$row['TotalUSDT'],$row['SavingBTC'],$row['SavingUSDT'],$row['SavingETH'],$row['BTCAllocation'],$row['USDTAllocation'] //8
+      ,$row['ETHAllocation'],$row['LowMarketMode']); //10
   }
   $conn->close();
   return $tempAry;
@@ -271,9 +276,11 @@ displayHeader(0);
 
                 echo "<tr><td>&nbspHolding</td><td>&nbspUSD&nbsp".round($btcPrice,2)."</td><td>&nbspUSD&nbsp".round($ethProfit,2)."</td><td>&nbspUSD&nbsp".round($usdtPrice,2)."</td><td>USD&nbsp".round($bittrexTotal,2)."</td></tr>";
                 echo "<tr><td>&nbspSaving</td><td>&nbspUSD&nbsp".round($btcSaving,2)."</td><td>&nbspUSD&nbsp".round($ethSaving,2)."</td><td>&nbspUSD&nbsp".round($usdtSaving,2)."</td><td>USD&nbsp".round($savingTotal,2)."</td></tr>";
-                echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
-                echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
-                echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                //echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                //echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                //echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
+                $btcAlloc = $uProfit[0][7];$usdtAlloc = $uProfit[0][8];$ethAlloc = $uProfit[0][9]; $lowMarketMode = $uProfit[0][10];
+                echo "<tr><td>$btcAlloc</td><td>$ethAlloc</td><td>$usdtAlloc</td><td>$lowMarketMode</td></tr>";
                 echo "<td></td></tr>";
 
               echo "</table>";
