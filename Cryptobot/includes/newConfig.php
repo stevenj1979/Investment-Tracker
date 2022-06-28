@@ -947,7 +947,7 @@ function addBuyBackTransID($bBTransID,$transactionID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBID;TrackID:$trackingID");
+    newLogToSQL("addBuyBackTransID",$sql,3,1,"SQL","BbID:$bBTransID;TransID:$transactionID");
     LogAction("addBuyBackTransID:".$sql, 'SQL_UPDATE', 0);
     $conn->close();
 }

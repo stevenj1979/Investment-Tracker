@@ -1636,7 +1636,7 @@ if Old_BB_Trans_ID <> 0 THEN
 End if;
 
 if MultiSellRule_TemplateID <> 0 Then
-	UPDATE `Transaction` SET  `MultiSellRuleTemplateID` = MultiSellRule_TemplateID Where `ID` = Trans_ID;
+	UPDATE `Transaction` SET  `MultiSellRuleTemplateID` = MultiSellRule_TemplateID,`MultiSellRuleEnabled` = 1 Where `ID` = Trans_ID;
 end if;
 End$$
 DELIMITER ;
