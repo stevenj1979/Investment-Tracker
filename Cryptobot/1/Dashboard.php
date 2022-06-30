@@ -191,9 +191,9 @@ function getTotalHoldings($userID){
             ,(SELECT `SavingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(84) as SavingBTC
             ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
             ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH
-            ,getCoinAllocation('BTC',$userID,0) As BTCAllocation
-            ,getCoinAllocation('USDT',$userID,0) As USDTAllocation
-            ,getCoinAllocation('ETH',$userID,0) As ETHAllocation
+            ,Trim(getCoinAllocation('BTC',$userID,0))+0 As BTCAllocation
+            ,Trim(getCoinAllocation('USDT',$userID,0))+0 As USDTAllocation
+            ,Trim(getCoinAllocation('ETH',$userID,0))+0 As ETHAllocation
             ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode";
   //echo $sql;
   $result = $conn->query($sql);
