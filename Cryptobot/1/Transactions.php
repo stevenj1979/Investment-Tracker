@@ -114,7 +114,7 @@ if($_POST['transSelect'] <> ""){
   $transID = $_GET['SellRule'];
   runStopBuyBack($transID);
   header('Location: Transactions.php');
-elseif($_GET['overrideReduceLoss'] <> ""){
+}elseif($_GET['overrideReduceLoss'] <> ""){
     $transID = $_GET['SellRule'];
     runOverrideReduceLoss($transID);
     header('Location: Transactions.php');
