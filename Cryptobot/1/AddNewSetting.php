@@ -375,7 +375,9 @@ function updateEditedUser(){
   $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
     $coinHoursFlat = $_POST['CoinHoursFlat'];
     $ruleName = $_POST['RuleName'];
-
+    $reEnableBuyRuleAfterDip = $_POST['ReEnableBuyRuleAfterDip'];
+    $priceDip24Hr  = $_POST['PriceDip24Hr'];
+    $priceDip7D = $_POST['PriceDip7D'];
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -398,7 +400,7 @@ function updateEditedUser(){
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
-  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName'
+  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip
   WHERE `ID` = $id";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -427,7 +429,7 @@ function getRules($id){
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
-,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`
+,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -443,7 +445,8 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
    ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
- ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName']); //71
+ ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
+ ,$row['PriceDipEnable7Day']); //74
   }
   $conn->close();
   return $tempAry;
@@ -841,6 +844,9 @@ function displayEdit($id){
     addNewTwoOption('Override Daily Limit Enabled:','OverrideDailyLimitEnabled',$formSettings[0][57]);
     addNewTwoOption('Override Coin Allocation Enabled:','OverrideCoinAllocationEnabled',$formSettings[0][64]);
     addNewTwoOption('One-Time Buy Rule Enabled:','OneTimeBuyRuleEnabled',$formSettings[0][65]);
+    addNewTwoOption('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
+    addNewText('PriceDip 24Hr: ', 'PriceDip24Hr', $formSettings[0][73], 51, 'Eg ALL', False,1);
+    addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
