@@ -216,6 +216,25 @@ function clearSQLLog($days){
 
 }
 
+function ClearCancelledTransactions($sql){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  //$sql = "Delete FROM `ActionLog` WHERE datediff(now(),`DateTime`) > $days";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("ClearCancelledTransactions: ".$sql, 'SellCoin', 0);
+}
+
 
 
 // MAIN PROGRAMME
@@ -224,6 +243,10 @@ spreadBetSettingsUpdate();
 clearBuyBack(5760);
 clearSQLLog(90);
 //setBuySellPriceforProfit();
+ClearCancelledTransactions("DELETE FROM `BittrexAction` WHERE `Status` = 'Cancelled' and `ActionDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
+ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Cancelled' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
+ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Merged' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
+ClearCancelledTransactions("DELETE FROM `TrackingCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 
 ?>
 </html>
