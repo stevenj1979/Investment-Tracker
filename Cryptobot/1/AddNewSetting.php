@@ -406,7 +406,7 @@ function updateEditedUser(){
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip
   WHERE `ID` = $id";
   //print_r($sql);
-  $conn = getSQLConn(rand(1,3));
+
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -414,7 +414,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-
+  $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
