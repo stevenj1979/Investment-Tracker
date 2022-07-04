@@ -5525,7 +5525,7 @@ function getSpreadBetData(){
       $tempAry[] = Array($row['ID'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
-      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']
+      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']//39
     , $row['LowMarketModeEnabled']);
   }
   $conn->close();
@@ -6564,7 +6564,7 @@ function getBuyBackData(){
             ,`AllBuyBackAsOverride`,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice,`LiveCoinPrice`,TimeStampDiff(MINUTE, now(),`DelayCoinSwapUntil`) as `DelayMins`
             ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`,`CoinPriceBB`,`USDBuyBackAmount`
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
-            ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`
+            ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6577,7 +6577,7 @@ function getBuyBackData(){
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
-      ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD']); //43
+      ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled']); //44
   }
   $conn->close();
   return $tempAry;
