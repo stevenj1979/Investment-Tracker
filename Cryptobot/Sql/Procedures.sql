@@ -1258,7 +1258,7 @@ if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = Use
   INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'ETH',4);
 end if;
 
-if (currentMode = -1 AND nMode = 1) THEN
+if (currentMode = -1 AND nMode >= 1) THEN
   SET finalUSDTAmount = (usdtHolding - usdtSaving)/4;
   SET finalBTCAmount = (btcHolding - btcSaving)/4;
   SET finalETHAmount = (ethHolding - ethSaving)/4;
