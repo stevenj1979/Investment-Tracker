@@ -53,12 +53,12 @@ function checkMarketforPctDip(){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     $lowMarketModeStartPct = $userIDs[0][1]; $lowMarketModeIncrements = $userIDs[0][2];
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize LowMarketStartPct:$lowMarketModeStartPct Inc:$lowMarketModeIncrements";
-
+    
     if ($marketPctChangeHr24 <= $lowMarketModeStartPct){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
           $mode = floor(abs($marketPctChangeHr24/$lowMarketModeIncrements));
-          echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode";
+          echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode 24H: $marketPctChangeHr24 Inc:$lowMarketModeIncrements";
           if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
           LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,0);

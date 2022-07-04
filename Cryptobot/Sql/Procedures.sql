@@ -1784,16 +1784,16 @@ if (nAmount <= mode1) THEN
 	UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1 and `Amount` > 0;
 elseif (nAmount <= (mode1 + mode2)) THEN
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
-UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2 and `Amount` > 0;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = (mode1+mode2)-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2 and `Amount` > 0;
 elseif (nAmount <= (mode1 + mode2 + mode3)) THEN
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2;
-UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3 and `Amount` > 0;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = (mode1+mode2+mode3)-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3 and `Amount` > 0;
 elseif (nAmount <= (mode1 + mode2 + mode3 + mode4)) THEN
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2;
 UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3;
-UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 4 and `Amount` > 0;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = (mode1+mode2+mode3+mode4)-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 4 and `Amount` > 0;
 end if;
 END$$
 DELIMITER ;
