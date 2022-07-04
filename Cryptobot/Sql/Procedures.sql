@@ -1761,3 +1761,39 @@ UPDATE `Transaction` SET `Amount` = nAmount, `Status` = 'Open',`Type` = 'Sell' w
 
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateCoinAllocationAfterPurchase`(IN `User_ID` INT, IN `nMode` INT, IN `BaseCurr` VARCHAR(50), IN `nAmount` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+DECLARE mode1 DEC(20,14);
+DECLARE mode2 DEC(20,14);
+DECLARE mode3 DEC(20,14);
+DECLARE mode4 DEC(20,14);
+
+SELECT `Amount` into mode1 FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
+
+SELECT `Amount` into mode2 FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2;
+
+SELECT `Amount` into mode3 FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3;
+
+SELECT `Amount` into mode4 FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 4;
+
+if (nAmount <= mode1) THEN
+	UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1 and `Amount` > 0;
+elseif (nAmount <= (mode1 + mode2)) THEN
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2 and `Amount` > 0;
+elseif (nAmount <= (mode1 + mode2 + mode3)) THEN
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3 and `Amount` > 0;
+elseif (nAmount <= (mode1 + mode2 + mode3 + mode4)) THEN
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 1;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 2;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = 0 WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 3;
+UPDATE `UserCoinAllocationAmounts` SET `Amount` = mode1-nAmount WHERE `UserID` = User_ID and `BaseCurrency` = BaseCurr and `CoinAllocationID` = 4 and `Amount` > 0;
+end if;
+END$$
+DELIMITER ;
