@@ -1196,9 +1196,107 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `setLowMarketMode`(IN `User_ID` INT, IN `nMins` INT, IN `nMode` INT)
     MODIFIES SQL DATA
 BEGIN
+Declare currentMode INT;
+DECLARE usdtHolding DEC(20,14);
+DECLARE btcHolding DEC(20,14);
+DECLARE ethHolding DEC(20,14);
+DECLARE usdtSaving DEC(20,14);
+DECLARE btcSaving DEC(20,14);
+DECLARE ethSaving DEC(20,14);
+DECLARE finalUSDTAmount DEC(20,14);
+DECLARE finalBTCAmount DEC(20,14);
+DECLARE finalETHAmount DEC(20,14);
+
+SELECT `LowMarketModeEnabled` into currentMode FROM `UserConfig` WHERE `UserID` = User_ID;
+SELECT `Total` into btcHolding FROM `BittrexBalances` WHERE `UserID` = User_ID and `Symbol` = 'BTC';
+SELECT `Total` into usdtHolding FROM `BittrexBalances` WHERE `UserID` = User_ID and `Symbol` = 'USDT';
+SELECT `Total` into ethHolding FROM `BittrexBalances` WHERE `UserID` = User_ID and `Symbol` = 'ETH';
+SELECT `SavingUSDT` into usdtSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+SELECT `SavingBTC` into btcSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+SELECT `SavingETH` into ethSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
 
 UPDATE `UserConfig` SET `LowMarketModeDate` = date_add(now(),INTERVAL nMins MINUTE), `LowMarketModeEnabled` = nMode
 where `UserID` = User_ID;
+
+
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 1) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'USDT',1);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 2) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'USDT',2);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 3) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'USDT',3);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 4) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'USDT',4);
+end if;
+
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 1) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'BTC',1);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 2) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'BTC',2);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 3) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'BTC',3);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 4) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'BTC',4);
+end if;
+
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 1) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'ETH',1);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 2) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'ETH',2);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 3) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'ETH',3);
+end if;
+if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 4) THEN
+  INSERT INTO `UserCoinAllocationAmounts`( `UserID`, `BaseCurrency`, `CoinAllocationID`) VALUES (User_ID,'ETH',4);
+end if;
+
+if (currentMode = -1 AND nMode = 1) THEN
+  SET finalUSDTAmount = (usdtHolding - usdtSaving)/4;
+  SET finalBTCAmount = (btcHolding - btcSaving)/4;
+  SET finalETHAmount = (ethHolding - ethSaving)/4;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 4;
+
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 4;
+
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 4;
+
+elseif (currentMode >= 1 AND nMode = -1) THEN
+  SET finalUSDTAmount = 0;
+  SET finalBTCAmount = 0;
+  SET finalETHAmount = 0;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 4;
+
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC' and `CoinAllocationID` = 4;
+
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 1;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 2;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 3;
+  UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH',`CoinAllocationID`= 1 WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH' and `CoinAllocationID` = 4;
+
+end if;
 
 END$$
 DELIMITER ;

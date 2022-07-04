@@ -646,7 +646,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $trackingID = $newTrackingCoins[$a][43]; $quickBuyCount = $newTrackingCoins[$a][44]; $minsDisabled = $newTrackingCoins[$a][45]; $overrideCoinAlloc  = $newTrackingCoins[$a][46];
     $market1HrChangePct = $marketStats[0][1]; $oneTimeBuy = $newTrackingCoins[$a][47]; $buyAmountCalculationEnabled = $newTrackingCoins[$a][48]; $allTimeHighPrice = $newTrackingCoins[$a][49];
     $transactionID = $newTrackingCoins[$a][50]; $oldBuyBackTransID = $newTrackingCoins[$a][52]; $toMerge = $newTrackingCoins[$a][53]; $baseBuyPrice = $newTrackingCoins[$a][54];
-    $reduceLossCounter = $newTrackingCoins[$a][55];
+    $reduceLossCounter = $newTrackingCoins[$a][55]; $lowBuyMode = $newTrackingCoins[$a][56];
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100;
@@ -704,9 +704,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
-    if ($overrideCoinAlloc == 1){ $lowBuyMode = 1;}else{$lowBuyMode=0; }
+    //if ($overrideCoinAlloc == 1){ $lowBuyMode = 1;}else{$lowBuyMode=0; }
     Echo "<BR> LOWBuyMode: $lowBuyMode CoinOverrride: $overrideCoinAlloc";
-    $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode);
+    $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideCoinAlloc);
     //$coinAllocation = getCoinAllocation($userID);
     Echo "<BR> Tracking CoinAllocation: ".$coinAllocation." | $BTCAmount | $ruleIDBuy | $baseCurrency";
     if ($coinAllocation <= 20 and $overrideCoinAlloc == 0){

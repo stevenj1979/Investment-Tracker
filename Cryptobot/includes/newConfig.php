@@ -2230,32 +2230,32 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
   return $retSell;
 }
 
-function getNewCoinAllocation($baseCurrency,$userID,$overrideFlag){
+function getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideFlag){
   if ($baseCurrency == 'USDT'){
     //call USDT SQL
     //echo "<BR> BaseCurrency1: $baseCurrency";
     //if ($overrideFlag == 1){ $newFlag = 1;} else{$newFlag = 0;}
     echo "<BR> getNewUSDTAlloc($userID,$overrideFlag);";
-    $newCoinAlloc = getNewUSDTAlloc($userID,$overrideFlag);
+    $newCoinAlloc = getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag);
   }elseif ($baseCurrency == 'BTC'){
     //echo "<BR> BaseCurrency2: $baseCurrency";
-    $newCoinAlloc = getNewBTCAlloc($userID,$overrideFlag);
+    $newCoinAlloc = getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag);
   }elseif ($baseCurrency == 'ETH'){
     //echo "<BR> BaseCurrency3: $baseCurrency";
-    $newCoinAlloc = getNewETHAlloc($userID,$overrideFlag);
+    $newCoinAlloc = getNewETHAlloc($userID,$lowBuyMode,$overrideFlag);
   }
   //echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
   echo "<BR> Return(".$newCoinAlloc[0][0]."-) $baseCurrency;";
   return $newCoinAlloc[0][0];
 }
 
-function getNewUSDTAlloc($userID,$overrideFlag){
+function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getCoinAllocation('USDT',$userID,$overrideFlag) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'USDT',$overrideFlag) as AllocTotal";
 
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -2265,14 +2265,14 @@ function getNewUSDTAlloc($userID,$overrideFlag){
   return $tempAry;
 }
 
-function getNewBTCAlloc($userID,$overrideFlag){
+function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getCoinAllocation('BTC',$userID,$overrideFlag) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'BTC',$overrideFlag)*getBTCPrice(84) as AllocTotal";
 
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -2282,14 +2282,14 @@ function getNewBTCAlloc($userID,$overrideFlag){
   return $tempAry;
 }
 
-function getNewETHAlloc($userID,$overrideFlag){
+function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getCoinAllocation('ETH',$userID,$overrideFlag) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'ETH',$overrideFlag)*getBTCPrice(85) as AllocTotal";
 
   //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -3994,7 +3994,7 @@ function getNewTrackingCoins($userID = 0){
       ,`CoinSellOffsetEnabled`,`BuyType`,`MinsToCancelBuy`,`SellRuleFixed`,`APIKey`,`APISecret`,`KEK`,`Email`,`UserName`,`IDTc`,TIMESTAMPDIFF(MINUTE,`TrackDate`,  NOW()) as MinsFromDate, `NoOfPurchases`,`NoOfRisesInPrice`
       ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
       ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`TrackingType`, `LastPrice`,`SBRuleID`,`SBTransID`,`IDTc` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
-      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`
+      ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`,`LowMarketModeEnabled`
       from `View2_TrackingBuyCoins` $whereClause";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4005,7 +4005,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['KEK'],$row['Email'],$row['UserName'],$row['IDTc'],$row['MinsFromDate'],$row['NoOfPurchases'],$row['NoOfRisesInPrice'],$row['TotalRisesInPrice'],$row['DisableUntil'],$row['NoOfCoinPurchase'],$row['OriginalPrice'] //30
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['TrackingType'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
-    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['OldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice'],$row['ReduceLossCounter']); //55
+    ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['OldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice'],$row['ReduceLossCounter'],$row['LowMarketModeEnabled']); //56
   }
   $conn->close();
   return $tempAry;

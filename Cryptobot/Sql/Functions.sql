@@ -112,3 +112,47 @@ END if;
 return finalAlloc;
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `GetSaving`(`Base_curr` VARCHAR(50), `User_ID` INT) RETURNS decimal(20,14)
+    READS SQL DATA
+BEGIN
+Declare ret_Decimal Dec(20,14);
+Declare ret_USDT Dec(20,14);
+Declare ret_BTC Dec(20,14);
+Declare ret_ETH Dec(20,14);
+
+if Base_curr = 'USDT' THEN
+ SELECT `SavingUSDT` into ret_USDT FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+ SET  ret_Decimal = ret_USDT;
+ELSEIF Base_curr = 'BTC' THEN
+ SELECT `SavingBTC` into ret_BTC FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+  SET  ret_Decimal = ret_BTC;
+ELSEIF Base_curr = 'ETH' THEN
+ SELECT `SavingETH` into ret_ETH FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+  SET  ret_Decimal = ret_ETH;
+end if;
+Return ret_Decimal;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getNewCoinAllocation`(`User_ID` INT, `nMode` INT, `BaseCurr` VARCHAR(50), `nOverride` INT) RETURNS decimal(20,14)
+    NO SQL
+BEGIN
+Declare finalAmount DEC(20,14);
+
+
+if (nOverride = 1) THEN
+SELECT sum(`Amount`) as `Amount` into finalAmount FROM `UserCoinAllocationAmounts` WHERE `CoinAllocationID` <= 4 and `BaseCurrency` = BaseCurr and `UserID` = User_ID;
+
+ELSE
+SELECT sum(`Amount`) as `Amount` into finalAmount FROM `UserCoinAllocationAmounts` WHERE `CoinAllocationID` <= nMode and `BaseCurrency` = BaseCurr and `UserID` = User_ID;
+
+end if;
+
+return finalAmount;
+END$$
+DELIMITER ;
