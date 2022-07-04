@@ -375,7 +375,7 @@ function updateEditedUser(){
   $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
     $coinHoursFlat = $_POST['CoinHoursFlat'];
     $ruleName = $_POST['RuleName'];
-    $reEnableBuyRuleAfterDip = $_POST['ReEnableBuyRuleAfterDip'];
+    $reEnableBuyRuleAfterDip = postDataYesNo($_POST['ReEnableBuyRuleAfterDip']);
     $priceDip24Hr  = $_POST['PriceDip24Hr'];
     $priceDip7D = $_POST['PriceDip7D'];
     $priceDipPctTolerance  = $_POST['PriceDipPctTolerance'];
