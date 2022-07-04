@@ -380,6 +380,7 @@ function updateEditedUser(){
     $priceDip7D = $_POST['PriceDip7D'];
     $priceDipPctTolerance  = $_POST['PriceDipPctTolerance'];
     $priceDipHoursFlat = $_POST['PriceDipHoursFlat'];
+    //$ruleID =  $_POST['RuleID'];
   //$nActive = $_POST['nActive'];
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -404,7 +405,8 @@ function updateEditedUser(){
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip
   WHERE `ID` = $id";
-  print_r($sql);
+  //print_r($sql);
+  $conn = getSQLConn(rand(1,3));
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -426,7 +428,8 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  header('Location: BuySettings.php');
+  //http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/AddNewSetting.php?edit=164
+  //header('Location: AddNewSetting.php?edit='.$id);
 }
 
 
@@ -677,6 +680,7 @@ function displayEdit($id){
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
+  addNewText('Rule ID: ', 'RuleID', $id, 1, 'Eg 50', False,1);
   addNewText('Rule Name: ', 'RuleName', $formSettings[0][71], 2, 'Eg 50', False,1);
   echo "</div>";
   echo "<div class='settingsform'>";
