@@ -607,38 +607,7 @@ function runHoursforCoinPriceDip(){
   }
 }
 
-function runHoursforPriceDip(){
-  $priceDipRules = getPriceDipRules();
-  $priceDipRulesSize = count($priceDipRules);
-  echo "<BR>***** runHoursforPriceDip ***** priceDipRulesSize: $priceDipRulesSize";
-  $liveMarketPriceAry = getLiveMarketPrice(1);
-  $dipHourCounter = 0;
-  for ($y=0; $y<$priceDipRulesSize; $y++){
-      $dipStartTime = $priceDipRules[$y][9]; $priceDipTolerance = $priceDipRules[$y][11];
-      $marketPrices = getMarketPrices($dipStartTime);
-      $marketPricesSize = count($marketPrices);
-      $ruleID = $priceDipRules[$y][0];
-      echo "<BR> marketPricesSize: $marketPricesSize | Checking Rule: $ruleID";
-      for ($t=0; $t<$marketPricesSize; $t++){
-          $liveMarketPrice = $liveMarketPriceAry[0][17];
-          $priceWithToleranceBtm = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
-          $priceWithToleranceTop = $liveMarketPrice+(($liveMarketPrice/100)*$priceDipTolerance);
-          if ($marketPrices[$t][0] >= $priceWithToleranceBtm AND $marketPrices[$t][0] <= $priceWithToleranceTop){
-            $dipHourCounter = $dipHourCounter + 1;
-            echo "<BR> Live Price is: $liveMarketPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: ".$marketPrices[$t][0]." | Counter: $dipHourCounter";
-          }else {
-            echo "<BR> $priceWithToleranceBtm is less than $liveMarketPrice |$priceWithToleranceTop is Greater than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
-            writePriceDipHours($ruleID,$dipHourCounter);
-            $dipHourCounter = 0;
-            continue 2;
-            //$dipHourCounter = 0;
-          }
-      }
-      echo "<BR> Cycle Finished: $dipHourCounter";
-      writePriceDipHours($ruleID,$dipHourCounter);
-      $dipHourCounter = 0;
-  }
-}
+
 
 function  getCoinSwapIDs(){
   $tempAry = [];
@@ -841,7 +810,7 @@ setPriceDipEnabled();
 runMarketPrice();
 runHoursforPriceDip(); //Market
 runCoinPriceDipPrices();
-runHoursforCoinPriceDip();
+
 runUpdateAvgPrices();
 runMultiSellRulesConfig();
 copyCoinTableToHistory();

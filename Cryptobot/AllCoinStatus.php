@@ -395,6 +395,40 @@ function getMarketChange(){
   return $tempAry;
 }
 
+function runHoursforPriceDip(){
+  $priceDipRules = getPriceDipRules();
+  $priceDipRulesSize = count($priceDipRules);
+  $inc = 5;
+  echo "<BR>***** runHoursforPriceDip ***** priceDipRulesSize: $priceDipRulesSize";
+  $liveMarketPriceAry = getLiveMarketPrice(1);
+  $dipHourCounter = 0;
+  for ($y=0; $y<$priceDipRulesSize; $y++){
+      $dipStartTime = $priceDipRules[$y][9]; $priceDipTolerance = $priceDipRules[$y][11];
+      $marketPrices = getMarketPrices($dipStartTime);
+      $marketPricesSize = count($marketPrices);
+      $ruleID = $priceDipRules[$y][0];
+      echo "<BR> marketPricesSize: $marketPricesSize | Checking Rule: $ruleID";
+      for ($t=0; $t<$marketPricesSize; $t++){
+          $liveMarketPrice = $liveMarketPriceAry[0][17];
+          $priceWithToleranceBtm = $liveMarketPrice-(($liveMarketPrice/100)*$priceDipTolerance);
+          $priceWithToleranceTop = $liveMarketPrice+(($liveMarketPrice/100)*$priceDipTolerance);
+          if ($marketPrices[$t][0] >= $priceWithToleranceBtm AND $marketPrices[$t][0] <= $priceWithToleranceTop){
+            $dipHourCounter = $dipHourCounter + $inc;
+            echo "<BR> Live Price is: $liveMarketPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: ".$marketPrices[$t][0]." | Counter: $dipHourCounter";
+          }else {
+            echo "<BR> $priceWithToleranceBtm is less than $liveMarketPrice |$priceWithToleranceTop is Greater than $liveMarketPrice | EXIT | OriginalPrice: ".$marketPrices[$t][0];
+            writePriceDipHours($ruleID,floor($dipHourCounter/60));
+            $dipHourCounter = 0;
+            continue 2;
+            //$dipHourCounter = 0;
+          }
+      }
+      echo "<BR> Cycle Finished: $dipHourCounter";
+      writePriceDipHours($ruleID,floor($dipHourCounter/60));
+      $dipHourCounter = 0;
+  }
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
@@ -457,5 +491,6 @@ echo "EndTime ".date("Y-m-d H:i", time());
 //update1Hr_24Hr_7DPct();
 
 BearBullStats();
+runHoursforCoinPriceDip();
 ?>
 </html>
