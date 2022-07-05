@@ -830,7 +830,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
           }
           clearTrackingCoinQueue($userID,$coinID);
-          $aryCount = count($clearCoinQueue);
+          $aryCount = count($clearCoinQueue);s
           //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
           if (!empty($clearCoinQueue)) {
               array_push($clearCoinQueue,$userID,$coinID);
@@ -845,7 +845,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             bittrexActionBuyBack($coinID,$oldBuyBackTransID);
           }
           if ($type == 'buyToreduceLoss'){
-            bittrexActionReduceLoss($coinID,$oldBuyBackTransID);
+            bittrexActionReduceLoss($coinID,$trackingID);
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
