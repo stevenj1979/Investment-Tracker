@@ -373,6 +373,7 @@ function BearBullStats(){
             if (!isset($min30Pct)){ $min30Pct = 0;}
             if (!isset($min45Pct)){ $min45Pct = 0;}
             if (!isset($min75Pct)){ $min75Pct = 0;}
+            echo "<BR> addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);<br>"
             addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);
           }
       }
