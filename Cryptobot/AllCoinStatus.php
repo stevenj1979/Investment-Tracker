@@ -366,14 +366,27 @@ function BearBullStats(){
             $hr24Pct = (($livePrice - $hr24Price)/$hr24Price)*100;
             $d7Pct = (($livePrice - $d7Price)/$d7Price)*100;
             echo "<BR> Min15Pct:$livePrice - $min15Price / $min15Price ;<br>";
-            $min15Pct = (($livePrice - $min15Price)/$min15Price)*100;
-            $min30Pct = (($livePrice - $min30Price)/$min30Price)*100;
-            $min45Pct = (($livePrice - $min45Price)/$min45Price)*100;
-            $min75Pct = (($livePrice - $min75Price)/$min75Price)*100;
-            if (!isset($min15Pct)){ $min15Pct = 0;}
-            if (!isset($min30Pct)){ $min30Pct = 0;}
-            if (!isset($min45Pct)){ $min45Pct = 0;}
-            if (!isset($min75Pct)){ $min75Pct = 0;}
+            if ($min15Price == 0){
+              $min15Pct = 0;
+            }else{
+              $min15Pct = (($livePrice - $min15Price)/$min15Price)*100;
+            }
+            if ($min30Price == 0){
+              $min30Pct = 0;
+            }else{
+              $min30Pct = (($livePrice - $min30Price)/$min30Price)*100;
+            }
+            if ($min45Price == 0){
+              $min45Pct = 0;
+            }else{
+              $min45Pct = (($livePrice - $min45Price)/$min45Price)*100;
+            }
+            if($min75Price == 0){
+              $min75Pct = 0;
+            }else{
+              $min75Pct = (($livePrice - $min75Price)/$min75Price)*100;
+            }
+
             echo "<BR> addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);<br>";
             addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);
           }
