@@ -247,6 +247,7 @@ ClearCancelledTransactions("DELETE FROM `BittrexAction` WHERE `Status` = 'Cancel
 ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Cancelled' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Merged' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 ClearCancelledTransactions("DELETE FROM `TrackingCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
+ClearCancelledTransactions("DELETE FROM `TrackingSellCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 
 ?>
 </html>

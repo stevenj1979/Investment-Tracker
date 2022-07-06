@@ -369,6 +369,10 @@ function BearBullStats(){
             $min30Pct = (($livePrice - $min30Price)/$min30Price)*100;
             $min45Pct = (($livePrice - $min45Price)/$min45Price)*100;
             $min75Pct = (($livePrice - $min75Price)/$min75Price)*100;
+            if (!isset($min15Pct)){ $min15Pct = 0;}
+            if (!isset($min30Pct)){ $min30Pct = 0;}
+            if (!isset($min45Pct)){ $min45Pct = 0;}
+            if (!isset($min75Pct)){ $min75Pct = 0;}
             addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct);
           }
       }
