@@ -365,6 +365,7 @@ function BearBullStats(){
             $hr1Pct = (($livePrice - $hr1Price)/$hr1Price)*100;
             $hr24Pct = (($livePrice - $hr24Price)/$hr24Price)*100;
             $d7Pct = (($livePrice - $d7Price)/$d7Price)*100;
+            echo "<BR> Min15Pct:$livePrice - $min15Price / $min15Price ;<br>";
             $min15Pct = (($livePrice - $min15Price)/$min15Price)*100;
             $min30Pct = (($livePrice - $min30Price)/$min30Price)*100;
             $min45Pct = (($livePrice - $min45Price)/$min45Price)*100;
