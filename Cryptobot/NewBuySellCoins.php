@@ -830,7 +830,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
           }
           clearTrackingCoinQueue($userID,$coinID);
-          $aryCount = count($clearCoinQueue);s
+          $aryCount = count($clearCoinQueue);
           //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
           if (!empty($clearCoinQueue)) {
               array_push($clearCoinQueue,$userID,$coinID);
