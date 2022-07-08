@@ -2001,7 +2001,7 @@ function buyToreduceLoss($lossCoins){
     $reduceLossMaxCounter = $lossCoins[$y][65];
     $hoursFlat = $lossCoins[$y][66];
     $overrideReduceLoss = $lossCoins[$y][67];
-    echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct";
+    echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat";
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
     }elseif ($reduceLossEnabled == 1){
