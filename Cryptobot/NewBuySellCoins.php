@@ -1520,7 +1520,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($pauseCoinIDAfterPurchaseEnabled == 1 ){
               addCoinPurchaseDelay($coinID,$userID,$daysToPauseCoinIDAfterPurchase,1);
           }
-          if ($reduceLossBuy = 1){
+          if ($reduceLossBuy == 1){
             updateTrackingCoinToMerge($transactionID);
           }
 
