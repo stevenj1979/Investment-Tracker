@@ -1999,7 +1999,7 @@ function buyToreduceLoss($lossCoins){
     $reduceLossMultiplier = $lossCoins[$y][63];
     $reduceLossCounter = $lossCoins[$y][64];
     $reduceLossMaxCounter = $lossCoins[$y][65];
-    $hoursFlat = $lossCoins[$y][66];
+    $hoursFlat = $lossCoins[$y][68];
     $overrideReduceLoss = $lossCoins[$y][67];
 
     if ($overrideReduceLoss == 1){
