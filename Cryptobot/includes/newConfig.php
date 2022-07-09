@@ -4175,7 +4175,9 @@ function updateTrackingCoinToMerge($ID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `ToMerge`= 1  WHERE `ID` = $ID ";
+  $sql = "UPDATE `Transaction` `Tr`
+            Join `BittrexAction` `Ba` on `Tr`.`ID` = `Ba`.`TransactionID`
+            SET `Tr`.`ToMerge`= 1  WHERE `Tr`.`ID` in ($ID,`Ba`.`OldBuyBackTransID`) and `Ba`.`ReduceLossBuy` = 1";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
