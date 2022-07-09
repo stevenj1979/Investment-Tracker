@@ -4176,8 +4176,7 @@ function updateTrackingCoinToMerge($ID){
   }
 
   $sql = "UPDATE `Transaction` `Tr`
-            Join `BittrexAction` `Ba` on `Tr`.`ID` = `Ba`.`TransactionID`
-            SET `Tr`.`ToMerge`= 1  WHERE `Tr`.`ID` in ($ID,`Ba`.`OldBuyBackTransID`) and `Ba`.`ReduceLossBuy` = 1";
+            SET `Tr`.`ToMerge`= 1  WHERE `Tr`.`ID` in ($ID,(SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `TransactionID` = $ID))";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
