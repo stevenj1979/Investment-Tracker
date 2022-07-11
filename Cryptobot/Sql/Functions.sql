@@ -147,17 +147,22 @@ DECLARE totalSaving DEC(20,14);
 DECLARE totalHolding DEC(20,14);
 DECLARE Coin_ID INT;
 DECLARE BTC_Price DEC(20,14);
+DECLARE holdingAmount DEC(20,14);
+
 
 SELECT `Total` into totalHolding FROM `BittrexBalances` WHERE `UserID` = User_ID and `Symbol` = BaseCurr;
 
 if (BaseCurr = 'USDT') THEN
 	SELECT `SavingUSDT` into totalSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+    SELECT `HoldingUSDT` into holdingAmount FROM `UserCoinSavings` WHERE `UserID` = User_ID;
     SET Coin_ID = 83;
 ELSEIF (BaseCurr = 'BTC') THEN
 	SELECT `SavingBTC` into totalSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+        SELECT `HoldingBTC` into holdingAmount FROM `UserCoinSavings` WHERE `UserID` = User_ID;
         SET Coin_ID = 84;
 ELSE
 	SELECT `SavingETH` into totalSaving FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+        SELECT `HoldingETH` into holdingAmount FROM `UserCoinSavings` WHERE `UserID` = User_ID;
         SET Coin_ID = 85;
 end if;
 SELECT getBTCPrice(Coin_ID) into BTC_Price;
@@ -166,6 +171,7 @@ if (nOverride = 1) THEN
 ELSE
     if (nMode > 0) THEN
     SELECT sum(`Amount`) as `Amount` into finalAmount FROM `UserCoinAllocationAmounts` WHERE `CoinAllocationID` <= nMode and `BaseCurrency` = BaseCurr and `UserID` = User_ID;
+    SET finalAmount = finalAmount - holdingAmount - totalSaving;
 	ELSE
     SET finalAmount = 0;
     end if;

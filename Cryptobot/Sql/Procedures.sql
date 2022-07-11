@@ -1797,3 +1797,33 @@ UPDATE `UserCoinAllocationAmounts` SET `Amount` = (mode1+mode2+mode3+mode4)-nAmo
 end if;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateHoldingAmount`(IN `User_ID` INT, IN `base_curr` VARCHAR(50), IN `nAmount` DECIMAL(20,14), IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+Begin
+If (base_curr = 'USDT')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingUSDT` = nAmount WHERE `UserID` = User_ID;
+ELSEIf (base_curr = 'BTC')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingBTC` = nAmount WHERE `UserID` = User_ID;
+ELSEIf (base_curr = 'ETH')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingETH` = nAmount WHERE `UserID` = User_ID;
+End if;
+UPDATE `Transaction` SET `holdingAmount` = nAmount WHERE `ID` = Trans_ID;
+End$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `RemoveHoldingAmount`(IN `User_ID` INT, IN `base_curr` VARCHAR(50), IN `nAmount` DECIMAL(20,14), IN `Trans_ID` INT)
+    MODIFIES SQL DATA
+Begin
+If (base_curr = 'USDT')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingUSDT` = `HoldingUSDT` - nAmount WHERE `UserID` = User_ID;
+ELSEIf (base_curr = 'BTC')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingBTC` = `HoldingBTC` - nAmount WHERE `UserID` = User_ID;
+ELSEIf (base_curr = 'ETH')  THEN
+	UPDATE `UserCoinSavings` SET `HoldingETH` =  `HoldingETH` - nAmount WHERE `UserID` = User_ID;
+End if;
+UPDATE `Transaction` SET `holdingAmount` = `holdingAmount` - nAmount WHERE `ID` = Trans_ID;
+End$$
+DELIMITER ;

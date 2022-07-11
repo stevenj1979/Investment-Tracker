@@ -19,7 +19,8 @@ function getBittrexRequests($userID = 0){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
-  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,`BuyOrderCancelTimeMins`,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`
+  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,`BuyOrderCancelTimeMins`,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
+  ,`CoinForBuyOutPct`,`holdingAmount`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -32,7 +33,8 @@ function getBittrexRequests($userID = 0){
     ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
     ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount'] //41
     ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'],$row['BTCPrice'],$row['ETHPrice'],$row['MultiSellRuleEnabled'] //49
-    ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack'],$row['MultiSellRuleID'],$row['TypeBa'],$row['ReduceLossBuy'],$row['IDBa'],$row['BuyOrderCancelTimeMins'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['LowMarketModeEnabled']); //59
+    ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack'],$row['MultiSellRuleID'],$row['TypeBa'],$row['ReduceLossBuy'],$row['IDBa'],$row['BuyOrderCancelTimeMins'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['LowMarketModeEnabled'] //59
+  ,$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount']); //62
   }
   $conn->close();
   return $tempAry;
@@ -55,6 +57,44 @@ function setSavingToLivewithMerge($userID, $coinID, $transactionID){
     $conn->close();
     newLogToSQL("setSavingToLivewithMerge",$sql,3,1,"SQL","CoinID:$coinID");
     logAction("setSavingToLivewithMerge: ".$sql, 'BuySell', 0);
+}
+
+function saveHoldingAmount($userID, $holdAmount,$baseCurrency,$transactionID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+        $sql = "updateHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("saveHoldingAmount",$sql,3,1,"SQL","UserID:$userID");
+    logAction("saveHoldingAmount: ".$sql, 'BuySell', 0);
+}
+
+function removeHoldingAmount($userID, $holdAmount,$baseCurrency,$transactionID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+        $sql = "RemoveHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("removeHoldingAmount",$sql,3,1,"SQL","UserID:$userID");
+    logAction("removeHoldingAmount: ".$sql, 'BuySell', 0);
 }
 
 function removeFromSpread($transID){
@@ -427,7 +467,7 @@ function getTrackingSellCoinsAll(){
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
-  ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`
+  ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -439,7 +479,7 @@ function getTrackingSellCoinsAll(){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
-    ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs']); //68
+    ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount']); //71
   }
   $conn->close();
   return $tempAry;
@@ -3970,8 +4010,10 @@ function runLowMarketMode($userID,$mode){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-  newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
+  if ($mode > 0){
+    logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
+    newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
+  }
 }
 
 function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge){

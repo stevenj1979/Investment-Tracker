@@ -1450,7 +1450,8 @@ function runBittrex($BittrexReqs,$apiVersion){
     $oldBuyBackTransID = $BittrexReqs[$b][40]; $newResidualAmount = $BittrexReqs[$b][41]; $mergeSavingwithPurchase = $BittrexReqs[$b][42]; $buyBackEnabled = $BittrexReqs[$b][43];
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
-    $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59];
+    $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
+    $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1522,6 +1523,12 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           if ($reduceLossBuy == 1){
             updateTrackingCoinToMerge($transactionID);
+            $holdingAmount = 1;
+          }
+
+          if ($holdCoinForBuyOut == 1 and $holdingAmount == 0){
+            $holdAmount = ($finalPrice*$amount)*$coinForBuyOutPct;
+            saveHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
           }
 
           clearBittrexRef($transactionID);
@@ -1757,6 +1764,10 @@ function runBittrex($BittrexReqs,$apiVersion){
               UpdateProfit();
               addCoinPurchaseDelay($coinID,$userID,1,0);
               deleteMultiSellRuleConfig($transactionID);
+              if ($holdCoinForBuyOut == 1 and $holdingAmount > 0){
+                $holdAmount = ($finalPrice*$amount);
+                saveHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
+              }
               logAction("runBittrex; bittrexSellComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
             $finalBool = True;
@@ -1986,21 +1997,13 @@ function buyToreduceLoss($lossCoins){
   $lossCoinsSize = count($lossCoins);
   //$apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$lossCoinsSize; $y++){
-    $pctProfit = $lossCoins[$y][58];
-    $transactionID = $lossCoins[$y][0];
-    $minsToDelay = $lossCoins[$y][60];
-    $userID = $lossCoins[$y][3];
-    $coinID = $lossCoins[$y][2];
-    $liveCoinPrice = $lossCoins[$y][19];
-    $baseCurrency = $lossCoins[$y][36];
-    $totalAmount = $lossCoins[$y][54];
-    $reduceLossEnabled = $lossCoins[$y][61];
-    $reduceLossSellPct = $lossCoins[$y][62];
-    $reduceLossMultiplier = $lossCoins[$y][63];
-    $reduceLossCounter = $lossCoins[$y][64];
-    $reduceLossMaxCounter = $lossCoins[$y][65];
-    $hoursFlat = $lossCoins[$y][68];
-    $overrideReduceLoss = $lossCoins[$y][67];
+    $pctProfit = $lossCoins[$y][58]; $transactionID = $lossCoins[$y][0]; $minsToDelay = $lossCoins[$y][60]; $userID = $lossCoins[$y][3]; $coinID = $lossCoins[$y][2];
+    $liveCoinPrice = $lossCoins[$y][19]; $baseCurrency = $lossCoins[$y][36]; $totalAmount = $lossCoins[$y][54];
+    $reduceLossEnabled = $lossCoins[$y][61]; $reduceLossSellPct = $lossCoins[$y][62]; $reduceLossMultiplier = $lossCoins[$y][63]; $reduceLossCounter = $lossCoins[$y][64]; $reduceLossMaxCounter = $lossCoins[$y][65];
+    $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67];
+    $holdCoinForBuyOut = $lossCoins[$y][69];
+    $coinForBuyOutPct = $lossCoins[$y][70];
+    $holdingAmount = $lossCoins[$y][71];
 
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
