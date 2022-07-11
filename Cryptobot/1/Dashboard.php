@@ -194,13 +194,16 @@ function getTotalHoldings($userID){
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'BTC',0))+0 As BTCAllocation
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'USDT',0))+0 As USDTAllocation
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'ETH',0))+0 As ETHAllocation
-            ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode";
+            ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode
+            ,(SELECT `HoldingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingUSDT
+            ,(SELECT `HoldingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingBTC
+            ,(SELECT `HoldingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingETH";
   //echo $sql;
   $result = $conn->query($sql);
 
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ActionDate'],$row['TotalBTC'],$row['TotalETH'],$row['TotalUSDT'],$row['SavingBTC'],$row['SavingUSDT'],$row['SavingETH'],$row['BTCAllocation'],$row['USDTAllocation'] //8
-      ,$row['ETHAllocation'],$row['LowMarketMode']); //10
+      ,$row['ETHAllocation'],$row['LowMarketMode'],$row['TotalHoldingUSDT'],$row['TotalHoldingBTC'],$row['TotalHoldingETH']); //13
   }
   $conn->close();
   return $tempAry;
@@ -281,6 +284,9 @@ displayHeader(0);
                 //echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 $btcAlloc = $uProfit[0][7];$usdtAlloc = $uProfit[0][8];$ethAlloc = $uProfit[0][9]; $lowMarketMode = $uProfit[0][10];
                 echo "<tr><td>Coin Allocation</td><td>$btcAlloc</td><td>$ethAlloc</td><td>$usdtAlloc</td><td>$lowMarketMode</td></tr>";
+                $holdingBTC = $uProfit[0][12]; $holdingUSDT = $uProfit[0][11]; $holdingETH = $uProfit[0][13];
+                $holdingTotal = $holdingBTC + $holdingUSDT + $holdingETH;
+                echo "<tr><td>Coin Holding</td><td>$holdingBTC</td><td>$holdingETH</td><td>$holdingUSDT</td><td>$holdingTotal</td></tr>";
                 echo "</tr>";
 
               echo "</table>";
