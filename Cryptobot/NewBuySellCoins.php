@@ -1527,7 +1527,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
 
           if ($holdCoinForBuyOut == 1 and $holdingAmount == 0){
-            $holdAmount = ($finalPrice*$amount)*$coinForBuyOutPct;
+            $holdAmount = ($finalPrice*$amount)*($coinForBuyOutPct/100);
             saveHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
           }
 
