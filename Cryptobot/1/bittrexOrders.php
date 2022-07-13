@@ -249,12 +249,9 @@ function displayOption($name){
           //echo "<td>$sellCoin</td>";
           //echo "<td>$ruleID</td>";
           NewEcho("<td>&nbsp$userName</td>",$_SESSION['isMobile'],0);
+          $roundNum = 8;
           if ($_SESSION['isMobile']){
               $roundNum = 4;
-          }else{
-            $roundNum = 8;
-            //echo "<td>&nbsp$orderNo</td>";
-
           }
           NewEcho("<td>&nbsp$orderNo</td>",$_SESSION['isMobile'],0);
           echo "<td>&nbsp".round($amount,$roundNum)."</td>";
@@ -263,17 +260,17 @@ function displayOption($name){
           echo "<td>&nbsp".round($sellPrice,$roundNum)."</td>";
           //$liveCoinPrice = number_format((float)bittrexCoinPriceLoc($apiKey,$apiSecret,$baseCurrency,$coin), 10, '.', '');
           if ($type == 'Buy'){
-            $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
+            $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, $roundNum, '.', '');
             $livePricePct = 0;
           }else{
-            $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, 3, '.', '');
-            $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, 3, '.', '');
+            $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, $roundNum, '.', '');
+            $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100,$roundNum, '.', '');
           }
           //240 - 52
 
           echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
-          echo "<td>&nbsp".round($pctDifference,2)."</td>";
-          echo "<td>&nbsp".round($livePricePct,2)."</td>";
+          echo "<td>&nbsp".round($pctDifference,$roundNum)."</td>";
+          echo "<td>&nbsp".round($livePricePct,$roundNum)."</td>";
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td>&nbsp$minsRemaining</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";

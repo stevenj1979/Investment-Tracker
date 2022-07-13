@@ -19,7 +19,7 @@ function getBittrexRequests($userID = 0){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
-  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,`BuyOrderCancelTimeMins`,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
+  ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
@@ -28,13 +28,14 @@ function getBittrexRequests($userID = 0){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['Status'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'],$row['Amount'] //10
-    ,$row['CoinPrice'],$row['UserIDBa'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['BuyRule'],$row['DaysOutstanding'],$row['timeSinceAction'],$row['CoinID4'],$row['RuleIDSell'],$row['LiveCoinPrice'] //22
-    ,$row['TimetoCancelBuy'],$row['BuyOrderCancelTime'],$row['KEK'],$row['Live7DChange'],$row['CoinModeRule'],$row['OrderDate'],$row['PctToSave'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['RedirectPurchasesToSpread'] //32
-    ,$row['SpreadBetRuleIDRedirect'],$row['MinsToPauseAfterPurchase'],$row['OriginalAmount'],$row['SaveResidualCoins'],$row['MinsSinceAction'],$row['TimetoCancelBuyMins'],$row['BuyBack'],$row['oldBuyBackTransID'],$row['ResidualAmount'] //41
-    ,$row['MergeSavingWithPurchase'],$row['BuyBackEnabled'],$row['SaveMode'] ,$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'],$row['BTCPrice'],$row['ETHPrice'],$row['MultiSellRuleEnabled'] //49
-    ,$row['MultiSellRuleTemplateID'],$row['StopBuyBack'],$row['MultiSellRuleID'],$row['TypeBa'],$row['ReduceLossBuy'],$row['IDBa'],$row['BuyOrderCancelTimeMins'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['LowMarketModeEnabled'] //59
-  ,$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount']); //62
+    $tempAry[] = Array($row['Type'],	$row['BittrexRef'],	$row['ActionDate'],	$row['CompletionDate'],	$row['Status'],	$row['SellPrice'],	$row['UserName'],	$row['APIKey'],	$row['APISecret'],	$row['Symbol']//9
+        ,	$row['Amount'],	$row['CoinPrice'],	$row['UserIDBa'],	$row['Email'],	$row['OrderNo'],	$row['TransactionID'],	$row['BaseCurrency'],	$row['BuyRule'],	$row['DaysOutstanding'],	$row['timeSinceAction'] //19
+        ,	$row['CoinID4'],	$row['RuleIDSell'],	$row['LiveCoinPrice'],	$row['TimetoCancelBuy'],	$row['BuyOrderCancelTime'],	$row['KEK'],	$row['Live7DChange'],	$row['CoinModeRule'],	$row['OrderDate'],	$row['PctToSave']//29
+        ,	$row['SpreadBetRuleID'],	$row['SpreadBetTransactionID'],	$row['RedirectPurchasesToSpread'], $row['SpreadBetRuleIDRedirect'],	$row['MinsToPauseAfterPurchase'],	$row['OriginalAmount']//35
+        ,	$row['SaveResidualCoins'],	$row['MinsSinceAction'],	$row['TimetoCancelBuyMins'],	$row['BuyBack'],	$row['oldBuyBackTransID'],	$row['ResidualAmount'],	$row['MergeSavingWithPurchase'],	$row['BuyBackEnabled'],	$row['SaveMode']//44
+        ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
+        ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
+        ,	$row['holdingAmount']); //62
   }
   $conn->close();
   return $tempAry;
@@ -65,7 +66,7 @@ function saveHoldingAmount($userID, $holdAmount,$baseCurrency,$transactionID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-        $sql = "updateHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
+        $sql = "call updateHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
 
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
@@ -84,7 +85,7 @@ function removeHoldingAmount($userID, $holdAmount,$baseCurrency,$transactionID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-        $sql = "RemoveHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
+        $sql = "call RemoveHoldingAmount($userID,'$baseCurrency',$holdAmount,$transactionID);";
 
     print_r($sql);
     if ($conn->query($sql) === TRUE) {

@@ -1481,10 +1481,10 @@ function runBittrex($BittrexReqs,$apiVersion){
     $newCost = ($amount*$cost)/$liveCoinPriceBit;
     //$newResidualAmount =  $cost - $newCost;
     //if ($orderQtyRemaining=0){$orderIsOpen = false;}
-    echo "<BR> ------COIN to Sell: ".$coin."-------- USER: ".$userName;
+    echo "<BR> ------COIN to $type: ".$coin."-------- USER: ".$userName;
     //echo "<BR> Buy Cancel Time: $buyCancelTime";
-    echo "TIME SINCE ACTION: $minsRemaining ";
-    //Print_r("What is Happening? // BITREXTID = ".$uuid."<br>");
+    echo "TIME SINCE ACTION $type: $minsRemaining ".$BittrexReqs[$b][57]." | ".$BittrexReqs[$b][58]." | ".$BittrexReqs[$b][59];
+    //Print_r("What is Happening? // BITREXTI.D = ".$uuid."<br>");
     //echo "<BR> Result IS OPEN? : ".$orderIsOpen." // CANCEL initiated: ".$cancelInit;
     updateBittrexQuantityFilled($qtySold,$uuid);
     if ($qtySold <> 0){ newLogToSQL("Bittrex", "Quantity Updated to : $qtySold for OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"UpdateQtyFilled","TransactionID:$transactionID");}
@@ -1617,9 +1617,11 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
+          $finalBool = True;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
+        echo "<BR> Cancel Check: $minsRemaining | $finalBool";
         if ( $minsRemaining <= 0 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
           newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed | $minsRemaining | $BittrexID", $userID, 1,"FullOrder","TransactionID:$transactionID");
@@ -1868,7 +1870,7 @@ function runBittrex($BittrexReqs,$apiVersion){
   //    newLogToSQL("Bittrex", "Check OrderNo: $orderNo Success:".$status, $userID, $GLOBALS['logToSQLSetting'],"Error","TransactionID:$transactionID");
   //  }//end bittrex order check
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
-    echo "<br>Time Since Action ".substr($timeSinceAction,0,4);
+    echo "<br>Time Since Action $minsRemaining ".$BittrexReqs[$b][57]." | ".$BittrexReqs[$b][58]." | ".$BittrexReqs[$b][59];
 
     echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining";
   }//Bittrex Loop
