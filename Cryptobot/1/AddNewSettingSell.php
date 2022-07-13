@@ -280,6 +280,7 @@ function updateEditedUser(){
   $hoursFlat = $_POST['HoursFlat'];
   $reEnableBuyRuleEnable = postDataYesNo($_POST['ReEnableBuyRuleEnable']);
   $ruleName  = $_POST['RuleName'];
+  $sellFallsInPrice = $_POST['SellFallsInPrice'];
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -294,7 +295,7 @@ function updateEditedUser(){
   `SellOrdersEnabled`=$BuyOrdersEnabled,`SellOrdersTop`=$BuyOrdersTop,`SellOrdersBtm`=$BuyOrdersBtm,`VolumeEnabled`=$VolumeEnable,`VolumeTop`=$VolumeTop,`VolumeBtm`=$VolumeBtm ,`sellPriceMinEnabled`=$sellPriceMinEnabled,`sellPriceMin`=$sellPriceMin
   ,`AutoSellCoinEnabled` = $autoSellCoinEnabled, `LimitToCoinID` = (SELECT `ID` FROM `Coin` WHERE `Symbol` = '$limitToCoin' and `BuyCoin` = 1), `LimitToCoin` = '$limitToCoin', `SellPatternEnabled` = $sellPatternEnabled, `SellPattern` = '$sellPattern',
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled,`PctFromHighSellPriceEnabled` = $pctFromHighSellPriceEnable,`NoOfHoursFlatEnabled` = $hoursFlatEnable,`NoOfHoursFlat` = $hoursFlat
-  ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName'
+  ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName', `SellFallsInPrice` = $sellFallsInPrice
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -306,7 +307,8 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  header('Location: SellSettings.php');
+  header('Location: AddNewSettingSell.php?edit='.$id);
+  //http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/AddNewSettingSell.php?edit=24
 }
 
 function getRules($id){
@@ -322,7 +324,7 @@ function getRules($id){
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
-,`ReEnableBuyRuleEnabled`,`RuleName`
+,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -335,7 +337,8 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       $row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'],//27
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
-    ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']);//49
+      ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']//49
+      ,$row['SellFallsInPrice']);//50
   }
   $conn->close();
   return $tempAry;
@@ -667,6 +670,8 @@ function displayEdit($id){
     if ($savedSym == 'ALL'){ echo "<option value='ALL' selected>ALL</option>";}else{echo "<option value='ALL'>ALL</option>";}
     echo "</select>";Echo ":Limit To Coin";
   addNewTwoOption('ReEnable Buy Rule Enable: ','ReEnableBuyRuleEnable',$formSettings[0][48]);
+  addNewText('SellFallsInPrice: ','SellFallsInPrice',$formSettings[0][50],37, 'Eg 50', False,1);
+
   //addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
 

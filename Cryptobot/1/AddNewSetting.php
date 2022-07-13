@@ -380,6 +380,9 @@ function updateEditedUser(){
     $priceDip7D = $_POST['PriceDip7D'];
     $priceDipPctTolerance  = $_POST['PriceDipPctTolerance'];
     $priceDipHoursFlat = $_POST['PriceDipHoursFlat'];
+  $overrideCancelBuyTimeEnabled = 1;
+  $buyRisesInPrice   = $_POST['BuyRisesInPrice'];
+  $overrideCancelBuyTimeMins   = $_POST['TimeToCancelMins'];
     //$ruleID =  $_POST['RuleID'];
   //$nActive = $_POST['nActive'];
   // Create connection
@@ -403,9 +406,10 @@ function updateEditedUser(){
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
-  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip
+  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled, `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins
+  , `BuyRisesInPrice` = $buyRisesInPrice
   WHERE `ID` = $id";
-  //print_r($sql);
+  print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -420,7 +424,7 @@ function updateEditedUser(){
   }
   $sql = "UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipDisable24Hour`=($priceDip24Hr+10),`PriceDipEnable7Day`=$priceDip7D,`PriceDipDisable7Day`=($priceDip7D+10),`PctTolerance`=$priceDipPctTolerance,`HoursFlat`=$priceDipHoursFlat
           WHERE `UserID`=$userID";
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -448,7 +452,8 @@ function getRules($id){
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
-,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`,`PctTolerance`,`HoursFlat`
+,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
+,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -465,7 +470,7 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
    ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
  ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
- ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat']); //76
+ ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins']); //80
   }
   $conn->close();
   return $tempAry;
@@ -835,6 +840,18 @@ function displayEdit($id){
   displayTrendSymbols($comboList,'selectCmbo1Hr4', $formSettings[0][55]);
   displayListBoxNormal($Hr1ChangeList,2,'listbox1Hr',$formSettings[0][55]);
   echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'></div></div>";
+
+  echo "<div class='settingsform'>";
+
+  echo "<H3>Price Dip Settings</H3>";
+
+  addNewTwoOption('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
+  addNewText('PriceDip 24Hr: ', 'PriceDip24Hr', $formSettings[0][73], 51, 'Eg ALL', False,1);
+  addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
+  addNewText('PriceDip Pct Tolerance: ', 'PriceDipPctTolerance', $formSettings[0][75], 51, 'Eg ALL', False,1);
+  addNewText('PriceDip Hours Flat: ', 'PriceDipHoursFlat', $formSettings[0][76], 51, 'Eg ALL', False,1);
+
+  echo "</div>";
   echo "<div class='settingsform'>";
 
   echo "<H3>Admin</H3>";
@@ -864,11 +881,19 @@ function displayEdit($id){
     addNewTwoOption('Override Daily Limit Enabled:','OverrideDailyLimitEnabled',$formSettings[0][57]);
     addNewTwoOption('Override Coin Allocation Enabled:','OverrideCoinAllocationEnabled',$formSettings[0][64]);
     addNewTwoOption('One-Time Buy Rule Enabled:','OneTimeBuyRuleEnabled',$formSettings[0][65]);
-    addNewTwoOption('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
-    addNewText('PriceDip 24Hr: ', 'PriceDip24Hr', $formSettings[0][73], 51, 'Eg ALL', False,1);
-    addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
-    addNewText('PriceDip Pct Tolerance: ', 'PriceDipPctTolerance', $formSettings[0][75], 51, 'Eg ALL', False,1);
-    addNewText('PriceDip Hours Flat: ', 'PriceDipHoursFlat', $formSettings[0][76], 51, 'Eg ALL', False,1);
+    //addNewTwoOption('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
+    //addNewText('PriceDip 24Hr: ', 'PriceDip24Hr', $formSettings[0][73], 51, 'Eg ALL', False,1);
+    //addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
+    //addNewText('PriceDip Pct Tolerance: ', 'PriceDipPctTolerance', $formSettings[0][75], 51, 'Eg ALL', False,1);
+    //addNewText('PriceDip Hours Flat: ', 'PriceDipHoursFlat', $formSettings[0][76], 51, 'Eg ALL', False,1);
+    addNewText('BuyRisesInPrice: ', 'BuyRisesInPrice', $formSettings[0][77], 51, 'Eg ALL', False,1);
+    addNewTwoOption('OverrideCancelBuyTimeEnabled:','OverrideCancelBuyTimeEnabled',$formSettings[0][78]);
+    $finalTime = $formSettings[0][79];
+    if ($formSettings[0][78] == 0){
+      $finalTime = $formSettings[0][80];
+    }
+    addNewText('Time To Cancel Mins: ', 'TimeToCancelMins', $finalTime, 51, 'Eg ALL', False,1);
+
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>

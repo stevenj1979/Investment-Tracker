@@ -188,16 +188,16 @@ function getTotalHoldings($userID){
             ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'BTC' and `UserID` = $userID) as TotalBTC
             ,(SELECT `Total`*`Price` FROM `BittrexBalances` WHERE `Symbol` = 'ETH' and `UserID` = $userID) as TotalETH
             ,(SELECT `Total` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
-            ,(SELECT `SavingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(84) as SavingBTC
+            ,(SELECT `SavingBTC`* getBTCPrice(84) FROM `UserCoinSavings`   WHERE `UserID` = $userID) as SavingBTC
             ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
-            ,(SELECT `SavingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID) * getBTCPrice(85) as SavingETH
+            ,(SELECT `SavingETH`* getBTCPrice(85)  FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingETH
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'BTC',0))+0 As BTCAllocation
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'USDT',0))+0 As USDTAllocation
             ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'ETH',0))+0 As ETHAllocation
             ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode
-            ,(SELECT `HoldingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingUSDT
-            ,(SELECT `HoldingBTC` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingBTC
-            ,(SELECT `HoldingETH` FROM `UserCoinSavings` WHERE `UserID` = $userID)+0 as TotalHoldingETH";
+            ,(SELECT `HoldingUSDT` FROM `UserCoinSavings`  WHERE `UserID` = $userID)+0 as TotalHoldingUSDT
+            ,(SELECT Trim(`HoldingBTC`* getBTCPrice(84))+0   FROM `UserCoinSavings` WHERE `UserID` = $userID)as TotalHoldingBTC
+            ,(SELECT Trim(`HoldingETH` * getBTCPrice(85))+0  FROM `UserCoinSavings` WHERE `UserID` = $userID) as TotalHoldingETH";
   //echo $sql;
   $result = $conn->query($sql);
 
