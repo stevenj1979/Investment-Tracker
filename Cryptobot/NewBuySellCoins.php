@@ -1523,6 +1523,10 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           if ($reduceLossBuy == 1){
             updateTrackingCoinToMerge($transactionID);
+            if ($holdCoinForBuyOut == 1 and $holdingAmount > 0){
+              $holdAmount = ($finalPrice*$amount);
+              removeHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
+            }
             $holdingAmount = 1;
           }
 
