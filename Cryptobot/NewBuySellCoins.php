@@ -1451,7 +1451,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
-    $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62];
+    $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1767,8 +1767,8 @@ function runBittrex($BittrexReqs,$apiVersion){
               addCoinPurchaseDelay($coinID,$userID,1,0);
               deleteMultiSellRuleConfig($transactionID);
               if ($holdCoinForBuyOut == 1 and $holdingAmount > 0){
-                $holdAmount = ($finalPrice*$amount);
-                saveHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
+                $holdAmount = ($finalPrice*$amount)*(($coinForBuyOutPct/100)-($noOfPurchases-1));
+                removeHoldingAmount($userID,$holdAmount,$baseCurrency,$transactionID);
               }
               logAction("runBittrex; bittrexSellComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
