@@ -139,7 +139,7 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getNewCoinAllocation`(`User_ID` INT, `nMode` INT, `BaseCurr` VARCHAR(50), `nOverride` INT) RETURNS decimal(20,14)
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getNewCoinAllocation`(`User_ID` INT, `nMode` INT, `BaseCurr` VARCHAR(50), `nOverride` INT, `saving_Override` INT) RETURNS decimal(20,14)
     NO SQL
 BEGIN
 Declare finalAmount DEC(20,14);
@@ -167,13 +167,21 @@ ELSE
 end if;
 SELECT getBTCPrice(Coin_ID) into BTC_Price;
 if (nOverride = 1) THEN
-	SELECT (totalHolding-totalSaving) into finalAmount;
+	if (saving_Override = 1) THEN
+		SELECT (totalHolding) into finalAmount;
+    else
+	    SELECT (totalHolding-totalSaving) into finalAmount;
+    end if;
 ELSE
     if (nMode > 0) THEN
     SELECT sum(`Amount`) as `Amount` into finalAmount FROM `UserCoinAllocationAmounts` WHERE `CoinAllocationID` <= nMode and `BaseCurrency` = BaseCurr and `UserID` = User_ID;
-    SET finalAmount = finalAmount - holdingAmount - totalSaving;
+    	if (saving_Override = 1) THEN
+    		SET finalAmount = finalAmount - holdingAmount;
+        ELSE
+        	SET finalAmount = finalAmount - holdingAmount - totalSaving;
+        end if;
 	ELSE
-    SET finalAmount = 0;
+ 	   SET finalAmount = 0;
     end if;
 end if;
 

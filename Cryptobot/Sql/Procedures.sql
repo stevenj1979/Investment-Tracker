@@ -975,6 +975,37 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` 
 BEGIN
 DECLARE BuyBack_TransID INT;
 DECLARE newRuleID INT;
+DECLARE buy_ruleID INT;
+Declare Buy_Amount_override_Enabled INT;
+DECLARE Buy_Amount DEC(20,14);
+DECLARE User_ID INT;
+DECLARE Base_Curr Varchar(50);
+DECLARE final_Price_Multiplier DEC(20,14);
+
+
+SELECT `BaseCurrency` into Base_Curr FROM `Transaction` WHERE `ID` = Trans_ID;
+
+if (Base_Curr = 'USDT') THEN
+	SELECT getBTCPrice(83) into final_Price_Multiplier;
+elseif (Base_Curr = 'BTC') THEN
+	SELECT getBTCPrice(84) into final_Price_Multiplier;
+else
+	SELECT getBTCPrice(85) into final_Price_Multiplier;
+end if;
+
+
+
+SELECT `BuyRule` into buy_ruleID FROM `Transaction` WHERE `ID` = Trans_ID;
+
+SELECT `BuyAmountOverrideEnabled` into Buy_Amount_override_Enabled FROM `BuyRules` WHERE `ID` = buy_ruleID;
+
+SELECT `UserID` into User_ID FROM `Transaction` WHERE `ID` = Trans_ID;
+
+if (Buy_Amount_override_Enabled = 1) THEN
+	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
+else
+	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
+End if;
 
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
@@ -985,11 +1016,11 @@ If BuyBack_TransID = 0 THEN
 END if;
 
 If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
-UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = USD_Amount WHERE `TransactionID` = Trans_ID;
+UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
 
 else
 INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`)
-  VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, USD_Amount);
+  VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount);
 
 end if;
 
