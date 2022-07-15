@@ -118,6 +118,10 @@ if($_POST['transSelect'] <> ""){
     $transID = $_GET['SellRule'];
     runOverrideReduceLoss($transID);
     header('Location: Transactions.php');
+}elseif($_GET['overrideSavings'] <> ""){
+    $transID = $_GET['SellRule'];
+    runOverrideSavings($transID);
+    header('Location: Transactions.php');
 }else{
   //echo "3".$_POST['newSellRule']."-".$_POST['SellRule'];
   displayDefault();
@@ -145,6 +149,28 @@ function runOverrideReduceLoss($transID){
     }
     $sql = "UPDATE `Transaction` SET `OverrideReduceLoss`= CASE
              WHEN `OverrideReduceLoss`= 1 THEN 0
+             ELSE 1 end WHERE `ID` = $transID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+}
+
+function runOverrideSavings($transID){
+  //$newID = $_POST['newSellID'];
+  //$transID = $_POST['transID'];
+
+  $conn = getSQLConn(rand(1,3));
+  //$current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `Transaction` SET `SavingOverride`= CASE
+             WHEN `SavingOverride`= 1 THEN 0
              ELSE 1 end WHERE `ID` = $transID";
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
@@ -315,14 +341,15 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `IDTr`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,'BittrexStatus',`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
-    ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack`,`OverrideReduceLoss` FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
+    ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack`,`OverrideReduceLoss`,`SavingOverride` FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'],
-        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency'],$row['StopBuyBack'],$row['OverrideReduceLoss']);
+        $row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency'],$row['StopBuyBack'],$row['OverrideReduceLoss']
+        ,$row['SavingOverride']);
     }
     $conn->close();
     return $tempAry;
@@ -366,19 +393,20 @@ function displayDefault(){
   newEcho("<th>TradeDate</th>",$_SESSION['isMobile'],$mobNum);
   print_r("<th>Status</th><th>FixSellRule</th><th>Type</th>");
 
-  print_r("<th>To Merge</th><th>StopBuyBack</th><th>OverrideReduceLoss</th>");
+  print_r("<th>To Merge</th><th>Savings Override</th><th>StopBuyBack</th><th>OverrideReduceLoss</th>");
   print_r("<th>Change Fixed Sell Rule</th>");
   print_r("<th>Merge</th>");
   print_r("<th>Fix Coin Amount</th>");
   print_r("<th>Add To Spread</th>");
   print_r("<th>Run Stop BuyBack</th>");
   print_r("<th>Run override Reduce Loss</th>");
+  print_r("<th>Run override Savings</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
       $orderDate = $coin[$x][6]; $type = $coin[$x][1];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
-      $purchasePrice = ($amount*$coinPrice); $stopBuyBack = $coin[$x][19]; $overrideReduceLoss = $coin[$x][20];
+      $purchasePrice = ($amount*$coinPrice); $stopBuyBack = $coin[$x][19]; $overrideReduceLoss = $coin[$x][20]; $savingsOverride = $coin[$x][21];
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$symbol</td><td>".round($amount,$roundNum)."</td><td>".round($coinPrice,$roundNum)."</td>");
@@ -387,6 +415,7 @@ function displayDefault(){
       newEcho("<td>$orderDate</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$status</td><td>$fixSellRule</td><td>$type</td>");
       print_r("<td>$toMerge</td>");
+      print_r("<td>$savingsOverride</td>");
       print_r("<td>$stopBuyBack</td>");
       print_r("<td>$overrideReduceLoss</td>");
       print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
@@ -395,6 +424,7 @@ function displayDefault(){
       print_r("<td><a href='Transactions.php?addToSpread=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?stopBuyBack=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?overrideReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?overrideSavings=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
   print_r("</Table>");
