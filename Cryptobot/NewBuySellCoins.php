@@ -2009,7 +2009,7 @@ function buyToreduceLoss($lossCoins){
     $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67];
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
-    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72];
+    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlat = $lossCoins[$y][73];
 
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
@@ -2019,7 +2019,7 @@ function buyToreduceLoss($lossCoins){
       $finalReduceLoss = 0;
     }
     echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $overrideReduceLoss | $finalReduceLoss";
-    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= 12){
+    if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlat){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       //get multiplier
