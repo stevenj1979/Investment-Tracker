@@ -314,12 +314,22 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 //$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
 //echo "<BR> $finalAmount";
-Echo "<BR>API:$apikey secret: $apisecret";
-$resultOrd = bittrexOrder($apikey, $apisecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
-$tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
-$orderQty = $resultOrd["quantity"];
-$finalPrice = $tempPrice/$orderQty;
-var_dump($resultOrd);
-Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice     ";
+//Echo "<BR>API:$apikey secret: $apisecret";
+//$resultOrd = bittrexOrder($apikey, $apisecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
+//$tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
+//$orderQty = $resultOrd["quantity"];
+//$finalPrice = $tempPrice/$orderQty;
+//var_dump($resultOrd);
+//Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice     ";
+
+$tmpPrice = getPriceConversion(20.00,'USDT');
+$buyMin = $tmpPrice[0][0];
+Echo "<BR> USDT = $buyMin";
+$tmpPrice = getPriceConversion(20.00,'BTC');
+$buyMin = $tmpPrice[0][0];
+Echo "<BR> BTC = $buyMin";
+$tmpPrice = getPriceConversion(20.00,'ETH');
+$buyMin = $tmpPrice[0][0];
+Echo "<BR> ETH = $buyMin";
 ?>
 </html>

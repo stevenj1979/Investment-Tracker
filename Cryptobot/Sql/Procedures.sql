@@ -981,9 +981,10 @@ DECLARE Buy_Amount DEC(20,14);
 DECLARE User_ID INT;
 DECLARE Base_Curr Varchar(50);
 DECLARE final_Price_Multiplier DEC(20,14);
+Declare Coin_ID INT;
 
-
-SELECT `BaseCurrency` into Base_Curr FROM `Transaction` WHERE `ID` = Trans_ID;
+SELECT `CoinID` into Coin_ID From `Transaction` WHERE `ID` = Trans_ID;
+SELECT `BaseCurrency` into Base_Curr FROM `Coin` WHERE `ID` = Coin_ID;
 
 if (Base_Curr = 'USDT') THEN
 	SELECT getBTCPrice(83) into final_Price_Multiplier;

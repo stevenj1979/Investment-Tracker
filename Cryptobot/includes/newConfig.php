@@ -20,7 +20,7 @@ function getBittrexRequests($userID = 0){
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
-  ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`
+  ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -35,7 +35,7 @@ function getBittrexRequests($userID = 0){
         ,	$row['SaveResidualCoins'],	$row['MinsSinceAction'],	$row['TimetoCancelBuyMins'],	$row['BuyBack'],	$row['oldBuyBackTransID'],	$row['ResidualAmount'],	$row['MergeSavingWithPurchase'],	$row['BuyBackEnabled'],	$row['SaveMode']//44
         ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
-        ,	$row['holdingAmount'],	$row['NoOfPurchases']); //63
+        ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct']); //64
   }
   $conn->close();
   return $tempAry;
@@ -656,14 +656,36 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
    return $returnPrice;
 }
 
+function getPriceConversion($price, $base){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  if ($base == 'USDT'){  $sql = "SELECT $price / getBTCPrice(83) as `Price`";}
+  elseif ($base == 'BTC'){  $sql = "SELECT $price / getBTCPrice(84) as `Price`";}
+  elseif ($base == 'ETH'){  $sql = "SELECT $price / getBTCPrice(85) as `Price`";}
+  echo "<BR> $sql | $base";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['Price']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;
   $originalBuyAmount = $btcBuyAmount;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
-  if ($baseCurrency == 'USDT'){ $buyMin = 20.00;}
-  elseif ($baseCurrency == 'BTC'){ $buyMin = 0.003;}
-  elseif ($baseCurrency == 'ETH'){ $buyMin = 0.148;}
+  if ($baseCurrency == 'USDT'){ $tmpPrice = getPriceConversion(20.00,'USDT');}
+  elseif ($baseCurrency == 'BTC'){ $tmpPrice = getPriceConversion(20.00,'BTC');}
+  elseif ($baseCurrency == 'ETH'){ $tmpPrice = getPriceConversion(20.00,'ETH');}
+  $buyMin = $tmpPrice[0][0];
   //get min trade
   //if ($buyType == 2){
     //$btcBuyAmount = ($BTCBalance/100.28)*100;
