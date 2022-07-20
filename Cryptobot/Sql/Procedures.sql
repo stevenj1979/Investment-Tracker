@@ -1117,7 +1117,15 @@ Select `LiveCoinPrice` into nLivePrice from `CoinPrice` where `CoinID` = (Select
 Set nAddNum = ABS(nBuyBackPct)/(0.35*(ABS(nBuyBackPct)/10));
 SET nMultiply = Abs((nBuyBackPct /100)*nAddNum);
 
-UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -1.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+If (nBuyBackPct < -3.75) THEN
+
+UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -3.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+
+Else
+
+	UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` - (nMultiply)) WHERE `BuyBackPct` < 0 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+
+End if;
 
 End$$
 DELIMITER ;
