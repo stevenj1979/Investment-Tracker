@@ -26,7 +26,7 @@ $query = "SELECT `Hb`.`Date` as `ActionDate`, sum(`HbBTC`.`TotalUSD`) as TotalBT
 FROM `HistoricBittrexBalances` `Hb`
 left Join `HistoricBittrexBalances` `HbETH` on `Hb`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH'
 left Join `HistoricBittrexBalances` `HbBTC` on `Hb`.`ID` = `HbBTC`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC'
-left Join `HistoricBittrexBalances` `HbUSDT` on `Hb`.`ID` = `HbUSDT`.`ID` and `HbUSDT`.`BaseCurrency` = 'USDT'
+left Join `HistoricBittrexBalances` `HbUSDT` on `Hb`.`ID` = `HbUSDT`.`ID` and (`HbUSDT`.`BaseCurrency` = 'USDT' OR `HbUSDT`.`BaseCurrency` = 'USD')
 WHERE `Hb`.`UserID` =  $userID
 AND `Hb`.`Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
 group by Year(`Hb`.`Date`),Month(`Hb`.`Date`),Day(`Hb`.`Date`)
