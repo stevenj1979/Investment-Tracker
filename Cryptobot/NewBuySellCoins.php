@@ -1739,8 +1739,10 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
                 if ($buyBackEnabled == 1){
                   if ($stopBuyBack == 0){
-                    $tempRises = 10 - (10*$hr1PriceMovePct);
-                    $tempmins = 60 - (60*$hr1PriceMovePct);
+                    $tempRises = floor(($hr1PriceMovePct + 30)/5)+5;
+                    $tempmins = floor(100-(($hr1PriceMovePct/60)*100);
+                    if ($tempRises <= 0){ $tempRises = 2;}
+                    if ($tempmins <= 0){ $tempmins = 120;}
                     WriteBuyBack($transactionID,$realProfitPct,$tempRises, $tempmins,$finalPrice,$amount,$cost,$usd_Amount);
                   }
                 }
