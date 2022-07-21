@@ -6633,7 +6633,8 @@ function getBuyBackData(){
             ,`AllBuyBackAsOverride`,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice,`LiveCoinPrice`,TimeStampDiff(MINUTE, now(),`DelayCoinSwapUntil`) as `DelayMins`
             ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`,`CoinPriceBB`,`USDBuyBackAmount`
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
-            ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`
+            ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
+            , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6646,7 +6647,7 @@ function getBuyBackData(){
       ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['MinsToCancel'],$row['BullBearStatus'],$row['Type'] //25
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
-      ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget']); //45
+      ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier']); //47
   }
   $conn->close();
   return $tempAry;
@@ -6831,12 +6832,12 @@ function reOpenTransactionfromBuyBackNew($buyBackID){
   newLogToSQL("reOpenTransactionfromBuyBackNew","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");
 }
 
-function addToBuyBackMultiplier($buyBackID){
+function addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call addToBuyBackMultiply($buyBackID);";
+  $sql = "Call addToBuyBackMultiply($buyBackID,$addNum,$buyBackPct,$multiplier);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -6844,8 +6845,8 @@ function addToBuyBackMultiplier($buyBackID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("addToBuyBackMultiplier: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addToBuyBackMultiplier","$sql",3,sQLUpdateLog,"SQL CALL","BuyBackID:$buyBackID");
+  logAction("addToBuyBackMultiplier: ".$sql, 'TrackingCoins', 1);
+  newLogToSQL("addToBuyBackMultiplier","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");
 }
 
 function closeBuyBack($buyBackID){

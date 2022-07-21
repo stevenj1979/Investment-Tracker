@@ -1104,18 +1104,9 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addToBuyBackMultiply`(IN `BuyBackID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addToBuyBackMultiply`(IN `BuyBackID` INT, IN `nAddNum` DECIMAL(20,14), IN `nBuyBackPct` DECIMAL(20,14), IN `nMultiply` DECIMAL(20,14))
     MODIFIES SQL DATA
 Begin
-Declare nAddNum DEC(20,14);
-Declare nBuyBackPct DEC(20,14);
-Declare nLivePrice DEC(20,14);
-Declare nMultiply INT;
-
-SELECT `BuyBackPct` into nBuyBackPct FROM `BuyBack` WHERE `ID` = BuyBackID;
-Select `LiveCoinPrice` into nLivePrice from `CoinPrice` where `CoinID` = (Select `CoinID` from `Transaction` where `ID` = (SELECT `TransactionID` from `BuyBack` where `ID` = BuyBackID));
-Set nAddNum = ABS(nBuyBackPct)/(0.35*(ABS(nBuyBackPct)/10));
-SET nMultiply = Abs((nBuyBackPct /100)*nAddNum);
 
 If (nBuyBackPct < -3.75) THEN
 

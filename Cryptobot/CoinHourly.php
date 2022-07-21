@@ -160,8 +160,8 @@ function addToBuyBackMultiplierHourly(){
   $buyBackCoins = getBuyBackData();
   $buyBackCoinsSize = count($buyBackCoins);
   for ($p=0; $p<$buyBackCoinsSize; $p++){
-    $buyBackID = $buyBackCoins[$p][0];
-    addToBuyBackMultiplier($buyBackID);
+    $buyBackID = $buyBackCoins[$p][0]; $addNum = $buyBackCoins[$p][46];  $buyBackPct = $buyBackCoins[$p][22]; $multiplier = $buyBackCoins[$p][47];
+    addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier);
   }
 }
 
