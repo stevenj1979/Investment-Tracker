@@ -1238,7 +1238,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
-  //Echo "<BR> HERE! $sellCoinsLength";
+  Echo "<BR> HERE! $sellCoinsLength";
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -1283,19 +1283,19 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $priceDipMaxPriceEnabled = $sellRules[$z][55]; $priceDipCoinFlatEnabled = $sellRules[$z][56]; $priceDipHoursFlatTarget = $sellRules[$z][57];
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
-      //echo "<BR> Starting: $coin | $ruleIDSell";
+      echo "<BR> Starting: $coin | $ruleIDSell";
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      //echo "<BR> PlaceHolder: 1";
+      echo "<BR> PlaceHolder: 1";
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
-          if ($multiSellResult == False){ continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}//echo "Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult";
+          if ($multiSellResult == False){ echo "Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult"; continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
-      //echo "<BR> PlaceHolder: 2";
+      echo "<BR> PlaceHolder: 2";
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -1303,7 +1303,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
-      //echo "<BR> PlaceHolder: 3";
+      echo "<BR> PlaceHolder: 3";
       if ($captureTrend == 0 and $profit >= 0.5){
         //Capture 1Hr / 24Hr and 7D trend
         if ($coinModeRule > 0){
@@ -1314,7 +1314,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-    //  echo "<BR> PlaceHolder: 4";
+      echo "<BR> PlaceHolder: 4";
       if ($userID != $sellCoinsUserID){ continue; } //echo "Exit: No3 | $coin | $userID | $BuyRule";
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echo "Exit: No4 | $coin | $userID | $ruleIDSell | $limitToCoinSell";continue;}
       //echo "<BR> PlaceHolder: 5";
@@ -1451,7 +1451,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $pauseCoinIDAfterPurchaseEnabled  = $BittrexReqs[$b][45]; $daysToPauseCoinIDAfterPurchase = $BittrexReqs[$b][46]; $btc_Price = $BittrexReqs[$b][47]; $eth_Price = $BittrexReqs[$b][48];
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
-    $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][64];
+    $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][65];
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
@@ -1680,7 +1680,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
-        echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction";
+        echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction Days Outstanding: $daysOutstanding";
         if (($orderIsOpen == 0) OR ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
@@ -1836,7 +1836,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             if($apiVersion == 1){ $canResStatus = $cancelRslt;}
             else{ if ($cancelRslt['status'] == 'CLOSED'){$canResStatus = 1;}else{$canResStatus =0;}}
             if ($canResStatus == 1){
-              bittrexSellCancel($uuid, $transactionID, "PctFromSale: $pctFromSale");
+              bittrexSellCancel($uuid, $transactionID, "PctFromSale: $pctFromSale CancelAction: $pctToCancelBittrexAction");
               logAction("runBittrex; bittrexSellCancelFull_v2 : $coin | $pctFromSale | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFullPriceRise","TransactionID:$transactionID");
               $finalBool = True;

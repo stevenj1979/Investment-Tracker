@@ -434,11 +434,11 @@ function getTrackingSellCoins($type, $userID = 0){
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
   ,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
   ,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
-  ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,'PctToPurchase', 'BTCBuyAmount',`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
+  ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
 FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
-  //echo "<BR>$sql<BR>";
+  echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -1576,7 +1576,8 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         //var_dump($temp);
         $balance = $temp['lastTradeRate'];
       }
-
+      echo "<br> CoinPrice: $coin : $baseCoin<br>";
+      var_dump($temp);
       return $balance;
 }
 
@@ -2340,6 +2341,26 @@ function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride){
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function getOpenBaseCurrency($symbol){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //echo "<BR> Flag1: $lowFlag";
+    $sql = "Select `Cn`.`BaseCurrency` as BaseCurrency
+              From `Coin` `Cn`
+              join `Transaction` `Tr` on `Tr`.`CoinID` = `Cn`.`ID`
+              WHERE `Cn`.`Symbol` = '$symbol' and `Tr`.`Status` in ('Open','Pending','Saving')
+              Limit 1";
+
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency']);}
   $conn->close();
   return $tempAry;
 }
@@ -4423,7 +4444,6 @@ function getSparklineData($coin){
 
   $sql = "SELECT `LiveCoinPrice` as LiveCoinPrice
     FROM `CoinBuyHistory`
-    WHERE  (`ActionDate` > DATE_SUB((select Max(`ActionDate`) from `CoinBuyHistory`), INTERVAL 15 MINUTE)) and `ID` = (select Max(`ID`) from `Coin` where `Symbol` = '$coin')
     order by `ActionDate` asc ";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
@@ -5080,6 +5100,8 @@ function getDailyBalance($apikey,$apisecret){
   $execResult = curl_exec($ch);
   curl_close($ch);
   $temp = json_decode($execResult, true);
+  echo "<BR>getDailyBalance :";
+  var_dump($temp);
   return $temp;
 }
 
@@ -5087,7 +5109,7 @@ function updateBittrexBalances($symbol, $total, $price, $userID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "Call AddBittrexBal('$symbol',$total,$price, $userID);";
+    $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID);";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
@@ -5095,7 +5117,7 @@ function updateBittrexBalances($symbol, $total, $price, $userID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateBittrexBalances","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+    newLogToSQL("updateBittrexBalances","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function deleteBittrexBalances(){
