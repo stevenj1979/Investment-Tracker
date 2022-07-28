@@ -231,17 +231,18 @@ function runPriceDipRule($priceDipRules){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         //enableBuyRule($buyRuleID, 1);
         setPriceDipEnable($buyRuleID, 1);
-        LogToSQL("PriceDipRuleEnable","enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,$GLOBALS['logToSQLSetting']);
+        newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1,"enableBuyRule1","ruleID:$buyRuleID");
       }
     }
     if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= $priceDipDisable24Hour and isset($d7ChangePctChange) and $d7ChangePctChange >= $priceDipDisable7Day){
       enableBuyRule($buyRuleID, 0);
       setPriceDipEnable($buyRuleID, 0);
+      newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $priceDipDisable24Hour | $d7ChangePctChange | $priceDipDisable7Day",3,1,"enableBuyRule0","ruleID:$buyRuleID");
     }
 
     if ($hoursFlat >= $hoursFlatSetting and $priceDipEnabled == 1){
       echo "<BR> $hoursFlat | $hoursFlatSetting";
-      enableBuyRule($buyRuleID, 1);
+      //enableBuyRule($buyRuleID, 1);
     }
   }
 }
@@ -685,7 +686,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       if ($type == 'SavingsBuy'){ updateCoinSwapStatusCoinSwapID('AwaitingSavingsBuy',$transactionID);}
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
       $finalBool = True;
-      reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
+      //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
       continue;
     }
     Echo "<BR> Tracking Buy Count 1 <BR>";
@@ -694,14 +695,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}// reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
         if ($limitBuyTransactionsEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy);  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }elseif($coinModeOverridePriceEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
-          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy); reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID); continue;}
+          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy);  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
@@ -858,7 +859,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           removeTransactionDelay($coinID, $userID);
           newLogToSQL("TrackingCoins","$oldBuyBackTransID",3,1,"ReOpen BuyBack","TrackingCoinID:$newTrackingCoinID");
           reOpenTransactionfromBuyBackNew($oldBuyBackTransID);
-          reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
+          //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
       }
     }elseif ($readyToBuy == 2){ $finalBool = True;}
@@ -1674,7 +1675,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           if ($buyBack == 1){ reopenCoinSwapCancel($BittrexID,1); }
           $finalBool = True;
-          reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
+          //reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
       }elseif (($type == "Sell" && $finalBool == False)or ($type == "SpreadSell" && $finalBool == False) or ($type == "SavingsSell" && $finalBool == False) ){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);

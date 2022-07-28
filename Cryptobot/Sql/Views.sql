@@ -409,6 +409,8 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,`Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled` as `PriceDipEnabledPds`, `Pds`.`HoursFlat` as `HoursFlatPds`,`Pds`.`DipStartTime` as `DipStartTimePds`
 ,`Pdse`.`ID` as `IDPdse`, `Pdse`.`RuleID` as `RuleIDPdse`, `Pdse`.`PriceDipEnable24Hour`, `Pdse`.`PriceDipEnable7Day`, `Pdse`.`HoursFlat`, `Pdse`.`PctTolerance`, `Pdse`.`PriceDipDisable24Hour`, `Pdse`.`PriceDipDisable7Day`
 ,DateDiff(`Br`.`DisableUntil`,now()) as HoursDisableUntil
+,`Mcs`.`LiveBuyOrders` as LiveBuyOrdersMkt, `Mcs`.`LastBuyOrders` as LastBuyOrdersMkt, `Mcs`.`BuyOrdersPctChange` as BuyOrdersPctChangeMkt, `Mcs`.`LiveMarketCap` as LiveMarketCapMkt,`Mcs`.`LastMarketCap` as LastMarketCapMkt, `Mcs`.`MarketCapPctChange` as MarketCapPctChangeMkt, `Mcs`.`Live1HrChange` as Live1HrChangeMkt, `Mcs`.`Last1HrChange` as Last1HrChangeMkt, `Mcs`.`Hr1ChangePctChange` as Hr1ChangePctChangeMkt, `Mcs`.`Live24HrChange` as Live24HrChangeMkt, `Mcs`.`Last24HrChange` as Last24HrChangeMkt, `Mcs`.`Hr24ChangePctChange` as Hr24ChangePctChangeMkt, `Mcs`.`Live7DChange` as Live7DChangeMkt, `Mcs`.`Last7DChange` as Last7DChangeMkt, `Mcs`.`D7ChangePctChange` as D7ChangePctChangeMkt, `Mcs`.`LiveCoinPrice` as LiveCoinPriceMkt, `Mcs`.`LastCoinPrice` as LastCoinPriceMkt, `Mcs`.`CoinPricePctChange` as CoinPricePctChangeMkt, `Mcs`.`LiveSellOrders` as LiveSellOrdersMkt, `Mcs`.`LastSellOrders` as LastSellOrdersMkt
+, `Mcs`.`SellOrdersPctChange` as SellOrdersPctChangeMkt, `Mcs`.`LiveVolume` as LiveVolumeMkt, `Mcs`.`LastVolume` as LastVolumeMkt, `Mcs`.`VolumePctChange` as VolumePctChangeMkt, `Mcs`.`Price4Trend` as Price4TrendMkt, `Mcs`.`Price3Trend` as Price3TrendMkt, `Mcs`.`LastPriceTrend` as LastPriceTrendMkt, `Mcs`.`LivePriceTrend` as LivePriceTrendMkt, `Mcs`.`AutoBuyPrice` as AutoBuyPriceMkt, `Mcs`.`1HrPriceChangeLive` as 1HrPriceChangeLiveMkt, `Mcs`.`1HrPriceChangeLast` as 1HrPriceChangeLastMkt, `Mcs`.`1HrPriceChange3` as 1HrPriceChange3Mkt, `Mcs`.`1HrPriceChange4` as 1HrPriceChange4Mkt
 from (((`BuyRules` `Br`
   join `User` `Us` on((`Us`.`ID` = `Br`.`UserID`)))
   join `UserConfig` `Uc` on((`Uc`.`UserID` = `Us`.`ID`)))
@@ -417,7 +419,8 @@ from (((`BuyRules` `Br`
   left join `CoinPricePatternName` `Cppn` on `Cppn`.`ID` = `Br`.`CoinPricePatternID`
   left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
   left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`
-  left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`;
+  left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`
+  join  `MarketCoinStats` `Mcs`;
 
 
   CREATE OR REPLACE VIEW `View14_UserSellRules` as
@@ -580,3 +583,32 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
    join `AvgHighLow` `Ahl` on `Ahl`.`CoinID` = `Cn`.`ID` and `Ahl`.`HighLow` = 'Low'
      where `Cn`.`BuyCoin` = 1;
+
+  CREATE OR REPLACE VIEW `View21_MarketStats` as
+     SELECT sum(`Cp`.`LiveCoinPrice`) as LiveCoinPrice, sum(`Cp`.`LastCoinPrice`) as LastCoinPrice, sum(`Cp`.`Price3`) as Price3, sum(`Cp`.`Price4`) as Price4, sum(`Cp`.`Price5`) as Price5
+     ,sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+     , sum(`Cmc`.`LiveMarketCap`) as LiveMarketCap, sum(`Cmc`.`LastMarketCap`) as LastMarketCap, sum(((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+     ,  sum(`Cbo`.`LiveBuyOrders`) as LiveBuyOrders, sum(`Cbo`.`LastBuyOrders`) as LastBuyOrders, sum(((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+     , sum(`Cv`.`LiveVolume`) as LiveVolume, sum(`Cv`.`LastVolume`) as LastVolume, sum((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+     , sum(`Cpc`.`Live1HrChange`) as Live1HrChange, sum(`Cpc`.`Last1HrChange`) as Last1HrChange, sum(`Cpc`.`Live24HrChange`) as Live24HrChange, sum(`Cpc`.`Last24HrChange`) as Last24HrChange, sum(`Cpc`.`Live7DChange`) as Live7DChange, sum(`Cpc`.`Last7DChange`) as Last7DChange, sum(`Cpc`.`1HrChange3`) as 1HrChange3
+     , sum(`Cpc`.`1HrChange4`) as 1HrChange4, sum(`Cpc`.`1HrChange5`) as 1HrChange5
+     , ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100  as `Hr1ChangePctChange`
+     , (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 as `Hr24ChangePctChange`
+     , ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 as `D7ChangePctChange`
+     , sum(`Cso`.`LiveSellOrders`) as LiveSellOrders,sum(`Cso`.`LastSellOrders`) as LastSellOrders,sum(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+     ,if(sum(`Cp`.`LiveCoinPrice`) -sum(`Cp`.`LastCoinPrice`) > 0, 1, if(sum(`Cp`.`LiveCoinPrice`) -sum(`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+               ,if(sum(`Cp`.`LastCoinPrice`) -sum(`Cp`.`Price3`) > 0, 1, if(sum(`Cp`.`LastCoinPrice`) -sum(`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+               ,if(sum(`Cp`.`Price3`) -sum(`Cp`.`Price4`) > 0, 1, if(sum(`Cp`.`Price3`) -sum(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+               ,if(sum(`Cp`.`Price4`) -sum(`Cp`.`Price5`) > 0, 1, if(sum(`Cp`.`Price4`) -sum(`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+     ,if(sum(`Cpc`.`Live1HrChange`)-sum(`Last1HrChange`) >0,1,if(sum(`Cpc`.`Live1HrChange`)-sum(`Last1HrChange`) <0,-1,0)) as `1HrPriceChangeLive`
+     ,if(sum(`Last1HrChange`)-sum(`1HrChange3`)>0,1,if(sum(`Last1HrChange`)-sum(`1HrChange3`)<0,-1,0)) as `1HrPriceChangeLast`
+     ,if(sum(`1HrChange3`)-sum(`1HrChange4`)>0,1,if(sum(`1HrChange3`)-sum(`1HrChange4`)<0,-1,0)) as `1HrPriceChange3`
+     ,if(sum(`1HrChange4`)-sum(`1HrChange5`)>0,1,if(sum(`1HrChange4`)-sum(`1HrChange5`)<0,-1,0)) as `1HrPriceChange4`
+     FROM `Coin` `Cn`
+     join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+     join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
+     join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
+     join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
+     join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+     join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+       where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;

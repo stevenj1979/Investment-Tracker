@@ -6724,8 +6724,8 @@ function getPriceDipRules(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,  `24HrMarketPriceChangeLive` as `Hr24ChangePctChange`
-          , `7DMarketPriceChangeLive` as `D7ChangePctChange`,`PriceDipEnable7Day`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`,`HoursFlat`,`PctTolerance`
+  $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,  `Hr24ChangePctChangeMkt` as `Hr24ChangePctChange`
+          , `D7ChangePctChange` as `D7ChangePctChange`,`PriceDipEnable7Day`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`,`HoursFlat`,`PctTolerance`
           ,`PriceDipDisable24Hour`,`PriceDipDisable7Day`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` = 1 ";
@@ -6737,6 +6737,32 @@ function getPriceDipRules(){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['PriceDipEnable7Day'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds'] //8
       ,$row['DipStartTimePds'],$row['HoursFlat'],$row['PctTolerance'],$row['PriceDipDisable24Hour'],$row['PriceDipDisable7Day']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getMarketStatistics(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`
+          , `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`
+          , `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4` FROM `View21_MarketStats` ";
+
+  echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['LiveCoinPrice'],	$row['LastCoinPrice'],	$row['Price3'],	$row['Price4'],	$row['Price5'],	$row['CoinPricePctChange'],	$row['LiveMarketCap'],	$row['LastMarketCap'],	$row['MarketCapPctChange']
+      ,	$row['LiveBuyOrders'],	$row['LastBuyOrders'],	$row['BuyOrdersPctChange'],	$row['LiveVolume'],	$row['LastVolume'],	$row['VolumePctChange'],	$row['Live1HrChange'],	$row['Last1HrChange'],	$row['Live24HrChange']
+      ,	$row['Last24HrChange'],	$row['Live7DChange'],	$row['Last7DChange'],	$row['1HrChange3'],	$row['1HrChange4'],	$row['1HrChange5'],	$row['Hr1ChangePctChange'],	$row['Hr24ChangePctChange'],	$row['D7ChangePctChange']
+      ,	$row['LiveSellOrders'],	$row['LastSellOrders'],	$row['SellOrdersPctChange'],	$row['LivePriceTrend'],	$row['LastPriceTrend'],	$row['Price3Trend'],	$row['Price4Trend'],	$row['1HrPriceChangeLive'],	$row['1HrPriceChangeLast']
+      ,	$row['1HrPriceChange3'],	$row['1HrPriceChange4']);
   }
   $conn->close();
   return $tempAry;
