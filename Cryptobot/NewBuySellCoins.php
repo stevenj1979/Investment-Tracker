@@ -1220,7 +1220,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,0,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
           $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
           $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
-          if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
+          //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
           logAction("runBuyCoins; addTrackingCoin : $symbol | $coinID | $LiveCoinPrice | $buyQuantity | $userID | $baseCurrency $timeToCancelBuyMins | $risesInPrice | $overrideCoinAlloc", 'BuySellFlow', 1);
           $finalBool = True;
         }else{ echo "<BR> EXIT: $totalBal Less than 20 | $totalBal";}
@@ -1452,7 +1452,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $multiSellRuleEnabled = $BittrexReqs[$b][49]; $multiSellRuleTemplateID = $BittrexReqs[$b][50]; $stopBuyBack = $BittrexReqs[$b][51]; $multiSellRuleID = $BittrexReqs[$b][52]; $typeBA = $BittrexReqs[$b][53];
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
     $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][65];
-    $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67];
+    $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     //if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1572,7 +1572,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           //continue;
           updateCoinAllocation($userID, $lowMarketMode, $baseCurrency, $finalPrice*$amount);
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
-
+          if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBTBuy);}
           $finalBool = True;
         }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining && $finalBool == False){
           bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);

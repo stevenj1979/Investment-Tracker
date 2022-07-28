@@ -629,7 +629,7 @@ function runNewDashboard(){
       SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`, `Bb`.`UserID`
       ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1)) as Multiplier
       ,`Bb`.`Total`*`Bb`.`Price` as TotalUSD
-      ,`Cn`.`ID`,`Cn`.`BaseCurrency`
+      ,`Cn`.`ID`,`Bb`.`BaseCurrency`
       FROM `BittrexBalances` `Bb`
       join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol`
       where `Cn`.`BuyCoin` = 1";

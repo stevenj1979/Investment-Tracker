@@ -21,6 +21,7 @@ function getBittrexRequests($userID = 0){
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
+  ,`OneTimeBuyRuleBr`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -35,7 +36,7 @@ function getBittrexRequests($userID = 0){
         ,	$row['SaveResidualCoins'],	$row['MinsSinceAction'],	$row['TimetoCancelBuyMins'],	$row['BuyBack'],	$row['oldBuyBackTransID'],	$row['ResidualAmount'],	$row['MergeSavingWithPurchase'],	$row['BuyBackEnabled'],	$row['SaveMode']//44
         ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
-        ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct']); //67
+        ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr']); //68
   }
   $conn->close();
   return $tempAry;
@@ -5117,7 +5118,7 @@ function updateBittrexBalances($symbol, $total, $price, $userID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateBittrexBalances","$sql",3,1,"SQL CALL","UserID:$userID");
+    newLogToSQL("updateBittrexBalances","$sql",3,0,"SQL CALL","UserID:$userID");
 }
 
 function deleteBittrexBalances(){
@@ -6470,7 +6471,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
     }
 
     if (($pctProfit >= 60.0) OR ($NoOfRisesInPrice >= $totalRisesInPrice AND $livePrice >= $basePrice)){
-      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
+      newLogToSQL("TrackingSell", "OPT 7 (Profit over 20%): $type | $pctProfit | $basePrice", 3, 1,"trackingCoinReadyToSell_7","TransactionID:$TransactionID");
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
       logAction("runTrackingSellCoin; ReadToSell : OPT7 | $coin | $type | $pctProfit", 'BuySellFlow', 1);
