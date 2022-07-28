@@ -1299,6 +1299,7 @@ function disableBuyRule($ruleIDBuy){
     }
     $conn->close();
     logAction("disableBuyRule: ".$sql, 'BuySell', 0);
+    newLogToSQL("disableBuyRule",$sql,3,1,"SQL","RuleID:$ruleIDBuy");
 }
 
 function reOpenOneTimeBuyRule($trackingID){
