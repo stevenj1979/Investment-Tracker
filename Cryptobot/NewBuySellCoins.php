@@ -232,15 +232,16 @@ function runPriceDipRule($priceDipRules){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         //enableBuyRule($buyRuleID, 1);
         if ($buyCoin <> 1){
-          setPriceDipEnable($buyRuleID, 1);
+          enableBuyRule($buyRuleID, 1);
+          setPriceDipEnable($buyRuleID, 1,$buyCoin);
           newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1,"enableBuyRule1","ruleID:$buyRuleID");
         }
       }
     }
     if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= $priceDipDisable24Hour and isset($d7ChangePctChange) and $d7ChangePctChange >= $priceDipDisable7Day){
-      if ($buyCoin <> 1){
+      if ($buyCoin <> 0){
         enableBuyRule($buyRuleID, 0);
-        setPriceDipEnable($buyRuleID, 0);
+        setPriceDipEnable($buyRuleID, 0,$buyCoin);
         newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $priceDipDisable24Hour | $d7ChangePctChange | $priceDipDisable7Day",3,1,"enableBuyRule0","ruleID:$buyRuleID");
       }
     }

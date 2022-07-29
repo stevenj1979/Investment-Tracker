@@ -6768,7 +6768,7 @@ function getMarketStatistics(){
   return $tempAry;
 }
 
-function setPriceDipEnable($ruleID,$status){
+function setPriceDipEnable($ruleID,$status,$buyCoin){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -6783,7 +6783,7 @@ function setPriceDipEnable($ruleID,$status){
   }
   $conn->close();
   logAction("setPriceDipEnable: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setPriceDipEnable","$sql",3,1,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,1,"SQL CALL","ruleID:$ruleID");
 }
 
 function writePriceDipHours($ruleID,$dipHourCounter){
