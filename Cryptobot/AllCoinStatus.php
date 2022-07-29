@@ -453,7 +453,7 @@ $Hr1PriceChange3 = $priceDipRules[0][36];	$Hr1PriceChange4 = $priceDipRules[0][3
   }
   $conn->close();
   logAction("writeMarketStats: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writeMarketStats","$sql",3,1,"SQL CALL","");
+  newLogToSQL("writeMarketStats","$sql",3,0,"SQL CALL","");
 }
 
 function DeleteMarketStats(){

@@ -225,19 +225,24 @@ function runPriceDipRule($priceDipRules){
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
     $priceDipEnabled = $priceDipRules[$a][7]; $hoursFlat = $priceDipRules[$a][8]; $dipStartTime = $priceDipRules[$a][9];
     $priceDipDisable24Hour = $priceDipRules[$a][12]; $priceDipDisable7Day = $priceDipRules[$a][13]; $hoursFlatSetting = $priceDipRules[$a][10];
+    $buyCoin = $priceDipRules[$a][14];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
     if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
       if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         //enableBuyRule($buyRuleID, 1);
-        setPriceDipEnable($buyRuleID, 1);
-        newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1,"enableBuyRule1","ruleID:$buyRuleID");
+        if ($buyCoin <> 1){
+          setPriceDipEnable($buyRuleID, 1);
+          newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1,"enableBuyRule1","ruleID:$buyRuleID");
+        }
       }
     }
     if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= $priceDipDisable24Hour and isset($d7ChangePctChange) and $d7ChangePctChange >= $priceDipDisable7Day){
-      enableBuyRule($buyRuleID, 0);
-      setPriceDipEnable($buyRuleID, 0);
-      newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $priceDipDisable24Hour | $d7ChangePctChange | $priceDipDisable7Day",3,1,"enableBuyRule0","ruleID:$buyRuleID");
+      if ($buyCoin <> 1){
+        enableBuyRule($buyRuleID, 0);
+        setPriceDipEnable($buyRuleID, 0);
+        newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $priceDipDisable24Hour | $d7ChangePctChange | $priceDipDisable7Day",3,1,"enableBuyRule0","ruleID:$buyRuleID");
+      }
     }
 
     if ($hoursFlat >= $hoursFlatSetting and $priceDipEnabled == 1){
@@ -678,7 +683,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       }
     }
     if($minsFromDate >= $timeToCancelBuyMins){
-      reOpenOneTimeBuyRule($trackingID);
+      //reOpenOneTimeBuyRule($trackingID);
       closeNewTrackingCoin($newTrackingCoinID, True,1);
       //if ($oldBuyBackTransID <> 0){
       reopenCoinSwapCancel($oldBuyBackTransID,0);
