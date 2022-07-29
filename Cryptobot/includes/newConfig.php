@@ -7088,14 +7088,14 @@ function getWebMarketStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `1HrPrice`, `24HrPrice`, `7DPrice` FROM `WebMarketStats`";
+  $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange` FROM `MarketCoinStats`";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['1HrPrice'],$row['24HrPrice'],$row['7DPrice']);
+      $tempAry[] = Array($row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange']);
       //13  14  15
 
   }
