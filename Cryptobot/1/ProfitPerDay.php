@@ -13,7 +13,7 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 
 //define page title
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 
 setStyle($_SESSION['isMobile']);
 

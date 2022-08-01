@@ -19,7 +19,7 @@ header( "Refresh: 120; URL=$current_url" );
 $showmain = True;
 //include header template
 require('layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 $showmain = True;
 
 

@@ -6,7 +6,7 @@ setStyle(isMobile());
 //check if already logged in move to home page
 if( $user->is_logged_in() ){ header('Location: index.php'); exit(); }
 
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 
 function updateUser($nameUser){
 

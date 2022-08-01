@@ -1,6 +1,6 @@
 <?php
 //require('includes/config.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 
 function getLiveCoinPriceUSD($symbol){
     $limit = 100;

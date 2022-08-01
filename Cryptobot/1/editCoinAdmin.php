@@ -6,7 +6,7 @@
 <html>
 <style>
 <?php include 'style/style.css';
-include_once ('/home/stevenj1979/SQLData.php'); ?>
+include_once ('../../../../SQLData.php'); ?>
 </style>
 <body>
 <?php

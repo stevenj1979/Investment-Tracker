@@ -57,7 +57,7 @@ $title = 'CryptoBot';
 
 //include header template
 require('layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 
 function start_Timer($id){
   $conn = getSQLConn(rand(1,3));

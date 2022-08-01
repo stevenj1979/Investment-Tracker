@@ -21,7 +21,7 @@ $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
 setStyle($_SESSION['isMobile']);
 

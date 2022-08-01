@@ -2,7 +2,7 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php include_once ('/home/stevenj1979/SQLData.php');
+<?php include_once ('../../../../SQLData.php');
 include '../includes/newConfig.php';?>
 <style>
 <?php include 'style/style.css'; ?>

@@ -7,7 +7,7 @@
 </style>
 
 <?php
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 if(isset($_POST['submit'])){
   //Echo "Here!";
   $username = $_POST['username'];

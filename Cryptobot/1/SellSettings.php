@@ -34,7 +34,7 @@ $title = 'CryptoBot';
 
 //include header template
 require('layout/header.php');
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 
 function getUserIDs($userID){
   $conn = getSQLConn(rand(1,3));

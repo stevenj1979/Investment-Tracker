@@ -4,7 +4,7 @@
 </head>
 <?php require('includes/config.php');
   //include 'includes/functions.php';
-  include_once ('/home/stevenj1979/SQLData.php');
+  include_once ('../../../../SQLData.php');
   include_once ('/home/stevenj1979/Encrypt.php');
   include_once '../includes/newConfig.php';
 ?>

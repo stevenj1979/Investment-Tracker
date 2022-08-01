@@ -1,5 +1,5 @@
 <?php
-include_once ('/home/stevenj1979/SQLData.php');
+include_once ('../../../../SQLData.php');
 $coin = trim($_GET['coin']);
 $conn = getSQLConn(rand(1,3));
 // Check connection
