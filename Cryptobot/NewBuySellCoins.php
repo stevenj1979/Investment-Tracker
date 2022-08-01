@@ -227,8 +227,12 @@ function runPriceDipRule($priceDipRules){
     $priceDipDisable24Hour = $priceDipRules[$a][12]; $priceDipDisable7Day = $priceDipRules[$a][13]; $hoursFlatSetting = $priceDipRules[$a][10];
     $buyCoin = $priceDipRules[$a][14];
     echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
-    if(isset($hr24ChangePctChange) && $hr24ChangePctChange <= $hr24PriceDipPct && $hr24ChangePctChange > -999){
-      if(isset($d7ChangePctChange) && $d7ChangePctChange <= $d7PriceDipPct && $d7ChangePctChange > -999){
+    if(!isset($hr24ChangePctChange)){ continue;}
+    if(!isset($d7ChangePctChange)){ continue;}
+    $PctChangeAvg = $priceDipRules[$a][16];
+    $pctChangeTargetAvg = $priceDipRules[$a][15];
+    $pctChangeDisableTargetAvg = $priceDipRules[$a][17];
+      if($PctChangeAvg <= $pctChangeTargetAvg ){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         //enableBuyRule($buyRuleID, 1);
         if ($buyCoin <> 1){
@@ -237,8 +241,7 @@ function runPriceDipRule($priceDipRules){
           newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct",3,1,"enableBuyRule1","ruleID:$buyRuleID");
         }
       }
-    }
-    if (isset($hr24ChangePctChange) && $hr24ChangePctChange >= $priceDipDisable24Hour and isset($d7ChangePctChange) and $d7ChangePctChange >= $priceDipDisable7Day){
+    if ($PctChangeAvg >= $pctChangeDisableTargetAvg){
       if ($buyCoin <> 0){
         enableBuyRule($buyRuleID, 0);
         setPriceDipEnable($buyRuleID, 0,$buyCoin);
