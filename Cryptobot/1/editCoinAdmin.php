@@ -63,7 +63,7 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder){
 }
 
 function addNewCheckBox($RealName, $idName, $value, $tabIndex, $pHoolder){
-  echo "<div class='settingsform'>";
+  echo "<div class='settingsform'><b>".$RealName."</b><br/>";
   $idNameusdt = $idName."USDT";
   echo "<br><input type='checkbox' id='$idNameusdt' name='$idNameusdt' value='USDT'>
   <label for='$idNameusdt'>USDT</label>";
