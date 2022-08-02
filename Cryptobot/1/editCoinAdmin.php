@@ -37,7 +37,11 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 if(!empty($_GET['addNew'])){ $_GET['addNew'] = null; submitNewCoin(); }
 if(!empty($_GET['activateID'])){ displayActivate($_GET['activateID'],$_GET['activateBuyCoin']); }
 if(!empty($_GET['deleteID'])){ displayDelete($_GET['deleteID']); }
-if(!empty($_GET['addCoinReady'])){ runAddCoin($_POST['symbol'],$_POST['name'],$_POST['baseCurrency'],$_POST['cmcid']); }
+if(!empty($_GET['addCoinReady'])){
+  if (isset($_POST['baseCurrencyUSDT'])){runAddCoin($_POST['symbol'],$_POST['name'],"USDT",$_POST['cmcid']);}
+  if (isset($_POST['baseCurrencyBTC'])) {runAddCoin($_POST['symbol'],$_POST['name'],"BTC",$_POST['cmcid']);}
+  if (isset($_POST['baseCurrencyETH'])) {runAddCoin($_POST['symbol'],$_POST['name'],"ETH",$_POST['cmcid']);}
+}
 
 function submitNewCoin(){
   echo "<form action='editCoinAdmin.php?addCoinReady=Yes' method='post'>";
