@@ -43,8 +43,10 @@ function submitNewCoin(){
   echo "<form action='editCoinAdmin.php?addCoinReady=Yes' method='post'>";
   addNewText('Symbol','symbol','',1,'eg BTC');
   addNewText('Name','name','',2,'eg Bit Coin');
-  addNewText('Base Currency','baseCurrency','',3,'eg Base Currency');
+  //addNewText('Base Currency','baseCurrency','',3,'eg Base Currency');
+  addNewCheckBox('Base Currency','baseCurrency','',3,'eg Base Currency');
   addNewText('Coin Market Cap ID','cmcid','',4,'eg 1');
+
   //addNewText('PhotoURL','photo_url','',5,'eg 1');
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='4'>
@@ -57,6 +59,19 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder){
     <b>".$RealName."</b><br/>
     <input type='text' name='".$idName."' id='".$idName."' class='form-control input-lg' placeholder='$pHoolder' value='".$value."' tabindex='".$tabIndex."'>
   </div>";
+
+}
+
+function addNewCheckBox($RealName, $idName, $value, $tabIndex, $pHoolder){
+  $idNameusdt = $idName."USDT";
+  echo "<input type="checkbox" id="$idNameusdt" name="$idNameusdt" value="USDT">
+  <label for="$idNameusdt">$RealName</label><br>";
+  $idNamebtc = $idName."BTC";
+  echo "<input type="checkbox" id="$idNamebtc" name="$idNamebtc" value="BTC">
+  <label for="$idNamebtc">$RealName</label><br>";
+  $idNameeth = $idName."ETH";
+  echo "<input type="checkbox" id="$idNameeth" name="$idNameeth" value="ETH">
+  <label for="$idNameeth">$RealName</label><br>";
 
 }
 
