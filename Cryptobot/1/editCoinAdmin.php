@@ -64,14 +64,14 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder){
 
 function addNewCheckBox($RealName, $idName, $value, $tabIndex, $pHoolder){
   $idNameusdt = $idName."USDT";
-  echo "<input type='checkbox' id='$idNameusdt' name='$idNameusdt' value='USDT'>
-  <label for='$idNameusdt'>$RealName</label><br>";
+  echo "<br><input type='checkbox' id='$idNameusdt' name='$idNameusdt' value='USDT'>
+  <label for='$idNameusdt'>USDT</label>";
   $idNamebtc = $idName."BTC";
-  echo "<input type='checkbox' id='$idNamebtc' name='$idNamebtc' value='USDT'>
-  <label for='$idNamebtc'>$RealName</label><br>";
+  echo "<br><input type='checkbox' id='$idNamebtc' name='$idNamebtc' value='USDT'>
+  <label for='$idNamebtc'>BTC</label>";
   $idNameeth = $idName."ETH";
-  echo "<input type='checkbox' id='$idNameeth' name='$idNameeth' value='USDT'>
-  <label for='$idNameeth'>$RealName</label><br>";
+  echo "<br><input type='checkbox' id='$idNameeth' name='$idNameeth' value='USDT'>
+  <label for='$idNameeth'>ETH</label>";
 
 }
 
