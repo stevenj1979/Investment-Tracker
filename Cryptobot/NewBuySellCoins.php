@@ -232,7 +232,7 @@ function runPriceDipRule($priceDipRules){
     $PctChangeAvg = $priceDipRules[$a][16];
     $pctChangeTargetAvg = $priceDipRules[$a][15];
     $pctChangeDisableTargetAvg = $priceDipRules[$a][17];
-    echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct | $PctChangeAvg | $pctChangeTargetAvg | $pctChangeDisableTargetAvg";
+    echo "<BR> $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct | $PctChangeAvg | AvgEnable: $pctChangeTargetAvg | AvgDisable: $pctChangeDisableTargetAvg";
       if($PctChangeAvg <= $pctChangeTargetAvg ){
         echo "<BR> enableBuyRule($buyRuleID); $hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct";
         //enableBuyRule($buyRuleID, 1);
