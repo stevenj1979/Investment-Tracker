@@ -1036,9 +1036,9 @@ Declare Coin_ID_USDT INT;
 Declare Coin_ID_BTC INT;
 Declare Coin_ID_ETH INT;
 
-SELECT `ID` into Coin_ID_USDT FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'USDT';
-SELECT `ID` into Coin_ID_BTC FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'BTC';
-SELECT `ID` into Coin_ID_ETH FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'ETH';
+SELECT `ID` into Coin_ID_USDT FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 and `BaseCurrency` = 'USDT';
+SELECT `ID` into Coin_ID_BTC FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 and `BaseCurrency` = 'BTC';
+SELECT `ID` into Coin_ID_ETH FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 and `BaseCurrency` = 'ETH';
 
 
 IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_USDT) THEN
@@ -1046,13 +1046,18 @@ IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_USDT) THEN
   if (Coin_ID_USDT > 0) Then
     INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_USDT,CMC_ID,0,0,0,0);
   end if;
+end if;
+IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_BTC) THEN
   if (Coin_ID_BTC > 0) Then
     INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_BTC,CMC_ID,0,0,0,0);
   end if;
+end if;
+IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_ETH) THEN
   if (Coin_ID_ETH > 0) Then
     INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_ETH,CMC_ID,0,0,0,0);
   end if;
 end if;
+
 
 UPDATE `CMCData` SET `1HrPrice` = Hr_1Price,`24HrPrice`= Hr_24Price,`7DayPrice`= Day_7Price,`30DayPrice`= Day_30Price WHERE `CMCID` = CMC_ID;
 end$$
