@@ -1032,18 +1032,29 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addCMCData`(IN `CMC_ID` INT, IN `Hr_1Price` DECIMAL(20,8), IN `Hr_24Price` DECIMAL(20,8), IN `Day_7Price` DECIMAL(20,8), IN `Day_30Price` DECIMAL(20,8))
     MODIFIES SQL DATA
 BEGIN
-Declare Coin_ID INT;
-SELECT `ID` into Coin_ID FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1;
+Declare Coin_ID_USDT INT;
+Declare Coin_ID_BTC INT;
+Declare Coin_ID_ETH INT;
 
-IF EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID) THEN
+SELECT `ID` into Coin_ID_USDT FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'USDT';
+SELECT `ID` into Coin_ID_BTC FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'BTC';
+SELECT `ID` into Coin_ID_ETH FROM `Coin` WHERE `CMCID` = CMC_ID and `BuyCoin` = 1 asn `BaseCurrency` = 'ETH';
 
-UPDATE `CMCData` SET `1HrPrice` = Hr_1Price,`24HrPrice`= Hr_24Price,`7DayPrice`= Day_7Price,`30DayPrice`= Day_30Price WHERE `CoinID` = Coin_ID and `CMCID` = CMC_ID;
 
-else
+IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_USDT) THEN
 
-INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID,CMC_ID,Hr_1Price,Hr_24Price,Day_7Price,Day_30Price);
+  if (Coin_ID_USDT > 0) Then
+    INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_USDT,CMC_ID,0,0,0,0);
+  end if;
+  if (Coin_ID_BTC > 0) Then
+    INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_BTC,CMC_ID,0,0,0,0);
+  end if;
+  if (Coin_ID_ETH > 0) Then
+    INSERT INTO `CMCData`(`CoinID`, `CMCID`, `1HrPrice`, `24HrPrice`, `7DayPrice`, `30DayPrice`) VALUES (Coin_ID_ETH,CMC_ID,0,0,0,0);
+  end if;
 end if;
 
+UPDATE `CMCData` SET `1HrPrice` = Hr_1Price,`24HrPrice`= Hr_24Price,`7DayPrice`= Day_7Price,`30DayPrice`= Day_30Price WHERE `CMCID` = CMC_ID;
 end$$
 DELIMITER ;
 

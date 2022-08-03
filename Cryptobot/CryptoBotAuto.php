@@ -170,7 +170,7 @@ logAction('CryptoBotAuto Start','CoinPrice', $logToFileSetting);
 $i = 0;
 $coins = getTrackingCoins("WHERE `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View20_CoinPrices` ");
 $coinLength = Count($coins);
-$coinStr = getCoinList(getStats(),3);
+$coinStr = getCoinList(getNewStats(),0);
 echo "<BR>CoinStr: $coinStr";
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
 $historyFlag = False; $marketCapFlag = False; $marketCapStatsUpdateFlag = True;
