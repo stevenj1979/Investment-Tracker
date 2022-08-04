@@ -1937,3 +1937,14 @@ end if;
 
 End$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addPriceDipCoins`(IN `User_ID` INT, IN `Coin_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+if NOT exists (SELECT `ID` FROM `PriceDipCoinStatus` WHERE `CoinID` = Coin_ID and `UserID` = User_ID) THEN
+	INSERT INTO `PriceDipCoinStatus`(`CoinID`, `UserID`) VALUES (Coin_ID,User_ID);
+End if;
+END$$
+DELIMITER ;
