@@ -663,6 +663,48 @@ function fixQTUM(){
     logAction("fixQTUM: ".$sql, 'BuySell', 0);
 }
 
+function getPriceDipCoins(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "SELECT `Pds`.`UserID` as UserID, `Cn`.`ID` as CoinID
+            FROM `PriceDipSettings` `Pds`
+            join `Coin` `Cn`
+            WHERE `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0";
+  echo "<BR>".$sql;
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['UserID'],$row['CoinID']);
+  }
+  $conn->close();
+return $tempAry;
+}
+
+function runAddPriceDipCoins(){
+  $priceDipCoins = getPriceDipCoins();
+  $priceDipCoinsSize = count($priceDipCoins);
+  for ($j=0; $j<$priceDipCoinsSize; $j++){
+    $userID = $priceDipCoins[$j][0]; $coinID = $priceDipCoins[$j][1];
+    addPriceDipCoins($userID,$coinID);
+  }
+}
+
+function addPriceDipCoins($userID,$coinID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "call addPriceDipCoins($userID,$coinID);";
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("addPriceDipCoins",$sql,3,0,"SQL","UserID:");
+    logAction("addPriceDipCoins: ".$sql, 'BuySell', 0);
+}
 
 
 
@@ -740,5 +782,6 @@ OptimiseTable("`SpreadBetCoins`");
 deleteCoinSwapClosed();
 runNewDashboard();
 //fixQTUM();
+runAddPriceDipCoins();
 ?>
 </html>
