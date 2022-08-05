@@ -1871,6 +1871,7 @@ Declare ETH_Bal DEC(20,14);
 DECLARE writeUSDTBal DEC(20,14);
 DECLARE writeBTCBal DEC(20,14);
 DECLARE writeETHBal DEC(20,14);
+Declare Pbase Varchar(50);
 
 SET running_Bal = nTotal;
 SELECT count(`Cn`.`ID`) into Base_USDT FROM `Transaction` `Tr`
@@ -1928,10 +1929,15 @@ elseif  (Base_ETH > 0 and nSymbol not in ('USDT','BTC','ETH')) Then
     end if;
 	UPDATE `BittrexBalances` SET `Total` = writeETHBal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = 'ETH';
 elseif nSymbol in ('USDT','BTC','ETH') THEN
+  If nSymbol = ('USDT') THEN
+    Set Pbase = 'USD';
+  elseif nSymbol in ('BTC','ETH') THEN
+    Set Pbase = nSymbol;
+  end if;
 	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = nSymbol ) THEN
-		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol, User_ID, nSymbol,0,0);
-     end if;
-     UPDATE `BittrexBalances` SET `Total` = nTotal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = nSymbol;
+		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol, User_ID, Pbase,0,0);
+  end if;
+  UPDATE `BittrexBalances` SET `Total` = nTotal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = Pbase;
 
 end if;
 
