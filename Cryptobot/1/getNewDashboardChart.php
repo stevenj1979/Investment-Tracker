@@ -22,16 +22,21 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `Hb`.`Date` as `ActionDate`, sum(ifnull(`HbBTC`.`TotalUSD`,0)) as TotalBTC ,sum(ifnull(`HbETH`.`TotalUSD`,0)) as TotalETH, sum(ifnull(`HbUSDT`.`TotalUSD`,0)) as TotalUSDT
-FROM `HistoricBittrexBalances` `Hb`
-left Join `HistoricBittrexBalances` `HbETH` on `Hb`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH'
-left Join `HistoricBittrexBalances` `HbBTC` on `Hb`.`ID` = `HbBTC`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC'
-left Join `HistoricBittrexBalances` `HbUSDT` on `Hb`.`ID` = `HbUSDT`.`ID` and (`HbUSDT`.`BaseCurrency` = 'USDT' OR `HbUSDT`.`BaseCurrency` = 'USD')
-WHERE `Hb`.`UserID` =  $userID
-AND `Hb`.`Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
-group by Year(`Hb`.`Date`),Month(`Hb`.`Date`),Day(`Hb`.`Date`)
-order by `Hb`.`Date` asc
-limit 50";
+$query = "SELECT `Hb`.`Date` as `ActionDate`, sum(ifnull(`HbBTC`.`TotalUSD`,0))+sum(ifnull(`HbBaseB`.`TotalUSD`,0)) as TotalBTC
+            ,sum(ifnull(`HbETH`.`TotalUSD`,0))+sum(ifnull(`HbBaseE`.`TotalUSD`,0))  as TotalETH
+            , sum(ifnull(`HbUSDT`.`TotalUSD`,0))+sum(ifnull(`HbBaseU`.`TotalUSD`,0)) as TotalUSDT
+            FROM `HistoricBittrexBalances` `Hb`
+            left Join `HistoricBittrexBalances` `HbETH` on `Hb`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH' and  `HbETH`.`Symbol` not in ('BTC','USDT','ETH')
+            left Join `HistoricBittrexBalances` `HbBTC` on `Hb`.`ID` = `HbBTC`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC' and  `HbBTC`.`Symbol` not in ('BTC','USDT','ETH')
+            left Join `HistoricBittrexBalances` `HbUSDT` on `Hb`.`ID` = `HbUSDT`.`ID` and (`HbUSDT`.`BaseCurrency` in ('USDT','USD')) and  `HbUSDT`.`Symbol` not in ('BTC','USDT','ETH')
+            left Join `HistoricBittrexBalances` `HbBaseU` on `Hb`.`ID` = `HbBaseU`.`ID` and (`HbBaseU`.`Symbol` = 'USDT' )
+            left Join `HistoricBittrexBalances` `HbBaseB` on `Hb`.`ID` = `HbBaseB`.`ID` and (`HbBaseB`.`Symbol` = 'BTC' )
+            left Join `HistoricBittrexBalances` `HbBaseE` on `Hb`.`ID` = `HbBaseE`.`ID` and (`HbBaseE`.`Symbol` = 'ETH' )
+            WHERE `Hb`.`UserID` =  $userID
+            AND `Hb`.`Date` >= curdate() - INTERVAL DAYOFWEEK(curdate())+14 DAY
+            group by Year(`Hb`.`Date`),Month(`Hb`.`Date`),Day(`Hb`.`Date`)
+            order by `Hb`.`Date` asc
+            limit 50";
 $table = array();
 $table['cols'] = array(
     /* define your DataTable columns here
