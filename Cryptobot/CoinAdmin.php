@@ -627,7 +627,8 @@ function runNewDashboard(){
     }
     $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`,`TotalUSD`,`CoinID`,`BaseCurrency`)
         SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`, `Bb`.`UserID`
-        ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1)) as Multiplier
+        ,if(`Bb`.`Symbol` = 'BTC', getBTCPrice(84),if(`Bb`.`Symbol` = 'ETH', getBTCPrice(85),if(`Bb`.`Symbol` = 'USDT', getBTCPrice(83)
+        ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1))))) as Multiplier
         ,`Bb`.`Total`*`Bb`.`Price` as TotalUSD
         ,`Cn`.`ID`,`Bb`.`BaseCurrency`
         FROM `BittrexBalances` `Bb`

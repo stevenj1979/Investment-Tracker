@@ -1932,7 +1932,7 @@ elseif nSymbol in ('USDT','BTC','ETH') THEN
   If nSymbol = ('USDT') THEN
     Set Pbase = 'USD';
   elseif nSymbol in ('BTC','ETH') THEN
-    Set Pbase = nSymbol;
+    Set Pbase = 'USDT';
   end if;
 	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = nSymbol ) THEN
 		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol, User_ID, Pbase,0,0);
