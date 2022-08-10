@@ -22,7 +22,7 @@ $userID = $_GET['ID'];
 //$btcPrice = getLiveCoinPriceUSD('BTC');
 //$usdtPrice = getLiveCoinPriceUSD('USDT');
 //$ethPrice = getLiveCoinPriceUSD('ETH');
-$query = "SELECT `Hb`.`Date` as `ActionDate`, sum(ifnull(`HbBTC`.`TotalUSD`*`HbBTC`.`Multiplier`,0)) as TotalBTC ,sum(ifnull(`HbETH`.`TotalUSD`*`HbETH`.`Multiplier`,0)) as TotalETH, sum(ifnull(`HbUSDT`.`TotalUSD`*`HbUSDT`.`Multiplier`,0)) as TotalUSDT
+$query = "SELECT `Hb`.`Date` as `ActionDate`, sum(ifnull(`HbBTC`.`TotalUSD`,0)) as TotalBTC ,sum(ifnull(`HbETH`.`TotalUSD`,0)) as TotalETH, sum(ifnull(`HbUSDT`.`TotalUSD`,0)) as TotalUSDT
 FROM `HistoricBittrexBalances` `Hb`
 left Join `HistoricBittrexBalances` `HbETH` on `Hb`.`ID` = `HbETH`.`ID` and `HbETH`.`BaseCurrency` = 'ETH'
 left Join `HistoricBittrexBalances` `HbBTC` on `Hb`.`ID` = `HbBTC`.`ID` and `HbBTC`.`BaseCurrency` = 'BTC'
