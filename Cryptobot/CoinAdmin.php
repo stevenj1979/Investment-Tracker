@@ -388,7 +388,7 @@ function writeHigh($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("CoinAdmin",$sql,3,1,"writeHigh","CoinID:$coinID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"writeHigh","CoinID:$coinID");
 }
 
 function writeLow($coinID, $price){
@@ -402,7 +402,7 @@ function writeLow($coinID, $price){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("CoinAdmin",$sql,3,1,"writeLow","CoinID:$coinID");
+  newLogToSQL("CoinAdmin",$sql,3,0,"writeLow","CoinID:$coinID");
 }
 
 function updateCoinPct($coinID,$buyRuleID, $mode){
@@ -686,6 +686,7 @@ function runAddPriceDipCoins(){
   for ($j=0; $j<$priceDipCoinsSize; $j++){
     $userID = $priceDipCoins[$j][0]; $coinID = $priceDipCoins[$j][1];
     addPriceDipCoins($userID,$coinID);
+    newLogToSQL("CoinAdmin","addPriceDipCoins($userID,$coinID);",3,1,"addPriceDipCoins","UserID:$userID");
   }
 }
 
