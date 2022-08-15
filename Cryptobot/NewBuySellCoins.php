@@ -815,6 +815,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             if ($type == 'BuyBack'){
               $pctToBuy = 100;
             }
+            if ($overrideCoinAlloc == 1 AND $BTCAmount < 20){
+              $pctToBuy = 400;
+            }
             $ogBTCAmount = ($ogBTCAmount/100)*$pctToBuy;
         }
         $date = date("Y-m-d H:i:s", time());
