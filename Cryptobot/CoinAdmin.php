@@ -686,7 +686,7 @@ function runAddPriceDipCoins(){
   for ($j=0; $j<$priceDipCoinsSize; $j++){
     $userID = $priceDipCoins[$j][0]; $coinID = $priceDipCoins[$j][1];
     addPriceDipCoins($userID,$coinID);
-    newLogToSQL("CoinAdmin","addPriceDipCoins($userID,$coinID);",3,1,"addPriceDipCoins","UserID:$userID");
+    newLogToSQL("CoinAdmin","addPriceDipCoins($userID,$coinID);",3,0,"addPriceDipCoins","UserID:$userID");
   }
 }
 
