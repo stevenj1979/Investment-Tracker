@@ -1631,8 +1631,8 @@ SET runUpdate = 0;
 
 
 SELECT DATEDIFF(CURDATE(),`LastUpdated`) AS DateDiff into daysFromUpdate FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
-SELECT TIMESTAMPDIFF(HOUR,  CURDATE(),`DateAdded`) AS DateDiff into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
-SET weeksSinceAdded = MOD(hoursAdded,168);
+SELECT TIMESTAMPDIFF(HOUR,  `DateAdded`,CURDATE()) AS DateDiff into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
+SET weeksSinceAdded = MOD(168,hoursAdded);
 If NOT EXISTS (SELECT `ID` FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low) THEN
 INSERT INTO `AvgHighLow`( `CoinID`, `HighLow`,`LastUpdated`) VALUES (Coin_ID,High_Low,date_sub(CURRENT_DATE(),INTERVAL 4 MONTH));
 SET daysFromUpdate = 91;
