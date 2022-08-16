@@ -432,7 +432,10 @@ $Hr1Change3 = $priceDipRules[0][21];	$Hr1Change4 = $priceDipRules[0][22];	$Hr1Ch
 $D7ChangePctChange = $priceDipRules[0][26];	$LiveSellOrders = $priceDipRules[0][27];	$LastSellOrders = $priceDipRules[0][28];	$SellOrdersPctChange = $priceDipRules[0][29];	$LivePriceTrend = $priceDipRules[0][30];
 $LastPriceTrend = $priceDipRules[0][31];	$Price3Trend = $priceDipRules[0][32];	$Price4Trend = $priceDipRules[0][33];	$Hr1PriceChangeLive = $priceDipRules[0][34];	$Hr1PriceChangeLast = $priceDipRules[0][35];
 $Hr1PriceChange3 = $priceDipRules[0][36];	$Hr1PriceChange4 = $priceDipRules[0][37];
-
+if ($LiveCoinPrice == 0){ $LiveCoinPrice = $LastCoinPrice;}
+if ($Live24HrChange == 0){$Live24HrChange = $Last24HrChange; $Hr24ChangePctChange = (($LiveCoinPrice-$Live24HrChange)/$LiveCoinPrice)*100;}
+if ($Live1HrChange == 0){ $Live1HrChange = $Last1HrChange; $Hr1ChangePctChange =(($LiveCoinPrice-$Live1HrChange)/$LiveCoinPrice)*100;}
+if ($Live7DChange == 0){ $Live7DChange = $Last7DChange; $D7ChangePctChange = (($LiveCoinPrice-$Live7DChange)/$LiveCoinPrice)*100;}
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
