@@ -14,14 +14,15 @@ function getTransStats(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
-  $sql = "SELECT `Tr`.`CoinID`,`Tr`.`UserID`, count(`Tr`.`CoinID`) as Count, `Usc`.`MergeAllCoinsDaily`, `Tr`.`ID`
-FROM `Transaction` `Tr`
-join `UserConfig` `Usc` on `Usc`.`UserID` = `Tr`.`UserID`
-WHERE `Status` = 'Open'
-Group by `CoinID`,`UserID`";
+  $sql = "SELECT `Tr`.`CoinID`,`Tr`.`UserID`, count(`Tr`.`CoinID`) as Count, `Usc`.`MergeAllCoinsDaily`, `Tr`.`ID`,`Cn`.`BaseCurrency`
+            FROM `Transaction` `Tr`
+            join `UserConfig` `Usc` on `Usc`.`UserID` = `Tr`.`UserID`
+            join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+            WHERE `Status` = 'Open'
+            Group by `CoinID`,`UserID`,`Cn`.`BaseCurrency`";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['UserID'],$row['Count'],$row['MergeAllCoinsDaily'],$row['ID']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['UserID'],$row['Count'],$row['MergeAllCoinsDaily'],$row['ID'],$row['BaseCurrency']);}
   $conn->close();
   return $tempAry;
 
