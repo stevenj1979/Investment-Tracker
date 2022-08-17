@@ -1859,13 +1859,32 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `RemoveHoldingAmount`(IN `User_ID` INT, IN `base_curr` VARCHAR(50), IN `nAmount` DECIMAL(20,14), IN `Trans_ID` INT)
     MODIFIES SQL DATA
 Begin
-If (base_curr = 'USDT')  THEN
-	UPDATE `UserCoinSavings` SET `HoldingUSDT` = `HoldingUSDT` - nAmount WHERE `UserID` = User_ID;
-ELSEIf (base_curr = 'BTC')  THEN
-	UPDATE `UserCoinSavings` SET `HoldingBTC` = `HoldingBTC` - nAmount WHERE `UserID` = User_ID;
-ELSEIf (base_curr = 'ETH')  THEN
-	UPDATE `UserCoinSavings` SET `HoldingETH` =  `HoldingETH` - nAmount WHERE `UserID` = User_ID;
-End if;
+DECLARE Open_Trans INT;
+
+SELECT count(`Tr`.`ID`) into Open_Trans FROM `Transaction` `Tr`
+join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+WHERE `Tr`.`Status` in ('Open','Pending')
+and `Cn`.`BaseCurrency` = Base_Curr
+And `Tr`.`SpreadBetTransactionID` = 0
+and `Tr`.`UserID` = User_ID;
+
+if (Open_Trans = 0) THEN
+    if (base_curr = 'USDT')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingUSDT` = 0 WHERE `UserID` = User_ID;
+    ELSEIf (base_curr = 'BTC')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingBTC` = 0 WHERE `UserID` = User_ID;
+    ELSEIf (base_curr = 'ETH')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingETH` =  0 WHERE `UserID` = User_ID;
+    End if;
+else
+    If (base_curr = 'USDT')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingUSDT` = `HoldingUSDT` - nAmount WHERE `UserID` = User_ID;
+    ELSEIf (base_curr = 'BTC')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingBTC` = `HoldingBTC` - nAmount WHERE `UserID` = User_ID;
+    ELSEIf (base_curr = 'ETH')  THEN
+        UPDATE `UserCoinSavings` SET `HoldingETH` =  `HoldingETH` - nAmount WHERE `UserID` = User_ID;
+    End if;
+end if;
 UPDATE `Transaction` SET `holdingAmount` = `holdingAmount` - nAmount WHERE `ID` = Trans_ID;
 End$$
 DELIMITER ;
