@@ -1120,13 +1120,13 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addToBuyBackMultiply`(IN `BuyBackID` INT, IN `nAddNum` DECIMAL(20,14), IN `nBuyBackPct` DECIMAL(20,14), IN `nMultiply` DECIMAL(20,14))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addToBuyBackMultiply`(IN `BuyBackID` INT, IN `nAddNum` DECIMAL(20,14), IN `nBuyBackPct` DECIMAL(20,14), IN `nMultiply` DECIMAL(20,14), IN `nLimit` DECIMAL(20,14))
     MODIFIES SQL DATA
 Begin
 
-If (nBuyBackPct < -3.75) THEN
+If (nBuyBackPct < nLimit) THEN
 
-UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < -3.75 and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
+UPDATE `BuyBack` SET `BuyBackPct` = (`BuyBackPct` + (nMultiply)) WHERE `BuyBackPct` < nLimit and `ID` = BuyBackID and nAddNum > 0 and  nMultiply > 0;
 
 Else
 
