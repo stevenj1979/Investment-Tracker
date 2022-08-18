@@ -6908,7 +6908,7 @@ function addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call addToBuyBackMultiply($buyBackID,$addNum,$buyBackPct,$multiplier);";
+  $sql = "Call addToBuyBackMultiply($buyBackID,$addNum,$buyBackPct,$multiplier, -4.5);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
