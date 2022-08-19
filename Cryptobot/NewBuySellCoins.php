@@ -229,6 +229,7 @@ function runPriceDipRule($priceDipRules){
 
     if(!isset($hr24ChangePctChange)){ continue;}
     if(!isset($d7ChangePctChange)){ continue;}
+
     $PctChangeAvg = $priceDipRules[$a][16];
     $pctChangeTargetAvg = $priceDipRules[$a][15];
     $pctChangeDisableTargetAvg = $priceDipRules[$a][17];
@@ -2029,7 +2030,7 @@ function buyToreduceLoss($lossCoins){
     $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67];
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
-    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73];
+    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74];
 
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
@@ -2038,6 +2039,9 @@ function buyToreduceLoss($lossCoins){
     }else{
       $finalReduceLoss = 0;
     }
+    $excludeSpreadBet = 1;
+    if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
+      
     echo "<BR> buyToreduceLoss: $pctProfit | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss";
     if ($pctProfit <= $reduceLossSellPct and $minsToDelay > 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
