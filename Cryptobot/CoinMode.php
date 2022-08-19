@@ -91,10 +91,10 @@ function getNewMarketstats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT (((sum(`LiveCoinPrice`-`Live1HrChange`))/ sum(`Live1HrChange`))*100) as Hr1MarketPctChange
-            ,(((sum(`LiveCoinPrice`-`Live24HrChange`))/ sum(`Live24HrChange`))*100) as Hr24MarketPctChange
-            ,(((sum(`LiveCoinPrice`-`Live7DChange`))/ sum(`Live7DChange`))*100) as D7MarketPctChange
-            FROM `View1_BuyCoins` WHERE `BuyCoin` = 1 ";
+  $sql = "SELECT ((((`LiveCoinPrice`-`Live1HrChange`))/ (`Live1HrChange`))*100) as Hr1MarketPctChange
+            ,((((`LiveCoinPrice`-`Live24HrChange`))/ (`Live24HrChange`))*100) as Hr24MarketPctChange
+            ,((((`LiveCoinPrice`-`Live7DChange`))/ (`Live7DChange`))*100) as D7MarketPctChange
+            FROM `MarketCoinStats`  ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
