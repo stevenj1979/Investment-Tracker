@@ -287,7 +287,7 @@ displayHeader(0);
                 echo "<tr><td>Coin Allocation</td><td>$btcAlloc</td><td>$ethAlloc</td><td>$usdtAlloc</td><td>$lowMarketMode</td></tr>";
                 $holdingBTC = $uProfit[0][12]; $holdingUSDT = $uProfit[0][11]; $holdingETH = $uProfit[0][13];
                 $holdingTotal = $holdingBTC + $holdingUSDT + $holdingETH;
-                echo "<tr><td>Coin Holding</td><td>$holdingBTC</td><td>$holdingETH</td><td>$holdingUSDT</td><td>$holdingTotal</td></tr>";
+                echo "<tr><td>Coin Holding</td><td>".round($holdingBTC,2)."</td><td>".round($holdingETH,2)."</td><td>".round($holdingUSDT,2)."</td><td>".round($holdingTotal,2)."</td></tr>";
                 echo "</tr>";
 
               echo "</table>";
