@@ -165,7 +165,7 @@ INSERT INTO `TrackingSellCoins`(`CoinPrice`, `UserID`, `TransactionID`,`SellCoin
 VALUES (Coin_Price,User_ID,Trans_ID,Sell_Coin,Send_Email,Offset_Enabled,Offset_Pct,Fall_InPrice,Coin_Price,Coin_Price,nType,Coin_Price);
 else
   Update `TrackingSellCoins` SET `CoinPrice` = Coin_Price, `UserID`=User_ID, `SellCoin`=Sell_Coin,`SendEmail`=Send_Email,`CoinSellOffsetEnabled`=Offset_Enabled,`CoinSellOffsetPct`=Offset_Pct,`SellFallsInPrice`=Fall_InPrice
-  ,`BaseSellPrice`=Coin_Price,`LastPrice`=Coin_Price,`Type`=nType,`OriginalSellPrice`=Coin_Price, `TrackingCount` = `TrackingCount` + 1 WHERE `TransactionID` = Trans_ID;
+  ,`BaseSellPrice`=Coin_Price,`LastPrice`=Coin_Price,`Type`=nType,`OriginalSellPrice`=Coin_Price, `TrackingCount` = `TrackingCount` + 1 , `TrackDate`=now(), `Status`='Open', `TrackStartDate` = now() WHERE `TransactionID` = Trans_ID;
 end if;
 
 END$$
@@ -1636,17 +1636,17 @@ SET runUpdate = 0;
 
 
 SELECT DATEDIFF(CURDATE(),`LastUpdated`) AS DateDiff into daysFromUpdate FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
-SELECT TIMESTAMPDIFF(HOUR,  `DateAdded`,CURDATE()) AS DateDiff into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
-SET weeksSinceAdded = MOD(hoursAdded,186);
+SELECT Mod(TIMESTAMPDIFF(HOUR,  `DateAdded`,CURDATE()),24) AS DateDiff into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
+
 If NOT EXISTS (SELECT `ID` FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low) THEN
 INSERT INTO `AvgHighLow`( `CoinID`, `HighLow`,`LastUpdated`) VALUES (Coin_ID,High_Low,date_sub(CURRENT_DATE(),INTERVAL 4 MONTH));
 SET daysFromUpdate = 91;
 END IF;
 
-if (daysFromUpdate >= 90) THEN
+if (daysFromUpdate > 90) THEN
   SET runUpdate = 1;
 end if;
-if (hoursAdded < 2160 AND weeksSinceAdded = 0) THEN
+if (hoursAdded = 1) THEN
   SET runUpdate = 1;
 end if;
 
