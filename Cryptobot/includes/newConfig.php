@@ -173,7 +173,7 @@ function reopenCoinSwapCancel($transID, $nFlag){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("reopenCoinSwap",$sql,3,1,"SQL","TransID:$transID");
+    newLogToSQL("reopenCoinSwap",$sql,3,0,"SQL","TransID:$transID");
     logAction("reopenCoinSwap: ".$sql, 'BuySell', 0);
 }
 
@@ -4254,7 +4254,7 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin$verNum",$sql,3,1,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin$verNum",$sql,3,0,"SQL","TrackingCoinID:$ID");
 }
 
 function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
