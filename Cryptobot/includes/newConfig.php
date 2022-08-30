@@ -4017,7 +4017,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
   }
   $conn->close();
   logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("NewBuySellCoins:$callName","$sql",3,1,"addTrackingCoin","UserID:$userID");
+  newLogToSQL("NewBuySellCoins:$callName","$sql",3,0,"addTrackingCoin","UserID:$userID");
 }
 
 function updateReduceLossCounter($transID,$callName){
