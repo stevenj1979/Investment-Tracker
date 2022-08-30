@@ -746,7 +746,9 @@ function runUpdateAvgPrices(){
   for ($v=0; $v<$coinSize; $v++){
     $coinID = $coin[$v][0];
     runSQLAvgPrice($coinID,'High');
+    echo "<BR> runSQLAvgPrice($coinID,'High');";
     runSQLAvgPrice($coinID,'Low');
+    echo "<BR> runSQLAvgPrice($coinID,'Low');";
   }
 }
 
