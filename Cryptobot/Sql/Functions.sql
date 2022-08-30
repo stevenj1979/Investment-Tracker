@@ -188,3 +188,19 @@ end if;
 return (finalAmount*BTC_Price);
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getHighLowPricebyMonth`(`Coin_ID` INT, `High_Low` VARCHAR(50), `nMonths` INT) RETURNS decimal(20,14)
+    READS SQL DATA
+BEGIN
+Declare returnVal DEC(20,14);
+SET returnVal = 0;
+if (High_Low = 'High') Then
+SELECT MAX(`MaxPrice`) into returnVal FROM `MonthlyMaxPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL nMonths MONTH);
+ELSE
+SELECT MIN(`MinPrice`) into returnVal FROM `MonthlyMinPrices` WHERE `CoinID` = Coin_ID and DATE(CONCAT(`Year`,"-",`Month`,"-01")) > date_sub(CURRENT_DATE(),INTERVAL nMonths MONTH);
+end if;
+return returnVal;
+END$$
+DELIMITER ;
