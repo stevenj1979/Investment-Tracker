@@ -470,7 +470,7 @@ function getTrackingSellCoinsAll(){
   ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
-  ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`
+  ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -483,7 +483,7 @@ function getTrackingSellCoinsAll(){
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
-    ,$row['HoursFlatRls'],$row['SpreadBetTransactionID']); //74
+    ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed']); //75
   }
   $conn->close();
   return $tempAry;
@@ -6154,7 +6154,7 @@ function delaySavingBuy($transactionID,$delayMins){
   }
   $conn->close();
   logAction("delaySavingBuy: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("delaySavingBuy",$sql,3,0,"SQL","TransID:$transactionID");
+  newLogToSQL("delaySavingBuy",$sql,3,1,"SQL","TransID:$transactionID");
 }
 
 function updateSpreadProfit($spreadBetRuleID, $pctProfit){

@@ -2030,7 +2030,7 @@ function buyToreduceLoss($lossCoins){
     $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67];
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
-    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74];
+    $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
 
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
@@ -2041,9 +2041,9 @@ function buyToreduceLoss($lossCoins){
     }
     $excludeSpreadBet = 1;
     if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
-    //and $minsToDelay > 0 
-    echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $minsToDelay | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
-    if ($pctProfit <= $reduceLossSellPct  AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
+    //and $minsToDelay > 0
+    echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
+    if ($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       //get multiplier

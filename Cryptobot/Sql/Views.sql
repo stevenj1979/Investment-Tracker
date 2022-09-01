@@ -151,6 +151,7 @@ FROM `BittrexAction`  `Ba`
       ,(((`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28)) /(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as ProfitPct
       ,TimeStampDiff(MINUTE, `Tr`.`DelayCoinSwapUntil`, now()) as `minsToDelay`
       ,TIMESTAMPDIFF(MINUTE, `Tr`.`OrderDate`, Now()) as MinsFromBuy
+      ,if (`DelayCoinSwapUntil`< now(), 0,1) as CoinSwapDelayed
       ,`Sbr`.`ID` as `IDSbr`, `Sbr`.`Name` as `SpreadBetRuleName`, `Sbr`.`UserID` as `UserIDSbr`
       ,`Bi`.`ID` as `IDBi`, `Bi`.`CoinID` as `CoinIDBi`, `Bi`.`TopPrice`, `Bi`.`LowPrice`, `Bi`.`Difference`, `Bi`.`NoOfSells`
       ,`Rls`.`ID` as `IDRls`, `Rls`.`UserID` as `UserIDRls` , `Rls`.`Enabled`, `Rls`.`SellPct`, `Rls`.`OriginalPriceMultiplier`,`Rls`.`ReduceLossMaxCounter`,`Rls`.`HoursFlat` as HoursFlatRls
