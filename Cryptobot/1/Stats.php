@@ -109,12 +109,12 @@ function getHistoryFromSQL(){
     return $tempAry;
 }
 
-function displayOptionOne($symbol,$baseCurrency){
+function displayOptionOne($symbol,$coinID){
     $selected = $_SESSION['StatsListSelected'];
-  if ($selected == $symbol){
-      echo "<Option selected='selected' value='$symbol'>$symbol</option>";
+  if ($selected == $coinID){
+      echo "<Option selected='selected' value='$coinID'>$symbol</option>";
   }else{
-    echo "<Option value='$symbol'>$symbol</option>";
+    echo "<Option value='$coinID'>$symbol</option>";
   }
 
 
@@ -159,7 +159,7 @@ displayHeader(2);
 
         for($x = 0; $x < $StatsArrLength; $x++) {
             //echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
-            displayOptionOne($coinStats[$x][0],$coinStats[$x][2]);
+            displayOptionOne($coinStats[$x][0],$coinStats[$x][1]);
         }
         echo "</select><SELECT name='timeSelect'>";
         displayOption("15 Minute");
