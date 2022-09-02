@@ -90,7 +90,7 @@ function getTrackingSellCoinsLoc($userID = 0){
   ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`1HrPriceChangeLive`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,`OriginalPrice`, `CoinFee`, `LivePrice`, `ProfitUSD`, `ProfitPct`
-  ,`CaptureTrend`
+  ,`CaptureTrend`,`IDCn`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -100,7 +100,8 @@ function getTrackingSellCoinsLoc($userID = 0){
     $row['Symbol'],$row['LastBuyOrders'],$row['LiveBuyOrders'],$row['BuyOrdersPctChange'],$row['LastMarketCap'],$row['LiveMarketCap'],$row['MarketCapPctChange'],$row['LastCoinPrice'],$row['LiveCoinPrice'], //19
     $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['1HrPriceChangeLive'],$row['Last24HrChange'],$row['Live24HrChange'] //31
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
-    ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['CaptureTrend']);
+    ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['CaptureTrend'] //54
+    ,$row['IDCn']);//55
   }
   $conn->close();
   return $tempAry;
@@ -253,9 +254,9 @@ $date = date('Y/m/d H:i:s', time());
             $originalPurchaseCost = ($purchaseCost * $amount);
             $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
             $profitBtc = $profit/($originalPurchaseCost)*100;
-            $userID = $_SESSION['ID'];
+            $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][55];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image' width=60 height=60></a></td>";
+            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
             echo "<td><p id='largeText' >$name</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
             NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
