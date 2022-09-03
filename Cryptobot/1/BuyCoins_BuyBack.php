@@ -155,7 +155,7 @@ if ($conn->connect_error) {
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
-            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`
+            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' and `UserID` = $userID";
 
@@ -165,7 +165,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDBb'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['StatusBb'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
-    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget']); //30
+    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency']); //31
 }
 $conn->close();
 return $tempAry;
@@ -314,9 +314,10 @@ function displayMain(){
     $hr1PctChange = $tracking[$x][28];
     $hoursFlat = $tracking[$x][29];
     $hoursFlatTarget = $tracking[$x][30];
+    $baseCurrency = $tracking[$x][31];
 
     //Table
-    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$symbol'><img src='$image'></img></a></td>";
+    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
     Echo "<td>".round($buyBackPct,$num)." %</td>";
 
@@ -333,7 +334,7 @@ function displayMain(){
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
     Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget</td>";
     Echo "<td>1Hr Pct Change: $hr1PctChange</td>";
-
+    Echo "<td>$baseCurrency</td>";
     echo "</tr><tr>";
     //$numCol = getNumberColour($priceDiff1);
     Echo "<td>Price Dif: ".round($priceDifferecePct,$num)." %</td>";
