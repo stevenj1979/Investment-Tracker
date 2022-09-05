@@ -39,8 +39,9 @@ function showMain(){
         //save Rules
 
         //print_r("<h2>Buy Some Coins Now!</h2><Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-        echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
-        &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
+        //echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
+        //&nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
+        displaySubHeader("BuyCoin");
         //if($_SESSION['isMobile'] == False){
 
           NewEcho("<Table><th>&nbspCoin</th>",$_SESSION['isMobile'],2);
