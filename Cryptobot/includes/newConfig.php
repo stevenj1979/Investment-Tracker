@@ -3994,6 +3994,27 @@ function addCoinSwapIDtoTracking($coinSwapID,$transID){
   newLogToSQL("addCoinSwapIDtoTracking","$sql",3,0,"SQL CALL","UserID:$userID");
 }
 
+function addWebUsage($userID,$action,$column){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call addWebUsage($userID,'$action','$column');";
+
+  print_r($sql);
+
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addWebUsage: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addWebUsage","$sql",3,0,"SQL CALL","UserID:$userID");
+}
+
 function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,$callName, $savingOverride, $transID = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection

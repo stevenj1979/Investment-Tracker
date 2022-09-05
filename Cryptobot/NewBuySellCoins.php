@@ -373,6 +373,8 @@ function runBuyBack($buyBackCoins){
       LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
       //CloseBuyBack
       closeBuyBack($bBID);
+      addWebUsage($userID,"Remove","BuyBack");
+      addWebUsage($userID,"Add","BuyTracking");
       buyBackDelay($tmpCoinID,4320,$tmpUserID);
       addOldBuyBackTransID($bBID,$tmpCoinID);
       logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
@@ -830,6 +832,8 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
           closeNewTrackingCoin($newTrackingCoinID, False,3);
           addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,'TrackingCoins');
+          addWebUsage($userID,"Remove","BuyTracking");
+          addWebUsage($userID,"Add","BittrexAction");
           //if ($type == 'SavingsBuy'){
             //updateTypeToBittrex($type,$transactionID);
             //updateTypeToTrans($type,$transactionID);
@@ -968,6 +972,8 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
         if ($checkSell){
           closeNewTrackingSellCoin($TransactionID);
+          addWebUsage($userID,"Remove","SellTracking");
+          addWebUsage($userID,"Add","BittrexAction");
           newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDate, $baseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);",3,$GLOBALS['logToSQLSetting'],"Success","TransactionID:$TransactionID");
           addUSDTBalance('USDT', $BTCAmount,$LiveCoinPrice, $userID);
           logAction("runTrackingSellCoin; sellCoins : $coin | $CoinID | $baseCurrency | $LiveCoinPrice | $CoinPrice | $Amount | $userID | $minsFromDate | $type | $TransactionID", 'BuySellFlow', 1);
@@ -1233,6 +1239,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           if($BTCAmount <= 0 ){ continue;}
           addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
           newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,0,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
+          addWebUsage($userID,"Add","BuyTracking");
           $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
           $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
           //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
@@ -1413,6 +1420,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
         newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell','RunSellCoins');
         setTransactionPending($transactionID);
+        addWebUsage($userID,"Remove","SellCoin");
+        addWebUsage($userID,"Add","SellTracking");
         logAction("sellCoins($APIKey, $apisecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice)",'BuySell', $GLOBALS['logToFileSetting'] );
         logAction("UserID: $userID | Coin : $coin | 1: $sTest1 2: $sTest2 3: $sTest3 4: $sTest4 5: $sTest5 6: $sTest6 7: $sTest7 8: $sTest8 9: $sTest9 10: $sTest10 11: $sTest11",'BuySell', $GLOBALS['logToFileSetting'] );
         newLogToSQL("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
@@ -1579,6 +1588,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           }
           newLogToSQL("BittrexBuy", "bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type);", $userID, 1,"OrderComplete","TransactionID:$transactionID");
           bittrexBuyComplete($uuid, $transactionID, $finalPrice,$type); //add buy price - $finalPrice
+          addWebUsage($userID,"Add","SellCoin");
           //updateAmount $uuid  $resultOrd["result"]["Quantity"]
           updateSQLQuantity($uuid,$orderQty);
           newLogToSQL("BittrexBuy", "Order Complete for OrderNo: $orderNo Final Price: $finalPrice | Type: $type", $userID, $GLOBALS['logToSQLSetting'],"OrderComplete","TransactionID:$transactionID");
@@ -1724,6 +1734,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               echo "<BR> Bittrex Sell Complete: $uuid | $transactionID | $finalPrice";
               newLogToSQL("BittrexSell", "bittrexSellComplete($uuid, $transactionID, $finalPrice); $originalAmount ", $userID, 1,"bittrexSellComplete","TransactionID:$transactionID");
               bittrexSellComplete($uuid, $transactionID, $finalPrice); //add sell price - $finalPrice
+              addWebUsage($userID,"Remove","SellCoin");
               extendPctToBuy($coinID,$userID);
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){ $allocationType = 'SpreadBet';}elseif ($coinModeRule >0){$allocationType = 'CoinMode';}
@@ -1761,6 +1772,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                     if ($tempRises <= 0){ $tempRises = 2;}
                     if ($tempmins <= 0){ $tempmins = 120;}
                     WriteBuyBack($transactionID,$realProfitPct,$tempRises, $tempmins,$finalPrice,$amount,$cost,$usd_Amount);
+                    addWebUsage($userID,"Add","BuyBack");
                   }
                 }
               }else{
@@ -2055,6 +2067,7 @@ function buyToreduceLoss($lossCoins){
       newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       //Buy Coin with Merge
       addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);
+      addWebUsage($userID,"Add","BuyTracking");
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
