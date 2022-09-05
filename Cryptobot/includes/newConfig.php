@@ -3199,7 +3199,7 @@ function displayHeader($n){
       <div class="settingCol1"><?php
 }
 
-displaySubHeader($page){
+function displaySubHeader($page){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   if ($page == 'BuyCoin'){
