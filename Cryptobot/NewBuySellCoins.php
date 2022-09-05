@@ -1648,6 +1648,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             }
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+          addWebUsage($userID,"Remove","BittrexAction");
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
           $finalBool = True;
         }
@@ -1695,12 +1696,14 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexBuyCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $GLOBALS['logToSQLSetting'],"PartialOrder","TransactionID:$transactionID");
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+              addWebUsage($userID,"Add","SellCoin");
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );}
           }
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           if ($buyBack == 1){ reopenCoinSwapCancel($BittrexID,1); }
           $finalBool = True;
+          addWebUsage($userID,"Remove","BittrexAction");
           //reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
       }elseif (($type == "Sell" && $finalBool == False)or ($type == "SpreadSell" && $finalBool == False) or ($type == "SavingsSell" && $finalBool == False) ){ // $type Sell
@@ -1855,6 +1858,8 @@ function runBittrex($BittrexReqs,$apiVersion){
                newLogToSQL("BittrexSell", "Sell Order over 28 Days. Error cancelling OrderNo: $orderNo : $result", $userID, $GLOBALS['logToSQLSetting'],"CancelPartialError","TransactionID:$transactionID");
              }
           }
+          addWebUsage($userID,"Remove","BittrexAction");
+          addWebUsage($userID,"Add","SellCoin");
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
         if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
