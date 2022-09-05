@@ -240,9 +240,10 @@ $userSettings = getRules($_SESSION['ID']);
 $userSettingsLen = count($userSettings);
 //echo $userDetails[0][1];
 displayHeader(7);
-?>
 
-           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
+
+           //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
+            displaySubHeader("Settings");
             showSellRules($userSettings, "Enabled Rules",1,$userSettingsLen);
             showSellRules($userSettings, "Disabled Rules",0,$userSettingsLen);
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";

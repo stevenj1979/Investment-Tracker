@@ -337,10 +337,10 @@ $userSettingsDisabled = getRules($_SESSION['ID'],0);
 $userSettingsDisabledLen = count($userSettingsDisabled);
 //echo $userDetails[0][1];
 
-displayHeader(7);?>
+displayHeader(7);
 
-           <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3> <?php
-
+           //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3> 
+          displaySubHeader("Settings");
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
           showBuyRules($userSettingsDisabled, "Disabled Rules", 0,$userSettingsDisabledLen);

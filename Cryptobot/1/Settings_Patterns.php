@@ -337,7 +337,8 @@ $coin1HrPatternNameSelected = $_SESSION['coin1HrPatternNameSelected'];
 $readOnly = " style='color:Gray' readonly ";
 $comboList = Array('-1','0','1','*');
   displayHeader(7);
-  ?><h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3><?php
+  //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
+  displaySubHeader("Settings"); 
   echo "<H3>Coin Price Match</H3>";
   echo "<div><form action='Settings_Patterns.php?changeNameSelection=Y' method='post'>";
   Echo "<select name='CoinPriceMatchNamesSelect'>";

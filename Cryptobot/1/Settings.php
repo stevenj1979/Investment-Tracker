@@ -201,7 +201,9 @@ $userDetails = getUserIDs($_SESSION['ID']);
       <div class="row">
             <div class="settingCol1">
                 <!--<h3>User Settings</h3>-->
-                <h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
+                <?php displaySubHeader("Settings"); ?>
+
+
                 <form action="Settings.php?user=Yes" method="post">
               <div class="form-group">
                 <b>UserName: </b><br/>
