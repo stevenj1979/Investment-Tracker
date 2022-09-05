@@ -3156,9 +3156,20 @@ function displayHeader($n){
   $userDisabledUntil = getUserDisabled($_SESSION['ID']);
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
-
+  if (!isset($_SESSION['headerTimeout'])){
+    addWebUsage($_SESSION['ID']);
+    $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
+    $_SESSION['headerTimeout'] = date("Y-m-d", strtotime("+10 minutes"));
+  }elseif( strtotime($_SESSION['headerTimeout']) > strtotime('now')){
+    addWebUsage($_SESSION['ID']);
+    $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
+    $_SESSION['headerTimeout'] = date("Y-m-d", strtotime("+10 minutes"));
+  }
+  $webUsageAry = $_SESSION['webUsage'];
+  $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving;
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","CoinMode.php","AdminSettings.php");
-  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins","Sell Coins","Profit","Bittrex Orders","Settings","Coin Alerts","Console","CoinMode","Admin Settings");
+  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins (".$buyTotal.")","Sell Coins (".$sellTotal.")","Profit","Bittrex Orders (".$bittrexAction.")","Settings","Coin Alerts","Console","CoinMode","Admin Settings");
   $headerLen = count($headers);
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
   ?><div class="header">
@@ -3967,7 +3978,7 @@ $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['RuleID'],);
+    $tempAry[] = Array($row['RuleID']);
 }
 $conn->close();
 return $tempAry;
@@ -4013,6 +4024,25 @@ function addWebUsage($userID,$action,$column){
   $conn->close();
   logAction("addWebUsage: ".$sql, 'TrackingCoins', 0);
   newLogToSQL("addWebUsage","$sql",3,0,"SQL CALL","UserID:$userID");
+}
+
+function getWebUsage($userID){
+$conn = getSQLConn(rand(1,3));
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction` FROM `CryptoBotWebUsageTable`
+  WHERE `UserID` = $userID ";
+$result = $conn->query($sql);
+//$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);
+while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction']);
+}
+$conn->close();
+return $tempAry;
 }
 
 function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,$callName, $savingOverride, $transID = 0){
