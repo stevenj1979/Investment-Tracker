@@ -4005,14 +4005,14 @@ function addCoinSwapIDtoTracking($coinSwapID,$transID){
   newLogToSQL("addCoinSwapIDtoTracking","$sql",3,0,"SQL CALL","UserID:$userID");
 }
 
-function addWebUsage($userID,$action,$column){
+function addWebUsage($userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call addWebUsage($userID,'$action','$column');";
+  $sql = "call addWebUsage($userID);";
 
   print_r($sql);
 
