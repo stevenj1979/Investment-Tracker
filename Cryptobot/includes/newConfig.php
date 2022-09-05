@@ -3199,6 +3199,18 @@ function displayHeader($n){
       <div class="settingCol1"><?php
 }
 
+displaySubHeader($page){
+  $webUsageAry = $_SESSION['webUsage'];
+  $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
+  if ($page == 'BuyCoin'){
+    echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking ($buyTracking)</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
+    &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back ($buyBack)</a></h3>";
+  }elseif ($page == 'SellCoin'){
+    echo "<h3><a href='SellCoins.php'>Sell Coins ($sellCoin)</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking ($sellTracking)</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving ($sellSaving)</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
+     &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
+  }
+}
+
 function displaySideColumn(){
   //Echo "";?>
       </div>
