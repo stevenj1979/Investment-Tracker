@@ -3165,7 +3165,7 @@ function displayHeader($n){
     addWebUsage($_SESSION['ID']);
     $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
-  }elseif( strtotime($_SESSION['headerTimeout']) > strtotime('now')){
+  }elseif( strtotime($_SESSION['headerTimeout']) < strtotime('now')){
     addWebUsage($_SESSION['ID']);
     $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
