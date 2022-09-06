@@ -1066,6 +1066,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $calculatedSellPctEnable = $sellRules[$z][61];$calculatedSellPctStart = $sellRules[$z][62];$calculatedSellPctEnd = $sellRules[$z][63];$calculatedSellPctDays = $sellRules[$z][64];
       if ($calculatedSellPctEnable == 1){
         $ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);
+        if ($ProfitPctTop_Sell < 0.5){ $ProfitPctTop_Sell = 0.5;}
         $ProfitPctBtm_Sell = -99.99;
 
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctTop_Sell | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
