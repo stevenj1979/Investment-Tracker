@@ -324,7 +324,8 @@ function getRules($id){
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
-,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`
+,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`
+, `CalculatedSellPctDays`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -338,7 +339,8 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       $row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled']//35
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
       ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']//49
-      ,$row['SellFallsInPrice']);//50
+      ,$row['SellFallsInPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'],$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'] //55
+      ,$row['CalculatedSellPctDays']);//56
   }
   $conn->close();
   return $tempAry;
@@ -642,6 +644,12 @@ function displayEdit($id){
   echo "<H3>Hours Flat</H3>";
   addNewTwoOption('Hours Flat Enable: ','HoursFlatEnable',$formSettings[0][45]);
   addNewText('Hours Flat: ','HoursFlat',$formSettings[0][46],37, '30', False,$formSettings[0][45]);
+  addNewTwoOption('Hours Past Buy To Sell Enable: ','HoursPastBuySellEnable',$formSettings[0][51]);
+  addNewText('Hours Past Buy To Sell: ','HoursPastBuy',$formSettings[0][52],37, '30', False,$formSettings[0][51]);
+  addNewTwoOption('Calculated Sell Pct Enable: ','CalculatedSellPctEnable',$formSettings[0][53]);
+  addNewText('Calculated Sell Pct Start: ','CalculatedSellPctStart',$formSettings[0][54],37, '30', False,$formSettings[0][53]);
+  addNewText('Calculated Sell Pct End: ','CalculatedSellPctEnd',$formSettings[0][55],37, '30', False,$formSettings[0][53]);
+  addNewText('Calculated Sell Pct Days: ','CalculatedSellPctDays',$formSettings[0][56],37, '30', False,$formSettings[0][53]);
   echo "</div>";
 
   echo "<div class='settingsform'>";
