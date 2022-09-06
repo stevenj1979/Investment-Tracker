@@ -1711,7 +1711,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           if ($buyBack == 1){ reopenCoinSwapCancel($BittrexID,1); }
           $finalBool = True;
-          ($userID,"Remove","BittrexAction");
+          //($userID,"Remove","BittrexAction");
           //reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
         }
       }elseif (($type == "Sell" && $finalBool == False)or ($type == "SpreadSell" && $finalBool == False) or ($type == "SavingsSell" && $finalBool == False) ){ // $type Sell
