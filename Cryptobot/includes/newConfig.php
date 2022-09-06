@@ -3159,7 +3159,7 @@ function displayHeader($n){
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
 
   //$_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
-  echo $_SESSION['headerTimeout'];
+  //echo $_SESSION['headerTimeout'];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
   if (!isset($_SESSION['headerTimeout'])){
     addWebUsage($_SESSION['ID']);
@@ -3169,6 +3169,7 @@ function displayHeader($n){
     addWebUsage($_SESSION['ID']);
     $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
+    echo "Refreshed!";
   }
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
