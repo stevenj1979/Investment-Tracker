@@ -2,7 +2,7 @@
 <?php
 ini_set('max_execution_time',1200);
 require('includes/newConfig.php');
-require('includes/BuySellFunc.php');
+require('Functions/BuySellFunc.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
