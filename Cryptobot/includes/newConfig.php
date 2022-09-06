@@ -3157,7 +3157,7 @@ function displayHeader($n){
   //$_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
   $userDisabledUntil = getUserDisabled($_SESSION['ID']);
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
-  echo "$_SESSION['headerTimeout']";
+  echo $_SESSION['headerTimeout'];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
   if (!isset($_SESSION['headerTimeout'])){
     addWebUsage($_SESSION['ID']);
