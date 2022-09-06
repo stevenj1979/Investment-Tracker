@@ -1,5 +1,5 @@
 <?php
-include_once ('../../../../SQLData.php');
+include_once ('../../../SQLData.php');
 
 Define("sQLUpdateLog","0");
 Define("SQLProcedureLog","0");
