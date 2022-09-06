@@ -3168,7 +3168,7 @@ function displayHeader($n){
   }elseif( strtotime($_SESSION['headerTimeout']) > strtotime('now')){
     addWebUsage($_SESSION['ID']);
     $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
-    $_SESSION['headerTimeout'] = date("Y-m-d", strtotime("+10 minutes"));
+    $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
   }
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
