@@ -1072,7 +1072,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
         $ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
-        if ($ProfitPctBtm_Sell < $ProfitPctBtm_Sell_Original){$ProfitPctBtm_Sell = $ProfitPctBtm_Sell_Original;}
+        if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){$ProfitPctBtm_Sell = $calculatedSellPctEnd;}
 
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
       }
