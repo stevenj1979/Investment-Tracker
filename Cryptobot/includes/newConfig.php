@@ -3169,7 +3169,7 @@ function displayHeader($n){
     addWebUsage($_SESSION['ID']);
     $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
-    echo "Refreshed!";
+    //echo "Refreshed!";
   }
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
@@ -4039,7 +4039,7 @@ function addWebUsage($userID){
   //print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
+      //echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
