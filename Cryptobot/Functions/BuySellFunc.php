@@ -257,5 +257,6 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
   return $finalBool;
 }
 
+
 ?>
 </html>

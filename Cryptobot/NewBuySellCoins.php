@@ -668,7 +668,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice TrackingCount: $trackingCount";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct,$originalSellPrice);
-    if ($readyToSell == 1 OR $trackingCount >= 5){
+    if ($readyToSell == 1 OR $trackingCount >= 5 OR $trackingType == 'SellBypass'){
       $PurchasePrice = ($Amount*$CoinPrice);
       $salePrice = $LiveCoinPrice * $Amount;
       $profit = $newTrackingSellCoins[$b][43];
@@ -1033,6 +1033,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][59]; $minsFromBuy = $sellCoins[$a][61];
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
+    $bypassTrackingSell = $sellCoins[$a][67];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1194,7 +1195,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         echo "<BR>Sell Coins: $APIKey, $apisecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
         //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
         //sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
-        newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell','RunSellCoins');
+        $newType = 'Sell';
+        if ($bypassTrackingSell == 1){
+          $newType = 'SellBypass';
+        }
+        newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
         setTransactionPending($transactionID);
         //addWebUsage($userID,"Remove","SellCoin");
         //addWebUsage($userID,"Add","SellTracking");
