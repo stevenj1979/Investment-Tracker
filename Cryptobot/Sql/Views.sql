@@ -614,3 +614,12 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
      join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
        where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+
+CREATE OR REPLACE VIEW `View22_BuyBackTransationIDProfit` as
+       SELECT  `BuyBackTransactionID`,  if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
+                ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
+                  ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
+                  , `BaseCurrency`
+              FROM `View15_OpenTransactions`
+              WHERE `UserID` = 3 and `Type` = 'Sell' and `StatusTr` = 'Sold' and `BuyBackTransactionID` <> 0
+              Group by `BuyBackTransactionID`, `BaseCurrency` order by `USDProfit` asc;

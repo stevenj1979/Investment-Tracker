@@ -1016,10 +1016,14 @@ End if;
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
 If BuyBack_TransID = 0 THEN
-	INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
-	Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
-	UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
+  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 order by `USDProfit` asc Limit 1; 
 END if;
+
+if BuyBack_TransID = 0 THEN
+  INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
+  Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
+  UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
+End if;
 
 If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
 UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
