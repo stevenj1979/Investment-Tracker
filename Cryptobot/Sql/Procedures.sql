@@ -1636,7 +1636,7 @@ SET runUpdate = 0;
 
 
 SELECT DATEDIFF(CURDATE(),`LastUpdated`) AS DateDiff into daysFromUpdate FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
-SELECT if (TIMESTAMPDIFF(DAY,  `DateAdded`,CURDATE()) <= 60, Mod(TIMESTAMPDIFF(HOUR,  `DateAdded`,CURDATE()),24), 0) AS DateDiff into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
+SELECT if (TIMESTAMPDIFF(DAY,  `DateAdded`,CURDATE()) <= 60, TIMESTAMPDIFF(HOUR,  `LastUpdated`,CURDATE()),0) AS DateDiff  into hoursAdded FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low;
 
 If NOT EXISTS (SELECT `ID` FROM `AvgHighLow` WHERE `CoinID` = Coin_ID and `HighLow` = High_Low) THEN
 INSERT INTO `AvgHighLow`( `CoinID`, `HighLow`,`LastUpdated`) VALUES (Coin_ID,High_Low,date_sub(CURRENT_DATE(),INTERVAL 4 MONTH));
@@ -1646,7 +1646,7 @@ END IF;
 if (daysFromUpdate > 90) THEN
   SET runUpdate = 1;
 end if;
-if (hoursAdded = 1) THEN
+if (hoursAdded >= 24) THEN
   SET runUpdate = 1;
 end if;
 
