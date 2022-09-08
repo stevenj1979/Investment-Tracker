@@ -1016,7 +1016,7 @@ End if;
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
 If BuyBack_TransID = 0 THEN
-  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 order by `USDProfit` asc Limit 1; 
+  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 AND `UserID` =  User_ID order by `USDProfit` asc Limit 1; 
 END if;
 
 if BuyBack_TransID = 0 THEN
