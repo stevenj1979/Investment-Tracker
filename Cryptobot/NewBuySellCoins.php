@@ -658,7 +658,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
     $origAmount = $newTrackingSellCoins[$b][40];$trackingType = $newTrackingSellCoins[$b][41]; $originalSellPrice = $newTrackingSellCoins[$b][42];
     $market1HrChangePct = $marketStats[0][1]; $reEnableBuyRule = $newTrackingSellCoins[$b][46]; $reEnableBuyRuleEnabled = $newTrackingSellCoins[$b][45]; $trackingCount = $newTrackingSellCoins[$b][48];
     Echo "<BR> Check Sell: Cp: $CoinPrice | TRID: $TransactionID | Am: $Amount ";
-    if ($minsFromDate > 1440 and $trackingType == 'SavingsSell'){
+    if ($minsFromDate > 1440 and $trackingType == 'SavingsSell' and $trackingType <> 'SellBypass'){
       closeNewTrackingSellCoin($TransactionID);
       updateTransStatus($TransactionID,'Saving');
       //addWebUsage($userID,"Remove","SellTracking");
