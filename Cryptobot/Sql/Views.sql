@@ -311,6 +311,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
   ,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) > 0),1,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) < 0),-(1),0)) AS `1HrPriceChange4`
   ,`Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
   , `Cn`.`DoNotBuy`
+  ,`Dcp`.`ID` as `IDDcp`, `Dcp`.`CoinID` as `CoinIDDcp`, `Dcp`.`UserID` as `UserIDDcp`,`Dcp`.`DelayTime` as `DelayTimeDcp`
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
@@ -320,7 +321,8 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
  join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
  join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `Tr`.`CoinID`))
- Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Tr`.`CoinID`;
+ Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Tr`.`CoinID`
+ left join `DelayCoinPurchase` `Dcp` on `Dcp`.`CoinID` = `Tr`.`CoinID` and `Dcp`.`UserID` = `Tr`.`UserID`;
 
 CREATE OR REPLACE VIEW `View10_DelayCoinPurchase` as
 SELECT `Dcp`.`ID`, `Dcp`.`CoinID`, `Dcp`.`UserID`, `Dcp`.`DelayTime`

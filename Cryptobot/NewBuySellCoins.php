@@ -278,7 +278,7 @@ function runBuyBack($buyBackCoins){
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
     $hr1ChangePctChange = $buyBackCoins[$t][38];$hr24ChangePctChange = $buyBackCoins[$t][39];$d7ChangePctChange = $buyBackCoins[$t][40];
-    $hoursFlatTarget =$buyBackCoins[$t][45];
+    $hoursFlatTarget =$buyBackCoins[$t][45]; $delayCoinPurchase = $buyBackCoins[$t][48];
     //if ($lowMarketModeEnabled > 0){ $lowMarketMultiplier = 100;}else{$lowMarketMultiplier = $pctOnLow;}
     //$BTCAvailable = (($buyBackCoins[$t][31]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][35];
     //$ETHAvailable = (($buyBackCoins[$t][32]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][36];
@@ -291,7 +291,7 @@ function runBuyBack($buyBackCoins){
     $profitPct = $buyBackCoins[$t][11];
 
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
-    if ($profitPct <=  $buyBackPct){
+    if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
 
