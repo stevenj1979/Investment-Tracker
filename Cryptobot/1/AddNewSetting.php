@@ -400,8 +400,8 @@ function updateEditedUser(){
   `24HrChangeEnabled`=$t4HrEnable,`24HrChangeTop`=$PriceChange24HrTop,`24HrChangeBtm`=$PriceChange24HrBtm,`7DChangeEnabled`=$sDEnable,`7DChangeTop`=$PriceChange7DTop,`7DChangeBtm`=$PriceChange7DBtm,
   `CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm, `SendEmail`=$sendEmail, `BuyCoin`=$buyCoin, `BTCAmount`=$bTCBuyAmount, `BuyCoinOffsetPct`=$BuyCoinOffsetPct,
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
-  `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled, `BuyAmountOverride` = $buyAmountOverride
-  , `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed
+  `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled,
+  `BuyAmountOverride` = $buyAmountOverride, `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed
   ,`LimitToCoinID` = CASE
 	       WHEN '$limitToCoin' = 'ALL'  THEN 'ALL'
          ELSE (SELECT `ID` FROM `Coin` WHERE `Symbol` = 'ALL' and `BuyCoin` = 1)
@@ -409,8 +409,8 @@ function updateEditedUser(){
   , `CoinOrder` = $coinOrder,
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
-  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled, `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins
-  , `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate
+  ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
+  , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate
   WHERE `ID` = $id";
   print_r($sql);
 
