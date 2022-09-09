@@ -803,7 +803,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         }
         if ($sendEmail==1 && $buyCoin ==0){
         //if ($sendEmail){
-          sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from);
+          sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from,$baseCurrency);
         }
     }else{
       addCoinPurchaseDelay($coinID,$userID,120,0);
@@ -1322,12 +1322,12 @@ function reOpenOneTimeBuyRule($trackingID){
   newLogToSQL("reOpenOneTimeBuyRule",$sql,3,1,"SQL","TrackingID:$trackingID");
 }
 
-function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from){
+function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $user, $from, $baseCurrency){
     $body = "Dear ".$user.", <BR/>";
     $body .= "Congratulations you have bought the following Coin: "."<BR/>";
-    $body .= "Coin: ".$symbol." Amount: ".$amount." Price: ".$cost."<BR/>";
+    $body .= "Coin: ".$symbol.":".$baseCurrency." Amount: ".$amount." Price: ".$cost."<BR/>";
     $body .= "Order Number: ".$orderNo."<BR/>";
-    $body .= "Score: ".$score."<BR/>";
+    //$body .= "Score: ".$score."<BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -2295,7 +2295,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $bitPrice = ($bitPrice*$amount);
     $fee = (($bitPrice)/100)*0.25;
     $profit = $bitPrice - $buyPrice - $fee;
-    sendSellEmail($email, $coin, $amount, $bitPrice, $orderNo.$ruleID, $score,$profitPct,$profit,$subject,$userName,$from);
+    sendSellEmail($email, $coin, $amount, $bitPrice, $orderNo.$ruleID, $score,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
   }
   return $retSell;
 }
@@ -2516,14 +2516,14 @@ function clearBittrexRef($transactionID){
 
 
 
-function sendSellEmail($to, $symbol, $amount, $cost, $orderNo, $score, $profitPct, $profit, $subject, $user, $from){
+function sendSellEmail($to, $symbol, $amount, $cost, $orderNo, $score, $profitPct, $profit, $subject, $user, $from, $baseCurrency){
     $body = "Dear ".$user.", <BR/>";
     $body .= "Congratulations you have sold the following Coin: "."<BR/>";
     $body .= "Coin: ".$symbol." Amount: ".$amount." Price: ".$cost."<BR/>";
     $body .= "Order Number: ".$orderNo."<BR/>";
-    $body .= "Score: ".$score."<BR/>";
+    //$body .= "Score: ".$score."<BR/>";
     $body .= "Profit %: ".$profitPct."<BR/>";
-    $body .= "Profit BTC: ".$profit."<BR/>";
+    $body .= "Profit ".$baseCurrency.": ".$profit."<BR/>";
     $body .= "Kind Regards\nCryptoBot.";
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

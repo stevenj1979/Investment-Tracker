@@ -1304,7 +1304,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($sendEmail){
             $subject = "Coin Purchase1: ".$coin;
             $from = 'Coin Purchase <purchase@investment-tracker.net>';
-            sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from);
+            sendEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore, $subject,$userName,$from,$baseCurrency);
           }
 
           updateBuyAmount($transactionID,$orderQty);
@@ -1386,7 +1386,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           if ($sendEmail){
             $subject = "Coin Purchase1: ".$coin;
             $from = 'Coin Purchase <purchase@investment-tracker.net>';
-            sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
+            sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from, $baseCurrency);
           }
           if($redirectPurchasesToSpread == 1){
             $type = 'SpreadBuy';
@@ -1463,7 +1463,7 @@ function runBittrex($BittrexReqs,$apiVersion){
               if ($sendEmail){
                 $subject = "Coin Purchase1: ".$coin;
                 $from = 'Coin Purchase <purchase@investment-tracker.net>';
-                sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from);
+                sendEmail($email, $coin, $amount, $cost, $orderNo, $totalScore, $subject,$userName,$from, $baseCurrency);
               }
               if($redirectPurchasesToSpread == 1){
                 $type = 'SpreadBuy';
@@ -1507,7 +1507,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             if ($sendEmail){
               $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell;
               $from = 'Coin Sale <sale@investment-tracker.net>';
-              sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
+              sendSellEmail($email, $coin, $amount, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
             }
             //if ($type == "CoinSwapSell"){
               //update transaction to new Coin ID and amount
@@ -1630,7 +1630,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                if ($sendEmail){
                  $subject = "Coin Sale: ".$coin." RuleID:".$ruleIDBTSell." Qty: ".$orderQty." : ".$orderQtyRemaining;
                  $from = 'Coin Sale <sale@investment-tracker.net>';
-                 sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
+                 sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
                }
                $finalBool = True;
              }else{
@@ -1677,7 +1677,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 $subject = "Coin Sale2: ".$coin." RuleID:".$ruleIDBTSell." Qty: ".$orderQty." : ".$orderQtyRemaining;
                 $from = 'Coin Sale <sale@investment-tracker.net>';
                 //$debug = "$uuid : $transactionID - $orderQtyRemaining + $qtySold / $pctFromSale ! $liveProfitPct";
-                sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
+                sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
               }
               $finalBool = True;
             }else{
