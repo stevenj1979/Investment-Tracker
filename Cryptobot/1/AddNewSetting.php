@@ -366,6 +366,7 @@ function updateEditedUser(){
   $autoBuyPrice = $_POST['AutoBuyPrice'];
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
   $buyAmountOverride = $_POST['BuyAmountOverride'];
+  if (!isset($buyAmountOverride)){ $buyAmountOverride == 0;}
   $newBuyPattern = '';
   $coinOrder = $_POST['CoinOrderTxt'];
   $hr1ChangePattern = $_POST['Hr1ChangePattern'];
