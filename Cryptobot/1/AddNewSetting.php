@@ -440,7 +440,7 @@ function updateEditedUser(){
 
   $conn->close();
   //http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/AddNewSetting.php?edit=164
-  //header('Location: AddNewSetting.php?edit='.$id);
+  header('Location: AddNewSetting.php?edit='.$id);
 }
 
 
