@@ -697,7 +697,7 @@ function getMultiSellTemplates(){
   return $tempAry;
 }
 
-function displayMultiSell($symbolList, $name, $enabled){
+function displayMultiSell($symbolList, $name, $enabled, $selected){
   $symbolListCount = count($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
@@ -707,7 +707,12 @@ function displayMultiSell($symbolList, $name, $enabled){
     $symbol = $symbolList[$i][1];
     $num = $symbolList[$i][0];
     //$name = str_replace('-1','Minus1',$name);
-    echo "<option value='$num'>$symbol</option>";
+    //echo "<option value='$num'>$symbol</option>";
+    if ($selected == $num){
+      echo "<option value='$num' selected>$symbol</option>";
+    }else{
+      echo "<option value='$num'>$symbol</option>";
+    }
   }
   echo "</select>";
 }
@@ -935,7 +940,7 @@ function displayEdit($id){
     addNewText('Time To Cancel Mins: ', 'TimeToCancelMins', $finalTime, 51, 'Eg ALL', False,1);
     addNewTwoOption('Multi Sell Rules Enabled:','MultiSellRulesEnabled',$formSettings[0][81]);
     $multiSellTemplates = getMultiSellTemplates();
-    displayMultiSell($multiSellTemplates,'MultiSellRules',$formSettings[0][81]);
+    displayMultiSell($multiSellTemplates,'MultiSellRules',$formSettings[0][81],$formSettings[0][82]);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
