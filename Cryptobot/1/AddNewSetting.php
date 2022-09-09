@@ -383,6 +383,8 @@ function updateEditedUser(){
   $overrideCancelBuyTimeEnabled = 1;
   $buyRisesInPrice   = $_POST['BuyRisesInPrice'];
   $overrideCancelBuyTimeMins   = $_POST['TimeToCancelMins'];
+  $multiSellEnabled = postDataYesNo($_POST['MultiSellRulesEnabled']);
+  $multiSellTemplate = $_POST['MultiSellRules'];
     //$ruleID =  $_POST['RuleID'];
   //$nActive = $_POST['nActive'];
   // Create connection
@@ -407,7 +409,7 @@ function updateEditedUser(){
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled, `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins
-  , `BuyRisesInPrice` = $buyRisesInPrice
+  , `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate
   WHERE `ID` = $id";
   print_r($sql);
 
