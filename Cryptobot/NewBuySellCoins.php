@@ -291,7 +291,7 @@ function runBuyBack($buyBackCoins){
     $profitPct = $buyBackCoins[$t][11];
 
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
-    if ($profitPct <=  $buyBackPct){
+    if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
       Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
 

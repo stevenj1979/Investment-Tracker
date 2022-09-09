@@ -161,9 +161,9 @@ function reopenCoinSwapCancel($transID, $nFlag){
         die("Connection failed: " . $conn->connect_error);
     }
     if ($nFlag == 1){
-        $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $transID) and `TransactionID` <> 0";
+        $sql = "UPDATE `BuyBack` SET `Status` = 'Open', `DelayTime` = date_add(now(), INTERVAL 120 Minute)  WHERE `TransactionID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $transID) and `TransactionID` <> 0";
     }else{
-      $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = $transID and `TransactionID` <> 0";
+      $sql = "UPDATE `BuyBack` SET `Status` = 'Open', `DelayTime` = date_add(now(), INTERVAL 120 Minute) WHERE `TransactionID` = $transID and `TransactionID` <> 0";
     }
 
     print_r($sql);
@@ -6750,7 +6750,7 @@ function getBuyBackData(){
             ,if (`OriginalAmount`=0,`Quantity`,`OriginalAmount`) as `OriginalAmount`,`HoursFlatPdcs`,`CoinPrice`,`SaveMode`,`CoinPriceBB`,`USDBuyBackAmount`
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
-            , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTimeDcp` < now(),0,1) as  `DelayCoinPurchase`
+            , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
