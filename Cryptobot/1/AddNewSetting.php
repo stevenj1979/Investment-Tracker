@@ -260,6 +260,10 @@ function postData($postValue){
   }
 }
 
+function withDefaultVal($val, $default){
+  if (!isset($val)){ return $default;}
+}
+
 function updateEditedUser(){
 
   $id = $_GET['editedUserReady'];
@@ -365,16 +369,16 @@ function updateEditedUser(){
   $autoBuyCoinEnabled = postDataYesNo($_POST['AutoBuyEnabled']);
   $autoBuyPrice = $_POST['AutoBuyPrice'];
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
-  $buyAmountOverride = $_POST['BuyAmountOverride'];
-  if (!isset($buyAmountOverride)){ $buyAmountOverride == 0;}
+  $buyAmountOverride = postData($_POST['BuyAmountOverride']);
+
   $newBuyPattern = '';
-  $coinOrder = $_POST['CoinOrderTxt'];
+  $coinOrder = postData($_POST['CoinOrderTxt']);
   $hr1ChangePattern = $_POST['Hr1ChangePattern'];
   $overrideDailyLimitEnabled = postDataYesNo($_POST['OverrideDailyLimitEnabled']);
   $coinPctFromLowBuyPriceEnabled = postDataYesNo($_POST['CoinPctFromLowBuyPriceEnabled']);
-  $pctFromLowBuyPrice = $_POST['PctFromLowBuyPrice'];
+  $pctFromLowBuyPrice = postData($_POST['PctFromLowBuyPrice']);
   $coinHoursFlatEnabled = postDataYesNo($_POST['CoinHoursFlatEnabled']);
-    $coinHoursFlat = $_POST['CoinHoursFlat'];
+    $coinHoursFlat = postData($_POST['CoinHoursFlat']);
     $ruleName = $_POST['RuleName'];
     $reEnableBuyRuleAfterDip = postDataYesNo($_POST['ReEnableBuyRuleAfterDip']);
     $priceDip24Hr  = $_POST['PriceDip24Hr'];
@@ -382,8 +386,8 @@ function updateEditedUser(){
     $priceDipPctTolerance  = $_POST['PriceDipPctTolerance'];
     $priceDipHoursFlat = $_POST['PriceDipHoursFlat'];
   $overrideCancelBuyTimeEnabled = 1;
-  $buyRisesInPrice   = $_POST['BuyRisesInPrice'];
-  $overrideCancelBuyTimeMins   = $_POST['TimeToCancelMins'];
+  $buyRisesInPrice   = postData($_POST['BuyRisesInPrice']);
+  $overrideCancelBuyTimeMins   = postData($_POST['TimeToCancelMins']);
   $multiSellEnabled = postDataYesNo($_POST['MultiSellRulesEnabled']);
   $multiSellTemplate = $_POST['MultiSellRules'];
     //$ruleID =  $_POST['RuleID'];
