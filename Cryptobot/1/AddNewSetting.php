@@ -697,8 +697,8 @@ function displayMultiSell($symbolList, $name, $enabled){
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
   Echo "<select name='$name' $readOnly>";
   for ($i=0; $i<$symbolListCount; $i++){
-    $symbol = $symbolList[1][$i];
-    $num = $symbolList[0][$i];
+    $symbol = $symbolList[$i][1];
+    $num = $symbolList[$i][0];
     //$name = str_replace('-1','Minus1',$name);
     echo "<option value='$num'>$symbol</option>";
   }
