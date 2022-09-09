@@ -453,7 +453,7 @@ function getRules($id){
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
 ,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
-,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`
+,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -468,9 +468,10 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin']//44
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
-   ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
- ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
- ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins']); //80
+     ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
+     ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
+     ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins'] //80
+     ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID']); //82
   }
   $conn->close();
   return $tempAry;
@@ -671,6 +672,38 @@ function getAutoPrices(){
   return $tempAry;
 }
 
+function getMultiSellTemplates(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `ID`, `MultiRuleStr`, `UserID` FROM `MultiSellRuleTemplate` WHERE `UserID` = 3";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['MultiRuleStr'],$row['UserID'],$row['Symbol']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function displayMultiSell($symbolList, $name, $enabled){
+  $symbolListCount = count($symbolList);
+  $readOnly = "";
+  //echo "<BR> ENABLED: ".$enabled;
+  if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
+  Echo "<select name='$name' $readOnly>";
+  for ($i=0; $i<$symbolListCount; $i++){
+    $symbol = $symbolList[1][$i];
+    $num = $symbolList[0][$i];
+    //$name = str_replace('-1','Minus1',$name);
+    echo "<option value='$num'>$symbol</option>";
+  }
+  echo "</select>";
+}
 
 function displayEdit($id){
   $formSettings = getRules($id);
@@ -893,7 +926,9 @@ function displayEdit($id){
       $finalTime = $formSettings[0][80];
     }
     addNewText('Time To Cancel Mins: ', 'TimeToCancelMins', $finalTime, 51, 'Eg ALL', False,1);
-
+    addNewTwoOption('Multi Sell Rules Enabled:','MultiSellRulesEnabled',$formSettings[0][81]);
+    $multiSellTemplates = getMultiSellTemplates();
+    displayMultiSell($multiSellTemplates,'MultiSellRules',$formSettings[0][81]);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
