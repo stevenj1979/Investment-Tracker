@@ -381,10 +381,10 @@ function updateEditedUser(){
     $coinHoursFlat = postData($_POST['CoinHoursFlat']);
     $ruleName = $_POST['RuleName'];
     $reEnableBuyRuleAfterDip = postDataYesNo($_POST['ReEnableBuyRuleAfterDip']);
-    $priceDip24Hr  = $_POST['PriceDip24Hr'];
-    $priceDip7D = $_POST['PriceDip7D'];
-    $priceDipPctTolerance  = $_POST['PriceDipPctTolerance'];
-    $priceDipHoursFlat = $_POST['PriceDipHoursFlat'];
+    $priceDip24Hr  = postData($_POST['PriceDip24Hr']);
+    $priceDip7D = postData($_POST['PriceDip7D']);
+    $priceDipPctTolerance  = postData($_POST['PriceDipPctTolerance']);
+    $priceDipHoursFlat = postData($_POST['PriceDipHoursFlat']);
   $overrideCancelBuyTimeEnabled = 1;
   $buyRisesInPrice   = postData($_POST['BuyRisesInPrice']);
   $overrideCancelBuyTimeMins   = postData($_POST['TimeToCancelMins']);
