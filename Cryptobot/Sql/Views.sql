@@ -112,6 +112,7 @@ SELECT `Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba
 ,`Nca`.`UserID` as `UserIDNca`,`Nca`.`USDTAlloc`,`Nca`.`BTCAlloc`,`Nca`.`ETHAlloc`,`Nca`.`PctOnLow`
 ,TIMESTAMPDIFF(MINUTE,date_add(`Ba`.`ActionDate`,Interval `Ba`.`MinsToCancelAction` Minute), now()) as `MinsRemaining`
 , if (date_add(`Ba`.`ActionDate`,Interval `Ba`.`MinsToCancelAction` Minute)< now(),1,0) as DateADD
+,date_add(`Ba`.`ActionDate`,Interval `Ba`.`MinsToCancelAction` Minute) as timeToCancel
 FROM `BittrexAction`  `Ba`
  join `User` `Us` on `Us`.`ID` = `Ba`.`UserID`
     join `UserConfig` `Uc` on `Uc`.`UserID` = `Ba`.`UserID`
