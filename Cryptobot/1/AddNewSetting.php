@@ -730,7 +730,7 @@ function displayEdit($id){
   echo "<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>";
   echo "<form action='AddNewSetting.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
-  addNewText('Rule ID: ', 'RuleID', $id, 1, 'Eg 50', False,1);
+  addNewText('Rule ID: ', 'RuleID', $id, 1, 'Eg 50', False,0);
   addNewText('Rule Name: ', 'RuleName', $formSettings[0][71], 2, 'Eg 50', False,1);
   echo "</div>";
   echo "<div class='settingsform'>";
