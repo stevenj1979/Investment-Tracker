@@ -96,7 +96,7 @@ if(isset($_GET['coinTxt'])){
     $tempPrice = (($cost/100 )*20)+$cost;
     $salePrice = number_format((float)round($tempPrice,8, PHP_ROUND_HALF_UP), 8, '.', '');
   }
-  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);
+  sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 552,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice,'Sell');
   //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
   header('Location: SellCoins.php');
 }
@@ -213,28 +213,8 @@ function sellManualCoin($coin,$amount,$cost,$baseCurrency,$transactionID,$orderN
 
 
 echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
-?>
-<div class="header">
-  <table><TH><table class="CompanyName"><td rowspan="2" class="CompanyName"><img src='Images/CBLogoSmall.png' width="40"></td><td class="CompanyName"><div class="Crypto">Crypto</Div><td><tr class="CompanyName">
-      <td class="CompanyName"><Div class="Bot">Bot</Div></td></table></TH><TH>: Logged in as:</th><th> <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username'] ?></th></Table><br>
-  </div>
-  <div class="topnav">
-    <a href="Dashboard.php">Dashboard</a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
-    <a href="BuyCoins.php">Buy Coins</a>
-    <a href="SellCoins.php" class="active">Sell Coins</a>
-    <a href="Profit.php">Profit</a>
-    <a href="bittrexOrders.php">Bittrex Orders</a>
-    <a href="Settings.php">Settings</a><?php
-    if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-    ?>
-  </div>
-<div class="row">
-       <div class="column side">
-          &nbsp
-      </div>
-      <div class="column middle">
+displayHeader(4);?>
+
 <h1>Manual Sell Coin</h1>
 <h2>Enter Price</h2>
                 <form action='ManualSell.php?manualPrice=Yes' method='get'>
