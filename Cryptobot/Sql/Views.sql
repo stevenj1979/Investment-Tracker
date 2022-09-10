@@ -159,6 +159,8 @@ FROM `BittrexAction`  `Ba`
       , `Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled`, `Pds`.`HoursFlat`, `Pds`.`DipStartTime`
       ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`
       ,avgMaxPrice(`Cn`.`ID`,20) as `MaxPriceFromHigh`, ((`Cp`.`LiveCoinPrice`- avgMaxPrice(`Cn`.`ID`,20))/avgMaxPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToHigh`
+      ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+      , `Us`.`DisableUntil`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -172,7 +174,8 @@ FROM `BittrexAction`  `Ba`
       join `BounceIndex` `Bi` on `Bi`.`CoinID` = `Tr`.`CoinID`
       Left Join `ReduceLossSettings` `Rls` on `Rls`.`UserID` = `Tr`.`UserID`
       left Join  `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Tr`.`BuyRule`
-      join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`;
+      join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
+      join `User` `Us` on `Us`.`ID` = `Uc`.`UserID`;
 
     CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
     SELECT `Tsc`.`ID` as `IDTsc`, `Tsc`.`CoinPrice` as `CoinPriceTsc`, `Tsc`.`TrackDate`, `Tsc`.`UserID` as `UserIDTsc`, `Tsc`.`NoOfRisesInPrice`, `Tsc`.`TransactionID` as `TransactionIDTsc`, `Tsc`.`Status` as `StatusTsc`, `Tsc`.`SellCoin`, `Tsc`.`SendEmail`, `Tsc`.`CoinSellOffsetEnabled`, `Tsc`.`CoinSellOffsetPct`, `Tsc`.`TrackStartDate`, `Tsc`.`SellFallsInPrice` as `SellFallsInPriceSr`, `Tsc`.`BaseSellPrice`, `Tsc`.`LastPrice`, `Tsc`.`Type` as `TrackingType`, `Tsc`.`OriginalSellPrice`,`Tsc`.`TrackingCount`
