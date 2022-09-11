@@ -1259,6 +1259,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
     $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][65];
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68]; $cancelTimeCheck = $BittrexReqs[$b][69]; $timeToCancel = $BittrexReqs[$b][70];
+    $overrideBittrexCancellation = $BittrexReqs[$b][71];
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     //if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1642,7 +1643,7 @@ function runBittrex($BittrexReqs,$apiVersion){
           //addWebUsage($userID,"Add","SellCoin");
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
+        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False && $overrideBittrexCancellation == 0) or ($pctFromSale >= 4 && $finalBool == False)){
           if ($type == 'SpreadSell') { continue;}
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
