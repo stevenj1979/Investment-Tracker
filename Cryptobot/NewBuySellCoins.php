@@ -1643,7 +1643,8 @@ function runBittrex($BittrexReqs,$apiVersion){
           //addWebUsage($userID,"Add","SellCoin");
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False && $overrideBittrexCancellation == 0) or ($pctFromSale >= 4 && $finalBool == False)){
+        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
+          if ($overrideBittrexCancellation == 1){ continue;}
           if ($type == 'SpreadSell') { continue;}
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
