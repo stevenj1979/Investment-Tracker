@@ -68,7 +68,7 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
-          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`
+          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
@@ -77,7 +77,7 @@ function getBTTrackingCoins($userID){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
       ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
-    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining']);  //22
+    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4']);  //24
   }
   $conn->close();
   return $tempAry;
@@ -239,10 +239,10 @@ function displayOption($name){
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
-          $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22];
+          $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24];
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
-          echo "<td>&nbsp$coin</td>";
+          echo "<td>&nbsp<a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
           //echo "<td>$totalScore</td>";
           NewEcho("<td>&nbsp$userID</td><td>&nbsp$actionDate</td><td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
           //echo "<td>$sendEmail</td>";
