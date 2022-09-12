@@ -49,18 +49,31 @@ if(!empty($_GET['uuid'])){
     $$orderQtyRemaining = $orderQty-$qtySold;
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell',0);
     Echo "<BR> HERE 3 | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
+    $uuid = $_GET['uuid']; $apikey = $_GET['apikey']; $apisecret = $_GET['apisecret']; $transID =  $_GET['transactionID'];
     if ($orderQty == $orderQtyRemaining) {
       if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
         Echo "<BR> HERE 4 | ";
         echo "<br>bittrexSellCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
-        bittrexSellCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
+
+        $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
+        $canStatus = $result['status'];
+        if ($canStatus == 'CLOSED'){
+          bittrexSellCancel($uuid, $transID,'ManualBittrexSellCancel');
+          newLogToSQL("bittrexSellCancel","bittrexSellCancel($uuid, $transID,'ManualBittrexCancel'); $canStatus",3,1,"SQL CALL","UUID:$uuid");
+        }
         logAction("Bittrex Cancel 1 : ".json_encode($result), 'BuySell',0);
+
       }else{
         echo "<br>bittrexBuyCancel(".$_GET['uuid'].", ".$_GET['transactionID'].")";
-        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID'],$apiVersion);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
+
+        $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
+        $canStatus = $result['status'];
+        if ($canStatus == 'CLOSED'){
+          bittrexBuyCancel($uuid, $transID,'ManualBittrexBuyCancel');
+          newLogToSQL("bittrexBuyCancel","bittrexBuyCancel($uuid, $transID,'ManualBittrexBuyCancel'); $canStatus",3,1,"SQL CALL","UUID:$uuid");
+        }
         logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell',0);
+
       }
     }else{
       if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
@@ -70,14 +83,15 @@ if(!empty($_GET['uuid'])){
         //bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
         //New Transaction
         //$result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
-        if ($result == 1){
+        $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
+        $canStatus = $result['status'];
+        if ($canStatus == 'CLOSED'){
           $newOrderNo = "ORD".$coin.date("YmdHis", time())."0";
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
-          bittrexCopyTransNewAmount($_GET['transactionID'],$orderQtyRemaining,$newOrderNo);
+          bittrexCopyTransNewAmount($transID,$orderQtyRemaining,$newOrderNo);
           //Update QTY
-          bittrexUpdateSellQty($_GET['transactionID'],$qtySold);
-          bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
+          bittrexUpdateSellQty($transID,$qtySold);
+          bittrexSellCancel($uuid, $transID,'ManualBittrexSellCancelPartialBuy');
 
           if ($sendEmail){
             $subject = "Coin Sale: ".$coin." RuleID:"."0"." Qty: ".$orderQty." : ".$orderQtyRemaining;
@@ -88,14 +102,17 @@ if(!empty($_GET['uuid'])){
         }
         logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell',0);
       }else {
-        bittrexUpdateBuyQty($_GET['transactionID'], $orderQty-$orderQtyRemaining);
-        bittrexBuyCancel($_GET['uuid'], $_GET['transactionID']);
-        $result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
+        bittrexUpdateBuyQty($transID, $orderQty-$orderQtyRemaining);
+        $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
+        $canStatus = $result['status'];
+        if ($canStatus == 'CLOSED'){
+          bittrexBuyCancel($uuid, $transID,'ManualBittrexBuyCancel');
+        }
         logAction("Bittrex Cancel 4 : ".json_encode($result), 'BuySell',0);
       }
     }
   }
-  //header('Location: bittrexOrders.php');
+  header('Location: bittrexOrders.php');
 }
 
 
