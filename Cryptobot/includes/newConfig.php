@@ -383,7 +383,7 @@ function getTrackingCoins($whereclause, $table){
 
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,Trim(`LiveCoinPrice`)+0 as LiveCoinPrice,Trim(`LastCoinPrice`)+0 as LastCoinPrice,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
-    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`6MonthPrice`)+0 as 6MonthPrice ,Trim(`3MonthPrice`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice
+    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`6MonthPrice`)+0 as 6MonthPrice ,Trim(`3MonthPrice`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     $table $whereclause ";
     //echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -393,7 +393,8 @@ function getTrackingCoins($whereclause, $table){
     $tempAry[] = Array($row['IDCn'],$row['Symbol'],$row['LiveBuyOrders'],$row['LastBuyOrders'],$row['BuyOrdersPctChange'],$row['LiveMarketCap'],$row['LastMarketCap'],$row['MarketCapPctChange'],$row['Live1HrChange'],$row['Last1HrChange'],$row['Hr1ChangePctChange'] //10
     ,$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders']//21
     ,$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'] //33
-    ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice']);//45
+    ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice'] //45
+    ,$row['HoursSinceAdded']);//46
   }
   $conn->close();
   return $tempAry;

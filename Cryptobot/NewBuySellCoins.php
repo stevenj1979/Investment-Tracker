@@ -767,7 +767,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
     $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
     $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
-    $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41];
+    $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
 
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
@@ -793,6 +793,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
+
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
 
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
@@ -824,6 +825,13 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
         }
       }
+
+      if ($priceDipMinPriceEnabled == 1){
+        if ($hoursSinceAdded < 3000){
+          continue;
+        }
+      }
+
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
