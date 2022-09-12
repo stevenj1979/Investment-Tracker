@@ -94,7 +94,7 @@ if(!empty($_GET['uuid'])){
       }
     }
   }
-  header('Location: bittrexOrders.php');
+  //header('Location: bittrexOrders.php');
 }
 
 
