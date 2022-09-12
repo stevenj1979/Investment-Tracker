@@ -43,11 +43,12 @@ if(!empty($_GET['uuid'])){
   //logAction("bittrexOrder: ".$resultOrd, 'BuySell');
   echo "CANCEL ".$_GET['uuid'];
   var_dump($resultOrd);
-  if ($resultOrd["success"] == 1){
+  if ($resultOrd['status'] == 'OPEN'){
 
-    $orderQty = $resultOrd["result"]["Quantity"];$orderQtyRemaining = $resultOrd["result"]["QuantityRemaining"]; $qtySold = $orderQty-$orderQtyRemaining;
+    $orderQty = $resultOrd["quantity"];$qtySold = $resultOrd["fillQuantity"];
+    $$orderQtyRemaining = $orderQty-$qtySold;
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell',0);
-    Echo "<BR> HERE 3 | ".$resultOrd["result"]["QuantityRemaining"]." | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
+    Echo "<BR> HERE 3 | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
     if ($orderQty == $orderQtyRemaining) {
       if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
         Echo "<BR> HERE 4 | ";
