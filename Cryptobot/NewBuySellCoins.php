@@ -1446,7 +1446,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         echo "<BR> Cancel Check: $cancelTimeCheck | $minsRemaining | $finalBool";
         if ( $cancelTimeCheck == 1 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
-          newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID", $userID, 1,"FullOrder","TransactionID:$transactionID");
+          newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 1,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              //var_dump($cancelRslt);
