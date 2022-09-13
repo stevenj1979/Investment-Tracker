@@ -1270,7 +1270,10 @@ function runBittrex($BittrexReqs,$apiVersion){
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73];
 
     $finalTimeToCancel = strtotime("+$timeToCancelMins Minutes", $date);
-    echo "<BR> CurrentTime: $currentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
+    $finalCurrentTime = strtotime($currentTime);
+    echo "<BR> CurrentTime: $finalCurrentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
+    if ($finalTimeToCancel < $finalCurrentTime ){ echo "<BR> DO NOT CANCEL: 0";}
+    else {echo "<BR> CANCEL: 1";}
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     //if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
