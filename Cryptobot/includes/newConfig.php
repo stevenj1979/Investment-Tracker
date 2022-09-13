@@ -4208,7 +4208,7 @@ function getNewTrackingCoins($userID = 0){
       ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
       ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`TrackingType`, `LastPrice`,`SBRuleID`,`SBTransID`,`IDTc` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
       ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`,`LowMarketModeEnabled`,`SavingOverride`
-      from `View2_TrackingBuyCoins` $whereClause";
+      from `View2_TrackingBuyCoins` $whereClause order by `BuyRisesInPrice` Desc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
