@@ -223,6 +223,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
           }
           clearTrackingCoinQueue($userID,$coinID);
+          addCoinPurchaseDelay($coinID,$userID,1,1);
           $aryCount = count($clearCoinQueue);
           //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
           if (!empty($clearCoinQueue)) {
