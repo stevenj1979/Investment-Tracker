@@ -884,6 +884,22 @@ function getCoinIDs(){
   return $tempAry;
 }
 
+function getCoinDelayState($coinID,$userID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //$query = "SET time_zone = 'Asia/Dubai';";
+  //$result = $conn->query($query);
+  $sql = "SELECT if(`DelayTime`<now(),1,0) as `DelayTime` FROM `DelayCoinPurchase` WHERE `CoinID` = $coinID and `UserID` = $userID
+            Union Select 0;";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['DelayTime']);}
+  $conn->close();
+  return $tempAry;
+}
+
 function getCoinIDRuleID(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
