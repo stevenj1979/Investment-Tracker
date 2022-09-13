@@ -1916,7 +1916,7 @@ function copyCoinPrice($coinID,$CoinPrice){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("copyCoinPrice","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("copyCoinPrice","$sql",3,1,"SQL CALL","CoinID:$coinID");
 }
 function copyWebTable($coinID){
   $conn = getSQLConn(rand(1,3));

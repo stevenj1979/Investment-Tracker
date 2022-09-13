@@ -92,7 +92,7 @@ function getHistoryFromSQL(){
     `ID`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,
     `Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,
     `CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`ActionDate`
-    FROM `CoinBuyHistory` WHERE `ID` = '$sql_option' and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
+    FROM `CoinBuyHistory` WHERE `ID` = $sql_option and (`ActionDate` > DATE_SUB(now(), INTERVAL $sql_time))
     order by `ActionDate` asc";
     //$result = $conn->query($sql);
     //echo "<BR>".$sql."<BR>";
