@@ -201,6 +201,7 @@ while($date <= $newTime){
       echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i:s", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
       if (timerReady($lastUpdateTime,$secondstoUpdate)){
         copyCoinPrice($coinID,$bitPrice);
+        Echo "<BR> copyCoinPrice($coinID,$bitPrice);";
         $timeAry[$coinID] = date("Y-m-d H:i:s", time());
         logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
       //}elseif (!isset($lastUpdateTime)){
@@ -210,6 +211,7 @@ while($date <= $newTime){
     }else{
       $bitPrice = getArrayPrice($coinAry,$symbol,$baseCurrency);
       copyCoinPrice($coinID,$bitPrice);
+      Echo "<BR> copyCoinPrice($coinID,$bitPrice);";
       logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
     }
 
