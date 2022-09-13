@@ -6512,7 +6512,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     newLogToSQL("TrackingCoin", "OPT 5 : $type | $pctProfit", 3, 0,"trackingCoinReadyToBuy_5","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     reOpenOneTimeBuyRule($trackingID);
-    closeNewTrackingCoin($trackingID, True,5,'Profit < -3 OR > 3');
+    closeNewTrackingCoin($trackingID, True,5,"Profit < -3 OR > 3");
     setLastPrice($livePrice,$trackingID, 'Buy');
     return 2;
   }
