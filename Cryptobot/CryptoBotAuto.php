@@ -107,7 +107,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
       //echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
-      $nPrice = $coinAry[$j]['askRate'];
+      $nPrice = $coinAry[$j]['bidRate'];
       break;
     }
   }
@@ -152,7 +152,7 @@ function testBittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum
         $balance = curl_exec($ch);
         curl_close($ch);
         $temp = json_decode($balance, true);
-        var_dump($temp);
+        //var_dump($temp);
         //$balance = $temp['lastTradeRate'];
       }
       return $temp;
