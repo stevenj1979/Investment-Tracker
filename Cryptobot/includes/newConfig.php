@@ -4323,7 +4323,7 @@ function setNewTargetPrice($transactionID){
   newLogToSQL("setNewTargetPrice",$sql,3,0,"SQL","TransID:$transactionID");
 }
 
-function closeNewTrackingCoin($ID, $deleteFlag, $verNum){
+function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -4345,7 +4345,7 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin$verNum",$sql,3,0,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,1,"SQL","TrackingCoinID:$ID");
 }
 
 function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
@@ -5576,7 +5576,7 @@ function updateBuyAmount($transactionID, $amount){
   newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
 }
 
-function cancelTrackingBuy($ruleId){
+function cancelTrackingBuy($ruleId,$reason){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -5593,7 +5593,7 @@ function cancelTrackingBuy($ruleId){
   }
   $conn->close();
   logAction("cancelTrackingBuy: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("cancelTrackingBuy",$sql,3,0,"SQL","BuyRuleID:$ruleId");
+  newLogToSQL("cancelTrackingBuy",$sql." Reason: $reason",3,1,"SQL","BuyRuleID:$ruleId");
 }
 
 function UpdateProfit(){
@@ -6512,7 +6512,7 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
     newLogToSQL("TrackingCoin", "OPT 5 : $type | $pctProfit", 3, 0,"trackingCoinReadyToBuy_5","TrackingCoinID:$trackingID");
     //reopenTransaction($TransactionID);
     reOpenOneTimeBuyRule($trackingID);
-    closeNewTrackingCoin($trackingID, True,5);
+    closeNewTrackingCoin($trackingID, True,5,'Profit < -3 OR > 3');
     setLastPrice($livePrice,$trackingID, 'Buy');
     return 2;
   }

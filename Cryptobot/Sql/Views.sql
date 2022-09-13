@@ -631,10 +631,11 @@ CREATE OR REPLACE VIEW `View22_BuyBackTransationIDProfit` as
               Group by `BuyBackTransactionID`, `BaseCurrency` order by `USDProfit` asc;
 
 CREATE OR REPLACE VIEW `View23_AvgCoinPricePct` as
-              SELECT `Cp`.`CoinID`, `Cp`.`LiveCoinPrice`, avgMaxPrice(`Cp`.`CoinID`,20) as avgMaxPrice, avgMinPrice(`Cp`.`CoinID`,20) as AvgMinPrice
-              ,((`Cp`.`LiveCoinPrice` - avgMaxPrice(`Cp`.`CoinID`,20))/`Cp`.`LiveCoinPrice`)*100 as DiffFromMax
-              ,((`Cp`.`LiveCoinPrice` - avgMinPrice(`Cp`.`CoinID`,20))/`Cp`.`LiveCoinPrice`)*100 as DiffFromMin
-              FROM `CoinPrice` `Cp`
-              join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
-              where `Cn`.`BuyCoin` = 1
-              order by DiffFromMin asc;
+  SELECT `Cn`.`Symbol`,`Cp`.`CoinID`, `Cp`.`LiveCoinPrice`, avgMaxPrice(`Cp`.`CoinID`,20) as avgMaxPrice, avgMinPrice(`Cp`.`CoinID`,20) as AvgMinPrice
+  ,((`Cp`.`LiveCoinPrice` - avgMaxPrice(`Cp`.`CoinID`,20))/`Cp`.`LiveCoinPrice`)*100 as DiffFromMax
+  ,((`Cp`.`LiveCoinPrice` - avgMinPrice(`Cp`.`CoinID`,20))/`Cp`.`LiveCoinPrice`)*100 as DiffFromMin
+  ,`Cn`.`DoNotBuy`
+  FROM `CoinPrice` `Cp`
+  join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
+  where `Cn`.`BuyCoin` = 1
+  order by DiffFromMin asc;

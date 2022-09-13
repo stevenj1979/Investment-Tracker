@@ -66,7 +66,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     }
     if($minsFromDate >= $timeToCancelBuyMins){
       //reOpenOneTimeBuyRule($trackingID);
-      closeNewTrackingCoin($newTrackingCoinID, True,1);
+      closeNewTrackingCoin($newTrackingCoinID, True,1,'Mins From Date');
       //if ($oldBuyBackTransID <> 0){
       reopenCoinSwapCancel($oldBuyBackTransID,0);
       //}
@@ -82,14 +82,14 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy); continue;}// reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; cancelTrackingBuy($ruleIDBuy, 'Rule Amount Exceeded'); continue;}// reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
         if ($limitBuyTransactionsEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
-          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy);  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
+          if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; cancelTrackingBuy($ruleIDBuy,'Rule Transaction Count Exceeded');  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }elseif($coinModeOverridePriceEnabled == 1 and $overrideCoinAlloc == 0){
           //echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
-          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy);  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
+          if ($ruleProfit[$h][4] == $ruleIDBuy and ($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! ";cancelTrackingBuy($ruleIDBuy,'Rule Transaction Count Override Exceeded');  continue;} //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
         }
     }
     Echo "<BR> Tracking Buy Count 2 <BR>";
@@ -179,7 +179,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           updateCoinSwapBittrexID($bittrexRef,$transactionID,$coinID,$liveCoinPrice,'Buy');
           //Change Status to AwaitingBuy
           updateCoinSwapStatusCoinSwapID('AwaitingSavingsPurchase',$transactionID);
-          closeNewTrackingCoin($newTrackingCoinID, False,2);
+          closeNewTrackingCoin($newTrackingCoinID, False,2, 'Tracking Complete: Savingsbuy');
           logAction("runNewTrackingCoins; SavingsBuy : $symbol | $transactionID | $coinID | $liveCoinPrice | $newTrackingCoinID | 'AwaitingSavingsPurchase' | $quant | $rate | $baseCurrency | $type", 'BuySellFlow', 1);
           $finalBool = True;
         }
@@ -206,7 +206,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           //logToSQL("TrackingCoin", "buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $noOfPurchases+1);", $userID,1);
           UpdateProfit();
           //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
-          closeNewTrackingCoin($newTrackingCoinID, False,3);
+          closeNewTrackingCoin($newTrackingCoinID, False,3, 'Tracking Complete');
           addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,'TrackingCoins');
           //if ($type == 'SavingsBuy'){
             //updateTypeToBittrex($type,$transactionID);
@@ -247,7 +247,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           return True;
         }elseif ($checkBuy == 2){
           //2 = INSUFFICIENT BAL
-          closeNewTrackingCoin($newTrackingCoinID, False,4);
+          closeNewTrackingCoin($newTrackingCoinID, False,4,'CheckBuy = 2');
           removeTransactionDelay($coinID, $userID);
           newLogToSQL("TrackingCoins","$oldBuyBackTransID",3,1,"ReOpen BuyBack","TrackingCoinID:$newTrackingCoinID");
           reOpenTransactionfromBuyBackNew($oldBuyBackTransID);
