@@ -1016,7 +1016,7 @@ End if;
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
 If BuyBack_TransID = 0 THEN
-  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 AND `UserID` =  User_ID order by `USDProfit` asc Limit 1; 
+  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 AND `UserID` =  User_ID order by `USDProfit` asc Limit 1;
 END if;
 
 if BuyBack_TransID = 0 THEN
@@ -1536,7 +1536,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CancelBittrexBuy`(IN `Bittre
     MODIFIES SQL DATA
 BEGIN
 Update `Transaction` SET `Status` = 'Cancelled' where `ID` = Trans_ID;
-Update `BittrexAction` SET `Status` = 'Cancelled' where `TransactionID` = Trans_ID;
+Update `BittrexAction` SET `Status` = 'Cancelled', `CompletionDate` = now()  where `TransactionID` = Trans_ID;
 END$$
 DELIMITER ;
 
