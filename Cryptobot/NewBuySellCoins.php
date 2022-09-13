@@ -1267,7 +1267,10 @@ function runBittrex($BittrexReqs,$apiVersion){
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
     $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][65];
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68]; $cancelTimeCheck = $BittrexReqs[$b][69]; $timeToCancel = $BittrexReqs[$b][70];
-    $overrideBittrexCancellation = $BittrexReqs[$b][71];
+    $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73];
+
+    $finalTimeToCancel = strtotime("+$timeToCancelMins Minutes", $date);
+    echo "<BR> CurrentTime: $currentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     //if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
@@ -1446,7 +1449,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         echo "<BR> Cancel Check: $cancelTimeCheck | $minsRemaining | $finalBool";
         if ( $cancelTimeCheck == 1 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
-          newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 1,"FullOrder","TransactionID:$transactionID");
+          newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 1,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              //var_dump($cancelRslt);
