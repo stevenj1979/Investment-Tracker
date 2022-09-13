@@ -365,7 +365,7 @@ select `CoinPrice` into Og_Price from `Transaction` where `ID` = Trans_ID;
 select `liveCoinPrice` into Live_Price from `CoinPrice` where `CoinID` = Coin_ID;
 
 if NOT EXISTS (Select `TransactionID` from `BittrexAction` where `TransactionID` = Trans_ID and `Type` = n_Type) THEN
-INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `Status`, `SellPrice`, `RuleID`) VALUES (Coin_ID,Trans_ID, User_ID, n_Type, Bittrex_Ref,n_Status,Live_Price,Rule_ID);
+INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `Status`, `SellPrice`, `RuleID`,`MinsToCancelAction`) VALUES (Coin_ID,Trans_ID, User_ID, n_Type, Bittrex_Ref,n_Status,Live_Price,Rule_ID,40320);
 ELSE
 UPDATE `BittrexAction` SET `CoinID` = Coin_ID, `UserID` = User_ID , `Type` = n_Type, `BittrexRef` = Bittrex_Ref, `Status` = n_Status, `SellPrice` = Bit_Price, `RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID and `Type` = n_Type;
 end if;

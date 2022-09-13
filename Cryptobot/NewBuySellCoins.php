@@ -1271,7 +1271,7 @@ function runBittrex($BittrexReqs,$apiVersion){
 
     $finalTimeToCancel = strtotime("+$timeToCancelMins Minutes", $date);
     $finalCurrentTime = strtotime($currentTime);
-    echo "<BR> CurrentTime: $finalCurrentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
+    echo "<BR> CurrentTime:".date_format($finalCurrentTime,"Y/m/d H:i:s")." | Cancel Time ".date_format($finalTimeToCancel,"Y/m/d H:i:s")." | $date | $timeToCancelMins ";
     if ($finalTimeToCancel < $finalCurrentTime ){ echo "<BR> DO NOT CANCEL: 0";}
     else {echo "<BR> CANCEL: 1";}
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
