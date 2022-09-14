@@ -975,7 +975,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8), IN `BuyBack_Enabled` INT)
     MODIFIES SQL DATA
 BEGIN
 DECLARE BuyBack_TransID INT;
@@ -1025,13 +1025,15 @@ if BuyBack_TransID = 0 THEN
   UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
 End if;
 
-If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
-UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
+If (BuyBack_Enabled = 1) THEN
+  If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
+  UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
 
-else
-INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`)
-  VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount);
+  else
+  INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`)
+    VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount);
 
+  end if;
 end if;
 
 END$$
