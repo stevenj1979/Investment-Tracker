@@ -1,6 +1,6 @@
 <html>
 <?php
-include_once ('includes/newConfig.php');
+include_once ('/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
 
