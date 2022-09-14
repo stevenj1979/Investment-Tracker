@@ -248,12 +248,13 @@ $coinSize = Count($trackingCoins);
 
 for ($j=0; $j<$coinSize; $j++){
   Echo "<BR> Fetching ".$trackingCoins[$j][1];
+  $coinID = $trackingCoins[$j][0];
   $sparklineAry = getSparklineData($trackingCoins[$j][1]);
   $url ="http://www.investment-tracker.net/Sparkline/sparkline.php?size=150x80&data=";
   $url2 = "&back=fff&line=5bb763&fill=d5f7d8";
   $data = dataToString(",",$sparklineAry);
   $savePath ="/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Images/";
-  saveImage($trackingCoins[$j][1],$url.$data.$url2,$savePath);
+  saveImage($coinID,$url.$data.$url2,$savePath);
 }
 
 //$sparkline = new Davaxi\Sparkline();

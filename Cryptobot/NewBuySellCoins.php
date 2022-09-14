@@ -1269,9 +1269,10 @@ function runBittrex($BittrexReqs,$apiVersion){
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68];  $timeToCancel = $BittrexReqs[$b][70];
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
-    $finalTimeToCancel = strtotime("+$timeToCancelMins Minutes", $date);
-    $finalCurrentTime = strtotime($currentTime);
-    echo "<BR> CurrentTime:".date("Y-m-d\TH:i:s\Z",$finalTimeToCancel)." | Cancel Time ".date("Y-m-d\TH:i:s\Z",$finalCurrentTime)." | $date | $timeToCancelMins ";
+    $finalTimeToCancel = date("Y-m-d H:i",strtotime("+$timeToCancelMins Minutes", $date));
+    //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
+    $finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
+    echo "<BR> CurrentTime:$finalCurrentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
     if ($finalTimeToCancel < $finalCurrentTime ){ echo "<BR> DO NOT CANCEL: 0"; $cancelTimeCheck = 0;}
     else {echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;}
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
