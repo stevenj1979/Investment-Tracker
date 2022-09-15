@@ -1575,7 +1575,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                     if ($tempmins <= 0){ $tempmins = 120;}
                     WriteBuyBack($transactionID,$realProfitPct,$tempRises, $tempmins,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack);
                     //addWebUsage($userID,"Add","BuyBack");
-                  }
+                  //}
                 }
               }else{
                 //Update Coin ModeRule
