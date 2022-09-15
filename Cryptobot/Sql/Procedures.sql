@@ -1991,12 +1991,17 @@ DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14))
     MODIFIES SQL DATA
 BEGIN
+DECLARE refreshtime DateTime;
 
 if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID) THEN
 	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`) VALUES (Trans_ID,User_ID);
 end if;
 
-UPDATE `CalculatedSellPct` SET `SellPct`= Sell_Pct WHERE `TransactionID` = Trans_ID;
+Select `LastUpdated` into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
+
+if `LastUpdated` < now() THEN
+  UPDATE `CalculatedSellPct` SET `SellPct`= Sell_Pct,`LastUpdated` = now() WHERE `TransactionID` = Trans_ID;
+end if;
 
 END$$
 DELIMITER ;
