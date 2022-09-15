@@ -1079,11 +1079,15 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //$ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);
         //if ($ProfitPctTop_Sell < $ProfitPctTop_Sell_Original){ $ProfitPctTop_Sell = $ProfitPctTop_Sell_Original;}
         $ProfitPctTop_Sell = 999.99;
-
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
+        
+        if (isset($sellPctCsp)){
+          $ProfitPctBtm_Sell = $sellPctCsp;
+        }
+
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
-        $ProfitPctBtm_Sell = $sellPctCsp;
+
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
           $ProfitPctBtm_Sell = $calculatedSellPctEnd;
           writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);

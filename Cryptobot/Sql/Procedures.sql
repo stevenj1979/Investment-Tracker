@@ -2000,10 +2000,10 @@ if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Tran
 	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`) VALUES (Trans_ID,User_ID);
 end if;
 
-Select `LastUpdated` into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
+Select DATE_ADD(`LastUpdated`, INTERVAL 1 HOUR) into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
 
-if `LastUpdated` < now() THEN
-  UPDATE `CalculatedSellPct` SET `SellPct`= Sell_Pct,`LastUpdated` = now() WHERE `TransactionID` = Trans_ID;
+if refreshtime < now() THEN
+  UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now() WHERE `TransactionID` = Trans_ID;
 end if;
 
 if nStatus in ('Closed','Sold','Merged') THEN
