@@ -5856,6 +5856,26 @@ function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
   newLogToSQL("updateTransToSpread","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID CoinID:$coinID");
 }
 
+function writeCalculatedSellPct($transID, $userID,$sellPct){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+    $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct);";
+    LogToSQL("updateTransToSpread",$sql,3,1);
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeCalculatedSellPct: ".$sql, 'SQL_CALL', 0);
+  newLogToSQL("writeCalculatedSellPct","$sql",3,1,"SQL CALL","UserID:$userID TransID:$transID");
+}
+
 function getCoinAllocation($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));

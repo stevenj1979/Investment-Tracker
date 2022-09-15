@@ -1986,3 +1986,17 @@ if NOT exists (SELECT `ID` FROM `PriceDipCoinStatus` WHERE `CoinID` = Coin_ID an
 End if;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+
+if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID) THEN
+	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`) VALUES (Trans_ID,User_ID);
+end if;
+
+UPDATE `CalculatedSellPct` SET `SellPct`= Sell_Pct WHERE `TransactionID` = Trans_ID;
+
+END$$
+DELIMITER ;

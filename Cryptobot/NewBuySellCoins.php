@@ -1086,6 +1086,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){$ProfitPctBtm_Sell = $calculatedSellPctEnd;}
 
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
+        writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell/2);
       }
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
