@@ -1073,7 +1073,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $priceDipMaxPriceEnabled = $sellRules[$z][55]; $priceDipCoinFlatEnabled = $sellRules[$z][56]; $priceDipHoursFlatTarget = $sellRules[$z][57];
       $hoursPastBuySellEnable  = $sellRules[$z][59];$hoursPastBuy = $sellRules[$z][60];
       $calculatedSellPctEnable = $sellRules[$z][61];$calculatedSellPctStart = $sellRules[$z][62];$calculatedSellPctEnd = $sellRules[$z][63];$calculatedSellPctDays = $sellRules[$z][64];
-      $bypassTrackingSell = $sellRules[$z][65];
+      $bypassTrackingSell = $sellRules[$z][65]; $sellPctCsp = $sellRules[$z][67];
       if ($calculatedSellPctEnable == 1){
         //$ProfitPctTop_Sell_Original = $ProfitPctTop_Sell;
         //$ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);
@@ -1082,7 +1082,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
-        $ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
+        //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
+        $ProfitPctBtm_Sell = $sellPctCsp;
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){$ProfitPctBtm_Sell = $calculatedSellPctEnd;}
 
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
