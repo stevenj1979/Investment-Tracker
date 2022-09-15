@@ -5717,7 +5717,7 @@ function getSpreadBetData(){
           , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransactionID` as `SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
           , `D7BuyPrice`,(`LiveCoinPrice`-(SELECT MAX(`MaxPrice`) FROM `MonthlyMaxPrices` WHERE `CoinID` = `CoinID` and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH))/(SELECT MAX(`MaxPrice`)
           FROM `MonthlyMaxPrices` WHERE `CoinID` = 84 and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH)))
-         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`HighLow`)/`HighLow`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
+         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`HighAth`)/`HighAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
          FROM `View7_SpreadBetSell`
           where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 and `Type` = 'SpreadSell' and `Status` = 'Open'";
   //echo "<BR> $sql";
