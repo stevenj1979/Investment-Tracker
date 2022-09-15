@@ -1080,8 +1080,9 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //if ($ProfitPctTop_Sell < $ProfitPctTop_Sell_Original){ $ProfitPctTop_Sell = $ProfitPctTop_Sell_Original;}
         $ProfitPctTop_Sell = 999.99;
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
-        
+
         if (isset($sellPctCsp)){
+          echo "<BR> Its set!! $sellPctCsp";
           $ProfitPctBtm_Sell = $sellPctCsp;
         }
 
