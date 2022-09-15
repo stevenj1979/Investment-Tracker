@@ -1992,6 +1992,9 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `
     MODIFIES SQL DATA
 BEGIN
 DECLARE refreshtime DateTime;
+DECLARE nStatus VARCHAR(20);
+
+SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
 
 if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID) THEN
 	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`) VALUES (Trans_ID,User_ID);
@@ -2001,6 +2004,10 @@ Select `LastUpdated` into refreshtime FROM `CalculatedSellPct` WHERE `Transactio
 
 if `LastUpdated` < now() THEN
   UPDATE `CalculatedSellPct` SET `SellPct`= Sell_Pct,`LastUpdated` = now() WHERE `TransactionID` = Trans_ID;
+end if;
+
+if nStatus in ('Closed','Sold','Merged') THEN
+  DELETE FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
 end if;
 
 END$$
