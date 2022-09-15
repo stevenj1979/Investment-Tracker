@@ -5864,7 +5864,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct){
   }
 
     $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct);";
-    LogToSQL("updateTransToSpread",$sql,3,1);
+    //LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
