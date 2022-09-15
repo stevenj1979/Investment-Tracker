@@ -1086,6 +1086,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $ProfitPctBtm_Sell = $sellPctCsp;
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
           $ProfitPctBtm_Sell = $calculatedSellPctEnd;
+          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);
         }else{
           writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell/2);
         }
