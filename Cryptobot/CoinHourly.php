@@ -752,6 +752,7 @@ function runUpdateAvgPrices(){
   }
 }
 
+
 Echo "<BR> CoinHourly";
 Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
@@ -799,5 +800,7 @@ runCoinPriceDipPrices();
 runUpdateAvgPrices();
 runMultiSellRulesConfig();
 copyCoinTableToHistory();
+runClosedCalculatedSellPct();
+
 ?>
 </html>

@@ -62,6 +62,28 @@ function setSavingToLivewithMerge($userID, $coinID, $transactionID){
     logAction("setSavingToLivewithMerge: ".$sql, 'BuySell', 0);
 }
 
+function runClosedCalculatedSellPct(){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+        $sql = "Delete `Csp`
+                  FROM `CalculatedSellPct` `Csp`
+                  join `Transaction` `Tr` on `Csp`.`TransactionID` = `Tr`.`ID`
+                  Where `Tr`.`Status` in ('Closed','Sold')";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("runClosedCalculatedSellPct",$sql,3,1,"SQL","");
+    logAction("runClosedCalculatedSellPct: ".$sql, 'BuySell', 0);
+}
+
 function saveHoldingAmount($userID, $holdAmount,$baseCurrency,$transactionID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
