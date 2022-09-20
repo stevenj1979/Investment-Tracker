@@ -5,6 +5,7 @@
 </head>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';
+include_once '/home/stevenj1979/Investment-Tracker/Cryptobot/1/Display HTML/html.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
@@ -178,7 +179,8 @@ displayHeader(3);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
         displaySubHeader("BuyCoin");
-
+        $baseArr = ['USDT','BTC','ETH'];
+        displayDropDown($baseArr,'USDT',0,0, 'BaseArray');
         //if($_SESSION['isMobile'] == False){
         //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
