@@ -18,9 +18,9 @@ function displayDropDown($arr, $selected, $numText, $numValue, $nameID){
     if($multi){
       $itemName = $arr[$y][$numText]; $itemVal = $arr[$y][$numValue];
     }else{
-      $itemName = $arr[$numText]; $itemVal = $arr[$numValue];
+      $itemName = $arr[$y]; $itemVal = $arr[$y];
     }
-    
+
     if ($itemName == $selected){
       echo "<option value='".$itemVal."'>".$itemName."</option>";
     }else{
