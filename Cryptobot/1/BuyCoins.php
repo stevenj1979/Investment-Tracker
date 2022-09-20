@@ -5,7 +5,7 @@
 </head>
 <?php require('includes/config.php');
 include_once '../includes/newConfig.php';
-include_once '/home/stevenj1979/Investment-Tracker/Cryptobot/1/Display HTML/html.php';
+include_once '/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/1/Display HTML/html.php';
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
