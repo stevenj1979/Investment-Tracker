@@ -12,9 +12,15 @@ if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 
 function displayDropDown($arr, $selected, $numText, $numValue, $nameID){
   $arrSize = count($arr);
+  $multi = is_multi($arr);
   echo "<select name='$nameID' id='$nameID' class='enableTextBox'>";
   for ($y=0; $y<$arrSize; $y++){
-    $itemName = $arr[$y][$numText]; $itemVal = $arr[$y][$numValue];
+    if($multi){
+      $itemName = $arr[$y][$numText]; $itemVal = $arr[$y][$numValue];
+    }else{
+      $itemName = $arr[$numText]; $itemVal = $arr[$numValue];
+    }
+    
     if ($itemName == $selected){
       echo "<option value='".$itemVal."'>".$itemName."</option>";
     }else{
@@ -22,6 +28,10 @@ function displayDropDown($arr, $selected, $numText, $numValue, $nameID){
     }
   }
   echo "</Select>";
+}
+
+function is_multi($array) {
+    return (count($array) != count($array, 1));
 }
 
 
