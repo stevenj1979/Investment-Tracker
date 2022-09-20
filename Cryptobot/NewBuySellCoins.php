@@ -1281,12 +1281,12 @@ function runBittrex($BittrexReqs,$apiVersion){
     $reduceLossBuy = $BittrexReqs[$b][54]; $BittrexID = $BittrexReqs[$b][55]; $minsRemaining = $BittrexReqs[$b][58]; $lowMarketMode = $BittrexReqs[$b][59]; $holdCoinForBuyOut = $BittrexReqs[$b][60];
     $coinForBuyOutPct = $BittrexReqs[$b][61]; $holdingAmount = $BittrexReqs[$b][62]; $noOfPurchases = $BittrexReqs[$b][63]; $hr1PriceMovePct = $BittrexReqs[$b][64]; $pctToCancelBittrexAction = $BittrexReqs[$b][65];
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68];  $timeToCancel = $BittrexReqs[$b][70];
-    $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73];
+    $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
     $finalTimeToCancel = date("Y-m-d H:i",strtotime("+ $timeToCancelMins Minutes", $date));
     //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
     $finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
-    echo "<BR> CurrentTime:$finalCurrentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins ";
+    echo "<BR> CurrentTime:$finalCurrentTime | Cancel Time $finalTimeToCancel | $date | $timeToCancelMins | $dateAdd";
     if ($finalTimeToCancel < $finalCurrentTime ){ echo "<BR> DO NOT CANCEL: 0"; $cancelTimeCheck = 0;}
     else {echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;}
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
@@ -1465,7 +1465,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
         //if ( $buyOrderCancelTime < date("Y-m-d H:i:s", time()) && $buyOrderCancelTime != '0000-00-00 00:00:00'){
         echo "<BR> Cancel Check: $cancelTimeCheck | $minsRemaining | $finalBool";
-        if ( $cancelTimeCheck == 1 && $finalBool == False){
+        if ( $dateAdd == 1 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
           newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 1,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
