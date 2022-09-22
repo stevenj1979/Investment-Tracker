@@ -1088,6 +1088,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
 
+        $amountToReduce = ($ProfitPctBtm_Sell/100)*25;
+        $ProfitPctBtm_Sell = $calculatedSellPctEnd + ($ProfitPctBtm_Sell - $amountToReduce);
 
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
           $ProfitPctBtm_Sell = $calculatedSellPctEnd;
@@ -1095,8 +1097,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           //writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);
         }
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
-        $amountToReduce = ($sellPctCsp/100)*25;
-        $ProfitPctBtm_Sell = $ProfitPctBtm_Sell - $amountToReduce;
+
         writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);
         echo "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);";
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
