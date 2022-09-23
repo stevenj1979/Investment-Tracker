@@ -69,6 +69,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       closeNewTrackingCoin($newTrackingCoinID, True,1,"Mins From Date");
       //if ($oldBuyBackTransID <> 0){
       reopenCoinSwapCancel($oldBuyBackTransID,0);
+      buyBackDelay($coinID,120,$userID);
       //}
       if ($type == 'SavingsBuy'){ updateCoinSwapStatusCoinSwapID('AwaitingSavingsBuy',$transactionID);}
       newLogToSQL("TrackingCoins", "closeNewTrackingCoin($newTrackingCoinID); $pctProfit | $minsFromDate | $timeToCancelBuyMins", $userID, $GLOBALS['logToSQLSetting'],"MinsFromDateExceed","TrackingCoinID:$newTrackingCoinID"); Echo "<BR> MinsFromDate: $minsFromDate | ";
