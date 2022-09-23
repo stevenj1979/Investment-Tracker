@@ -22,7 +22,7 @@ function displayDropDown($arr, $selected, $numText, $numValue, $nameID){
     }
 
     if ($itemName == $selected){
-      echo "<option value='".$itemVal."'>".$itemName."</option>";
+      echo "<option value='".$itemVal."' selected>".$itemName."</option>";
     }else{
       echo "<option value='".$itemVal."'>".$itemName."</option>";
     }

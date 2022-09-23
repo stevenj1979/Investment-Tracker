@@ -202,7 +202,7 @@ displayHeader(3);
         displaySubHeader("BuyCoin");
         $baseArr = ['All','USDT','BTC','ETH'];
         echo "<form action='BuyCoins.php?dropdown=Yes' method='post'>";
-        displayDropDown($baseArr,'USDT',0,0, 'BaseArray');
+        displayDropDown($baseArr,$_SESSION['BaseSelected'],0,0, 'BaseArray');
         echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
         //if($_SESSION['isMobile'] == False){
         //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
