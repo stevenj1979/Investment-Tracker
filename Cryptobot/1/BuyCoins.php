@@ -34,6 +34,22 @@ if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
   //header('Location: BuyCoins_Mobile.php');
 }
 
+if($_POST['BaseArray'] <> ""){
+  if ($_POST['BaseArray']=='All'){
+     $_SESSION['BaseSelected'] = "All";
+     //$dropArray[] = Array("Open","Sold","All");
+  }elseif ($_POST['BaseArray']=='USDT'){
+    $_SESSION['BaseSelected'] = "USDT";
+    //$dropArray[] = Array("Sold","Open","All");
+  }elseif ($_POST['BaseArray']=='BTC'){
+    $_SESSION['BaseSelected'] = "BTC";
+    //$dropArray[] = Array("Sold","Open","All");
+  }elseif ($_POST['BaseArray']=='ETH'){
+    $_SESSION['BaseSelected'] = "ETH";
+    //$dropArray[] = Array("All","Open","Sold");
+  }
+}
+
 function getCoinsfromSQL(){
     $conn = getSQLConn(rand(1,3));
     // Check connection
@@ -50,6 +66,11 @@ function getCoinsfromSQL(){
 }
 
 function getTrackingCoinsLoc(){
+  $baseSelection = "";
+  if ($_SESSION['BaseSelected'] != "All"){
+    $baseSelection = " and `BaseCurrency` = ".$_SESSION['BaseSelected'];
+  }
+
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -59,7 +80,7 @@ function getTrackingCoinsLoc(){
      `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
      ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
      FROM `View5_SellCoins`
-     Where `Status` = 'Open' and `SpreadBetTransactionID` = 0
+     Where `Status` = 'Open' and `SpreadBetTransactionID` = 0 $baseSelection
      order by `CoinPricePctChange` asc,`Live1HrChange` asc ";
 
      //echo $sql.getHost();
@@ -180,7 +201,9 @@ displayHeader(3);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
         displaySubHeader("BuyCoin");
         $baseArr = ['USDT','BTC','ETH'];
+        echo "<form action='BuyCoins.php?dropdown=Yes' method='post'>";
         displayDropDown($baseArr,'USDT',0,0, 'BaseArray');
+        echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
         //if($_SESSION['isMobile'] == False){
         //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
         //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
