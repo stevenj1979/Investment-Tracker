@@ -82,7 +82,7 @@ function getTrackingCoinsLoc(){
      FROM `View5_SellCoins`
      Where `Status` = 'Open' and `SpreadBetTransactionID` = 0 $baseSelection
      order by `CoinPricePctChange` asc,`Live1HrChange` asc ";
-
+     echo "<br> $sql";
      //echo $sql.getHost();
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
@@ -200,7 +200,7 @@ displayHeader(3);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
         displaySubHeader("BuyCoin");
-        $baseArr = ['USDT','BTC','ETH'];
+        $baseArr = ['All','USDT','BTC','ETH'];
         echo "<form action='BuyCoins.php?dropdown=Yes' method='post'>";
         displayDropDown($baseArr,'USDT',0,0, 'BaseArray');
         echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
