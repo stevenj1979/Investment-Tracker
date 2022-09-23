@@ -188,6 +188,7 @@ function getUserIDs($userID){
 
 function displayBuyCoin($tracking, $title){
   $newArrLength = count($tracking);
+  echo "<h2>$title</h2>";
   for($x = 0; $x < $newArrLength; $x++) {
     //Variables
     $coin = $tracking[$x][1]; $buyOrders = round($tracking[$x][4],$num); $MarketCap = round($tracking[$x][7],$num);
@@ -202,7 +203,7 @@ function displayBuyCoin($tracking, $title){
     $name = $tracking[$x][37]; $image = $tracking[$x][38];
     $hoursFlat = $tracking[$x][40]; $month6Low = $tracking[$x][41];$month3Low = $tracking[$x][42]; $avgLow = $tracking[$x][43];
     //Table
-    echo "<h2>$title</h2>";
+
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width='64' height='64'></img></a></td>";
     echo "<td><p id='largeText'>".$name."</p></td>";
     echo "<td rowspan='3'><p id='largeText'>".$bitPrice."</p></td>";
