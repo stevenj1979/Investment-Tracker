@@ -1025,7 +1025,7 @@ if BuyBack_TransID = 0 THEN
   UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
 End if;
 
-If (BuyBack_Enabled = 1) THEN
+If (BuyBack_Enabled = 0) THEN
   If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
   UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
 
