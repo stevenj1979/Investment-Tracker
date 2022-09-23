@@ -4368,7 +4368,7 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
   }
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,1,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,0,"SQL","TrackingCoinID:$ID");
 }
 
 function reOpenBuySellProfitRule($ruleID, $userID, $coinID){

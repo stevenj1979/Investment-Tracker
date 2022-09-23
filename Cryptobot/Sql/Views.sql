@@ -32,7 +32,7 @@ join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
 Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
 join `AvgHighLow` `Ahl` on `Ahl`.`CoinID` = `Cn`.`ID` and `Ahl`.`HighLow` = 'Low'
-  where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+  where `Cn`.`BuyCoin` = 1;
 
 
 CREATE OR REPLACE VIEW `View2_TrackingBuyCoins` as
