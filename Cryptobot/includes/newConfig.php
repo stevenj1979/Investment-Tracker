@@ -80,7 +80,7 @@ function runClosedCalculatedSellPct(){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("runClosedCalculatedSellPct",$sql,3,1,"SQL","");
+    newLogToSQL("runClosedCalculatedSellPct",$sql,3,0,"SQL","");
     logAction("runClosedCalculatedSellPct: ".$sql, 'BuySell', 0);
 }
 
