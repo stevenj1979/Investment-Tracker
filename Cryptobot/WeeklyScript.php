@@ -235,6 +235,120 @@ function ClearCancelledTransactions($sql){
   logAction("ClearCancelledTransactions: ".$sql, 'SellCoin', 0);
 }
 
+function getBuyAmountPctOfTotal(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `Br`.`ID` , sum(`Ot`.`CoinPrice`*`Ot`.`Amount`) + `Bb`.`Total` as TotalHolding, `Br`.`LimitToBaseCurrency`,`Br`.`BuyAmountPctOfTotal`
+            FROM `BuyRules` `Br`
+            join `View15_OpenTransactions` `Ot` on `Ot`.`BuyRule` = `Br`.`ID`
+            join `BittrexBalances` `Bb`
+            WHERE `Br`.`BuyAmountPctOfTotalEnabled` = 1 and `Br`.`LimitToBaseCurrency` = `Ot`.`BaseCurrency`  and  `Bb`.`Symbol` = `Br`.`LimitToBaseCurrency`";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['ID'],$row['TotalHolding'],$row['LimitToBaseCurrency'],$row['BuyAmountPctOfTotal']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function setBuyAmountPctOfTotal($BuyRuleID,$totalAmount,$baseCurrency,$pct){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $newTotal = ($totalAmount/100)*$pct;
+  $sql = "UPDATE `BuyRules` SET `BuyAmountOverrideEnabled` = 1, `BuyAmountOverride` = $newTotal where `ID` = $BuyRuleID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+
+}
+
+function runBuyAmountPctOfTotal(){
+
+  $IDData = getBuyAmountPctOfTotal();
+  $IDDataSize = count($IDData);
+  for ($p=0; $p<$IDDataSize; $p++){
+    $BuyRuleID = $IDData[$p][0];
+    $totalAmount = $IDData[$p][1];
+    $baseCurrency = $IDData[$p][2];
+    $pct = $IDData[$p][3];
+    setBuyAmountPctOfTotal($BuyRuleID,$totalAmount,$baseCurrency,$pct);
+  }
+}
+
+function getSavingPctOfTotal(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `Ucs`.`UserID`,`Uc`.`SavingPctOfTotal`
+            FROM `UserConfig` `Uc`
+            join `UserCoinSavings` `Ucs` on `Uc`.`UserID` = `Ucs`.`UserID`
+            where `Uc`.`SavingPctOfTotalEnabled` = 1 ";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['UserID'],$row['SavingPctOfTotal']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function setSavingPctOfTotal($UserID,$pct){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $newTotal = ($totalAmount/100)*$pct;
+  $sql = "call runSetSavingsPctOfTotal($UserID,$pct);";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+}
+
+function runSavingPctOfTotal(){
+
+  $IDData = getSavingPctOfTotal();
+  $IDDataSize = count($IDData);
+  for ($o=0; $o<$IDDataSize; $o++){
+    $UserID = $IDData[$o][0];
+    //$totalAmount = $IDData[$o][1];
+    //$baseCurrency = $IDData[$o][2];
+    $pct = $IDData[$p][1];
+    setSavingPctOfTotal($UserID,$pct);
+  }
+}
+
 
 
 // MAIN PROGRAMME
@@ -248,6 +362,7 @@ ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Cancelle
 ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Merged' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 ClearCancelledTransactions("DELETE FROM `TrackingCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 ClearCancelledTransactions("DELETE FROM `TrackingSellCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
-
+runBuyAmountPctOfTotal();
+runSavingPctOfTotal();
 ?>
 </html>

@@ -2011,3 +2011,60 @@ end if;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `runSetSavingsPctOfTotal`(IN `User_ID` INT, IN `Pct_Saving` DECIMAL(6,2))
+    NO SQL
+BEGIN
+Declare TotalTransactionsUSDT DEC(20,14);
+Declare TotalTransactionsBTC DEC(20,14);
+Declare TotalTransactionsETH DEC(20,14);
+
+Declare TotalBBUSDT DEC(20,14);
+Declare TotalBBBTC DEC(20,14);
+Declare TotalBBETH DEC(20,14);
+
+Declare TotalSavingsUSDT DEC(20,14);
+Declare TotalSavingsBTC DEC(20,14);
+Declare TotalSavingsETH DEC(20,14);
+
+Declare CalculatedTotalUSDT DEC(20,14);
+Declare CalculatedTotalBTC DEC(20,14);
+Declare CalculatedTotalETH DEC(20,14);
+
+SELECT  ifnull(sum(`Ot`.`CoinPrice`*`Ot`.`Amount`),0) into TotalTransactionsUSDT From `View15_OpenTransactions` `Ot` where `Ot`.`BaseCurrency` = 'USDT' and `Ot`.`StatusTr` in ('Open','Pending') and `Ot`.`UserID` = User_ID;
+
+SELECT  ifnull(sum(`Ot`.`CoinPrice`*`Ot`.`Amount`),0) into TotalTransactionsBTC From `View15_OpenTransactions` `Ot` where `Ot`.`BaseCurrency` = 'BTC' and `Ot`.`StatusTr` in ('Open','Pending') and `Ot`.`UserID` = User_ID;
+
+SELECT  ifnull(sum(`Ot`.`CoinPrice`*`Ot`.`Amount`),0) into TotalTransactionsETH From `View15_OpenTransactions` `Ot` where `Ot`.`BaseCurrency` = 'ETH' and `Ot`.`StatusTr` in ('Open','Pending') and `Ot`.`UserID` = User_ID;
+
+SELECT  `Bb`.`Total` into TotalBBUSDT From `BittrexBalances` `Bb` where `Bb`.`Symbol` = 'USDT' and `UserID` = User_ID;
+
+SELECT  `Bb`.`Total` into TotalBBBTC From `BittrexBalances` `Bb` where `Bb`.`Symbol` = 'BTC' and `UserID` = User_ID;
+
+SELECT  `Bb`.`Total` into TotalBBETH From `BittrexBalances` `Bb` where `Bb`.`Symbol` = 'ETH' and `UserID` = User_ID;
+
+SELECT `SavingUSDT` into TotalSavingsUSDT FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+
+SELECT `SavingBTC` into TotalSavingsUSDT FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+
+SELECT `SavingETH` into TotalSavingsUSDT FROM `UserCoinSavings` WHERE `UserID` = User_ID;
+
+SET CalculatedTotalUSDT = ((TotalTransactionsUSDT + TotalBBUSDT) /100)*Pct_Saving;
+SET CalculatedTotalBTC = ((TotalTransactionsBTC + TotalBBBTC) /100)*Pct_Saving;
+SET CalculatedTotalETH = ((TotalTransactionsETH + TotalBBETH) /100)*Pct_Saving;
+
+if ( TotalSavingsUSDT > CalculatedTotalUSDT ) THEN
+    UPDATE `UserCoinSavings` SET `SavingUSDT` = CalculatedTotalUSDT where `UserID` = User_ID;
+end if;
+
+if ( TotalSavingsBTC > CalculatedTotalBTC ) THEN
+    UPDATE `UserCoinSavings` SET `SavingBTC` = CalculatedTotalBTC where `UserID` = User_ID;
+end if;
+
+if ( TotalSavingsETH > CalculatedTotalETH ) THEN
+    UPDATE `UserCoinSavings` SET `SavingETH` = CalculatedTotalETH where `UserID` = User_ID;
+end if;
+
+END$$
+DELIMITER ;
