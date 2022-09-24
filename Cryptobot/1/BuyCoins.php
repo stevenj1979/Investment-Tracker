@@ -76,7 +76,7 @@ function getTrackingCoinsLoc(){
      `Last7DChange`,`D7ChangePctChange`,`LiveCoinPrice`,`LastCoinPrice`,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`, `SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`
      ,`Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
      FROM `View5_SellCoins`
-     Where `Status` = 'Open' and `SpreadBetTransactionID` = 0 $baseSelection
+     Where `Status` = 'Open' and `SpreadBetTransactionID` = 0
      order by `CoinPricePctChange` asc,`Live1HrChange` asc ";
      echo "<br> $sql";
      //echo $sql.getHost();
@@ -240,7 +240,10 @@ displayHeader(3);
 
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         $baseSelection = "";
-        if ($_SESSION['BaseSelected'] != "All"){
+
+        if (!isset($_SESSION['BaseSelected'])){
+          $_SESSION['BaseSelected'] = 'All';
+        }elseif ($_SESSION['BaseSelected'] != "All"){
           $baseSelection = " and `BaseCurrency` = '".$_SESSION['BaseSelected']."'";
         }
 				$tracking = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 $baseSelection ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
