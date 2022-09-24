@@ -245,6 +245,7 @@ function getBuyAmountPctOfTotal(){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "SELECT `Br`.`ID` , sum(`Ot`.`CoinPrice`*`Ot`.`Amount`) + `Bb`.`Total` as TotalHolding, `Br`.`LimitToBaseCurrency`,`Br`.`BuyAmountPctOfTotal`
+          ,getBTCPrice(83) as USDTPrice,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice
             FROM `BuyRules` `Br`
             join `View15_OpenTransactions` `Ot` on `Ot`.`BuyRule` = `Br`.`ID`
             join `BittrexBalances` `Bb`
@@ -254,7 +255,7 @@ function getBuyAmountPctOfTotal(){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['TotalHolding'],$row['LimitToBaseCurrency'],$row['BuyAmountPctOfTotal']);
+      $tempAry[] = Array($row['ID'],$row['TotalHolding'],$row['LimitToBaseCurrency'],$row['BuyAmountPctOfTotal'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice']);
   }
   $conn->close();
   return $tempAry;
@@ -289,7 +290,10 @@ function runBuyAmountPctOfTotal(){
     $totalAmount = $IDData[$p][1];
     $baseCurrency = $IDData[$p][2];
     $pct = $IDData[$p][3];
-    setBuyAmountPctOfTotal($BuyRuleID,$totalAmount,$baseCurrency,$pct);
+    if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
+    elseif ($baseCurrency == 'BTC'){ $multiplier = $IDData[$p][5];}
+    elseif ($baseCurrency == 'ETH'){ $multiplier = $IDData[$p][6];}
+    setBuyAmountPctOfTotal($BuyRuleID,$totalAmount/$multiplier,$baseCurrency,$pct);
   }
 }
 
