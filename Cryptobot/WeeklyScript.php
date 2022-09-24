@@ -344,7 +344,7 @@ function runSavingPctOfTotal(){
     $UserID = $IDData[$o][0];
     //$totalAmount = $IDData[$o][1];
     //$baseCurrency = $IDData[$o][2];
-    $pct = $IDData[$p][1];
+    $pct = $IDData[$o][1];
     setSavingPctOfTotal($UserID,$pct);
   }
 }
