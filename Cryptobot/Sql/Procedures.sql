@@ -1021,8 +1021,7 @@ END if;
 
 if BuyBack_TransID = 0 THEN
   INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
-  Select `ID` into newRuleID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
-  UPDATE `Transaction` SET `BuyBackTransactionID` = newRuleID WHERE `ID` = Trans_ID;
+  Select `ID` into BuyBack_TransID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
 End if;
 
 If (BuyBack_Enabled = 0) THEN
@@ -1035,7 +1034,7 @@ If (BuyBack_Enabled = 0) THEN
 
   end if;
 end if;
-
+UPDATE `Transaction` SET `BuyBackTransactionID` = BuyBack_TransID wHERE `ID` = Trans_ID;
 END$$
 DELIMITER ;
 
