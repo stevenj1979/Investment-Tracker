@@ -2983,7 +2983,8 @@ function update1HrPriceChange($price,$coinID){
   Echo "<BR> Update1HrPriceChange : call Update1HrPriceChange($price,$coinID);";
   $newPrice = Round($price,8);
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "Update `CoinPctChange` SET `Live1HrChange` = $newPrice where `CoinID` = $coinID;";
+  //$sql = "Update `CoinPctChange` SET `Live1HrChange` = $newPrice where `CoinID` = $coinID;";
+  $sql = "call Update1HrPriceChangeAndHighLow($newPrice,$coinID);";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
