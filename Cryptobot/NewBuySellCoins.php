@@ -1088,9 +1088,9 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
 
-        $amountToReduce = ($ProfitPctBtm_Sell/100)*35;
-        $ProfitPctBtm_Sell = abs($ProfitPctBtm_Sell - $amountToReduce);
-        $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $ProfitPctBtm_Sell);
+        $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*35);
+        //$ProfitPctBtm_Sell = abs($ProfitPctBtm_Sell - $amountToReduce);
+        $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
         if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
           $ProfitPctBtm_Sell = $calculatedSellPctEnd;
 
@@ -1098,7 +1098,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         }
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
 
-        writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);
+        writeCalculatedSellPct($transactionID,$sellCoinsUserID,$amountToReduce);
         echo "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);";
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
 
