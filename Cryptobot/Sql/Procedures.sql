@@ -2068,3 +2068,58 @@ end if;
 
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `Update1HrPriceChangeAndHighLow`(IN `Coin_Price` DECIMAL(20,14), IN `Coin_ID` INT)
+    MODIFIES SQL DATA
+Begin
+DECLARE Live_Price DEC(20,14);
+DECLARE Coin_Pct DEC(20,14);
+
+Select `LiveCoinPrice` into Live_Price FROM `CoinPrice` where `CoinID` = Coin_ID;
+
+Update `CoinPctChange` SET `Live1HrChange` = Coin_Price where `CoinID` = Coin_ID;
+
+SET Coin_Pct = ((Live_Price-Coin_Price)/Live_Price)*100;
+
+Update `CoinPctChange` SET `Hr1Low` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct <`Hr1Low`;
+Update `CoinPctChange` SET `Hr1High` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct > `Hr1High`;
+End$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `Update24HrPriceChangeAndHighLow`(IN `Coin_Price` DECIMAL(20,14), IN `Coin_ID` INT)
+    MODIFIES SQL DATA
+Begin
+DECLARE Live_Price DEC(20,14);
+DECLARE Coin_Pct DEC(20,14);
+
+Select `LiveCoinPrice` into Live_Price FROM `CoinPrice` where `CoinID` = Coin_ID;
+
+Update `CoinPctChange` SET `Live24HrChange` = Coin_Price where `CoinID` = Coin_ID;
+
+SET Coin_Pct = ((Live_Price-Coin_Price)/Live_Price)*100;
+
+Update `CoinPctChange` SET `Hr24Low` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct <`Hr24Low` and `Hr24Low` <> 0;
+Update `CoinPctChange` SET `Hr24High` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct > `Hr24High` and `Hr24High` <> 0;
+End$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `Update7DPriceChangeAndHighLow`(IN `Coin_Price` DECIMAL(20,14), IN `Coin_ID` INT)
+    MODIFIES SQL DATA
+Begin
+DECLARE Live_Price DEC(20,14);
+DECLARE Coin_Pct DEC(20,14);
+
+Select `LiveCoinPrice` into Live_Price FROM `CoinPrice` where `CoinID` = Coin_ID;
+
+Update `CoinPctChange` SET `Live7DChange` = Coin_Price where `CoinID` = Coin_ID;
+
+SET Coin_Pct = ((Live_Price-Coin_Price)/Live_Price)*100;
+
+Update `CoinPctChange` SET `D7Low` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct <`D7Low` and `D7Low` <> 0;
+Update `CoinPctChange` SET `D7High` = Coin_Pct WHERE `CoinID` = Coin_ID and Coin_Pct > `D7High` and `D7High` <> 0;
+End$$
+DELIMITER ;
