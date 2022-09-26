@@ -5899,7 +5899,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct){
   }
   $conn->close();
   logAction("writeCalculatedSellPct: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeCalculatedSellPct","$sql",3,0,"SQL CALL","UserID:$userID TransID:$transID");
+  newLogToSQL("writeCalculatedSellPct","$sql",3,1,"SQL CALL","UserID:$userID TransID:$transID");
 }
 
 function getCoinAllocation($userID){
@@ -7089,7 +7089,7 @@ function buyBackDelay($coinID, $mins,$tmpUserID){
   }
   $conn->close();
   logAction("buyBackDelay: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("buyBackDelay",$sql,3,1,"SQL","CoinID:$coinID");
+  newLogToSQL("buyBackDelay",$sql,3,0,"SQL","CoinID:$coinID");
 }
 
 function sellSpreadBetCoins($spreadSellCoins){
