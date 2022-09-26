@@ -1091,11 +1091,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*35);
         //$ProfitPctBtm_Sell = abs($ProfitPctBtm_Sell - $amountToReduce);
         $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
-        if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
-          $ProfitPctBtm_Sell = $calculatedSellPctEnd;
+        //if ($ProfitPctBtm_Sell < $calculatedSellPctEnd){
+        //  $ProfitPctBtm_Sell = $calculatedSellPctEnd;
 
           //writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);
-        }
+        //}
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
 
         writeCalculatedSellPct($transactionID,$sellCoinsUserID,$amountToReduce);
