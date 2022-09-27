@@ -124,13 +124,13 @@ function copyRule($ID){
     , `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`, `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`
     , `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`, `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`
     , `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`, `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`
-    ,`BypassTrackingSell`)
+    ,`BypassTrackingSell`,`CalculatedSellPctReduction`)
     select `RuleName`, `UserID`, 0, `SendEmail`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`
     , `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`, `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`
     , `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `CoinOrder`, `SellCoinOffsetEnabled`, `SellCoinOffsetPct`, `SellPriceMinEnabled`, `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`
     , `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`, `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`
     , `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`, `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`
-    , `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`
+    , `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
     from `SellRules`
     where `ID` = $ID";
   //print_r($sql);
@@ -289,6 +289,7 @@ function updateEditedUser(){
   $calculatedSellPctStart = $_POST['CalculatedSellPctStart'];
   $calculatedSellPctEnd = $_POST['CalculatedSellPctEnd'];
   $calculatedSellPctDays = $_POST['CalculatedSellPctDays'];
+  $calculatedSellPctReduction  = $_POST['CalculatedSellPctReduction'];
   $bypassTrackingSellEnable = postDataYesNo($_POST['BypassTrackingSellEnable']);
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
@@ -306,6 +307,7 @@ function updateEditedUser(){
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled,`PctFromHighSellPriceEnabled` = $pctFromHighSellPriceEnable,`NoOfHoursFlatEnabled` = $hoursFlatEnable,`NoOfHoursFlat` = $hoursFlat
   ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName', `SellFallsInPrice` = $sellFallsInPrice,`HoursPastBuyToSellEnabled` = $hoursPastBuySellEnable, `HoursPastBuyToSell` = $hoursPastBuy
   , `CalculatedSellPctEnabled` = $calculatedSellPctEnable, `CalculatedSellPctStart` = $calculatedSellPctStart, `CalculatedSellPctEnd` = $calculatedSellPctEnd, `CalculatedSellPctDays` = $calculatedSellPctDays, `BypassTrackingSell` = $bypassTrackingSellEnable
+  ,`CalculatedSellPctReduction` = $calculatedSellPctReduction
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -335,7 +337,7 @@ function getRules($id){
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
 ,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`
-, `CalculatedSellPctDays`,`BypassTrackingSell`
+, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -350,7 +352,7 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
       ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']//49
       ,$row['SellFallsInPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'],$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'] //55
-      ,$row['CalculatedSellPctDays'],$row['BypassTrackingSell']);//57
+      ,$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction']);//58
   }
   $conn->close();
   return $tempAry;
@@ -660,6 +662,7 @@ function displayEdit($id){
   addNewText('Calculated Sell Pct Start: ','CalculatedSellPctStart',$formSettings[0][54],37, '30', False,$formSettings[0][53]);
   addNewText('Calculated Sell Pct End: ','CalculatedSellPctEnd',$formSettings[0][55],37, '30', False,$formSettings[0][53]);
   addNewText('Calculated Sell Pct Days: ','CalculatedSellPctDays',$formSettings[0][56],37, '30', False,$formSettings[0][53]);
+  addNewText('Calculated Sell Pct Reduction: ','CalculatedSellPctReduction',$formSettings[0][58],37, '30', False,$formSettings[0][53]);
   echo "</div>";
 
   echo "<div class='settingsform'>";
