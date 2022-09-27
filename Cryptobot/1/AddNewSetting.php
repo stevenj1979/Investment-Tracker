@@ -195,14 +195,15 @@ function copyRule($ID){
     , `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`, `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`
     , `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`, `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
     , `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`, `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`
-    , `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`)
+    , `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`, `BuyAmountPctOfTotalEnabled`
+    , `BuyAmountPctOfTotal`)
 Select `RuleName`, `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`
 , `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, 0, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`
 , `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`
 , `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`, `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`
 , `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`, `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`
 , `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`, `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`
-, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`
+, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`, `BuyAmountPctOfTotalEnabled`, `BuyAmountPctOfTotal`
 from `BuyRules`
 where `ID` = $ID";
   //print_r($sql);
@@ -331,6 +332,7 @@ function updateEditedUser(){
 
   //if (!empty($_POST['BuyCoinOffsetEnabled'])){if ($_POST['BuyCoinOffsetEnabled'] == "Yes"){$BuyCoinOffsetEnable = 1;}else{$BuyCoinOffsetEnable = 0;}}else{ $BuyCoinOffsetEnable = 0;}
   $BuyCoinOffsetEnable = postDataYesNo($_POST['BuyCoinOffsetEnabled']);
+  $buyAmountPctofTotalAmountEnabled  = postDataYesNo($_POST['BuyAmountPctofTotalAmountEnabled']);
   //if (!empty($_POST['BuyCoinOffsetPct'])){ $BuyCoinOffsetPct = $_POST['BuyCoinOffsetPct'];}else{ $BuyCoinOffsetPct = 0;}
   $BuyCoinOffsetPct = postData($_POST['BuyCoinOffsetPct']);
   $SellRuleFixed = postData($_POST['sellRuleFixed']);
@@ -370,6 +372,7 @@ function updateEditedUser(){
   $autoBuyPrice = $_POST['AutoBuyPrice'];
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
   $buyAmountOverride = postData($_POST['BuyAmountOverride']);
+  $buyAmountPctofTotalAmount = $_POST['BuyAmountPctofTotalAmount'];
 
   $newBuyPattern = '';
   $coinOrder = postData($_POST['CoinOrderTxt']);
@@ -414,7 +417,8 @@ function updateEditedUser(){
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `1HrChangeTrendEnabled` = $hr1ChangeEnabled, `1HrChangeTrend` = '$hr1ChangePattern', `OverrideDailyLimit` = $overrideDailyLimitEnabled
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
-  , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate
+  , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
+  ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -460,7 +464,7 @@ function getRules($id){
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
 ,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
-,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`
+,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`BuyAmountPctOfTotalEnabled`,`BuyAmountPctOfTotal`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -478,7 +482,7 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
      ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
      ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins'] //80
-     ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID']); //82
+     ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['BuyAmountPctOfTotalEnabled'],$row['BuyAmountPctOfTotal']); //84
   }
   $conn->close();
   return $tempAry;
@@ -866,6 +870,12 @@ function displayEdit($id){
   echo "<H3>Coin % from Low Buy Price</H3>";
   addNewTwoOption('Coin Pct from Low Buy Price: ', 'CoinPctFromLowBuyPriceEnabled', $formSettings[0][67]);
   addNewText('Pct From Low Buy Price: ', 'PctFromLowBuyPrice', $formSettings[0][68], 48, '10%', False,$formSettings[0][67]);
+  echo "</div>";
+
+  echo "<div class='settingsform'>";
+  echo "<H3>Buy Amount Pct of Total Amount</H3>";
+  addNewTwoOption('Buy Amount Pct of Total Amount Enabled: ', 'BuyAmountPctofTotalAmountEnabled', $formSettings[0][83]);
+  addNewText('Buy Amount Pct of Total Amount: ', 'BuyAmountPctofTotalAmount', $formSettings[0][84], 48, '10%', False,$formSettings[0][83]);
   echo "</div>";
 
   echo "<div class='settingsform'>";
