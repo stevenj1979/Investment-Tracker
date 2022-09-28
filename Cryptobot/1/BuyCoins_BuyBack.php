@@ -268,6 +268,9 @@ return $tempAry;
 
 function displayTable($tracking, $header){
   $newArrLength = count($tracking);
+  echo "<h2>$header</H2><table id='t01'>";
+  //Table
+
   for($x = 0; $x < $newArrLength; $x++) {
     //Variables
     $ID = $tracking[$x][0];
@@ -295,9 +298,7 @@ function displayTable($tracking, $header){
     $hoursFlatTarget = $tracking[$x][30];
     $baseCurrency = $tracking[$x][31];
 
-    echo "<h2>$header</H2>";
-    //Table
-    echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
+    echo "<td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
     Echo "<td>".round($buyBackPct,$num)." %</td>";
 
