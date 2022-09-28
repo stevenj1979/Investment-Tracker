@@ -145,7 +145,7 @@ function getCoinsfromSQL(){
   return $tempAry;
 }
 
-function getTrackingCoinsLoc($userID){
+function getTrackingCoinsLoc($userID, $WhereClause){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
@@ -157,7 +157,7 @@ if ($conn->connect_error) {
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
             ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`
             FROM `View9_BuyBack`
-            where `StatusBb` <> 'Closed' and `UserID` = $userID";
+            where `StatusBb` <> 'Closed' and `UserID` = $userID $WhereClause";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
@@ -266,30 +266,8 @@ $conn->close();
 return $tempAry;
 }
 
-function displayMain(){
-  displayHeader(3);
-  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-  $userID = $_SESSION['ID'];
-  $tracking = getTrackingCoinsLoc($userID);
+function displayTable($tracking, $header){
   $newArrLength = count($tracking);
-  //echo $newArrLength;
-  //$userConfig = getConfig($_SESSION['ID']);
-  //$user = getUserIDs($_SESSION['ID']);
-  //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
-
-  //echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
-  //&nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
-  displaySubHeader("BuyCoin");
-  //if($_SESSION['isMobile'] == False){
-  //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
-  //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
-  //  echo "<TH>&nbsp% Change 1Hr</th>";
-  //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
-  //}
-
-  //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
-  //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
-  //$roundNum = 2;
   for($x = 0; $x < $newArrLength; $x++) {
     //Variables
     $ID = $tracking[$x][0];
@@ -317,6 +295,7 @@ function displayMain(){
     $hoursFlatTarget = $tracking[$x][30];
     $baseCurrency = $tracking[$x][31];
 
+    echo "<h2>$header</H2>";
     //Table
     echo "<table id='t01'><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
@@ -349,6 +328,35 @@ function displayMain(){
     Echo "<td></td>";
   }//end for
   print_r("</tr></table>");
+}
+
+function displayMain(){
+  displayHeader(3);
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+  $userID = $_SESSION['ID'];
+  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 0");
+
+  //echo $newArrLength;
+  //$userConfig = getConfig($_SESSION['ID']);
+  //$user = getUserIDs($_SESSION['ID']);
+  //print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");
+
+  //echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
+  //&nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";
+  displaySubHeader("BuyCoin");
+  //if($_SESSION['isMobile'] == False){
+  //print_r("<Table><th>&nbspCoin</th><TH>&nbspBase Currency</th><TH>&nbspPrice</th>");
+  //  NewEcho("<TH>&nbspMarket Cap %</th><TH>&nbspVolume by %</th><TH>&nbspBuy Orders %</th>",$_SESSION['isMobile'],0);
+  //  echo "<TH>&nbsp% Change 1Hr</th>";
+  //  NewEcho("<TH>&nbsp% Change 24 Hrs</th><TH>&nbsp% Change 7 Days</th>",$_SESSION['isMobile'],0);
+  //}
+
+  //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
+  //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
+  //$roundNum = 2;
+  displayTable($tracking,"Enabled");
+  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 1");
+  displayTable($tracking,"Disabled");
   //Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
   displaySideColumn();
   //displayMiddleColumn();
