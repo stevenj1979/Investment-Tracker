@@ -837,6 +837,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount;
       logAction("BITTREX BALANCE INSUFFICIENT| $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", 'BuySellFlow', 0);
       logToSQL("Bittrex", "BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount." && $BTCBalance >= $buyMin", $userID,1);
+      $retBuy = 2;
     }
   //}
   return $retBuy;
