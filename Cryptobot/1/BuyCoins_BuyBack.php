@@ -298,7 +298,7 @@ function displayTable($tracking, $header){
     $hoursFlatTarget = $tracking[$x][30];
     $baseCurrency = $tracking[$x][31];
 
-    echo "<td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
+    echo "<tr><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
     Echo "<td>".round($buyBackPct,$num)." %</td>";
 
@@ -326,7 +326,7 @@ function displayTable($tracking, $header){
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>Delete</a></td>";
     Echo "<td></td>";
-    Echo "<td></td>";
+    Echo "<td></td></tr>";
   }//end for
   print_r("</tr></table>");
 }
