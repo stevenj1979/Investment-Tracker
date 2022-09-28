@@ -1292,7 +1292,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
     $cancelTimeCheck = 0;
     if (isset($actionMins) AND isset($timeToCancelMins)){
-      if ($actionMins < $timeToCancelMins){ echo "<BR> DO NOT CANCEL: 0"; $cancelTimeCheck = 0;}
+      if ($actionMins < $timeToCancelMins){ echo "<BR> DO NOT CANCEL: 0 | $actionMins | $timeToCancelMins"; $cancelTimeCheck = 0;}
       else {echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;}
     }
     echo "<BR> CurrentTime:$finalCurrentTime | Cancel Time $actionMins | $timeToCancelMins | $cancelTimeCheck ";
