@@ -319,6 +319,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
   , `Cn`.`DoNotBuy`
   ,`Dcp`.`ID` as `IDDcp`, `Dcp`.`CoinID` as `CoinIDDcp`, `Dcp`.`UserID` as `UserIDDcp`,`Dcp`.`DelayTime` as `DelayTimeDcp`
   ,if(`Bb`.`DelayTime`<now(), 0,1) as BBRuleDisabled
+  , timestampdiff(MINUTE,now(),`Bb`.`DelayTime`) as MinsUntilEnable
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')

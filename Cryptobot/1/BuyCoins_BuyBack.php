@@ -155,7 +155,7 @@ if ($conn->connect_error) {
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
-            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`
+            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' and `UserID` = $userID $WhereClause";
 
@@ -165,7 +165,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDBb'],$row['TransactionID'],$row['Quantity'],$row['SellPrice'],$row['StatusBb'],$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['CoinID'],$row['SellPriceBA'] //8
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
-    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency']); //31
+    ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency'],$row['MinsUntilEnable']); //32
 }
 $conn->close();
 return $tempAry;
@@ -297,6 +297,7 @@ function displayTable($tracking, $header){
     $hoursFlat = $tracking[$x][29];
     $hoursFlatTarget = $tracking[$x][30];
     $baseCurrency = $tracking[$x][31];
+    $minsUntilEnable = $tracking[$x][32];
 
     echo "<tr><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
@@ -307,8 +308,8 @@ function displayTable($tracking, $header){
 
     echo "<td>Qty: ".round($quantity,$num)."</td>";
 
-    Echo "<td></td>";
-    Echo "<td></td>";
+    //Echo "<td></td>";
+    //Echo "<td></td>";
 
 
     echo "</tr><tr>";
@@ -321,14 +322,15 @@ function displayTable($tracking, $header){
     Echo "<td>Price Dif: ".round($priceDifferecePct,$num)." %</td>";
     Echo "<td>Org: ".round($originalSaleProfitPct,$num)."</td>";
     Echo "<td>USD".round($USD_Amount,$num)."</td>";
-    Echo "<td></td>";
+    Echo "<td>$minsUntilEnable</td>";
     echo "</tr><tr>";
+    Echo "<td></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>Delete</a></td>";
     Echo "<td></td>";
     Echo "<td></td></tr>";
   }//end for
-  print_r("</tr></table>");
+  print_r("</table>");
 }
 
 function displayMain(){
