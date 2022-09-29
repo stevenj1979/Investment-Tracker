@@ -267,6 +267,7 @@ return $tempAry;
 }
 
 function displayTable($tracking, $header){
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $newArrLength = count($tracking);
   echo "<h2>$header</H2><table id='t01'>";
   //Table
@@ -335,7 +336,7 @@ function displayTable($tracking, $header){
 
 function displayMain(){
   displayHeader(3);
-  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+
   $userID = $_SESSION['ID'];
   $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 0");
 
