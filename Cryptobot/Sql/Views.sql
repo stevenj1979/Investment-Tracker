@@ -302,11 +302,11 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
  , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
  , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
- , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`SaveMode`,`Uc`.`BuyBackHoursFlatTarget`
+ , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`SaveMode`,`Uc`.`BuyBackHoursFlatTarget`,`Uc`.`PctOfAuto`,`Uc`.`BuyBackHoursFlatAutoEnabled`
  ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
  , `Us`.`DisableUntil`
  ,`Bbs`.`ID`, `Bbs`.`CoinID`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`
- ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`
+ ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`, `Pdcs`.`MaxHoursFlat`
  ,`Cpc`.`ID` AS `IDCpc`,`Cpc`.`CoinID` AS `CoinID5`,`Cpc`.`Live1HrChange` AS `Live1HrChange`,`Cpc`.`Last1HrChange` AS `Last1HrChange`,`Cpc`.`Live24HrChange` AS `Live24HrChange`,`Cpc`.`Last24HrChange` AS `Last24HrChange`,`Cpc`.`Live7DChange` AS `Live7DChange`,`Cpc`.`Last7DChange` AS `Last7DChange`,`Cpc`.`1HrChange3` AS `1HrChange3`,`Cpc`.`1HrChange4` AS `1HrChange4`,`Cpc`.`1HrChange5` AS `1HrChange5`
  ,(((`Cp`.`LiveCoinPrice` - `Cpc`.`Live1HrChange`) / `Cpc`.`Live1HrChange`) * 100) AS `Hr1ChangePctChange`
  ,(((`Cp`.`LiveCoinPrice` - `Cpc`.`Last24HrChange` ) / `Cpc`.`Last24HrChange` ) * 100) AS `Hr24ChangePctChange`

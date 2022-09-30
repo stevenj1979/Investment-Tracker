@@ -289,7 +289,13 @@ function runBuyBack($buyBackCoins){
     $livePriceUSD =  $buyBackCoins[$t][42];
     $profit = $buyBackCoins[$t][43];
     $profitPct = $buyBackCoins[$t][11];
+    $pctOfAuto = $buyBackCoins[$t][49];
+    $buyBackHoursFlatAutoEnabled = $buyBackCoins[$t][50];
+    $maxHoursFlat = $buyBackCoins[$t][51];
 
+    if ($buyBackHoursFlatAutoEnabled == 1){
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
+    }
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
     if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
