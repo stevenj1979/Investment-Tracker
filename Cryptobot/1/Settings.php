@@ -396,9 +396,10 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                         <option value='".$option2."'>".$option2."</option></select>";?>
                                         <b>Hours Flat: </b><br/>
                                         <input type="text" name="buyBackHoursFlat" id="buyBackHoursFlat" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][46]; ?>" tabindex="13">
-                                        <b>Enable BuyBack Auto Hours Flat: </b><br/><select name='enableBBAutoHoursFlat' id='enableBBAutoHoursFlat' class='enableTextBox'><?php
+                                        <br/><select name='enableBBAutoHoursFlat' id='enableBBAutoHoursFlat' class='enableTextBox'><?php
                                           echo "<option value='".$option1."'>".$option1."</option>
                                           <option value='".$option2."'>".$option2."</option></select>";?>
+                                          <b>Enable BuyBack Auto Hours Flat: </b>
                                           <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                     </div>
                     <div class='settingsform'>
