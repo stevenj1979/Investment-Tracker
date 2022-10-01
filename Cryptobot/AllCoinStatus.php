@@ -415,39 +415,17 @@ function getMarketChange(){
 }
 
 function runMarketStats(){
-  $priceDipRules = getMarketStatistics();
-  $priceDipRulesSize = count($priceDipRules);
-  //DeleteMarketStats();
-  for ($g=0;$g<1; $g++){
-    writeMarketStats($priceDipRules);
-  }
+    writeMarketStats();
 }
 
-function writeMarketStats($priceDipRules){
-$LiveCoinPrice = $priceDipRules[0][0];	$LastCoinPrice = $priceDipRules[0][1];	$Price3 = $priceDipRules[0][2];	$Price4 = $priceDipRules[0][3];	$Price5 = $priceDipRules[0][4];	$CoinPricePctChange = $priceDipRules[0][5];
-$LiveMarketCap = $priceDipRules[0][6];	$LastMarketCap = $priceDipRules[0][7];	$MarketCapPctChange = $priceDipRules[0][8];	$LiveBuyOrders = $priceDipRules[0][9];	$LastBuyOrders = $priceDipRules[0][10];
-$BuyOrdersPctChange = $priceDipRules[0][11];	$LiveVolume = $priceDipRules[0][12];	$LastVolume = $priceDipRules[0][13];	$VolumePctChange = $priceDipRules[0][14];	$Live1HrChange = $priceDipRules[0][15];
-$Last1HrChange = $priceDipRules[0][16];	$Live24HrChange = $priceDipRules[0][17];	$Last24HrChange = $priceDipRules[0][18];	$Live7DChange = $priceDipRules[0][19];	$Last7DChange = $priceDipRules[0][20];
-$Hr1Change3 = $priceDipRules[0][21];	$Hr1Change4 = $priceDipRules[0][22];	$Hr1Change5 = $priceDipRules[0][23];	$Hr1ChangePctChange = $priceDipRules[0][24];	$Hr24ChangePctChange = $priceDipRules[0][25];
-$D7ChangePctChange = $priceDipRules[0][26];	$LiveSellOrders = $priceDipRules[0][27];	$LastSellOrders = $priceDipRules[0][28];	$SellOrdersPctChange = $priceDipRules[0][29];	$LivePriceTrend = $priceDipRules[0][30];
-$LastPriceTrend = $priceDipRules[0][31];	$Price3Trend = $priceDipRules[0][32];	$Price4Trend = $priceDipRules[0][33];	$Hr1PriceChangeLive = $priceDipRules[0][34];	$Hr1PriceChangeLast = $priceDipRules[0][35];
-$Hr1PriceChange3 = $priceDipRules[0][36];	$Hr1PriceChange4 = $priceDipRules[0][37];
-if ($LiveCoinPrice == 0){ $LiveCoinPrice = $LastCoinPrice;}
-if ($Live24HrChange == 0){$Live24HrChange = $Last24HrChange; $Hr24ChangePctChange = (($LiveCoinPrice-$Live24HrChange)/$LiveCoinPrice)*100;}
-if ($Live1HrChange == 0){ $Live1HrChange = $Last1HrChange; $Hr1ChangePctChange =(($LiveCoinPrice-$Live1HrChange)/$LiveCoinPrice)*100;}
-if ($Live7DChange == 0){ $Live7DChange = $Last7DChange; $D7ChangePctChange = (($LiveCoinPrice-$Live7DChange)/$LiveCoinPrice)*100;}
+function writeMarketStats(){
+
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `MarketCoinStats` SET `Hr1ChangePctChange`= $Hr1ChangePctChange,`Hr24ChangePctChange`=$Hr24ChangePctChange,`D7ChangePctChange`=$D7ChangePctChange,`LiveCoinPrice`=$LiveCoinPrice
-          ,`LastCoinPrice`=$LastCoinPrice,`Live1HrChange`=$Live1HrChange,`Last1HrChange`=$Last1HrChange, `Live24HrChange`=$Live24HrChange,`Last24HrChange`=$Last24HrChange,`Live7DChange`=$Live7DChange
-          ,`Last7DChange`=$Last7DChange,`MarketCapPctChange`=$MarketCapPctChange,`CoinPricePctChange`=$CoinPricePctChange,`VolumePctChange`=$VolumePctChange
-          ,`LivePriceTrend`=$LivePriceTrend,`LastPriceTrend`=$LastPriceTrend,`Price3Trend`=$Price3Trend,`Price4Trend`=$Price4Trend
-          ,`LiveMarketCap`=$LiveMarketCap,`LastMarketCap`=$LastMarketCap,`Live1HrChange`=$Live1HrChange,`Last1HrChange`=$Last1HrChange,`Live24HrChange`=$Live24HrChange
-          ,`Last24HrChange`=$Last24HrChange,`Live7DChange`=$Live7DChange,`Last7DChange`=$Last7DChange,`LiveVolume`=$LiveVolume
-          ,`LastVolume`=$LastVolume,`1HrPriceChangeLive`=$Hr1PriceChangeLive,`1HrPriceChangeLast`=$Hr1PriceChangeLast,`1HrPriceChange3`=$Hr1PriceChange3,`1HrPriceChange4`=$Hr1PriceChange4";
+  $sql = "Call UpdateMarketStats();";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
