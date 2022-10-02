@@ -578,7 +578,7 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText,
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){
-    $option1 = "Yes"; $option2 = "Auto";$option3 = "Auto";
+    $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
   }elseif ($value == 2 || $value == 'Auto' ){
     $option1 = "Auto"; $option2 = "Yes";$option3 = "No";
   }else{
