@@ -774,6 +774,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
     $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
     $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
+    $maxHoursFlat = $coins[$x][47];
 
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
@@ -816,9 +817,13 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $overrideCancelBuyTimeEnabled = $buyRules[$y][76];
       $overrideCancelBuyTimeMins = $buyRules[$y][77];
       $noOfBuyModeOverrides = $buyRules[$y][78];$coinModeOverridePriceEnabled = $buyRules[$y][79];
+      $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-
+      if ($priceDipCoinFlatEnabled == 2){
+        $priceDipHoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipCoinFlatEnabled = 1;
+      }
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
       $delayCoinPurchaseSize = 0;
       if (!empty($delayCoinPurchase)){
@@ -1887,7 +1892,7 @@ function buyToreduceLoss($lossCoins){
     $excludeSpreadBet = 1;
     if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
     if ($hoursFlatAutoEnabled == 1){
-      $hoursFlat = ($maxHoursFlat/100)*$pctOfAuto;
+      $hoursFlat = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
     //and $minsToDelay > 0
     echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
