@@ -40,6 +40,9 @@ if(isset($_POST['submit'])){
     $reduceLossHoursFlat = $_POST['ReduceLossHoursFlat'];
     $enableSavePctofTotal = $_POST[' EnableSavePctofTotal'];
     $savingPctOfTotal = $_POST['SavingPctOfTotal'];
+
+    $buyBackAutoPct = $_POST['buyBackAutoPct'];
+    $reduceLossAutoPct = $_POST['ReduceLossAutoPct'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -55,6 +58,8 @@ if(isset($_POST['submit'])){
     if(empty($_POST['hoursFlatTol'])){$hoursFlatTolerance = 0;}
     if(empty($_POST['redirectSBID'])){$redirectPurchasesToSpreadID = 0;}
     if(empty($_POST['SavingPctOfTotal'])){$savingPctOfTotal = 0;}
+    if(empty($_POST['buyBackAutoPct'])){$buyBackAutoPct = 0;}
+    if(empty($_POST['ReduceLossAutoPct'])){ $reduceLossAutoPct = 0;}
     //if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
     if ($saveMode > 0 ){ $saveResidualCoins = 'No';}
     $holdCoinForBuyOut = $_POST['HoldCoinForBuyOut'];
@@ -68,7 +73,7 @@ if(isset($_POST['submit'])){
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,  //16
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,   //29
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements,$saveMode,$pctToSave,$sellPct,$originalPriceMultiplier,$reduceLossMaxCounter,$pauseCoinIDAfterPurchaseEnabled,$daysToPauseCoinIDAfterPurchase,$bbHoursFlat,$reduceLossHoursFlat,$holdCoinForBuyOut,   //45
-    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat);
+    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     //$hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
@@ -99,7 +104,7 @@ function getUserIDs($userID){
   ,`SaveResidualCoins`,`RedirectPurchasesToSpreadID`,`RedirectPurchasesToSpread`,`MinsToPauseAfterPurchase`,`LowMarketModeEnabled`,`AllBuyBackAsOverride`,`HoursFlatTolerance`,`MergeSavingWithPurchase`
   ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`SaveMode`,`PctToSave`,`SellPct`,`OriginalPriceMultiplier`,`ReduceLossMaxCounter`
   , `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`,`BuyBackHoursFlatTarget`,`HoursFlatRls`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`SavingPctOfTotalEnabled`,`SavingPctOfTotal`
-  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`
+  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -113,7 +118,7 @@ function getUserIDs($userID){
       ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings'],$row['USDTAlloc'],$row['BTCAlloc'],$row['ETHAlloc'],$row['PctOnLow'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements'] //38
       ,$row['SaveMode'],$row['PctToSave'],$row['SellPct'],$row['OriginalPriceMultiplier'],$row['ReduceLossMaxCounter'],$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'] //45
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
-      ,$row['BuyBackHoursFlatAutoEnabled']); //53
+      ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss']); //55
   }
   $conn->close();
   return $tempAry;
@@ -137,7 +142,9 @@ function updateUser($settingsUpdateAry){
   $bbHoursFlat = $settingsUpdateAry[43]; $holdCoinForBuyOut = $settingsUpdateAry[45]; $coinForBuyOutPct = $settingsUpdateAry[46];
   $enableSavePctofTotal = $settingsUpdateAry[47]; $savingPctOfTotal = $settingsUpdateAry[48];
   $lowMarketModeStartPct = $settingsUpdateAry[34]; $lowMarketModeIncrements = $settingsUpdateAry[35];
-  $enableBBAutoHoursFlat =  $settingsUpdateAry[50];
+  $enableBBAutoHoursFlat = $settingsUpdateAry[50];
+  $buyBackAutoPct = $settingsUpdateAry[51];
+  $reduceLossAutoPct = $settingsUpdateAry[52];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -175,6 +182,7 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase, `LowMarketModeStartPct` = $lowMarketModeStartPct, `LowMarketModeIncrements` = $lowMarketModeIncrements
          ,`SaveMode` = $saveMode, `PctToSave` = $pctToSave, `PauseCoinIDAfterPurchaseEnabled` = $pauseCoinIDAfterPurchaseEnabled, `DaysToPauseCoinIDAfterPurchase` = $daysToPauseCoinIDAfterPurchase,`BuyBackHoursFlatTarget` = $bbHoursFlat,
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
+        `PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat WHERE `UserID` = $userID;
@@ -368,6 +376,8 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
                         <input type="text" name="CoinForBuyOutPct" id="CoinForBuyOutPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][49]; ?>" tabindex="22">
                         <p class="comments">Hold Coin buyout Pct</p>
+                        <input type="text" name="ReduceLossAutoPct" id="ReduceLossAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][54]; ?>" tabindex="13">
+                        <b>Auto Pct: </b><br/>
                         </div>
         <div class='settingsform'>
                 <b>Redirect: </b><br/>
@@ -394,13 +404,16 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                       <b>Enable All BuyBack as Override: </b><br/><select name='enableAllBBasOverride' id='enableAllBBasOverride' class='enableTextBox'><?php
                                         echo "<option value='".$option1."'>".$option1."</option>
                                         <option value='".$option2."'>".$option2."</option></select>";?>
-                                        <b>Hours Flat: </b><br/>
+
                                         <input type="text" name="buyBackHoursFlat" id="buyBackHoursFlat" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][46]; ?>" tabindex="13">
+                                        <b>Hours Flat: </b><br/>
                                         <br/><select name='enableBBAutoHoursFlat' id='enableBBAutoHoursFlat' class='enableTextBox'><?php
                                           echo "<option value='".$option1."'>".$option1."</option>
                                           <option value='".$option2."'>".$option2."</option></select>";?>
                                           <b>Enable BuyBack Auto Hours Flat: </b>
                                           <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                                          <input type="text" name="buyBackAutoPct" id="buyBackAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][54]; ?>" tabindex="13">
+                                          <b>Auto Pct: </b><br/>
                     </div>
                     <div class='settingsform'>
                             <b>Savings: </b><br/>
