@@ -376,7 +376,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
                         <input type="text" name="CoinForBuyOutPct" id="CoinForBuyOutPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][49]; ?>" tabindex="22">
                         <p class="comments">Hold Coin buyout Pct</p>
-                        <input type="text" name="ReduceLossAutoPct" id="ReduceLossAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][54]; ?>" tabindex="13">
+                        <input type="text" name="ReduceLossAutoPct" id="ReduceLossAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][55]; ?>" tabindex="13">
                         <b>Auto Pct: </b><br/>
                         </div>
         <div class='settingsform'>
