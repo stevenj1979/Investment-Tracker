@@ -462,7 +462,7 @@ function getTrackingSellCoins($type, $userID = 0){
   ,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
-  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`
+  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   echo "<BR>$sql<BR>";
@@ -475,7 +475,7 @@ function getTrackingSellCoins($type, $userID = 0){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy'],$row['HoursFlatHighPdcs'],$row['MaxPriceFromHigh'],$row['PctFromLiveToHigh'] //64
-    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp']); //67
+    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat']); //68
   }
   $conn->close();
   return $tempAry;
@@ -611,6 +611,7 @@ function getUserSellRules(){
   `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`,`AutoSellCoinEnabled`
   ,`SellFallsInPrice`,`SellAllCoinsEnabled`,`SellAllCoinsPct`,`CoinSwapEnabled`,`CoinSwapAmount`,`NoOfCoinSwapsPerWeek`,`MergeCoinEnabled`,`CoinModeRule`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctUnderMaxPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
+  ,`PctOfAuto`
     FROM `View14_UserSellRules` WHERE `SellCoin` = 1";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -622,7 +623,7 @@ function getUserSellRules(){
     ,$row['APISecret'],$row['SellCoinOffsetEnabled'],$row['SellCoinOffsetPct'],$row['SellPriceMinEnabled'],$row['SellPriceMin'],$row['LimitToCoin'],$row['KEK'],$row['SellPatternEnabled'],$row['SellPattern'],$row['LimitToBuyRule'] //43
     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['AutoSellCoinEnabled'],$row['SellFallsInPrice'],$row['SellAllCoinsEnabled'],$row['SellAllCoinsPct'],$row['CoinSwapEnabled'],$row['CoinSwapAmount'],$row['NoOfCoinSwapsPerWeek']  //52
     ,$row['MergeCoinEnabled'],$row['CoinModeRule'],$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'] //61
-    ,$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'],$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction']); //66
+    ,$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'],$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['PctOfAuto']); //67
   }
   $conn->close();
   return $tempAry;

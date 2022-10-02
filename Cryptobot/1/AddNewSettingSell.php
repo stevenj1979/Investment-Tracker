@@ -193,6 +193,8 @@ function postDataYesNo($postValue){
   if (!empty($postValue)){
     if ($postValue == "Yes"){
       return 1;
+    }elseif ($postValue == "Auto"){
+      return 2;
     }else{
       return 0;
     }
@@ -370,10 +372,17 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText,
 }
 
 function addNewTwoOption($RealName, $idName, $value){
-  if ($value == 1 || $value == 'Yes' ){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}
+  if ($value == 1 || $value == 'Yes' ){
+    $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
+  }elseif ($value == 2 || $value == 'Auto' ){
+    $option1 = "Auto"; $option2 = "Yes";$option3 = "No";
+  }else{
+    $option1 = "No"; $option2 = "Yes";$option3 = "Auto";
+  }
   echo "<select name='$idName' id='$idName' class='enableTextBox'>
   <option value='".$option1."'>".$option1."</option>
-    <option value='".$option2."'>".$option2."</option></select>
+    <option value='".$option2."'>".$option2."</option>
+      <option value='".$option3."'>".$option3."</option></select>
     <label for='$idName'>$RealName</label>
      <br/>";
 }

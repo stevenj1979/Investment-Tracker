@@ -1052,7 +1052,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $noOfCoinSwapsThisWeek  = $sellCoins[$a][53]; $captureTrend = $sellCoins[$a][59]; $minsFromBuy = $sellCoins[$a][61];
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
-    $sellPctCsp = $sellCoins[$a][67];
+    $sellPctCsp = $sellCoins[$a][67];$maxHoursFlat = $sellCoins[$a][68];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1085,7 +1085,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $hoursPastBuySellEnable  = $sellRules[$z][59];$hoursPastBuy = $sellRules[$z][60];
       $calculatedSellPctEnable = $sellRules[$z][61];$calculatedSellPctStart = $sellRules[$z][62];$calculatedSellPctEnd = $sellRules[$z][63];$calculatedSellPctDays = $sellRules[$z][64];
       $calculatedSellPctReduction = $sellRules[$z][66];
-      $bypassTrackingSell = $sellRules[$z][65];
+      $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67];
       if ($calculatedSellPctEnable == 1){
         //$ProfitPctTop_Sell_Original = $ProfitPctTop_Sell;
         //$ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);
@@ -1114,6 +1114,10 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         echo "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);";
         Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
 
+      }
+      if ($priceDipCoinFlatEnabled == 2){
+        $priceDipHoursFlatTarget = Floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipCoinFlatEnabled = 1;
       }
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
