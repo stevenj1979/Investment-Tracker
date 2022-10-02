@@ -182,7 +182,7 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase, `LowMarketModeStartPct` = $lowMarketModeStartPct, `LowMarketModeIncrements` = $lowMarketModeIncrements
          ,`SaveMode` = $saveMode, `PctToSave` = $pctToSave, `PauseCoinIDAfterPurchaseEnabled` = $pauseCoinIDAfterPurchaseEnabled, `DaysToPauseCoinIDAfterPurchase` = $daysToPauseCoinIDAfterPurchase,`BuyBackHoursFlatTarget` = $bbHoursFlat,
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
-        `PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct
+        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat WHERE `UserID` = $userID;
