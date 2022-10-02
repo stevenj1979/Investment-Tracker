@@ -289,7 +289,7 @@ function runBuyBack($buyBackCoins){
     $livePriceUSD =  $buyBackCoins[$t][42];
     $profit = $buyBackCoins[$t][43];
     $profitPct = $buyBackCoins[$t][11];
-    $pctOfAuto = $buyBackCoins[$t][49];
+    $pctOfAuto = $buyBackCoins[$t][53];
     $buyBackHoursFlatAutoEnabled = $buyBackCoins[$t][50];
     $maxHoursFlat = $buyBackCoins[$t][51];
 
@@ -1876,7 +1876,7 @@ function buyToreduceLoss($lossCoins){
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
-
+    $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][78]; $maxHoursFlat = $lossCoins[$y][76];
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
     }elseif ($reduceLossEnabled == 1){
@@ -1886,6 +1886,9 @@ function buyToreduceLoss($lossCoins){
     }
     $excludeSpreadBet = 1;
     if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
+    if ($hoursFlatAutoEnabled == 1){
+      $hoursFlat = ($maxHoursFlat/100)*$pctOfAuto;
+    }
     //and $minsToDelay > 0
     echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
     if ($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){

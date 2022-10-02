@@ -495,7 +495,7 @@ function getTrackingSellCoinsAll(){
   ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
-  ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`
+  ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -508,7 +508,7 @@ function getTrackingSellCoinsAll(){
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
-    ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed']); //75
+    ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled']); //80
   }
   $conn->close();
   return $tempAry;
@@ -6817,7 +6817,7 @@ function getBuyBackData(){
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
             , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
-            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
+            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6831,7 +6831,7 @@ function getBuyBackData(){
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
       ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier'],$row['DelayCoinPurchase'] //48
-      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat']); //51
+      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack']); //53
   }
   $conn->close();
   return $tempAry;
