@@ -226,10 +226,15 @@ function runPriceDipRule($priceDipRules){
     $hr24ChangePctChange = $priceDipRules[$a][3]; $d7ChangePctChange = $priceDipRules[$a][4]; $d7PriceDipPct = $priceDipRules[$a][5];
     $priceDipEnabled = $priceDipRules[$a][7]; $hoursFlat = $priceDipRules[$a][8]; $dipStartTime = $priceDipRules[$a][9];
     $priceDipDisable24Hour = $priceDipRules[$a][12]; $priceDipDisable7Day = $priceDipRules[$a][13]; $hoursFlatSetting = $priceDipRules[$a][10];
-    $buyCoin = $priceDipRules[$a][14];
-
+    $buyCoin = $priceDipRules[$a][14]; $minHr24ChangePctChange = $priceDipRules[$a][24]; $minD7ChangePctChange = $priceDipRules[$a][25];
+    $pctOfAuto = $priceDipRules[$a][26];
     if(!isset($hr24ChangePctChange)){ continue;}
     if(!isset($d7ChangePctChange)){ continue;}
+
+    if($enableRuleActivationAfterDip == 2){
+      $pctChangeTargetAvg = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)/100)*$pctOfAuto;
+      $enableRuleActivationAfterDip = 1;
+    }
 
     $PctChangeAvg = $priceDipRules[$a][16];
     $pctChangeTargetAvg = $priceDipRules[$a][15];
