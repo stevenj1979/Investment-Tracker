@@ -265,9 +265,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key"); ?>
               </div>
               <div class="form-group">
-                <b>BTC Buy Amount: </b><br/>
-                <input type="text" name="BTCBuyAmount" id="BTCBuyAmount" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][11]; ?>" tabindex="5">
-                <p class="comments">Amount in BTC for each buy</p>
+                  <?php displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy"); ?>
               </div>
                   <?php if ($userDetails[0][6] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                     <div class='settingsform'>
@@ -275,9 +273,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select></div>";?>
                   <div class="form-group">
-                    <b>Daily BTC Limit: </b><br/>
-                    <input type="text" name="dailyBTCLimit" id="dailyBTCLimit" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][8]; ?>" tabindex="6">
-                    <p class="comments">Amount in BTC for each buy</p>
+                    <?php displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,""); ?>
                   </div>
                   <?php if ($userDetails[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                     <div class='settingsform'>
@@ -285,9 +281,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select></div>";?>
                   <div class="form-group">
-                    <b>Total BTC Limit: </b><br/>
-                    <input type="text" name="totalBTCLimit" id="totalBTCLimit" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][9]; ?>" tabindex="7">
-                    <p class="comments">Amount in BTC for each buy</p>
+                    <?php displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,""); ?>
                   </div>
                   <?php if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
                   elseif ($userDetails[0][12] == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
@@ -314,53 +308,36 @@ $userDetails = getUserIDs($_SESSION['ID']);
                               echo "<option value='".$option1."'>".$option1."</option>
                               <option value='".$option2."'>".$option2."</option></select></div>";?>
               <div class="form-group">
-                  <b>Number of Purchases: </b><br/>
-                  <input type="text" name="NoOfPurchases" id="totalBTCLimit" class="form-control input-lg" placeholder="2" value="<?php echo $userDetails[0][15]; ?>" tabindex="5">
-                  <p class="comments">Amount in BTC for each buy</p>
-                </div>
-                <div class="form-group">
-                    <b>% to Purchase: </b><br/>
-                    <input type="text" name="PctToPurchase" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][16]; ?>" tabindex="6">
-                    <p class="comments">Amount in BTC for each buy</p>
-                  </div>
-                  <div class="form-group">
-                      <b>Total Rises In Price: </b><br/>
-                      <input type="text" name="TotalRisesInPrice" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][17]; ?>" tabindex="7">
-                      <p class="comments">Amount in BTC for each buy</p>
-                    </div>
-                    <div class="form-group">
-                        <b>Total Rises In Price Sell: </b><br/>
-                        <input type="text" name="TotalRisesInPriceSell" id="totalBTCLimit" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][18]; ?>" tabindex="8">
-                        <p class="comments">Amount in BTC for each buy</p>
-                      </div>
-                      <div class="form-group">
-                          <b>No of Coin Purchase: </b><br/>
-                          <input type="text" name="NoOfCoinPurchase" id="noOfCoinPurchase" class="form-control input-lg" placeholder="-10" value="<?php echo $userDetails[0][19]; ?>" tabindex="9">
-                          <p class="comments">Amount in BTC for each buy</p>
-                        </div>
-                        <div class="form-group">
-                            <b>Buy Admin: </b><br/>
-                            <div class="form-group">
-                    <b>HoursFlatTolerance: </b><br/>
-                    <input type="text" name="hoursFlatTol" id="hoursFlatTol" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][30]; ?>" tabindex="10">
-                    <p class="comments">Amount in BTC for each buy</p>
-                    <b>Auto Buy: </b><br/>
-                    <input type="text" name="pctAuto" id="pctAuto" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][52]; ?>" tabindex="10">
-                    <p class="comments">Pct of Auto</p>
-                  </div>
+                  <?php displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,""); ?>
+              </div>
+              <div class="form-group">
+                  <?php displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,""); ?>
+              </div>
+              <div class="form-group">
+                  <?php displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,""); ?>
+              </div>
+              <div class="form-group">
+                  <?php displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,""); ?>
+              </div>
+              <div class="form-group">
+                  <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
+              </div>
+          <div class="form-group">
+              <b>Buy Admin: </b><br/>
+              <div class="form-group">
+                <?php displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,""); ?>
+                <?php displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,""); ?>
+              </div>
 
-                        <div class="form-group">
-                    <b>Mins To Pause After Purchase: </b><br/>
-                    <?php if ($userDetails[0][44] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                    <input type="text" name="minsPauseAfterPurchase" id="minsPauseAfterPurchase" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][27]; ?>" tabindex="11">
-                    <p class="comments">Amount in BTC for each buy</p>
+              <div class="form-group">
+                <?php if ($userDetails[0][44] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                <?php displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,""); ?>
                     <b>Pause CoinID After Purchase Enabled: </b><br/>
                     <select name='PauseCoinIDAfterPurchaseEnabled' id='PauseCoinIDAfterPurchaseEnabled' class='enableTextBox'><?php
                       echo "<option value='".$option1."'>".$option1."</option>
                       <option value='".$option2."'>".$option2."</option></select></div>";?>
-                    <input type="text" name="DaysToPauseCoinIDAfterPurchase" id="DaysToPauseCoinIDAfterPurchase" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][45]; ?>" tabindex="11">
-                    <p class="comments">Amount in BTC for each buy</p>
-                  </div>
+                <?php displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,""); ?>
+              </div>
 
                   <?php if ($userDetails[0][24] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                                       <div class='settingsform'>
@@ -370,18 +347,15 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
 
                   <?php if ($userDetails[0][20] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                    <div class='settingsform'>
-                      <b>Enable Reduce Loss: </b><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
+          <div class='settingsform'>
+                <b>Enable Reduce Loss: </b><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select>";?>
-                        <input type="text" name="SellPct" id="SellPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][41]; ?>" tabindex="22">
-                        <p class="comments">Reduce Loss Sell %</p>
-                        <input type="text" name="OriginalPriceMultiplier" id="OriginalPriceMultiplier" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][42]; ?>" tabindex="22">
-                        <p class="comments">Reduce Loss Original Price Multiplier</p>
-                        <input type="text" name="ReduceLossMaxCounter" id="ReduceLossMaxCounter" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][43]; ?>" tabindex="22">
-                        <p class="comments">Reduce Loss Max Counter</p>
-                        <input type="text" name="ReduceLossHoursFlat" id="ReduceLossHoursFlat" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][47]; ?>" tabindex="22">
-                        <p class="comments">Reduce Loss Hours Flat</p>
+
+                  <?php displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,""); ?>
+                  <?php displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,""); ?>
+                  <?php displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,""); ?>
+                  <?php displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,""); ?>
                         <?php if ($userDetails[0][48] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                         <b>Hold Coin for buyout Enabled: </b><br/><select name='HoldCoinForBuyOut' id='HoldCoinForBuyOut' class='enableTextBox'><?php
                           echo "<option value='".$option1."'>".$option1."</option>
