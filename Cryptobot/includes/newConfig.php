@@ -408,7 +408,7 @@ function getTrackingCoins($whereclause, $table){
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`6MonthPrice`)+0 as 6MonthPrice ,Trim(`3MonthPrice`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`
     $table $whereclause ";
-    //echo "<BR> $sql <BR>";
+    echo "<BR> $sql <BR>";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
