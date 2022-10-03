@@ -230,7 +230,7 @@ function displayYesNoAuto($selection,$name){
     <option value='".$option3."'>".$option3."</option></select><br>";
 }
 
-function displayText($name, $text,$value,$tab, $comment = $value){
+function displayText($name, $text,$value,$tab, $comment){
   echo "<b>$text </b><br/>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
   echo "<p class='comments'>$comment</p>";
@@ -253,25 +253,16 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
               <form action="Settings.php?user=Yes" method="post">
               <div class="form-group">
-                <!--<b>UserName: </b><br/>
-                <input type="text" name="newusername" id="newusername" class="form-control input-lg" placeholder="User Name" value="<?php //echo $userDetails[0][2]; ?>" tabindex="1">-->
-                <?php displayText("newusername", "UserName: ",$userDetails[0][2],1); ?>
+                <?php displayText("newusername", "UserName: ",$userDetails[0][2],1,""); ?>
               </div>
               <div class="form-group">
-                <!-- <b>Email: </b><br/>
-                <input type="text" name="email" id="email" class="form-control input-lg" placeholder="User Name" value="<?php //echo $userDetails[0][10]; ?>" tabindex="2">-->
-                  <?php displayText("email", "Email: ",$userDetails[0][10],2); ?>
+                <?php displayText("email", "Email: ",$userDetails[0][10],2,""); ?>
               </div>
               <div class="form-group">
-              <!--  <b>API Key: </b><br/>
-                <input type="text" name="API_Key" id="API_Key" class="form-control input-lg" placeholder="User Name" value="<?php //echo $userDetails[0][4]; ?>" tabindex="3">
-                <p class="comments">Bittrex API Key</p>-->
-                  <?php displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key"); ?>
+                <?php displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key"); ?>
               </div>
               <div class="form-group">
-                <b>API Secret: </b><br/>
-                <input type="text" name="API_Secret" id="API_Secret" class="form-control input-lg" placeholder="User Name" value="<?php echo $apisecret; ?>" tabindex="4">
-                <p class="comments">Bittrex Secret API Key</p>
+                <?php displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key"); ?>
               </div>
               <div class="form-group">
                 <b>BTC Buy Amount: </b><br/>
