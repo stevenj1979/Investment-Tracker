@@ -233,7 +233,7 @@ function displayYesNoAuto($selection,$name){
 function displayText($name, $text,$value,$tab, $comment){
   echo "<br/><b>$text </b>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
-  echo "<p class='comments'>$comment</p><br>";
+  echo "<p class='comments'>$comment</p>";
 }
 
 
@@ -279,7 +279,8 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     <div class='settingsform'>
                       <b>Enable Total BTC Limit: </b><br/><select name='enableTotalBTCLimit' id='enableTotalBTCLimit' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option></select></div>";?>
+                        <option value='".$option2."'>".$option2."</option></select>";?>
+                    </div>
                   <div class="form-group">
                     <?php displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,""); ?>
                   </div>
