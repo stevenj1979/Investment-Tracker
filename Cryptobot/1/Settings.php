@@ -216,6 +216,20 @@ function getSequence($userID){
   return $tempAry;
 }
 
+function displayYesNoAuto($selection,$name){
+  if ($selection == 1){
+    $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
+  }elseif ($selection == 2){
+    $option1 = "Auto"; $option2 = "Yes";$option3 = "No";
+  }else{
+    $option1 = "No"; $option2 = "Yes";$option3 = "Auto";
+  }
+  echo "<select name='$name' id='$name' class='enableTextBox'>";
+  echo "<option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option>
+    <option value='".$option3."'>".$option3."</option></select><br>";
+}
+
 
 $userDetails = getUserIDs($_SESSION['ID']);
 //$userSettings = getConfig($_SESSION['ID']);
@@ -451,11 +465,12 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     </DIV>
                     <div class='settingsform'>
                       <b>Low Market Mode: </b><br/>
-                      <?php if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}?>
+                      <?php displayYesNoAuto($userDetails[0][28],"enableLowMarketMode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
 
-                          <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
-                            echo "<option value='".$option1."'>".$option1."</option>
-                            <option value='".$option2."'>".$option2."</option></select><br>";?>
+                        //  <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
+                        //    echo "<option value='".$option1."'>".$option1."</option>
+                        //    <option value='".$option2."'>".$option2."</option></select><br>";-->
+                        ?>
                       <input type="text" name="LowMarketModeNum" id="LowMarketModeNum" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][28]; ?>" tabindex="18">
                       <p class="comments">Low Market Mode Number</p>
                       <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="19">
