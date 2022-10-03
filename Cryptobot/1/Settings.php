@@ -231,7 +231,7 @@ function displayYesNoAuto($selection,$name){
 }
 
 function displayText($name, $text,$value,$tab, $comment){
-  echo "<br/><b>$text </b>";
+  echo "<label for="$name">$text</label><br>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
   echo "<p class='comments'>$comment</p>";
 }
