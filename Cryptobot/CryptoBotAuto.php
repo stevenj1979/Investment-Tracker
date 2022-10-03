@@ -181,7 +181,7 @@ $apiVersion = 3;
 $firstTimeFlag = True;
 $timeFlag = False;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
-Echo "<BR>Date:$date | NewTime:$newTime ";
+Echo "<BR>Date:$date | NewTime:$newTime tmp: $tmpTime";
 while($date <= $newTime){
   echo "NEW LOOP ";
   $coinAry = testBittrexCoinPrice($apikey,$apisecret, "", "", $apiVersion);
