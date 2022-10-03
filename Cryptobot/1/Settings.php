@@ -361,12 +361,10 @@ $userDetails = getUserIDs($_SESSION['ID']);
                           echo "<option value='".$option1."'>".$option1."</option>
                           <option value='".$option2."'>".$option2."</option></select>";?>
 
-                        <input type="text" name="CoinForBuyOutPct" id="CoinForBuyOutPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][49]; ?>" tabindex="22">
-                        <p class="comments">Hold Coin buyout Pct</p>
-                        <input type="text" name="ReduceLossAutoPct" id="ReduceLossAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][55]; ?>" tabindex="13">
-                        <b>Auto Pct: </b><br/>
-                        </div>
-        <div class='settingsform'>
+                  <?php displayText("CoinForBuyOutPct", "Hold Coin buyout Pct: ",$userDetails[0][49],21,""); ?>
+                  <?php displayText("ReduceLossAutoPct", "Auto Pct: ",$userDetails[0][55],22,""); ?>
+          </div>
+          <div class='settingsform'>
                 <b>Redirect: </b><br/>
                 <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
@@ -374,12 +372,9 @@ $userDetails = getUserIDs($_SESSION['ID']);
                       echo "<option value='".$option1."'>".$option1."</option>
                       <option value='".$option2."'>".$option2."</option></select>";?>
 
-                                          <b>Redirect SpreadBet ID: </b><br/>
-                                          <input type="text" name="redirectSBID" id="redirectSBID" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][25]; ?>" tabindex="13">
-                                          <p class="comments">Amount in BTC for each buy</p>
-
-        </div>
-        <div class='settingsform'>
+                <?php displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,""); ?>
+          </div>
+          <div class='settingsform'>
                 <b>Buyback: </b><br/>
                 <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
@@ -392,18 +387,17 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                         echo "<option value='".$option1."'>".$option1."</option>
                                         <option value='".$option2."'>".$option2."</option></select>";?>
 
-                                        <input type="text" name="buyBackHoursFlat" id="buyBackHoursFlat" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][46]; ?>" tabindex="13">
-                                        <b>Hours Flat: </b><br/>
+                <?php displayText("buyBackHoursFlat", "Hours Flat: ",$userDetails[0][46],24,""); ?>
                                         <br/><select name='enableBBAutoHoursFlat' id='enableBBAutoHoursFlat' class='enableTextBox'><?php
                                           echo "<option value='".$option1."'>".$option1."</option>
                                           <option value='".$option2."'>".$option2."</option></select>";?>
                                           <b>Enable BuyBack Auto Hours Flat: </b>
                                           <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                          <input type="text" name="buyBackAutoPct" id="buyBackAutoPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][54]; ?>" tabindex="13">
-                                          <b>Auto Pct: </b><br/>
-                    </div>
-                    <div class='settingsform'>
-                            <b>Savings: </b><br/>
+
+                <?php displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,""); ?>
+          </div>
+          <div class='settingsform'>
+                  <b>Savings: </b><br/>
                             <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                                                   <b>Enable Sell Savings: </b><br/><select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
@@ -424,19 +418,15 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                   <b>Enable Merge Saving With Purchase: </b><br/><select name='enableMergeWithPurchase' id='enableMergeWithPurchase' class='enableTextBox'><?php
                                     echo "<option value='".$option1."'>".$option1."</option>
                                     <option value='".$option2."'>".$option2."</option></select>";?>
-                    </DIV>
-                    <div class='settingsform'>
-                        <b>Coin Allocation: </b><br/>
-                        <input type="text" name="usdtAllocTxt" id="usdtAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][33]; ?>" tabindex="14">
-                        <p class="comments">USDT Allocation</p>
-                        <input type="text" name="btcAllocTxt" id="btcAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][34]; ?>" tabindex="15">
-                        <p class="comments">BTC Allocation</p>
-                        <input type="text" name="ethAllocTxt" id="ethAllocTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][35]; ?>" tabindex="16">
-                        <p class="comments">ETH Allocation</p>
-                        <input type="text" name="pctOnLowTxt" id="pctOnLowTxt" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][36]; ?>" tabindex="17">
-                        <p class="comments">% on Low Market Mode</p>
-                    </DIV>
-                    <div class='settingsform'>
+            </DIV>
+            <div class='settingsform'>
+                      <b>Coin Allocation: </b><br/>
+                            <?php displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,""); ?>
+                            <?php displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,""); ?>
+                            <?php displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,""); ?>
+                            <?php displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,""); ?>
+            </DIV>
+            <div class='settingsform'>
                       <b>Low Market Mode: </b><br/>
                       <?php displayYesNoAuto($userDetails[0][28],"enableLowMarketMode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
 
@@ -444,33 +434,29 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         //    echo "<option value='".$option1."'>".$option1."</option>
                         //    <option value='".$option2."'>".$option2."</option></select><br>";-->
                         ?>
-                      <input type="text" name="LowMarketModeNum" id="LowMarketModeNum" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][28]; ?>" tabindex="18">
-                      <p class="comments">Low Market Mode Number</p>
-                      <input type="text" name="LowMarketModeStartPct" id="LowMarketModeStartPct" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][37]; ?>" tabindex="19">
-                      <p class="comments">Low Market Mode Start Pct</p>
-                      <input type="text" name="LowMarketModeIncrements" id="LowMarketModeIncrements" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][38]; ?>" tabindex="20">
-                      <p class="comments">Low Market Mode Increments</p>
 
-                      </DIV>
+                          <?php displayText("LowMarketModeNum", "Low Market Mode Number: ",$userDetails[0][28],30,""); ?>
+                          <?php displayText("LowMarketModeStartPct", "Low Market Mode Start Pct: ",$userDetails[0][37],31,""); ?>
+                          <?php displayText("LowMarketModeIncrements", "Low Market Mode Increments: ",$userDetails[0][38],32,""); ?>
 
-                    <div class='settingsform'>
+            </DIV>
+
+            <div class='settingsform'>
                         <b>Save Mode: </b><br/>
-                        <input type="text" name="SaveMode" id="SaveMode" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][39]; ?>" tabindex="21">
-                        <p class="comments">Save Mode</p>
-                        <input type="text" name="PctToSave" id="PctToSave" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][40]; ?>" tabindex="22">
-                        <p class="comments">Low Market Mode Increments</p>
+                          <?php displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,""); ?>
+                          <?php displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,""); ?>
                         <?php if ($userDetails[0][50] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                           <b>Enable Save Pct of Total: </b><br/><select name='EnableSavePctofTotal' id='EnableSavePctofTotal' class='enableTextBox'><?php
                             echo "<option value='".$option1."'>".$option1."</option>
                             <option value='".$option2."'>".$option2."</option></select>";?>
-                            <input type="text" name="SavingPctOfTotal" id="SavingPctOfTotal" class="form-control input-lg" placeholder="User Name" value="<?php echo $userDetails[0][51]; ?>" tabindex="18">
-                            <p class="comments">Saving Pct Of Total</p>
-                      </div>
+
+                          <?php displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,""); ?>
+            </div>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="23">
-              </div>
-            </form><?php
-            displaySideColumn(); ?>
+          </div>
+        </form><?php
+        displaySideColumn(); ?>
 
 </body>
 </html>
