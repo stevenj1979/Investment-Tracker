@@ -232,7 +232,7 @@ function runPriceDipRule($priceDipRules){
     if(!isset($d7ChangePctChange)){ continue;}
 
     if($enableRuleActivationAfterDip == 2){
-      $pctChangeTargetAvg = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)/100)*$pctOfAuto;
+      $pctChangeTargetAvg = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)/100)*($pctOfAuto/4);
       $enableRuleActivationAfterDip = 1;
     }
 

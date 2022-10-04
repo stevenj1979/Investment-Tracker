@@ -33,12 +33,12 @@ function getUserID(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `UserID`,`LowMarketModeStartPct`,`LowMarketModeIncrements` FROM `UserConfig` where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
+  $sql = "SELECT `UserID`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`LowMarketModeAuto`,`PctOfAuto` FROM `UserConfig` where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['UserID'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements']);
+    $tempAry[] = Array($row['UserID'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements'],$row['LowMarketModeAuto'],$row['PctOfAuto']);
   }
   $conn->close();
   return $tempAry;
@@ -51,8 +51,12 @@ function checkMarketforPctDip(){
   $marketStatsSize = count($marketStats);
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
-    $lowMarketModeStartPct = $userIDs[0][1]; $lowMarketModeIncrements = $userIDs[0][2];
+    $lowMarketModeStartPct = $userIDs[0][1]; $lowMarketModeIncrements = $userIDs[0][2]; $lowMarketModeAuto = $userIDs[0][3]; $pctOfAuto = $userIDs[0][4];
     $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2;
+    $minHr1ChangePctChange = $marketStats[$y][3]; $minHr24ChangePctChange = $marketStats[$y][4]; $minD7ChangePctChange = $marketStats[$y][5];
+    if ($lowMarketModeAuto == 1){
+      $avgPctChange = (($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto;
+    }
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize LowMarketStartPct:$lowMarketModeStartPct Inc:$lowMarketModeIncrements avg: $avgPctChange";
     if ($avgPctChange <= $lowMarketModeStartPct){
         for ($t=0; $t<$userIDsSize; $t++){
@@ -94,12 +98,13 @@ function getNewMarketstats(){
   $sql = "SELECT ((((`LiveCoinPrice`-`Live1HrChange`))/ (`Live1HrChange`))*100) as Hr1MarketPctChange
             ,((((`LiveCoinPrice`-`Live24HrChange`))/ (`Live24HrChange`))*100) as Hr24MarketPctChange
             ,((((`LiveCoinPrice`-`Live7DChange`))/ (`Live7DChange`))*100) as D7MarketPctChange
+            ,`MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
             FROM `MarketCoinStats`  ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Hr1MarketPctChange'],$row['Hr24MarketPctChange'],$row['D7MarketPctChange']);
+    $tempAry[] = Array($row['Hr1MarketPctChange'],$row['Hr24MarketPctChange'],$row['D7MarketPctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange']);
   }
   $conn->close();
   return $tempAry;
