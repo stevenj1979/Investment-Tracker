@@ -2188,3 +2188,17 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
        where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `Update1hrTopandBottomPrice`(IN `Coin_ID` INT, IN `nTop` DECIMAL(20,14), IN `nBottom` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+
+if not exists (SELECT `ID` FROM `CoinPriceExtra` WHERE `CoinID` = 84) THEN
+INSERT INTO `CoinPriceExtra`(`CoinID`) VALUES (Coin_ID);
+end if;
+
+UPDATE `CoinPriceExtra` SET `Hr1Top`= nTop,`Hr1Bottom`= nBottom WHERE `CoinID` = Coin_ID;
+
+END$$
+DELIMITER ;

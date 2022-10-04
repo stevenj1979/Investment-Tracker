@@ -204,6 +204,56 @@ function refreshCoinStatsWebTable(){
   $conn->close();
 }
 
+function get1HrTopandBottom($coinID){
+  $conn = getHistorySQL(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT Max(`Price`) as TopPrice, Min(`Price`) as BottomPrice FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDateTimeID` in (SELECT `ID`  FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN CURDATE() - INTERVAL 60 MINUTE AND CURDATE())";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  Echo "<BR>";
+  print_r($sql);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Price'],$row['CoinID']
+    );
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function write1HrTopandBottom($coinID, $top, $bottom){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "call Update1hrTopandBottomPrice($coinID,$top,$bottom);";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("write1HrTopandBottom",$sql,3,0,"SQL","CoinID:$coinID");
+    $conn->close();
+}
+
+function run1HrTopandBottom(){
+  $coin = getCoinIDs();
+  $coinSize = count($coin);
+  for ($g=0; $g<$coinSize; $g++){
+    $coinID = $coin[$g][0];
+    $prices = get1HrTopandBottom($coinID);
+    $top = $prices[0][0];$bottom = $prices[0][1];
+    write1HrTopandBottom($coinID,$top,$bottom);
+  }
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H", time());
@@ -268,6 +318,6 @@ for ($j=0; $j<$coinSize; $j++){
 
 removeCoinStatsWebTable();
 refreshCoinStatsWebTable();
-
+run1HrTopandBottom();
 ?>
 </html>
