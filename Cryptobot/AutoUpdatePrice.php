@@ -249,7 +249,7 @@ function run1HrTopandBottom(){
   for ($g=0; $g<$coinSize; $g++){
     $coinID = $coin[$g][0];
     $prices = get1HrTopandBottom($coinID);
-    $top = $prices[0][0];$bottom = $prices[0][1];
+    $top = $prices[0];$bottom = $prices[1];
     write1HrTopandBottom($coinID,$top,$bottom);
   }
 }
