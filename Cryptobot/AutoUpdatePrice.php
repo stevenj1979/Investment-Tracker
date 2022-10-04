@@ -218,7 +218,7 @@ function get1HrTopandBottom($coinID){
   Echo "<BR>";
   print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Price'],$row['CoinID']
+      $tempAry[] = Array($row['TopPrice'],$row['BottomPrice']
     );
   }
   $conn->close();
@@ -249,7 +249,7 @@ function run1HrTopandBottom(){
   for ($g=0; $g<$coinSize; $g++){
     $coinID = $coin[$g][0];
     $prices = get1HrTopandBottom($coinID);
-    $top = $prices[0];$bottom = $prices[1];
+    $top = $prices[0][0];$bottom = $prices[0][1];
     write1HrTopandBottom($coinID,$top,$bottom);
   }
 }
