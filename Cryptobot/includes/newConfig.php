@@ -2950,7 +2950,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("coinPriceHistory","$sql",3,1,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("coinPriceHistory","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function coinPriceHistorySpreadBet($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d7Pct){
@@ -2997,7 +2997,7 @@ function update1HrPriceChange($price,$coinID){
   }
   $conn->close();
   if ($coinID == 130){
-      newLogToSQL("update1HrPriceChange",$sql,3,1,"SQL","CoinID:$coinID");
+      newLogToSQL("update1HrPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
   }
 }
 
