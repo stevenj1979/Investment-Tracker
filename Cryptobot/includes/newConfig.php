@@ -2996,7 +2996,9 @@ function update1HrPriceChange($price,$coinID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("update1HrPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
+  if ($coinID == 130){
+      newLogToSQL("update1HrPriceChange",$sql,3,1,"SQL","CoinID:$coinID");
+  }
 }
 
 function get24HrChange($coinID){
