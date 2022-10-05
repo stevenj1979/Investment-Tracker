@@ -975,7 +975,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8), IN `BuyBack_Enabled` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8), IN `BuyBack_Enabled` INT, IN `Override_Amount` INT, IN `Override_Saving` INT)
     MODIFIES SQL DATA
 BEGIN
 DECLARE BuyBack_TransID INT;
@@ -1013,6 +1013,10 @@ else
 	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
 End if;
 
+if (Override_Amount = 1) THEN
+  SELECT `Amount` * (SELECT `SellPrice` FROM `BittrexAction` WHERE `TransactionID` = Trans_ID) /final_Price_Multiplier into Buy_Amount FROM `Transaction` WHERE `ID` = Trans_ID;
+End if;
+
 SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
 If BuyBack_TransID = 0 THEN
@@ -1026,11 +1030,11 @@ End if;
 
 If (BuyBack_Enabled = 0) THEN
   If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
-  UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount WHERE `TransactionID` = Trans_ID;
+  UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount,`OverrideAmount` = Override_Amount, `OverrideSaving` = Override_Saving WHERE  `TransactionID` = Trans_ID;
 
   else
-  INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`)
-    VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount);
+  INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`,`OverrideAmount`, `OverrideSaving`)
+    VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount,Override_Amount,Override_Saving);
 
   end if;
 end if;
@@ -1731,12 +1735,15 @@ End$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToUserCoinSavings`(IN `User_ID` INT, IN `nSaving` DECIMAL(20,14), IN `nBase` VARCHAR(50))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToUserCoinSavings`(IN `User_ID` INT, IN `nSaving` DECIMAL(20,14), IN `nBase` VARCHAR(50), IN Override_Saving INT )
     MODIFIES SQL DATA
 BEGIN
 
 if NOT Exists (SELECT `UserID` FROM `UserCoinSavings` WHERE `UserID` = User_ID) THEN
 INSERT INTO `UserCoinSavings`(`UserID`) VALUES (User_ID);
+end if;
+if (Override_Saving = 1) THEN
+  SET nSaving = 0;
 end if;
 
 if  nBase = 'USDT' THEN
@@ -1765,6 +1772,9 @@ BEGIN
 Declare BB_Trans_ID Int;
 Declare MultiSellRule_TemplateID Int;
 Declare Old_BB_Trans_ID Int;
+Declare override_Amount Int;
+Declare override_Saving Int;
+
 
 SELECT `OldBuyBackTransID` into Old_BB_Trans_ID from `BittrexAction` Where `ID` = Bittrex_ID;
 
@@ -1772,8 +1782,13 @@ SELECT `MultiSellRuleTemplateID` into MultiSellRule_TemplateID FROM `Transaction
 
 SELECT `BuyBackTransactionID` into BB_Trans_ID FROM `Transaction` WHERE `ID` = Old_BB_Trans_ID;
 
+SELECT `OverrideAmount` INTO override_Amount FROM `BuyBack` WHERE `TransactionID` = Old_BB_Trans_ID;
+
+SELECT `OverrideSaving` INTO override_Saving FROM `BuyBack` WHERE `TransactionID` = Old_BB_Trans_ID;
+
+
 if Old_BB_Trans_ID <> 0 THEN
-	UPDATE `Transaction` SET `BuyBackTransactionID` = BB_Trans_ID Where `ID` = Trans_ID;
+	UPDATE `Transaction` SET `BuyBackTransactionID` = BB_Trans_ID, `OverrideBBAmount` = override_Amount, `OverrideBBSaving` =  override_Saving Where `ID` = Trans_ID;
 End if;
 
 if MultiSellRule_TemplateID <> 0 Then

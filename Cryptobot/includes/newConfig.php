@@ -21,7 +21,7 @@ function getBittrexRequests($userID = 0){
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
-  ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction
+  ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -37,7 +37,7 @@ function getBittrexRequests($userID = 0){
         ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
         ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr'],	$row['DateADD'],	$row['timeToCancel'] //70
-        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction']); //74
+        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving']); //76
   }
   $conn->close();
   return $tempAry;
@@ -6183,7 +6183,7 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");
 }
 
-function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency){
+function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,$overrideBBSaving){
 
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -6191,7 +6191,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency)
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call AddToUserCoinSavings($UserID,$totalProfitUSD,'$baseCurrency')";
+  $sql = "call AddToUserCoinSavings($UserID,$totalProfitUSD,'$baseCurrency',$overrideBBSaving)";
 
   print_r($sql);
   logToSQL("ProfitAllocation","$sql | $coinID",$UserID,1);
@@ -7145,14 +7145,14 @@ function sellSpreadBetCoins($spreadSellCoins){
   }
 }
 
-function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled){
+function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled);";
+  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving);";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
