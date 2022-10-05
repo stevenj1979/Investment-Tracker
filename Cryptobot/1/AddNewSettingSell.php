@@ -270,8 +270,10 @@ function updateEditedUser(){
   //if (!empty($_POST['ProfitSaleEnable'])){$ProfitSaleEnable = $_POST['ProfitSaleEnable'];}else{$ProfitSaleEnable = 0;}
   if (!empty($_POST['ProfitSaleTop'])){$ProfitSaleTop = $_POST['ProfitSaleTop'];}else{$ProfitSaleTop = 0;}
   if (!empty($_POST['ProfitSaleBtm'])){$ProfitSaleBtm = $_POST['ProfitSaleBtm'];}else{$ProfitSaleBtm = 0;}
-  if (!empty($_POST['OverrideBuyBackAmount'])){$overrideBuyBackAmount = $_POST['OverrideBuyBackAmount'];}else{$overrideBuyBackAmount = 0;}
-  if (!empty($_POST['OverrideBuyBackSaving'])){$overrideBuyBackSaving = $_POST['OverrideBuyBackSaving'];}else{$overrideBuyBackSaving = 0;}
+  //if (!empty($_POST['OverrideBuyBackAmount'])){$overrideBuyBackAmount = $_POST['OverrideBuyBackAmount'];}else{$overrideBuyBackAmount = 0;}
+  if (!empty($_POST['OverrideBuyBackAmount'])){if ($_POST['OverrideBuyBackAmount'] == "Yes"){$overrideBuyBackAmount = 1;}else{$overrideBuyBackAmount = 0;}}else{ $overrideBuyBackAmount = 0;}
+  //if (!empty($_POST['OverrideBuyBackSaving'])){$overrideBuyBackSaving = $_POST['OverrideBuyBackSaving'];}else{$overrideBuyBackSaving = 0;}
+  if (!empty($_POST['OverrideBuyBackSaving'])){if ($_POST['OverrideBuyBackSaving'] == "Yes"){$overrideBuyBackSaving = 1;}else{$overrideBuyBackSaving = 0;}}else{ $overrideBuyBackSaving = 0;}
   $sellPriceMinEnabled = postDataYesNo($_POST['sellPriceMinEnabled']);
   $sellPriceMin = postData($_POST['sellPriceMin']);
   $limitToCoin = $_POST['LimitToCoinID'];
@@ -678,8 +680,10 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
     echo "<H3>BuyBack Rules</H3>";
-    addNewText('Override BuyBack Amount: ','OverrideBuyBackAmount',$formSettings[0][59],37, '30', False,1);
-    addNewText('Override BuyBack Saving: ','OverrideBuyBackSaving',$formSettings[0][60],37, '30', False,1);
+    //addNewText('Override BuyBack Amount: ','OverrideBuyBackAmount',$formSettings[0][59],37, '30', False,1);
+    addNewTwoOption('Override BuyBack Amount: ','OverrideBuyBackAmount',$formSettings[0][59]);
+    //addNewText('Override BuyBack Saving: ','OverrideBuyBackSaving',$formSettings[0][60],37, '30', False,1);
+    addNewTwoOption('Override BuyBack Saving: ','OverrideBuyBackSaving',$formSettings[0][60]);
   echo "</div>";
 
   echo "<div class='settingsform'>";
