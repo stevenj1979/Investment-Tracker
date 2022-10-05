@@ -55,6 +55,7 @@ function checkMarketforPctDip(){
     $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2;
     $minHr1ChangePctChange = $marketStats[$y][3]; $minHr24ChangePctChange = $marketStats[$y][4]; $minD7ChangePctChange = $marketStats[$y][5];
     if ($lowMarketModeAuto == 1){
+      $lowMarketModeIncrements = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto)/4;
       $avgPctChange = (($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto;
     }
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize LowMarketStartPct:$lowMarketModeStartPct Inc:$lowMarketModeIncrements avg: $avgPctChange";
