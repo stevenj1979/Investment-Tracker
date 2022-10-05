@@ -21,7 +21,7 @@ function getBittrexRequests($userID = 0){
   ,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimetoCancelBuyMins`,`BuyBack`,`oldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
-  ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`
+  ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`,`OverrideBuyBackAmount` as OverrideBuyBackAmountSR,`OverrideBuyBackSaving` as OverrideBuyBackSavingSR
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -37,7 +37,7 @@ function getBittrexRequests($userID = 0){
         ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
         ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr'],	$row['DateADD'],	$row['timeToCancel'] //70
-        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving']); //76
+        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving'],$row['OverrideBuyBackAmountSR'],$row['OverrideBuyBackSavingSR']); //78
   }
   $conn->close();
   return $tempAry;
@@ -4853,7 +4853,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`OriginalAmount` as `OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc` as `TrackingSellID`,`SaveResidualCoins`
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
-            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`
+            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`,`OverrideBuyBackAmount`,`OverrideBuyBackSaving`
             FROM `View6_TrackingSellCoins` $whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -4865,7 +4865,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
     ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['LiveTotalPrice'], $row['TrackingSellID'] //38
     ,$row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct'], $row['ReEnableBuyRuleEnabled'], $row['ReEnableBuyRule'], $row['BuyBackEnabled']//47
-    ,$row['TrackingCount']); //48
+    ,$row['TrackingCount'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']); //50
   }
   $conn->close();
   return $tempAry;
@@ -4890,6 +4890,26 @@ function closeNewTrackingSellCoin($ID){
   $conn->close();
   logAction("closeNewTrackingSellCoin: ".$sql, 'TrackingCoins', 0);
   newLogToSQL("closeNewTrackingSellCoin",$sql,3,1,"SQL","TrackingSellCoinsID:$ID");
+}
+
+function addBuyBackOverride($overrideBBAmount,$overrideBBSaving,$TransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `TrackingSellCoins` SET `overrideBBAmount` = $overrideBBAmount, `overrideBBSaving` = $overrideBBSaving WHERE `TransactionID` = $TransactionID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("addBuyBackOverride: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("addBuyBackOverride",$sql,3,1,"SQL","TransID:$TransactionID");
 }
 
 function setNewTrackingSellPrice($coinPrice, $ID){
