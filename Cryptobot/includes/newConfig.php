@@ -1753,7 +1753,7 @@ function CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7
   }
   $conn->close();
   logAction("CoinMarketCapStatstoSQL($coinID,$MarketCap,$hr1Change, $hr24Change, $d7Change)",'CMC', 0);
-  newLogToSQL("CoinMarketCapStatstoSQL","$sql",3,1,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("CoinMarketCapStatstoSQL","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function ResidualCoinsToSaving($amount, $orderNo, $transactionID,$originalAmount){
