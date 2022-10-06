@@ -1706,7 +1706,7 @@ function newCoinMarketCapStats($coinMarketID){
   ));
 
   $response = curl_exec($curl); // Send the request, save the response
-  //var_dump($response);
+  var_dump($response);
   $temp = json_decode($response, true);
   //$tempCount = count($temp);
   //echo "<br>HERE! ".$temp['data'][1][1]['quote'][1]['market_cap'];
