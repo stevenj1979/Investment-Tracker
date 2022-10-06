@@ -237,6 +237,9 @@ while($date <= $newTime){
       //if ($marketCapFlag){$CMCStats = newCoinMarketCapStats();}
       Echo "<BR> Market Cap flag Update ";
       //echo "<br> Count=".count($CMCStats);
+      if ($symbol == "REPV2"){
+        $symbol = "REP";
+      }
       $statsForCoin = findCoinStats($CMCStats,$symbol);
       //$statsForCoin = newCoinMarketCapStats($symbol);
       //echo "<br> Market Cap ".$statsForCoin[0][1];
