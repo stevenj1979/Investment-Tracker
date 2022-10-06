@@ -168,11 +168,13 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
+      $hour1Price = $price1Hrtmp[0][0];
+      $livePrice = $price1Hrtmp[0][1];
       $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
-      if (!isset($priceDiff)){
-        newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
-      }
-
+      //if (!isset($priceDiff)){
+      //  newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
+      //}
+      echo "<BR> 7 DAY TEST!!! $hour1Price | $livePrice | $priceDiff";
       if ($price1Hrtmp[0][0]>0){
         $price1Hr = number_format($price1Hrtmp[0][1]-$priceDiff,8, '.', '');
       }else{
@@ -221,12 +223,15 @@ for ($i=0; $i<$coinCount; $i++){
     //if (!isset($D7Price[0][1]) OR is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
+      $day7Price = $price7Dtmp[0][0];
+      $livePrice = $price7Dtmp[0][1];
       $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
-      if (!isset($priceDiff)){
-        newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '7DayPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
-      }else{
+      //if (!isset($priceDiff)){
+        //newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '7DayPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
+      //}else{
 
-      }
+      //}
+      echo "<BR> 7 DAY TEST!!! $day7Price | $livePrice | $priceDiff";
       if($price7Dtmp[0][0]>0){
         $price7D = number_format($price7Dtmp[0][1]-$priceDiff,8, '.', '');
       }else{
