@@ -168,6 +168,9 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
+      if (!isset($priceDiff)){
+        newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');",3,1,"pctChangeProcess","CoinID:$coinID");
+      }
       $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
       if ($price1Hrtmp[0][0]>0){
         $price1Hr = number_format($price1Hrtmp[0][1]-$priceDiff,8, '.', '');
