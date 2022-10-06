@@ -168,10 +168,11 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
+      $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
       if (!isset($priceDiff)){
         newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
       }
-      $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
+
       if ($price1Hrtmp[0][0]>0){
         $price1Hr = number_format($price1Hrtmp[0][1]-$priceDiff,8, '.', '');
       }else{
@@ -220,10 +221,11 @@ for ($i=0; $i<$coinCount; $i++){
     //if (!isset($D7Price[0][1]) OR is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
+      $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
       if (!isset($priceDiff)){
         newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '7DayPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
       }else{
-        $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
+
       }
       if($price7Dtmp[0][0]>0){
         $price7D = number_format($price7Dtmp[0][1]-$priceDiff,8, '.', '');
@@ -265,6 +267,7 @@ for ($i=0; $i<$coinCount; $i++){
     //Write to PricePctChangeHistory
     writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min,$price48Hr,$price72Hr);
     echo "<BR> write1HrPrice($coinID, $price1Hr, $price24Hr, $price7D);";
+    newLogToSQL("getCMCPriceFromSQL","writePctPrices($coinID, $price1Hr, $price24Hr, $price7D,$price15Min, $price30Min, $price45Min,$price75Min,$price48Hr,$price72Hr);",3,1,"pctChangeProcess","CoinID:$coinID");
 }
 
 ?>
