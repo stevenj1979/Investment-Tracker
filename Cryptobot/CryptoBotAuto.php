@@ -181,6 +181,8 @@ $apiVersion = 3;
 $firstTimeFlag = True;
 $timeFlag = False;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
+$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
+$CMCStatsSize = count($CMCStats);
 Echo "<BR>Date:$date | NewTime:$newTime tmp: $tmpTime cL: $coinLength";
 while($date <= $newTime){
   echo "NEW LOOP ";
@@ -220,8 +222,7 @@ while($date <= $newTime){
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
       if ($marketCapStatsUpdateFlag == True){
-        $CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
-        $CMCStatsSize = count($CMCStats);
+
         for ($k=0; $k<$CMCStatsSize; $k++){
           $CMCID = $CMCStats[$k][6];
           $Hr1P = $CMCStats[$k][2];
