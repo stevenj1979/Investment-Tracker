@@ -108,7 +108,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       $indexLookup = 1;
     }elseif ($coinMode == 0 AND ($type == 'SpreadBuy' OR $type == 'SpreadSell')){
       $indexLookup = 3;
-    }elseif ($coinMode == 0 AND $type == 'Buy'){
+    }else{
       $indexLookup = 2;
     }
   Echo "<BR> Tracking Buy Count 4 <BR>";
