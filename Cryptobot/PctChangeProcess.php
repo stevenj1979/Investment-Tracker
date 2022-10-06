@@ -174,7 +174,7 @@ for ($i=0; $i<$coinCount; $i++){
       //if (!isset($priceDiff)){
       //  newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
       //}
-      echo "<BR> 7 DAY TEST!!! $hour1Price | $livePrice | $priceDiff";
+      echo "<BR> 7 DAY TEST!!! $hour1Price | $livePrice | $priceDiff | $coinID";
       if ($price1Hrtmp[0][0]>0){
         $price1Hr = number_format($price1Hrtmp[0][1]-$priceDiff,8, '.', '');
       }else{
@@ -231,7 +231,7 @@ for ($i=0; $i<$coinCount; $i++){
       //}else{
 
       //}
-      echo "<BR> 7 DAY TEST!!! $day7Price | $livePrice | $priceDiff";
+      echo "<BR> 7 DAY TEST!!! $day7Price | $livePrice | $priceDiff | $coinID";
       if($price7Dtmp[0][0]>0){
         $price7D = number_format($price7Dtmp[0][1]-$priceDiff,8, '.', '');
       }else{
