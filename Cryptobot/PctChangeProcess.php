@@ -220,7 +220,11 @@ for ($i=0; $i<$coinCount; $i++){
     //if (!isset($D7Price[0][1]) OR is_null($D7Price[0][1]) OR $D7Price[0][1] == 0){
       echo "<BR> IS NULL| 7D | $coinID";
       $price7Dtmp = getCMCPriceFromSQL($coinID, '7DayPrice');
-      $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
+      if (!isset($priceDiff)){
+        newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '7DayPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
+      }else{
+        $priceDiff = ($price7Dtmp[0][1]/100)*abs($price7Dtmp[0][0]);
+      }
       if($price7Dtmp[0][0]>0){
         $price7D = number_format($price7Dtmp[0][1]-$priceDiff,8, '.', '');
       }else{
