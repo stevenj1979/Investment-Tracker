@@ -269,7 +269,7 @@ function clearTrackingCoinQueue($UserID,$coinID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("clearTrackingCoinQueue",$sql,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
+    newLogToSQL("clearTrackingCoinQueue",$sql. $conn->error,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
     logAction("clearTrackingCoinQueue: ".$sql, 'BuySell', 0);
 }
 
