@@ -241,6 +241,9 @@ while($date <= $newTime){
         $symbol = "REP";
       }
       $statsForCoin = findCoinStats($CMCStats,$symbol);
+      if ($symbol == "REP"){
+        $symbol = "REPV2";
+      }
       //$statsForCoin = newCoinMarketCapStats($symbol);
       //echo "<br> Market Cap ".$statsForCoin[0][1];
       //copyNewMarketCap($coinID, $statsForCoin[0][1]); //Temp Disable
