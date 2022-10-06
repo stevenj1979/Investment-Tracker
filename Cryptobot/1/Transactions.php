@@ -173,7 +173,7 @@ function runOverrideSavings($transID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `Transaction` SET `SavingOverride`= CASE
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = now(), `SavingOverride`= CASE
              WHEN `SavingOverride`= 1 THEN 0
              ELSE 1 end WHERE `ID` = $transID";
     //print_r($sql);
