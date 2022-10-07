@@ -1314,18 +1314,18 @@ function runBittrex($BittrexReqs,$apiVersion){
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69]; $actionMins = $BittrexReqs[$b][74];
     $overrideBBAmount = $BittrexReqs[$b][75];$overrideBBSaving = $BittrexReqs[$b][76]; $overrideBBAmountSR = $BittrexReqs[$b][77]; $overrideBBSavingSR  = $BittrexReqs[$b][78];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
-    $sqlDate = Date("Y-m-d H:i",$date);
-    $stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);
-    $finalTimeToCancel = date("Y-m-d H:i",$stringToTime);
-    echo "<BR> Test Time: $stringToTime | $finalTimeToCancel | $sqlDate | $date";
+    //$sqlDate = Date("Y-m-d H:i",$date);
+    //$stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);
+    //$finalTimeToCancel = date("Y-m-d H:i",$stringToTime);
+    //echo "<BR> Test Time: $stringToTime | $finalTimeToCancel | $sqlDate | $date";
     //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
-    $finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
+    //$finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
     $cancelTimeCheck = 0;
     if (isset($actionMins) AND isset($timeToCancelMins)){
       if ($actionMins < $timeToCancelMins){ echo "<BR> DO NOT CANCEL: 0 | $actionMins | $timeToCancelMins"; $cancelTimeCheck = 0;}
       else {echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;}
     }
-    echo "<BR> CurrentTime:$finalCurrentTime | Cancel Time $actionMins | $timeToCancelMins | $cancelTimeCheck ";
+    echo "<BR> CurrentTime: | Cancel Time $actionMins | $timeToCancelMins | $cancelTimeCheck ";
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];
     //if ($liveCoinPriceBit != 0 && $bitPrice != 0){$pctFromSale =  (($liveCoinPriceBit-$bitPrice)/$bitPrice)*100;}
