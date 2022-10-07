@@ -1719,7 +1719,7 @@ function newCoinMarketCapStats($coinMarketID){
   $coinCount = count($coin);
   for($i=0;$i<$coinCount;$i++){
     $tempId = (Int)$coin[$i];
-    echo "<BR> ".$temp['data'][$tempId]['symbol'];
+    echo "<BR> newCoinMarketCapStats: ".$temp['data'][$tempId]['symbol'];
     $tmpCMCAry[] = Array($temp['data'][$tempId]['symbol'],$temp['data'][$tempId]['quote']['USD']['market_cap'],$temp['data'][$tempId]['quote']['USD']['percent_change_1h'],
     $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d'],$temp['data'][$tempId]['quote']['USD']['percent_change_30d'],$temp['data'][$tempId]['id']);
   }
@@ -1736,6 +1736,7 @@ function newCoinMarketCapStats($coinMarketID){
   //}
   //print_r(json_decode($response)); // print json decoded response
   curl_close($curl); // Close request
+  var_dump($temp);
   return $tmpCMCAry;
 }
 
