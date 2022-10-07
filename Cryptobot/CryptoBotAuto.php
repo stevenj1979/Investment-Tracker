@@ -67,6 +67,7 @@ function getUserVariables(){
 function findCoinStats($CMCStats, $symbol){
   $tempStats = [];
   $statsLength = count($CMCStats);
+  $findStatsFlag = False;
   echo "<BR> FIND: $symbol | length: $statsLength";
   for($y = 0; $y < $statsLength; $y++) {
     //echo "<br> FindCoin=".$CMCStats[$y][0];
@@ -74,7 +75,11 @@ function findCoinStats($CMCStats, $symbol){
       echo "<br> $statsLength Error Line ".$CMCStats[$y][0].",".$CMCStats[$y][1].",".$CMCStats[$y][2].",".$CMCStats[$y][3].",".$CMCStats[$y][4]."<br>";
       $tempStats[] = Array($CMCStats[$y][0],$CMCStats[$y][1],$CMCStats[$y][2],$CMCStats[$y][3],$CMCStats[$y][4]);
       return $tempStats;
+      $findStatsFlag = True;
     }
+  }
+  if ($findStatsFlag == False){
+    newLogToSQL("findCoinStats", "Cannot Find: $symbol", 3, 1,"CryptoBotAuto","Symbol:$symbol"); 
   }
   return $tempStats;
 }
