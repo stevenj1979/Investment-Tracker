@@ -169,11 +169,16 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
-      $hour1Price = $price1Hrtmp[0][0];
-      $livePrice = $price1Hrtmp[0][1];
-      $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
+      if(!isnull($price1Hrtmp)){
+        $hour1Price = $price1Hrtmp[0][0];
+        $livePrice = $price1Hrtmp[0][1];
+        $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
+      }else{
+        newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice'); ".$price1Hrtmp[0][0]." : ".$price1Hrtmp[0][1],3,1,"pctChangeProcess","CoinID:$coinID");
+      }
+
       //if (!isset($priceDiff)){
-      //  newLogToSQL("getCMCPriceFromSQL","getCMCPriceFromSQL($coinID, '1HrPrice');".$price1Hrtmp[0][0],3,1,"pctChangeProcess","CoinID:$coinID");
+      //
       //}
       //echo "<BR> 1 HOUR TEST!!! $hour1Price | $livePrice | $priceDiff | $coinID";
       if ($price1Hrtmp[0][0]>0){
