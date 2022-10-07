@@ -169,7 +169,7 @@ for ($i=0; $i<$coinCount; $i++){
       //$CMCStats = getCMCstats($CMCStats, $coinStr);
       //$tempPrice = findCoinStats($CMCStats,$coins[$i][1]);
       $price1Hrtmp = getCMCPriceFromSQL($coinID, '1HrPrice');
-      if(!isnull($price1Hrtmp)){
+      if(!is_null($price1Hrtmp)){
         $hour1Price = $price1Hrtmp[0][0];
         $livePrice = $price1Hrtmp[0][1];
         $priceDiff = ($price1Hrtmp[0][1]/100)*abs($price1Hrtmp[0][0]);
