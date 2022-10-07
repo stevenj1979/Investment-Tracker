@@ -79,7 +79,7 @@ function findCoinStats($CMCStats, $symbol){
     }
   }
   if ($findStatsFlag == False){
-    newLogToSQL("findCoinStats", "Cannot Find: $symbol", 3, 1,"CryptoBotAuto","Symbol:$symbol"); 
+    newLogToSQL("findCoinStats", "Cannot Find: $symbol", 3, 1,"CryptoBotAuto","Symbol:$symbol");
   }
   return $tempStats;
 }
@@ -186,7 +186,7 @@ $apiVersion = 3;
 $firstTimeFlag = True;
 $timeFlag = False;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
-$CMCStats = newCoinMarketCapStats($coinStr); $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
+$CMCStats = newCoinMarketCapStats($coinStr);
 $CMCStatsSize = count($CMCStats);
 Echo "<BR>Date:$date | NewTime:$newTime tmp: $tmpTime cL: $coinLength";
 while($date <= $newTime){
@@ -227,7 +227,7 @@ while($date <= $newTime){
     echo "getCoinMarketCapStats Refresh ";
     if ($marketCapFlag == True){
       if ($marketCapStatsUpdateFlag == True){
-
+        $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
         for ($k=0; $k<$CMCStatsSize; $k++){
           $CMCID = $CMCStats[$k][6];
           $Hr1P = $CMCStats[$k][2];
