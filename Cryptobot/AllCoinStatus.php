@@ -460,7 +460,7 @@ function runHoursforCoinPriceDip(){
   $dipHourCounter = 0; $dipHourCounterLow = 0; $dipHourCounterHigh = 0;
   $lowFlag = True;$highFlag = True;$flatFlag = True;
   //get ID's
-  $coinIDAry = getHoursforCoinPriceDip("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ");
+  $coinIDAry = getHoursforCoinPriceDip("WHERE `BuyCoin` = 1 ");
   $coinIDArySize = count($coinIDAry);
   echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){

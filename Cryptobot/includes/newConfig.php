@@ -6991,7 +6991,7 @@ function writePriceDipHours($ruleID,$dipHourCounter){
   }
   $conn->close();
   logAction("writePriceDipHours: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("writePriceDipHours","$sql",3,0,"SQL CALL","ruleID:$ruleID");
 }
 
 function writePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipHourCounterHigh){
@@ -7087,7 +7087,7 @@ function addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier){
   }
   $conn->close();
   logAction("addToBuyBackMultiplier: ".$sql, 'TrackingCoins', 1);
-  newLogToSQL("addToBuyBackMultiplier","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");
+  newLogToSQL("addToBuyBackMultiplier","$sql",3,0,"SQL CALL","BuyBackID:$buyBackID");
 }
 
 function closeBuyBack($buyBackID){
