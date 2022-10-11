@@ -500,7 +500,7 @@ function runHoursforCoinPriceDip(){
               Echo " | Within Tol | ";
             }else{
              	$flatFlag = False;
-              Echo " | Outside Tol | ";
+              Echo " | Outside Tol | $coinDipPrice ";
             }
       }
 
