@@ -497,9 +497,10 @@ function runHoursforCoinPriceDip(){
             if ($coinDipPrice >= $priceWithToleranceBtm AND $coinDipPrice <= $priceWithToleranceTop){
               $dipHourCounter = $dipHourCounter + 1;
               //echo "| $coinID : Live Price is: $liveCoinPrice | Live with Tol: $priceWithToleranceBtm : $priceWithToleranceTop | Prev Price: $coinDipPrice | Counter: $dipHourCounter";
-              //Echo " | FLAT | ";
+              Echo " | Within Tol | ";
             }else{
              	$flatFlag = False;
+              Echo " | Outside Tol | ";
             }
       }
 
