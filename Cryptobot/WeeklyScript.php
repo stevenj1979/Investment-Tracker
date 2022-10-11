@@ -216,6 +216,26 @@ function clearSQLLog($days){
 
 }
 
+function clearPriceDipCoins($days){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Delete FROM  `PriceDipCoins` WHERE  datediff(now(),`PriceDipDate`) > $days";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearPriceDipCoins: ".$sql, 'SellCoin', 0);
+
+}
+
 function ClearCancelledTransactions($sql){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -368,5 +388,6 @@ ClearCancelledTransactions("DELETE FROM `TrackingCoins` WHERE `Status` = 'Cancel
 ClearCancelledTransactions("DELETE FROM `TrackingSellCoins` WHERE `Status` = 'Cancelled' and `TrackDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 runBuyAmountPctOfTotal();
 runSavingPctOfTotal();
+clearPriceDipCoins(90);
 ?>
 </html>
