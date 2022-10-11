@@ -548,7 +548,7 @@ function setPriceDipEnabled(){
 
 function runCoinPriceDipPrices(){
   //Get Coins + Price
-  $coin = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
+  $coin = getTrackingCoins("WHERE `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
   $coinSize = count($coin);
   for ($t=0;$t<$coinSize; $t++){
       $coinID = $coin[$t][0]; $price = $coin[$t][17];
