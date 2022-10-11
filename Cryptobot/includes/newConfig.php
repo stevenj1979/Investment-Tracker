@@ -950,7 +950,7 @@ function getPriceDipCoinPrices($coinID){
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID`, `CoinID`, `Price`, `PriceDipDate` FROM `PriceDipCoins` WHERE `CoinID` = $coinID order by `PriceDipDate` desc ";
-  print_r($sql);
+  //print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['Price'],$row['PriceDipDate']);}
   $conn->close();
