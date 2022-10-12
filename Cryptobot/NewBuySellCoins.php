@@ -1323,7 +1323,10 @@ function runBittrex($BittrexReqs,$apiVersion){
     $cancelTimeCheck = 0;
     if (isset($actionMins) AND isset($timeToCancelMins)){
       if ($actionMins < $timeToCancelMins){ echo "<BR> DO NOT CANCEL: 0 | $actionMins | $timeToCancelMins"; $cancelTimeCheck = 0;}
-      else {echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;}
+      else {
+        echo "<BR> CANCEL: 1"; $cancelTimeCheck = 1;
+        newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool | $actionMins | $timeToCancelMins", $userID, 1,"TimeCheck","TransactionID:$transactionID");
+      }
     }
     echo "<BR> CurrentTime: | Cancel Time $actionMins | $timeToCancelMins | $cancelTimeCheck ";
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
@@ -1365,7 +1368,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     echo "<BR> New Test: $type | ".$resultOrd["quantity"];
     //if (!isset($resultOrd["quantity"])){
       if ($type == "Buy" or $type == "SpreadBuy"){
-        newLogToSQL("CheckOldTransIDBuy","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,1,"RunBittrex","TransID:$transactionID");
+        newLogToSQL("CheckOldTransIDBuy","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,0,"RunBittrex","TransID:$transactionID");
         if ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
           if ($sendEmail){
