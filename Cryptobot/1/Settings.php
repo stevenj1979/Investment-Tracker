@@ -40,7 +40,7 @@ if(isset($_POST['submit'])){
     $reduceLossHoursFlat = $_POST['ReduceLossHoursFlat'];
     $enableSavePctofTotal = $_POST[' EnableSavePctofTotal'];
     $savingPctOfTotal = $_POST['SavingPctOfTotal'];
-
+    $reduceLossMinsCancel = $_POST['ReduceLossMinsToCancel'];
     $buyBackAutoPct = $_POST['buyBackAutoPct'];
     $reduceLossAutoPct = $_POST['ReduceLossAutoPct'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
@@ -190,7 +190,7 @@ function updateUser($settingsUpdateAry){
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat
          , `ReduceLossMinsToCancel` = $reduceLossMinsCancel WHERE `UserID` = $userID;
          UPDATE `NewCoinAllocations` SET `USDTAlloc` = $usdtAlloc,`BTCAlloc` = $btcAlloc, `ETHAlloc` = $ethAlloc, `PctOnLow` = $pctOnLow WHERE `UserID` = $userID";
-  print_r("<br>".$sql."<br>");
+  //print_r("<br>".$sql."<br>");
   if ($conn->multi_query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
