@@ -1924,10 +1924,11 @@ function buyToreduceLoss($lossCoins){
       $currentBuy = $reduceLossMultiplier;
       $profitMultiplier = ABS($reduceLossSellPct)/ABS($pctProfit);
       $quant = $totalAmount*($currentBuy*$profitMultiplier);
+      $newPurchase = ($totalAmount*$reduceLossMultiplier);
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
       newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $quant, 97, 0, 0, 1, 240, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       //Buy Coin with Merge
-      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $totalAmount, 97, 0, 0, 1, 1400, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);
+      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, 1400, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);
       //addWebUsage($userID,"Add","BuyTracking");
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
