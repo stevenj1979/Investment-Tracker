@@ -112,7 +112,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
       //echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
-      $nPrice = $coinAry[$j]['bidRate'];
+      $nPrice = $coinAry[$j]['lastTradeRate'];
       break;
     }
   }
