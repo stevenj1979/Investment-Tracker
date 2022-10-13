@@ -22,6 +22,7 @@ function getBittrexRequests($userID = 0){
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
   ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`,`OverrideBuyBackAmount` as OverrideBuyBackAmountSR,`OverrideBuyBackSaving` as OverrideBuyBackSavingSR
+  ,`BuyBackMinsToCancel`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '+04:00';");
@@ -37,7 +38,8 @@ function getBittrexRequests($userID = 0){
         ,	$row['PauseCoinIDAfterPurchaseEnabled'],	$row['DaysToPauseCoinIDAfterPurchase'],	$row['BTCPrice']	,$row['ETHPrice'],	$row['MultiSellRuleEnabled'],	$row['MultiSellRuleTemplateID'],	$row['StopBuyBack'],	$row['MultiSellRuleID']//52
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
         ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr'],	$row['DateADD'],	$row['timeToCancel'] //70
-        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving'],$row['OverrideBuyBackAmountSR'],$row['OverrideBuyBackSavingSR']); //78
+        ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving'],$row['OverrideBuyBackAmountSR'],$row['OverrideBuyBackSavingSR'] //78
+        ,$row['BuyBackMinsToCancel']); //79
   }
   $conn->close();
   return $tempAry;
@@ -6842,7 +6844,7 @@ function getBuyBackData(){
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
             , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
-            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`
+            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6856,7 +6858,7 @@ function getBuyBackData(){
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
       ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier'],$row['DelayCoinPurchase'] //48
-      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack']); //53
+      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack'],$row['bbMinsToCancel']); //54
   }
   $conn->close();
   return $tempAry;

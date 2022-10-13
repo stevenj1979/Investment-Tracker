@@ -43,6 +43,7 @@ if(isset($_POST['submit'])){
     $reduceLossMinsCancel = $_POST['ReduceLossMinsToCancel'];
     $buyBackAutoPct = $_POST['buyBackAutoPct'];
     $reduceLossAutoPct = $_POST['ReduceLossAutoPct'];
+    $buyBackMinsToCancel = $_POST['buyBackMinsToCancel'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -61,6 +62,7 @@ if(isset($_POST['submit'])){
     if(empty($_POST['buyBackAutoPct'])){$buyBackAutoPct = 0;}
     if(empty($_POST['ReduceLossAutoPct'])){ $reduceLossAutoPct = 0;}
     if(empty($_POST['ReduceLossMinsToCancel'])){ $reduceLossMinsCancel = 0;}
+    if(empty($_POST['buyBackMinsToCancel'])){ $buyBackMinsToCancel = 0;}
     //if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
     if ($saveMode > 0 ){ $saveResidualCoins = 'No';}
     $holdCoinForBuyOut = $_POST['HoldCoinForBuyOut'];
@@ -74,7 +76,7 @@ if(isset($_POST['submit'])){
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,  //16
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,   //29
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements,$saveMode,$pctToSave,$sellPct,$originalPriceMultiplier,$reduceLossMaxCounter,$pauseCoinIDAfterPurchaseEnabled,$daysToPauseCoinIDAfterPurchase,$bbHoursFlat,$reduceLossHoursFlat,$holdCoinForBuyOut,   //45
-    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct,$reduceLossMinsCancel);
+    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct,$reduceLossMinsCancel,$buyBackMinsToCancel);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     //$hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
@@ -105,7 +107,7 @@ function getUserIDs($userID){
   ,`SaveResidualCoins`,`RedirectPurchasesToSpreadID`,`RedirectPurchasesToSpread`,`MinsToPauseAfterPurchase`,`LowMarketModeEnabled`,`AllBuyBackAsOverride`,`HoursFlatTolerance`,`MergeSavingWithPurchase`
   ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`SaveMode`,`PctToSave`,`SellPct`,`OriginalPriceMultiplier`,`ReduceLossMaxCounter`
   , `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`,`BuyBackHoursFlatTarget`,`HoursFlatRls`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`SavingPctOfTotalEnabled`,`SavingPctOfTotal`
-  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`
+  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`,`BuyBackMinsToCancel`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -119,7 +121,7 @@ function getUserIDs($userID){
       ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings'],$row['USDTAlloc'],$row['BTCAlloc'],$row['ETHAlloc'],$row['PctOnLow'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements'] //38
       ,$row['SaveMode'],$row['PctToSave'],$row['SellPct'],$row['OriginalPriceMultiplier'],$row['ReduceLossMaxCounter'],$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'] //45
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
-      ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel']); //56
+      ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel']); //57
   }
   $conn->close();
   return $tempAry;
@@ -147,6 +149,7 @@ function updateUser($settingsUpdateAry){
   $buyBackAutoPct = $settingsUpdateAry[51];
   $reduceLossAutoPct = $settingsUpdateAry[52];
   $reduceLossMinsCancel = $settingsUpdateAry[53];
+  $buyBackMinsToCancel = $settingsUpdateAry[54];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -184,7 +187,7 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase, `LowMarketModeStartPct` = $lowMarketModeStartPct, `LowMarketModeIncrements` = $lowMarketModeIncrements
          ,`SaveMode` = $saveMode, `PctToSave` = $pctToSave, `PauseCoinIDAfterPurchaseEnabled` = $pauseCoinIDAfterPurchaseEnabled, `DaysToPauseCoinIDAfterPurchase` = $daysToPauseCoinIDAfterPurchase,`BuyBackHoursFlatTarget` = $bbHoursFlat,
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
-        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct
+        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat
@@ -400,6 +403,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                           <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                 <?php displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,""); ?>
+                <?php displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,""); ?>
           </div>
           <div class='settingsform'>
                   <b>Savings: </b><br/>

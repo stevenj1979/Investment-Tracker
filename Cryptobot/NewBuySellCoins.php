@@ -283,7 +283,7 @@ function runBuyBack($buyBackCoins){
     //$liveCoinPrice = $buyBackCoins[$t][9];
     $priceDifferecePct = $buyBackCoins[$t][11];//$lowMarketModeEnabled = $buyBackCoins[$t][39];$pctOnLow = $buyBackCoins[$t][34];
     $hr1ChangePctChange = $buyBackCoins[$t][38];$hr24ChangePctChange = $buyBackCoins[$t][39];$d7ChangePctChange = $buyBackCoins[$t][40];
-    $hoursFlatTarget =$buyBackCoins[$t][45]; $delayCoinPurchase = $buyBackCoins[$t][48];
+    $hoursFlatTarget =$buyBackCoins[$t][45]; $delayCoinPurchase = $buyBackCoins[$t][48]; $bbMinsToCancel = $buyBackCoins[$t][54];
     //if ($lowMarketModeEnabled > 0){ $lowMarketMultiplier = 100;}else{$lowMarketMultiplier = $pctOnLow;}
     //$BTCAvailable = (($buyBackCoins[$t][31]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][35];
     //$ETHAvailable = (($buyBackCoins[$t][32]/100)*$lowMarketMultiplier) - $buyBackCoins[$t][36];
@@ -379,7 +379,7 @@ function runBuyBack($buyBackCoins){
       if ($hoursFlat<$hoursFlatTarget){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,0,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
 
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
-      addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 1400, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
+      addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
       echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
       LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
       LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
@@ -1313,6 +1313,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68];  $timeToCancel = $BittrexReqs[$b][70];
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69]; $actionMins = $BittrexReqs[$b][74];
     $overrideBBAmount = $BittrexReqs[$b][75];$overrideBBSaving = $BittrexReqs[$b][76]; $overrideBBAmountSR = $BittrexReqs[$b][77]; $overrideBBSavingSR  = $BittrexReqs[$b][78];
+    $bbminsToCancel = $BittrexReqs[$b][79];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
     //$sqlDate = Date("Y-m-d H:i",$date);
     //$stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);
@@ -1626,7 +1627,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                     $tempmins = floor(100-(($hr1PriceMovePct/60)*100));
                     if ($tempRises <= 0){ $tempRises = 2;}
                     if ($tempmins <= 0){ $tempmins = 120;}
-                    WriteBuyBack($transactionID,$realProfitPct,$tempRises, $tempmins,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);
+                    WriteBuyBack($transactionID,$realProfitPct,$tempRises, $bbminsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);
                     //addWebUsage($userID,"Add","BuyBack");
                   //}
                 }
