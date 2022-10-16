@@ -155,7 +155,7 @@ if ($conn->connect_error) {
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
-            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
+            ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`,`PctOfAutoBuyBack`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' and `UserID` = $userID $WhereClause";
 
@@ -166,7 +166,7 @@ while ($row = mysqli_fetch_assoc($result)){
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
     ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency'],$row['MinsUntilEnable'] //32
-    ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat']); //35
+    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat']); //35
 }
 $conn->close();
 return $tempAry;
