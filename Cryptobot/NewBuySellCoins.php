@@ -781,7 +781,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
     $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
     $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
-    $maxHoursFlat = $coins[$x][47];
+    $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
 
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
@@ -827,6 +827,10 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
+      if ($BuyPriceMinEnabled == 2){
+        $BuyPriceMin = ($month6Low + $month3Low)/2;
+        $BuyPriceMinEnabled = 1;
+      }
       if ($priceDipCoinFlatEnabled == 2){
         $priceDipHoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
         $priceDipCoinFlatEnabled = 1;
