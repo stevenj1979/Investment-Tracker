@@ -1101,8 +1101,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $calculatedSellPctReduction = $sellRules[$z][66];
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71];
-      if ($hoursAfterPurchaseToStart < $hoursSinceBuy){ continue;}
-      if ($hoursAfterPurchaseToEnd > $hoursSinceBuy){ continue;}
+      if ($hoursAfterPurchaseToStart < $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy"; continue;}
+      if ($hoursAfterPurchaseToEnd > $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy"; continue;}
       if ($calculatedSellPctEnable == 1){
         //$ProfitPctTop_Sell_Original = $ProfitPctTop_Sell;
         //$ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);
