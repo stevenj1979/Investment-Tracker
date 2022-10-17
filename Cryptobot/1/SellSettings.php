@@ -203,8 +203,8 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen, $findCat 
    $ruleName = $userSettings[$x][47]; $category = $userSettings[$x][47];
    //echo "$SellCoin == $flag";
    if ($findCat <> 'All'){
-      if ($findCat == ''){ $catFlag = True;}
-      elseif ($category == $findCat){ $catFlag = True;}
+      //if ($findCat == ''){ $catFlag = True;}
+      if ($category == $findCat){ $catFlag = True;}
       else{$catFlag = False;}
    }else{
      $catFlag = True;
