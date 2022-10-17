@@ -68,7 +68,7 @@ function getRules($userID){
  `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`,
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`, `SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`
   ,`AutoSellCoinEnabled`,'AutoSellPrice',`SellPatternEnabled`,`SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`NameCpmn` as `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hPn` as `Coin1HrPatternName`
-  ,`RuleName`
+  ,`RuleName`,`Category`
 FROM `View14_UserSellRules` WHERE `UserID` = $userID";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -81,7 +81,7 @@ FROM `View14_UserSellRules` WHERE `UserID` = $userID";
       ,$row['ProfitPctBtm'],$row['CoinPriceEnabled'],$row['CoinPriceTop'],$row['CoinPriceBtm'],$row['SellOrdersEnabled'],$row['SellOrdersTop'],$row['SellOrdersBtm'] //27
       ,$row['VolumeEnabled'],$row['VolumeTop'],$row['VolumeBtm'],$row['Email'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['SellPriceMinEnabled'],$row['SellPriceMin'] //36
       ,$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern'] //43
-      ,$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'],$row['RuleName'] //46
+      ,$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'],$row['RuleName'],$row['Category'] //47
 );//35
   }
   $conn->close();
@@ -163,7 +163,7 @@ function drawSellCheckbox($checked){
   }
 }
 
-function showSellRules($userSettings, $title, $flag, $userSettingsLen){
+function showSellRules($userSettings, $title, $flag, $userSettingsLen, $findCat = 'All'){
   echo "<H3>$title</H3>"; ?>
   <table>
     <th>&nbspEdit</th><th>&nbspCopy</th><th>&nbspDelete</th><TH>&nbspRuleID</TH><TH>&nbspRuleName</TH><TH>&nbspUserID</TH><TH>&nbspSellCoin</TH><TH>&nbspSendEmail</TH><TH>&nbspBuyOrdersEnabled</TH><TH>&nbspBuyOrdersTop</TH><TH>&nbspBuyOrdersBtm</TH><TH>&nbspMarketCapEnabled</TH>
@@ -183,7 +183,7 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
  <?php
  //echo "<BR>".$userSettingsLen;
  for($x = 0; $x < $userSettingsLen; $x++) {
-
+   $catFlag = False;
    $iD = $userSettings[$x][0];$userID = $userSettings[$x][1];
    $SellCoin = $userSettings[$x][2];$SendEmail = $userSettings[$x][3];
    $buyOrdersEnabled = $userSettings[$x][4];  $buyOrdersTop = $userSettings[$x][5];$buyOrdersBtm = $userSettings[$x][6];
@@ -200,9 +200,14 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen){
    $limitToCoin = $userSettings[$x][37];$autoSellCoinEnabled = $userSettings[$x][38];$autoSellPrice = $userSettings[$x][39];
    $sellPatternEnabled = $userSettings[$x][40];$sellPattern = $userSettings[$x][41];$coinPricePatternEnabled = $userSettings[$x][42];$coinPricePattern = $userSettings[$x][43];
    $coinPriceMatchName = $userSettings[$x][44];$coinPricePatternName = $userSettings[$x][45];$coin1HrPatternName = $userSettings[$x][46];
-   $ruleName = $userSettings[$x][47];
+   $ruleName = $userSettings[$x][47]; $category = $userSettings[$x][47];
    //echo "$SellCoin == $flag";
-   if ($SellCoin == $flag){
+   if ($findCat <> 'All'){
+      if ($category == $findCat){ $catFlag = True;}else{$catFlag = False;}
+   }else{
+     $catFlag = True;
+   }
+   if ($SellCoin == $flag AND $catFlag == True){
      echo "<td><a href='AddNewSettingSell.php?edit=".$iD."'><span class='glyphicon glyphicon-pencil' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?copyRule=".$iD."'><span class='glyphicon glyphicon-copy' style='font-size:22px;'></span></a></td>";
      echo "<td><a href='AddNewSettingSell.php?delete=".$iD."'><span class='glyphicon glyphicon-trash' style='font-size:22px;'></span></a></td>";
@@ -244,7 +249,8 @@ displayHeader(7);
 
            //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
             displaySubHeader("Settings");
-            showSellRules($userSettings, "Enabled Rules",1,$userSettingsLen);
+            showSellRules($userSettings, "Enabled Rules: All",1,$userSettingsLen,'');
+            showSellRules($userSettings, "Enabled Rules: Coin Mode",1,$userSettingsLen,'Coin Mode');
             showSellRules($userSettings, "Disabled Rules",0,$userSettingsLen);
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           displaySideColumn();?>
