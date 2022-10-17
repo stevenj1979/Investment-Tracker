@@ -250,7 +250,7 @@ displayHeader(7);
            //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
             displaySubHeader("Settings");
             showSellRules($userSettings, "Enabled Rules: All",1,$userSettingsLen,'');
-            showSellRules($userSettings, "Enabled Rules: Coin Mode",1,$userSettingsLen,'Coin Mode');
+            showSellRules($userSettings, "Enabled Rules: Coin Mode",1,$userSettingsLen,'CoinMode');
             showSellRules($userSettings, "Disabled Rules",0,$userSettingsLen);
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           displaySideColumn();?>
