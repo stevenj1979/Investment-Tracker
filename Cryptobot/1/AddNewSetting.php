@@ -962,7 +962,7 @@ function displayEdit($id){
     //addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
     //addNewText('PriceDip Pct Tolerance: ', 'PriceDipPctTolerance', $formSettings[0][75], 51, 'Eg ALL', False,1);
     //addNewText('PriceDip Hours Flat: ', 'PriceDipHoursFlat', $formSettings[0][76], 51, 'Eg ALL', False,1);
-    addNewText('BuyRisesInPrice: ', 'BuyRisesInPrice', $formSettings[0][77], 51, 'Eg ALL', False,1);
+    addNewText('BuyRisesInPrice: ', 'BuyRisesInPrice', $formSettings[0][77], 51, 'Eg ALL', False,1); //0 is Auto
     addNewTwoOption('OverrideCancelBuyTimeEnabled:','OverrideCancelBuyTimeEnabled',$formSettings[0][78]);
     $finalTime = $formSettings[0][79];
     if ($formSettings[0][78] == 0){
