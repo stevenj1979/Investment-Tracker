@@ -124,14 +124,14 @@ function copyRule($ID){
     , `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`, `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`
     , `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`, `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`
     , `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`, `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`
-    ,`BypassTrackingSell`,`CalculatedSellPctReduction`,`BypassTrackingSell`, `OverrideBuyBackAmount`, `OverrideBuyBackSaving`)
+    ,`BypassTrackingSell`,`CalculatedSellPctReduction`,`BypassTrackingSell`, `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`)
     select `RuleName`, `UserID`, 0, `SendEmail`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`
     , `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`, `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`
     , `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `CoinOrder`, `SellCoinOffsetEnabled`, `SellCoinOffsetPct`, `SellPriceMinEnabled`, `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`
     , `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`, `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`
     , `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`, `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`
     , `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`,`BypassTrackingSell`
-    , `OverrideBuyBackAmount`, `OverrideBuyBackSaving`
+    , `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`
     from `SellRules`
     where `ID` = $ID";
   //print_r($sql);
@@ -297,6 +297,10 @@ function updateEditedUser(){
   $calculatedSellPctDays = $_POST['CalculatedSellPctDays'];
   $calculatedSellPctReduction  = $_POST['CalculatedSellPctReduction'];
   $bypassTrackingSellEnable = postDataYesNo($_POST['BypassTrackingSellEnable']);
+  $hoursAfterPurchaseStart = $_POST['HoursAfterPurchaseStart'];
+  $hoursAfterPurchaseEnd = $_POST['HoursAfterPurchaseEnd'];
+  if (!empty($_POST['HoursAfterPurchaseStart'])){$hoursAfterPurchaseStart = $_POST['HoursAfterPurchaseStart'];}else{$hoursAfterPurchaseStart = 0;}
+  if (!empty($_POST['HoursAfterPurchaseEnd'])){$hoursAfterPurchaseEnd = $_POST['HoursAfterPurchaseEnd'];}else{$hoursAfterPurchaseEnd = 0;}
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
   // Create connection
   $conn = getSQLConn(rand(1,3));
@@ -313,7 +317,7 @@ function updateEditedUser(){
   `CoinPricePatternEnabled` = $coinPricePatternEnabled, `CoinPricePattern` = '$coinPricePattern', `AutoSellCoinEnabled` = $autoSellCoinEnabled,`PctFromHighSellPriceEnabled` = $pctFromHighSellPriceEnable,`NoOfHoursFlatEnabled` = $hoursFlatEnable,`NoOfHoursFlat` = $hoursFlat
   ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName', `SellFallsInPrice` = $sellFallsInPrice,`HoursPastBuyToSellEnabled` = $hoursPastBuySellEnable, `HoursPastBuyToSell` = $hoursPastBuy
   , `CalculatedSellPctEnabled` = $calculatedSellPctEnable, `CalculatedSellPctStart` = $calculatedSellPctStart, `CalculatedSellPctEnd` = $calculatedSellPctEnd, `CalculatedSellPctDays` = $calculatedSellPctDays, `BypassTrackingSell` = $bypassTrackingSellEnable
-  ,`CalculatedSellPctReduction` = $calculatedSellPctReduction,`OverrideBuyBackAmount` = $overrideBuyBackAmount, `OverrideBuyBackSaving` = $overrideBuyBackSaving
+  ,`CalculatedSellPctReduction` = $calculatedSellPctReduction,`OverrideBuyBackAmount` = $overrideBuyBackAmount, `OverrideBuyBackSaving` = $overrideBuyBackSaving, `HoursAfterPurchaseToStart` = $hoursAfterPurchaseStart, `HoursAfterPurchaseToEnd` = $hoursAfterPurchaseEnd
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -343,7 +347,7 @@ function getRules($id){
   `VolumeTop`, `VolumeBtm`, `Email`, `UserName`, `APIKey`, `APISecret`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`AutoSellCoinEnabled`, 'AutoSellPrice'
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
 ,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`
-, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`
+, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -358,7 +362,8 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       ,$row['SellPriceMin'],$row['LimitToCoin'],$row['AutoSellCoinEnabled'],$row['AutoSellPrice'],$row['SellPatternEnabled'],$row['SellPattern'],$row['CoinPricePatternEnabled'],$row['CoinPricePattern']//43
       ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']//49
       ,$row['SellFallsInPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'],$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'] //55
-      ,$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']);//60
+      ,$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']//60
+      ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd']);//62
   }
   $conn->close();
   return $tempAry;
@@ -716,7 +721,8 @@ function displayEdit($id){
   addNewTwoOption('Bypass Tracking Sell Enable: ','BypassTrackingSellEnable',$formSettings[0][57]);
   //addNewTwoOption('Auto Sell Enabled:','AutoSellCoinEnabled',$formSettings[0][38]);
   //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
-
+addNewText('Hours After Purchase To Start Sell Rule: ','HoursAfterPurchaseStart',$formSettings[0][61],38, 'Eg 50', False,1);
+addNewText('Hours After Purchase To End Sell Rule','HoursAfterPurchaseEnd',$formSettings[0][62],39, 'Eg 50', False,1);
   //addNewText('Auto Sell Price: ','AutoSellPrice',$formSettings[0][39],39, 'Eg 50', False,0);
   echo "</div>";
   echo "<div class='settingsform'>
