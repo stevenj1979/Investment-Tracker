@@ -828,7 +828,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
       if ($risesInPrice == 0){
-        $risesInPrice =
+        //$risesInPrice =
       }
       if ($BuyPriceMinEnabled == 2){
         $BuyPriceMin = ($month6Low + $month3Low)/2;
