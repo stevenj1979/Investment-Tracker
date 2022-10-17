@@ -921,7 +921,7 @@ function displayEdit($id){
 
   echo "<H3>Price Dip Settings</H3>";
 
-  addNewTwoOption('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
+  addThreeOptionAuto('Re Enable Buy Rule after Dip:','ReEnableBuyRuleAfterDip',$formSettings[0][72]);
   addNewText('PriceDip 24Hr: ', 'PriceDip24Hr', $formSettings[0][73], 51, 'Eg ALL', False,1);
   addNewText('PriceDip 7D: ', 'PriceDip7D', $formSettings[0][74], 51, 'Eg ALL', False,1);
   addNewText('PriceDip Pct Tolerance: ', 'PriceDipPctTolerance', $formSettings[0][75], 51, 'Eg ALL', False,1);
