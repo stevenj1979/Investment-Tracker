@@ -407,7 +407,7 @@ function getTrackingCoins($whereclause, $table){
 
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,Trim(`LiveCoinPrice`)+0 as LiveCoinPrice,Trim(`LastCoinPrice`)+0 as LastCoinPrice,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
-    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`6MonthPrice`)+0 as 6MonthPrice ,Trim(`3MonthPrice`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
+    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as 6MonthPrice ,Trim(`Month3Low`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`
     $table $whereclause ";
     //echo "<BR> $sql <BR>";

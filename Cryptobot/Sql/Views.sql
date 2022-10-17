@@ -22,7 +22,7 @@ SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn
 ,if(`1HrChange4`-`1HrChange5`>0,1,if(`1HrChange4`-`1HrChange5`<0,-1,0)) as `1HrPriceChange4`
 ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`,`Pdcs`.`MaxHoursFlat`
 ,avgMinPrice(`Cn`.`ID`,20) as `MinPriceFromLow`, ((`Cp`.`LiveCoinPrice`- avgMinPrice(`Cn`.`ID`,20))/avgMinPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToLow`
-,`Ahl`.`ID` as `IDAhl`, `Ahl`.`HighLow`, `Ahl`.`3MonthPrice`, `Ahl`.`6MonthPrice`, `Ahl`.`CoinID` as `CoinIDAhl`, `Ahl`.`LastUpdated` as `LastUpdatedAhl` ,(`Ahl`.`6MonthPrice`+`Ahl`.`3MonthPrice`)/2 as AverageLowPrice, TIMESTAMPDIFF(HOUR, `Ahl`.`DateAdded`, now()) as HoursSinceAdded
+,'ID' as `IDAhl`, 'HighLow', `v19Athl`.`Month3High`, `v19Athl`.`Month6High`, `v19Athl`.`CoinID` as `CoinIDv19Athl`, 'LastUpdated' as `LastUpdatedAhl` ,(`v19Athl`.`Month6Low`+`v19Athl`.`Month3Low`)/2 as AverageLowPrice, TIMESTAMPDIFF(HOUR, `v19Athl`.`DateAdded`, now()) as HoursSinceAdded
 FROM `Coin` `Cn`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
 join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
@@ -31,9 +31,8 @@ join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
 Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
-join `AvgHighLow` `Ahl` on `Ahl`.`CoinID` = `Cn`.`ID` and `Ahl`.`HighLow` = 'Low'
+left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Cn`.`ID`
   where `Cn`.`BuyCoin` = 1;
-
 
 CREATE OR REPLACE VIEW `View2_TrackingBuyCoins` as
 SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `Tc`.`UserID`, `Tc`.`BaseCurrency` as `TrackingBaseCurrency`, `Tc`.`SendEmail`, `Tc`.`BuyCoin`, `Tc`.`Quantity`
@@ -64,7 +63,7 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , `Br`.`CoinModeOverridePriceEnabled`, `Br`.`BuyModeActivate`, `Br`.`CoinMode`, `Br`.`OverrideCoinAllocation` as `OverrideCoinAllocation2`, `Br`.`OneTimeBuyRule`, `Br`.`LimitToBaseCurrency`, `Br`.`EnableRuleActivationAfterDip`
 , `Br`.`24HrPriceDipPct`, `Br`.`7DPriceDipPct`, `Br`.`BuyAmountCalculationEnabled`, `Br`.`TotalPurchasesPerRule`
 ,`Athl`.`ID` as `IDAthl`, `Athl`.`CoinID` as `CoinID3`, `Athl`.`HighLow`
-, `v19Athl`.`Price` as `ATHPrice`
+, `v19Athl`.`HighPrice` as `ATHPrice`
 , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
 , `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
 , ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
@@ -76,7 +75,7 @@ join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 Left join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
 left join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `Athl`.`HighLow` = 'High'
-left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Tc`.`CoinID` and  `v19Athl`.`HighLow` = 'High';
+left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Tc`.`CoinID` ;
 
 
 CREATE OR REPLACE VIEW `View3_SpreadBetBuy` as
@@ -561,9 +560,15 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    join `Coin` `Cn` on `Cn`.`ID` = `Cmr`.`CoinID`;
 
    CREATE OR REPLACE VIEW `View19_MaxHighLow` as
-   SELECT `CoinID`, Max(`HighLow`) as `HighLow`,`Price`
-   from `AllTimeHighLow`
-   group by `CoinID`,`HighLow`
+   SELECT `Ath`.`CoinID`,max(`Ath`.`Price`) as `HighPrice`, Min(`Atl`.`Price`) as LowPrice, `Ah`.`3MonthPrice` as Month3High, `Ah`.`6MonthPrice` as Month6High, `Al`.`3MonthPrice` as Month3Low, `Al`.`6MonthPrice` as Month6Low,`Cp`.`LiveCoinPrice`,`Ah`.`DateAdded`
+   from `AllTimeHighLow` `Ath`
+   join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` =`Ath`.`CoinID`
+   join `Coin` `Cn` on `Cn`.`ID` = `Ath`.`CoinID`
+   join `CoinPrice` `Cp` on `Cp`.`ID` = `Ath`.`CoinID`
+   Join `AvgHighLow` `Ah` on `Ah`.`CoinID` = `Ath`.`CoinID` and `Ah`.`HighLow` = 'High'
+   Join `AvgHighLow` `Al` on `Al`.`CoinID` = `Ath`.`CoinID` and `Al`.`HighLow` = 'Low'
+   where `Ath`.`HighLow` = 'High' and `Cn`.`BuyCoin` = 1
+   group by `Ath`.`CoinID`;
 
    CREATE OR REPLACE VIEW `View20_CoinPrices` as
    SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`

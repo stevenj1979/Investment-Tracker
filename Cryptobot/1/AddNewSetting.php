@@ -578,6 +578,18 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText,
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){
+    $option1 = "Yes"; $option2 = "No";
+  }else{
+    $option1 = "No"; $option2 = "Yes";
+  }
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+   <option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option></select>
+    <label for='$idName'>$RealName</label>";
+}
+
+function addThreeOptionAuto($RealName, $idName, $value){
+  if ($value == 1 || $value == 'Yes' ){
     $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
   }elseif ($value == 2 || $value == 'Auto' ){
     $option1 = "Auto"; $option2 = "Yes";$option3 = "No";
@@ -803,7 +815,7 @@ function displayEdit($id){
   echo "</div>";
   echo "<div class='settingsform'>";
   echo "<H3>Buy Price Minimum</H3>";
-  addNewTwoOption('Buy Price Min Enabled: ', 'BuyPriceMinEnabled', $formSettings[0][43]);
+  addThreeOptionAuto('Buy Price Min Enabled: ', 'BuyPriceMinEnabled', $formSettings[0][43]);
   addNewText('Buy Price Min: ', 'BuyPriceMin', $formSettings[0][44], 44, 'Eg 7000', False,$formSettings[0][43]);
   echo "</div>";
 
@@ -889,7 +901,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Hours Flat</H3>";
-  addNewTwoOption('Coin Hours Flat: ', 'CoinHoursFlatEnabled', $formSettings[0][69]);
+  addThreeOptionAuto('Coin Hours Flat: ', 'CoinHoursFlatEnabled', $formSettings[0][69]);
   addNewText('Coin Hours Flat: ', 'CoinHoursFlat', $formSettings[0][70], 48, '10', False,$formSettings[0][69]);
   echo "</div>";
 
