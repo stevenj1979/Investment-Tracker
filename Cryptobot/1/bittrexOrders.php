@@ -67,7 +67,7 @@ function getBTTrackingCoins($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserID`,`Email`,`OrderNo`,
+  $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,
           `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
