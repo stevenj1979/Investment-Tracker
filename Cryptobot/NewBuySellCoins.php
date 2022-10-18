@@ -1323,7 +1323,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $pctFromSale = $BittrexReqs[$b][66]; $liveProfitPct = $BittrexReqs[$b][67]; $oneTimeBuy = $BittrexReqs[$b][68];  $timeToCancel = $BittrexReqs[$b][70];
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69]; $actionMins = $BittrexReqs[$b][74];
     $overrideBBAmount = $BittrexReqs[$b][75];$overrideBBSaving = $BittrexReqs[$b][76]; $overrideBBAmountSR = $BittrexReqs[$b][77]; $overrideBBSavingSR  = $BittrexReqs[$b][78];
-    $bbminsToCancel = $BittrexReqs[$b][79];
+    $bbminsToCancel = $BittrexReqs[$b][79]; $timeToCancelBa = $BittrexReqs[$b][80];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
     //$sqlDate = Date("Y-m-d H:i",$date);
     //$stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);

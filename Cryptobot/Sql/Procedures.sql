@@ -1507,7 +1507,7 @@ DECLARE newDate Date;
 SELECT DATE_ADD(now(),INTERVAL Cancel_Time MINUTE) into newDate;
 
 INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BittrexRef`,  `BuyRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `OverrideCoinAllocation`,`FixSellRule`) VALUES (nType,Coin_ID,User_ID,nCost,nAmount,'Pending', now(),Order_No,Bittrex_Ref, rule_ID,1,0,0,0,0,0,0,Sell_Rule_Fixed);
-INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `ActionDate`, `Status`, `RuleID`,`MinsToCancelAction`) VALUES (Coin_ID,(SELECT `ID` from `Transaction` Where `BittrexRef` = Bittrex_Ref),User_ID,nType,Bittrex_Ref,now(),nStatus,rule_ID,Cancel_Time);
+INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `ActionDate`, `Status`, `RuleID`,`MinsToCancelAction`,`TimeToCancel`) VALUES (Coin_ID,(SELECT `ID` from `Transaction` Where `BittrexRef` = Bittrex_Ref),User_ID,nType,Bittrex_Ref,now(),nStatus,rule_ID,Cancel_Time,date_add(now(),INTERVAL Cancel_Time MINUTE));
 update `Transaction` set `BittrexID` = (SELECT `ID` from `BittrexAction` where `BittrexRef` = Bittrex_Ref) where `BittrexRef` = Bittrex_Ref;
 END$$
 DELIMITER ;
