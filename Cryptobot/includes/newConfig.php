@@ -2911,7 +2911,7 @@ function copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHisto
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,1,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function copyBuyHistory($coinID){
@@ -2954,7 +2954,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("coinPriceHistory","$sql",3,1,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("coinPriceHistory","$sql",3,0,"SQL CALL","CoinID:$coinID");
 }
 
 function coinPriceHistorySpreadBet($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d7Pct){
