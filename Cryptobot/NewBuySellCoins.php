@@ -1339,6 +1339,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool | $actionMins | $timeToCancelMins", $userID, 1,"TimeCheck","TransactionID:$transactionID");
       }
     }
+    $cancelTimeCheck = 0;
     echo "<BR> CurrentTime: | Cancel Time $actionMins | $timeToCancelMins | $cancelTimeCheck ";
     if (!Empty($KEK)){$apiSecret = decrypt($KEK,$BittrexReqs[$b][8]);}
     $buyOrderCancelTime = $BittrexReqs[$b][24]; $saveMode = $BittrexReqs[$b][44];

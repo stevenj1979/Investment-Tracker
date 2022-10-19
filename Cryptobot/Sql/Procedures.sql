@@ -2015,7 +2015,7 @@ DECLARE nStatus VARCHAR(20);
 
 SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
 
-if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID) THEN
+if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID) THEN
 	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`) VALUES (Trans_ID,User_ID,Rule_ID);
 end if;
 
@@ -2025,12 +2025,13 @@ if refreshtime < now() THEN
   UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now(),`RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID;
 end if;
 
-if nStatus in ('Closed','Sold','Merged') THEN
-  DELETE FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
-end if;
+Delete `Csp` FROM `CalculatedSellPct` as `Csp`
+Join `Transaction` `Tr` on `Tr`.`ID` = `Csp`.`TransactionID`
+WHERE `Tr`.`Status` in ('Merged','Sold');
 
 END$$
 DELIMITER ;
+
 
 DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `runSetSavingsPctOfTotal`(IN `User_ID` INT, IN `Pct_Saving` DECIMAL(6,2))
