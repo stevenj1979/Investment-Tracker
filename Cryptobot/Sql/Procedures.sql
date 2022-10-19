@@ -359,6 +359,9 @@ BEGIN
 Declare Og_Price DEC(20,8);
 Declare Live_Price DEC(20,8);
 Declare Bittrex_ID INT;
+DECLARE newDate Date;
+
+SELECT DATE_ADD(now(),INTERVAL 40320 MINUTE) into newDate;
 
 select `CoinPrice` into Og_Price from `Transaction` where `ID` = Trans_ID;
 
@@ -367,7 +370,7 @@ select `liveCoinPrice` into Live_Price from `CoinPrice` where `CoinID` = Coin_ID
 if NOT EXISTS (Select `TransactionID` from `BittrexAction` where `TransactionID` = Trans_ID and `Type` = n_Type) THEN
 INSERT INTO `BittrexAction`(`CoinID`, `TransactionID`, `UserID`, `Type`, `BittrexRef`, `Status`, `SellPrice`, `RuleID`,`MinsToCancelAction`) VALUES (Coin_ID,Trans_ID, User_ID, n_Type, Bittrex_Ref,n_Status,Live_Price,Rule_ID,40320);
 ELSE
-UPDATE `BittrexAction` SET `CoinID` = Coin_ID, `UserID` = User_ID , `Type` = n_Type, `BittrexRef` = Bittrex_Ref, `Status` = n_Status, `SellPrice` = Bit_Price, `RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID and `Type` = n_Type;
+UPDATE `BittrexAction` SET `CoinID` = Coin_ID, `UserID` = User_ID , `Type` = n_Type, `BittrexRef` = Bittrex_Ref, `Status` = n_Status, `SellPrice` = Bit_Price, `RuleID` = Rule_ID, `TimeToCancel` = newDate WHERE `TransactionID` = Trans_ID and `Type` = n_Type;
 end if;
  SELECT `ID` INTO Bittrex_ID FROM `BittrexAction` WHERE `BittrexRef` = Bittrex_Ref;
 
@@ -2004,7 +2007,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14), IN `Rule_ID` INT)
     MODIFIES SQL DATA
 BEGIN
 DECLARE refreshtime DateTime;
@@ -2013,13 +2016,13 @@ DECLARE nStatus VARCHAR(20);
 SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
 
 if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID) THEN
-	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`) VALUES (Trans_ID,User_ID);
+	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`) VALUES (Trans_ID,User_ID,Rule_ID);
 end if;
 
 Select DATE_ADD(`LastUpdated`, INTERVAL 1 HOUR) into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
 
 if refreshtime < now() THEN
-  UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now() WHERE `TransactionID` = Trans_ID;
+  UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now(),`RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID;
 end if;
 
 if nStatus in ('Closed','Sold','Merged') THEN
