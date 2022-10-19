@@ -25,7 +25,7 @@ function getBittrexRequests($userID = 0){
   ,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
-  //$conn->query("SET time_zone = '+04:00';");
+  $conn->query("SET time_zone = '-07:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
