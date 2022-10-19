@@ -1331,6 +1331,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     //echo "<BR> Test Time: $stringToTime | $finalTimeToCancel | $sqlDate | $date";
     //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
     //$finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
+    //$cancelTimeAry = getCancelTime($transactionID);
     $cancelTimeCheck = 0;
     if (isset($timeStampNow) AND isset($timeStampTimeToCancel)){
       if ($timeStampTimeToCancel < $timeStampNow){ echo "<BR> DO NOT CANCEL: 0 | $timeStampTimeToCancel | $timeStampNow | $transactionID"; $cancelTimeCheck = 0;}

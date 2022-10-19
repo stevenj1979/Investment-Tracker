@@ -25,7 +25,7 @@ function getBittrexRequests($userID = 0){
   ,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
-  $conn->query("SET time_zone = '+04:00';");
+  //$conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -40,6 +40,29 @@ function getBittrexRequests($userID = 0){
         ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr'],	$row['DateADD'],	$row['timeToCancel'] //70
         ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving'],$row['OverrideBuyBackAmountSR'],$row['OverrideBuyBackSavingSR'] //78
         ,$row['BuyBackMinsToCancel'],$row['TimeToCancelBa'],$row['TimeStampNow'],$row['TimeStampTimeToCancel']); //82
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getCancelTime($transactionID){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT `TimeStampNow`,`TimeStampTimeToCancel`
+  FROM `View4_BittrexBuySell`
+  where `TransactionID` = $transactionID";
+  $conn->query("SET time_zone = '+04:00';");
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['TimeStampNow'],	$row['TimeStampTimeToCancel']); //2
   }
   $conn->close();
   return $tempAry;
