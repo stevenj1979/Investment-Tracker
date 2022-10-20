@@ -49,7 +49,7 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
 , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
 , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
-, `Uc`.`TotalPurchasesPerCoin`
+, `Uc`.`TotalPurchasesPerCoin`,`Uc`.`PctOfAuto`
 ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
 , `Us`.`DisableUntil`
 ,`Br`.`ID` as `IDBr`, `RuleName`, `Br`.`UserID` as `UserID3`, `Br`.`BuyOrdersEnabled`, `Br`.`BuyOrdersTop`, `Br`.`BuyOrdersBtm`, `Br`.`MarketCapEnabled`, `Br`.`MarketCapTop`, `Br`.`MarketCapBtm`, `Br`.`1HrChangeEnabled`
@@ -67,6 +67,7 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, `Cpc`.`Live1HrChange`, `Cpc`.`Last1HrChange`, `Cpc`.`Live24HrChange`, `Cpc`.`Last24HrChange`, `Cpc`.`Live7DChange`, `Cpc`.`Last7DChange`, `Cpc`.`1HrChange3`
 , `Cpc`.`1HrChange4`, `Cpc`.`1HrChange5`, ((`Cpc`.`Live1HrChange`-`Cpc`.`Last1HrChange`)/`Cpc`.`Last1HrChange`)*100  as `Hr1ChangePctChange`, (( `Cpc`.`Last24HrChange`- `Cpc`.`Last24HrChange`)/ `Cpc`.`Last24HrChange`)*100 as `Hr24ChangePctChange`
 , ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
+,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`,`Pdcs`.`MaxHoursFlat`
 FROM `TrackingCoins` `Tc`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
 join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
@@ -75,7 +76,8 @@ join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 Left join `BuyRules` `Br` on `Br`.`ID` = `Tc`.`RuleIDBuy`
 left join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tc`.`CoinID` and `Athl`.`HighLow` = 'High'
-left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Tc`.`CoinID` ;
+left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Tc`.`CoinID`
+Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`;
 
 
 CREATE OR REPLACE VIEW `View3_SpreadBetBuy` as

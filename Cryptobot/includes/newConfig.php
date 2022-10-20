@@ -4265,6 +4265,7 @@ function getNewTrackingCoins($userID = 0){
       ,`TotalRisesInPrice`,`DisableUntil`,`NoOfCoinPurchase`,`OriginalPrice`,`BuyRisesInPrice`,`LimitBuyAmountEnabled`, `LimitBuyAmount`,`LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
       ,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,ifnull(`CoinMode`,0) as CoinMode,`TrackingType`, `LastPrice`,`SBRuleID`,`SBTransID`,`IDTc` as `TrackingID`,`quickBuyCount`,timestampdiff(MINUTE,now(),`DisableUntil`) as MinsDisabled
       ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`,`LowMarketModeEnabled`,`SavingOverride`
+      ,`HoursFlatPdcs`,`PctOfAuto`
       from `View2_TrackingBuyCoins` $whereClause order by `NoOfRisesInPrice` Desc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -4276,7 +4277,7 @@ function getNewTrackingCoins($userID = 0){
     ,$row['BuyRisesInPrice'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['LimitBuyTransactionsEnabled'],$row['LimitBuyTransactions'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //37
     ,$row['CoinMode'],$row['TrackingType'],$row['LastPrice'],$row['SBRuleID'],$row['SBTransID'],$row['TrackingID'],$row['quickBuyCount'],$row['MinsDisabled'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'] //47
     ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['OldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice'],$row['ReduceLossCounter'],$row['LowMarketModeEnabled']//56
-    ,$row['SavingOverride']); //57
+    ,$row['SavingOverride'],$row['HoursFlatPdcs'],$row['PctOfAuto']); //59
   }
   $conn->close();
   return $tempAry;
