@@ -4153,9 +4153,7 @@ function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail
 
   $sql = "INSERT INTO `TrackingCoins`(`CoinID`, `CoinPrice`, `UserID`, `BaseCurrency`, `SendEmail`, `BuyCoin`, `Quantity`, `RuleIDBuy`, `CoinSellOffsetPct`, `CoinSellOffsetEnabled`, `BuyType`, `MinsToCancelBuy`, `SellRuleFixed`, `Status`, `ToMerge`
     ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`,`LastPrice`,`SBRuleID`,`SBTransID`,`OverrideCoinAllocation`,`TransactionID`,`BaseBuyPrice`,`SavingOverride`)
-  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy/((SELECT Count(`ID`)
-  FROM `Transaction` WHERE `CoinID` = $coinID and `UserID` = $userID and `Status` in ('Open','Pending'))+1), $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice * ((SELECT Count(`ID`)
-  FROM `Transaction` WHERE `CoinID` = $coinID and `UserID` = $userID and `Status` in ('Open','Pending'))+1), '$callName',$coinPrice,$spreadBetRuleID
+  VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$callName',$coinPrice,$spreadBetRuleID
   ,$spreadBetTransID,$overrideCoinAlloc,$transID,$coinPrice,$savingOverride)";
 
   print_r($sql);
