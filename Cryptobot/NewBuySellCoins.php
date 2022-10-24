@@ -1928,10 +1928,10 @@ function buyToreduceLoss($lossCoins){
     $excludeSpreadBet = 1;
     if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
     if ($hoursFlatAutoEnabled == 1){
-      $hoursFlat = floor(($maxHoursFlat/100)*$pctOfAuto);
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
     //and $minsToDelay > 0
-    echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat | $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
+    echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
     if ($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       if ($minsToDelay < 0){ echo "<BR> MinsToDelay $minsToDelay: EXIT! "; continue; }
