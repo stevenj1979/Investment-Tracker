@@ -22,7 +22,7 @@ function getBittrexRequests($userID = 0){
   ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
   ,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
   ,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`,`OverrideBuyBackAmount` as OverrideBuyBackAmountSR,`OverrideBuyBackSaving` as OverrideBuyBackSavingSR
-  ,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`
+  ,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`,`BuyBackCounter`,`BuyBackMax`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
   $conn->query("SET time_zone = '-07:00';");
@@ -39,7 +39,7 @@ function getBittrexRequests($userID = 0){
         ,	$row['TypeBa'],	$row['ReduceLossBuy'],	$row['IDBa'],	$row['BuyOrderCancelTimeMins'],	$row['MinsToCancelAction'],	$row['MinsRemaining'],	$row['LowMarketModeEnabled'],	$row['HoldCoinForBuyOut'],	$row['CoinForBuyOutPct']//61
         ,	$row['holdingAmount'],	$row['NoOfPurchases'],	$row['Hr1PriceMovePct'],	$row['PctToCancelBittrexAction'],	$row['PctFromSale'],	$row['LiveProfitPct'],	$row['OneTimeBuyRuleBr'],	$row['DateADD'],	$row['timeToCancel'] //70
         ,	$row['OverrideBittrexCancellation'],$row['Image'],$row['CurrentTime'],$row['MinsFromAction'],$row['OverrideBBAmount'],$row['OverrideBBSaving'],$row['OverrideBuyBackAmountSR'],$row['OverrideBuyBackSavingSR'] //78
-        ,$row['BuyBackMinsToCancel'],$row['TimeToCancelBa'],$row['TimeStampNow'],$row['TimeStampTimeToCancel']); //82
+        ,$row['BuyBackMinsToCancel'],$row['TimeToCancelBa'],$row['TimeStampNow'],$row['TimeStampTimeToCancel'],$row['BuyBackCounter'],$row['BuyBackMax']); //84
   }
   $conn->close();
   return $tempAry;

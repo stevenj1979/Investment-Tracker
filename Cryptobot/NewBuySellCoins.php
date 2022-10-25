@@ -1325,6 +1325,7 @@ function runBittrex($BittrexReqs,$apiVersion){
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69]; $actionMins = $BittrexReqs[$b][74];
     $overrideBBAmount = $BittrexReqs[$b][75];$overrideBBSaving = $BittrexReqs[$b][76]; $overrideBBAmountSR = $BittrexReqs[$b][77]; $overrideBBSavingSR  = $BittrexReqs[$b][78];
     $bbminsToCancel = $BittrexReqs[$b][79]; $timeToCancelBa = $BittrexReqs[$b][80]; $timeStampNow = $BittrexReqs[$b][81]; $timeStampTimeToCancel = $BittrexReqs[$b][82];
+    $buyBackMax = $BittrexReqs[$b][84]; $buyBackCounter = $BittrexReqs[$b][83];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
     //$sqlDate = Date("Y-m-d H:i",$date);
     //$stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);
@@ -1634,7 +1635,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
 
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
-                if ($buyBackEnabled == 1){
+                if ($buyBackEnabled == 1 AND $buyBackCounter < $buyBackMax){
                   //if ($stopBuyBack == 0){ $buyBackEnabled = 0;}
                     $tempRises = floor(($hr1PriceMovePct + 30)/5)+5;
                     $tempmins = floor(100-(($hr1PriceMovePct/60)*100));

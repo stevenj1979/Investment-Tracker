@@ -1791,11 +1791,11 @@ SELECT `OverrideSaving` INTO override_Saving FROM `BuyBack` WHERE `TransactionID
 
 
 if Old_BB_Trans_ID <> 0 THEN
-	UPDATE `Transaction` SET `BuyBackTransactionID` = BB_Trans_ID, `OverrideBBAmount` = override_Amount, `OverrideBBSaving` =  override_Saving Where `ID` = Trans_ID;
+	UPDATE `Transaction` SET `BuyBackTransactionID` = BB_Trans_ID, `OverrideBBAmount` = override_Amount, `OverrideBBSaving` =  override_Saving, `BuyBackCounter` = `BuyBackCounter` + 1 Where `ID` = Trans_ID;
 End if;
 
 if MultiSellRule_TemplateID <> 0 Then
-	UPDATE `Transaction` SET  `MultiSellRuleTemplateID` = MultiSellRule_TemplateID,`MultiSellRuleEnabled` = 1 Where `ID` = Trans_ID;
+	UPDATE `Transaction` SET  `MultiSellRuleTemplateID` = MultiSellRule_TemplateID,`MultiSellRuleEnabled` = 1, `BuyBackCounter` = `BuyBackCounter` + 1 Where `ID` = Trans_ID;
 end if;
 End$$
 DELIMITER ;
