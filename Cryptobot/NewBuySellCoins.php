@@ -1935,6 +1935,7 @@ function buyToreduceLoss($lossCoins){
     if ($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       if ($minsToDelay < 0){ echo "<BR> MinsToDelay $minsToDelay: EXIT! "; continue; }
+      if ($liveCoinPrice == 0){ echo "<BR> LiveCoinPrice = 0 $liveCoinPrice: EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       //get multiplier
       //$openTransNoAry = getOpenTransNo($userID, $coinID);
