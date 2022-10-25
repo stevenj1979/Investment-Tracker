@@ -218,7 +218,7 @@ function showSellCoins($trackingSell,$title){
   $arrLengthSell = count($trackingSell);
   $roundVar = $_SESSION['roundVar'];
   //$userConfig = getConfig($_SESSION['ID']);
-
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   echo "<h3>$title</h3>";
   for($x = 0; $x < $arrLengthSell; $x++) {
       //Variables
@@ -292,15 +292,15 @@ $date = date('Y/m/d H:i:s', time());
 
 
 				<?php
-        if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+
         displayHeader(4);
-        $trackingSell = getTrackingSellCoinsLoc(' and `CoinSwapDelayed` = 1',$_SESSION['ID']);
+        $trackingSell = getTrackingSellCoinsLoc(' and `CoinSwapDelayed` = 0',$_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         //echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
         // &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         displaySubHeader("SellCoin");
         showSellCoins($trackingSell,'Reduce Loss Enabled');
-        $trackingSell = getTrackingSellCoinsLoc(' and `CoinSwapDelayed` = 0',$_SESSION['ID']);
+        $trackingSell = getTrackingSellCoinsLoc(' and `CoinSwapDelayed` = 1',$_SESSION['ID']);
         showSellCoins($trackingSell,'Reduce Loss Disabled');
 				displaySideColumn();
 //include header template
