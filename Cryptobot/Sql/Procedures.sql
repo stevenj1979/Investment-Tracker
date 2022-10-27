@@ -2204,7 +2204,8 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
      join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
      join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
-       where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+       where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
+       having `Cp`.`LiveCoinPrice` <> 0;
 END$$
 DELIMITER ;
 
