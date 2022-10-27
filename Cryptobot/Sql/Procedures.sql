@@ -2158,14 +2158,14 @@ DECLARE MinHr1Pct DEC(20,14);
 DECLARE MinHr24Pct DEC(20,14);
 DECLARE MinD7Pct DEC(20,14);
 
-SELECT `MaxCoinPricePctChange` into CoinPct FROM `MarketCoinStats`;
-SELECT `MaxHr1ChangePctChange` into Hr1Pct FROM `MarketCoinStats`;
-SELECT `MaxHr24ChangePctChange` into Hr24Pct FROM `MarketCoinStats`;
-SELECT `MaxD7ChangePctChange` into D7Pct FROM `MarketCoinStats`;
-SELECT `MinCoinPricePctChange` into MinCoinPct FROM `MarketCoinStats`;
-SELECT `MinHr1ChangePctChange` into MinHr1Pct FROM `MarketCoinStats`;
-SELECT `MinHr24ChangePctChange` into MinHr24Pct FROM `MarketCoinStats`;
-SELECT `MinD7ChangePctChange` into MinD7Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MaxCoinPricePctChange`,0) into CoinPct FROM `MarketCoinStats`;
+SELECT ifnull(`MaxHr1ChangePctChange`,0) into Hr1Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MaxHr24ChangePctChange`,0) into Hr24Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MaxD7ChangePctChange`,0) into D7Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MinCoinPricePctChange`,0) into MinCoinPct FROM `MarketCoinStats`;
+SELECT ifnull(`MinHr1ChangePctChange`,0) into MinHr1Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MinHr24ChangePctChange`,0) into MinHr24Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MinD7ChangePctChange`,0) into MinD7Pct FROM `MarketCoinStats`;
 
 Delete from `MarketCoinStats`;
 
@@ -2205,7 +2205,7 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
      join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
        where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
-       having `Cp`.`LiveCoinPrice` <> 0;
+       having `LiveCoinPrice` <> 0;
 END$$
 DELIMITER ;
 
