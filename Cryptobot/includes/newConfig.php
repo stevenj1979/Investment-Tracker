@@ -6867,7 +6867,7 @@ function getBuyBackData(){
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
             , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
-            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`
+            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`,`BuyBackMinsToCancel`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -6881,7 +6881,7 @@ function getBuyBackData(){
       ,$row['OverrideCoinAllocation'],$row['AllBuyBackAsOverride'],$row['BTCPrice'],$row['ETHPrice'],$row['LiveCoinPrice'],$row['DelayMins'],$row['OriginalAmount'],$row['HoursFlatPdcs'] //33
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
       ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier'],$row['DelayCoinPurchase'] //48
-      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack'],$row['bbMinsToCancel']); //54
+      ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack'],$row['bbMinsToCancel'],$row['BuyBackMinsToCancel']); //55
   }
   $conn->close();
   return $tempAry;
