@@ -2190,13 +2190,13 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
      ,if(sum(`1HrChange3`)-sum(`1HrChange4`)>0,1,if(sum(`1HrChange3`)-sum(`1HrChange4`)<0,-1,0)) as `1HrPriceChange3`
      ,if(sum(`1HrChange4`)-sum(`1HrChange5`)>0,1,if(sum(`1HrChange4`)-sum(`1HrChange5`)<0,-1,0)) as `1HrPriceChange4`
 ,if(sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) > CoinPct, sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100), CoinPct)
-,if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > Hr1Pct,  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, Hr1Pct)
-,if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > Hr24Pct,  (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, Hr24Pct)
-,if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > D7Pct, ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 , D7Pct)
+,if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > Hr1Pct, if(((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < 99,((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, Hr1Pct), Hr1Pct)
+,if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > Hr24Pct, if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < 99,  (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, Hr24Pct), Hr24Pct)
+,if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > D7Pct, if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < 99, ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 , D7Pct) , D7Pct)
 ,if(sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) < MinCoinPct, sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100), MinCoinPct)
-,if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr1Pct,  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr1Pct)
-,if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr24Pct,  (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr24Pct)
-,if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinD7Pct, ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 , MinD7Pct)
+,if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr1Pct, if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99,  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr1Pct), MinHr1Pct)
+,if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr24Pct,  if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99,  (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr24Pct), MinHr24Pct)
+,if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinD7Pct, if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99, ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 , MinD7Pct) , MinD7Pct)
      FROM `Coin` `Cn`
      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
      join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
