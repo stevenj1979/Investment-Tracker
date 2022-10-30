@@ -579,7 +579,7 @@ echo "EndTime ".date("Y-m-d H:i", time());
 
 //update1Hr_24Hr_7DPct();
 
-BearBullStats();
+//BearBullStats();
 runHoursforCoinPriceDip();
 runMarketStats();
 ?>
