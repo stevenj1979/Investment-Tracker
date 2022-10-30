@@ -508,7 +508,11 @@ function getTrackingSellCoins($type, $userID = 0){
 
 function getAutoActionCoins($type, $status,$hoursSinceBuy){
   $tempAry = [];
+  if ($status == 'Open'){
    $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `OrderDate` Between DATE_ADD(`OrderDate`, INTERVAL $hoursSinceBuy HOUR) and `OrderDate`";
+ }else{
+   $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `CompletionDate` Between DATE_ADD(`CompletionDate`, INTERVAL $hoursSinceBuy HOUR) and `OrderDate`";
+ }
    $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -520,7 +524,7 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
   ,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
-  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`
+  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,floor(timestampdiff(second,`CompletionDate`, now())/3600) as `HoursSinceSell`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   echo "<BR>$sql<BR>";
@@ -533,7 +537,7 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy'],$row['HoursFlatHighPdcs'],$row['MaxPriceFromHigh'],$row['PctFromLiveToHigh'] //64
-    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom']); //70
+    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['HoursSinceSell']); //71
   }
   $conn->close();
   return $tempAry;

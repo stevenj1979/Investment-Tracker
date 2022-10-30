@@ -763,7 +763,7 @@ function runAutoActionBuy($autoActionCoins){
 function runAutoActionSell($autoActionCoins){
   $autoActionCoinsSize = count($autoActionCoins);
   for ($p=0; $p<$autoActionCoinsSize; $p++){
-     $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][66]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
+     $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][71]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
      writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,'Sell');
   }
 }
