@@ -756,18 +756,26 @@ function runAutoActionBuy($autoActionCoins){
   $autoActionCoinsSize = count($autoActionCoins);
   for ($p=0; $p<$autoActionCoinsSize; $p++){
      $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][66]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
-     writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID);
+     writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,'Buy');
   }
 }
 
-function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID){
+function runAutoActionSell($autoActionCoins){
+  $autoActionCoinsSize = count($autoActionCoins);
+  for ($p=0; $p<$autoActionCoinsSize; $p++){
+     $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][66]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
+     writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,'Sell');
+  }
+}
+
+function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,$type){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call writeAutoActionBuy($transactionID,$coinID,'Buy',$profitPct,$hoursSincePurchase);";
+  $sql = "call writeAutoActionBuy($transactionID,$coinID,'$type',$profitPct,$hoursSincePurchase);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -830,6 +838,8 @@ copyCoinTableToHistory();
 runClosedCalculatedSellPct();
 $autoActionCoins = getAutoActionCoins('Sell','Open',168);
 runAutoActionBuy($autoActionCoins);
+$autoActionCoins = getAutoActionCoins('Sell','Closed',168);
+runAutoActionSell($autoActionCoins);
 
 ?>
 </html>

@@ -2234,9 +2234,15 @@ If NOT Exists (SELECT `ID` FROM `CoinTrackingActions` WHERE `TransactionID` = Tr
 
 ELSE
 	SELECT `Pct` into current_SellPct FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType;
+  if nType = 'Buy' THEN
     if  Sell_pct < current_SellPct THEN
     	UPDATE `CoinTrackingActions` SET `Pct` = Sell_pct, `MinsSincePurchase` = Hours_SinceBuy WHERE `TransactionID` = Trans_ID and `Type` = nType;
     end if;
+  else
+    if  Sell_pct > current_SellPct THEN
+      UPDATE `CoinTrackingActions` SET `Pct` = Sell_pct, `MinsSincePurchase` = Hours_SinceBuy WHERE `TransactionID` = Trans_ID and `Type` = nType;
+    end if;
+  end if;
 END IF;
 
 END$$
