@@ -509,10 +509,12 @@ function getTrackingSellCoins($type, $userID = 0){
 function getAutoActionCoins($type, $status,$hoursSinceBuy){
   $tempAry = [];
   if ($status == 'Open'){
-   $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `OrderDate` Between DATE_ADD(`OrderDate`, INTERVAL $hoursSinceBuy HOUR) and `OrderDate`";
+   $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `OrderDate`  BETWEEN DATE_SUB(NOW(),INTERVAL $hoursSinceBuy HOUR) AND NOW() ";
  }else{
-   $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `CompletionDate` Between DATE_ADD(`CompletionDate`, INTERVAL $hoursSinceBuy HOUR) and `OrderDate`";
+   $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `CompletionDate` BETWEEN DATE_SUB(NOW(),INTERVAL $hoursSinceBuy HOUR) AND NOW() ";
  }
+
+ //WHERE `CompletionDate` BETWEEN DATE_SUB(NOW(),INTERVAL 168 HOUR) AND NOW()
    $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {

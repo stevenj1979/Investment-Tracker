@@ -838,7 +838,7 @@ copyCoinTableToHistory();
 runClosedCalculatedSellPct();
 $autoActionCoins = getAutoActionCoins('Sell','Open',168);
 runAutoActionBuy($autoActionCoins);
-$autoActionCoins = getAutoActionCoins('Sell','Closed',168);
+$autoActionCoins = getAutoActionCoins('Sell','Sold',168);
 runAutoActionSell($autoActionCoins);
 
 ?>
