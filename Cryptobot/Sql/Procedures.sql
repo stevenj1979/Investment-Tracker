@@ -2222,3 +2222,22 @@ UPDATE `CoinPriceExtra` SET `Hr1Top`= nTop,`Hr1Bottom`= nBottom WHERE `CoinID` =
 
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeAutoActionBuy`(IN `Trans_ID` INT, IN `Coin_ID` INT, IN `nType` VARCHAR(100), IN `Sell_pct` DECIMAL(20,14), IN `Hours_SinceBuy` INT)
+    MODIFIES SQL DATA
+BEGIN
+DECLARE current_SellPct DEC(20,14);
+If NOT Exists (SELECT `ID` FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType) THEN
+	Insert INTO `CoinTrackingActions` (`TransactionID`, `Type`, `CoinID`) values (Trans_ID,nType,Coin_ID);
+
+ELSE
+	SELECT `Pct` into current_SellPct FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType;
+    if  Sell_pct < current_SellPct THEN
+    	UPDATE `CoinTrackingActions` SET `Pct` = Sell_pct, `MinsSincePurchase` = Hours_SinceBuy WHERE `TransactionID` = Trans_ID and `Type` = nType;
+    end if;
+END IF;
+
+END$$
+DELIMITER ;
