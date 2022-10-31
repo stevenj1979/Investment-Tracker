@@ -2230,16 +2230,16 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeAutoActionBuy`(IN `Tran
 BEGIN
 DECLARE current_SellPct DEC(20,14);
 If NOT Exists (SELECT `ID` FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType) THEN
-	Insert INTO `CoinTrackingActions` (`TransactionID`, `Type`, `CoinID`) values (Trans_ID,nType,Coin_ID);
+	Insert INTO `CoinTrackingActions` (`TransactionID`, `Type`, `CoinID`,`Pct`) values (Trans_ID,nType,Coin_ID,Sell_pct);
 
 ELSE
 	SELECT `Pct` into current_SellPct FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType;
   if nType = 'Buy' THEN
-    if  Sell_pct < current_SellPct THEN
+    if  Sell_pct <= current_SellPct THEN
     	UPDATE `CoinTrackingActions` SET `Pct` = Sell_pct, `MinsSincePurchase` = Hours_SinceBuy WHERE `TransactionID` = Trans_ID and `Type` = nType;
     end if;
   else
-    if  Sell_pct > current_SellPct THEN
+    if  Sell_pct >= current_SellPct THEN
       UPDATE `CoinTrackingActions` SET `Pct` = Sell_pct, `MinsSincePurchase` = Hours_SinceBuy WHERE `TransactionID` = Trans_ID and `Type` = nType;
     end if;
   end if;
