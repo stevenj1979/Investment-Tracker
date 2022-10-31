@@ -783,7 +783,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
     $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
-    $risesInPrice = $coins[$x][47];
+    $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
@@ -828,6 +828,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
+      if ($CoinSellOffsetEnabled == 2){
+        $CoinSellOffsetEnabled = 1;
+        if (!is_null($caaOffset)){
+          $CoinSellOffsetPct = $caaOffset;
+          $timeToCancelBuyMins = $caahours * 60;
+        }
+
+      }
       if ($risesInPrice == 0){
         //$risesInPrice =
       }
@@ -1068,6 +1076,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
     $sellPctCsp = $sellCoins[$a][67];$maxHoursFlat = $sellCoins[$a][68]; $topPriceExtra = $sellCoins[$a][69]; $bottomPriceExtra = $sellCoins[$a][70];
+    $caaOffset = $sellCoins[$a][71]; $caaMinsToCancelSell = $sellCoins[$a][72];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1104,6 +1113,12 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71];
       if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy"; continue;}
       if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy"; continue;}
+      if ($sellCoinOffsetEnabled == 2){
+        $sellCoinOffsetEnabled = 1;
+        if (!is_null($caaOffset)){
+          $sellCoinOffsetPct = $caaOffset;
+        }
+      }
       if ($calculatedSellPctEnable == 1){
         //$ProfitPctTop_Sell_Original = $ProfitPctTop_Sell;
         //$ProfitPctTop_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/$calculatedSellPctDays);

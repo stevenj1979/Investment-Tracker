@@ -23,6 +23,7 @@ SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn
 ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`,`Pdcs`.`MaxHoursFlat`
 ,avgMinPrice(`Cn`.`ID`,20) as `MinPriceFromLow`, ((`Cp`.`LiveCoinPrice`- avgMinPrice(`Cn`.`ID`,20))/avgMinPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToLow`
 ,'ID' as `IDAhl`, 'HighLow', `v19Athl`.`Month3High`, `v19Athl`.`Month6High`, `v19Athl`.`CoinID` as `CoinIDv19Athl`, 'LastUpdated' as `LastUpdatedAhl` ,(`v19Athl`.`Month6Low`+`v19Athl`.`Month3Low`)/2 as AverageLowPrice, TIMESTAMPDIFF(HOUR, `v19Athl`.`DateAdded`, now()) as HoursSinceAdded, `v19Athl`.`Month3Low`, `v19Athl`.`Month6Low`
+,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
 FROM `Coin` `Cn`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
 join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
@@ -32,6 +33,7 @@ join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
 Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
 left Join `View19_MaxHighLow` `v19Athl` on `v19Athl`.`CoinID` = `Cn`.`ID`
+left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`
   where `Cn`.`BuyCoin` = 1;
 
 CREATE OR REPLACE VIEW `View2_TrackingBuyCoins` as
@@ -167,6 +169,7 @@ FROM `BittrexAction`  `Ba`
       , `Us`.`DisableUntil`
       ,`Csp`.`SellPct` as `SellPctCsp`
       ,`Cpe`.`Hr1Top`,`Cpe`.`Hr1Bottom`
+      ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -183,7 +186,8 @@ FROM `BittrexAction`  `Ba`
       join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
       join `User` `Us` on `Us`.`ID` = `Uc`.`UserID`
       left join `CalculatedSellPct` `Csp` on `Csp`.`TransactionID` = `Tr`.`ID`
-      left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`;
+      left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`
+      left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`;
 
     CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
     SELECT `Tsc`.`ID` as `IDTsc`, `Tsc`.`CoinPrice` as `CoinPriceTsc`, `Tsc`.`TrackDate`, `Tsc`.`UserID` as `UserIDTsc`, `Tsc`.`NoOfRisesInPrice`, `Tsc`.`TransactionID` as `TransactionIDTsc`, `Tsc`.`Status` as `StatusTsc`, `Tsc`.`SellCoin`, `Tsc`.`SendEmail`, `Tsc`.`CoinSellOffsetEnabled`, `Tsc`.`CoinSellOffsetPct`, `Tsc`.`TrackStartDate`, `Tsc`.`SellFallsInPrice` as `SellFallsInPriceSr`, `Tsc`.`BaseSellPrice`, `Tsc`.`LastPrice`, `Tsc`.`Type` as `TrackingType`, `Tsc`.`OriginalSellPrice`,`Tsc`.`TrackingCount`

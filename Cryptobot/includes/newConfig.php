@@ -431,7 +431,7 @@ function getTrackingCoins($whereclause, $table){
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,Trim(`LiveCoinPrice`)+0 as LiveCoinPrice,Trim(`LastCoinPrice`)+0 as LastCoinPrice,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as 6MonthPrice ,Trim(`Month3Low`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
-    ,`MaxHoursFlat`
+    ,`MaxHoursFlat`,`CaaOffset`,`CaaMinsToCancelBuy`
     $table $whereclause ";
     //echo "<BR> $sql <BR>";
   $result = $conn->query($sql);
@@ -442,7 +442,7 @@ function getTrackingCoins($whereclause, $table){
     ,$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders']//21
     ,$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'] //33
     ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice'] //45
-    ,$row['HoursSinceAdded'],$row['MaxHoursFlat']);//47
+    ,$row['HoursSinceAdded'],$row['MaxHoursFlat'],$row['CaaOffset'],$row['CaaMinsToCancelBuy']);//49
   }
   $conn->close();
   return $tempAry;
@@ -487,7 +487,7 @@ function getTrackingSellCoins($type, $userID = 0){
   ,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
-  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`
+  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   echo "<BR>$sql<BR>";
@@ -500,7 +500,7 @@ function getTrackingSellCoins($type, $userID = 0){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy'],$row['HoursFlatHighPdcs'],$row['MaxPriceFromHigh'],$row['PctFromLiveToHigh'] //64
-    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom']); //70
+    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['CaaOffset'],$row['CaaMinsToCancelSell']); //72
   }
   $conn->close();
   return $tempAry;
