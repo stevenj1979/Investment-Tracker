@@ -331,6 +331,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
   ,`Dcp`.`ID` as `IDDcp`, `Dcp`.`CoinID` as `CoinIDDcp`, `Dcp`.`UserID` as `UserIDDcp`,`Dcp`.`DelayTime` as `DelayTimeDcp`
   ,if(`Bb`.`DelayTime`<now(), 0,1) as BBRuleDisabled
   , timestampdiff(MINUTE,now(),`Bb`.`DelayTime`) as MinsUntilEnable
+  ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
@@ -341,7 +342,8 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  join `BearBullStats` `Bbs` on `Bbs`.`CoinID` =`Tr`.`CoinID`
  join `CoinPctChange` `Cpc` on((`Cpc`.`CoinID` = `Tr`.`CoinID`))
  Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Tr`.`CoinID`
- left join `DelayCoinPurchase` `Dcp` on `Dcp`.`CoinID` = `Tr`.`CoinID` and `Dcp`.`UserID` = `Tr`.`UserID`;
+ left join `DelayCoinPurchase` `Dcp` on `Dcp`.`CoinID` = `Tr`.`CoinID` and `Dcp`.`UserID` = `Tr`.`UserID`
+ left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`;
 
 CREATE OR REPLACE VIEW `View10_DelayCoinPurchase` as
 SELECT `Dcp`.`ID`, `Dcp`.`CoinID`, `Dcp`.`UserID`, `Dcp`.`DelayTime`
