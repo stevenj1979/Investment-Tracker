@@ -828,13 +828,13 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-      if ($CoinSellOffsetEnabled == 2){
-        $CoinSellOffsetEnabled = 1;
+      if ($CoinPriceEnabled == 2){
+        $CoinPriceEnabled = 1;
         if (!is_null($caaOffset)){
-          $CoinSellOffsetPct = $caaOffset;
+          $CoinPriceBtm = $caaOffset;
+          //$BuyPriceMin = $BuyPriceMin + (($BuyPriceMin/100)*$caaOffset);
           $timeToCancelBuyMins = $caahours * 60;
         }
-
       }
       if ($risesInPrice == 0){
         //$risesInPrice =

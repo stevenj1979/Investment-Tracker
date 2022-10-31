@@ -810,7 +810,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>Coin Price Offset</H3>";
-  addNewTwoOption('Buy Coin Offset Enabled: ', 'BuyCoinOffsetEnabled', $formSettings[0][29]);
+  addThreeOptionAuto('Buy Coin Offset Enabled: ', 'BuyCoinOffsetEnabled', $formSettings[0][29]);
   addNewText('Buy Coin Offset Pct: ', 'BuyCoinOffsetPct', $formSettings[0][30], 26, 'Eg 50', False,$formSettings[0][29]);
   echo "</div>";
   echo "<div class='settingsform'>";

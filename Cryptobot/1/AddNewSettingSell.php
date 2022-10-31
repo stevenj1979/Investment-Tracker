@@ -382,6 +382,19 @@ function addNewText($RealName, $idName, $value, $tabIndex, $pHoolder, $longText,
 
 function addNewTwoOption($RealName, $idName, $value){
   if ($value == 1 || $value == 'Yes' ){
+    $option1 = "Yes"; $option2 = "No";
+  }else{
+    $option1 = "No"; $option2 = "Yes";
+  }
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+  <option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option></select>
+    <label for='$idName'>$RealName</label>
+     <br/>";
+}
+
+function addNewTwoOptionAuto($RealName, $idName, $value){
+  if ($value == 1 || $value == 'Yes' ){
     $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
   }elseif ($value == 2 || $value == 'Auto' ){
     $option1 = "Auto"; $option2 = "Yes";$option3 = "No";
@@ -617,7 +630,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>Profit Sale</H3>";
-  addNewTwoOption('Profit Sale Enable: ','ProfitSaleEnable',$formSettings[0][19]);
+  addNewTwoOptionAuto('Profit Sale Enable: ','ProfitSaleEnable',$formSettings[0][19]);
   addNewText('Profit Sale Top: ','ProfitSaleTop',$formSettings[0][20],37, 'Eg 50', False,$formSettings[0][19]);
   addNewText('rofit Sale Btm: ','ProfitSaleBtm',$formSettings[0][21],37, 'Eg 50', False,$formSettings[0][19]);
 
@@ -672,7 +685,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>Hour Rules</H3>";
-  addNewTwoOption('Hours Flat Enable: ','HoursFlatEnable',$formSettings[0][45]);
+  addNewTwoOptionAuto('Hours Flat Enable: ','HoursFlatEnable',$formSettings[0][45]);
   addNewText('Hours Flat: ','HoursFlat',$formSettings[0][46],37, '30', False,$formSettings[0][45]);
   addNewTwoOption('Hours Past Buy To Sell Enable: ','HoursPastBuySellEnable',$formSettings[0][51]);
   addNewText('Hours Past Buy To Sell: ','HoursPastBuy',$formSettings[0][52],37, '30', False,$formSettings[0][51]);
@@ -696,7 +709,7 @@ function displayEdit($id){
   addNewTwoOption('Send Email: ','sendEmail',$formSettings[0][3]);
 
   addNewTwoOption('Sell Coin: ','sellCoin',$formSettings[0][2]);
-  addNewTwoOption('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
+  addNewTwoOptionAuto('Sell Price Min Enabled:','sellPriceMinEnabled',$formSettings[0][35]);
   addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37, 'Eg 50', False,1);
 
   //addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
