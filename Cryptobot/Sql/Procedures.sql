@@ -2230,7 +2230,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `writeAutoActionBuy`(IN `Tran
 BEGIN
 DECLARE current_SellPct DEC(20,14);
 If NOT Exists (SELECT `ID` FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType) THEN
-	Insert INTO `CoinTrackingActions` (`TransactionID`, `Type`, `CoinID`,`Pct`) values (Trans_ID,nType,Coin_ID,Sell_pct);
+	Insert INTO `CoinTrackingActions` (`TransactionID`, `Type`, `CoinID`,`Pct`,`MinsSincePurchase`) values (Trans_ID,nType,Coin_ID,Sell_pct,Hours_SinceBuy);
 
 ELSE
 	SELECT `Pct` into current_SellPct FROM `CoinTrackingActions` WHERE `TransactionID` = Trans_ID and `Type` = nType;
@@ -2245,5 +2245,27 @@ ELSE
   end if;
 END IF;
 
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateCoinAutoActions`(IN `nType` VARCHAR(100), IN `Coin_ID` INT, IN `nPct` DECIMAL(20,14), IN `nHours` INT)
+    MODIFIES SQL DATA
+BEGIN
+if nType = 'Buy' THEN
+    if NOT EXISTS (SELECT `ID` FROM `CoinAutoActions` WHERE `CoinID` = Coin_ID and `Type` = nType) THEN
+        INSERT INTO `CoinAutoActions`(`CoinID`, `Offset`, `MinsToCancelBuy`) VALUES (Coin_ID,nPct,nHours);
+    else
+        UPDATE `CoinAutoActions` SET `Offset`= nPct,`MinsToCancelBuy`= nHours WHERE `CoinID` = Coin_ID;
+    END if;
+else
+    if NOT EXISTS (SELECT `ID` FROM `CoinAutoActions` WHERE `CoinID` = Coin_ID) THEN
+        INSERT INTO `CoinAutoActions`(`CoinID`, `Offset`, `MinsToCancelSell`) VALUES ( Coin_ID, nPct,nHours);
+    else
+        UPDATE `CoinAutoActions` SET `Offset`= nPct,`MinsToCancelSell`= nHours WHERE `CoinID` = Coin_ID;
+    END if;
+
+End if;
 END$$
 DELIMITER ;

@@ -373,6 +373,55 @@ function runSavingPctOfTotal(){
   }
 }
 
+function getCoinTrackingActions($type){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  //$whereClause = "";
+  //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "SELECT `CoinID`, Avg(`Pct`) as Pct,  Max(`MinsSincePurchase`) as MinsSincePurchase FROM `CoinTrackingActions` WHERE `Type` = '$type'
+            GROUP BY `CoinID`";
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['Pct'],$row['MinsSincePurchase']);
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $sql = "";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+}
+
+Function runCoinAutoActions($coinTrackingActions,$type){
+  $coinTrackingActionsSize = count($coinTrackingActions);
+  for $o = 0; $o<$coinTrackingActionsSize; $o++){
+    $coinID = $coinTrackingActions[$o][0]; $pct = $coinTrackingActions[$o][1]; $hours = $coinTrackingActions[$o][2];
+    updateCoinAutoActions($type,$coinID,$pct,$hours);
+  }
+
+}
+
 
 
 // MAIN PROGRAMME
@@ -389,5 +438,9 @@ ClearCancelledTransactions("DELETE FROM `TrackingSellCoins` WHERE `Status` = 'Ca
 runBuyAmountPctOfTotal();
 runSavingPctOfTotal();
 clearPriceDipCoins(90);
+$coinTrackingActions = getCoinTrackingActions('Buy');
+runCoinAutoActions($coinTrackingActions,'Buy');
+$coinTrackingActions = getCoinTrackingActions('Sell');
+runCoinAutoActions($coinTrackingActions,'Sell');
 ?>
 </html>
