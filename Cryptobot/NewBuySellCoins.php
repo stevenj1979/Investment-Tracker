@@ -828,14 +828,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-      if ($CoinPriceEnabled == 2){
-        $CoinPriceEnabled = 1;
-        if (!is_null($caaOffset)){
-          $CoinPriceBtm = $caaOffset;
-          //$BuyPriceMin = $BuyPriceMin + (($BuyPriceMin/100)*$caaOffset);
-          $timeToCancelBuyMins = $caahours * 60;
-        }
-      }
+
       if ($risesInPrice == 0){
         //$risesInPrice =
       }
@@ -1117,6 +1110,12 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $sellCoinOffsetEnabled = 1;
         if (!is_null($caaOffset)){
           $sellCoinOffsetPct = $caaOffset;
+        }
+      }
+      if ($ProfitPctEnabled == 2){
+        $ProfitPctEnabled = 1;
+        if (!is_null($caaOffset)){
+          $ProfitPctBtm_Sell = $caaOffset;
         }
       }
       if ($calculatedSellPctEnable == 1){
