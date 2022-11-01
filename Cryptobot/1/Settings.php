@@ -411,11 +411,12 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,""); ?>
                 <?php displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,""); ?>
                 <?php displayText("buyBackCounter", "Max BuyBack Count: ",$userDetails[0][58],27,""); ?>
+                <?php if ($userDetails[0][59] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                 <br/><select name='enableBBAutoPct' id='enableBBAutoPct' class='enableTextBox'><?php
                   echo "<option value='".$option1."'>".$option1."</option>
                   <option value='".$option2."'>".$option2."</option></select>";?>
                   <b>Enable BuyBack Auto Pct: </b>
-                  <?php if ($userDetails[0][59] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+
           </div>
           <div class='settingsform'>
                   <b>Savings: </b><br/>
