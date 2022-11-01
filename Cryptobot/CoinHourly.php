@@ -162,7 +162,15 @@ function addToBuyBackMultiplierHourly(){
   $buyBackCoinsSize = count($buyBackCoins);
   for ($p=0; $p<$buyBackCoinsSize; $p++){
     $buyBackID = $buyBackCoins[$p][0]; $addNum = $buyBackCoins[$p][46];  $buyBackPct = $buyBackCoins[$p][22]; $multiplier = $buyBackCoins[$p][47];
-    addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier);
+    $bbAutoPctEnabled = $buyBackCoins[$p][56]; $caaOffset = $buyBackCoins[$p][57];
+    $bbBase = -4.5;
+    if ($bbAutoPctEnabled == 1) {
+      if(!is_null($caaOffset)){
+        $bbBase = $bbBase - $caaOffset;
+      }
+
+    }
+    addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier, $bbBase);
   }
 }
 

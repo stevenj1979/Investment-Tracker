@@ -94,7 +94,7 @@ SELECT `Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba
 , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
 , `Uc`.`RedirectPurchasesToSpread` as `RedirectPurchasesToSpreadUc`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
 , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`MergeSavingWithPurchase`,`Uc`.`BuyBackEnabled`,`Uc`.`HoursFlatTolerance`,`Uc`.`RedirectPurchasesToSpreadID`,`Uc`.`SellSavingsEnabled`,`Uc`.`RebuySavingsEnabled`,`Uc`.`LowMarketModeStartPct`,`Uc`.`LowMarketModeIncrements`,`Uc`.`SaveMode`,`Uc`.`BuyBackMax`
-, `Uc`.`PauseCoinIDAfterPurchaseEnabled`, `Uc`.`DaysToPauseCoinIDAfterPurchase`,`Uc`.`BuyBackHoursFlatTarget`,`Uc`.`HoldCoinForBuyOut`,`Uc`.`CoinForBuyOutPct`,`Uc`.`PctToCancelBittrexAction`,`Uc`.`SavingPctOfTotalEnabled`,`Uc`.`SavingPctOfTotal`,`Uc`.`PctOfAuto`,`Uc`.`BuyBackHoursFlatAutoEnabled`,`Uc`.`PctOfAutoBuyBack`,`Uc`.`PctOfAutoReduceLoss`,`Uc`.`BuyBackMinsToCancel`
+, `Uc`.`PauseCoinIDAfterPurchaseEnabled`, `Uc`.`DaysToPauseCoinIDAfterPurchase`,`Uc`.`BuyBackHoursFlatTarget`,`Uc`.`HoldCoinForBuyOut`,`Uc`.`CoinForBuyOutPct`,`Uc`.`PctToCancelBittrexAction`,`Uc`.`SavingPctOfTotalEnabled`,`Uc`.`SavingPctOfTotal`,`Uc`.`PctOfAuto`,`Uc`.`BuyBackHoursFlatAutoEnabled`,`Uc`.`PctOfAutoBuyBack`,`Uc`.`PctOfAutoReduceLoss`,`Uc`.`BuyBackMinsToCancel`,`Uc`.`BuyBackAutoPct`
 ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
 , `Us`.`DisableUntil`
 , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
@@ -169,7 +169,7 @@ FROM `BittrexAction`  `Ba`
       , `Us`.`DisableUntil`
       ,`Csp`.`SellPct` as `SellPctCsp`
       ,`Cpe`.`Hr1Top`,`Cpe`.`Hr1Bottom`
-      ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
+      ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -313,7 +313,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
  , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
  , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
- , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`SaveMode`,`Uc`.`BuyBackHoursFlatTarget`,`Uc`.`PctOfAuto`,`Uc`.`BuyBackHoursFlatAutoEnabled`,`Uc`.`PctOfAutoBuyBack`,`Uc`.`PctOfAutoReduceLoss`,`Uc`.`BuyBackMinsToCancel`
+ , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`SaveMode`,`Uc`.`BuyBackHoursFlatTarget`,`Uc`.`PctOfAuto`,`Uc`.`BuyBackHoursFlatAutoEnabled`,`Uc`.`PctOfAutoBuyBack`,`Uc`.`PctOfAutoReduceLoss`,`Uc`.`BuyBackMinsToCancel`,`Uc`.`BuyBackAutoPct`
  ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
  , `Us`.`DisableUntil`
  ,`Bbs`.`ID`, `Bbs`.`CoinID`, `Bbs`.`LastPriceChange`, `Bbs`.`Min15PriceChange`, `Bbs`.`Min30PriceChange`, `Bbs`.`Min45PriceChange`, `Bbs`.`Min75PriceChange`, `Bbs`.`OneHrPriceChange`, `Bbs`.`Twenty4HrPriceChange`, `Bbs`.`MarketPriceChange`, `Bbs`.`Days7PriceChange`

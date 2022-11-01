@@ -2261,9 +2261,9 @@ if nType = 'Buy' THEN
     END if;
 else
     if NOT EXISTS (SELECT `ID` FROM `CoinAutoActions` WHERE `CoinID` = Coin_ID) THEN
-        INSERT INTO `CoinAutoActions`(`CoinID`, `Offset`, `MinsToCancelSell`) VALUES ( Coin_ID, nPct,nHours);
+        INSERT INTO `CoinAutoActions`(`CoinID`, `SellOffset`, `MinsToCancelSell`) VALUES ( Coin_ID, nPct,nHours);
     else
-        UPDATE `CoinAutoActions` SET `Offset`= nPct,`MinsToCancelSell`= nHours WHERE `CoinID` = Coin_ID;
+        UPDATE `CoinAutoActions` SET `SellOffset`= nPct,`MinsToCancelSell`= nHours WHERE `CoinID` = Coin_ID;
     END if;
 
 End if;

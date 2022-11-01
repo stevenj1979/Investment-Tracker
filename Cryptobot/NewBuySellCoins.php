@@ -1069,7 +1069,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
     $sellPctCsp = $sellCoins[$a][67];$maxHoursFlat = $sellCoins[$a][68]; $topPriceExtra = $sellCoins[$a][69]; $bottomPriceExtra = $sellCoins[$a][70];
-    $caaOffset = $sellCoins[$a][71]; $caaMinsToCancelSell = $sellCoins[$a][72];
+    $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 

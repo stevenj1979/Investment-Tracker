@@ -401,7 +401,7 @@ Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "";
+  $sql = "call updateCoinAutoActions('$type',$coinID, $pct, $hoursSincePurchase)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -410,7 +410,7 @@ Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+  logAction("updateCoinAutoActions: ".$sql, 'SellCoin', 0);
 }
 
 Function runCoinAutoActions($coinTrackingActions,$type){
