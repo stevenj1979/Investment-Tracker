@@ -415,7 +415,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   echo "<option value='".$option1."'>".$option1."</option>
                   <option value='".$option2."'>".$option2."</option></select>";?>
                   <b>Enable BuyBack Auto Pct: </b>
-                  <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                  <?php if ($userDetails[0][59] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
           </div>
           <div class='settingsform'>
                   <b>Savings: </b><br/>
