@@ -401,7 +401,8 @@ Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call updateCoinAutoActions('$type',$coinID, $pct, $hoursSincePurchase)";
+  $finalMins = ($hoursSincePurchase + 1)*60;
+  $sql = "call updateCoinAutoActions('$type',$coinID, $pct, $finalMins)";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
