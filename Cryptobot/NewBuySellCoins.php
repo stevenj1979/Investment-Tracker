@@ -1648,8 +1648,8 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, Rule, $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
 
-                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
-                if ($buyBackEnabled == 1 AND $buyBackCounter < $buyBackMax){
+                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);$buyBackCounter / $buyBackMax", $userID, 1,"BuyBack1","TransactionID:$transactionID");
+                if ($buyBackEnabled == 1 AND $buyBackCounter <= $buyBackMax){
                   //if ($stopBuyBack == 0){ $buyBackEnabled = 0;}
                     $tempRises = floor(($hr1PriceMovePct + 30)/5)+5;
                     $tempmins = floor(100-(($hr1PriceMovePct/60)*100));
@@ -1665,7 +1665,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 $Hr1Trnd = $buyTrendPct[0][0]; $Hr24Trnd = $buyTrendPct[0][1]; $d7Trnd = $buyTrendPct[0][2];
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
-                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack","TransactionID:$transactionID");
+                newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack2","TransactionID:$transactionID");
                 if ($buyBackEnabled == 1){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);}
               }
               if ($allocationType == 'SpreadBet'){

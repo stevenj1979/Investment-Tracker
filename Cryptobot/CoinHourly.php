@@ -792,7 +792,7 @@ function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionI
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("writeAutoActionBuy",$sql,3,1,"SQL","TransID:$transactionID");
+  newLogToSQL("writeAutoActionBuy",$sql,3,0,"SQL","TransID:$transactionID");
   logAction("writeAutoActionBuy: ".$sql, 'SQL_UPDATE', 0);
 }
 
