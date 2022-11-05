@@ -416,7 +416,7 @@ Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
 
 Function runCoinAutoActions($coinTrackingActions,$type){
   $coinTrackingActionsSize = count($coinTrackingActions);
-  for $o = 0; $o<$coinTrackingActionsSize; $o++){
+  for ($o = 0; $o<$coinTrackingActionsSize; $o++){
     $coinID = $coinTrackingActions[$o][0]; $pct = $coinTrackingActions[$o][1]; $hours = $coinTrackingActions[$o][2];
     updateCoinAutoActions($type,$coinID,$pct,$hours);
   }
