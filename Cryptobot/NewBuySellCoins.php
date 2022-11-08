@@ -2050,8 +2050,8 @@ while($completeFlag == False){
         $runBuyBackFlag = runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
         if ($i == 0 OR $runSpreadBetSellAndBuybackFlag == True ){
-          $spreadBuyBack = getSpreadCoinSellDataFixed();
-          $runSpreadBetSellAndBuybackFlag = False;
+          //$spreadBuyBack = getSpreadCoinSellDataFixed();
+          //$runSpreadBetSellAndBuybackFlag = False;
         }
         //$runSpreadBetSellAndBuybackFlag = runSpreadBetSellAndBuyback($spreadBuyBack);
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
