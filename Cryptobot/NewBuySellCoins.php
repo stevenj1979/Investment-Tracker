@@ -616,8 +616,8 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
         Echo "<BR> Purchasing Coin: $coinID | $t | $spreadCoinsSize";
         $coinID = $spreadCoins[$t][0];$symbol = $spreadCoins[$t][1]; $spreadBetRuleID = $spreadCoins[$t][41];
         $liveCoinPrice = $spreadCoins[$t][17];
-        $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 9999995;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
-        $buyType = 1;  $SellRuleFixed = 9999995;$noOfPurchases = 0;
+        $date = date("Y-m-d H:i:s", time()); $SendEmail = 1; $BuyCoin = 1;$ruleIDBuy = 172;$CoinSellOffsetEnabled = 0; $CoinSellOffsetPct = 0;
+        $buyType = 1;  $SellRuleFixed = 555;$noOfPurchases = 0;
 
 
         //BuyCoins
@@ -2053,7 +2053,7 @@ while($completeFlag == False){
           $spreadBuyBack = getSpreadCoinSellDataFixed();
           $runSpreadBetSellAndBuybackFlag = False;
         }
-        $runSpreadBetSellAndBuybackFlag = runSpreadBetSellAndBuyback($spreadBuyBack);
+        //$runSpreadBetSellAndBuybackFlag = runSpreadBetSellAndBuyback($spreadBuyBack);
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer or $runSellSpreadBet == True){
           $sSBcurrent_date = date('Y-m-d H:i');

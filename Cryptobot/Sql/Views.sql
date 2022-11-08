@@ -83,7 +83,38 @@ Left join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`;
 
 
 CREATE OR REPLACE VIEW `View3_SpreadBetBuy` as
-;
+SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn`.`BuyCoin` as `BuyCoin2`, `Cn`.`CMCID`, `Cn`.`SecondstoUpdate`, `Cn`.`Image`, `Cn`.`MinTradeSize`, `Cn`.`CoinPrecision`
+, `Cn`.`DoNotBuy`
+, `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, sum(`Cp`.`LiveCoinPrice`) as LiveCoinPrice, sum(`Cp`.`LastCoinPrice`) as LastCoinPrice, sum(`Cp`.`Price3`) as Price3, sum(`Cp`.`Price4`) as Price4, sum(`Cp`.`Price5`) as Price5, `Cp`.`LastUpdated`
+,((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100 as `CoinPricePctChange`
+, `Cpc`.`ID` as `IDCpc`, `Cpc`.`CoinID` as `CoinID5`, sum(`Cpc`.`Live1HrChange`) as Live1HrChange, sum(`Cpc`.`Last1HrChange`) as Last1HrChange, sum(`Cpc`.`Live24HrChange`) as Live24HrChange, sum(`Cpc`.`Last24HrChange`) as Last24HrChange, sum(`Cpc`.`Live7DChange`) as Live7DChange, sum(`Cpc`.`Last7DChange`) as Last7DChange, sum(`Cpc`.`1HrChange3`) as 1HrChange3
+, sum(`Cpc`.`1HrChange4`) as 1HrChange4, sum(`Cpc`.`1HrChange5`) as 1HrChange5, ((sum(`Cpc`.`Live1HrChange`)-sum(`Cpc`.`Last1HrChange`))/sum(`Cpc`.`Last1HrChange`))*100  as `Hr1ChangePctChange`, (( sum(`Cpc`.`Last24HrChange`)- sum(`Cpc`.`Last24HrChange`))/ sum(`Cpc`.`Last24HrChange`))*100 as `Hr24ChangePctChange`
+, ((sum(`Cpc`.`Live7DChange`)-sum(`Cpc`.`Last7DChange`))/sum(`Cpc`.`Last7DChange`))*100 as `D7ChangePctChange`
+ ,`Sbc`.`SpreadBetRuleID` as SpreadBetRuleIDSbc, `Sbc`.`CoinID` as CoinIDSbc
+ ,`Sbr`.`Name` as NameSbr, `Sbr`.`UserID` as UserIDSbr
+ ,`Sbt`.`ID` as IDsbt,`Sbt`.`SpreadBetRuleID` as SpreadBetRuleIDSbt, `Sbt`.`TotalAmountToBuy`, `Sbt`.`AmountPerCoin`
+ ,`Sbs`.`SpreadBetRuleID`as SpreadBetRuleIDSbs, `Sbs`.`Hr1BuyPrice`, `Sbs`.`Hr24BuyPrice`, `Sbs`.`D7BuyPrice`, `Sbs`.`NextReviewDate`, `Sbs`.`PctProfitSell`, `Sbs`.`NoOfTransactions`, `Sbs`.`LowestPctProfit`, `Sbs`.`AvgTimeToSell`, `Sbs`.`Enabled`, `Sbs`.`Hr1BuyEnable`, `Sbs`.`Hr1BuyDisable`, `Sbs`.`Hr24andD7StartPrice`, `Sbs`.`Month6TotalPrice`, `Sbs`.`AllTimeTotalPrice`, `Sbs`.`Hr1EnableStartPrice`, `Sbs`.`BuyFallsinPrice`, `Sbs`.`SellRaisesInPrice`, `Sbs`.`MinsToCancel`, `Sbs`.`CalculatedMinsToCancel`, `Sbs`.`CalculatedRisesInPrice`, `Sbs`.`CalculatedFallsinPrice`, `Sbs`.`AutoBuyBackSell`
+ ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
+ , `Us`.`DisableUntil`
+ ,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+ , `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+ , `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+ , `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+ , `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+ , `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+ , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`PctOfAuto`
+ ,`Ath`.`ID` as `IDAth`, `Ath`.`CoinID` as `CoinID3`, `Ath`.`HighLow`, `Ath`.`Price` as PriceAth
+         FROM `Coin` `Cn`
+join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `Cn`.`ID`
+join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Sbc`.`SpreadBetRuleID`
+join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbr`.`ID`
+join `SpreadBetSettings` `Sbs` on `Sbs`.`SpreadBetRuleID` = `Sbr`.`ID`
+join `User` `Us` on `Us`.`ID` = `Sbr`.`UserID`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Us`.`ID`
+Join `AllTimeHighLow` `Ath` on `Ath`.`CoinID` =  `Cn`.`ID` and `HighLow` = 'High'
+group by `Sbc`.`SpreadBetRuleID`;
 
 CREATE OR REPLACE VIEW `View4_BittrexBuySell` as
 SELECT `Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`,`Ba`.`MultiSellRuleID`,`Ba`.`ReduceLossBuy`,`Ba`.`MinsToCancelAction`,`Ba`.`TimeToCancel` as TimeToCancelBa

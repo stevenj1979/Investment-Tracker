@@ -5823,7 +5823,7 @@ function getSpreadBetData(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`, `Name`, `Live1HrChange`, `Last1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24ChangePctChange`
+  $sql = "SELECT `IDCn`, `Name`, `Live1HrChange`, `Last1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24ChangePctChange`
   , `Live7DChange`, `Last7DChange`
           , ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 as `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, ((`LiveCoinPrice`-`LastCoinPrice`)/`LastCoinPrice`)*100 as `CoinPricePctChange`,  `BaseCurrency`
           , if(`Price4` -`Price5` > 0, 1, if(`Price4` -`Price5` < 0, -1, 0)) as  `Price4Trend`
@@ -5831,21 +5831,21 @@ function getSpreadBetData(){
           , if(`LastCoinPrice` -`Price3` > 0, 1, if(`LastCoinPrice` -`Price3` < 0, -1, 0)) as  `LastPriceTrend`
           , if(`LiveCoinPrice` -`LastCoinPrice` > 0, 1, if(`LiveCoinPrice` -`LastCoinPrice` < 0, -1, 0)) as  `LivePriceTrend`
           , 'AutoBuyPrice'
-          , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransactionID` as `SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
+          , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`IDUs` as UserID,`Email`,`UserName`,`IDsbt` as `SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
           , `D7BuyPrice`,(`LiveCoinPrice`-(SELECT MAX(`MaxPrice`) FROM `MonthlyMaxPrices` WHERE `CoinID` = `CoinID` and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH))/(SELECT MAX(`MaxPrice`)
           FROM `MonthlyMaxPrices` WHERE `CoinID` = 84 and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH)))
-         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`HighAth`)/`HighAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
-         FROM `View7_SpreadBetSell`
-          where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 and `Type` = 'SpreadSell' and `Status` = 'Open'";
+         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`PriceAth`)/`PriceAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`IDUs`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
+         FROM `View3_SpreadBetBuy`
+          where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
+      $tempAry[] = Array($row['IDCn'], $row['Name'], $row['Live1HrChange'], $row['Last1HrChange'], $row['Hr1ChangePctChange'], $row['Live24HrChange'], $row['Last24HrChange'], $row['Hr24ChangePctChange'], $row['Live7DChange'], $row['Last7DChange']//9
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
-      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']//39
+      , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['IDUs'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']//39
     , $row['LowMarketModeEnabled']);
   }
   $conn->close();
