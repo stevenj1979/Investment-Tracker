@@ -1273,6 +1273,9 @@ DECLARE finalETHAmount DEC(20,14);
 DECLARE USDTOnHold DEC(20,14);
 DECLARE BTCOnHold DEC(20,14);
 DECLARE ETHOnHold DEC(20,14);
+Declare updateFlag Bool;
+
+SET updateFlag = False;
 
 SELECT `LowMarketModeEnabled` into currentMode FROM `UserConfig` WHERE `UserID` = User_ID;
 SELECT `Total` into btcHolding FROM `BittrexBalances` WHERE `UserID` = User_ID and `Symbol` = 'BTC';
@@ -1332,18 +1335,20 @@ if (currentMode = -1 AND nMode >= 1) THEN
   SET finalUSDTAmount = (usdtHolding - usdtSaving - USDTOnHold)/4;
   SET finalBTCAmount = (btcHolding - btcSaving - BTCOnHold)/4;
   SET finalETHAmount = (ethHolding - ethSaving - ETHOnHold)/4;
+  SET updateFlag = True;
 elseif (currentMode >= 1 AND nMode = -1) THEN
   SET finalUSDTAmount = 0;
   SET finalBTCAmount = 0;
   SET finalETHAmount = 0;
+  SET updateFlag = True;
 end if;
-
+ if (updateFlag = True) THEN
   UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalUSDTAmount,`BaseCurrency`='USDT' WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT';
 
   UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalBTCAmount,`BaseCurrency`='BTC' WHERE `UserID` = User_ID and `BaseCurrency` = 'BTC';
 
   UPDATE `UserCoinAllocationAmounts` SET `UserID`= User_ID,`Amount`=finalETHAmount,`BaseCurrency`='ETH' WHERE `UserID` = User_ID and `BaseCurrency` = 'ETH';
-
+End if;
 END$$
 DELIMITER ;
 
