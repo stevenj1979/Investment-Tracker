@@ -6983,7 +6983,7 @@ function getPriceDipRules(){
           ,`MaxCoinPricePctChange`, `MaxHr1ChangePctChange`, `MaxHr24ChangePctChange`,`MaxD7ChangePctChange`, `MinCoinPricePctChange`, `MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
           ,`PctOfAuto`
             FROM `View13_UserBuyRules`
-            WHERE `EnableRuleActivationAfterDip` = 1 ";
+            WHERE `EnableRuleActivationAfterDip` >= 1 ";
 
   echo "<BR> $sql";
   $result = $conn->query($sql);
