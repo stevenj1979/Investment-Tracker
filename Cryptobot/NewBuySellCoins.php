@@ -232,8 +232,10 @@ function runPriceDipRule($priceDipRules){
     if(!isset($d7ChangePctChange)){ continue;}
 
     if($enableRuleActivationAfterDip == 2){
+
       $pctChangeTargetAvg = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)/100)*($pctOfAuto/4);
       $enableRuleActivationAfterDip = 1;
+      Echo "<BR> Auto Rule Activation set: $pctChangeTargetAvg = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)/100)*($pctOfAuto/4) )";
     }
 
     $PctChangeAvg = $priceDipRules[$a][16];
@@ -2038,7 +2040,7 @@ while($completeFlag == False){
   echo "</blockquote><BR>CHECK PriceDip Rule Enable!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $priceDipTimer){
           $PDcurrent_date = date('Y-m-d H:i');
-          $priceDipTimer = date("Y-m-d H:i",strtotime("+2 minutes 40 seconds", strtotime($PDcurrent_date)));
+          $priceDipTimer = date("Y-m-d H:i",strtotime("+3 minutes 40 seconds", strtotime($PDcurrent_date)));
           $priceDipRules = getPriceDipRules();
         }
         runPriceDipRule($priceDipRules);
