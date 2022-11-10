@@ -860,7 +860,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-          echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
+          echo "<BR>EXIT: Delay CoinID: $coinID! "; continue 2;
         }
       }
 
