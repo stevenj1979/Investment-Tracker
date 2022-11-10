@@ -271,7 +271,7 @@ function updateEditedUser(){
 
   $id = $_GET['editedUserReady'];
   $_GET['editedUserReady'] = null;
-
+  $userID = $_SESSION['id'];
   //if (!empty($_POST['MarketCapEnable'])){if ($_POST['MarketCapEnable'] == "Yes"){$MarketCapEnable = 1;}else{$MarketCapEnable = 0;}}else{ $MarketCapEnable = 0;}
   $MarketCapEnable = postDataYesNo($_POST['MarketCapEnable']);
   $MarketCapTop = postData($_POST['MarketCapTop']);
@@ -410,7 +410,7 @@ function updateEditedUser(){
   `CoinPriceEnabled`=$PriceDiff1Enable,`CoinPriceTop`=$PriceDiff1Top,`CoinPriceBtm`=$PriceDiff1Btm, `SendEmail`=$sendEmail, `BuyCoin`=$buyCoin, `BTCAmount`=$bTCBuyAmount, `BuyCoinOffsetPct`=$BuyCoinOffsetPct,
   `BuyCoinOffsetEnabled`=$BuyCoinOffsetEnable ,`PriceTrendEnabled` = $priceTrendEnabled,`Price4Trend` = $price4Trend,`Price3Trend` = $price3Trend,`LastPriceTrend` = $lastPriceTrend,`LivePriceTrend` = $livePriceTrend,
   `BuyPriceMinEnabled`=$BuyPriceMinEnabled,`BuyPriceMin`=$BuyPriceMin, `LimitToCoin` = '$limitToCoin', `AutoBuyCoinEnabled` = $autoBuyCoinEnabled, `BuyAmountOverrideEnabled` = $buyAmountOverrideEnabled,
-  `BuyAmountOverride` = $buyAmountOverride, `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed
+  `BuyAmountOverride` = $buyAmountOverride, `NewBuyPattern` = '$newBuyPattern',`SellRuleFixed` = $SellRuleFixed,`EnableRuleActivationAfterDip`=$reEnableBuyRuleAfterDip,`24HrPriceDipPct`=$priceDip24Hr,`7DPriceDipPct`=$priceDip7D
   ,`LimitToCoinID` = CASE
 	       WHEN '$limitToCoin' = 'ALL'  THEN 'ALL'
          ELSE (SELECT `ID` FROM `Coin` WHERE `Symbol` = 'ALL' and `BuyCoin` = 1)
@@ -421,7 +421,8 @@ function updateEditedUser(){
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
   ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
-  WHERE `ID` = $id";
+  WHERE `ID` = $id
+  UPDATE `PriceDipSettings` SET`PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipEnable7Day`=$priceDip7D,`PctTolerance`=$priceDipPctTolerance,`PriceDipDisable24Hour`=5,`PriceDipDisable7Day`=5 WHERE `UserID` = $userID ";
   print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
