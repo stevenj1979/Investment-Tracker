@@ -61,6 +61,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     for ($b=0; $b<$delayCoinPurchaseSize; $b++){
       $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
       if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
+        newLogToSQL("DelayCoinIDPurchase","CoinID:$delayCoinPurchaseCoinID | UserID: $delayCoinPurchaseUserID EXIT",3,1,"BuySellFunc","UserID:$userID; CoinID:$coinID");
         echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
       }
     }

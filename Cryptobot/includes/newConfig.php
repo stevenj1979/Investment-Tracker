@@ -370,7 +370,7 @@ function addCoinPurchaseDelay($coinID,$userID,$days, $daysEnabled){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("addCoinPurchaseDelay",$sql,3,sQLUpdateLog,"SQL","CoinID:$coinID");
+    newLogToSQL("addCoinPurchaseDelay",$sql,3,1,"SQL","CoinID:$coinID");
     logAction("addCoinPurchaseDelay: ".$sql, 'BuySell', 0);
 }
 
