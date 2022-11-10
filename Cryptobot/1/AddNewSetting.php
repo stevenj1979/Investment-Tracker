@@ -422,7 +422,7 @@ function updateEditedUser(){
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
   ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
   WHERE `ID` = $id;
-  UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour`= $priceDip24Hr,`PriceDipDisable24Hour`= ($priceDip24Hr+10),`PriceDipEnable7Day`= $priceDip7D,`PriceDipDisable7Day`= ($priceDip7D+10),`PctTolerance`= $priceDipPctTolerance,`HoursFlat`= $priceDipHoursFlat
+  UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour` = $priceDip24Hr,`PriceDipDisable24Hour` = ($priceDip24Hr+10),`PriceDipEnable7Day` = $priceDip7D,`PriceDipDisable7Day` = ($priceDip7D+10),`PctTolerance` = $priceDipPctTolerance,`HoursFlat` = $priceDipHoursFlat
           WHERE `UserID`=$userID;";
   print_r($sql);
 
