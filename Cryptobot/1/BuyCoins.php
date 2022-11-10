@@ -187,6 +187,7 @@ function getUserIDs($userID){
 }
 
 function displayBuyCoin($tracking, $title){
+  if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $newArrLength = count($tracking);
   echo "<h2>$title</h2>";
   for($x = 0; $x < $newArrLength; $x++) {
@@ -238,7 +239,7 @@ function displayBuyCoin($tracking, $title){
 
 displayHeader(3);
 
-        if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
+
         $baseSelection = "";
 
         if (!isset($_SESSION['BaseSelected'])){
