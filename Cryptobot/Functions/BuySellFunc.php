@@ -57,14 +57,6 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     echo "<BR> Tracking Coin: Checking $symbol | $buyType";
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echo "<BR> EXIT: Disabled until: ".$disableUntil; continue;}
-    $delayCoinPurchaseSize = count($delayCoinPurchase);
-    for ($b=0; $b<$delayCoinPurchaseSize; $b++){
-      $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
-      if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-        newLogToSQL("DelayCoinIDPurchase","CoinID:$delayCoinPurchaseCoinID | UserID: $delayCoinPurchaseUserID EXIT",3,1,"BuySellFunc","UserID:$userID; CoinID:$coinID");
-        echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
-      }
-    }
     if($minsFromDate >= $timeToCancelBuyMins){
       //reOpenOneTimeBuyRule($trackingID);
       closeNewTrackingCoin($newTrackingCoinID, True,1,"Mins From Date");
@@ -78,6 +70,15 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
       continue;
     }
+    $delayCoinPurchaseSize = count($delayCoinPurchase);
+    for ($b=0; $b<$delayCoinPurchaseSize; $b++){
+      $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
+      if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
+        newLogToSQL("DelayCoinIDPurchase","CoinID:$delayCoinPurchaseCoinID | UserID: $delayCoinPurchaseUserID EXIT",3,1,"BuySellFunc","UserID:$userID; CoinID:$coinID");
+        echo "<BR>EXIT: Delay CoinID: $coinID! "; continue;
+      }
+    }
+
     Echo "<BR> Tracking Buy Count 1 <BR>";
 
     $ruleProfitSize = count($ruleProfit);
