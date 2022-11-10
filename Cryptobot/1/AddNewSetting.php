@@ -422,7 +422,8 @@ function updateEditedUser(){
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
   ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
   WHERE `ID` = $id;
-  UPDATE `PriceDipSettings` SET`PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipEnable7Day`=$priceDip7D,`PctTolerance`=$priceDipPctTolerance,`PriceDipDisable24Hour`=5,`PriceDipDisable7Day`=5 WHERE `UserID` = $userID; ";
+  UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour`= $priceDip24Hr,`PriceDipDisable24Hour`= ($priceDip24Hr+10),`PriceDipEnable7Day`= $priceDip7D,`PriceDipDisable7Day`= ($priceDip7D+10),`PctTolerance`= $priceDipPctTolerance,`HoursFlat`= $priceDipHoursFlat
+          WHERE `UserID`=$userID;";
   print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
@@ -432,20 +433,7 @@ function updateEditedUser(){
   }
 
   $conn->close();
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  $sql = "UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipDisable24Hour`=($priceDip24Hr+10),`PriceDipEnable7Day`=$priceDip7D,`PriceDipDisable7Day`=($priceDip7D+10),`PctTolerance`=$priceDipPctTolerance,`HoursFlat`=$priceDipHoursFlat
-          WHERE `UserID`=$userID";
-  //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
 
-  $conn->close();
   //http://www.investment-tracker.net/Investment-Tracker/Cryptobot/1/AddNewSetting.php?edit=164
   //header('Location: AddNewSetting.php?edit='.$id);
 }
