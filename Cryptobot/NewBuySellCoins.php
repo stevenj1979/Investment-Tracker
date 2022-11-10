@@ -786,6 +786,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
+    $hoursFlatHigh = $coins[$x][50];
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
@@ -839,7 +840,11 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $BuyPriceMinEnabled = 1;
       }
       if ($priceDipCoinFlatEnabled == 2){
-        $priceDipHoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipCoinFlatEnabled = 1;
+      }elseif ($priceDipCoinFlatEnabled == 3){
+        $priceDipHoursFlatTarget = $hoursFlatHigh;
+        $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
         $priceDipCoinFlatEnabled = 1;
       }
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
