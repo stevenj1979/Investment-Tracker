@@ -39,6 +39,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $trackCounter = initiateAry($trackCounter,$userID."-".$coinID);
     $trackCounter = initiateAry($trackCounter,$userID."-Total");
     $pctToBuy = (($allTimeHighPrice - $liveCoinPrice)/$allTimeHighPrice)*100;
+    echo "<BR> <h2>TrackingCoin : $coinID </h2><BR>";
     if ($baseCurrency == 'BTC'){
       $ogBTCAmount = (float)$newTrackingCoins[$a][11];
       Echo "<BR> Base Multiplier $BTCAmount | ".$baseMultiplier[0][0];
