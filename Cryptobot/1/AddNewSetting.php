@@ -603,6 +603,27 @@ function addThreeOptionAuto($RealName, $idName, $value){
     <label for='$idName'>$RealName</label>";
 }
 
+function addMultiOptionAuto($RealName, $idName, $value){
+  if ($value == 1 || $value == 'Yes' ){
+    $option1 = "Yes"; $option2 = "No";$option3 = "NormalHoursFlat";$option4 = "HoursSinceHigh";$option5 = "HoursSinceLow";
+  }elseif ($value == 2 || $value == 'NormalHoursFlat' ){
+    $option1 = "NormalHoursFlat"; $option2 = "Yes";$option3 = "No";$option4 = "HoursSinceHigh";$option5 = "HoursSinceLow";
+  }elseif ($value == 3 || $value == 'HoursSinceHigh' ){
+    $option1 = "HoursSinceHigh"; $option2 = "Yes";$option3 = "No";$option4 = "NormalHoursFlat";$option5 = "HoursSinceLow";
+  }elseif ($value == 4 || $value == 'HoursSinceLow' ){
+    $option1 = "HoursSinceLow"; $option2 = "Yes";$option3 = "No";$option4 = "NormalHoursFlat";$option5 = "HoursSinceHigh";
+  }else{
+    $option1 = "No"; $option2 = "Yes";$option3 = "NormalHoursFlat";$option4 = "HoursSinceHigh";$option5 = "HoursSinceLow";
+  }
+  echo "<select name='$idName' id='$idName' class='enableTextBox'>
+   <option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option>
+    <option value='".$option3."'>".$option3."</option>
+    <option value='".$option4."'>".$option4."</option>
+    <option value='".$option5."'>".$option5."</option></select>
+    <label for='$idName'>$RealName</label>";
+}
+
 function addNewThreeOption($RealName, $idName, $value){
 
   if ($value == 1){$nOption1 = "Up"; $nOption2 = "Equal";$nOption3 = "Down";}
@@ -901,7 +922,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Hours Flat</H3>";
-  addThreeOptionAuto('Coin Hours Flat: ', 'CoinHoursFlatEnabled', $formSettings[0][69]);
+  addMultiOptionAuto('Coin Hours Flat: ', 'CoinHoursFlatEnabled', $formSettings[0][69]);
   addNewText('Coin Hours Flat: ', 'CoinHoursFlat', $formSettings[0][70], 48, '10', False,$formSettings[0][69]);
   echo "</div>";
 

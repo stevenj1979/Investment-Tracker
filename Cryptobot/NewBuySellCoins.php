@@ -786,7 +786,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
-    $hoursFlatHigh = $coins[$x][50];
+    $hoursFlatHigh = $coins[$x][50];$hoursFlatLow = $coins[$x][51];
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
@@ -842,8 +842,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($priceDipCoinFlatEnabled == 2){
         $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
         $priceDipCoinFlatEnabled = 1;
-      }elseif ($priceDipCoinFlatEnabled == 3){
-        $priceDipHoursFlatTarget = $hoursFlatHigh;
+      }elseif ($priceDipCoinFlatEnabled == 3){//High
+        //$priceDipHoursFlatTarget = $hoursFlatHigh;
+        $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipCoinFlatEnabled = 1;
+      }elseif ($priceDipCoinFlatEnabled == 4){//Low
+        $//priceDipHoursFlatTarget = $hoursFlatLow;
         $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
         $priceDipCoinFlatEnabled = 1;
       }
