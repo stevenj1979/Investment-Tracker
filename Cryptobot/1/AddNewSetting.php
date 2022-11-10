@@ -421,8 +421,8 @@ function updateEditedUser(){
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
   ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
-  WHERE `ID` = $id
-  UPDATE `PriceDipSettings` SET`PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipEnable7Day`=$priceDip7D,`PctTolerance`=$priceDipPctTolerance,`PriceDipDisable24Hour`=5,`PriceDipDisable7Day`=5 WHERE `UserID` = $userID ";
+  WHERE `ID` = $id;
+  UPDATE `PriceDipSettings` SET`PriceDipEnable24Hour`=$priceDip24Hr,`PriceDipEnable7Day`=$priceDip7D,`PctTolerance`=$priceDipPctTolerance,`PriceDipDisable24Hour`=5,`PriceDipDisable7Day`=5 WHERE `UserID` = $userID; ";
   print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
