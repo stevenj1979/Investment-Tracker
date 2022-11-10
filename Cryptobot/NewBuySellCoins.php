@@ -844,11 +844,11 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $priceDipCoinFlatEnabled = 1;
       }elseif ($priceDipCoinFlatEnabled == 3){//High
         //$priceDipHoursFlatTarget = $hoursFlatHigh;
-        $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipHours = $hoursFlatHigh;
         $priceDipCoinFlatEnabled = 1;
       }elseif ($priceDipCoinFlatEnabled == 4){//Low
         $//priceDipHoursFlatTarget = $hoursFlatLow;
-        $priceDipHours = floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipHours = $hoursFlatLow;
         $priceDipCoinFlatEnabled = 1;
       }
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
