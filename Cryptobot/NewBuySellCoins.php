@@ -1079,10 +1079,10 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $echoTestText = 0;
 
   echoText("SellCoin Key: ",$echoProgramFlow);
-  echoText("1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
-  echoText("6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$echoProgramFlow);
-  echoText("11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$echoProgramFlow);
-  echoText("16: PriceDipMin <BR>",$echoProgramFlow);
+  echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
+  echoText("6: 7DPctChange | 7: PriceTrendPattern | 8: MinPrice | 9: ProfitPct | 10: CoinPrice ",$echoProgramFlow);
+  echoText("11: CoinPriceMatch | 12: GlobalAllDisabled | 13: AutoSellPrice | 14: CoinPriceFlat | 15: PriceDipMaxPrice ",$echoProgramFlow);
+  echoText("16: HoursPastSell <BR>",$echoProgramFlow);
   Echo "<BR> HERE! $sellCoinsLength";
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
