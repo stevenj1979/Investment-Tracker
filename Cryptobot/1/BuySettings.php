@@ -344,7 +344,7 @@ $userSettingsSB = getRules($_SESSION['ID'],3);
 $userSettingsSBLen = count($userSettingsSB);
 $userSettingsDisabled = getRules($_SESSION['ID'],0);
 $userSettingsDisabledLen = count($userSettingsDisabled);
-$userSettingsDisabledSB = getRules($_SESSION['ID'],0);
+$userSettingsDisabledSB = getRules($_SESSION['ID'],2);
 $userSettingsDisabledSBLen = count($userSettingsDisabledSB);
 //echo $userDetails[0][1];
 
