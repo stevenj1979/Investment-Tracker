@@ -783,7 +783,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $newPriceTrend = $price4Trend.$price3Trend.$lastPriceTrend.$livePriceTrend;
     $LiveCoinPrice = $coins[$x][17]; $Hr1LivePriceChange = $coins[$x][31];$Hr1LastPriceChange = $coins[$x][32]; $Hr1PriceChange3 = $coins[$x][33];$Hr1PriceChange4 = $coins[$x][34];
     $new1HrPriceChange = $Hr1PriceChange4.$Hr1PriceChange3.$Hr1LastPriceChange.$Hr1LivePriceChange; $doNotBuy = $coins[$x][39];
-    $priceDipHoursFlatTarget = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
+     $priceDipHours = $coins[$x][40]; $priceDipMinPrice = $coins[$x][41]; $hoursSinceAdded = $coins[$x][46];
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
     $hoursFlatHigh = $coins[$x][50];$hoursFlatLow = $coins[$x][51];
@@ -809,7 +809,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $limitBuyAmountEnabled = $buyRules[$y][74]; $limitBuyAmount = $buyRules[$y][75];
       $limitBuyTransactionsEnabled = $buyRules[$y][78]; $limitBuyTransactions = $buyRules[$y][79]; $overrideCoinAlloc = $buyRules[$y][80];
       $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
-      $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
+      $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHoursFlatTarget = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
 
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
