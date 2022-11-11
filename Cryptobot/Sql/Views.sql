@@ -693,3 +693,10 @@ CREATE OR REPLACE VIEW `View23_AvgCoinPricePct` as
   join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
   where `Cn`.`BuyCoin` = 1
   order by DiffFromMin asc;
+
+CREATE OR REPLACE VIEW `View24_SavingsReadyToOpenAndMerge` as
+SELECT `TrSav`.`ID` as SavingID, `Tr`.`ID`,`Tr`.`UserID`,`Uc`.`MergeSavingWithPurchase`
+FROM `Transaction` `Tr`
+join `Transaction` `TrSav` on `Tr`.`ID` = `TrSav`.`ID`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
+Where `Tr`.`Status` = 'Open' and `TrSav`.`Status` = 'Saving' and `Uc`.`MergeSavingWithPurchase` = 1;

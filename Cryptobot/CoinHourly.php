@@ -796,6 +796,66 @@ function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionI
   logAction("writeAutoActionBuy: ".$sql, 'SQL_UPDATE', 0);
 }
 
+function getSavingsData(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
+    //echo "<BR> Flag2: $lowFlag";
+    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase` FROM `View24_SavingsReadyToOpenAndMerge` ";
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SavingID'],$row['ID'],$row['UserID'],$row['MergeSavingWithPurchase']);}
+  $conn->close();
+  return $tempAry;
+}
+
+function updateSavingsMerge($savingID, $transID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1  WHERE `ID` = $savingID;";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql2 = "UPDATE `Transaction` SET `ToMerge` = 1  WHERE `ID` = $transID;";
+
+  print_r($sql);
+  if ($conn->query($sql2) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql2 . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,1,"SQL","TransID:$transID");
+  logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
+}
+
+function runSavingsMerge(){
+  $savingsAry = getSavingsData();
+  $savingsArySize = count($savingsAry);
+  for ($g=0;$g<$savingsArySize;$g++){
+    $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
+    updateSavingsMerge($savingID, $transID);
+  }
+}
+
 Echo "<BR> CoinHourly";
 Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
@@ -848,6 +908,6 @@ $autoActionCoins = getAutoActionCoins('Sell','Open',168);
 runAutoActionBuy($autoActionCoins);
 $autoActionCoins = getAutoActionCoins('Sell','Sold',168);
 runAutoActionSell($autoActionCoins);
-
+runSavingsMerge();
 ?>
 </html>
