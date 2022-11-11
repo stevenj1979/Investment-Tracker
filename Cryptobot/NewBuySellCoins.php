@@ -1074,6 +1074,15 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
+  $echoExitText = 0;
+  $echoProgramFlow = 1;
+  $echoTestText = 0;
+
+  echoText("SellCoin Key: ",$echoProgramFlow);
+  echoText("1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
+  echoText("6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$echoProgramFlow);
+  echoText("11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$echoProgramFlow);
+  echoText("16: PriceDipMin <BR>",$echoProgramFlow);
   Echo "<BR> HERE! $sellCoinsLength";
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
