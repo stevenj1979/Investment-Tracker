@@ -375,6 +375,7 @@ function updateEditedUser(){
   $buyAmountOverrideEnabled = postDataYesNo($_POST['BuyAmountOverrideEnabled']);
   $buyAmountOverride = postData($_POST['BuyAmountOverride']);
   $buyAmountPctofTotalAmount = $_POST['BuyAmountPctofTotalAmount'];
+  $ruleType = $_POST['RuleType'];
 
   $newBuyPattern = '';
   $coinOrder = postData($_POST['CoinOrderTxt']);
@@ -420,7 +421,7 @@ function updateEditedUser(){
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
-  ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount
+  ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount, `RuleType` = '$ruleType'
   WHERE `ID` = $id";
   print_r($sql);
 
