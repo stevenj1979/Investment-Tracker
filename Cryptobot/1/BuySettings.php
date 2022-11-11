@@ -137,7 +137,7 @@ function getRules($userID, $enabled){
   }
 
   if ($enabled <= 1){
-    $whereclause = "`BuyCoin` = $enabled";
+    $whereclause = "`RuleType` = 'Normal' and `BuyCoin` = $enabled";
   }elseif ($enabled == 2){
     $whereclause = "`RuleType` = 'SpreadBet' and `BuyCoin` = 0";
   }elseif ($enabled == 3){
@@ -155,7 +155,7 @@ function getRules($userID, $enabled){
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
-  print_r($sql."<BR>");
+  //sprint_r($sql."<BR>");
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['UserID'],$row['BuyOrdersEnabled'],$row['BuyOrdersTop'],$row['BuyOrdersBtm'],$row['MarketCapEnabled'],$row['MarketCapTop'] //5
       ,$row['MarketCapBtm'],$row['1HrChangeEnabled'],$row['1HrChangeTop'],$row['1HrChangeBtm'],$row['24HrChangeEnabled'],$row['24HrChangeTop'],$row['24HrChangeBtm'] //12
