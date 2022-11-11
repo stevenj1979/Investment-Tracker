@@ -1076,7 +1076,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $sellCoinsLength = count($sellCoins);
   $echoExitText = 1;
   $echoProgramFlow = 1;
-  $echoTestText = 0;
+  $echoTestText = 1;
 
   echoText("SellCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
@@ -1133,8 +1133,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $calculatedSellPctReduction = $sellRules[$z][66];
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71];
-      if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echoText("Exit Hours! $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy",$echoExitText); continue;}
-      if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echoText("Exit Hours! $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy",$echoExitText); continue;}
+      if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy",$echoExitText); continue;}
+      if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy",$echoExitText); continue;}
       if ($sellCoinOffsetEnabled == 2){
         $sellCoinOffsetEnabled = 1;
         if (!is_null($caaOffset)){
@@ -1189,7 +1189,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       echoText("Starting: $coin | $ruleIDSell",$echoTestText);
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      echoText("PlaceHolder: 1",$echoTestText);
+      echoText("PlaceHolder: 1 | $coin",$echoTestText);
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
@@ -1198,7 +1198,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
-      echoText("PlaceHolder: 2",$echoTestText);
+      echoText("PlaceHolder: 2 | $coin",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -1217,7 +1217,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-      echoText("PlaceHolder: 4",$echoTestText);
+      echoText("PlaceHolder: 4 | $coin ",$echoTestText);
       if ($userID != $sellCoinsUserID){ continue; } //echo "Exit: No3 | $coin | $userID | $BuyRule";
       if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echoText("Exit: No4 | $coin | $userID | $ruleIDSell | $limitToCoinSell",$echoExitText);continue;}
       //echo "<BR> PlaceHolder: 5";
