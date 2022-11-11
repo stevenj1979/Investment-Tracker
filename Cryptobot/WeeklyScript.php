@@ -288,7 +288,7 @@ function setBuyAmountPctOfTotal($BuyRuleID,$totalAmount,$baseCurrency,$pct){
       die("Connection failed: " . $conn->connect_error);
   }
   $newTotal = ($totalAmount/100)*$pct;
-  $sql = "UPDATE `BuyRules` SET `BuyAmountOverride` = $newTotal where `ID` = $BuyRuleID and `BuyAmountOverrideEnabled` = 2";
+  $sql = "UPDATE `BuyRules` SET `BuyAmountOverrideEnabled` = 1 ,`BuyAmountOverride` = $newTotal where `ID` = $BuyRuleID";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
