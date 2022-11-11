@@ -7568,4 +7568,10 @@ function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
   $conn->close();
   newLogToSQL("subPctFromProfitSB","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID SBTransID:$sBTransID");
 }
+
+function echoText($text, $enabled){
+  if ($enabled == 1){
+    echo "<BR> $text";
+  }
+}
 ?>

@@ -769,10 +769,12 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
 
 function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter){
-  Echo "<BR> BuyCoin Key: 1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ";
+  Echo "<BR> BuyCoin Key: ";
+  Echo "<BR> 1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ";
   Echo "<BR> 6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ";
   Echo "<BR> 11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ";
-  Echo "<BR> 16: PriceDipMin ";
+  Echo "<BR> 16: PriceDipMin <BR>";
+  $echoExitText = 0;
   $apiVersion = 3;
   $finalBool = False;
   $coinLength = Count($coins);
@@ -864,7 +866,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-          echo "<BR>EXIT: Delay CoinID: $coinID! "; continue 2;
+          echoText("<BR>EXIT: Delay CoinID: $coinID! ",$echoExitText); continue 2;
         }
       }
 
@@ -878,14 +880,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
             echo "<BR> TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Amount Exceeded! "; continue;}
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echoText("<BR>EXIT: Rule Amount Exceeded! ",$echoExitText); continue;}
           }
           if ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
             echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions";
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echo "<BR>EXIT: Rule Transaction Count Exceeded! "; continue;}
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echoText("<BR>EXIT: Rule Transaction Count Exceeded! ",$echoExitText); continue;}
           }elseif($coinModeOverridePriceEnabled == 1 and $limitBuyAmountEnabled == 1){
             echo "<BR> TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5];
-            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){echo "<BR>EXIT: Rule Transaction Count Override Exceeded! "; continue;}
+            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){ echoText("<BR>EXIT: Rule Transaction Count Override Exceeded! ",$echoExitText); continue;}
           }
       }
 
@@ -909,7 +911,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           newLogToSQL("BuyCoins", "pauseRule($rulesPause, $rulesPauseHours);", $userID,$GLOBALS['logToSQLSetting'],"RulesPause","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($rulesPause, $rulesPauseHours);
         }
-        echo "<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ";
+        echoText("<BR>EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ",$echoExitText);
         continue;}
         //else{ echo "<BR> EXIT PROFIT!";}
       $GLOBALS['allDisabled'] = false;
@@ -938,20 +940,20 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         echo "<BR> Check if over total limit! ";
         $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
         echo "<BR> Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0];
-          if ($userBTCSpent >= $TotalBTCLimit){ echo "<BR>EXIT: TOTAL BTC SPENT"; continue;}else{ echo "<BR> Total Spend ".$userBTCSpent." Limit $TotalBTCLimit";}
+          if ($userBTCSpent >= $TotalBTCLimit){ echoText("<BR>EXIT: TOTAL BTC SPENT",$echoExitText); continue;}else{ echo "<BR> Total Spend ".$userBTCSpent." Limit $TotalBTCLimit";}
       }
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
         echo "<BR> Check if over daily limit! ";
         $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
-          if ($userDailyBTCSpent >= $DailyBTCLimit){echo "<BR>EXIT: DAILY BTC SPENT";continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
+          if ($userDailyBTCSpent >= $DailyBTCLimit){echoText("<BR>EXIT: DAILY BTC SPENT",$echoExitText);continue;}else{ echo "<BR> Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit";}
       }
       echo "<BR> I'm here2!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
-      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID];continue;
+      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echoText("<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$echoExitText);continue;
       }else{ Echo "<BR> Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID];}
-      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echo "<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"];continue;
+      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echoText("<BR>EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"],$echoExitText);continue;
       }else{ Echo "<BR> Number of Total Buys: $noOfBuys BuyCounter ".$buyCounter[$userID."-Total"];}
-      if ($userActive == False){ echo "<BR>EXIT: User Not Active!"; continue;}
-      if ($hoursDisableUntil > 0){ echo "<BR> EXIT: Disabled until: ".$hoursDisableUntil; continue;}
+      if ($userActive == False){ echoText("<BR>EXIT: User Not Active!",$echoExitText); continue;}
+      if ($hoursDisableUntil > 0){ echoText("<BR> EXIT: Disabled until: ".$hoursDisableUntil,$echoExitText); continue;}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $APISecret,'USD','BTC',$apiVersion)), 8, '.', '');
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $buyResultAry[] = Array($test1, "Market Cap $symbol", $MarketCapPctChange);
