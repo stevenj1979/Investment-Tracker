@@ -2021,7 +2021,7 @@ DECLARE nStatus VARCHAR(20);
 SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
 
 if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID) THEN
-	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`) VALUES (Trans_ID,User_ID,Rule_ID);
+	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`,`SellPct`) VALUES (Trans_ID,User_ID,Rule_ID,ABS(Sell_Pct));
 end if;
 
 Select DATE_ADD(`LastUpdated`, INTERVAL 1 HOUR) into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
