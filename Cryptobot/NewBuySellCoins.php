@@ -1189,16 +1189,16 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       echo "<BR> Starting: $coin | $ruleIDSell";
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
-      echo "<BR> PlaceHolder: 1";
+      echoText("PlaceHolder: 1",$echoTestText);
       if ($multiSellRuleEnabled == 1){
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
-          if ($multiSellResult == False){ echo "Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult"; continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}
+          if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
-      echo "<BR> PlaceHolder: 2";
+      echoText("PlaceHolder: 2",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
@@ -1206,7 +1206,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
-      echo "<BR> PlaceHolder: 3";
+      echoText("PlaceHolder: 3",$echoTestText);
       if ($captureTrend == 0 and $profit >= 0.5){
         //Capture 1Hr / 24Hr and 7D trend
         if ($coinModeRule > 0){
@@ -1217,9 +1217,9 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             //updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDSell);
         }
       }
-      echo "<BR> PlaceHolder: 4";
+      echoText("PlaceHolder: 4",$echoTestText);
       if ($userID != $sellCoinsUserID){ continue; } //echo "Exit: No3 | $coin | $userID | $BuyRule";
-      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echo "Exit: No4 | $coin | $userID | $ruleIDSell | $limitToCoinSell";continue;}
+      if ($limitToCoinSell != "ALL" && $coin != $limitToCoinSell) { echoText("Exit: No4 | $coin | $userID | $ruleIDSell | $limitToCoinSell",$echoExitText);continue;}
       //echo "<BR> PlaceHolder: 5";
       $current_date = date('Y-m-d H:i');
       $threeWeeksAgoDate = date("Y-m-d H:i",strtotime("-3 week", strtotime($current_date)));
@@ -1232,15 +1232,15 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
           $coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
-          echo "<BR> COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize";
+          echoText("COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize",$echoTestText);
           if ($coinSwapBuyCoinIDSize > 0){
             //CoinSwap
-            echo "<BR>coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);";
+            echoText("coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);",$echoTestText);
             coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);
           }
         }
       }
-      echo "<BR>Checking:  $coin | $userID | $ruleIDSell";
+      echoText("Checking:  $coin | $userID | $ruleIDSell",$echoProgramFlow);
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
@@ -1286,8 +1286,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       //Echo "<BR> TEST: sellWithScore($ProfitPctTop_Sell,$ProfitPctBtm_Sell,$profit,$ProfitPctEnabled);";
       //$sellOutstanding = getOutStandingBuy($sellResultAry);
       $totalScore_Sell = $sTest1+$sTest2+$sTest3+$sTest4+$sTest5+$sTest6+$sTest7+$sTest8+$sTest9+$sTest10+$sTest11+$sTest12+$sTest13+$sTest14+$sTest15+$sTest16;
-      Echo "<BR> UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:$sTest1  2:$sTest2  3:$sTest3  4:$sTest4  5:$sTest5  6:$sTest6  7:$sTest7  8:$sTest8 ";
-      echo "9:$sTest9  10:$sTest10  11:$sTest11  12:$sTest12 13:$sTest13 14:$sTest14 ($priceDipHours/$priceDipHoursFlatTarget) 15:$sTest15 16:$sTest16 TOTAL:$totalScore_Sell / 16, PROFIT:$profit MinsFromBuy:$minsFromBuy";
+      echoText("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:$sTest1  2:$sTest2  3:$sTest3  4:$sTest4  5:$sTest5  6:$sTest6  7:$sTest7  8:$sTest8 ",$echoProgramFlow);
+      echoText("9:$sTest9  10:$sTest10  11:$sTest11  12:$sTest12 13:$sTest13 14:$sTest14 ($priceDipHours/$priceDipHoursFlatTarget) 15:$sTest15 16:$sTest16 TOTAL:$totalScore_Sell / 16, PROFIT:$profit MinsFromBuy:$minsFromBuy",$echoProgramFlow);
       if ($totalScore_Sell >= 15){
         $sellOutstanding = getOutStandingBuy($sellResultAry);
         logAction("UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:  $sTest1  2:  $sTest2  3:  $sTest3  4:  $sTest4  5:  $sTest5  6:  $sTest6  7:  $sTest7  8:  $sTest8","SellScore", $GLOBALS['logToFileSetting'] );
@@ -1299,7 +1299,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($sTest1 == True && $sTest2 == True && $sTest3 == True && $sTest4 == True && $sTest5 == True && $sTest6 == True && $sTest7 == True && $sTest8 == True && $sTest9 == True && $sTest10 == True
       && $sTest11 == True && $sTest12 == True && $sTest13 == True  && $sTest14 == True && $sTest15 == True && $sTest16 == True && $minsFromBuy > 25){
         $date = date("Y-m-d H:i:s", time());
-        echo "<BR>Sell Coins: $APIKey, $apisecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>";
+        echoText("Sell Coins: $APIKey, $apisecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, _.$ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID<BR>",$echoProgramFlow);
         //sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$baseCurrency, $sendEmail, $sellCoin, $ruleID,$userName, $orderNo,$amount,$cost,$transactionID,$coinID){
         //sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$date, $BaseCurrency,$SendEmail,$SellCoin, $ruleIDSell,$UserName,$orderNo,$amount,$cost,$transactionID,$coinID,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$LiveCoinPrice);
         $newType = 'Sell';
@@ -1323,7 +1323,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $finalBool = True;
         //addSellRuletoSQL()
       }
-      echo "<BR> NEXT RULE <BR>";
+      echoText("NEXT RULE <BR>",$echoProgramFlow);
     } //Sell Rules
     //$BTCBalance = bittrexbalance($APIKey, $apisecret,$BaseCurrency, $apiVersion);
     $buyPrice = ($cost * $amount);
