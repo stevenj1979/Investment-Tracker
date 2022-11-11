@@ -1074,7 +1074,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
-  $echoExitText = 0;
+  $echoExitText = 1;
   $echoProgramFlow = 1;
   $echoTestText = 0;
 
