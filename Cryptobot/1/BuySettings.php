@@ -330,10 +330,10 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      Echo "<td>$Hr1ChangeEnabled</td>"; // <td>$Hr1ChangePattern</td>";
      echo "<td>$coin1HrPatternName</td>";
      echo "<td>$hoursDisabled</td>";
-     echo "<tr>";
+     echo "<tr></table>";
   // }
  }
- echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
+
 }
 
 
@@ -357,7 +357,7 @@ displayHeader(7);
           showBuyRules($userSettingsSB, "SpreadBet Enabled Rules", 1,$userSettingsSBLen);
           showBuyRules($userSettingsDisabled, "Disabled Rules", 0,$userSettingsDisabledLen);
           showBuyRules($userSettingsDisabledSB, "SpreadBet Disabled Rules", 0,$userSettingsDisabledSBLen);
-
+          echo "<br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
           displaySideColumn();?>
 
 

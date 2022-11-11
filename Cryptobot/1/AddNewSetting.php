@@ -196,14 +196,14 @@ function copyRule($ID){
     , `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`, `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`
     , `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`, `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`
     , `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`, `BuyAmountPctOfTotalEnabled`
-    , `BuyAmountPctOfTotal`,`RuleType`)
+    , `BuyAmountPctOfTotal`,`RuleType`,`SpreadBetRuleID`)
 Select `RuleName`, `UserID`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`, `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`
 , `7DChangeBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`, `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, 0, `SendEmail`, `BTCAmount`, `BuyType`, `CoinOrder`, `BuyCoinOffsetEnabled`, `BuyCoinOffsetPct`
 , `PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoBuyCoinEnabled`, `AutoBuyCoinPct`, `BuyAmountOverrideEnabled`, `BuyAmountOverride`, `NewBuyPattern`
 , `SellRuleFixed`, `OverrideDailyLimit`, `CoinPricePatternEnabled`, `CoinPricePattern`, `1HrChangeTrendEnabled`, `1HrChangeTrend`, `CoinPriceMatchPattern`, `CoinPriceMatchID`, `CoinPricePatternID`, `Coin1HrPatternID`, `BuyRisesInPrice`, `DisableUntil`, `OverrideDisableRule`
 , `LimitBuyAmountEnabled`, `LimitBuyAmount`, `OverrideCancelBuyTimeEnabled`, `OverrideCancelBuyTimeMins`, `LimitBuyTransactionsEnabled`, `LimitBuyTransactions`, `NoOfBuyModeOverrides`, `CoinModeOverridePriceEnabled`, `BuyModeActivate`, `CoinMode`, `OverrideCoinAllocation`
 , `OneTimeBuyRule`, `LimitToBaseCurrency`, `EnableRuleActivationAfterDip`, `24HrPriceDipPct`, `7DPriceDipPct`, `BuyAmountCalculationEnabled`, `TotalPurchasesPerRule`, `RedirectPurchasesToSpread`, `RedirectPurchasesToSpreadID`, `PctFromLowBuyPriceEnabled`, `NoOfHoursFlatEnabled`
-, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`, `BuyAmountPctOfTotalEnabled`, `BuyAmountPctOfTotal`,`RuleType`
+, `NoOfHoursFlat`, `PctOverMinPrice`,`DefaultRule`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`, `BuyAmountPctOfTotalEnabled`, `BuyAmountPctOfTotal`,`RuleType`,`SpreadBetRuleID`
 from `BuyRules`
 where `ID` = $ID";
   //print_r($sql);
@@ -376,6 +376,7 @@ function updateEditedUser(){
   $buyAmountOverride = postData($_POST['BuyAmountOverride']);
   $buyAmountPctofTotalAmount = $_POST['BuyAmountPctofTotalAmount'];
   $ruleType = $_POST['RuleType'];
+  $sbRuleID = $_POST['SBRuleID'];
 
   $newBuyPattern = '';
   $coinOrder = postData($_POST['CoinOrderTxt']);
@@ -421,7 +422,7 @@ function updateEditedUser(){
   ,`OverrideCoinAllocation` = $overrideCoinAllocationEnable, `OneTimeBuyRule` = $oneTimeBuyRuleEnable, `LimitToBaseCurrency` = '$limitToBaseCurrency',`PctFromLowBuyPriceEnabled` = $coinPctFromLowBuyPriceEnabled, `NoOfHoursFlatEnabled` = $coinHoursFlatEnabled
   ,`NoOfHoursFlat` = $coinHoursFlat,  `PctOverMinPrice` = $pctFromLowBuyPrice, `RuleName` = '$ruleName',`EnableRuleActivationAfterDip` = $reEnableBuyRuleAfterDip, `OverrideCancelBuyTimeEnabled` = $overrideCancelBuyTimeEnabled
   , `OverrideCancelBuyTimeMins` = $overrideCancelBuyTimeMins, `BuyRisesInPrice` = $buyRisesInPrice,`MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellTemplate,`BuyAmountPctOfTotalEnabled` =  $buyAmountPctofTotalAmountEnabled
-  ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount, `RuleType` = '$ruleType'
+  ,`BuyAmountPctOfTotal` = $buyAmountPctofTotalAmount, `RuleType` = '$ruleType', `SpreadBetRuleID` = $sbRuleID
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -471,7 +472,7 @@ function getRules($id){
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
 ,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDipBr`,`24HrPriceDipPctBr`,`7DPriceDipPctBr`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
-,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`BuyAmountPctOfTotalEnabled`,`BuyAmountPctOfTotal`,`RuleType`
+,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`BuyAmountPctOfTotalEnabled`,`BuyAmountPctOfTotal`,`RuleType`,`SpreadBetRuleID`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -489,7 +490,7 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
      ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDipBr'],$row['24HrPriceDipPctBr']//73
      ,$row['7DPriceDipPctBr'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins'] //80
-     ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['BuyAmountPctOfTotalEnabled'],$row['BuyAmountPctOfTotal'],$row['RuleType']); //85
+     ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['BuyAmountPctOfTotalEnabled'],$row['BuyAmountPctOfTotal'],$row['RuleType'],$row['SpreadBetRuleID']); //86
   }
   $conn->close();
   return $tempAry;
@@ -798,6 +799,14 @@ function displayEdit($id){
   addNewText('Rule ID: ', 'RuleID', $id, 1, 'Eg 50', False,0);
   addNewText('Rule Name: ', 'RuleName', $formSettings[0][71], 2, 'Eg 50', False,1);
   addRuleTypeOption('Rule Type: ', 'RuleType', $formSettings[0][85]);
+  if ($formSettings[0][85] == 'SpreadBet'){
+    $sBDisable = 1;
+    $sBsetting = $formSettings[0][86];
+  }else{
+    $sBDisable = 0;
+    $sBsetting = 0;
+  }
+  addNewText('SpreadBet Rule ID: ', 'SBRuleID', $sBsetting, 2, 'Eg 50', False,$sBDisable);
   echo "</div>";
   echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
