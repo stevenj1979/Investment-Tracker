@@ -880,7 +880,7 @@ function displayEdit($id){
 
   echo "<div class='settingsform'>";
   echo "<H3>Buy Amount Override</H3>";
-  addNewTwoOption('Buy Amount Override Enabled: ', 'BuyAmountOverrideEnabled', $formSettings[0][48]);
+  addThreeOptionAuto('Buy Amount Override Enabled: ', 'BuyAmountOverrideEnabled', $formSettings[0][48]);
   addNewText('Buy Amount Override: ', 'BuyAmountOverride', $formSettings[0][49], 48, 'Eg 7000', False,$formSettings[0][48]);
   echo "</div>";
   //echo "<div class='settingsform'>";
