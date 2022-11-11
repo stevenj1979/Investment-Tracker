@@ -2099,7 +2099,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
 }
 
 function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours){
-  //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
+  echo "<BR>checkPriceDipCoinFlat $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
   if ($priceDipCoinFlatEnabled == 0){
       //print_r("True");
       return True;
