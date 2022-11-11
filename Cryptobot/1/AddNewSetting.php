@@ -611,7 +611,7 @@ function addRuleTypeOption($RealName, $idName, $value){
   if ($value == 'Normal' ){
     $option1 = "Normal"; $option2 = "SpreadBet";
   }elseif ($value == 'SpreadBet' ){
-    $option1 = "SpreadBet"; $option2 = "Normal"
+    $option1 = "SpreadBet"; $option2 = "Normal";
   }else{
     $option1 = "Normal"; $option2 = "SpreadBet";
   }
