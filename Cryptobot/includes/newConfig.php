@@ -6822,7 +6822,7 @@ function enableBuyRule($buyRuleID, $buyCoin){
   }
   $conn->close();
   logAction("enableBuyRule: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("enableBuyRule","$sql",3,1,"SQL CALL","BuyRuleID:$buyRuleID");
+  newLogToSQL("enableBuyRule","$sql",3,0,"SQL CALL","BuyRuleID:$buyRuleID");
 }
 
 function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixSellRule){
@@ -7040,7 +7040,7 @@ function setPriceDipEnable($ruleID,$status,$buyCoin){
   }
   $conn->close();
   logAction("setPriceDipEnable: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,1,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,0,"SQL CALL","ruleID:$ruleID");
 }
 
 function writePriceDipHours($ruleID,$dipHourCounter){
