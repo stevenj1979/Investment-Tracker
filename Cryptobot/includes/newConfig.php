@@ -2107,12 +2107,13 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
   }elseif ($priceDipHours >= $priceDipHoursFlatTarget){
       //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
+      print_r("-True");
       return True;
       exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    //print_r("False");
+    print_r("-False");
     return False;
   }
 }
