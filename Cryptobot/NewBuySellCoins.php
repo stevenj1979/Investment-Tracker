@@ -769,6 +769,10 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 
 
 function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter){
+  Echo "<BR> BuyCoin Key: 1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ";
+  Echo "<BR> 6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ";
+  Echo "<BR> 11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ";
+  Echo "<BR> 16: PriceDipMin ";
   $apiVersion = 3;
   $finalBool = False;
   $coinLength = Count($coins);
