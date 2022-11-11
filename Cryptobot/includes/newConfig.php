@@ -1762,8 +1762,8 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         //var_dump($temp);
         $balance = $temp['lastTradeRate'];
       }
-      echo "<br> CoinPrice: $coin : $baseCoin<br>";
-      var_dump($temp);
+      //echo "<br> CoinPrice: $coin : $baseCoin<br>";
+      //var_dump($temp);
       return $balance;
 }
 
@@ -2171,7 +2171,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
 }
 
 function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours){
-  echo "<BR>checkPriceDipCoinFlat $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
+  //echo "<BR>checkPriceDipCoinFlat $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
   if ($priceDipCoinFlatEnabled == 0){
       //print_r("True");
       return True;
@@ -2179,7 +2179,7 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
   }elseif ($priceDipHours >= $priceDipHoursFlatTarget){
       //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
-      print_r("-True");
+      //print_r("-True");
       return True;
       exit;
   }else {
@@ -6055,7 +6055,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell){
 
     $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell);";
     //LogToSQL("updateTransToSpread",$sql,3,1);
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
