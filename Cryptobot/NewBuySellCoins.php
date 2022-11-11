@@ -910,7 +910,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       //echo "<BR> Profit!!! $totalProfitPauseEnabled ;$profitNum; $totalProfitPause ; $rulesPause ; $rulesPauseEnabled";
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
         if ($rulesPauseEnabled == 1){
-          echoText("PAUSING RULES $rulesPause for $rulesPauseHours HOURS",$echoProgramFlow);
+          echoText("PAUSING RULES $rulesPause for $rulesPauseHours HOURS",$echoTestText);
           newLogToSQL("BuyCoins", "pauseRule($rulesPause, $rulesPauseHours);", $userID,$GLOBALS['logToSQLSetting'],"RulesPause","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($rulesPause, $rulesPauseHours);
         }
@@ -940,15 +940,15 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         //Echo "<BR> EXIT: Do Not Buy<BR>";
         continue;}
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
-        echoText("Check if over total limit! ",$echoProgramFlow);
+        echoText("Check if over total limit! ",$echoTestText);
         $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
         echoText("Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0],$echoTestText);
-          if ($userBTCSpent >= $TotalBTCLimit){ echoText("EXIT: TOTAL BTC SPENT",$echoExitText); continue;}else{  echoText("Total Spend ".$userBTCSpent." Limit $TotalBTCLimit",$echoProgramFlow);}
+          if ($userBTCSpent >= $TotalBTCLimit){ echoText("EXIT: TOTAL BTC SPENT",$echoExitText); continue;}else{  echoText("Total Spend ".$userBTCSpent." Limit $TotalBTCLimit",$echoTestText);}
       }
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
-        echoText("Check if over daily limit! ",$echoProgramFlow);
+        echoText("Check if over daily limit! ",$echoTestText);
         $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
-          if ($userDailyBTCSpent >= $DailyBTCLimit){echoText("EXIT: DAILY BTC SPENT",$echoExitText);continue;}else{ echoText("Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit",$echoProgramFlow);}
+          if ($userDailyBTCSpent >= $DailyBTCLimit){echoText("EXIT: DAILY BTC SPENT",$echoExitText);continue;}else{ echoText("Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit",$echoTestText);}
       }
       echoText("I'm here2!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy",$echoTestText);
       if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$echoExitText);continue;

@@ -58,7 +58,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     //  $openTransactionFlag = False;
     //}
 
-    echoText("Tracking Coin: Checking $symbol | $buyType",$echoProgramFlow);
+    echoText("Tracking Coin: Checking $symbol | $buyType",$echoTestText);
     //$minusMinsToCancel = $timeToCancelBuyMins-$timeToCancelBuyMins-$timeToCancelBuyMins;
     if ($disableUntil > date("Y-m-d H:i:s", time())){ echoText("EXIT: Disabled until: ".$disableUntil,$echoExitText); continue;}
     if($minsFromDate >= $timeToCancelBuyMins){
@@ -77,7 +77,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     $delayCoinPurchaseSize = count($delayCoinPurchase);
     for ($b=0; $b<$delayCoinPurchaseSize; $b++){
       $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
-      echoText("Checking Coin: $coinID / $delayCoinPurchaseCoinID | $userID / $delayCoinPurchaseUserID",$echoProgramFlow);
+      echoText("Checking Coin: $coinID / $delayCoinPurchaseCoinID | $userID / $delayCoinPurchaseUserID",$echoTestText);
       if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
         newLogToSQL("DelayCoinIDPurchase","CoinID:$delayCoinPurchaseCoinID | UserID: $delayCoinPurchaseUserID EXIT",3,0,"BuySellFunc","UserID:$userID; CoinID:$coinID");
         echoText("EXIT: Delay CoinID: $coinID! ",$echoExitText); continue 2;
