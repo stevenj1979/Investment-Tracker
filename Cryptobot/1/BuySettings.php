@@ -330,10 +330,10 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
      Echo "<td>$Hr1ChangeEnabled</td>"; // <td>$Hr1ChangePattern</td>";
      echo "<td>$coin1HrPatternName</td>";
      echo "<td>$hoursDisabled</td>";
-     echo "<tr></table>";
+     echo "<tr>";
   // }
  }
-
+echo "</table>";
 }
 
 
