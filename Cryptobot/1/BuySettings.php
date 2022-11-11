@@ -136,6 +136,13 @@ function getRules($userID, $enabled){
       die("Connection failed: " . $conn->connect_error);
   }
 
+  if ($enabled <= 1){
+    $whereclause = "`BuyCoin` = $enabled";
+  }elseif ($enabled == 2){
+    $whereclause = "`RuleType` = 'SpreadBet' and `BuyCoin` = 0";
+  }elseif ($enabled == 3){
+    $whereclause = "`RuleType` = 'SpreadBet' and `BuyCoin` = 1";
+  }
   $sql = "SELECT
         `UserID`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,
         `1HrChangeTop`,`1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,
@@ -144,7 +151,7 @@ function getRules($userID, $enabled){
         , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
         ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
         ,`NameCpmn` AS `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hpn` as `Coin1HrPatternName`,TimeStampDiff(Hour,now(),`DisableUntil`) as`HoursDisabled`,`RuleName`,`DefaultRule`
-        FROM `View13_UserBuyRules` WHERE `UserID` =  $userID and `BuyCoin` = $enabled Order by `CoinOrder` Asc";
+        FROM `View13_UserBuyRules` WHERE `UserID` =  $userID and $whereclause Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -333,17 +340,23 @@ function showBuyRules($userSettings, $title, $flag, $userSettingsLen){
 
 $userSettings = getRules($_SESSION['ID'],1);
 $userSettingsLen = count($userSettings);
+$userSettingsSB = getRules($_SESSION['ID'],3);
+$userSettingsSBLen = count($userSettingsSB);
 $userSettingsDisabled = getRules($_SESSION['ID'],0);
 $userSettingsDisabledLen = count($userSettingsDisabled);
+$userSettingsDisabledSB = getRules($_SESSION['ID'],0);
+$userSettingsDisabledSBLen = count($userSettingsDisabledSB);
 //echo $userDetails[0][1];
 
 displayHeader(7);
 
-           //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3> 
+           //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
           displaySubHeader("Settings");
           //echo "</table> <br><a href='AddNewSetting.php?addNew=Yes'>Add New</a>";
           showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
+          showBuyRules($userSettingsSB, "SpreadBet Enabled Rules", 1,$userSettingsSBLen);
           showBuyRules($userSettingsDisabled, "Disabled Rules", 0,$userSettingsDisabledLen);
+          showBuyRules($userSettingsDisabledSB, "SpreadBet Disabled Rules", 0,$userSettingsDisabledSBLen);
 
           displaySideColumn();?>
 
