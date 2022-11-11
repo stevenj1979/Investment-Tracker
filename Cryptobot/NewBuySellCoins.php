@@ -353,7 +353,7 @@ function runBuyBack($buyBackCoins){
       }
       //if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0);
-      if ($coinAllocation <= 20 && $allBuyBackAsOverride == 0){
+      if ($coinAllocation <= 15 && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
           newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
           continue;
@@ -2127,7 +2127,7 @@ while($completeFlag == False){
         }
         $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats);
   echo "</blockquote><BR> BUY COINS!! $i<blockquote>";
-        if ($i == 0 OR $runBuyCoinsFlag == True){$buyRules = getUserRules();}
+        if ($i == 0 OR $runBuyCoinsFlag == True){$buyRules = getUserRules();}  //getSpreadBetUserRules
         if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runBuyCoinsFlag == True){
           $BCcurrent_date = date('Y-m-d H:i');
           $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
@@ -2138,7 +2138,8 @@ while($completeFlag == False){
           $dailyBTCSpent = getDailyBTC();
           $baseMultiplier = getBasePrices();
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
-          $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
+          $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 Group by `Sbc`.`SpreadBetRuleID` ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
+          //getSpreadBetTrackingCoins
           $runBuyCoinsFlag = False;
         }
         $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
