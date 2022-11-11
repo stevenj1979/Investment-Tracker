@@ -1083,7 +1083,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   echoText("6: 7DPctChange | 7: PriceTrendPattern | 8: MinPrice | 9: ProfitPct | 10: CoinPrice ",$echoProgramFlow);
   echoText("11: CoinPriceMatch | 12: GlobalAllDisabled | 13: AutoSellPrice | 14: CoinPriceFlat | 15: PriceDipMaxPrice ",$echoProgramFlow);
   echoText("16: HoursPastSell <BR>",$echoProgramFlow);
-  Echo "<BR> HERE! $sellCoinsLength";
+  echoText("HERE! $sellCoinsLength",$echoTestText);
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
     $coin = $sellCoins[$a][11]; $MarketCapPctChange = $sellCoins[$a][17]; $VolumePctChange = $sellCoins[$a][26];
@@ -1133,8 +1133,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $calculatedSellPctReduction = $sellRules[$z][66];
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71];
-      if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy"; continue;}
-      if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echo "<BR> Exit Hours! $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy"; continue;}
+      if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echoText("Exit Hours! $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy",$echoExitText); continue;}
+      if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echoText("Exit Hours! $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy",$echoExitText); continue;}
       if ($sellCoinOffsetEnabled == 2){
         $sellCoinOffsetEnabled = 1;
         if (!is_null($caaOffset)){
@@ -1155,7 +1155,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
 
         if (isset($sellPctCsp)){
-          echo "<BR> Its set!! $sellPctCsp";
+          echoText("Its set!! $sellPctCsp",$echoTestText);
           $ProfitPctBtm_Sell = $sellPctCsp;
         }
 
@@ -1172,8 +1172,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - (($calculatedSellPctStart - $calculatedSellPctEnd) * ($calculatedSellPctStart * 0.01)) + $calculatedSellPctEnd;
 
         writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);
-        echo "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);";
-        Echo "<BR>Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays";
+        echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
+        echoText("Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays",$echoTestText);
 
       }
       if ($priceDipCoinFlatEnabled == 2){
@@ -1186,7 +1186,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       }
       $profitNum = findUserProfit($userProfit,$userID);
       $coinSwapEnabled = $sellRules[$z][50]; $coinSwapAmount = $sellRules[$z][51]; $noOfCoinSwapsPerWeek = $sellRules[$z][52];
-      echo "<BR> Starting: $coin | $ruleIDSell";
+      echoText("Starting: $coin | $ruleIDSell",$echoTestText);
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       echoText("PlaceHolder: 1",$echoTestText);
@@ -1194,7 +1194,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
-          if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echo "<BR>FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult";}
+          if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);}
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
