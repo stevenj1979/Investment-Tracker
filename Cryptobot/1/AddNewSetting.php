@@ -469,7 +469,7 @@ function getRules($id){
 , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`,`LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
 ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`, `CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`OverrideDailyLimit`
 ,`NameCpmn` as `CoinPriceMatchName`,`CoinPriceMatchID`,`CoinPricePatternID`, `NameCppn` as `CoinPricePatternName`,`Coin1HrPatternID`,`NameC1hPn` as `Coin1HrPatternName`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`
-,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDip`,`PriceDipEnable24Hour`,`PriceDipEnable7Day`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
+,`PctFromLowBuyPriceEnabled`,`PctOverMinPrice`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`RuleName`,`EnableRuleActivationAfterDipBr`,`24HrPriceDipPctBr`,`7DPriceDipPctBr`,`PctTolerance`,`HoursFlat`,`BuyRisesInPrice`,`OverrideCancelBuyTimeEnabled`
 ,`OverrideCancelBuyTimeMins`,`TimeToCancelBuyMins`,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`BuyAmountPctOfTotalEnabled`,`BuyAmountPctOfTotal`
 FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
   $result = $conn->query($sql);
@@ -486,8 +486,8 @@ FROM `View13_UserBuyRules` WHERE `RuleID` = $id order by `CoinOrder` ASC";
      ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder']//52
      ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['OverrideDailyLimit'],$row['CoinPriceMatchName'],$row['CoinPriceMatchID'] //59
      ,$row['CoinPricePatternID'],$row['CoinPricePatternName'],$row['Coin1HrPatternID'],$row['Coin1HrPatternName'],$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'] //66
-     ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDip'],$row['PriceDipEnable24Hour']//73
-     ,$row['PriceDipEnable7Day'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins'] //80
+     ,$row['PctFromLowBuyPriceEnabled'],$row['PctOverMinPrice'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['RuleName'],$row['EnableRuleActivationAfterDipBr'],$row['24HrPriceDipPctBr']//73
+     ,$row['7DPriceDipPctBr'],$row['PctTolerance'],$row['HoursFlat'],$row['BuyRisesInPrice'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['TimeToCancelBuyMins'] //80
      ,$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['BuyAmountPctOfTotalEnabled'],$row['BuyAmountPctOfTotal']); //84
   }
   $conn->close();
