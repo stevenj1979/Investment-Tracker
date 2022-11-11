@@ -437,7 +437,7 @@ function updateEditedUser(){
       die("Connection failed: " . $conn->connect_error);
   }
   //$userID = $_SESSION['ID'];
-  $sql = "UPDATE `PriceDipSettings` SET `PriceDipEnable24Hour` = ($priceDip24Hr+10),`PriceDipEnable7Day` = ($priceDip7D+10),`PctTolerance` = $priceDipPctTolerance,`HoursFlat` = $priceDipHoursFlat
+  $sql = "UPDATE `PriceDipSettings` SET `PctTolerance` = $priceDipPctTolerance,`HoursFlat` = $priceDipHoursFlat
           WHERE `UserID`=$userID;";
   print_r($sql);
 
