@@ -1177,7 +1177,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
       }
       if ($priceDipCoinFlatEnabled == 2){
-        $priceDipHoursFlatTarget = Floor(($maxHoursFlat/100)*$pctOfAuto);
+        $priceDipHoursFlatTarget = Floor(($maxHoursFlat/100)*($pctOfAuto/2));
         $priceDipCoinFlatEnabled = 1;
       }
       if ($sellPriceMinEnabled == 2){
