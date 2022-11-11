@@ -778,7 +778,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   echoText("BuyCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
   echoText("6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$echoProgramFlow);
-  EechoText("11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$echoProgramFlow);
+  echoText("11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$echoProgramFlow);
   echoText("16: PriceDipMin <BR>",$echoProgramFlow);
   $coinLength = Count($coins);
   $buyRulesSize = count($buyRules);
