@@ -789,6 +789,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   echoText("16: PriceDipMin <BR>",$echoProgramFlow);
   $coinLength = Count($coins);
   $buyRulesSize = count($buyRules);
+  echoText("Coin Length: $coinLength  RuleLength: $buyRulesSize <BR>",$echoProgramFlow);
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -847,6 +848,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
+
+      echoText("Checking: $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoProgramFlow);
+
       if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
