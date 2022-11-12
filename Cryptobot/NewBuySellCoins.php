@@ -780,6 +780,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   $echoProgramFlow = $webSettingsAry[0][1];
   //$echoTestText = 0;
   $echoTestText = $webSettingsAry[1][1];
+  $buyCoinAddTracking = $webSettingsAry[9][1];
   $apiVersion = 3;
   $finalBool = False;
   echoText("BuyCoin Key: ",$echoProgramFlow);
@@ -1065,7 +1066,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           }else{
             echoText("Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed",$echoProgramFlow);
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
-            newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,0,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
+            newLogToSQL("addTrackingCoin","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",3,$buyCoinAddTracking,"NewBuySellCoins","RuleID:$ruleIDBuy CoinID:$coinID");
             //addWebUsage($userID,"Add","BuyTracking");
             $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
