@@ -796,7 +796,7 @@ function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionI
   logAction("writeAutoActionBuy: ".$sql, 'SQL_UPDATE', 0);
 }
 
-function getSavingsData(){
+function getSavingsDataAgain(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -850,7 +850,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
 }
 
 function runSavingsMerge(){
-  $savingsAry = getSavingsData();
+  $savingsAry = getSavingsDataAgain();
   $savingsArySize = count($savingsAry);
   for ($g=0;$g<$savingsArySize;$g++){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
