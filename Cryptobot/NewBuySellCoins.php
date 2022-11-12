@@ -1362,8 +1362,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   return $finalBool;
 }
 
-function runBittrex($BittrexReqs,$apiVersion){
+function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
   $finalBool = False;
+  $CancelBittrexLogFlag = $webSettingsAry[3][1];
+  $CancelBittrexPartial = $webSettingsAry[7][1];
+  $CancelBittrexBuyComplete = $webSettingsAry[8][1];
   $BittrexReqsSize = count($BittrexReqs);
   sleep(1);
   for($b = 0; $b < $BittrexReqsSize; $b++) {
@@ -1573,6 +1576,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             }
           }
           bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+          newLogToSQL("BittrexBuyComplete", "bittrexBuyComplete($uuid, $transactionID, $finalPrice);", $userID, $CancelBittrexBuyComplete,"NewBuySellCoins","TransactionID:$transactionID");
           //addWebUsage($userID,"Remove","BittrexAction");
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
           $finalBool = True;
@@ -1582,7 +1586,7 @@ function runBittrex($BittrexReqs,$apiVersion){
         echo "<BR> Cancel Check: $cancelTimeCheck | $minsRemaining | $finalBool";
         if ( $cancelTimeCheck == 1 && $finalBool == False){
           echo "<BR>CANCEL time exceeded! CANCELLING! $minsRemaining | $BittrexID";
-          newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 1,"FullOrder","TransactionID:$transactionID");
+          //newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 0,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
              //var_dump($cancelRslt);
@@ -1591,7 +1595,8 @@ function runBittrex($BittrexReqs,$apiVersion){
              if ($canStatus == 'CLOSED' OR $errorCode == "ORDER_NOT_OPEN"){
                bittrexBuyCancel($uuid, $transactionID, "CancelMins: $minsSinceAction");
                logAction("runBittrex; bittrexBuyCancelFull : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID | $minsSinceAction | $timeToCancelMins", 'BuySellFlow', 1);
-               newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 1,"FullOrder","TransactionID:$transactionID");
+               //newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order completed", $userID, 0,"FullOrder","TransactionID:$transactionID");
+               newLogToSQL("BittrexBuyFullCancel", "bittrexBuyCancel($uuid, $transactionID, 'CancelMins: $minsSinceAction');", $userID, $CancelBittrexLogFlag,"NewBuySellCoins","TransactionID:$transactionID");
                reopenCoinSwapCancel($BittrexID,1);
                removeTransactionDelay($coinID, $userID);
              }else{
@@ -1603,7 +1608,7 @@ function runBittrex($BittrexReqs,$apiVersion){
             $canStatus = $result['status'];
             if ($canStatus == 'CLOSED'){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
-              newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created. QTY: $orderQty | QTY Remaining: $orderQtyRemaining", $userID, 1,"PartialOrder","TransactionID:$transactionID");
+              //newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Order cancelled and new Order Created. QTY: $orderQty | QTY Remaining: $orderQtyRemaining", $userID, 1,"PartialOrder","TransactionID:$transactionID");
               logAction("runBittrex; bittrexBuyCancelPartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
               if ($sendEmail){
                 $subject = "Coin Purchase1: ".$coin;
@@ -1621,6 +1626,7 @@ function runBittrex($BittrexReqs,$apiVersion){
                 newLogToSQL("BittrexBuyCancel", "SpreadBetBittrexCancelPartialSell($transactionID,$coinID,$orderQty-$orderQtyRemaining);", $userID, $GLOBALS['logToSQLSetting'],"PartialOrder","TransactionID:$transactionID");
               }
               bittrexBuyComplete($uuid, $transactionID, $finalPrice); //add buy price - $finalPrice
+              newLogToSQL("BittrexBuyPartialCancel", "bittrexBuyComplete($uuid, $transactionID, $finalPrice);bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);", $userID, $CancelBittrexPartial,"NewBuySellCoins","TransactionID:$transactionID");
               //addWebUsage($userID,"Add","SellCoin");
               //addBuyRuletoSQL($transactionID, $ruleIDBTBuy);
             }else{ logAction("bittrexCancelBuyOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );}
