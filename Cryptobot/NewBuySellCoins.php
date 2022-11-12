@@ -2183,8 +2183,8 @@ while($completeFlag == False){
           $dailyBTCSpent = getDailyBTC();
           $baseMultiplier = getBasePrices();
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
-          $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 Group by `Sbc`.`SpreadBetRuleID` ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-          //getSpreadBetTrackingCoins
+          $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1  ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
+          //getSpreadBetTrackingCoins - Group by `Sbc`.`SpreadBetRuleID`
           $runBuyCoinsFlag = False;
         }
         $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,'Normal',$webSettingsAry);
