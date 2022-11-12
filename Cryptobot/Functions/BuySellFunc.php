@@ -13,11 +13,14 @@ $GLOBALS['logToFileSetting'] = getLogToFile();
 
 
 
-function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase){
+function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase,$webSettingsAry){
   $finalBool = False;
-  $echoExitText = 0;
-  $echoProgramFlow = 1;
-  $echoTestText = 0;
+  //$echoExitText = 0;
+  $echoExitText = $webSettingsAry[2][1];
+  //$echoProgramFlow = 1;
+  $echoProgramFlow = $webSettingsAry[0][1];
+  //$echoTestText = 0;
+  $echoTestText = $webSettingsAry[1][1];
   $trackCounter = [];
   $coinPurchaseSettingsSize = count($coinPurchaseSettings);
   $newTrackingCoinsSize = count($newTrackingCoins);

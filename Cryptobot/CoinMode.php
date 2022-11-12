@@ -63,7 +63,7 @@ function checkMarketforPctDip(){
         for ($t=0; $t<$userIDsSize; $t++){
           $userID = $userIDs[$t][0];
           $mode = floor(abs($avgPctChange/$lowMarketModeIncrements));
-          newLogToSQL("checkMarketforPctDip","Mode:$mode |  AvgPctCh: $avgPctChange | LowMMIncrements: $lowMarketModeIncrements | Auto:$lowMarketModeAuto | Min24HrPct:$minHr24ChangePctChange | Min7DPct: $minD7ChangePctChange | PctAuto: $pctOfAuto",3,1,"CoinMode","UserID:3");
+          newLogToSQL("checkMarketforPctDip","Mode:$mode |  AvgPctCh: $avgPctChange | LowMMIncrements: $lowMarketModeIncrements | Auto:$lowMarketModeAuto | Min24HrPct:$minHr24ChangePctChange | Min7DPct: $minD7ChangePctChange | PctAuto: $pctOfAuto",3,0,"CoinMode","UserID:3");
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode 24H: $marketPctChangeHr24 Inc:$lowMarketModeIncrements avg:$avgPctChange";
           if ($mode == 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);

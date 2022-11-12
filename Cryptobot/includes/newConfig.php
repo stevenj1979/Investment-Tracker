@@ -672,7 +672,7 @@ function getUserRules(){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
-  ,`PctOverMinPrice`,`PctOfAuto`
+  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`
    FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal'";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -689,7 +689,7 @@ function getUserRules(){
     ,$row['BuyRisesInPrice'],$row['TotalProfitPauseEnabled'],$row['TotalProfitPause'],$row['PauseRulesEnabled'],$row['PauseRules'],$row['PauseHours'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct'] //72
     ,$row['OverrideDisableRule'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //79
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
-   ,$row['PctOverMinPrice'],$row['PctOfAuto']); //88
+   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType']); //89
   }
   $conn->close();
   return $tempAry;
@@ -4338,7 +4338,7 @@ function runLowMarketMode($userID,$mode){
   $conn->close();
   if ($mode > 0){
     logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-    newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
+    newLogToSQL("runLowMarketMode","$sql",3,0,"SQL CALL","UserID:$userID");
   }
 }
 

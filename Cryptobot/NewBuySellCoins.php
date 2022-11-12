@@ -655,9 +655,14 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
 }
 
 
-function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
+function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry){
   $finalBool = False;
   $newTrackingSellCoinsSize = count($newTrackingSellCoins);
+  $echoExitText = $webSettingsAry[2][1];
+  //$echoProgramFlow = 1;
+  $echoProgramFlow = $webSettingsAry[0][1];
+  //$echoTestText = 0;
+  $echoTestText = $webSettingsAry[1][1];
   //$marketStats = getMarketstats();
   sleep(1);
   for($b = 0; $b < $newTrackingSellCoinsSize; $b++) {
@@ -768,11 +773,13 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats){
 }
 
 
-function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter){
+function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,$ruleType,$webSettingsAry){
 
-  $echoExitText = 0;
-  $echoProgramFlow = 1;
-  $echoTestText = 0;
+  $echoExitText = $webSettingsAry[2][1];
+  //$echoProgramFlow = 1;
+  $echoProgramFlow = $webSettingsAry[0][1];
+  //$echoTestText = 0;
+  $echoTestText = $webSettingsAry[1][1];
   $apiVersion = 3;
   $finalBool = False;
   echoText("BuyCoin Key: ",$echoProgramFlow);
@@ -820,7 +827,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
-
+      $buyRuleType = $buyRules[$y][89];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
 
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
@@ -840,7 +847,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-
+      if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
       }
@@ -1048,13 +1055,18 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         }
         newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$GLOBALS['logToSQLSetting'],"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
         if ($totalBal > 20 OR $overrideCoinAlloc == 1) {
-          echoText("Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed",$echoProgramFlow);
           if($BTCAmount <= 20 ){ continue;}
-          addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
-          newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,0,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
-          //addWebUsage($userID,"Add","BuyTracking");
-          $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
-          $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
+          if ($ruleType = 'Normal'){
+
+          }else{
+            echoText("Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed",$echoProgramFlow);
+            addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
+            newLogToSQL("BuyCoins","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0);",3,0,"AddTrackingCoin","RuleID:$ruleIDBuy CoinID:$coinID");
+            //addWebUsage($userID,"Add","BuyTracking");
+            $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
+            $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
+          }
+
           //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
           logAction("runBuyCoins; addTrackingCoin : $symbol | $coinID | $LiveCoinPrice | $buyQuantity | $userID | $baseCurrency $timeToCancelBuyMins | $risesInPrice | $overrideCoinAlloc", 'BuySellFlow', 1);
           $finalBool = True;
@@ -1070,13 +1082,18 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 }
 
 
-function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice){
+function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry){
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
-  $echoExitText = 0;
-  $echoProgramFlow = 1;
-  $echoTestText = 0;
+  //$echoExitText = 0;
+  //$echoProgramFlow = 1;
+  //$echoTestText = 0;
+  $echoExitText = $webSettingsAry[2][1];
+  //$echoProgramFlow = 1;
+  $echoProgramFlow = $webSettingsAry[0][1];
+  //$echoTestText = 0;
+  $echoTestText = $webSettingsAry[1][1];
 
   echoText("SellCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
@@ -2004,8 +2021,26 @@ function buyToreduceLoss($lossCoins){
   return $finalBool;
 }
 
-
-
+function getSettings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+//12
+  $sql = "SELECT `SettingName`, `Setting` FROM `WebSettings`";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SettingName'],$row['Setting']); //
+  }
+  $conn->close();
+  return $tempAry;
+}
+//get Settings
+$webSettingsAry = getSettings();
 //set time
 setTimeZone();
 $i=0;
@@ -2116,7 +2151,7 @@ while($completeFlag == False){
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
           $runNewTrackingCoinFlag = False;
         }
-        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase);
+        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase,$webSettingsAry);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if ((date("Y-m-d H:i", time()) >= $trackingSellCoinTimer) Or ($runTrackingSellCoinFlag == True)) {
           $TSCcurrent_date = date('Y-m-d H:i');
@@ -2125,7 +2160,7 @@ while($completeFlag == False){
           $marketStats = getMarketstats();
           $runTrackingSellCoinFlag = False;
         }
-        $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats);
+        $runTrackingSellCoinFlag = runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry);
   echo "</blockquote><BR> BUY COINS!! $i<blockquote>";
         if ($i == 0 OR $runBuyCoinsFlag == True){$buyRules = getUserRules();}  //getSpreadBetUserRules
         if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runBuyCoinsFlag == True){
@@ -2142,7 +2177,7 @@ while($completeFlag == False){
           //getSpreadBetTrackingCoins
           $runBuyCoinsFlag = False;
         }
-        $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter);
+        $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,'Normal',$webSettingsAry);
   echo "</blockquote><BR> SELL COINS!! $i<blockquote>";
         if ($i == 0 OR $runSellCoinsFlag == True){$sellRules = getUserSellRules();}
         if (date("Y-m-d H:i", time()) >= $sellCoinTimer or $runSellCoinsFlag == True){
@@ -2153,7 +2188,7 @@ while($completeFlag == False){
           $runSellCoinsFlag = False;
           $buyToReduceLossFlag = True;
         }
-        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice);
+        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or$refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
