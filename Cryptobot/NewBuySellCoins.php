@@ -1062,14 +1062,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         if ($totalBal > 20 OR $overrideCoinAlloc == 1) {
           if($BTCAmount <= 20 ){ continue;}
           if ($ruleType = 'Normal'){
-
-          }else{
             echoText("Buying Coins: $APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$BTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed",$echoProgramFlow);
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
             newLogToSQL("addTrackingCoin","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",3,$buyCoinAddTracking,"NewBuySellCoins","RuleID:$ruleIDBuy CoinID:$coinID");
             //addWebUsage($userID,"Add","BuyTracking");
             $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
+          }else{
+            
           }
 
           //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
