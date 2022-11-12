@@ -4784,7 +4784,7 @@ function writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "INSERT INTO `MultiSellRuleConfig`( `SellRuleID`, `UserID`, `TransactionID`) VALUES ($sellRuleIDFromTemplate,$userID,$transactionID)";
+  $sql = "call WriteMultiRule($userID,$transactionID,$sellRuleIDFromTemplate);";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {

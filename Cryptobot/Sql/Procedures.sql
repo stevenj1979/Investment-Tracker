@@ -2274,3 +2274,14 @@ else
 End if;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteMultiRule`(IN `user_ID` INT, IN `transaction_ID` INT, IN `sellRule_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+IF NOT EXISTS (SELECT `ID` FROM `MultiSellRuleConfig` WHERE `UserID` = user_ID and `TransactionID` = transaction_ID and `SellRuleID` = sellRule_ID ) THEN
+	INSERT INTO `MultiSellRuleConfig`( `SellRuleID`, `UserID`, `TransactionID`) VALUES (sellRule_ID ,user_ID,transaction_ID);
+End if;
+END$$
+DELIMITER ;

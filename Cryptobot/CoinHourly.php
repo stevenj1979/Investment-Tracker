@@ -803,23 +803,25 @@ function getSavingsData(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase` FROM `View24_SavingsReadyToOpenAndMerge` ";
+    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `SellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` FROM `View24_SavingsReadyToOpenAndMerge` ";
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SavingID'],$row['ID'],$row['UserID'],$row['MergeSavingWithPurchase']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SavingID'],$row['ID'],$row['UserID'],$row['MergeSavingWithPurchase'],$row['FixSellRule'],$row['BuyRule'],$row['SellRule'],$row['MultiSellRuleEnabled']
+          ,$row['MultiSellRuleTemplateID']);}
   $conn->close();
   return $tempAry;
 }
 
-function updateSavingsMerge($savingID, $transID){
+function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1  WHERE `ID` = $savingID;";
+  $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1,`FixSellRule` = $fixSellRule, `BuyRule` = $buyRule,`SellRule` = $sellRule, `MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellID
+            WHERE `ID` = $savingID;";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -852,7 +854,42 @@ function runSavingsMerge(){
   $savingsArySize = count($savingsAry);
   for ($g=0;$g<$savingsArySize;$g++){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
-    updateSavingsMerge($savingID, $transID);
+    $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][6]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
+
+    updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID);
+  }
+}
+
+
+
+function getMultiBuyIDs(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
+    //echo "<BR> Flag2: $lowFlag";
+    $sql = "SELECT `ID`,`MultiSellRuleTemplateID`,`UserID` FROM `Transaction` WHERE `MultiSellRuleEnabled` = 1 and `Status` = 'Open' ";
+  echo "<BR> $sql";
+  //LogToSQL("SQLTest",$sql,3,1);
+  $result = $conn->query($sql);
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['MultiSellRuleTemplateID'],$row['UserID']);}
+  $conn->close();
+}
+
+function runMultiBuy(){
+  $multiBuyAry = getMultiBuyIDs();
+  $multiBuyArySize = count($multiBuyAry);
+  for($d=0;$d<$multiBuyArySize;$d++){
+    $multiSellRuleTemplateID = $multiBuyAry[$d][1]; $transactionID = $multiBuyAry[$d][0]; $userID = $multiBuyAry[$d][2];
+    $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
+    $str_arr = explode (",", $ruleStr);
+    $str_arrSize = count($str_arr);
+    for ($t=0; $t<$str_arrSize; $t++){
+      $sellRuleIDFromTemplate = $str_arr[$t];
+      writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
+    }
+    //writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID);
   }
 }
 
@@ -909,5 +946,7 @@ runAutoActionBuy($autoActionCoins);
 $autoActionCoins = getAutoActionCoins('Sell','Sold',168);
 runAutoActionSell($autoActionCoins);
 runSavingsMerge();
+
+runMultiBuy();
 ?>
 </html>
