@@ -2133,7 +2133,7 @@ function updateWebCoinStatsTable($coinID){
 }
 
 
-function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled){
+function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled, $name){
   $returnFlag = False;
   if ($buyEnabled == 0){
       //print_r("True");
@@ -2151,7 +2151,7 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled){
     $returnFlag = False;
   }
   if ($echoEnabled == 1){
-    echo "<BR> buyWithScore Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score ";
+    echo "<BR> buyWithScore $name Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score ";
   }
   return $returnFlag;
 }

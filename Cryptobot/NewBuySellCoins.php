@@ -992,22 +992,22 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($hoursDisableUntil > 0){ echoText("EXIT: Disabled until: ".$hoursDisableUntil,$echoExitText); continue;}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $APISecret,'USD','BTC',$apiVersion)), 8, '.', '');
       $newAutoBuyPrice = findAutoBuyPrice($autoBuyPrice,$coinID);
-      $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled, $buyWithScore_MrktCap);
+      $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled, $buyWithScore_MrktCap,'MarketCap');
       $buyResultAry[] = Array($test1, "Market Cap $symbol", $MarketCapPctChange);
-      $test2 = buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled, $buyWithScore_Vol2);
+      $test2 = buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled, $buyWithScore_Vol2,'Volume');
       $buyResultAry[] = Array($test2, "Volume $symbol", $VolumePctChange);
-      $test3 = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled,$buyWithScore_BuyOrd3);
+      $test3 = buyWithScore($BuyOrdersTop,$BuyOrdersBtm,$BuyOrdersPctChange,$BuyOrdersEnabled,$buyWithScore_BuyOrd3,'BuyOrders');
       $buyResultAry[] = Array($test3, "Buy Orders $symbol", $BuyOrdersPctChange);
-      $test4 = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled,$buyWithScore_1Hr4 );
+      $test4 = buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled,$buyWithScore_1Hr4 ,'1HrChange');
       //echo "<BR> buyWithScore($Hr1ChangeTop,$Hr1ChangeBtm,$Hr1ChangePctChange,$Hr1ChangeEnabled);";
       $buyResultAry[] = Array($test4, "1 Hour Price Change $symbol", $Hr1ChangePctChange);
-      $test5 = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled,$buyWithScore_24Hr5);
+      $test5 = buyWithScore($Hr24ChangeTop,$Hr24ChangeBtm,$Hr24ChangePctChange,$Hr24ChangeEnabled,$buyWithScore_24Hr5,'24HrChange');
       $buyResultAry[] = Array($test5, "24 Hour Price Change $symbol", $Hr24ChangePctChange);
-      $test6 = buyWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled,$buyWithScore_7D6 );
+      $test6 = buyWithScore($D7ChangeTop,$D7ChangeBtm,$D7ChangePctChange,$D7ChangeEnabled,$buyWithScore_7D6 ,'7DayChange');
       $buyResultAry[] = Array($test6, "7 Day Price Change $symbol", $D7ChangePctChange);
-      $test7 = buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled,$buyWithScore_CoinPrice7 );
+      $test7 = buyWithScore($CoinPriceTop,$CoinPriceBtm,$CoinPricePctChange,$CoinPriceEnabled,$buyWithScore_CoinPrice7 ,'CoinPrice');
       $buyResultAry[] = Array($test7, "Coin Price $symbol", $CoinPricePctChange);
-      $test8 = buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled,$buyWithScore_SellOrd8);
+      $test8 = buyWithScore($SellOrdersTop,$SellOrdersBtm,$SellOrdersPctChange,$SellOrdersEnabled,$buyWithScore_SellOrd8,'SellOrders');
       $buyResultAry[] = Array($test8, "Sell Orders $symbol", $SellOrdersPctChange);
       //echo "<BR> NEW Buy with Pattern1 : $newPriceTrend,$coinPricePatternList,$priceTrendEnabled,$ruleIDBuy,0 | $coinID | $ruleIDBuy";
       if ($priceTrendEnabled){
