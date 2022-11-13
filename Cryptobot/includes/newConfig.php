@@ -2133,22 +2133,27 @@ function updateWebCoinStatsTable($coinID){
 }
 
 
-function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
+function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled){
+  $returnFlag = False;
   if ($buyEnabled == 0){
       //print_r("True");
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }elseif ($buyTop >= $score && $buyBtm <= $score && $buyEnabled == 1){
       //print_r("True");
       $GLOBALS['allDisabled'] = true;
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
     //print_r("False");
-    return False;
+    $returnFlag = False;
   }
+  if ($echoEnabled == 1){
+    echo "<BR> buyWithScore Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score ";
+  }
+  return $returnFlag;
 }
 
 function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled){
@@ -2356,16 +2361,19 @@ function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
 function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled){
   $returnBool = False;
   $coinPriceAryCount = count($autoBuyPrice);
-  for ($i = 0; $i<$coinPriceAryCount; $i++){
-    if ($coinID == $autoBuyPrice[$i][0]){
-
-      $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled);
-      echo "<BR> autoBuy($LiveCoinPrice,".$autoBuyPrice[$i][1].",".$autoBuyPrice[$i][2].",$autoBuyCoinEnabled); $returnBool";
-    }
-  }
   if ($autoBuyCoinEnabled == 0){
     $returnBool = True;
+    $coinPriceAryCount = 0;
   }
+  for ($i = 0; $i<$coinPriceAryCount; $i++){
+    $newCoinID = $autoBuyPrice[$i][0];  $newAutoBuyPrice = $autoBuyPrice[$i][1]; $autoSellPrice = $autoBuyPrice[$i][2];
+    if ($coinID == $newCoinID){
+
+      $returnBool = autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled);
+      echo "<BR> autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled); $returnBool";
+    }
+  }
+
   if ($echoEnabled == 1){
     echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:$autoBuyPrice | CoinID:$coinID";
   }
