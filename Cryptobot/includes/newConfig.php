@@ -2151,43 +2151,53 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled){
   }
 }
 
-function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice){
-  echo "<BR>BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice | $buyMinEnabled";
+function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled){
+  //echo "<BR>BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice | $buyMinEnabled";
+  $returnFlag = False;
   if ($buyMinEnabled == 0){
       //print_r("True");
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }elseif ($LiveCoinPrice <= $BuyMin){
-      echo "<BR>BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice | Live Greater than Buy Min";
+      //echo "<BR>BuyMin $BuyMin LiveCoinPrice $LiveCoinPrice | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
     //print_r("False");
-    return False;
+    $returnFlag = False;
   }
+  if ($echoEnabled == 1){
+    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag";
+  }
+  return $returnFlag;
 }
 
-function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours){
+function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$echoEnabled){
   //echo "<BR>checkPriceDipCoinFlat $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
+  $returnFlag = False;
   if ($priceDipCoinFlatEnabled == 0){
       //print_r("True");
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }elseif ($priceDipHours >= $priceDipHoursFlatTarget){
       //echo "<BR>BuyMin $priceDipHoursFlatTarget LiveCoinPrice $priceDipHours | Live Greater than Buy Min";
       $GLOBALS['allDisabled'] = true;
       //print_r("-True");
-      return True;
-      exit;
+      $returnFlag = True;
+      //exit;
   }else {
     $GLOBALS['allDisabled'] = true;
     //print_r($buyTop >= $score);
-    print_r("-False");
-    return False;
+    //print_r("-False");
+    $returnFlag = False;
   }
+  if ($echoEnabled == 1){
+    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag";
+  }
+  return $returnFlag;
 }
 
 function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice){
@@ -2343,7 +2353,7 @@ function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled){
   }
 }
 
-function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID){
+function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled){
   $returnBool = False;
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
@@ -2351,6 +2361,9 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
       //echo "<BR> autoBuy($LiveCoinPrice,".$autoBuyPrice[$i][1].",".$autoBuyPrice[$i][2].",$autoBuyCoinEnabled);";
       $returnBool = autoBuy($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyPrice[$i][2],$autoBuyCoinEnabled);
     }
+  }
+  if ($echoEnabled == 1){
+    echo "<BR> autoBuyMain Enabled:$returnBool";
   }
   return $returnBool;
 }
