@@ -2170,7 +2170,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled){
     $returnFlag = False;
   }
   if ($echoEnabled == 1){
-    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag";
+    echo "<BR> buyWithMin Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin ";
   }
   return $returnFlag;
 }
@@ -2195,7 +2195,7 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
     $returnFlag = False;
   }
   if ($echoEnabled == 1){
-    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag";
+    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag | FlatTarget:$priceDipHoursFlatTarget | FlatHours:$priceDipHours ";
   }
   return $returnFlag;
 }
@@ -2363,7 +2363,7 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
     }
   }
   if ($echoEnabled == 1){
-    echo "<BR> autoBuyMain Enabled:$returnBool";
+    echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:$autoBuyPrice | CoinID:$coinID";
   }
   return $returnBool;
 }
