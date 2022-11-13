@@ -892,6 +892,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 
       if ($priceDipMinPriceEnabled == 1){
         if ($hoursSinceAdded < 3000){
+          echoText("EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText);
           continue;
         }
       }
