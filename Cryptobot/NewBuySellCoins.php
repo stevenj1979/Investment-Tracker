@@ -850,8 +850,6 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
 
-      echoText("Checking: $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoProgramFlow);
-
       if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
@@ -962,6 +960,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
           if ($userDailyBTCSpent >= $DailyBTCLimit){echoText("EXIT: DAILY BTC SPENT",$echoExitText);continue;}else{ echoText("Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit",$echoTestText);}
       }
+      echoText("Checking: $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoProgramFlow);
       echoText("I'm here2!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy",$echoTestText);
       if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$echoExitText);continue;
       }else{ echoText("Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID],$echoTestText);}
@@ -1069,7 +1068,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
           }else{
-            
+
           }
 
           //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
