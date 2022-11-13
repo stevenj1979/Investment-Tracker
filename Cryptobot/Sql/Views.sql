@@ -606,7 +606,7 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    from `AllTimeHighLow` `Ath`
    join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` =`Ath`.`CoinID`
    join `Coin` `Cn` on `Cn`.`ID` = `Ath`.`CoinID`
-   join `CoinPrice` `Cp` on `Cp`.`ID` = `Ath`.`CoinID`
+   join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Ath`.`CoinID`
    Join `AvgHighLow` `Ah` on `Ah`.`CoinID` = `Ath`.`CoinID` and `Ah`.`HighLow` = 'High'
    Join `AvgHighLow` `Al` on `Al`.`CoinID` = `Ath`.`CoinID` and `Al`.`HighLow` = 'Low'
    where `Ath`.`HighLow` = 'High' and `Cn`.`BuyCoin` = 1
