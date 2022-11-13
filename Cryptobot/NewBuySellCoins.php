@@ -973,6 +973,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($userActive == False){ echoText("EXIT: User Not Active!",$echoExitText); continue;}
       if ($hoursDisableUntil > 0){ echoText("EXIT: Disabled until: ".$hoursDisableUntil,$echoExitText); continue;}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $APISecret,'USD','BTC',$apiVersion)), 8, '.', '');
+      $newAutoBuyPrice = findAutoBuyPrice($autoBuyPrice,$coinID);
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled);
       $buyResultAry[] = Array($test1, "Market Cap $symbol", $MarketCapPctChange);
       $test2 = buyWithScore($VolumeTop,$VolumeBtm,$VolumePctChange,$VolumeEnabled);
@@ -999,7 +1000,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice,$BuyCoinBuyWithMin10);
       echoText("TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10",$echoTestText);
       $buyResultAry[] = Array($test10, "Buy Price Minimum $symbol", $LiveCoinPrice);
-      $test11 = autoBuyMain($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID,$autoBuyMain11);
+      $test11 = autoBuyMain($LiveCoinPrice,$newAutoBuyPrice, $autoBuyCoinEnabled,$coinID,$autoBuyMain11);
       $buyResultAry[] = Array($test11, "Auto Buy Price $symbol", $LiveCoinPrice);
       $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy,0);
       $buyResultAry[] = Array($test12, "Coin Price Pattern $symbol", $LiveCoinPrice);

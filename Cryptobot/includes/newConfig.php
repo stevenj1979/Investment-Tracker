@@ -4147,6 +4147,17 @@ function getAutoBuyPrices(){
   return $tempAry;
 }
 
+function findAutoBuyPrice($autoBuyPrice,$coinID){
+  $autoBuyPriceSize = count($autoBuyPrice);
+  for ($w=0;$w<$autoBuyPriceSize;$w++){
+    $curretID = $autoBuyPrice[$w][0];
+    if ($coinID == $curretID){
+      return $autoBuyPrice[$w][1];
+      exit;
+    }
+  }
+}
+
 function setTextColour($num, $onOffFlag){
   $colour = "";
   if ($onOffFlag == False){
