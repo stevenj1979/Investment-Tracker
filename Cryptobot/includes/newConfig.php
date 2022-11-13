@@ -2371,11 +2371,12 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
 
       $returnBool = autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled);
       echo "<BR> autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled); $returnBool";
+      $finalNo = $i;
     }
   }
 
   if ($echoEnabled == 1){
-    echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:$autoBuyPrice | CoinID:$coinID";
+    echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:".$autoBuyPrice[$finalNo][1]." | CoinID:$coinID";
   }
   return $returnBool;
 }
