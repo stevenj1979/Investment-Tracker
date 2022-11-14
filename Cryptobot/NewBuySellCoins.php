@@ -946,22 +946,15 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         continue;}
         //else{ echo "<BR> EXIT PROFIT!";}
       $GLOBALS['allDisabled'] = false;
-      if (empty($APIKey) && empty($APISecret)){ continue;}
+      if (empty($APIKey) && empty($APISecret)){ echoText("EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText); continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){
         //Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>";
         echoText("EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText);
         continue;}
-      //echo "<BR> I'm here1A!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){
-        //Echo "<BR> EXIT: Wrong Base Currency: $userID $baseCurrency $limitToBaseCurrency $ruleIDBuy<BR>";
         echoText("EXIT: Wrong BaseCurrency  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText);
         continue;}
-      //echo "<BR> I'm here1B!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
-      //echo "<BR> BASE!! $baseCurrency : $userBaseCurrency";
-      //if ($baseCurrency != $userBaseCurrency && $userBaseCurrency != "ALL"){
-        //Echo "<BR> EXIT: Wrong User Base Currency: $userID $baseCurrency $userBaseCurrency $ruleIDBuy<BR>";
-      //  continue;}
-      //echo "<BR> I'm here1C!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
+
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
         //Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>";
         echoText("EXIT: Wrong Symbol for Rule  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText);
