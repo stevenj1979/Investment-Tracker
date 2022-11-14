@@ -700,7 +700,7 @@ CREATE OR REPLACE VIEW `View23_AvgCoinPricePct` as
 CREATE OR REPLACE VIEW `View24_SavingsReadyToOpenAndMerge` as
 SELECT `TrSav`.`ID` as SavingID, `Tr`.`ID`,`Tr`.`UserID`,`Uc`.`MergeSavingWithPurchase`,`Tr`.`FixSellRule`, `Tr`.`BuyRule`, `Tr`.`SellRule`,`Tr`.`MultiSellRuleEnabled`, `Tr`.`MultiSellRuleTemplateID`
 FROM `Transaction` `Tr`
-join `Transaction` `TrSav` on `Tr`.`ID` = `TrSav`.`ID`
+join `Transaction` `TrSav` on `Tr`.`CoinID` = `TrSav`.`CoinID`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
 Where `Tr`.`Status` = 'Open' and `TrSav`.`Status` = 'Saving' and `Uc`.`MergeSavingWithPurchase` = 1;
 

@@ -1203,7 +1203,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
         if (isset($sellPctCsp)){
           echoText("Its set!! $sellPctCsp",$echoTestText);
-          $ProfitPctBtm_Sell = $sellPctCsp;
+          $ProfitPctBtm_Sell = $calculatedSellPctStart;
         }
 
         //$ProfitPctBtm_Sell = $calculatedSellPctStart - ($hoursSinceBuy * ($calculatedSellPctStart-$calculatedSellPctEnd)/($calculatedSellPctDays*24));
