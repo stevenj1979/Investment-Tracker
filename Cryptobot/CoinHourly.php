@@ -821,7 +821,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
   }
 
   $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1,`FixSellRule` = $fixSellRule, `BuyRule` = $buyRule,`SellRule` = $sellRule, `MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellID
-            WHERE `ID` = $savingID;";
+            , `Type` = 'Sell' WHERE `ID` = $savingID;";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
