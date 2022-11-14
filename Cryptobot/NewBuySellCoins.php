@@ -1123,6 +1123,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $echoProgramFlow = $webSettingsAry[0][1];
   //$echoTestText = 0;
   $echoTestText = $webSettingsAry[1][1];
+  $checkPriceDipCoinFlatArt = $webSettingsAry[10][1];
 
   echoText("SellCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
@@ -1323,7 +1324,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
       //Echo "<BR> Hours Flat  $priceDipHours $priceDipHoursFlatTarget";
-      $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours);
+      $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$checkPriceDipCoinFlatArt);
       $sellResultAry[] = Array($sTest14, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest15 = sellWithMin($priceDipMaxPriceEnabled,$finalPriceDipMaxPrice,$LiveCoinPrice,$LiveBTCPrice);
       $sellResultAry[] = Array($sTest15, "Coin Price Match $coin", $LiveCoinPrice);
