@@ -6100,7 +6100,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell){
   }
   $conn->close();
   logAction("writeCalculatedSellPct: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeCalculatedSellPct","$sql",3,1,"SQL CALL","UserID:$userID TransID:$transID");
+  newLogToSQL("writeCalculatedSellPct","$sql",3,0,"SQL CALL","UserID:$userID TransID:$transID");
 }
 
 function getCoinAllocation($userID){
