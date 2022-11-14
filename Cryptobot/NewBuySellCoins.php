@@ -819,7 +819,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
     $hoursFlatHigh = $coins[$x][50];$hoursFlatLow = $coins[$x][51];
-    echoText("Checking: $coinID - $symbol - $baseCurrency  <BR>",$echoProgramFlow);
+    echoText("Checking: $coinID - $symbol - $baseCurrency  <BR><blockquote>",$echoProgramFlow);
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
       $buyOutstanding = "";
@@ -1101,6 +1101,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 
       echoText("NEXT RULE <BR>",$echoProgramFlow);
     }//Rule Loop
+    echoText("</blockquote>",$echoProgramFlow);
   }//Coin Loop
   return $finalBool;
 }
