@@ -843,10 +843,10 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $limitBuyTransactionsEnabled = $buyRules[$y][78]; $limitBuyTransactions = $buyRules[$y][79]; $overrideCoinAlloc = $buyRules[$y][80];
       $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
-      $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
+      $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice);
       $buyRuleType = $buyRules[$y][89];
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
-      echoText("FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",$echoTestText);
+      echoText("FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",$echoTestText);
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][35]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
