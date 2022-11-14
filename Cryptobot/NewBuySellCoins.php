@@ -977,9 +977,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       }
 
       echoText("Placeholder 6:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoTestText);
-      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$echoExitText);continue;
+      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$echoExitText);//continue;
       }else{ echoText("Number of Coin Buys: 1 BuyCounter ".$buyCounter[$userID."-".$coinID],$echoTestText);}
-      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"],$echoExitText);continue;
+      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ echoText("EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"],$echoExitText);//continue;
       }else{ echoText("Number of Total Buys: $noOfBuys BuyCounter ".$buyCounter[$userID."-Total"],$echoTestText);}
       if ($userActive == False){ echoText("EXIT: User Not Active!",$echoExitText); continue;}
       if ($hoursDisableUntil > 0){ echoText("EXIT: Disabled until: ".$hoursDisableUntil,$echoExitText); continue;}
