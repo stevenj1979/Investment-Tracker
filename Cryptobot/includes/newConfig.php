@@ -2156,7 +2156,7 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled, $name){
   return $returnFlag;
 }
 
-function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled){
+function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled,$name){
   //echo "<BR>BuyMin $BuyMin LiveBTCPrice $LiveCoinPrice | $buyMinEnabled";
   $returnFlag = False;
   if ($buyMinEnabled == 0){
@@ -2175,7 +2175,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled){
     $returnFlag = False;
   }
   if ($echoEnabled == 1){
-    echo "<BR> buyWithMin Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin ";
+    echo "<BR> buyWithMin $name Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin ";
   }
   return $returnFlag;
 }
