@@ -700,3 +700,9 @@ FROM `Transaction` `Tr`
 join `Transaction` `TrSav` on `Tr`.`ID` = `TrSav`.`ID`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
 Where `Tr`.`Status` = 'Open' and `TrSav`.`Status` = 'Saving' and `Uc`.`MergeSavingWithPurchase` = 1;
+
+CREATE OR REPLACE VIEW `View25_NoOfOpenTransactions` AS
+SELECT Count(`ID`) as OpenTransactions ,`BuyRule`,`UserID`
+FROM `Transaction`
+WHERE `Status` in ('Pending','Open')
+group by `BuyRule`,`UserID` 
