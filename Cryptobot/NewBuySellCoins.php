@@ -1201,7 +1201,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $ProfitPctTop_Sell = 999.99;
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
 
-        if (isset($sellPctCsp)){
+        if (!isset($sellPctCsp)){
           echoText("Its set!! $sellPctCsp",$echoTestText);
           $ProfitPctBtm_Sell = $calculatedSellPctStart;
         }
