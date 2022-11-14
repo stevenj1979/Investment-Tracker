@@ -673,7 +673,7 @@ function getUserRules(){
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`
-   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal' and (`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null";
+   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal' and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);

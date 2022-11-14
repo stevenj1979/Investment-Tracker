@@ -467,6 +467,7 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,DateDiff(`Br`.`DisableUntil`,now()) as HoursDisableUntil
 ,`Mcs`.`LiveBuyOrders` as LiveBuyOrdersMkt, `Mcs`.`LastBuyOrders` as LastBuyOrdersMkt, `Mcs`.`BuyOrdersPctChange` as BuyOrdersPctChangeMkt, `Mcs`.`LiveMarketCap` as LiveMarketCapMkt,`Mcs`.`LastMarketCap` as LastMarketCapMkt, `Mcs`.`MarketCapPctChange` as MarketCapPctChangeMkt, `Mcs`.`Live1HrChange` as Live1HrChangeMkt, `Mcs`.`Last1HrChange` as Last1HrChangeMkt, `Mcs`.`Hr1ChangePctChange` as Hr1ChangePctChangeMkt, `Mcs`.`Live24HrChange` as Live24HrChangeMkt, `Mcs`.`Last24HrChange` as Last24HrChangeMkt, `Mcs`.`Hr24ChangePctChange` as Hr24ChangePctChangeMkt, `Mcs`.`Live7DChange` as Live7DChangeMkt, `Mcs`.`Last7DChange` as Last7DChangeMkt, `Mcs`.`D7ChangePctChange` as D7ChangePctChangeMkt, `Mcs`.`LiveCoinPrice` as LiveCoinPriceMkt, `Mcs`.`LastCoinPrice` as LastCoinPriceMkt, `Mcs`.`CoinPricePctChange` as CoinPricePctChangeMkt, `Mcs`.`LiveSellOrders` as LiveSellOrdersMkt, `Mcs`.`LastSellOrders` as LastSellOrdersMkt
 , `Mcs`.`SellOrdersPctChange` as SellOrdersPctChangeMkt, `Mcs`.`LiveVolume` as LiveVolumeMkt, `Mcs`.`LastVolume` as LastVolumeMkt, `Mcs`.`VolumePctChange` as VolumePctChangeMkt, `Mcs`.`Price4Trend` as Price4TrendMkt, `Mcs`.`Price3Trend` as Price3TrendMkt, `Mcs`.`LastPriceTrend` as LastPriceTrendMkt, `Mcs`.`LivePriceTrend` as LivePriceTrendMkt, `Mcs`.`AutoBuyPrice` as AutoBuyPriceMkt, `Mcs`.`1HrPriceChangeLive` as 1HrPriceChangeLiveMkt, `Mcs`.`1HrPriceChangeLast` as 1HrPriceChangeLastMkt, `Mcs`.`1HrPriceChange3` as 1HrPriceChange3Mkt, `Mcs`.`1HrPriceChange4` as 1HrPriceChange4Mkt,`Mcs`.`MaxCoinPricePctChange`, `Mcs`.`MaxHr1ChangePctChange`, `Mcs`.`MaxHr24ChangePctChange`,`Mcs`.`MaxD7ChangePctChange`, `Mcs`.`MinCoinPricePctChange`, `Mcs`.`MinHr1ChangePctChange`, `Mcs`.`MinHr24ChangePctChange`, `Mcs`.`MinD7ChangePctChange`
+,`Noot`.`OpenTransactions`
 from (((`BuyRules` `Br`
   join `User` `Us` on((`Us`.`ID` = `Br`.`UserID`)))
   join `UserConfig` `Uc` on((`Uc`.`UserID` = `Us`.`ID`)))
@@ -476,7 +477,9 @@ from (((`BuyRules` `Br`
   left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
   left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`
   left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`
-  join  `MarketCoinStats` `Mcs` where `Mcs`.`Hr24ChangePctChange` <> 0 AND `Mcs`.`D7ChangePctChange` <> 0;
+  join  `MarketCoinStats` `Mcs`
+  left join `View25_NoOfOpenTransactions` `Noot` on `Noot`.`BuyRule` = `Br`.`ID` and `Noot`.`UserID` = `Br`.`UserID`
+  where `Mcs`.`Hr24ChangePctChange` <> 0 AND `Mcs`.`D7ChangePctChange` <> 0;
 
 
   CREATE OR REPLACE VIEW `View14_UserSellRules` as
@@ -705,4 +708,4 @@ CREATE OR REPLACE VIEW `View25_NoOfOpenTransactions` AS
 SELECT Count(`ID`) as OpenTransactions ,`BuyRule`,`UserID`
 FROM `Transaction`
 WHERE `Status` in ('Pending','Open')
-group by `BuyRule`,`UserID` 
+group by `BuyRule`,`UserID`;
