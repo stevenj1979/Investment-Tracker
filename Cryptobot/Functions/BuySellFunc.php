@@ -208,6 +208,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
             }
             $ogBTCAmount = ($ogBTCAmount/100)*$pctToBuy;
         }
+        if ($ogBTCAmount <= 0){ continue;}
         $date = date("Y-m-d H:i:s", time());
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$noOfPurchases+1);
         $delayResponse = getCoinDelayState($coinID,$userID);
