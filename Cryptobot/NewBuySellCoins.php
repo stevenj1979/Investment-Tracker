@@ -2233,7 +2233,7 @@ while($completeFlag == False){
           $BittrexReqs = getBittrexRequests();
           $refreshBittrexFlag = False;
         }
-        $refreshBittrexFlag = runBittrex($BittrexReqs,$apiVersion);
+        $refreshBittrexFlag = runBittrex($BittrexReqs,$apiVersion,$webSettingsAry);
   echo "</blockquote><BR> CHECK Alerts!! $i<blockquote>";
         if ($refreshAlertsFlag == True){
           $coinAlerts = getCoinAlerts();
