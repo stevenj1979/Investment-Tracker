@@ -2259,7 +2259,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateCoinAutoActions`(IN `n
     MODIFIES SQL DATA
 BEGIN
 if nType = 'Buy' THEN
-    if NOT EXISTS (SELECT `ID` FROM `CoinAutoActions` WHERE `CoinID` = Coin_ID and `Type` = nType) THEN
+    if NOT EXISTS (SELECT `ID` FROM `CoinAutoActions` WHERE `CoinID` = Coin_ID) THEN
         INSERT INTO `CoinAutoActions`(`CoinID`, `Offset`, `MinsToCancelBuy`) VALUES (Coin_ID,nPct,nHours);
     else
         UPDATE `CoinAutoActions` SET `Offset`= nPct,`MinsToCancelBuy`= nHours WHERE `CoinID` = Coin_ID;

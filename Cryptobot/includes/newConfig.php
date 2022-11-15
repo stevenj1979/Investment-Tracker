@@ -970,7 +970,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           sendEmail($email, $coin, $btcBuyAmount, $bitPrice, $orderNo, $score, $subject,$userName, $from,$baseCurrency);
         }
     }else{
-      addCoinPurchaseDelay($coinID,$userID,120,0);
+      //addCoinPurchaseDelay($coinID,$userID,120,0);
+      pauseRule($ruleID, 24){
       clearTrackingCoinQueue($userID,$coinID);
       buyBackDelay($coinID,4320,$userID);
       echo "<BR> BITTREX BALANCE INSUFFICIENT $coin: $btcBuyAmount>".$newMinTradeAmount;
@@ -3369,12 +3370,13 @@ function newLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 
 function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
   $sql = "call newLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref')";
+  $sql = str_replace("'","/",$comments);
   if ($enabled > 0){
-    echo "<BR> $sql";
+    echo "<BR> $subject | $subTitle | $comments";
   }
 
   if ($enabled > 1){
-    $comments = str_replace("'","/",$comments);
+
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //print_r("<br>".$sql);
@@ -3384,6 +3386,10 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
       //sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
     }
     $conn->close();
+  }
+
+  if ($enabled > 2){
+    file_put_contents('./log/log_'.$subject.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$comments."|".$subTitle."|".$UserID.PHP_EOL, FILE_APPEND);
   }
 }
 
