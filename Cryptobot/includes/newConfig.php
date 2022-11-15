@@ -3367,6 +3367,26 @@ function newLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref){
   }
 }
 
+function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
+  $sql = "call newLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref')";
+  if ($enabled > 0){
+    echo "<BR> $sql";
+  }
+
+  if ($enabled > 1){
+    $comments = str_replace("'","/",$comments);
+    $conn = getSQLConn(rand(1,3));
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //print_r("<br>".$sql);
+    if ($conn->query($sql) === TRUE) {echo "";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      //sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    }
+    $conn->close();
+  }
+}
+
 function displayHeader($n){
   //$_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
   //$_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
