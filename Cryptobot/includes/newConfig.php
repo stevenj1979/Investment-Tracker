@@ -672,8 +672,8 @@ function getUserRules(){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
-  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`
-   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal' and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA'";
+  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`
+   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal' and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -689,7 +689,7 @@ function getUserRules(){
     ,$row['BuyRisesInPrice'],$row['TotalProfitPauseEnabled'],$row['TotalProfitPause'],$row['PauseRulesEnabled'],$row['PauseRules'],$row['PauseHours'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct'] //72
     ,$row['OverrideDisableRule'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //79
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
-   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule']); //91
+   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr']); //92
   }
   $conn->close();
   return $tempAry;
