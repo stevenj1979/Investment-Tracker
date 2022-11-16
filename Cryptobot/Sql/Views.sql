@@ -198,7 +198,6 @@ FROM `BittrexAction`  `Ba`
       ,avgMaxPrice(`Cn`.`ID`,20) as `MaxPriceFromHigh`, ((`Cp`.`LiveCoinPrice`- avgMaxPrice(`Cn`.`ID`,20))/avgMaxPrice(`Cn`.`ID`,20))*100 as `PctFromLiveToHigh`
       ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
       , `Us`.`DisableUntil`
-      ,`Csp`.`SellPct` as `SellPctCsp`
       ,`Cpe`.`Hr1Top`,`Cpe`.`Hr1Bottom`
       ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
     from ((((((((`Transaction` `Tr`
@@ -216,7 +215,6 @@ FROM `BittrexAction`  `Ba`
       left Join  `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Tr`.`BuyRule`
       join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` =  `Cn`.`ID`
       join `User` `Us` on `Us`.`ID` = `Uc`.`UserID`
-      left join `CalculatedSellPct` `Csp` on `Csp`.`TransactionID` = `Tr`.`ID`
       left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`
       left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`;
 
