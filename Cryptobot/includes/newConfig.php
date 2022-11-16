@@ -463,7 +463,7 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,sum(`1HrPriceChangeLast`) as 1HrPriceChangeLast,sum(`1HrPriceChange3`) as 1HrPriceChange3,sum(`1HrPriceChange4`) as 1HrPriceChange4,avg(`SecondstoUpdate`) as SecondstoUpdate,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,avg(`HoursFlatPdcs`) as HoursFlatPdcs,avg(`MinPriceFromLow`) as MinPriceFromLow
     ,avg(`PctFromLiveToLow`) as PctFromLiveToLow,Trim(avg(`Month6Low`))+0 as 6MonthPrice ,Trim(avg(`Month3Low`))+0 as 3MonthPrice,Trim(avg(`AverageLowPrice`))+0 as AverageLowPrice,avg(`HoursSinceAdded`) as HoursSinceAdded
     ,avg(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
-    ,`Sbc`.`SpreadBetRuleID`
+    ,`Sbc`.`SpreadBetRuleID` as SpreadBetRuleID
     $table
     join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `IDCn`
     $whereclause";
@@ -476,7 +476,7 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,$row['Live24HrChange'],$row['Last24HrChange'],$row['Hr24ChangePctChange'],$row['Live7DChange'],$row['Last7DChange'],$row['D7ChangePctChange'],$row['LiveCoinPrice'],$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders']//21
     ,$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['1HrPriceChangeLive'],$row['1HrPriceChangeLast'],$row['1HrPriceChange3'] //33
     ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice'] //45
-    ,$row['HoursSinceAdded'],$row['MaxHoursFlat'],$row['CaaOffset'],$row['CaaMinsToCancelBuy'],$row['HoursFlatHighPdcs'],$row['HoursFlatLowPdcs']);//51
+    ,$row['HoursSinceAdded'],$row['MaxHoursFlat'],$row['CaaOffset'],$row['CaaMinsToCancelBuy'],$row['HoursFlatHighPdcs'],$row['HoursFlatLowPdcs'],$row['SpreadBetRuleID']);//52
   }
   $conn->close();
   return $tempAry;
@@ -710,8 +710,8 @@ function getSpreadBetUserRules(){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
-  ,`PctOverMinPrice`,`PctOfAuto`
-   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'SpreadBet'";
+  ,`PctOverMinPrice`,`PctOfAuto`,`SpreadBetTotalAmount`
+   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'SpreadBet' and `RuleDisabledBr` = 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -727,7 +727,7 @@ function getSpreadBetUserRules(){
     ,$row['BuyRisesInPrice'],$row['TotalProfitPauseEnabled'],$row['TotalProfitPause'],$row['PauseRulesEnabled'],$row['PauseRules'],$row['PauseHours'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct'] //72
     ,$row['OverrideDisableRule'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //79
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
-   ,$row['PctOverMinPrice'],$row['PctOfAuto']); //88
+   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['SpreadBetTotalAmount']); //89
   }
   $conn->close();
   return $tempAry;
@@ -4314,6 +4314,28 @@ $result = $conn->query($sql);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction']);
+}
+$conn->close();
+return $tempAry;
+}
+
+function getSpreadbetCoins($spreadBetRuleID){
+$conn = getSQLConn(rand(1,3));
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Sbt`.`ID` as SpreadBetTransactionID,`Cp`.`LiveCoinPrice`
+          FROM `SpreadBetCoins` `Sbc`
+          Join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
+          join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
+          WHERE `Sbc`.`SpreadBetRuleID` = $spreadBetRuleID ";
+$result = $conn->query($sql);
+//$result = mysqli_query($link4, $query);
+//mysqli_fetch_assoc($result);
+while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['SpreadBetTransactionID'],$row['LiveCoinPrice']);
 }
 $conn->close();
 return $tempAry;

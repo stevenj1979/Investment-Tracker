@@ -134,7 +134,7 @@ function copyRule($ID){
     , `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`,`Category`
     from `SellRules`
     where `ID` = $ID";
-  //print_r($sql);
+  print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -142,7 +142,7 @@ function copyRule($ID){
   }
 
   $conn->close();
-  header('Location: SellSettings.php');
+  //header('Location: SellSettings.php');
 
 }
 
