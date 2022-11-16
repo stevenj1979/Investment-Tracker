@@ -1121,7 +1121,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 }
 
 
-function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry){
+function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp){
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
@@ -1221,7 +1221,13 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
           $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
         }
-
+        $cspSize = count($csp);
+        for ($y=0;$y<$cspSize;$y++){
+          $cspTransID = $csp[$y][1]; $CspRuleID = $csp[$y][5];
+          if ($cspTransID ==  $transactionID AND $CspRuleID == $ruleIDSell){
+            $sellPctCsp = $csp[$y][2];
+          }
+        }
         writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);
         echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
         echoText("Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays",$echoTestText);
@@ -2064,8 +2070,32 @@ function getSettings(){
   return $tempAry;
 }
 
+function getCalculatedSellPct(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  //12
+  $sql = "SELECT `Csp`.`ID`, `Csp`.`TransactionID`, `Csp`.`SellPct`,`Csp`.`UserID`, `Csp`.`LastUpdated`, `Csp`.`RuleID`
+            FROM `CalculatedSellPct` `Csp`
+            Join `Transaction` `Tr` on `Tr`.`ID` = `Csp`.`TransactionID`
+            where `Tr`.`Status` in ('Open','Pending')";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['ID'],$row['TransactionID'],$row['SellPct'],$row['UserID'],$row['LastUpdated'],$row['RuleID']); //
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 //get Settings
 $webSettingsAry = getSettings();
+//get CSP
+$csp = getCalculatedSellPct();
 //set time
 setTimeZone();
 $i=0;
@@ -2213,7 +2243,7 @@ while($completeFlag == False){
           $runSellCoinsFlag = False;
           $buyToReduceLossFlag = True;
         }
-        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry);
+        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or$refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
