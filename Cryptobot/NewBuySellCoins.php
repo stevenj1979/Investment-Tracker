@@ -1135,7 +1135,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $echoTestText = $webSettingsAry[1][1];
   $checkPriceDipCoinFlatArt = $webSettingsAry[10][1];
   $scoreSettingsAlert = $webSettingsAry[23][1];
-
+  $cspAlert = $webSettingsAry[24][1];
   echoText("SellCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
   echoText("6: 7DPctChange | 7: PriceTrendPattern | 8: MinPrice | 9: ProfitPct | 10: CoinPrice ",$echoProgramFlow);
@@ -1229,9 +1229,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             $sellPctCsp = $csp[$y][2];
           }
         }
+
         writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);
-        echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
-        echoText("Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays",$echoTestText);
+        echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
+        //echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
+        //echoText("Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays",$echoTestText);
 
       }
       if ($priceDipCoinFlatEnabled == 2){
