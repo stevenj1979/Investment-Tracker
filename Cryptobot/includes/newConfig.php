@@ -2151,9 +2151,8 @@ function buyWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled, $name){
     //print_r("False");
     $returnFlag = False;
   }
-  if ($echoEnabled == 1){
-    echo "<BR> buyWithScore $name Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score ";
-  }
+  //echo " buyWithScore $name Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score ";
+  echoAndLog($name, "buyWithScore $name Enabled:$returnFlag | Top:$buyTop btm:$buyBtm Score:$score",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2175,9 +2174,8 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled,$name){
     //print_r("False");
     $returnFlag = False;
   }
-  if ($echoEnabled == 1){
-    echo "<BR> buyWithMin $name Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin ";
-  }
+  //echo " buyWithMin $name Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin ";
+  echoAndLog($name, "buyWithMin $name Enabled:$returnFlag | Live:$LiveCoinPrice BuyMin:$BuyMin",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2200,7 +2198,7 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
     //print_r("-False");
     $returnFlag = False;
   }
-  echoAndLog($name, "<BR> checkPriceDipCoinFlat Enabled:$returnFlag | FlatTarget:$priceDipHoursFlatTarget | FlatHours:$priceDipHours",3,$echoEnabled,"","");
+  echoAndLog($name, "checkPriceDipCoinFlat Enabled:$returnFlag | FlatTarget:$priceDipHoursFlatTarget | FlatHours:$priceDipHours",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2223,7 +2221,7 @@ function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice,$e
     //print_r("False");
     $returnFlag = False;
   }
-  echoAndLog($name, "<BR> sellWithMin Enabled:$returnFlag | MinPrice:$sellMin | LivePrice:$LiveCoinPrice | BTCPrice:$LiveBTCPrice ",3,$echoEnabled,"","");
+  echoAndLog($name, " sellWithMin Enabled:$returnFlag | MinPrice:$sellMin | LivePrice:$LiveCoinPrice | BTCPrice:$LiveBTCPrice ",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2314,7 +2312,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
       $returnFlag =  False;
     }
   //}
-  echoAndLog($name, "<BR> newBuywithPattern Enabled:$returnFlag | Live:$livePattern | Test:$savedPattern | Rule:$ruleID ",3,$echoEnabled,"","");
+  echoAndLog($name, " newBuywithPattern Enabled:$returnFlag | Live:$livePattern | Test:$savedPattern | Rule:$ruleID ",3,$echoEnabled,"","");
   return $returnFlag;
 
 }
@@ -2364,11 +2362,11 @@ function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled,$name){
     $returnFlag =  False;
   }
 
-  echoAndLog($name, "<BR> sellWithScore Enabled:$returnFlag | Top:$buyTop | Bottom:$buyBtm | Score:$score ",3,$echoEnabled,"","");
+  echoAndLog($name, " sellWithScore Enabled:$returnFlag | Top:$buyTop | Bottom:$buyBtm | Score:$score ",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
-function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled){
+function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled,$name){
   $returnBool = False;
   $coinPriceAryCount = count($autoBuyPrice);
   if ($autoBuyCoinEnabled == 0){
@@ -2380,14 +2378,13 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
     if ($coinID == $newCoinID){
 
       $returnBool = autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled);
-      echo "<BR> autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled); $returnBool";
+      //echo "<BR> autoBuy($LiveCoinPrice,$newAutoBuyPrice,$autoSellPrice,$autoBuyCoinEnabled); $returnBool";
       $finalNo = $i;
     }
   }
 
-  if ($echoEnabled == 1){
-    echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:".$autoBuyPrice[$finalNo][1]." | CoinID:$coinID";
-  }
+  //echo "<BR> autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:".$autoBuyPrice[$finalNo][1]." | CoinID:$coinID";
+  echoAndLog($name, "autoBuyMain Enabled:$returnBool | Live:$LiveCoinPrice | AutoBuy:$newAutoBuyPrice | CoinID:$coinID",3,$echoEnabled,"","");
   return $returnBool;
 }
 
@@ -2403,7 +2400,7 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
       //echo $returnBool;
     }
   }
-  echoAndLog($name, "<BR> autoSellMain Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:$autoPrice | CoinID:$coinID ",3,$echoEnabled,"","");
+  echoAndLog($name, " autoSellMain Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:$autoPrice | CoinID:$coinID ",3,$echoEnabled,"","");
   return $returnBool;
 }
 
