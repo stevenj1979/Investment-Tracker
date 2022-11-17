@@ -2399,12 +2399,13 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
   for ($i = 0; $i<$coinPriceAryCount; $i++){
     if ($coinID == $autoBuyPrice[$i][0]){
       //echo "<BR> autoSell($LiveCoinPrice,".$autoBuyPrice[$i][1].",$autoBuyCoinEnabled); ";
-      $returnBool = autoSell($LiveCoinPrice,$autoBuyPrice[$i][1],$autoBuyCoinEnabled);
-      echoAndLog("", "<BR> sellWithScore Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:".$autoBuyPrice[$i][1]." | CoinID:$coinID ",3,$echoEnabled,"","");
+      $autoPrice = $autoBuyPrice[$i][1];
+      $returnBool = autoSell($LiveCoinPrice,$autoPrice,$autoBuyCoinEnabled);
+
       //echo $returnBool;
     }
   }
-  
+  echoAndLog("", "<BR> sellWithScore Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:$autoPrice | CoinID:$coinID ",3,$echoEnabled,"","");
   return $returnBool;
 }
 
