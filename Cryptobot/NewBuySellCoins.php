@@ -1021,7 +1021,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $test16 = buyWithMin($priceDipMinPriceEnabled, $finalPriceDipMinPrice, $LiveCoinPrice,$BuyCoinBuyWithMin10,'PriceDipMinPrice16');
       $buyResultAry[] = Array($test16, "Coin Price Dip Min Price $symbol", $LiveCoinPrice);
       if ($Hr1ChangeTrendEnabled){
-        $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0,1"CoinPattern:14");
+        $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0,1,"CoinPattern:14");
       }else{$test14 = True;}
       $buyResultAry[] = Array($test14, "1 Hour Price Pattern $symbol", $new1HrPriceChange);
       $test13 = $GLOBALS['allDisabled'];
