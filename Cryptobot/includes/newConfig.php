@@ -2181,7 +2181,7 @@ function buyWithMin($buyMinEnabled, $BuyMin, $LiveCoinPrice,$echoEnabled,$name){
   return $returnFlag;
 }
 
-function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$echoEnabled){
+function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$echoEnabled,$name){
   //echo "<BR>checkPriceDipCoinFlat $priceDipHoursFlatTarget LiveBTCPrice $priceDipHours | $priceDipCoinFlatEnabled";
   $returnFlag = False;
   if ($priceDipCoinFlatEnabled == 0){
@@ -2200,13 +2200,11 @@ function checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget
     //print_r("-False");
     $returnFlag = False;
   }
-  if ($echoEnabled == 1){
-    echo "<BR> checkPriceDipCoinFlat Enabled:$returnFlag | FlatTarget:$priceDipHoursFlatTarget | FlatHours:$priceDipHours ";
-  }
+  echoAndLog($name, "<BR> checkPriceDipCoinFlat Enabled:$returnFlag | FlatTarget:$priceDipHoursFlatTarget | FlatHours:$priceDipHours",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
-function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice,$echoEnabled){
+function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice,$echoEnabled,$name){
   //echo "<BR>BuyMin: $sellMin | LiveBTCPrice: $LiveBTCPrice | LiveCoinPrice: $LiveCoinPrice | Enabled: $sellMinEnabled";
   $returnFlag = False;
   if ($sellMinEnabled == 0){
@@ -2225,7 +2223,7 @@ function sellWithMin($sellMinEnabled, $sellMin, $LiveCoinPrice, $LiveBTCPrice,$e
     //print_r("False");
     $returnFlag = False;
   }
-  echoAndLog("", "<BR> sellWithMin Enabled:$returnFlag | MinPrice:$sellMin | LivePrice:$LiveCoinPrice | BTCPrice:$LiveBTCPrice ",3,$echoEnabled,"","");
+  echoAndLog($name, "<BR> sellWithMin Enabled:$returnFlag | MinPrice:$sellMin | LivePrice:$LiveCoinPrice | BTCPrice:$LiveBTCPrice ",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2282,7 +2280,7 @@ function buywithPattern($p4,$p3,$p2,$p1,$t4,$t3,$t2,$t1,$tEnabled){
   }
 }
 
-function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buySell,$echoEnabled){
+function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buySell,$echoEnabled,$name){
   //$buySell == 0 for buy ; 1 for sell
   $returnFlag = False;
   $pieces = removeWildcard($savedPattern);
@@ -2316,7 +2314,7 @@ function newBuywithPattern($livePattern, $savedPattern, $pEnabled, $ruleID, $buy
       $returnFlag =  False;
     }
   //}
-  echoAndLog("", "<BR> newBuywithPattern Enabled:$returnFlag | Live:$livePattern | Test:$savedPattern | Rule:$ruleID ",3,$echoEnabled,"","");
+  echoAndLog($name, "<BR> newBuywithPattern Enabled:$returnFlag | Live:$livePattern | Test:$savedPattern | Rule:$ruleID ",3,$echoEnabled,"","");
   return $returnFlag;
 
 }
@@ -2348,7 +2346,7 @@ function limitToBuyRule($livePattern, $savedPattern, $pEnabled){
   //}
 }
 
-function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled){
+function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled,$name){
   $returnFlag = False;
   if ($buyEnabled == 0){
       //print_r("True");
@@ -2366,7 +2364,7 @@ function sellWithScore($buyTop,$buyBtm,$score,$buyEnabled,$echoEnabled){
     $returnFlag =  False;
   }
 
-  echoAndLog("", "<BR> sellWithScore Enabled:$returnFlag | Top:$buyTop | Bottom:$buyBtm | Score:$score ",3,$echoEnabled,"","");
+  echoAndLog($name, "<BR> sellWithScore Enabled:$returnFlag | Top:$buyTop | Bottom:$buyBtm | Score:$score ",3,$echoEnabled,"","");
   return $returnFlag;
 }
 
@@ -2393,7 +2391,7 @@ function autoBuyMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID
   return $returnBool;
 }
 
-function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled){
+function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinID,$echoEnabled,$name){
   $returnBool = False;
   $coinPriceAryCount = count($autoBuyPrice);
   for ($i = 0; $i<$coinPriceAryCount; $i++){
@@ -2405,7 +2403,7 @@ function autoSellMain($LiveCoinPrice, $autoBuyPrice, $autoBuyCoinEnabled, $coinI
       //echo $returnBool;
     }
   }
-  echoAndLog("", "<BR> sellWithScore Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:$autoPrice | CoinID:$coinID ",3,$echoEnabled,"","");
+  echoAndLog($name, "<BR> autoSellMain Enabled:$returnBool | LivePrice:$LiveCoinPrice | AutoPrice:$autoPrice | CoinID:$coinID ",3,$echoEnabled,"","");
   return $returnBool;
 }
 
@@ -3791,7 +3789,7 @@ function isCoinMatch($bitPrice, $symbol, $livePrice, $liveSymbol, $isGreater,$lo
 
 }
 
-function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled, $ruleID, $buySell,$echoEnabled){
+function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pEnabled, $ruleID, $buySell,$echoEnabled,$name){
   //$pieces = explode(",", $coinPattern);
   $returnFlag = False;
   $piecesSize = count($coinPattern);
@@ -3826,7 +3824,7 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
       //print_r("False");
       $returnFlag =  False;
     }
-    echoAndLog("", "<BR> coinMatchPattern Enabled:$returnFlag | LicePrice:$livePrice | LiveSymbol:$liveSymbol | IsGreater:$isGreater | Rule:$ruleID",3,$echoEnabled,"","");
+    echoAndLog($name, "<BR> coinMatchPattern Enabled:$returnFlag | LicePrice:$livePrice | LiveSymbol:$liveSymbol | IsGreater:$isGreater | Rule:$ruleID",3,$echoEnabled,"","");
     return $returnFlag;
 }
 function getNewStats(){
