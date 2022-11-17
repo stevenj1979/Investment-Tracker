@@ -1134,13 +1134,13 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   //$echoTestText = 0;
   $echoTestText = $webSettingsAry[1][1];
   $checkPriceDipCoinFlatArt = $webSettingsAry[10][1];
-  $scoreSettingsAlert = $webSettingsAry[22][1];
+  $scoreSettingsAlert = $webSettingsAry[23][1];
 
   echoText("SellCoin Key: ",$echoProgramFlow);
   echoText("1: MarketCap | 2: Volume | 3: SellOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$echoProgramFlow);
   echoText("6: 7DPctChange | 7: PriceTrendPattern | 8: MinPrice | 9: ProfitPct | 10: CoinPrice ",$echoProgramFlow);
   echoText("11: CoinPriceMatch | 12: GlobalAllDisabled | 13: AutoSellPrice | 14: CoinPriceFlat | 15: PriceDipMaxPrice ",$echoProgramFlow);
-  echoText("16: HoursPastSell $scoreSettingsAlert<BR>",$echoProgramFlow);
+  echoText("16: HoursPastSell <BR>",$echoProgramFlow);
   echoText("HERE! $sellCoinsLength",$echoTestText);
   for($a = 0; $a < $sellCoinsLength; $a++) {
     //Variables
