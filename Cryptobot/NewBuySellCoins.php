@@ -847,7 +847,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $buyRuleType = $buyRules[$y][89];
       echoAndLog("BuyCoin:$buyRuleType", "This is a Test | $KEK | $APISecret | $APIKey",3,1,"BuySellCoins","None");
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
-      echoText("FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",$echoTestText);
+      echoAndLog("BuyCoin:$buyRuleType","FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",3,1,"BuySellCoins","None");
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][35]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
@@ -886,7 +886,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $priceDipHours = $hoursFlatLow;
         $priceDipCoinFlatEnabled = 1;
       }
-      echoText("Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoTestText);
+      echoAndLog("BuyCoin:$buyRuleType","Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,1,"BuySellCoins","None");
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
       $delayCoinPurchaseSize = 0;
       if (!empty($delayCoinPurchase)){
@@ -896,13 +896,13 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-          echoText("EXIT: Delay CoinID: $coinID! ",$echoExitText); continue 2;
+          echoAndLog("BuyCoin:$buyRuleType","EXIT: Delay CoinID: $coinID! ",3,1,"BuySellCoins","None"); continue 2;
         }
       }
 
       if ($priceDipMinPriceEnabled == 1){
         if ($hoursSinceAdded < 3000){
-          echoText("EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoExitText);
+          echoAndLog("BuyCoin:$buyRuleType","EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,1,"BuySellCoins","None");
           continue;
         }
       }
