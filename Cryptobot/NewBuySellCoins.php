@@ -2110,6 +2110,7 @@ $trackingCoinTimer = date('Y-m-d H:i');
 $trackingSellCoinTimer = date('Y-m-d H:i');
 $sellSpreadBetTimer = date('Y-m-d H:i');
 $buyCoinTimer = date('Y-m-d H:i');
+$sbBuyCoinTimer = date('Y-m-d H:i');
 $sellCoinTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
@@ -2173,9 +2174,9 @@ while($completeFlag == False){
         $runBuyBackFlag = runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
   if ($i == 0 OR $runSbBuyCoinsFlag == True){$sbBuyRules = getUserRules(2);}  //getSpreadBetUserRules
-  if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runSbBuyCoinsFlag == True){
+  if (date("Y-m-d H:i", time()) >= $sbBuyCoinTimer or $runSbBuyCoinsFlag == True){
     $BCcurrent_date = date('Y-m-d H:i');
-    $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
+    $sbBuyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 50 seconds", strtotime($BCcurrent_date)));
     $userProfit = getTotalProfit();
     $marketProfit = getMarketProfit();
     $ruleProfit = getRuleProfit();
