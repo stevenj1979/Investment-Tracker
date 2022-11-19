@@ -657,12 +657,17 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
     return $obj;
 }
 
-function getUserRules(){
+function getUserRules($type){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
+  }
+  if ($type == 1){
+    $ruleType = "'Normal'";
+  }else{
+    $ruleType = "'SpreadBet'";
   }
 //12
   $sql = "SELECT `UserID`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,`1HrChangeTop`,`1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`
@@ -673,7 +678,7 @@ function getUserRules(){
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`
-   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'Normal' and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
+   FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = $ruleType and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
