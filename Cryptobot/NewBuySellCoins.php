@@ -865,7 +865,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-      echoText("Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoTestText);
+      echoAndLog("BuyCoin:$buyRuleType","Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",3,$echoTestText,"BuySellCoins","None");
       if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
