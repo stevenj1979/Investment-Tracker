@@ -2173,7 +2173,7 @@ while($completeFlag == False){
         $runBuyBackFlag = runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
   if ($i == 0 OR $runSbBuyCoinsFlag == True){$sbBuyRules = getUserRules(2);}  //getSpreadBetUserRules
-  if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runBuyCoinsFlag == True){
+  if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runSbBuyCoinsFlag == True){
     $BCcurrent_date = date('Y-m-d H:i');
     $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
     $userProfit = getTotalProfit();
