@@ -248,14 +248,14 @@ function runPriceDipRule($priceDipRules){
         if ($buyCoin <> 1){
           enableBuyRule($buyRuleID, 1);
           setPriceDipEnable($buyRuleID, 1,$buyCoin);
-          newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct | $PctChangeAvg | $pctChangeTargetAvg",3,1,"enableBuyRule1","ruleID:$buyRuleID");
+          newLogToSQL("runPriceDipRule","<BR> enableBuyRule($buyRuleID); Avg:$PctChangeAvg <= AvgTarget:$pctChangeTargetAvg",3,1,"enableBuyRule1","ruleID:$buyRuleID");
         }
       }
     if ($PctChangeAvg >= $pctChangeDisableTargetAvg){
       if ($buyCoin <> 0){
         enableBuyRule($buyRuleID, 0);
         setPriceDipEnable($buyRuleID, 0,$buyCoin);
-        newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $priceDipDisable24Hour | $d7ChangePctChange | $priceDipDisable7Day | $PctChangeAvg | $pctChangeDisableTargetAvg",3,0,"enableBuyRule0","ruleID:$buyRuleID");
+        newLogToSQL("runPriceDipRule","<BR> enableBuyRule($buyRuleID); Avg:$PctChangeAvg <= AvgTarget:$pctChangeDisableTargetAvg",3,1,"enableBuyRule0","ruleID:$buyRuleID");
       }
     }
 
