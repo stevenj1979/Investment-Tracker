@@ -2125,6 +2125,7 @@ $runSellSpreadBet = False;
 $runSpreadBetFlag = False;
 $runSellCoinsFlag = False;
 $runBuyCoinsFlag = False;
+$runSbBuyCoinsFlag = False;
 $buyToReduceLossFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
@@ -2171,7 +2172,7 @@ while($completeFlag == False){
         }
         $runBuyBackFlag = runBuyBack($buyBackCoins);
   echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
-  if ($i == 0 OR $runBuyCoinsFlag == True){$buyRules = getUserRules(2);}  //getSpreadBetUserRules
+  if ($i == 0 OR $runSbBuyCoinsFlag == True){$sbBuyRules = getUserRules(2);}  //getSpreadBetUserRules
   if (date("Y-m-d H:i", time()) >= $buyCoinTimer or $runBuyCoinsFlag == True){
     $BCcurrent_date = date('Y-m-d H:i');
     $buyCoinTimer = date("Y-m-d H:i",strtotime("+2 minutes 30 seconds", strtotime($BCcurrent_date)));
@@ -2182,11 +2183,11 @@ while($completeFlag == False){
     $dailyBTCSpent = getDailyBTC();
     $baseMultiplier = getBasePrices();
     $delayCoinPurchase = getDelayCoinPurchaseTimes();
-    $coins = getSpreadBetTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 Group by `Sbc`.`SpreadBetRuleID`  ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
+    $sbCoins = getSpreadBetTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 Group by `Sbc`.`SpreadBetRuleID`  ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
     //getSpreadBetTrackingCoins - Group by `Sbc`.`SpreadBetRuleID`
-    $runBuyCoinsFlag = False;
+    $runSbBuyCoinsFlag = False;
   }
-  $runBuyCoinsFlag = runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,'SpreadBet',$webSettingsAry);
+  $runSbBuyCoinsFlag = runBuyCoins($sbCoins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$sbBuyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,'SpreadBet',$webSettingsAry);
   echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer or $runSellSpreadBet == True){
           $sSBcurrent_date = date('Y-m-d H:i');
