@@ -461,7 +461,7 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,sum(`D7ChangePctChange`) as D7ChangePctChange,Trim(sum(`LiveCoinPrice`))+0 as LiveCoinPrice,Trim(sum(`LastCoinPrice`))+0 as LastCoinPrice,sum(`CoinPricePctChange`) as CoinPricePctChange,sum(`LiveSellOrders`) as LiveSellOrders,sum(`LastSellOrders`) as LastSellOrders,sum(`SellOrdersPctChange`) as SellOrdersPctChange
     ,sum(`LiveVolume`) as LiveVolume,sum(`LastVolume`) as LastVolume,sum(`VolumePctChange`) as VolumePctChange,`BaseCurrency`,avg(`Price4Trend`) as Price4Trend,avg(`Price3Trend`) as Price3Trend, avg(`LastPriceTrend`) as LastPriceTrend, avg(`LivePriceTrend`) as LivePriceTrend,sum(`1HrPriceChangeLive`) as 1HrPriceChangeLive
     ,sum(`1HrPriceChangeLast`) as 1HrPriceChangeLast,sum(`1HrPriceChange3`) as 1HrPriceChange3,sum(`1HrPriceChange4`) as 1HrPriceChange4,avg(`SecondstoUpdate`) as SecondstoUpdate,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,avg(`HoursFlatPdcs`) as HoursFlatPdcs,avg(`MinPriceFromLow`) as MinPriceFromLow
-    ,avg(`PctFromLiveToLow`) as PctFromLiveToLow,Trim(avg(`Month6Low`))+0 as 6MonthPrice ,Trim(avg(`Month3Low`))+0 as 3MonthPrice,Trim(avg(`AverageLowPrice`))+0 as AverageLowPrice,avg(`HoursSinceAdded`) as HoursSinceAdded
+    ,avg(`PctFromLiveToLow`) as PctFromLiveToLow,Trim(avg(`Month6Low`))+0 as 6MonthPrice ,Trim(avg(`Month3Low`))+0 as 3MonthPrice,Trim(avg(`AverageLowPrice`))+0 as AverageLowPrice,Max(`HoursSinceAdded`) as HoursSinceAdded
     ,avg(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
     ,`Sbc`.`SpreadBetRuleID` as SpreadBetRuleID
     $table
