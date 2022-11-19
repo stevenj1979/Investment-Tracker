@@ -433,7 +433,7 @@ function getTrackingCoins($whereclause, $table){
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as 6MonthPrice ,Trim(`Month3Low`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`,`CaaOffset`,`CaaMinsToCancelBuy`,`HoursFlatHighPdcs`,`HoursFlatLowPdcs`
     $table $whereclause ";
-    echoAndLog("", "$sql",3,1,"","");
+    echoAndLog("", "$sql",3,0,"","");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7152,7 +7152,7 @@ function getPriceDipRules(){
   $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDipBr`,`PriceDipEnable24Hour`,  `Hr24ChangePctChangeMkt` as `Hr24ChangePctChange`
           , `D7ChangePctChangeMkt` as `D7ChangePctChange`,`PriceDipEnable7Day`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`,`HoursFlat`,`PctTolerance`
           ,`24HrPriceDipPctBr`,`7DPriceDipPctBr`,`BuyCoin`
-          ,(`PriceDipEnable24Hour`+`PriceDipEnable7Day`)/2 as PriceDipEnableAvg
+          ,(`24HrPriceDipPctBr`+`7DPriceDipPctBr`)/2 as PriceDipEnableAvg
           ,( `Hr24ChangePctChangeMkt` + `D7ChangePctChangeMkt`)/2 as LivePctChangeAvg
           ,(`24HrPriceDipPctBr`+`7DPriceDipPctBr`)/2 as PriceDipDisableAvg
           ,`MaxCoinPricePctChange`, `MaxHr1ChangePctChange`, `MaxHr24ChangePctChange`,`MaxD7ChangePctChange`, `MinCoinPricePctChange`, `MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
