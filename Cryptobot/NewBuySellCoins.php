@@ -845,9 +845,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice);
       $buyRuleType = $buyRules[$y][89];
-      echoAndLog("BuyCoin:$buyRuleType", "This is a Test | $KEK | $APISecret | $APIKey",3,1,"BuySellCoins","None");
+      echoAndLog("BuyCoin:$buyRuleType", "This is a Test | $KEK | $APISecret | $APIKey",3,$echoTestText,"BuySellCoins","None");
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
-      echoAndLog("BuyCoin:$buyRuleType","FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",3,1,"BuySellCoins","None");
+      echoAndLog("BuyCoin:$buyRuleType","FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",3,$echoTestText,"BuySellCoins","None");
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][35]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
@@ -865,7 +865,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-      echoAndLog("BuyCoin:$buyRuleType","Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",3,$echoTestText,"BuySellCoins","None");
+      echoAndLog("BuyCoin:$buyRuleType","Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",3,$echoProgramFlow,"BuySellCoins","None");
       if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
@@ -886,7 +886,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $priceDipHours = $hoursFlatLow;
         $priceDipCoinFlatEnabled = 1;
       }
-      echoAndLog("BuyCoin:$buyRuleType","Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,1,"BuySellCoins","None");
+      echoAndLog("BuyCoin:$buyRuleType","Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,$echoProgramFlow,"BuySellCoins","None");
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
       $delayCoinPurchaseSize = 0;
       if (!empty($delayCoinPurchase)){
@@ -896,13 +896,13 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-          echoAndLog("BuyCoin:$buyRuleType","EXIT: Delay CoinID: $coinID! ",3,1,"BuySellCoins","None"); continue 2;
+          echoAndLog("BuyCoin:$buyRuleType","EXIT: Delay CoinID: $coinID! ",3,$echoExitText,"BuySellCoins","None"); continue 2;
         }
       }
 
       if ($priceDipMinPriceEnabled == 1){
         if ($hoursSinceAdded < 3000){
-          echoAndLog("BuyCoin:$buyRuleType","EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,1,"BuySellCoins","None");
+          echoAndLog("BuyCoin:$buyRuleType","EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",3,$echoExitText,"BuySellCoins","None");
           continue;
         }
       }
@@ -910,15 +910,15 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
-            echoText("TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",$echoTestText);
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echoText("EXIT: Rule Amount Exceeded! ",$echoExitText); continue;}
+            echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",3,$echoTestText,"BuySellCoins","None");
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){echoAndLog("BuyCoin:$buyRuleType","EXIT: Rule Amount Exceeded! ",3,$echoExitText,"BuySellCoins","None"); continue;}
           }
           if ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
-            echoText("TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions",$echoTestText);
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echoText("EXIT: Rule Transaction Count Exceeded! ",$echoExitText); continue;}
+            echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions",3,$echoTestText,"BuySellCoins","None");
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){echoAndLog("BuyCoin:$buyRuleType","EXIT: Rule Transaction Count Exceeded! ",3,$echoExitText); continue;}
           }elseif($coinModeOverridePriceEnabled == 1 and $limitBuyAmountEnabled == 1){
-            echoText("TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5],$echoTestText);
-            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){ echoText("EXIT: Rule Transaction Count Override Exceeded! ",$echoExitText); continue;}
+            echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5],3,$echoTestText,"BuySellCoins","None");
+            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){ echoAndLog("BuyCoin:$buyRuleType","EXIT: Rule Transaction Count Override Exceeded! ",3,$echoExitText,"BuySellCoins","None"); continue;}
           }
       }
 
