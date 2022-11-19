@@ -1216,7 +1216,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           echoText("Calculated Sell Pct: Its NOT set!! $sellPctCsp",$echoTestText);
           $ProfitPctBtm_Sell = $calculatedSellPctStart;
         }else{
-          echoText("Calculated Sell Pct: Its set!! $sellPctCsp",$echoTestText);
+          echoText("Calculated Sell Pct: Its set!! $sellPctCsp - $calculatedSellPctEnd",$echoTestText);
           $ProfitPctBtm_Sell = $sellPctCsp - $calculatedSellPctEnd;
           $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*$calculatedSellPctReduction);
 
