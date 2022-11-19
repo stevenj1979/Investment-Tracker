@@ -248,7 +248,7 @@ function runPriceDipRule($priceDipRules){
         if ($buyCoin <> 1){
           enableBuyRule($buyRuleID, 1);
           setPriceDipEnable($buyRuleID, 1,$buyCoin);
-          newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct | $PctChangeAvg | $pctChangeTargetAvg",3,0,"enableBuyRule1","ruleID:$buyRuleID");
+          newLogToSQL("runPriceDipRule","$hr24ChangePctChange | $hr24PriceDipPct | $d7ChangePctChange | $d7PriceDipPct | $PctChangeAvg | $pctChangeTargetAvg",3,1,"enableBuyRule1","ruleID:$buyRuleID");
         }
       }
     if ($PctChangeAvg >= $pctChangeDisableTargetAvg){
@@ -845,6 +845,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice);
       $buyRuleType = $buyRules[$y][89];
+      echoAndLog("BuyCoin:$buyRuleType", "This is a Test",3,1,"BuySellCoins","None");
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
       echoText("FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",$echoTestText);
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
