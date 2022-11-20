@@ -124,14 +124,14 @@ function copyRule($ID){
     , `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`, `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`
     , `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`, `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`
     , `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`, `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`
-    ,`BypassTrackingSell`,`CalculatedSellPctReduction`, `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`,`Category`)
+    ,`BypassTrackingSell`,`CalculatedSellPctReduction`, `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`,`Category`,`SellRuleType`)
     select `RuleName`, `UserID`, 0, `SendEmail`, `BuyOrdersEnabled`, `BuyOrdersTop`, `BuyOrdersBtm`, `MarketCapEnabled`, `MarketCapTop`, `MarketCapBtm`, `1HrChangeEnabled`, `1HrChangeTop`, `1HrChangeBtm`, `24HrChangeEnabled`
     , `24HrChangeTop`, `24HrChangeBtm`, `7DChangeEnabled`, `7DChangeTop`, `7DChangeBtm`, `ProfitPctEnabled`, `ProfitPctTop`, `ProfitPctBtm`, `CoinPriceEnabled`, `CoinPriceTop`, `CoinPriceBtm`, `SellOrdersEnabled`, `SellOrdersTop`
     , `SellOrdersBtm`, `VolumeEnabled`, `VolumeTop`, `VolumeBtm`, `CoinOrder`, `SellCoinOffsetEnabled`, `SellCoinOffsetPct`, `SellPriceMinEnabled`, `SellPriceMin`, `LimitToCoin`, `LimitToCoinID`, `AutoSellCoinEnabled`
     , `AutoSellCoinPct`, `SellPatternEnabled`, `SellPattern`, `LimitToBuyRule`, `CoinPricePatternEnabled`, `CoinPricePattern`, `CoinPriceMatchNameID`, `CoinPricePatternNameID`, `CoinPrice1HrPatternNameID`, `SellFallsInPrice`
     , `CoinModeRule`, `CoinSwapEnabled`, `CoinSwapAmount`, `NoOfCoinSwapsPerWeek`, `MergeCoinEnabled`, `ReEnableBuyRuleEnabled`, `ReEnableBuyRule`, `PctFromHighSellPriceEnabled`, `NoOfHoursFlatEnabled`, `NoOfHoursFlat`, `PctUnderMaxPrice`
     , `HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
-    , `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`,`Category`
+    , `OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`,`Category`,`SellRuleType`
     from `SellRules`
     where `ID` = $ID";
   print_r($sql);
@@ -299,6 +299,7 @@ function updateEditedUser(){
   $bypassTrackingSellEnable = postDataYesNo($_POST['BypassTrackingSellEnable']);
   $hoursAfterPurchaseStart = $_POST['HoursAfterPurchaseStart'];
   $hoursAfterPurchaseEnd = $_POST['HoursAfterPurchaseEnd'];
+  $sellRuleType = $_POST['RuleType'];
   if (!empty($_POST['HoursAfterPurchaseStart'])){$hoursAfterPurchaseStart = $_POST['HoursAfterPurchaseStart'];}else{$hoursAfterPurchaseStart = 0;}
   if (!empty($_POST['HoursAfterPurchaseEnd'])){$hoursAfterPurchaseEnd = $_POST['HoursAfterPurchaseEnd'];}else{$hoursAfterPurchaseEnd = 0;}
   //$autoSellCoinEnabled = postDataYesNo($_POST['AutoSellCoinEnabled']);
@@ -318,6 +319,7 @@ function updateEditedUser(){
   ,`PctUnderMaxPrice` = $pctFromHighSellPrice, `ReEnableBuyRuleEnabled` = $reEnableBuyRuleEnable, `RuleName` = '$ruleName', `SellFallsInPrice` = $sellFallsInPrice,`HoursPastBuyToSellEnabled` = $hoursPastBuySellEnable, `HoursPastBuyToSell` = $hoursPastBuy
   , `CalculatedSellPctEnabled` = $calculatedSellPctEnable, `CalculatedSellPctStart` = $calculatedSellPctStart, `CalculatedSellPctEnd` = $calculatedSellPctEnd, `CalculatedSellPctDays` = $calculatedSellPctDays, `BypassTrackingSell` = $bypassTrackingSellEnable
   ,`CalculatedSellPctReduction` = $calculatedSellPctReduction,`OverrideBuyBackAmount` = $overrideBuyBackAmount, `OverrideBuyBackSaving` = $overrideBuyBackSaving, `HoursAfterPurchaseToStart` = $hoursAfterPurchaseStart, `HoursAfterPurchaseToEnd` = $hoursAfterPurchaseEnd
+  ,`SellRuleType` = '$sellRuleType'
   WHERE `ID` = $id";
   print_r($sql);
 
@@ -348,6 +350,7 @@ function getRules($id){
   ,`SellPatternEnabled`, `SellPattern`,`CoinPricePatternEnabled`,`CoinPricePattern`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`,`PctUnderMaxPrice`
 ,`ReEnableBuyRuleEnabled`,`RuleName`,`SellFallsInPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`
 , `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`, `HoursAfterPurchaseToEnd`
+,`SellRuleType`
 FROM `View14_UserSellRules` WHERE `ID` = $id";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -363,7 +366,7 @@ FROM `View14_UserSellRules` WHERE `ID` = $id";
       ,$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['ReEnableBuyRuleEnabled'],$row['RuleName']//49
       ,$row['SellFallsInPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'],$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'] //55
       ,$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']//60
-      ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd']);//62
+      ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd'],$row['SellRuleType']);//63
   }
   $conn->close();
   return $tempAry;
@@ -575,6 +578,7 @@ function displayEdit($id){
   echo "<form action='AddNewSettingSell.php?editedUserReady=".$id."' method='post'>";
   echo "<div class='settingsformMain'>";echo "<div class='settingsform'>";
   addNewText('Rule Name: ','RuleName',$formSettings[0][49],37, 'Eg 50', False,1);
+  addNewText('Rule Type: ','RuleType',$formSettings[0][63],37, 'Eg 50', False,1);
   echo "</div>";
   echo "<div class='settingsform'>";
     echo "<H3>Market Cap</H3>";
