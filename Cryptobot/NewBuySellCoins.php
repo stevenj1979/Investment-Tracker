@@ -395,6 +395,8 @@ function runBuyBack($buyBackCoins){
         addOldBuyBackTransID($bBID,$tmpCoinID);
         logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
         return True;
+      }else{
+        echoAndLog("BuyBack","LivePrice: $tmpLiveCoinPrice Coin:$tmpSymbol CoinID:$tmpCoinID PriceWBuffer:$tmpOriginalPriceWithBuffer",3,1,"BuySellCoins","BBID:$bBID");
       }
     }
   }
