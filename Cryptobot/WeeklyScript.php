@@ -138,13 +138,13 @@ function getOpenBuyBackData(){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT `ID`, `MinsFromAdd`,`UserID` FROM `BuyBackView`";
+  $sql = "SELECT `IDBb` as `ID`, TimeStampDiff(MINUTE,`DateTimeAdded`, now()) as `MinsFromAdd`,`UserID`,`BuyBackPct` FROM `View9_BuyBack` where `StatusBb` <> 'Closed' ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['MinsFromAdd'],$row['UserID']);
+      $tempAry[] = Array($row['ID'],$row['MinsFromAdd'],$row['UserID'],$row['BuyBackPct']);
   }
   $conn->close();
   return $tempAry;
@@ -174,8 +174,8 @@ function clearBuyBack($mins){
   $buyBackAry = getOpenBuyBackData();
   $buyBackArySize = count($buyBackAry);
   for ($b=0; $b<$buyBackArySize; $b++){
-    $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2];
-    if ($minsFromAdd >= $mins){
+    $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2]; $bbPct = $buyBackAry[$b][3];
+    if (($minsFromAdd >= $mins) OR ($bbPct >= 50)){
       closeOpenBuyBack($bBID,$userID);
       LogToSQL("WeeklyScript","clearBuyBack($mins) $minsFromAdd",3,1);
     }
