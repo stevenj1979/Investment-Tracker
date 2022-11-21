@@ -550,16 +550,16 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
   }
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,sum(`CoinPrice`) as `CoinPrice`,sum(`Amount`) as `Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,sum(`LastBuyOrders`) as `LastBuyOrders`
-  ,sum(`LiveBuyOrders`) as `LiveBuyOrders`,sum(`BuyOrdersPctChange`) as `BuyOrdersPctChange`,sum(`LastMarketCap`) as `LastMarketCap`
-  ,sum(`LiveMarketCap`) as `LiveMarketCap`,sum(`MarketCapPctChange`) as `MarketCapPctChange`,sum(`LastCoinPrice`) as `LastCoinPrice`,sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(`CoinPricePctChange`) as `CoinPricePctChange`
-  ,sum(`LastSellOrders`) as `LastSellOrders`,sum(`LiveSellOrders`) as `LiveSellOrders`,sum(`SellOrdersPctChange`) as `SellOrdersPctChange`,sum(`LastVolume`) as `LastVolume`,sum(`LiveVolume`) as `LiveVolume`,sum(`VolumePctChange`) as `VolumePctChange`
+  ,sum(`LiveBuyOrders`) as `LiveBuyOrders`,sum(((`LiveBuyOrders` - `LastBuyOrders`) / `LastBuyOrders`) * 100)  as `BuyOrdersPctChange`,sum(`LastMarketCap`) as `LastMarketCap`
+  ,sum(`LiveMarketCap`) as `LiveMarketCap`,sum(((`LiveMarketCap` - `LastMarketCap`) / `LastMarketCap`) * 100) as `MarketCapPctChange`,sum(`LastCoinPrice`) as `LastCoinPrice`,sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(((`LiveCoinPrice` - `LastCoinPrice`) / `LastCoinPrice`) * 100) as `CoinPricePctChange`
+  ,sum(`LastSellOrders`) as `LastSellOrders`,sum(`LiveSellOrders`) as `LiveSellOrders`,sum(((`LiveSellOrders` - `LastSellOrders`) / `LastSellOrders`) * 100) as `SellOrdersPctChange`,sum(`LastVolume`) as `LastVolume`,sum(`LiveVolume`) as `LiveVolume`,sum(((`LiveVolume` - `LastVolume`) / `LastVolume`) * 100) as `VolumePctChange`
   ,sum(`Last1HrChange`) as `Last1HrChange`
-  ,sum(`Live1HrChange`) as `Live1HrChange`,sum(`Hr1ChangePctChange`) as `Hr1ChangePctChange`,sum(`Last24HrChange`) as `Last24HrChange`,sum(`Live24HrChange`) as `Live24HrChange`,sum(`Hr24ChangePctChange`) as `Hr24ChangePctChange`,sum(`Last7DChange`) as `Last7DChange`
-  ,sum(`Live7DChange`) as `Live7DChange`,sum(`D7ChangePctChange`) as `D7ChangePctChange`,`BaseCurrency`,avg(`LivePriceTrend`) as `LivePriceTrend`,avg(`LastPriceTrend`) as `LastPriceTrend`,avg(`Price3Trend`) as `Price3Trend`
+  ,sum(`Live1HrChange`) as `Live1HrChange`,sum(((`LiveCoinPrice`- `Live1HrChange`) / `Live1HrChange`) * 100) as `Hr1ChangePctChange`,sum(`Last24HrChange`) as `Last24HrChange`,sum(`Live24HrChange`) as `Live24HrChange`,sum(((`LiveCoinPrice` - `Live24HrChange`) / `Live24HrChange`) * 100)  as `Hr24ChangePctChange`,sum(`Last7DChange`) as `Last7DChange`
+  ,sum(`Live7DChange`) as `Live7DChange`,sum(((`LiveCoinPrice` - `Live7DChange`) / `Live7DChange`) * 100) as `D7ChangePctChange`,`BaseCurrency`,avg(`LivePriceTrend`) as `LivePriceTrend`,avg(`LastPriceTrend`) as `LastPriceTrend`,avg(`Price3Trend`) as `Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
-  ,sum(`NoOfCoinSwapsThisWeek`) as `NoOfCoinSwapsThisWeek`,sum(`OriginalPrice`) as `OriginalPrice`, sum(`CoinFee`) as `CoinFee`,sum(`LivePrice`) as `LivePrice`, sum(`ProfitUSD`) as `ProfitUSD`, sum(`ProfitPct`) as `ProfitPct`,avg(`CaptureTrend`) as `CaptureTrend`
+  ,sum(`NoOfCoinSwapsThisWeek`) as `NoOfCoinSwapsThisWeek`,sum(`OriginalPrice`) as `OriginalPrice`, sum(`CoinFee`) as `CoinFee`,sum(`LivePrice`) as `LivePrice`, sum(`ProfitUSD`) as `ProfitUSD`, sum((((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-(((`CoinPrice`*`Amount`)/100)*0.28)) /(`CoinPrice`*`Amount`))*100) as `ProfitPct`,avg(`CaptureTrend`) as `CaptureTrend`
   ,avg(`minsToDelay`) as `minsToDelay`,avg(`MinsFromBuy`) as `MinsFromBuy`,avg(`HoursFlatHighPdcs`) as `HoursFlatHighPdcs`,sum(`MaxPriceFromHigh`) as `MaxPriceFromHigh`,sum(`PctFromLiveToHigh`) as `PctFromLiveToHigh`,`MultiSellRuleEnabled`
-  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, sum('SellPctCsp') as `SellPctCsp`,avg(`MaxHoursFlat`) as `MaxHoursFlat`,sum(`Hr1Top`) as `Hr1Top`,sum(`Hr1Bottom`) as `Hr1Bottom`,avg(`CaaOffset`) as `CaaOffset`
+  ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp' as `SellPctCsp`,avg(`MaxHoursFlat`) as `MaxHoursFlat`,sum(`Hr1Top`) as `Hr1Top`,sum(`Hr1Bottom`) as `Hr1Bottom`,avg(`CaaOffset`) as `CaaOffset`
   ,avg(`CaaMinsToCancelSell`) as `CaaMinsToCancelSell`,avg(`CaaSellOffset`) as `CaaSellOffset`,`SpreadBetTransactionID`
   FROM `View5_SellCoins` $whereclause group by `SpreadBetTransactionID` order by `ProfitPct` Desc ";
   $result = $conn->query($sql);

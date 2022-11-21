@@ -1371,7 +1371,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           setTransactionPending($transactionID);
 
           echoAndLog("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit_$ruleIDSell_$multiSellResult", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
-
+          setTransactionPending($transactionID);
         }else{
           $spreadBetTransactionID = $sellCoins[$a][74];
           $spreadBetToSell = getSpreadBetSellCoins($spreadBetTransactionID);
@@ -1380,8 +1380,9 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1];
             newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
             echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit_$ruleIDSell_$multiSellResult", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
+            setTransactionPending($transactionID);
           }
-          setTransactionPending($transactionID);
+
         }
         $to_time = date("Y-m-d H:i:s", time());
         $from_time = strtotime($orderDate);
@@ -2138,6 +2139,7 @@ $runBuyBackFlag = False;
 $runSellSpreadBet = False;
 $runSpreadBetFlag = False;
 $runSellCoinsFlag = False;
+$runSellCoinsSBFlag = False;
 $runBuyCoinsFlag = False;
 $runSbBuyCoinsFlag = False;
 $buyToReduceLossFlag = False;
@@ -2185,7 +2187,7 @@ while($completeFlag == False){
           $runBuyBackFlag = False;
         }
         $runBuyBackFlag = runBuyBack($buyBackCoins);
-  echo "</blockquote><BR> CHECK Spreadbet Sell & BuyBack!! $i<blockquote>";
+  echo "</blockquote><BR> CHECK Spreadbet Buy!! $i<blockquote>";
   if ($i == 0 OR $runSbBuyCoinsFlag == True){$sbBuyRules = getUserRules(2);}  //getSpreadBetUserRules
   if (date("Y-m-d H:i", time()) >= $sbBuyCoinTimer or $runSbBuyCoinsFlag == True){
     $BCcurrent_date = date('Y-m-d H:i');
@@ -2202,25 +2204,35 @@ while($completeFlag == False){
     $runSbBuyCoinsFlag = False;
   }
   $runSbBuyCoinsFlag = runBuyCoins($sbCoins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$sbBuyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,'SpreadBet',$webSettingsAry);
-  echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
-        if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer or $runSellSpreadBet == True){
-          $sSBcurrent_date = date('Y-m-d H:i');
-          $sellSpreadBetTimer = date("Y-m-d H:i",strtotime("+2 minutes 28 seconds", strtotime($sSBcurrent_date)));
-          $sellSpread = getSpreadBetSellData();
-          $runSellSpreadBet = False;
+  //echo "</blockquote><BR>CHECK Sell Spread Bet!! $i<blockquote>";
+  //      if (date("Y-m-d H:i", time()) >= $sellSpreadBetTimer or $runSellSpreadBet == True){
+  //        $sSBcurrent_date = date('Y-m-d H:i');
+  //        $sellSpreadBetTimer = date("Y-m-d H:i",strtotime("+2 minutes 28 seconds", strtotime($sSBcurrent_date)));
+  //        $sellSpread = getSpreadBetSellData();
+  //        $runSellSpreadBet = False;
+  //      }
+  //      $runSellSpreadBet = runSellSpreadBet($sellSpread);
+  echo "</blockquote><BR>CHECK Spread Sell!! $i<blockquote>";
+        //if ($i == 0 or $runSpreadBetFlag == True){
+        //  $SpreadBetUserSettings = getSpreadBetUserSettings();
+        //}
+        //if (date("Y-m-d H:i", time()) >= $spreadBetTimer or $runSpreadBetFlag == True){
+        //  $SBcurrent_date = date('Y-m-d H:i');
+        //  $spreadBetTimer = date("Y-m-d H:i",strtotime("+3 minutes 18 seconds", strtotime($SBcurrent_date)));
+        //  $spread = getSpreadBetData();
+        //  $runSpreadBetFlag = False;
+        //}
+        //$runSpreadBetFlag = runSpreadBet($spread,$SpreadBetUserSettings);
+        if ($i == 0 OR $runSellCoinsSBFlag == True){$sellRulesSB = getUserSellRules('SpreadBet');}
+        if (date("Y-m-d H:i", time()) >= $sellCoinSBTimer or $runSellCoinsSBFlag == True){
+          $SCcurrent_date = date('Y-m-d H:i');
+          $sellCoinSBTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
+          $sellCoinsSB = getTrackingSpreadBetSellCoins("SpreadSell");
+          $userProfit = getTotalProfit();
+          $runSellCoinsSBFlag = False;
+          $buyToReduceLossFlag = True;
         }
-        $runSellSpreadBet = runSellSpreadBet($sellSpread);
-  echo "</blockquote><BR>CHECK Spread Bet!! $i<blockquote>";
-        if ($i == 0 or $runSpreadBetFlag == True){
-          $SpreadBetUserSettings = getSpreadBetUserSettings();
-        }
-        if (date("Y-m-d H:i", time()) >= $spreadBetTimer or $runSpreadBetFlag == True){
-          $SBcurrent_date = date('Y-m-d H:i');
-          $spreadBetTimer = date("Y-m-d H:i",strtotime("+3 minutes 18 seconds", strtotime($SBcurrent_date)));
-          $spread = getSpreadBetData();
-          $runSpreadBetFlag = False;
-        }
-        $runSpreadBetFlag = runSpreadBet($spread,$SpreadBetUserSettings);
+        $runSellCoinsFlag = runSellCoins($sellRulesSB,$sellCoinsSB,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadBet');
 
   echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingCoinTimer OR $runNewTrackingCoinFlag == True){
