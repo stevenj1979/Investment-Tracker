@@ -160,12 +160,18 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddTrackingSellCoin`(IN `Coi
     MODIFIES SQL DATA
 BEGIN
 
+Declare Tracking_Count INT;
+
 If NOT EXISTS (SELECT `ID` FROM `TrackingSellCoins` where `TransactionID` = Trans_ID) THEN
 INSERT INTO `TrackingSellCoins`(`CoinPrice`, `UserID`, `TransactionID`,`SellCoin`,`SendEmail`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`SellFallsInPrice`,`BaseSellPrice`,`LastPrice`,`Type`,`OriginalSellPrice`)
 VALUES (Coin_Price,User_ID,Trans_ID,Sell_Coin,Send_Email,Offset_Enabled,Offset_Pct,Fall_InPrice,Coin_Price,Coin_Price,nType,Coin_Price);
 else
   Update `TrackingSellCoins` SET `CoinPrice` = Coin_Price, `UserID`=User_ID, `SellCoin`=Sell_Coin,`SendEmail`=Send_Email,`CoinSellOffsetEnabled`=Offset_Enabled,`CoinSellOffsetPct`=Offset_Pct,`SellFallsInPrice`=Fall_InPrice
   ,`BaseSellPrice`=Coin_Price,`LastPrice`=Coin_Price,`Type`=nType,`OriginalSellPrice`=Coin_Price, `TrackingCount` = `TrackingCount` + 1 , `TrackDate`=now(), `Status`='Open', `TrackStartDate` = now() WHERE `TransactionID` = Trans_ID;
+  SELECT `TrackingCount` into Tracking_Count FROM `TrackingSellCoins` WHERE `TransactionID` = Trans_ID;
+  if Tracking_Count >= 5 THEN
+    UPDATE `Transaction` SET `OverrideBittrexCancellation` = 1 where `ID`  = Trans_ID;
+  end if;
 end if;
 
 END$$
