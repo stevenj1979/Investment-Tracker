@@ -1096,15 +1096,16 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
             echoText("Number of Total Buys: $noOfBuys BuyCounter: ".$buyCounter[$userID."-Total"],$echoTestText);
           }else{
-            $spreadBetRuleID =  $coins[$x][52]; $spreadBetTotal = $buyRules[$y][89];
-            $spreadBetCoins = getSpreadbetCoins($spreadBetRuleID);
+            $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][89];
+            $spreadBetCoins = getSpreadbetCoins($baseCurrency);
             $spreadBetCoinsSize = count($spreadBetCoins);
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
               $LiveCoinPrice = $spreadBetCoins[$l][3];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][2];
 
-              $totalBuyAmount = $totalBuyAmount + $buyQuantity;
-              if ($totalBuyAmount < $spreadBetTotal){
-                addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
+              //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
+              $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
+              if ($totalBuyAmount < $buyQuantity){
+                addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
               }
             }
           }

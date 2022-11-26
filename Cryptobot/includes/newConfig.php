@@ -4375,23 +4375,24 @@ $conn->close();
 return $tempAry;
 }
 
-function getSpreadbetCoins($spreadBetRuleID){
+function getSpreadbetCoins($baseCurrency){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Sbt`.`ID` as SpreadBetTransactionID,`Cp`.`LiveCoinPrice`
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`
           FROM `SpreadBetCoins` `Sbc`
-          Join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
+      	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
-          WHERE `Sbc`.`SpreadBetRuleID` = $spreadBetRuleID ";
+          WHERE `Cn`.`BaseCurrency` = '$baseCurrency'
+          ORDER BY RAND()";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['SpreadBetTransactionID'],$row['LiveCoinPrice']);
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['SpreadBetTransactionID'],$row['LiveCoinPrice'],$row['BaseCurrency']);
 }
 $conn->close();
 return $tempAry;
