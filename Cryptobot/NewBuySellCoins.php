@@ -1106,6 +1106,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
               $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               if ($totalBuyAmount < $buyQuantity){
                 addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
+                echoAndLog("BuyCoin:$buyRuleType","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",3,$echoProgramFlow,"BuySellCoins","None");
+              }else{
+                echoAndLog("BuyCoin:$buyRuleType","TotalAmout over: $buyQuantity | $totalBuyAmount ",3,$echoProgramFlow,"BuySellCoins","None");
               }
             }
           }
