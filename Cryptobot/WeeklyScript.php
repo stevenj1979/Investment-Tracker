@@ -177,7 +177,7 @@ function clearBuyBack($mins){
     $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2]; $bbPct = $buyBackAry[$b][3];
     if (($minsFromAdd >= $mins) OR ($bbPct >= 50)){
       closeOpenBuyBack($bBID,$userID);
-      LogToSQL("WeeklyScript","clearBuyBack($mins) $minsFromAdd",3,1);
+      LogToSQL("WeeklyScript","clearBuyBack($mins) $minsFromAdd | $bbPct",3,1);
     }
   }
 }
@@ -449,7 +449,7 @@ Function runCoinAutoActions($coinTrackingActions,$type){
 // MAIN PROGRAMME
 clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
-clearBuyBack(5760);
+clearBuyBack(60480);
 clearSQLLog(90);
 //setBuySellPriceforProfit();
 ClearCancelledTransactions("DELETE FROM `BittrexAction` WHERE `Status` = 'Cancelled' and `ActionDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
