@@ -186,7 +186,7 @@ ELSE
 end if;
 
 if SpreadBet_RuleID > 0 Then
-  SET finalAmount = holdingAmount - totalSaving;
+  SET finalAmount = totalHolding - totalSaving;
 end if;
 
 return (finalAmount*BTC_Price);
