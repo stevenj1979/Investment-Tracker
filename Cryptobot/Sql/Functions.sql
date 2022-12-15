@@ -139,7 +139,7 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getNewCoinAllocation`(`User_ID` INT, `nMode` INT, `BaseCurr` VARCHAR(50), `nOverride` INT, `saving_Override` INT) RETURNS decimal(20,14)
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getNewCoinAllocation`(`User_ID` INT, `nMode` INT, `BaseCurr` VARCHAR(50), `nOverride` INT, `saving_Override` INT, `SpreadBet_RuleID` INT) RETURNS decimal(20,14)
     NO SQL
 BEGIN
 Declare finalAmount DEC(20,14);
@@ -183,6 +183,10 @@ ELSE
 	ELSE
  	   SET finalAmount = 0;
     end if;
+end if;
+
+if SpreadBet_RuleID > 0 Then
+  SET finalAmount = holdingAmount - totalSaving;
 end if;
 
 return (finalAmount*BTC_Price);

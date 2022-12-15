@@ -352,7 +352,7 @@ function runBuyBack($buyBackCoins){
         //$totalAvailable = $ETHAvailable*$tempConvAmt;
       }
       //if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
-      $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0);
+      $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0,$spreadBetRuleID);
       if ($coinAllocation <= 15 && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
           newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
@@ -550,7 +550,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
     $disableUntil  = $spread[$y][36];
     $Hr1BuyPrice = $spread[$y][31];$Hr24BuyPrice = $spread[$y][32];$D7BuyPrice = $spread[$y][33]; $userID = $spread[$y][37];
     $inverseAvgHighPct = 100-(($pctofSixMonthHigh + $pctofAllTimeHigh)/2);
-    $risesInPrice = $spread[$y][38]; $timeToCancelBuyMins = $spread[$y][39]; $lowMarketModeEnabled = $spread[$y][40];
+    $risesInPrice = $spread[$y][38]; $timeToCancelBuyMins = $spread[$y][39]; $lowMarketModeEnabled = $spread[$y][40]; $SpreadBetRuleID = $spread[$y][41];
     for ($q=0;$q<$SpreadBetUserSettingsSize;$q++){
       $tempUserID = $SpreadBetUserSettings[$q][3];
       if ($UserID == $tempUserID){
@@ -595,7 +595,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
       if ($openCoinsSize < $totalNoOfBuys and $availableTrans > 0){
         //$spreadBetToBuy = getCoinAllocation($UserID);
         //if ($lowMarketModeEnabled > 0){ $lowMarketMode = True;}else {$lowMarketMode = False;}
-        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,$lowMarketModeEnabled,0,0);
+        $spreadBetToBuy = getNewCoinAllocation($baseCurrency,$UserID,$lowMarketModeEnabled,0,0,$SpreadBetRuleID);
         $BTCtoSQL = ($spreadBetToBuy/($divideAllocation - $openCoinsSize));
         $buyPerCoin = ($spreadBetToBuy/($divideAllocation - $openCoinsSize)); //*$inverseAvgHighPct
         $BTCAmount =  $buyPerCoin/$spreadCoinsSize;

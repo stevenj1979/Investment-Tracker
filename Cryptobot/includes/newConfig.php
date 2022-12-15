@@ -2578,32 +2578,32 @@ function updateCoinAllocation($userID, $mode, $baseCurrency, $buyAmount){
   $conn->close();
 }
 
-function getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideFlag,$savingOverride){
+function getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   if ($baseCurrency == 'USDT'){
     //call USDT SQL
     //echo "<BR> BaseCurrency1: $baseCurrency";
     //if ($overrideFlag == 1){ $newFlag = 1;} else{$newFlag = 0;}
     echo "<BR> getNewUSDTAlloc($userID,$overrideFlag);";
-    $newCoinAlloc = getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride);
+    $newCoinAlloc = getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet);
   }elseif ($baseCurrency == 'BTC'){
     //echo "<BR> BaseCurrency2: $baseCurrency";
-    $newCoinAlloc = getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride);
+    $newCoinAlloc = getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet);
   }elseif ($baseCurrency == 'ETH'){
     //echo "<BR> BaseCurrency3: $baseCurrency";
-    $newCoinAlloc = getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride);
+    $newCoinAlloc = getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet);
   }
   //echo "<BR> ".$newCoinAlloc[0][0]." | ".$newCoinAlloc[0][1];
   echo "<BR> Return(".$newCoinAlloc[0][0]."-) $baseCurrency;";
   return $newCoinAlloc[0][0];
 }
 
-function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride){
+function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'USDT',$overrideFlag,$savingOverride) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'USDT',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(83) as AllocTotal";
 
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -2633,14 +2633,14 @@ function getOpenBaseCurrency($symbol){
   return $tempAry;
 }
 
-function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride){
+function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'BTC',$overrideFlag,$savingOverride)*getBTCPrice(84) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'BTC',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(84) as AllocTotal";
 
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -2650,14 +2650,14 @@ function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride){
   return $tempAry;
 }
 
-function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride){
+function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'ETH',$overrideFlag,$savingOverride)*getBTCPrice(85) as AllocTotal";
+    $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'ETH',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(85) as AllocTotal";
 
   //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
@@ -6070,7 +6070,7 @@ function getSpreadBetData(){
           , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`IDUs` as UserID,`Email`,`UserName`,`IDsbt` as `SpreadBetTransID`, `Hr1BuyPrice`, `Hr24BuyPrice`
           , `D7BuyPrice`,(`LiveCoinPrice`-(SELECT MAX(`MaxPrice`) FROM `MonthlyMaxPrices` WHERE `CoinID` = `CoinID` and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH))/(SELECT MAX(`MaxPrice`)
           FROM `MonthlyMaxPrices` WHERE `CoinID` = 84 and DATE(CONCAT_WS('-', `Year`, `Month`, 01)) > DATE_SUB(now(), INTERVAL 6 MONTH)))
-         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`PriceAth`)/`PriceAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`IDUs`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`
+         as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`PriceAth`)/`PriceAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`IDUs`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`,`SpreadBetRuleIDSbc` as SpreadBetRuleID
          FROM `View3_SpreadBetBuy`
           where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 ";
   //echo "<BR> $sql";
@@ -6082,7 +6082,7 @@ function getSpreadBetData(){
       , $row['D7ChangePctChange'], $row['LiveCoinPrice'], $row['LastCoinPrice'], $row['CoinPricePctChange'], $row['BaseCurrency'], $row['Price4Trend'], $row['Price3Trend'], $row['LastPriceTrend'], $row['LivePriceTrend'], $row['AutoBuyPrice']//19
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
       , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['IDUs'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']//39
-    , $row['LowMarketModeEnabled']);
+    , $row['LowMarketModeEnabled'], $row['SpreadBetRuleID']);
   }
   $conn->close();
   return $tempAry;

@@ -106,7 +106,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     echoText("Tracking Buy Count 2 <BR>",$echoTestText);
     //if ($overrideCoinAlloc == 1){ $lowBuyMode = 1;}else{$lowBuyMode=0; }
     echoText("LOWBuyMode: $lowBuyMode CoinOverrride: $overrideCoinAlloc",$echoTestText);
-    $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideCoinAlloc,$savingOverride);
+    $coinAllocation = getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideCoinAlloc,$savingOverride,$SBRuleID);
     //$coinAllocation = getCoinAllocation($userID);
     echoText("Tracking CoinAllocation: ".$coinAllocation." | $BTCAmount | $ruleIDBuy | $baseCurrency",$echoTestText);
     if ($coinAllocation <= 20 and $overrideCoinAlloc == 0){
