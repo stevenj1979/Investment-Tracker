@@ -191,9 +191,9 @@ function getTotalHoldings($userID){
             ,(SELECT `SavingBTC`* getBTCPrice(84) FROM `UserCoinSavings`   WHERE `UserID` = $userID) as SavingBTC
             ,(SELECT `SavingUSDT` FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
             ,(SELECT `SavingETH`* getBTCPrice(85)  FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingETH
-            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'BTC',0,0))+0 As BTCAllocation
-            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'USDT',0,0))+0 As USDTAllocation
-            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'ETH',0,0))+0 As ETHAllocation
+            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'BTC',0,0,0))+0 As BTCAllocation
+            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'USDT',0,0,0))+0 As USDTAllocation
+            ,Trim(getNewCoinAllocation($userID,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID),'ETH',0,0,0))+0 As ETHAllocation
             ,(SELECT `LowMarketModeEnabled` FROM `UserConfig` WHERE `UserID` = $userID) as LowMarketMode
             ,(SELECT Trim(`HoldingUSDT`)+0 FROM `UserCoinSavings`  WHERE `UserID` = $userID) as TotalHoldingUSDT
             ,(SELECT Trim(`HoldingBTC`* getBTCPrice(84))+0   FROM `UserCoinSavings` WHERE `UserID` = $userID)as TotalHoldingBTC
