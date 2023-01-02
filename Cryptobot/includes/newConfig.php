@@ -926,6 +926,11 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //$btcBuyAmount = $btcBuyAmount;
     $userSavingAmount = $userSaving[0][0];
   //}
+  if ($BTCBalance < $originalBuyAmount){
+    if ($overrideCoinAlloc == 1){ $userSavingAmount = 0;}
+    $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);
+    LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance",3,1);
+  }
   LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: $userSavingAmount | BuyMin: $buyMin",3,1);
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
@@ -965,11 +970,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          if ($BTCBalance < $originalBuyAmount){
-            if ($overrideCoinAlloc == 1){ $userSavingAmount = 0;}
-            $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);
-            LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance",3,1);
-          }
+
             //if ($BTCBalance-$userSavingAmount >= $buyMin){
 
           $btcBuyAmount = number_format($btcBuyAmount,10);
