@@ -965,7 +965,11 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
         $orderNo = "ORD".$coin.date("YmdHis", time()).$ruleID;
         echo "Buy Coin = $buyCoin";
         if ($buyCoin){
-          if ($BTCBalance < $originalBuyAmount){ $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);}
+          if ($BTCBalance < $originalBuyAmount){
+            if ($overrideCoinAlloc == 1){ $userSavingAmount = 0;}
+            $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);
+            LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance",3,1);
+          }
             //if ($BTCBalance-$userSavingAmount >= $buyMin){
 
           $btcBuyAmount = number_format($btcBuyAmount,10);
