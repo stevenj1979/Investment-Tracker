@@ -927,8 +927,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     $userSavingAmount = $userSaving[0][0];
   //}
   if ($BTCBalance < $originalBuyAmount){
-    if ($overrideCoinAlloc == 1){ $userSavingAmount = 0;}
-    $btcBuyAmount = round(($BTCBalance-$userSavingAmount)/$bitPrice,10);
+    $tempFee = ($BTCBalance/100)*0.30;
+    $btcBuyAmount = round(($BTCBalance-$tempFee-$userSavingAmount)/$bitPrice,10);
     LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance",3,1);
   }
   LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: $userSavingAmount | BuyMin: $buyMin",3,1);
