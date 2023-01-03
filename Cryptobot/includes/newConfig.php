@@ -925,11 +925,14 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
     //$btcBuyAmount = $btcBuyAmount;
     $userSavingAmount = $userSaving[0][0];
+    if ($overrideCoinAlloc == 1){
+      $userSavingAmount = 0;
+    }
   //}
   if ($BTCBalance < $originalBuyAmount){
     $tempFee = ($BTCBalance/100)*0.30;
     $btcBuyAmount = round(($BTCBalance-$tempFee-$userSavingAmount)/$bitPrice,10);
-    LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance",3,1);
+    LogToSQL("BuyCoinBalance","NewCoinBalance: $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance | Fee:$tempFee | OriginalBuyAmount: $originalBuyAmount",3,1);
   }
   LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: $userSavingAmount | BuyMin: $buyMin",3,1);
   $subject = "Coin Alert: ".$coin;
