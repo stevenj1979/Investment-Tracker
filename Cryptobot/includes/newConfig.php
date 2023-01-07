@@ -430,7 +430,7 @@ function getTrackingCoins($whereclause, $table){
 
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,Trim(`LiveCoinPrice`)+0 as LiveCoinPrice,Trim(`LastCoinPrice`)+0 as LastCoinPrice,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
-    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as 6MonthPrice ,Trim(`Month3Low`)+0 as 3MonthPrice,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
+    ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as `6MonthPrice` ,Trim(`Month3Low`)+0 as `3MonthPrice`,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`,`CaaOffset`,`CaaMinsToCancelBuy`,`HoursFlatHighPdcs`,`HoursFlatLowPdcs`
     $table $whereclause ";
     echoAndLog("", "$sql",3,0,"","");
@@ -982,9 +982,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
           }
           $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
-          LogToSQL("BuyCoinTest","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
+          LogToSQL("BittrexAPI","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);",3,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
-          logToSQL("Bittrex", "bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);", $userID,1);
+          //logToSQL("Bittrex", "bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);", $userID,1);
           if ($apiVersion == 1){$bittrexRef = $obj["result"]["uuid"];$status = $obj["success"];}
           else{$bittrexRef = $obj["id"];
             if ($obj['status'] == 'OPEN'){$status = 1; }else{$status = 0;} }
@@ -2530,6 +2530,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $subject = "Coin Sale: ".$coin."_".$ruleID;
     $from = 'Coin Sale <sale@investment-tracker.net>';
     echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
+    LogToSQL("BittrexAPI","bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);",3,1);
     $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
     //Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
