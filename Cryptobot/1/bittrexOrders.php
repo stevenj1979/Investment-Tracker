@@ -48,7 +48,12 @@ function runBittrexHold($bittrexID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    $sql = "UPDATE `BittrexAction` SET `Status` = CASE
+       WHEN `Status`='1' THEN 'Hold'
+       WHEN `Status`='Hold' THEN '1'
+    END WHERE `ID` = $bittrexID";
+
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
