@@ -102,7 +102,7 @@ function getBTTrackingCoins($userID){
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,
           `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`,`IDBa`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
-  echo "<BR>$sql";
+  //echo "<BR>$sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
