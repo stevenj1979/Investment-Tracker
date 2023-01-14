@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
 
 if(!empty($_GET['hold'])){
   $bittrexID = $_GET['hold'];
-  echo "HOLD is not empty | $bittrexID";
+  //echo "HOLD is not empty | $bittrexID";
   runBittrexHold($bittrexID);
 }
 
