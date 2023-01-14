@@ -297,39 +297,8 @@ function findCoinStatsLoc($CMCStats, $symbol){
   }
   return $tempStats;
 }
-//$symbol = 'BTC';
-//$coinID = 84;
-//$coinStr = getCoinList(getStats(),3);
-//$CMCStats = newCoinMarketCapStats($coinStr);
 
-//$statsForCoin = findCoinStatsLoc($CMCStats,$symbol);
-//Echo "<BR>CoinMarketCapStatstoSQL($coinID,".$statsForCoin[0][1].",".$statsForCoin[0][2].",".$statsForCoin[0][3].",".$statsForCoin[0][4].");";
+bittrexOpenOrders($apikey,$apisecret,3);
 
-//phpinfo();
-
-//$apikey = encrypt('123123');
-//$encAry = encrypt('123123');
-//echo "<BR> The API Secret is: ".$encAry['data'];;
-//echo "<BR> The KEK is: ".$encAry['secret'];;
-
-//$finalAmount = returnBuyAmount('ADA', 'USDT', 860, 1, 708, 1.42,'a','b');
-//echo "<BR> $finalAmount";
-//Echo "<BR>API:$apikey secret: $apisecret";
-//$resultOrd = bittrexOrder($apikey, $apisecret, 'a5be650b-a80e-4a15-b29d-eb0874238aaa', 3);
-//$tempPrice = number_format((float)$resultOrd["proceeds"], 8, '.', '');
-//$orderQty = $resultOrd["quantity"];
-//$finalPrice = $tempPrice/$orderQty;
-//var_dump($resultOrd);
-//Echo "<BR> Qty:$orderQty tmpPrice: $tempPrice     ";
-
-$tmpPrice = getPriceConversion(20.00,'USDT');
-$buyMin = $tmpPrice[0][0];
-Echo "<BR> USDT = $buyMin";
-$tmpPrice = getPriceConversion(20.00,'BTC');
-$buyMin = $tmpPrice[0][0];
-Echo "<BR> BTC = $buyMin";
-$tmpPrice = getPriceConversion(20.00,'ETH');
-$buyMin = $tmpPrice[0][0];
-Echo "<BR> ETH = $buyMin";
 ?>
 </html>
