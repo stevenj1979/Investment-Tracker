@@ -29,7 +29,7 @@ setStyle($_SESSION['isMobile']);
 if(empty($sql_option)){
   //$GLOBALS['sql_option'] = "`Status` = '1'";
   //unset($dropArray);
-  $dropArray[] = Array("Open","Closed","Cancelled","All");
+  $dropArray[] = Array("Open","Closed","Cancelled","Hold","All");
 }
 if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
   //Print_r("I'm HERE!!!");
@@ -77,6 +77,9 @@ function changeSelection(){
      //$dropArray[] = Array("All","Closed","Open");
   }elseif ($_POST['transSelect']=='Cancelled'){
      $_SESSION['BittrexListSelected'] = "Cancelled";
+     //$dropArray[] = Array("All","Closed","Open");
+  }elseif ($_POST['transSelect']=='Hold'){
+     $_SESSION['BittrexListSelected'] = "Hold";
      //$dropArray[] = Array("All","Closed","Open");
   }else{
     $_SESSION['BittrexListSelected'] = "1A";
@@ -245,7 +248,7 @@ function displayOption($name){
         if ($sqlOption == "1"){ $selected1 = ' selected';}
         elseif ($sqlOption == $dropArray[0][1]){ $selected2 = ' selected';}
         elseif ($sqlOption == $dropArray[0][2]){ $selected3 = ' selected';}
-        //elseif ($sqlOption == "1"){ $selected4 = ' selected';}
+        elseif ($sqlOption == $dropArray[0][3]){ $selected3 = ' selected';}
         elseif ($sqlOption == "1A"){ $selected5 = ' selected';}
             echo "<select name='transSelect' id='transSelect' class='enableTextBox'>
            <option value='".$dropArray[0][0]."'$selected1>".$dropArray[0][0]."</option>
