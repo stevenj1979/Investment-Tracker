@@ -36,9 +36,8 @@ if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
   changeSelection();
 }}
 
-if(!empty($_GET['Hold'])){
-
-  $bittrexID = $_GET['Hold'];
+if(!empty($_GET['hold'])){
+  $bittrexID = $_GET['hold'];
   echo "HOLD is not empty | $bittrexID";
   runBittrexHold($bittrexID);
 }
@@ -299,7 +298,7 @@ function displayOption($name){
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td>&nbsp$minsRemaining</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td>";
-          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\">Hold</a></td><tr>";
+          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to set this order on hold?');\">Hold</a></td><tr>";
 				}
 				print_r("</table>");
 				displaySideColumn();
