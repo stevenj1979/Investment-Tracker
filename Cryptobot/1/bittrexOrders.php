@@ -297,7 +297,7 @@ function displayOption($name){
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td>&nbsp$minsRemaining</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td>";
-          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
+          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\">Hold</a></td><tr>";
 				}
 				print_r("</table>");
 				displaySideColumn();
