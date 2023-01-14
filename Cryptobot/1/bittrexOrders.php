@@ -36,6 +36,29 @@ if(isset($_POST['submit'])){if(empty($_POST['dropDown'])){
   changeSelection();
 }}
 
+if(!empty($_GET['Hold'])){
+  $bittrexID = $_GET['Hold'];
+  runBittrexHold($bittrexID);
+}
+
+function runBittrexHold($bittrexID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("runBittrexHold",$sql,3,1,"SQL","BittrexID:$bittrexID");
+    LogAction("runBittrexHold:".$sql, 'SQL_UPDATE', 0);
+    $conn->close();
+}
+
 function changeSelection(){
   //global $sql_option;
   global $dropArray;
@@ -68,7 +91,7 @@ function getBTTrackingCoins($userID){
   }
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,
-          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`
+          `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`,`IDBa`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
@@ -77,7 +100,7 @@ function getBTTrackingCoins($userID){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
       ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
-    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4']);  //24
+    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4'],$row['IDBa']);  //25
   }
   $conn->close();
   return $tempAry;
@@ -232,14 +255,14 @@ function displayOption($name){
               NewEcho("<TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TR>";
+              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TH>&nbspHold&nbsp</TH><TR>";
 
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
           $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
-          $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24];
+          $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24]; $bittrexID = $tracking[$x][25];
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp<a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
@@ -273,7 +296,8 @@ function displayOption($name){
           echo "<td>&nbsp".round($livePricePct,$roundNum)."</td>";
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td>&nbsp$minsRemaining</td>";
-          echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
+          echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td>";
+          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td><tr>";
 				}
 				print_r("</table>");
 				displaySideColumn();
