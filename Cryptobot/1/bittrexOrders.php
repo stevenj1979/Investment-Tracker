@@ -254,8 +254,8 @@ function displayOption($name){
            <option value='".$dropArray[0][0]."'$selected1>".$dropArray[0][0]."</option>
             <option value='".$dropArray[0][1]."'$selected2>".$dropArray[0][1]."</option>
             <option value='".$dropArray[0][2]."'$selected3>".$dropArray[0][2]."</option>
-            <option value='".$dropArray[0][3]."'$selected3>".$dropArray[0][2]."</option>
-            <option value='".$dropArray[0][4]."'$selected4 $selected5>".$dropArray[0][3]."</option></select>
+            <option value='".$dropArray[0][3]."'$selected3>".$dropArray[0][3]."</option>
+            <option value='".$dropArray[0][4]."'$selected4 $selected5>".$dropArray[0][4]."</option></select>
             <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
             </form>";
 
