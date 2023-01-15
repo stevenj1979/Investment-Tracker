@@ -1634,6 +1634,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           //newLogToSQL("BittrexBuyCancel", "Order time exceeded for $BittrexID Cancel order completed | $date | $timeToCancel | $minsRemaining | $BittrexID | $cancelTimeCheck | $finalBool", $userID, 0,"FullOrder","TransactionID:$transactionID");
           if ($orderQty == $orderQtyRemaining){
              $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+             LogToSQL("BittrexAPI","1_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($cancelRslt),3,1);
              //var_dump($cancelRslt);
              $canStatus = $cancelRslt['status']; $errorCode = $cancelRslt['code'];
              echo "<BR> Cancelling: bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion); $canStatus";
@@ -1650,6 +1651,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
              }
           }else{
             $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+            LogToSQL("BittrexAPI","2_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($result),3,1);
             $canStatus = $result['status'];
             if ($canStatus == 'CLOSED'){
               bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
@@ -1797,6 +1799,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           if ($orderQtyRemaining == $orderQty){
             //complete sell update amount
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+            LogToSQL("BittrexAPI","3_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($cancelRslt),3,1);
             $canStatus = $cancelRslt['status'];
             if ($canStatus == 'CLOSED'){
               bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
@@ -1809,6 +1812,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
             }
           }else{
              $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+             LogToSQL("BittrexAPI","4_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($result),3,1);
              $canStatus = $result['status'];
              if ($apiVersion == 1){ $resultStatus = $result;}
              else{ if ($canStatus == 'CLOSED'){$resultStatus = 1;}else{$resultStatus =0;}}
@@ -1844,6 +1848,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+            LogToSQL("BittrexAPI","5_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($cancelRslt),3,1);
             if($apiVersion == 1){ $canResStatus = $cancelRslt;}
             else{ if ($cancelRslt['status'] == 'CLOSED'){$canResStatus = 1;}else{$canResStatus =0;}}
             if ($canResStatus == 1){
@@ -1857,6 +1862,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
             }
           }else{
             $canResult = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+            LogToSQL("BittrexAPI","6_bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);".json_encode($canResult),3,1);
             if($apiVersion == 1){ $newCanResStatus = $canResult;}
             else{ if ($canResult['status'] == 'CLOSED'){$newCanResStatus = 1;}else{$newCanResStatus =0;}}
             if ($newCanResStatus == 1){
