@@ -25,7 +25,7 @@ SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn
 ,'ID' as `IDAhl`, 'HighLow', `v19Athl`.`Month3High`, `v19Athl`.`Month6High`, `v19Athl`.`CoinID` as `CoinIDv19Athl`, 'LastUpdated' as `LastUpdatedAhl` ,(`v19Athl`.`Month6Low`+`v19Athl`.`Month3Low`)/2 as AverageLowPrice, TIMESTAMPDIFF(HOUR, `v19Athl`.`DateAdded`, now()) as HoursSinceAdded, `v19Athl`.`Month3Low`, `v19Athl`.`Month6Low`
 ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
 FROM `Coin` `Cn`
-join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+join `CoinBidPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
 join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
 join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
 join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
@@ -71,7 +71,7 @@ SELECT `Tc`.`ID` as `IDTc`, `Tc`.`CoinID`, `Tc`.`CoinPrice`, `Tc`.`TrackDate`, `
 , ((`Cpc`.`Live7DChange`-`Cpc`.`Last7DChange`)/`Cpc`.`Last7DChange`)*100 as `D7ChangePctChange`
 ,`Pdcs`.`ID` as `IDPdcs`, `Pdcs`.`CoinID` as `CoinIDPdcs`, `Pdcs`.`PriceDipEnabled` as `PriceDipEnabledPdcs`, `Pdcs`.`HoursFlat` as `HoursFlatPdcs`, `Pdcs`.`DipStartTime` as `DipStartTimePdcs`, `Pdcs`.`HoursFlatLow` as `HoursFlatLowPdcs`, `Pdcs`.`HoursFlatHigh` as `HoursFlatHighPdcs`,`Pdcs`.`MaxHoursFlat`
 FROM `TrackingCoins` `Tc`
-join `CoinPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
+join `CoinBidPrice` `Cp` on `Cp`.`CoinID` =   `Tc`.`CoinID`
 join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Tc`.`UserID`
 join `User` `Us` on `Us`.`ID` = `Tc`.`UserID`
@@ -105,7 +105,7 @@ SELECT `Cn`.`ID` as `IDCn`, `Cn`.`Symbol`, `Cn`.`Name`, `Cn`.`BaseCurrency`, `Cn
  , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`PctOfAuto`
  ,`Ath`.`ID` as `IDAth`, `Ath`.`CoinID` as `CoinID3`, `Ath`.`HighLow`, `Ath`.`Price` as PriceAth
          FROM `Coin` `Cn`
-join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+join `CoinBidPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
 join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `Cn`.`ID`
 join `SpreadBetRules` `Sbr` on `Sbr`.`ID` = `Sbc`.`SpreadBetRuleID`
@@ -202,7 +202,7 @@ FROM `BittrexAction`  `Ba`
       ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
-      join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
+      join `CoinAskPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinBuyOrders` `Cbo` on((`Cbo`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinMarketCap` `Cmc` on((`Cmc`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinSellOrders` `Cso` on((`Cso`.`CoinID` = `Tr`.`CoinID`)))
@@ -244,7 +244,7 @@ FROM `BittrexAction`  `Ba`
     ,`Sr`.`OverrideBuyBackAmount`,`Sr`.`OverrideBuyBackSaving`
     FROM `TrackingSellCoins` `Tsc`
     Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
-     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+     Join `CoinAskPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
      join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
      join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
@@ -285,7 +285,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
     FROM `Transaction` `Tr`
     join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
     join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Tr`.`CoinID`
-    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+    join `CoinAskPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
     join `SpreadBetSettings` `Sbs` on `Sbs`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
     Join `AllTimeHighLow` `Athl` on `Athl`.`CoinID` = `Tr`.`CoinID` and `HighLow` = 'High'
     join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
@@ -364,7 +364,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
- join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+ join `CoinBidPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
  join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
  join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
  join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
@@ -504,7 +504,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
 ,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
   From `Transaction` `Tr`
   join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+  join `CoinAskPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
   Left join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` = `Tr`.`Type`;
 
 
@@ -607,7 +607,7 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
    from `AllTimeHighLow` `Ath`
    join `AllTimeHighLow` `Atl` on `Atl`.`CoinID` =`Ath`.`CoinID`
    join `Coin` `Cn` on `Cn`.`ID` = `Ath`.`CoinID`
-   join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Ath`.`CoinID`
+   join `CoinBidPrice` `Cp` on `Cp`.`CoinID` = `Ath`.`CoinID`
    Join `AvgHighLow` `Ah` on `Ah`.`CoinID` = `Ath`.`CoinID` and `Ah`.`HighLow` = 'High'
    Join `AvgHighLow` `Al` on `Al`.`CoinID` = `Ath`.`CoinID` and `Al`.`HighLow` = 'Low'
    where `Ath`.`HighLow` = 'High' and `Cn`.`BuyCoin` = 1
