@@ -422,19 +422,41 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewUpdateCoinPrice`(IN `Coin_ID` INT, IN `Coin_Price` DECIMAL(16,10))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewUpdateCoinPrice`(IN `Coin_ID` INT, IN `Coin_Price` DECIMAL(16,10), IN `Coin_AskPrice` DECIMAL(16,10), IN `Coin_BidPrice` DECIMAL(16,10))
     MODIFIES SQL DATA
 BEGIN
-declare l_price DECIMAL(16,10);
- Select `LiveCoinPrice` into l_price from `CoinPrice` where `CoinID` = Coin_ID;
- if l_price <> Coin_Price THEN
+
+  if NOT Exists(SELECT `ID` FROM `CoinPrice` WHERE `CoinID` = Coin_ID ) THEN
+    INSERT into `CoinPrice` (`CoinID`,`LiveCoinPrice`) VALUES (Coin_ID, 0);
+  END if;
+
 	UPDATE `CoinPrice` SET `Price5`= `Price4` where `CoinID` = Coin_ID;
 	UPDATE `CoinPrice` SET `Price4`= `Price3` where `CoinID` = Coin_ID;
 	UPDATE `CoinPrice` SET `Price3`= `LastCoinPrice` where `CoinID` = Coin_ID;
 	UPDATE `CoinPrice` SET `LastCoinPrice` = `LiveCoinPrice` where `CoinID` = Coin_ID;
 	UPDATE `CoinPrice` SET  `LiveCoinPrice` = Coin_Price where `CoinID` = Coin_ID;
 	UPDATE `CoinPrice` SET `LastUpdated` = CURRENT_TIMESTAMP where `CoinID` = Coin_ID;
-  end if;
+
+  if NOT Exists(SELECT `ID` FROM `CoinAskPrice` WHERE `CoinID` = Coin_ID ) THEN
+    INSERT into `CoinAskPrice` (`CoinID`,`LiveCoinPrice`) VALUES (Coin_ID, 0);
+  END if;
+  UPDATE `CoinAskPrice` SET `Price5`= `Price4` where `CoinID` = Coin_ID;
+  UPDATE `CoinAskPrice` SET `Price4`= `Price3` where `CoinID` = Coin_ID;
+  UPDATE `CoinAskPrice` SET `Price3`= `LastCoinPrice` where `CoinID` = Coin_ID;
+  UPDATE `CoinAskPrice` SET `LastCoinPrice` = `LiveCoinPrice` where `CoinID` = Coin_ID;
+  UPDATE `CoinAskPrice` SET  `LiveCoinPrice` = Coin_AskPrice where `CoinID` = Coin_ID;
+  UPDATE `CoinAskPrice` SET `LastUpdated` = CURRENT_TIMESTAMP where `CoinID` = Coin_ID;
+
+  if NOT Exists(SELECT `ID` FROM `CoinBidPrice` WHERE `CoinID` = Coin_ID ) THEN
+    INSERT into `CoinBidPrice` (`CoinID`,`LiveCoinPrice`) VALUES (Coin_ID, 0);
+  END if;
+  UPDATE `CoinBidPrice` SET `Price5`= `Price4` where `CoinID` = Coin_ID;
+  UPDATE `CoinBidPrice` SET `Price4`= `Price3` where `CoinID` = Coin_ID;
+  UPDATE `CoinBidPrice` SET `Price3`= `LastCoinPrice` where `CoinID` = Coin_ID;
+  UPDATE `CoinBidPrice` SET `LastCoinPrice` = `LiveCoinPrice` where `CoinID` = Coin_ID;
+  UPDATE `CoinBidPrice` SET  `LiveCoinPrice` = Coin_BidPrice where `CoinID` = Coin_ID;
+  UPDATE `CoinBidPrice` SET `LastUpdated` = CURRENT_TIMESTAMP where `CoinID` = Coin_ID;
+
 END$$
 DELIMITER ;
 

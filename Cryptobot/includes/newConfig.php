@@ -2184,12 +2184,12 @@ function copyCoinSellOrders($coinID,$CoinSellOrders){
   newLogToSQL("copyCoinSellOrders","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
 }
 
-function copyCoinPrice($coinID,$CoinPrice){
+function copyCoinPrice($coinID,$CoinPrice, $askPrice, $bidPrice){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "call NewUpdateCoinPrice($coinID, $CoinPrice);";
+  $sql = "call NewUpdateCoinPrice($coinID, $CoinPrice, $askPrice, $bidPrice);";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

@@ -112,7 +112,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
       //echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
-      $nPrice = $coinAry[$j]['lastTradeRate'];
+      $nPrice = Array($coinAry[$j]['lastTradeRate'],$coinAry[$j]['bidRate'],$coinAry[$j]['askRate']);
       break;
     }
   }
@@ -204,6 +204,8 @@ while($date <= $newTime){
       //Update Price
       echo "<BR>$bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol)), 8, '.', '');";
       $bitPrice = number_format((float)(bittrexCoinPrice($apikey,$apisecret,$baseCurrency,$symbol,$apiVersion)), 8, '.', '');
+      //$bitPrice = $bitPriceAry['lastTradeRate'];
+      //$askPrice = $bitPriceAry['ask'];
       echo "<br> PRICE_UPDATE COIN= $symbol CoinPrice= $bitPrice time ".date("Y-m-d H:i:s", time());
       $lastUpdateTime = $timeAry[$coinID];
       echo "<BR> TimeTest $coinID : $lastUpdateTime : $secondstoUpdate : ".date("Y-m-d H:i:s", time())." : ".timerReady($lastUpdateTime,$secondstoUpdate);
@@ -217,10 +219,11 @@ while($date <= $newTime){
       //  $timeAry[$coinID] = date("Y-m-d H:i", time());
       }
     }else{
-      $bitPrice = getArrayPrice($coinAry,$symbol,$baseCurrency);
-      copyCoinPrice($coinID,$bitPrice);
-      Echo "<BR> copyCoinPrice($coinID,$bitPrice);";
-      logAction("Update Coin Price for $coinID to $bitPrice",'CoinPrice', $logToFileSetting);
+      $bitPriceAry = getArrayPrice($coinAry,$symbol,$baseCurrency);
+      $bitPrice = $bitPriceAry[0]; $bidPrice = $bitPriceAry[1]; $askPrice = $bitPriceAry[2];
+      copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);
+      Echo "<BR> copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);";
+      logAction("Update Coin Price for $coinID to $bitPrice ,$askPrice,$bidPrice",'CoinPrice', $logToFileSetting);
     }
 
     echo "<br>";
