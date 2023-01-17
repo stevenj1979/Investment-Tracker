@@ -1958,7 +1958,8 @@ function newCoinMarketCapStats($coinMarketID){
     $tempId = (Int)$coin[$i];
     echo "<BR> newCoinMarketCapStats: ".$temp['data'][$tempId]['symbol'];
     $tmpCMCAry[] = Array($temp['data'][$tempId]['symbol'],$temp['data'][$tempId]['quote']['USD']['market_cap'],$temp['data'][$tempId]['quote']['USD']['percent_change_1h'],
-    $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d'],$temp['data'][$tempId]['quote']['USD']['percent_change_30d'],$temp['data'][$tempId]['id']);
+    $temp['data'][$tempId]['quote']['USD']['percent_change_24h'],$temp['data'][$tempId]['quote']['USD']['percent_change_7d'],$temp['data'][$tempId]['quote']['USD']['percent_change_30d'],$temp['data'][$tempId]['id']
+    ,$temp['data'][$tempId]['cmc_rank']);
   }
 
   //echo "<BR> ".$temp['data'][52]['symbol'];

@@ -29,13 +29,13 @@ function timerReady($start, $seconds){
 
 }
 
-function saveCMCtoSQL($CMCID, $Hr1, $Hr24, $D7, $D30){
+function saveCMCtoSQL($CMCID, $Hr1, $Hr24, $D7, $D30, $cmcRank){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "Call addCMCData($CMCID, $Hr1, $Hr24, $D7, $D30);";
+  $sql = "Call addCMCData($CMCID, $Hr1, $Hr24, $D7, $D30, $cmcRank);";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -237,8 +237,9 @@ while($date <= $newTime){
           $Hr24P = $CMCStats[$k][3];
           $D7P = $CMCStats[$k][4];
           $D30P = $CMCStats[$k][5];
-          Echo "<BR>saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);";
-          saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);
+          $cmcRank = $CMCStats[$k][7];
+          Echo "<BR>saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P,$cmcRank);";
+          saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P,$cmcRank);
           //LogToSQL("CMCStats","saveCMCtoSQL($CMCID,$Hr1P,$Hr24P,$D7P,$D30P);",3,1);
         }
       }
