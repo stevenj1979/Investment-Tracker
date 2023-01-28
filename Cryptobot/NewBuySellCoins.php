@@ -2048,10 +2048,11 @@ function buyToreduceLoss($lossCoins){
     if ($hoursFlatAutoEnabled == 1){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
-    Echo "<BR>1: PctOfAuto: $pctOfAuto | $reduceLossSellPct";
-    if ($reduceLossSellPct < -50){
-        $pctOfAuto = 100-$reduceLossSellPct;
+    Echo "<BR>1: PctOfAuto: $pctOfAuto | $pctProfit";
+    if ($pctProfit < -50){
+        $pctOfAuto = 100-$pctProfit;
         Echo "<BR>2: PctOfAuto: $pctOfAuto";
+        $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
     //and $minsToDelay > 0
     echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($maxHoursFlat) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
