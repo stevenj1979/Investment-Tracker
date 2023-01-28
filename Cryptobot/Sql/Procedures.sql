@@ -1104,7 +1104,7 @@ IF NOT EXISTS(SELECT `ID` FROM `CMCData` WHERE `CoinID` = Coin_ID_ETH) THEN
 end if;
 
 
-UPDATE `CMCData` SET `1HrPrice` = Hr_1Price,`24HrPrice`= Hr_24Price,`7DayPrice`= Day_7Price,`30DayPrice`= Day_30Price WHERE `CMCID` = CMC_ID;
+UPDATE `CMCData` SET `1HrPrice` = Hr_1Price,`24HrPrice`= Hr_24Price,`7DayPrice`= Day_7Price,`30DayPrice`= Day_30Price,`CMC Rank` = CMC_Rank WHERE `CMCID` = CMC_ID;
 end$$
 DELIMITER ;
 

@@ -2046,6 +2046,9 @@ function buyToreduceLoss($lossCoins){
     $excludeSpreadBet = 1;
     if ($excludeSpreadBet = 1 and $spreadBetTransactionID <> 0 ){ continue;}
     if ($hoursFlatAutoEnabled == 1){
+      if ($reduceLossSellPct< -50){
+          $pctOfAuto = 100-$reduceLossSellPct;
+      }
       $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
     //and $minsToDelay > 0
