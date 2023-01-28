@@ -2026,6 +2026,7 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
 function buyToreduceLoss($lossCoins){
   $finalBool = False;
   $lossCoinsSize = count($lossCoins);
+  Echo "<BR>0: Total: $lossCoinsSize";
   //$apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$lossCoinsSize; $y++){
     $pctProfit = $lossCoins[$y][58]; $transactionID = $lossCoins[$y][0]; $minsToDelay = $lossCoins[$y][60]; $userID = $lossCoins[$y][3]; $coinID = $lossCoins[$y][2];
