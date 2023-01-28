@@ -2048,8 +2048,8 @@ function buyToreduceLoss($lossCoins){
     if ($hoursFlatAutoEnabled == 1){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
+    Echo "<BR>1: PctOfAuto: $pctOfAuto | $reduceLossSellPct";
     if ($reduceLossSellPct < -50){
-        Echo "<BR>1: PctOfAuto: $pctOfAuto | $reduceLossSellPct";
         $pctOfAuto = 100-$reduceLossSellPct;
         Echo "<BR>2: PctOfAuto: $pctOfAuto";
     }
