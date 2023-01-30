@@ -319,7 +319,10 @@ function displayTable($tracking, $header){
 
     //Echo "<td></td>";
     //Echo "<td></td>";
-
+    if ($priceDifferecePct < -20){
+      $pctOfAuto = 100 + $priceDifferecePct;
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
+    }
 
     echo "</tr><tr>";
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
