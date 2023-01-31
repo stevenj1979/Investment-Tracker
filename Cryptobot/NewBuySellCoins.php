@@ -306,7 +306,7 @@ function runBuyBack($buyBackCoins){
     }
     if ($profitPct < -8){
       //$pctOfAuto = 100 + $profitPct;
-      $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$profitPct));
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$profitPct)));
     }
     ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
     if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
