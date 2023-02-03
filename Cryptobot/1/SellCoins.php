@@ -244,10 +244,10 @@ function showSellCoins($trackingSell,$title){
       NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
       echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
       echo "<td rowspan='3'></td>";
-      echo "<td rowspan='3'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td rowspan='3'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td rowspan='3'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></td>";
-      echo "<td rowspan='3'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></td>";
+      echo "<td rowspan='3'><div title='Manual Sell!'><a href='ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-shopping-cart' style='$fontSize;color:DodgerBlue'></i></a></DIV></td>";
+      echo "<td rowspan='3'><div title='Split Coins'><a href='ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice'><i class='fas fa-file-archive' style='$fontSize;color:DodgerBlue'></i></a></DIV></td>";
+      echo "<td rowspan='3'><div title='Manual Sell with Tracking!'><a href='ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID'><i class='fas fa-clock' style='$fontSize;color:DodgerBlue'></i></a></DIV></td>";
+      echo "<td rowspan='3'><div title='Save Coins!'><a href='ManualSell.php?manReopen=Yes&transactionID=$transactionID'><i class='fas fa-hryvnia' style='$fontSize;color:DodgerBlue'></i></a></DIV></td>";
 
       echo "</tr><tr>";
       echo "<td><p id='normalText'>$coin</p></td>";
