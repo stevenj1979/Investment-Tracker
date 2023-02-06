@@ -327,7 +327,7 @@ function displayTable($tracking, $header){
 
     echo "</tr><tr>";
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
-    Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget</td>";
+    Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget ($maxHoursFlat)</td>";
     Echo "<td>1Hr Pct Change: $hr1PctChange</td>";
     Echo "<td>$baseCurrency</td>";
     echo "</tr><tr>";
