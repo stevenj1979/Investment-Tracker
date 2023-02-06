@@ -323,11 +323,12 @@ function displayTable($tracking, $header){
       //$pctOfAuto = 100 + $priceDifferecePct;
       //$hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$priceDifferecePct)));
+      $hoursFlatOriginalTarget = floor(($maxHoursFlat/100)*(($pctOfAuto)));
     }
 
     echo "</tr><tr>";
     Echo "<td>Live: ".round($liveCoinPrice,$num)."</td>";
-    Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget ($maxHoursFlat)</td>";
+    Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget ($hoursFlatOriginalTarget)</td>";
     Echo "<td>1Hr Pct Change: $hr1PctChange</td>";
     Echo "<td>$baseCurrency</td>";
     echo "</tr><tr>";
