@@ -319,7 +319,7 @@ function displayTable($tracking, $header){
 
     //Echo "<td></td>";
     //Echo "<td></td>";
-    if ($priceDifferecePct < -8){
+    if ($priceDifferecePct < $buyBackPct){
       //$pctOfAuto = 100 + $priceDifferecePct;
       //$hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$priceDifferecePct)));
