@@ -304,7 +304,7 @@ function runBuyBack($buyBackCoins){
     if ($buyBackHoursFlatAutoEnabled == 1){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
-    if ($profitPct < -5){
+    if ($profitPct < $buyBackPct){
       //$pctOfAuto = 100 + $profitPct;
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$profitPct)));
     }
