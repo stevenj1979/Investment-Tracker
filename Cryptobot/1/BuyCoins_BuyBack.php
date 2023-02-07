@@ -84,7 +84,14 @@ function deleteBuyBackToSQL($ID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed'  WHERE `ID` = $ID ";
+  //$sql = "UPDATE `BuyBack` SET `Status`= 'Closed',`DateClosed` = now()  WHERE `ID` = $ID ";
+  $sql = "UPDATE `BuyBack` SET `Status`= CASE
+                    WHEN `Status` = 'Open' THEN 'Closed'
+                    WHEN `Status` = 'Closed' THEN 'Open'
+                    end
+                ,`DateClosed` = now()
+                  WHERE `ID` = $ID
+  'Closed',`DateClosed` = now()  WHERE `ID` = $ID ";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -145,19 +152,25 @@ function getCoinsfromSQL(){
   return $tempAry;
 }
 
-function getTrackingCoinsLoc($userID, $WhereClause){
+function getTrackingCoinsLoc($userID, $WhereClause, $open){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+if ($open == 1){
+  $WhereClause2 = "`StatusBb` <> 'Closed'";
+}else{
+  $WhereClause2 = "`StatusBb` <> 'Closed' and `hoursSinceClosed` < 400";
 }
   $sql = "SELECT `IDBb`, `TransactionID`, `Quantity`, `SellPrice`, `StatusBb`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPrice` as `SellPriceBA`, `LiveCoinPrice`
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
             ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`,`PctOfAutoBuyBack`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
+            ,`hoursSinceClosed`
             FROM `View9_BuyBack`
-            where `StatusBb` <> 'Closed' and `UserID` = $userID $WhereClause";
+            where $WhereClause2 and `UserID` = $userID $WhereClause";
 
    //echo $sql.getHost();
 $result = $conn->query($sql);
@@ -166,7 +179,7 @@ while ($row = mysqli_fetch_assoc($result)){
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
     ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency'],$row['MinsUntilEnable'] //32
-    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat']); //35
+    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['hoursSinceClosed']); //36
 }
 $conn->close();
 return $tempAry;
@@ -267,7 +280,7 @@ $conn->close();
 return $tempAry;
 }
 
-function displayTable($tracking, $header){
+function displayTable($tracking, $header, $linkName){
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $newArrLength = count($tracking);
   echo "<h2>$header</H2><table id='t01'>";
@@ -341,7 +354,7 @@ function displayTable($tracking, $header){
     echo "</tr><tr>";
     Echo "<td></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
-    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>Delete</a></td>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>$linkName</a></td>";
     Echo "<td></td>";
     Echo "<td></td></tr>";
   }//end for
@@ -352,7 +365,7 @@ function displayMain(){
   displayHeader(3);
 
   $userID = $_SESSION['ID'];
-  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 0");
+  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 0", 1);
 
   //echo $newArrLength;
   //$userConfig = getConfig($_SESSION['ID']);
@@ -372,10 +385,13 @@ function displayMain(){
   //echo "<TH>&nbspPrice Diff 1</th><TH>&nbspPrice Change</th>";
   //echo "<TH>&nbspBuy Pattern</th><TH>&nbsp1HR Change Pattern</th><TH>&nbspManual Buy</th><TH>&nbspSet Alert</th><tr>";
   //$roundNum = 2;
-  displayTable($tracking,"Enabled");
-  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 1");
-  displayTable($tracking,"Disabled");
+  displayTable($tracking,"Enabled","Delete");
+  $tracking = getTrackingCoinsLoc($userID, " and `BBRuleDisabled` = 1", 1);
+  displayTable($tracking,"Disabled","Delete");
   //Echo "<a href='BuyCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+  $tracking = getTrackingCoinsLoc($userID, " ", 0);
+  displayTable($tracking,"Closed","Undelete");
+
   displaySideColumn();
   //displayMiddleColumn();
   //displayFarSideColumn();

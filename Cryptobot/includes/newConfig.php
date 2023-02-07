@@ -7454,7 +7454,7 @@ function closeBuyBack($buyBackID){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed' WHERE `ID` = $buyBackID ";
+  $sql = "UPDATE `BuyBack` SET `Status`= 'Closed',`DateClosed` = now() WHERE `ID` = $buyBackID ";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -7834,7 +7834,7 @@ function CloseAllBuyBack($spreadBetTransactionID){
   }
 
   $sql = "UPDATE `BuyBack`
-            SET `Status` = 'Closed'
+            SET `Status` = 'Closed',`DateClosed` = now()
             WHERE `TransactionID` in (SELECT `ID` FROM `Transaction` WHERE `SpreadBetTransactionID` = $spreadBetTransactionID)";
 
   //print_r($sql);

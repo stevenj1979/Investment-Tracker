@@ -332,7 +332,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
  join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Sc`.`NewCoinIDCandidate`;
 
  CREATE OR REPLACE VIEW `View9_BuyBack` as
- SELECT `Bb`.`ID` as `IDBb`, `Bb`.`TransactionID` as `TransactionIDBb`, `Bb`.`Quantity`, `Bb`.`SellPrice` as `SellPriceBb`, `Bb`.`Status` as `StatusBb`, `Bb`.`ProfitMultiply`, `Bb`.`NoOfRaisesInPrice`, `Bb`.`BuyBackPct`, `Bb`.`MinsToCancel`, `Bb`.`DateTimeAdded`, `Bb`.`DelayTime`, `Bb`.`CoinPrice` as `CoinPriceBB`,`Bb`.`USDBuyBackAmount`,`Bb`.`MinsToCancel` as bbMinsToCancel
+ SELECT `Bb`.`ID` as `IDBb`, `Bb`.`TransactionID` as `TransactionIDBb`, `Bb`.`Quantity`, `Bb`.`SellPrice` as `SellPriceBb`, `Bb`.`Status` as `StatusBb`, `Bb`.`ProfitMultiply`, `Bb`.`NoOfRaisesInPrice`, `Bb`.`BuyBackPct`, `Bb`.`MinsToCancel`, `Bb`.`DateTimeAdded`, `Bb`.`DelayTime`, `Bb`.`CoinPrice` as `CoinPriceBB`,`Bb`.`USDBuyBackAmount`,`Bb`.`MinsToCancel` as bbMinsToCancel,`Bb`.`DateClosed`
  ,`Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinIDTr`,`Tr`.`UserID` AS `UserID`,`Tr`.`CoinPrice` AS `CoinPrice`,`Tr`.`Amount` AS `Amount`,`Tr`.`Status` AS `StatusTr`,`Tr`.`OrderDate` AS `OrderDate`,`Tr`.`CompletionDate` AS `CompletioanDate`,`Tr`.`BittrexID` AS `BittrexID`,`Tr`.`OrderNo` AS `OrderNo`,`Tr`.`BittrexRef` AS `BittrexRefTr`,`Tr`.`BuyOrderCancelTime` AS `BuyOrderCancelTime`,`Tr`.`SellOrderCancelTime` AS `SellOrderCancelTime`,`Tr`.`FixSellRule` AS `FixSellRule`,`Tr`.`BuyRule` AS `BuyRule`,`Tr`.`SellRule` AS `SellRule`,`Tr`.`ToMerge` AS `ToMerge`,`Tr`.`NoOfPurchases` AS `NoOfPurchases`,`Tr`.`NoOfCoinSwapsThisWeek` AS `NoOfCoinSwapsThisWeek`,`Tr`.`NoOfCoinSwapPriceOverrides` AS `NoOfCoinSwapPriceOverrides`,`Tr`.`SpreadBetTransactionID` AS `SpreadBetTransactionID`,`Tr`.`CaptureTrend` AS `CaptureTrend`,`Tr`.`SpreadBetRuleID` AS `SpreadBetRuleID`,`Tr`.`OriginalAmount` AS `OriginalAmount`,`Tr`.`OverrideCoinAllocation` AS `OverrideCoinAllocation`,`Tr`.`DelayCoinSwapUntil` AS `DelayCoinSwapUntil`
  ,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID4`, `Ba`.`TransactionID`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
  , `Cp`.`ID` as `IDCp`, `Cp`.`CoinID` as `CoinID2`, `Cp`.`LiveCoinPrice`, `Cp`.`LastCoinPrice`, `Cp`.`Price3`, `Cp`.`Price4`, `Cp`.`Price5`, `Cp`.`LastUpdated`
@@ -361,6 +361,7 @@ SELECT `Tr`.`ID` AS `IDTr`,`Tr`.`Type` AS `Type`,`Tr`.`CoinID` AS `CoinID`,`Tr`.
   ,if(`Bb`.`DelayTime`<now(), 0,1) as BBRuleDisabled
   , timestampdiff(MINUTE,now(),`Bb`.`DelayTime`) as MinsUntilEnable
   ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
+  , TIMESTAMPDIFF(HOUR, `Bb`.`DateClosed`, now()) as hoursSinceClosed
  FROM `BuyBack` `Bb`
  join `Transaction` `Tr` on `Tr`.`ID` = `Bb`.`TransactionID`
  join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
