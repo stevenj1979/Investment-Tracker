@@ -71,7 +71,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $bbID = $_GET['ID'];
       //Echo "Delete $bbID";
       deleteBuyBackToSQL($bbID);
-      header('Location: BuyCoins_BuyBack.php');
+      //header('Location: BuyCoins_BuyBack.php');
   }
 
 }else{
@@ -92,6 +92,8 @@ function deleteBuyBackToSQL($ID){
                 ,`DateClosed` = now()
                   WHERE `ID` = $ID
   'Closed',`DateClosed` = now()  WHERE `ID` = $ID ";
+
+  echo "<BR>$sql<BR>";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
