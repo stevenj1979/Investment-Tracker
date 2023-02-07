@@ -129,7 +129,7 @@ function getUserIDs($userID){
   return $tempAry;
 }
 
-function getRules($userID, $enabled){
+function getRules($userID, $enabled, $activation = 1){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -150,7 +150,7 @@ function getRules($userID, $enabled){
         `VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`,`RuleID`,`BuyCoinOffsetEnabled`,`BuyCoinOffsetPct`,`PriceTrendEnabled`, `Price4Trend`, `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`
         , `Active`, `DisableUntil`, `BaseCurrency`, `NoOfCoinPurchase`, `TimetoCancelBuy`, `BuyType`, `TimeToCancelBuyMins`, `BuyPriceMinEnabled`, `BuyPriceMin`, `LimitToCoin`,`AutoBuyCoinEnabled`,`AutoBuyPrice`
         ,`BuyAmountOverrideEnabled`,`BuyAmountOverride`,`NewBuyPattern`,`SellRuleFixed`,`CoinOrder`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`
-        ,`NameCpmn` AS `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hpn` as `Coin1HrPatternName`,TimeStampDiff(Hour,now(),`DisableUntil`) as`HoursDisabled`,`RuleName`,`DefaultRule`
+        ,`NameCpmn` AS `CoinPriceMatchName`,`NameCppn` as `CoinPricePatternName`,`NameC1hpn` as `Coin1HrPatternName`,TimeStampDiff(Hour,now(),`DisableUntil`) as`HoursDisabled`,`RuleName`,`DefaultRule`,`EnableRuleActivationAfterDip`
         FROM `View13_UserBuyRules` WHERE `UserID` =  $userID and $whereclause Order by `CoinOrder` Asc";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -165,7 +165,7 @@ function getRules($userID, $enabled){
      ,$row['Active'],$row['DisableUntil'],$row['BaseCurrency'],$row['NoOfCoinPurchase'],$row['TimetoCancelBuy'],$row['BuyType'],$row['TimeToCancelBuyMins'],$row['BuyPriceMinEnabled'],$row['BuyPriceMin'] //44
       ,$row['LimitToCoin'],$row['AutoBuyCoinEnabled'],$row['AutoBuyPrice'],$row['BuyAmountOverrideEnabled'],$row['BuyAmountOverride'],$row['NewBuyPattern'],$row['SellRuleFixed'],$row['CoinOrder'] //52
       ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['1HrChangeTrendEnabled'],$row['1HrChangeTrend'],$row['CoinPriceMatchName'],$row['CoinPricePatternName'],$row['Coin1HrPatternName'] //59
-      ,$row['HoursDisabled'],$row['RuleName'],$row['DefaultRule']);//62
+      ,$row['HoursDisabled'],$row['RuleName'],$row['DefaultRule'],$row['EnableRuleActivationAfterDip']);//63
   }
   $conn->close();
   return $tempAry;
@@ -343,9 +343,13 @@ $userSettingsLen = count($userSettings);
 $userSettingsSB = getRules($_SESSION['ID'],3);
 $userSettingsSBLen = count($userSettingsSB);
 $userSettingsDisabled = getRules($_SESSION['ID'],0);
+$userSettingsDisabledTotal = getRules($_SESSION['ID'],0,0);
+$userSettingsDisabledTotalLen = count($userSettingsDisabledTotal);
 $userSettingsDisabledLen = count($userSettingsDisabled);
 $userSettingsDisabledSB = getRules($_SESSION['ID'],2);
 $userSettingsDisabledSBLen = count($userSettingsDisabledSB);
+$userSettingsDisabledSBTotal = getRules($_SESSION['ID'],2,0);
+$userSettingsDisabledSBTotalLen = count($userSettingsDisabledSBTotal);
 //echo $userDetails[0][1];
 
 displayHeader(7);
@@ -356,7 +360,9 @@ displayHeader(7);
           showBuyRules($userSettings, "Enabled Rules", 1,$userSettingsLen);
           showBuyRules($userSettingsSB, "SpreadBet Enabled Rules", 1,$userSettingsSBLen);
           showBuyRules($userSettingsDisabled, "Disabled Rules", 0,$userSettingsDisabledLen);
+          showBuyRules($userSettingsDisabledTotal, "Disabled Rules No Activation", 0,$userSettingsDisabledTotalLen);
           showBuyRules($userSettingsDisabledSB, "SpreadBet Disabled Rules", 0,$userSettingsDisabledSBLen);
+          showBuyRules($userSettingsDisabledSBTotal, "SpreadBet Disabled Rules No Activation", 0,$userSettingsDisabledSBTotalLen);
           echo "<br><a href='AddNewSetting.php?addNew=Yes'><span class='glyphicon glyphicon-plus' style='font-size:48px;'></span></a>";
           displaySideColumn();?>
 
