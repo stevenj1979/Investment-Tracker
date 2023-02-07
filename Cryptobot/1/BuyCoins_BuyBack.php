@@ -171,7 +171,7 @@ if ($open == 1){
             ,`hoursSinceClosed`
             FROM `View9_BuyBack`
             where $WhereClause2 and `UserID` = $userID $WhereClause";
-
+            echo "<BR>$sql<BR>";
    //echo $sql.getHost();
 $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
