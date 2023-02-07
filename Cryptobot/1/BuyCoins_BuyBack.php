@@ -89,9 +89,7 @@ function deleteBuyBackToSQL($ID){
                     WHEN `Status` = 'Open' THEN 'Closed'
                     WHEN `Status` = 'Closed' THEN 'Open'
                     end
-                ,`DateClosed` = now()
-                  WHERE `ID` = $ID
-  'Closed',`DateClosed` = now()  WHERE `ID` = $ID ";
+                ,`DateClosed` = now() WHERE `ID` = $ID ";
 
   echo "<BR>$sql<BR>";
   //print_r($sql);
