@@ -161,7 +161,7 @@ if ($conn->connect_error) {
 if ($open == 1){
   $WhereClause2 = "`StatusBb` <> 'Closed'";
 }else{
-  $WhereClause2 = "`StatusBb` <> 'Closed' and `hoursSinceClosed` < 400";
+  $WhereClause2 = "`StatusBb` = 'Closed' and `hoursSinceClosed` < 400";
 }
   $sql = "SELECT `IDBb`, `TransactionID`, `Quantity`, `SellPrice`, `StatusBb`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPrice` as `SellPriceBA`, `LiveCoinPrice`
             , (`LiveCoinPrice`- `SellPrice`) as `PriceDifferece`, ((`LiveCoinPrice`- `SellPrice`)/`SellPrice`)*100 as `PriceDifferecePct`, `UserID`, `Email`, `UserName`, `ApiKey`, `ApiSecret`
@@ -171,7 +171,7 @@ if ($open == 1){
             ,`hoursSinceClosed`
             FROM `View9_BuyBack`
             where $WhereClause2 and `UserID` = $userID $WhereClause";
-            echo "<BR>$sql<BR>";
+            //echo "<BR>$sql<BR>";
    //echo $sql.getHost();
 $result = $conn->query($sql);
 while ($row = mysqli_fetch_assoc($result)){
