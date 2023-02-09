@@ -4484,6 +4484,7 @@ $sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
           WHERE `Cn`.`BaseCurrency` = '$baseCurrency'
           ORDER BY RAND()";
+echo "<BR>$sql";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
