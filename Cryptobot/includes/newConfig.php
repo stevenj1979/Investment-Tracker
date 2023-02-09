@@ -3555,17 +3555,16 @@ function displayNewHeader(){
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   ?>
   <ul>
-    <li><a href='Dashboard.php'>Dashboard</a></li>
-    <li><a href='Transactions.php'>Transactions</a></li>
-    <li><a href='Stats.php'>Stats</a></li>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#news">News</a></li>
     <li class="dropdown">
-        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
-        <div class="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
-        </div>
-      </li>
+      <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+      <div class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+    </li>
   </ul>
   <?php
 }
