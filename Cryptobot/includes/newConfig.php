@@ -3578,7 +3578,7 @@ function displayNewHeader(){
   echo "<li><a href='Dashboard.php'>Dashboard</a></li>";
   echo "<li><a href='Transactions.php'>Transactions</a></li>";
   echo "<li><a href='Stats.php'>Stats</a></li>";
-  echo "<li class='Dropdown'>";
+  echo "<li class='dropdown'>";
   echo "<a href='javascript:void(0)' class='dropbtn'>Buy Coins</a>";
   echo "<div class='dropdown-content'>";
   echo "<a href='BuyCoins.php'>BuyCoins</a>";
