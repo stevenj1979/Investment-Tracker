@@ -765,7 +765,7 @@ function getUserRules($type){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
-  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`
+  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`,`SpreadBetTotalAmount`
    FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = $ruleType and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -782,7 +782,7 @@ function getUserRules($type){
     ,$row['BuyRisesInPrice'],$row['TotalProfitPauseEnabled'],$row['TotalProfitPause'],$row['PauseRulesEnabled'],$row['PauseRules'],$row['PauseHours'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct'] //72
     ,$row['OverrideDisableRule'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //79
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
-   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr']); //92
+   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr'],$row['SpreadBetTotalAmount']); //93
   }
   $conn->close();
   return $tempAry;

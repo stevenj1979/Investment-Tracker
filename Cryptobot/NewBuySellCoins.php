@@ -1103,7 +1103,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
             echoText("Number of Total Buys: $noOfBuys BuyCounter: ".$buyCounter[$userID."-Total"],$echoTestText);
           }else{
-            $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][89];
+            $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][93];
             $spreadBetCoins = getSpreadbetCoins($baseCurrency);
             $spreadBetCoinsSize = count($spreadBetCoins);
             echo "<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount";
