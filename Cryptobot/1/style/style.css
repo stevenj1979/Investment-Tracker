@@ -64,3 +64,11 @@ ul li ul li {
   clear: both;
   width: 100%;
 }
+
+th{
+  padding: 14px;
+}
+
+td{
+  padding: 14px;
+}
