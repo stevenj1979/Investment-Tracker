@@ -856,7 +856,8 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $buyRuleType = $buyRules[$y][89];
       echoAndLog("BuyCoin:$buyRuleType", "This is a Test | $KEK | $APISecret | $APIKey",3,$echoTestText,"BuySellCoins","None");
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
-      echoAndLog("BuyCoin:$buyRuleType","FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); <BR>",3,$echoTestText,"BuySellCoins","None");
+      echoAndLog("BuyCoin:$buyRuleType","FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); LIVE: $LiveCoinPrice<BR>",3,$echoTestText,"BuySellCoins","None");
+
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][35]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
       $CoinSellOffsetEnabled = $buyRules[$y][38];
