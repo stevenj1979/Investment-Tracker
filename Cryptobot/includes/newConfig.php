@@ -3559,11 +3559,11 @@ function displayNewHeader(){
     <li><a href='Transactions.php'>Transactions</a></li>
     <li><a href='Stats.php'>Stats</a></li>
     <li class='dropdown'>
-      <a href='javascript:void(0)' class='dropbtn'>Buy Coins</a>
+      <a href='javascript:void(0)' class='dropbtn'>BuyCoins</a>
       <div class='dropdown-content'>
         <a href='BuyCoins.php'>BuyCoins</a>
         <a href='BuyCoinsFilter.php'>Buy Coins Filter</a>
-  
+
       </div>
     </li>
     <!--<li class='dropdown'>
