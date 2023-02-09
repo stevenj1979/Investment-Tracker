@@ -3563,9 +3563,9 @@ function displayNewHeader(){
       <div class='dropdown-content'>
         <a href='BuyCoins.php'>BuyCoins</a>
         <a href='BuyCoinsFilter.php'>Buy Coins Filter</a>
-        <a href='BuyCoinsTracking.php'>Buy Coins Tracking (<?php $buyTracking ?>)</a>
+        <a href='BuyCoinsTracking.php'>Buy Coins Tracking (<?php echo $buyTracking ?>)</a>
         <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
-        <a href='BuyCoins_BuyBack.php'>Buy Back (<?php $buyBack ?>)</a>
+        <a href='BuyCoins_BuyBack.php'>Buy Back (<?php echo $buyBack ?>)</a>
       </div>
     </li>
     <!--<li class='dropdown'>
