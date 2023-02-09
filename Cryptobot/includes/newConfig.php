@@ -3603,6 +3603,7 @@ function displayNewHeader(){
     }?>
   </ul>
 </nav>
+<br>
   <?php
 }
 
