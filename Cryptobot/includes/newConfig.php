@@ -3593,14 +3593,15 @@ function displayNewHeader(){
         <li><a href="BuySettings.php">Buy Settings</a></li>
         <li><a href="SellSettings.php">Sell Settings</a></li>
         <li><a href="Settings_Patterns.php">Setting Patterns</a></li>
+        <?php if ($_SESSION['AccountType']==1){
+            echo "<li><a href='AdminSettings.php'>Admin Settings</a></li>";
+        }?>
       </ul>
     </li>
     <li><a href="CoinAlerts.php">Coin Alerts<a></li>
     <li><a href="console.php">Console</a></li>
     <li><a href="CoinMode.php">CoinMode</a></li>
-    <?php if ($_SESSION['AccountType']==1){
-        echo "<li><a href='AdminSettings.php'>Admin Settings</a></li>";
-    }?>
+    
   </ul>
 </nav>
 <br>
