@@ -232,7 +232,7 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
 $webMarketStats = getWebMarketStats();
 //$btcPrice = getLiveCoinPriceUSD("BTC");
 
-displayNewHeader();
+displayHeader(0);
               //$profitUSD = $uProfit[0][2]*$btcPrice;
               if ($_SESSION['isMobile']){
                 $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";

@@ -3530,31 +3530,8 @@ function displayHeader($n){
   $ref = array("Dashboard", "Transactions", "Stats","Buy Coins (".$buyTotal.")","Sell Coins (".$sellTotal.")","Profit","Bittrex Orders (".$bittrexAction.")","Settings","Coin Alerts","Console","CoinMode","Admin Settings");
   $headerLen = count($headers);
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
-  ?><div class="header">
-    <table>
-      <tr><TH><img src='<?php echo $imgpath; ?>' width="40"> </TH>
-      <TH>Logged in as: <i class="glyphicon glyphicon-user"></i>  <?php echo $_SESSION['username']; ?><?php if ($_SESSION['isDisabled']){echo " Disabled Until : ".$_SESSION['DisableUntil'];} ?></th></tr></Table><br>
-     </div>
-     <div class="topnav"> <?php
 
-     echo "<ul>";
-      for($x = 0; $x < $headerLen; $x++) {
-        $sellQueue = "";$active = "";
-        $h1 = $headers[$x];
-        $r1 = $ref[$x];
-        if ($ref[$x] == "Bittrex Orders" and $_SESSION['bittrexQueue'] > 0) {$sellQueue = "(".$_SESSION['bittrexQueue'].")";}
-        if ($ref[$x] == "Sell Coins" and $_SESSION['sellCoinsQueue'] > 0){$sellQueue = "(".$_SESSION['sellCoinsQueue'].")"; }
-        if ($n == $x) { $active = " class='active'";}
-        if ($_SESSION['AccountType']==1 && $x == $headerLen){Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
-        else{Echo "<li><a href='$h1'$active>$r1 $sellQueue</a></li>";}
-        //$active = '';
-      }
-      echo "<ul>";
-      //if ($n > $headerLen ){ $active = " class='active'"; }
-      //if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'$active>Admin Settings</a>";}?>
-    </div>
-    <div class="row">
-      <div class="settingCol1"><?php
+  displayNewHeader();
 }
 
 function displaySubHeader($page){
@@ -3574,6 +3551,8 @@ function displaySubHeader($page){
 }
 
 function displayNewHeader(){
+  $webUsageAry = $_SESSION['webUsage'];
+  $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   echo "<ul>";
   echo "<li><a href='Dashboard.php'>Dashboard</a></li>";
   echo "<li><a href='Transactions.php'>Transactions</a></li>";
@@ -3583,10 +3562,30 @@ function displayNewHeader(){
   echo "<div class='dropdown-content'>";
   echo "<a href='BuyCoins.php'>BuyCoins</a>";
   echo "<a href='BuyCoinsFilter.php'>Buy Coins Filter</a>";
-  echo "<a href='BuyCoinsTracking.php'>Buy Coins Tracking</a>";
+  echo "<a href='BuyCoinsTracking.php'>Buy Coins Tracking ($buyTracking)</a>";
   echo "<a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>";
-  echo "<a href='BuyCoins_BuyBack.php'>Buy Back</a>";
+  echo "<a href='BuyCoins_BuyBack.php'>Buy Back ($buyBack)</a>";
   echo "</div>";
+  echo "</li>";
+  echo "<li class='dropdown'>";
+  echo "<a href='javascript:void(0)' class='dropbtn'>Sell Coins</a>";
+  echo "<div class='dropdown-content'>";
+  echo "<a href='SellCoins.php'>Sell Coins ($sellCoin)</a>";
+  echo "<a href='SellCoins_Tracking.php'>Tracking ($sellTracking)</a>";
+  echo "<a href='SellCoins_Saving.php'>Saving ($sellSaving)</a>";
+  echo "<a href='SellCoins_Spread.php'>Spread Bet</a>";
+  echo "<a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>";
+  echo "<a href='SellCoins_SwapCoins.php'>Swap Coins</a>";
+  echo "</div>";
+  echo "</li>";
+  echo "<li class='dropdown'>";
+  echo "<a href='javascript:void(0)' class='dropbtn'>Profit</a>";
+  echo "<div class='dropdown-content'>";
+  echo "<a href='Profit.php'>All Profit</a>";
+  echo "<a href='Profit_BuyBack.php'>BuyBack Profit</a>";
+  echo "<a href='Profit_SpreadBet.php'>SpreadBet Profit</a>";
+  echo "</div>";
+  echo "</li>";
   echo "</ul>";
 }
 
