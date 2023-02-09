@@ -4478,18 +4478,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID`
           FROM `SpreadBetCoins` `Sbc`
       	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
-          WHERE `Cn`.`BaseCurrency` = '$baseCurrency'
+          join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
+          WHERE `Cn`.`BaseCurrency` ='$baseCurrency'
           ORDER BY RAND()";
 echo "<BR>$sql";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['SpreadBetTransactionID'],$row['LiveCoinPrice'],$row['BaseCurrency']);
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID']);
 }
 $conn->close();
 return $tempAry;
