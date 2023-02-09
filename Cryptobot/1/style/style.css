@@ -1,5 +1,6 @@
 body {
   background-color:white;
+  margin: 0;
 }
 ul {
   list-style-type: none;
@@ -27,6 +28,28 @@ li a:hover, .dropdown:hover .dropbtn {
 
 li.dropdown {
   display: inline-block;
+}
+
+th{
+  text-align: center;
+  font-weight: 300;
+  background-color: #2C3E50;
+  color: white;
+  font-size: 34px;
+}
+td{
+  text-align: center;
+  font-size: 34px;
+}
+
+h1{
+  font-size: 42px;
+  font-weight: 400;
+}
+
+h2{
+  font-size: 34px;
+  font-weight: 400;
 }
 
 .dropdown-content {
