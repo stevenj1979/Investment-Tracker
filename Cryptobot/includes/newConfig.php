@@ -3553,40 +3553,42 @@ function displaySubHeader($page){
 function displayNewHeader(){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
-  echo "<ul>";
-  echo "<li><a href='Dashboard.php'>Dashboard</a></li>";
-  echo "<li><a href='Transactions.php'>Transactions</a></li>";
-  echo "<li><a href='Stats.php'>Stats</a></li>";
-  echo "<li class='dropdown'>";
-  echo "<a href='javascript:void(0)' class='dropbtn'>Buy Coins</a>";
-  echo "<div class='dropdown-content'>";
-  echo "<a href='BuyCoins.php'>BuyCoins</a>";
-  echo "<a href='BuyCoinsFilter.php'>Buy Coins Filter</a>";
-  echo "<a href='BuyCoinsTracking.php'>Buy Coins Tracking ($buyTracking)</a>";
-  echo "<a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>";
-  echo "<a href='BuyCoins_BuyBack.php'>Buy Back ($buyBack)</a>";
-  echo "</div>";
-  echo "</li>";
-  echo "<li class='dropdown'>";
-  echo "<a href='javascript:void(0)' class='dropbtn'>Sell Coins</a>";
-  echo "<div class='dropdown-content'>";
-  echo "<a href='SellCoins.php'>Sell Coins ($sellCoin)</a>";
-  echo "<a href='SellCoins_Tracking.php'>Tracking ($sellTracking)</a>";
-  echo "<a href='SellCoins_Saving.php'>Saving ($sellSaving)</a>";
-  echo "<a href='SellCoins_Spread.php'>Spread Bet</a>";
-  echo "<a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>";
-  echo "<a href='SellCoins_SwapCoins.php'>Swap Coins</a>";
-  echo "</div>";
-  echo "</li>";
-  echo "<li class='dropdown'>";
-  echo "<a href='javascript:void(0)' class='dropbtn'>Profit</a>";
-  echo "<div class='dropdown-content'>";
-  echo "<a href='Profit.php'>All Profit</a>";
-  echo "<a href='Profit_BuyBack.php'>BuyBack Profit</a>";
-  echo "<a href='Profit_SpreadBet.php'>SpreadBet Profit</a>";
-  echo "</div>";
-  echo "</li>";
-  echo "</ul>";
+  ?>
+  <ul>
+    <li><a href='Dashboard.php'>Dashboard</a></li>
+    <li><a href='Transactions.php'>Transactions</a></li>
+    <li><a href='Stats.php'>Stats</a></li>
+    <li class='dropdown'>
+      <a href='javascript:void(0)' class='dropbtn'>Buy Coins</a>
+      <div class='dropdown-content'>
+        <a href='BuyCoins.php'>BuyCoins</a>
+        <a href='BuyCoinsFilter.php'>Buy Coins Filter</a>
+        <a href='BuyCoinsTracking.php'>Buy Coins Tracking (<?php $buyTracking ?>)</a>
+        <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
+        <a href='BuyCoins_BuyBack.php'>Buy Back (<?php $buyBack ?>)</a>
+      </div>
+    </li>
+    <!--<li class='dropdown'>
+      <a href='javascript:void(0)' class='dropbtn'>Sell Coins</a>
+      <div class='dropdown-content'>
+        <a href='SellCoins.php'>Sell Coins (<?php// $sellCoin ?>)</a>
+        <a href='SellCoins_Tracking.php'>Tracking (<?php //$sellTracking ?>)</a>
+        <a href='SellCoins_Saving.php'>Saving (<?php //$sellSaving ?>)</a>
+        <a href='SellCoins_Spread.php'>Spread Bet</a>
+        <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
+        <a href='SellCoins_SwapCoins.php'>Swap Coins</a>
+      </div>
+    </li>
+    <li class='dropdown'>
+      <a href='javascript:void(0)' class='dropbtn'>Profit</a>
+      <div class='dropdown-content'>
+        <a href='Profit.php'>All Profit</a>
+        <a href='Profit_BuyBack.php'>BuyBack Profit</a>
+        <a href='Profit_SpreadBet.php'>SpreadBet Profit</a>
+      </div>
+    </li> -->
+  </ul>
+  <?php
 }
 
 
