@@ -73,6 +73,40 @@ td{
   padding: 14px;
 }
 
-.row{
-  margin-left: 20px;
+.column {
+    float: right;
+    margin: 0;
+}
+
+
+
+/* Left and right column */
+.column.side {
+    width: 15%;
+}
+.column.side.main {
+    width: 15%;
+}
+.side.smaller {
+    width: 5%;
+}
+.settingCol1{
+  float: left;
+  width: 90%;
+  padding-left: 60px;
+}
+
+/* Middle column */
+.column.middle {
+    width: 70%;
+}
+.statscolumn{
+    margin: 25px;
+    width: 100%;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
