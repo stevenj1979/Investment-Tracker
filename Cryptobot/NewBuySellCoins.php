@@ -1108,7 +1108,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             $spreadBetCoinsSize = count($spreadBetCoins);
             echo "<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount";
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
-              $LiveCoinPrice = $spreadBetCoins[$l][3];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][2];
+              $LiveCoinPrice = $spreadBetCoins[$l][2];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][4];
 
               //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
               $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
