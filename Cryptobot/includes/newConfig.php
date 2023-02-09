@@ -3553,6 +3553,7 @@ function displaySubHeader($page){
 function displayNewHeader(){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving;
   ?>
   <nav role="navigation">
   <ul>
@@ -3568,7 +3569,7 @@ function displayNewHeader(){
         <li><a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a></li>
       </ul>
     </li>
-    <li><a href="SellCoins.php">Sell Coins (<?php echo $buyTotal; ?>)</a>
+    <li><a href="SellCoins.php">Sell Coins (<?php echo $sellTotal; ?>)</a>
       <ul class="dropdown">
         <li><a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a></li>
         <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
@@ -3578,6 +3579,28 @@ function displayNewHeader(){
         <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
       </ul>
     </li>
+    <li><a href="Profit.php">Profit</a>
+      <ul class="dropdown">
+        <li><a href="Profit.php">All Profit</a></li>
+        <li><a href="Profit_BuyBack.php">BuyBack Profit</a></li>
+        <li><a href="Profit_SpreadBet.php">SpreadBet Profit</a></li>
+      </ul>
+    </li>
+    <li><a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a></li>
+    <li><a href="Settings.php">Settings</a>
+      <ul class="dropdown">
+        <li><a href="Settings.php">User Settings</a></li>
+        <li><a href="BuySettings.php">Buy Settings</a></li>
+        <li><a href="SellSettings.php">Sell Settings</a></li>
+        <li><a href="Settings_Patterns.php">Setting Patterns</a></li>
+      </ul>
+    </li>
+    <li><a href="CoinAlerts.php">Coin Alerts<a></li>
+    <li><a href="console.php">Console</a></li>
+    <li><a href="CoinMode.php">CoinMode</a></li>
+    <?php if ($_SESSION['AccountType']==1){
+        echo "<li><a href='AdminSettings.php'>Admin Settings</a></li>";
+    }?>
   </ul>
 </nav>
   <?php
