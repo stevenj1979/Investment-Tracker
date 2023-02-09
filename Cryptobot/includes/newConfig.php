@@ -3558,14 +3558,26 @@ function displayNewHeader(){
   <ul>
     <li><a href="Dashboard.php">Dashboard</a></li>
     <li><a href="Transactions.php">Transactions</a>
-    <li><a href="Stats.php">Stats</a>
+    <li><a href="Stats.php">Stats</a></li>
+    <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a>
       <ul class="dropdown">
         <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a></li>
         <li><a href="BuyCoinsFilter.php">Buy Coins Filter</a></li>
-        <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking ?>)</a></li>
+        <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a></li>
+        <li><a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a></li>
+        <li><a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a></li>
       </ul>
     </li>
-    <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a></li>
+    <li><a href="SellCoins.php">Sell Coins (<?php echo $buyTotal; ?>)</a>
+      <ul class="dropdown">
+        <li><a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a></li>
+        <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
+        <li><a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a></li>
+        <li><a href="SellCoins_Spread.php">Spread Bet</a></li>
+        <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin</a></li>
+        <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   <?php
