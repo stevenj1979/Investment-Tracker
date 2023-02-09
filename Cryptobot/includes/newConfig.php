@@ -3558,33 +3558,14 @@ function displayNewHeader(){
     <li><a href='Dashboard.php'>Dashboard</a></li>
     <li><a href='Transactions.php'>Transactions</a></li>
     <li><a href='Stats.php'>Stats</a></li>
-    <li class='dropdown'>
-      <a href='javascript:void(0)' class='dropbtn'>BuyCoins</a>
-      <div class='dropdown-content'>
-        <a href='BuyCoins.php'>BuyCoins</a>
-        <a href='BuyCoinsFilter.php'>Buy Coins Filter</a>
-
-      </div>
-    </li>
-    <!--<li class='dropdown'>
-      <a href='javascript:void(0)' class='dropbtn'>Sell Coins</a>
-      <div class='dropdown-content'>
-        <a href='SellCoins.php'>Sell Coins (<?php// $sellCoin ?>)</a>
-        <a href='SellCoins_Tracking.php'>Tracking (<?php //$sellTracking ?>)</a>
-        <a href='SellCoins_Saving.php'>Saving (<?php //$sellSaving ?>)</a>
-        <a href='SellCoins_Spread.php'>Spread Bet</a>
-        <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
-        <a href='SellCoins_SwapCoins.php'>Swap Coins</a>
-      </div>
-    </li>
-    <li class='dropdown'>
-      <a href='javascript:void(0)' class='dropbtn'>Profit</a>
-      <div class='dropdown-content'>
-        <a href='Profit.php'>All Profit</a>
-        <a href='Profit_BuyBack.php'>BuyBack Profit</a>
-        <a href='Profit_SpreadBet.php'>SpreadBet Profit</a>
-      </div>
-    </li> -->
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </li>
   </ul>
   <?php
 }
