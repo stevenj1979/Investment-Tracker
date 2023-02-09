@@ -3556,15 +3556,16 @@ function displayNewHeader(){
   ?>
   <nav role="navigation">
   <ul>
-    <li><a href="#">One</a></li>
-    <li><a href="#">Two</a>
+    <li><a href="Dashboard.php">Dashboard</a></li>
+    <li><a href="Transactions.php">Transactions</a>
+    <li><a href="Stats.php">Stats</a>
       <ul class="dropdown">
-        <li><a href="#">Sub-1</a></li>
-        <li><a href="#">Sub-2</a></li>
-        <li><a href="#">Sub-3</a></li>
+        <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a></li>
+        <li><a href="BuyCoinsFilter.php">Buy Coins Filter</a></li>
+        <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking ?>)</a></li>
       </ul>
     </li>
-    <li><a href="#">Three</a></li>
+    <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a></li>
   </ul>
 </nav>
   <?php
