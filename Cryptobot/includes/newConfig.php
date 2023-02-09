@@ -3578,8 +3578,8 @@ function displayNewHeader(){
   echo "<li><a href='Dashboard.php'>Dashboard</a></li>";
   echo "<li><a href='Transactions.php'>Transactions</a></li>";
   echo "<li><a href='Stats.php'>Stats</a></li>";
-  echo "<li class='Buy Coins'>";
-  echo "<a href='javascript:void(0)' class='dropbtn'>Dropdown</a>";
+  echo "<li class='Dropdown'>";
+  echo "<a href='javascript:void(0)' class='dropbtn'>Buy Coins</a>";
   echo "<div class='dropdown-content'>";
   echo "<a href='BuyCoins.php'>BuyCoins</a>";
   echo "<a href='BuyCoinsFilter.php'>Buy Coins Filter</a>";
