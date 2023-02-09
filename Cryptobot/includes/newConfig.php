@@ -4478,7 +4478,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID`
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID
           FROM `SpreadBetCoins` `Sbc`
       	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
