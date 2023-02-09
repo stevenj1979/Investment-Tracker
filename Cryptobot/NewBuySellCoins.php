@@ -851,7 +851,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $limitBuyTransactionsEnabled = $buyRules[$y][78]; $limitBuyTransactions = $buyRules[$y][79]; $overrideCoinAlloc = $buyRules[$y][80];
       $oneTimeBuy = $buyRules[$y][81]; $limitToBaseCurrency  = $buyRules[$y][82];
       $priceDipCoinFlatEnabled = $buyRules[$y][85]; $priceDipHours = $buyRules[$y][86]; $priceDipMinPriceEnabled = $buyRules[$y][84];
-      $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice);
+      $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
 
       $buyRuleType = $buyRules[$y][89];
       echoAndLog("BuyCoin:$buyRuleType", "This is a Test | $KEK | $APISecret | $APIKey",3,$echoTestText,"BuySellCoins","None");
