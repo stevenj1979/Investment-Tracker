@@ -117,3 +117,8 @@ td{
 .pageBody{
   position: absolute;
 }
+
+.footer{
+  position: relative;
+  left: 30px;
+}

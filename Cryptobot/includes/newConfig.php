@@ -3619,10 +3619,10 @@ function displayNewHeader(){
 function displaySideColumn(){
   //Echo "";?>
       </div>
-      <div class="column side">
+      <!--<div class="column side">
 
       </div>
-    </div>
+    </div>-->
 
     <div class="footer">
       <hr>
