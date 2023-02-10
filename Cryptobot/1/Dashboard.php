@@ -305,10 +305,11 @@ displayHeader(0);
                  <div id="visualization" ></div>
                  <div id="visualization2" ></div>
               </div><?php
-          displaySideColumn();
-          require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
-          $date = date('Y/m/d H:i:s', time());
-          echo " Last Updated :".$date;?>
+              $date = date('Y/m/d H:i:s', time());
+              displaySideColumn($date);
+          //require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
+
+
 
         </body>
         </html>
