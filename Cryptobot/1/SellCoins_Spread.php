@@ -102,7 +102,7 @@ function getTrackingSellCoinsLoc($userID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "SELECT `ID`,`Type`,'CoinID',`UserID`,sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo','Symbol',sum(`LastBuyOrders`) as `LastBuyOrders`
+    $sql = "SELECT `IDTr` as `ID`,`Type`,'CoinID',`UserID`,sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`,`Status`,`OrderDate`,`CompletionDate`,'BittrexID','OrderNo','Symbol',sum(`LastBuyOrders`) as `LastBuyOrders`
     , sum(`LiveBuyOrders`) as `LiveBuyOrders`,((sum(`LiveBuyOrders`-`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
   ,((sum(`LiveMarketCap`-`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice `
   , ((sum(`LiveCoinPrice`-`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
@@ -118,7 +118,7 @@ function getTrackingSellCoinsLoc($userID){
     ,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`*`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
     , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`, (((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)))/(sum(`CoinPrice`*`Amount`)))*100  as `ProfitPct`
     ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
-    FROM `View7_SpreadBetSell`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
+    FROM `View5_SellCoins`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
