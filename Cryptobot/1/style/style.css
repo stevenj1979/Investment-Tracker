@@ -113,3 +113,8 @@ td{
     display: table;
     clear: both;
 }
+
+.pageBody{
+  display: none;
+  position: absolute;
+}

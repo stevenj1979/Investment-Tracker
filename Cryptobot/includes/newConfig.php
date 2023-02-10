@@ -3559,6 +3559,7 @@ function displayNewHeader(){
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
   $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
   ?>
+
   <nav role="navigation">
   <ul>
     <li><a href="Dashboard.php">Dashboard</a></li>
@@ -3610,6 +3611,7 @@ function displayNewHeader(){
   </ul>
 </nav>
 <br>
+<DIV class="pageBody">
   <?php
 }
 
