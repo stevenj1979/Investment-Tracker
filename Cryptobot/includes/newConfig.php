@@ -3616,7 +3616,7 @@ function displayNewHeader(){
 }
 
 
-function displaySideColumn($date){
+function displaySideColumn(){
   //Echo "";?>
       </div>
       <!--<div class="column side">
@@ -3630,7 +3630,7 @@ function displaySideColumn($date){
       <a href='logout.php'>Logout</a>-->
 
       <input type="button" onclick="location='logout.php'" value="Logout"/>
-      
+
     </div><?php
 }
 
