@@ -3587,6 +3587,7 @@ function displayNewHeader(){
       <ul class="dropdown">
         <li><a href="Profit.php">All Profit</a></li>
         <li><a href="Profit_BuyBack.php">BuyBack Profit</a></li>
+        <li><a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a></li>
         <li><a href="Profit_SpreadBet.php">SpreadBet Profit</a></li>
       </ul>
     </li>
