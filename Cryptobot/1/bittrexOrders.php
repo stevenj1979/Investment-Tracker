@@ -108,7 +108,7 @@ function getBTTrackingCoins($userID){
 //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
-      ,$row['Amount'],$row['CoinPrice'],$row['UserID'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
+      ,$row['Amount'],$row['CoinPrice'],$row['UserIDBa'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
     ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4'],$row['IDBa']);  //25
   }
   $conn->close();
