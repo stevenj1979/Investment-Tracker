@@ -2338,7 +2338,9 @@ SELECT count(`IDTsc`) into Sell_tracking FROM `View6_TrackingSellCoins`  WHERE `
 
 SELECT count(`IDTr`) into Sell_saving FROM `View5_SellCoins` Where `UserID` = User_ID and `Status` = 'Saving';
 
-SELECT count(`IDTr`) into Spread_Bet_Coin FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'SpreadSell';
+SELECT count(`IDTr`) into Spread_Bet_Coin FROM `View5_SellCoins` Where `UserID` = User_ID and `Status` = 'Open' and `Type` = 'SpreadSell';
+
+SELECT COUNT(*) into Spread_Bet FROM (SELECT (`IDTr`) FROM `View5_SellCoins` Where `UserID` = User_ID and `Status` = 'Open' and `Type` = 'SpreadSell' GROUP BY `SpreadBetRuleID`) as Temp ;
 
 SELECT count(`IDBa`) into Bittrex_Action FROM `View4_BittrexBuySell` where (`StatusBa` = '1') and `UserIDBa` = User_ID;
 
@@ -2361,6 +2363,7 @@ UPDATE `CryptoBotWebUsageTable` SET `BittrexAction`= Bittrex_Action WHERE `UserI
 
 UPDATE `CryptoBotWebUsageTable` SET `SpreadSellCoin`= Spread_Bet_Coin WHERE `UserID` = User_ID;
 
+UPDATE `CryptoBotWebUsageTable` SET `SpreadSell`= Spread_Bet WHERE `UserID` = User_ID; 
 
 END$$
 DELIMITER ;

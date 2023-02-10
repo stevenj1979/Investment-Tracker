@@ -3557,7 +3557,7 @@ function displayNewHeader(){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
-  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin;
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
   ?>
   <nav role="navigation">
   <ul>
@@ -3566,7 +3566,7 @@ function displayNewHeader(){
     <li><a href="Stats.php">Stats</a></li>
     <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a>
       <ul class="dropdown">
-        <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a></li>
+        <li><a href="BuyCoins.php">Buy Coins</a></li>
         <li><a href="BuyCoinsFilter.php">Buy Coins Filter</a></li>
         <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a></li>
         <li><a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a></li>
@@ -3578,7 +3578,7 @@ function displayNewHeader(){
         <li><a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a></li>
         <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
         <li><a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a></li>
-        <li><a href="SellCoins_Spread.php">Spread Bet</a></li>
+        <li><a href="SellCoins_Spread.php">Spread Bet (<?php echo $spreadSell; ?>)</a></li>
         <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a></li>
         <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
       </ul>
