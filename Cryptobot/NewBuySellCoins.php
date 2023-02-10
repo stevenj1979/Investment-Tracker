@@ -1287,6 +1287,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
       $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+      echo "<BR> PROFIT:$profit ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;";
       echoAndLog("","PlaceHolder: 3",3,$echoTestText,"","");
       if ($captureTrend == 0 and $profit >= 0.5){
         //Capture 1Hr / 24Hr and 7D trend
