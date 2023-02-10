@@ -4604,7 +4604,7 @@ function runLowMarketMode($userID,$mode){
   $conn->close();
   if ($mode > 0){
     logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-    newLogToSQL("runLowMarketMode","$sql",3,0,"SQL CALL","UserID:$userID");
+    newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
   }
 }
 
