@@ -3539,6 +3539,7 @@ function displayHeader($n){
 function displaySubHeader($page){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
+  $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
   if ($page == 'BuyCoin'){
     echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking ($buyTracking)</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
     &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back ($buyBack)</a></h3>";
@@ -3555,7 +3556,8 @@ function displaySubHeader($page){
 function displayNewHeader(){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
-  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving;
+  $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin;
   ?>
   <nav role="navigation">
   <ul>
@@ -3577,7 +3579,7 @@ function displayNewHeader(){
         <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
         <li><a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a></li>
         <li><a href="SellCoins_Spread.php">Spread Bet</a></li>
-        <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin</a></li>
+        <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a></li>
         <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
       </ul>
     </li>
@@ -4459,13 +4461,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction` FROM `CryptoBotWebUsageTable`
+$sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction`,`SpreadSell`,`SpreadSellCoin` FROM `CryptoBotWebUsageTable`
   WHERE `UserID` = $userID ";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction']);
+    $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction'],$row['SpreadSell'],$row['SpreadSellCoin']);
 }
 $conn->close();
 return $tempAry;

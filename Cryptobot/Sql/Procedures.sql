@@ -2313,3 +2313,54 @@ IF NOT EXISTS (SELECT `ID` FROM `MultiSellRuleConfig` WHERE `UserID` = user_ID a
 End if;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `addWebUsage`(IN `User_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+DECLARE Buy_tracking INT;
+DECLARE Buy_back INT;
+DECLARE Sell_coin INT;
+DECLARE Sell_tracking INT;
+DECLARE Sell_saving INT;
+DECLARE Bittrex_Action INT;
+DECLARE Spread_Bet INT;
+DECLARE Spread_Bet_Coin INT;
+
+SELECT Count(`IDTc`) into Buy_tracking FROM `View2_TrackingBuyCoins` WHERE `TrackingStatus` not in ('Closed','Cancelled') and `UserID` = User_ID;
+
+SELECT count(`IDBb`) into Buy_back  FROM `View9_BuyBack` where `StatusBb` <> 'Closed' and `UserID` = User_ID;
+
+SELECT count(`IDTr`) into Sell_coin FROM `View5_SellCoins` Where `Status` = 'Open' and `Type` = 'SELL' and `UserID` = User_ID;
+
+SELECT count(`IDTsc`) into Sell_tracking FROM `View6_TrackingSellCoins`  WHERE `UserID` = User_ID and `StatusTsc` not in ('Closed','Cancelled');
+
+SELECT count(`IDTr`) into Sell_saving FROM `View5_SellCoins` Where `UserID` = User_ID and `Status` = 'Saving';
+
+SELECT count(`IDTr`) into Spread_Bet_Coin FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'SpreadSell';
+
+SELECT count(`IDBa`) into Bittrex_Action FROM `View4_BittrexBuySell` where (`StatusBa` = '1') and `UserIDBa` = User_ID;
+
+If NOT EXISTS (SELECT `UserID` FROM `CryptoBotWebUsageTable` WHERE `UserID` = User_ID) THEN
+INSERT INTO `CryptoBotWebUsageTable`(`UserID`) VALUES (User_ID);
+end if;
+
+
+UPDATE `CryptoBotWebUsageTable` SET `BuyTracking`= Buy_tracking WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `BuyBack`= Buy_back WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `SellCoin`= Sell_coin WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `SellTracking`= Sell_tracking WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `SellSaving`= Sell_saving WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `BittrexAction`= Bittrex_Action WHERE `UserID` = User_ID;
+
+UPDATE `CryptoBotWebUsageTable` SET `SpreadSellCoin`= Spread_Bet_Coin WHERE `UserID` = User_ID;
+
+
+END$$
+DELIMITER ;
