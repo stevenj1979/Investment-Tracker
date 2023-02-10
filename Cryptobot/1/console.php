@@ -124,7 +124,7 @@ function main(){
       echo "<input type='text' name='nSearchText' id='nSearchTextID' class='nSearchTextClass' placeholder='' value='$searchtxt' tabindex='3'>
       <label for='$idName'>".$RealName."</label>";
       echo "<input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'></form>";
-      echo "<textarea class='FormElement' name='term' id='term'>";
+      echo "<textarea class='FormElement' name='term' id='term'rows='50' cols='50'>";
     for ($i=0; $i<$dataCount; $i++){
         echo $consoleData[$i][0]."\n";
     }
