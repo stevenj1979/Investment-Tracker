@@ -3630,7 +3630,7 @@ function displaySideColumn($date){
       <a href='logout.php'>Logout</a>-->
 
       <input type="button" onclick="location='logout.php'" value="Logout"/>
-      <?Php echo " Last Updated :".$date;?>
+      
     </div><?php
 }
 

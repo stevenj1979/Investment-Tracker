@@ -305,8 +305,8 @@ displayHeader(0);
                  <div id="visualization" ></div>
                  <div id="visualization2" ></div>
               </div><?php
-              $date = date('Y/m/d H:i:s', time());
-              displaySideColumn($date);
+              //$date = date('Y/m/d H:i:s', time());
+              displaySideColumn();
           //require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
 
 
