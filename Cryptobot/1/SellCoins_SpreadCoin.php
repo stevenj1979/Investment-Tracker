@@ -118,9 +118,9 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
     ,`OriginalPrice`, `CoinFee`, `LivePrice`, `ProfitUSD`, `ProfitPct`
     ,`CaptureTrend`,`IDCn`,'SellPctCsp'
     FROM `View5_SellCoins`
-    WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open'
+    WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open' and `SpreadBetRuleName` = '$spreadBetRuleName'
     ORDER BY `ProfitPct` Desc";
-    //and `SpreadBetRuleName` = '$spreadBetRuleName'
+    //a
   $result = $conn->query($sql);
     //print_r("<BR>$sql<BR>");
   //$result = mysqli_query($link4, $query);
