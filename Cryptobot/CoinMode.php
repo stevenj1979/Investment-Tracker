@@ -49,6 +49,7 @@ function checkMarketforPctDip(){
   $userIDsSize = count($userIDs);
   $marketStats = getNewMarketstats();
   $marketStatsSize = count($marketStats);
+  echo "<BR> checkMarketforPctDip : $marketStatsSize";
   for ($y=0; $y<$marketStatsSize; $y++){
     $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
     $lowMarketModeStartPct = $userIDs[0][1]; $lowMarketModeIncrements = $userIDs[0][2]; $lowMarketModeAuto = $userIDs[0][3]; $pctOfAuto = $userIDs[0][4];
