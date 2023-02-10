@@ -5259,7 +5259,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`BaseCurrency`,`SendEmail`,`SellCoin`,`CoinSellOffsetEnabled`,`CoinSellOffsetPct`,`LiveCoinPrice`,`MinsFromDate`,`ProfitUSD`, `Fee`,`PctProfit` , `TotalRisesInPrice`, `Symbol`, `OgPctProfit`
             ,  `OriginalPurchasePrice`,`OriginalAmount` as `OriginalCoinPrice`,`TotalRisesInPriceSell`,`TrackStartDate`,`MinsFromStart`, `SellFallsInPrice`,`Type`,`BaseSellPrice`,`LastPrice`,`LiveTotalPrice`, `IDTsc` as `TrackingSellID`,`SaveResidualCoins`
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
-            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`,`OverrideBuyBackAmount`,`OverrideBuyBackSaving`
+            ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`,`OverrideBuyBackAmount`,`OverrideBuyBackSaving`,`Image`
             FROM `View6_TrackingSellCoins` $whereClause";
   //echo $sql;
   $result = $conn->query($sql);
@@ -5271,7 +5271,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice'] //29
     ,$row['TotalRisesInPriceSell'],$row['TrackStartDate'],$row['MinsFromStart'],$row['SellFallsInPrice'], $row['Type'], $row['BaseSellPrice'], $row['LastPrice'], $row['LiveTotalPrice'], $row['TrackingSellID'] //38
     ,$row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct'], $row['ReEnableBuyRuleEnabled'], $row['ReEnableBuyRule'], $row['BuyBackEnabled']//47
-    ,$row['TrackingCount'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']); //50
+    ,$row['TrackingCount'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving'],$row['Image']); //51
   }
   $conn->close();
   return $tempAry;
