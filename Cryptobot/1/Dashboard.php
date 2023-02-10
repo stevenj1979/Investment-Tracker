@@ -308,7 +308,7 @@ displayHeader(0);
               //$date = date('Y/m/d H:i:s', time());
               displaySideColumn();
           //require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/footer.php');
-
+            ?>
 
 
         </body>
