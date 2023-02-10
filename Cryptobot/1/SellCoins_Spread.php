@@ -116,7 +116,8 @@ function getTrackingSellCoinsLoc($userID){
     ,if(sum(`LiveCoinPrice` -`LastCoinPrice`) > 0, 1, if(sum(`LiveCoinPrice`-`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`
     ,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,'NoOfCoinSwapsThisWeek',`SpreadBetRuleName`
     ,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`*`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
-    , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`, (((sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)))/(sum(`CoinPrice`*`Amount`)))*100  as `ProfitPct`
+    , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`
+    ,sum(`LiveCoinPrice`*`Amount`)-sum((`CoinPrice`*`Amount`))-sum((((`CoinPrice`*`Amount`)/100)*0.28))/sum((`CoinPrice`*`Amount`)) as ProfitPct
     ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
     FROM `View5_SellCoins`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
