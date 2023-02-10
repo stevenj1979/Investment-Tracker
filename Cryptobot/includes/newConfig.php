@@ -936,7 +936,7 @@ function getPriceConversion($price, $base){
   return $tempAry;
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$noOfPurchases = 0){
+function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$newTrackingType,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;
   $originalBuyAmount = $btcBuyAmount;
@@ -1048,8 +1048,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //$current_date = date('Y-m-d H:i:s');
             //$newTime = date("Y-m-d H:i:s",strtotime('+'.$timeToCancelBuyMins.'Mins', strtotime($current_date)));
             //$buyCancelTime = strtotime( '+ 16 minute');
-            bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins,$SellRuleFixed);
-            LogToSQL("bittrexBuyAdd","bittrexBuyAdd($coinID, $userID, 'Buy', $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);", $userID,1);
+            bittrexBuyAdd($coinID, $userID, $newTrackingType, $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins,$SellRuleFixed);
+            LogToSQL("bittrexBuyAdd","bittrexBuyAdd($coinID, $userID, $newTrackingType, $bittrexRef, 1, $ruleID, $bitPrice, $btcBuyAmount, $orderNo,$timeToCancelBuyMins);", $userID,1);
             bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);
             LogToSQL("bittrexBuyAdd","bittrexAddNoOfPurchases($bittrexRef,$noOfPurchases);", $userID,1);
             addBuyRuletoSQL($bittrexRef,$ruleID,$SellRuleFixed);
