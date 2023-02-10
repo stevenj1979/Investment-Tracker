@@ -23,6 +23,7 @@ li {
   position: relative;
   text-decoration: none;
   transition-duration: 0.5s;
+  z-index: 1;
 }
 
 li a {
