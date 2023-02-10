@@ -345,19 +345,22 @@ function runBuyBack($buyBackCoins){
 
       if ($tmpBaseCur == 'USDT'){
         $tempConvAmt = 1;
+        $coinAllocMin = 15;
         //$totalAvailable = $USDTAvailable*$tempConvAmt;
       }elseif ($tmpBaseCur == 'BTC'){
         //$tempConvAmt = $BTCPrice;
         //$usdBBAmount = $usdBBAmount * $BTCPrice;
         //$totalAvailable = $BTCAvailable*$tempConvAmt;
+        $coinAllocMin = 0.000046;
       }elseif ($tmpBaseCur == 'ETH'){
         //$tempConvAmt = $ETHPrice;
         //$usdBBAmount = $usdBBAmount * $ETHPrice;
         //$totalAvailable = $ETHAvailable*$tempConvAmt;
+        $coinAllocMin = 0.00065;
       }
       //if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0,$spreadBetRuleID);
-      if ($coinAllocation <= 15 && $allBuyBackAsOverride == 0){
+      if ($coinAllocation <= $coinAllocMin && $allBuyBackAsOverride == 0){
           echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
           newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
           continue;
