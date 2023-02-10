@@ -121,8 +121,14 @@ td{
 
 .footer{
   position:absolute;
-  bottom:0;
+  bottom:14px;
   width:100%;
   height:60px;
+  left: 30px;
+}
+
+.FormElement{
+  width:100%;
+  height:70%;
   left: 30px;
 }
