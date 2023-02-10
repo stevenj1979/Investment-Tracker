@@ -1176,7 +1176,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $price4Trend = $sellCoins[$a][37]; $price3Trend = $sellCoins[$a][38]; $lastPriceTrend = $sellCoins[$a][39];  $livePriceTrend = $sellCoins[$a][40];
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
     $sellPctCsp = $sellCoins[$a][67];$maxHoursFlat = $sellCoins[$a][68]; $topPriceExtra = $sellCoins[$a][69]; $bottomPriceExtra = $sellCoins[$a][70];
-    $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72];
+    $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72]; $profit = $sellCoins[$a][58];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1286,7 +1286,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $buyPrice = ($cost * $amount);
       $sellPrice = ($LiveCoinPrice * $amount);
       $fee = (($LiveCoinPrice * $amount)/100)*0.25;
-      $profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
+      //$profit = ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100;
       echo "<BR> PROFIT:$profit ((($sellPrice-$fee)-$buyPrice)/$buyPrice)*100; | SellPrice: $LiveCoinPrice * $amount | BuyPrice: ($cost * $amount); | Fee:(($LiveCoinPrice * $amount)/100)*0.25;";
       echoAndLog("","PlaceHolder: 3",3,$echoTestText,"","");
       if ($captureTrend == 0 and $profit >= 0.5){
