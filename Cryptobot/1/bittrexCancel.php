@@ -105,6 +105,7 @@ if(!empty($_GET['uuid'])){
     }
   }elseif ($resultOrd['status'] == 'CLOSED'){
     if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
+      $uuid = $_GET['uuid']; $apikey = $_GET['apikey']; $apisecret = $_GET['apisecret']; $transID =  $_GET['transactionID'];
       $orderQty = $resultOrd["quantity"];$qtySold = $resultOrd["fillQuantity"];
       echo "<BR> ORDER Closed: $orderQtyRemaining = $orderQty-$qtySold; ";
       if ($qtySold == 0){
