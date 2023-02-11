@@ -300,7 +300,16 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 bittrexOpenOrders($apikey,$apisecret,3);
 
-bittrexAllBalances($apikey, $apisecret, 3);
+$bal = bittrexAllBalances($apikey, $apisecret, 3);
+$balSize = count($bal);
+
+for ($t=0;$t<$balSize; $t++){
+  $symbol = $bal[$t]['currencySymbol']; $total = $bal[$t]['total'];
+  if ($total > 0){
+      Echo "<BR> $symbol | $total";
+  }
+
+}
 
 
 ?>
