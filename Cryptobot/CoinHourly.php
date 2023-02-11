@@ -47,6 +47,26 @@ function minAmountToSaving(){
 
 }
 
+function closeTransactionswithNoAmountinBittrex(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Update `Transaction` `Tr`
+            join `Coin` `Cn` on `Tr`.`CoinID` = `Cn`.`ID`
+            left join `BittrexBalances` `Bb` on  `Cn`.`BaseCurrency` = `Bb`.`BaseCurrency`  and `Cn`.`Symbol` = `Bb`.`Symbol`
+            SET `Tr`.`Status` = 'Closed'
+            Where `Tr`.`Status` = 'Open'  and isNull(`Bb`.`ID`) AND `OrderDate` > TIME(DATE_SUB(NOW(), INTERVAL 1 HOUR)) ";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("closeTransactionswithNoAmountinBittrex","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
+
+}
+
 function UpdateMerge($coinID,$userID,$mode){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -968,5 +988,6 @@ runSavingsMerge();
 
 runMultiBuy();
 minAmountToSaving();
+closeTransactionswithNoAmountinBittrex();
 ?>
 </html>
