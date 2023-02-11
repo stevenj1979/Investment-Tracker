@@ -72,9 +72,12 @@ if(!empty($_GET['uuid'])){
         if ($canStatus == 'CLOSED'){
           $newOrderNo = "ORD".$coin.date("YmdHis", time())."0";
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $newOrderNo."_".$orderNo, "SELL - Greater 28 days");
+            Echo "<BR> bittrexCopyTransNewAmount($transID,$orderQtyRemaining,$newOrderNo); ";
           bittrexCopyTransNewAmount($transID,$orderQtyRemaining,$newOrderNo);
           //Update QTY
+          Echo "<BR> bittrexUpdateSellQty($transID,$qtySold); ";
           bittrexUpdateSellQty($transID,$qtySold);
+          Echo "<BR> bittrexSellCancel($uuid, $transID,'ManualBittrexSellCancelPartialBuy'); ";
           bittrexSellCancel($uuid, $transID,'ManualBittrexSellCancelPartialBuy');
 
           if ($sendEmail){

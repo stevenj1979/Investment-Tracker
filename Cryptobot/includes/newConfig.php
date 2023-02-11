@@ -3032,7 +3032,7 @@ function bittrexSellCancel($bittrexRef, $transactionID, $errorCode){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "call CancelBittrexSell('$bittrexRef', $transactionID);";
-  //print_r($sql);
+  print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
