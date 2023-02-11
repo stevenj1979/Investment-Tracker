@@ -4566,7 +4566,7 @@ if ($conn->connect_error) {
 $sql = "SELECT `Cp`.`LiveCoinPrice`, `Tr`.`ID` as `TransactionID` ,`Tr`.`SpreadBetTransactionID`,`Cp`.`CoinID`
           FROM `Transaction` `Tr`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-          WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
+          WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Open'";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
