@@ -104,8 +104,9 @@ if(!empty($_GET['uuid'])){
       }
     }
   }elseif ($resultOrd['status'] == 'CLOSED'){
+      $orderQty = $resultOrd["quantity"];$qtySold = $resultOrd["fillQuantity"];
       echo "<BR> ORDER Closed: $orderQtyRemaining = $orderQty-$qtySold; ";
-      
+
   }
   //header('Location: bittrexOrders.php');
 }
