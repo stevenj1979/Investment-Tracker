@@ -4563,15 +4563,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Cp`.`LiveCoinPrice`, `Tr`.`ID` as `TransactionID` ,`Tr`.`SpreadBetTransactionID`
+$sql = "SELECT `Cp`.`LiveCoinPrice`, `Tr`.`ID` as `TransactionID` ,`Tr`.`SpreadBetTransactionID`,`Cp`.`CoinID`
           FROM `Transaction` `Tr`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-          WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`SpreadBetTransactionID` = 11947";
+          WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['LiveCoinPrice'],$row['TransactionID'],$row['SpreadBetTransactionID']);
+    $tempAry[] = Array($row['LiveCoinPrice'],$row['TransactionID'],$row['SpreadBetTransactionID'],$row['CoinID']);
 }
 $conn->close();
 return $tempAry;
@@ -5206,7 +5206,6 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-
   $sql = "call AddTrackingSellCoin($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'$type');";
 
   //print_r($sql);

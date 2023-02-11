@@ -1393,7 +1393,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           $spreadBetToSell = getSpreadBetSellCoins($spreadBetTransactionID);
           $spreadBetToSellSize = count($spreadBetToSell);
           for ($a=0;$a<$spreadBetToSellSize;$a++){
-            $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1];
+            $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1]; $coinID = $spreadBetToSell[$a][3];
             newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
             echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit_$ruleIDSell_$multiSellResult", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
             setTransactionPending($transactionID);
