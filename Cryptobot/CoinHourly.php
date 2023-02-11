@@ -28,6 +28,25 @@ function getTransStats(){
 
 }
 
+function minAmountToSaving(){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "Update `Transaction` `Tr`
+            join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+            SET `Tr`.`Status` = 'Saving'
+            WHERE `Status` = 'Open' and `Tr`.`Amount` < `Cn`.`MinTradeSize`";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("minAmountToSaving","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
+
+}
+
 function UpdateMerge($coinID,$userID,$mode){
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -948,5 +967,6 @@ runAutoActionSell($autoActionCoins);
 runSavingsMerge();
 
 runMultiBuy();
+minAmountToSaving();
 ?>
 </html>
