@@ -988,6 +988,6 @@ runSavingsMerge();
 
 runMultiBuy();
 minAmountToSaving();
-closeTransactionswithNoAmountinBittrex();
+//closeTransactionswithNoAmountinBittrex();
 ?>
 </html>
