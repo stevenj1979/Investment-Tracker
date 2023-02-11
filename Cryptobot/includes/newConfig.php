@@ -461,7 +461,9 @@ function bittrexOpenOrders($apikey, $apisecret, $versionNum){
       $obj = json_decode($execResult, true);
       //echo "<BR> URL : $url";
       //newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
+      echo "<BR>";
       var_dump($obj);
+      echo "<BR>";
     }
 
     return $obj;
@@ -507,7 +509,9 @@ function bittrexAllBalances($apikey, $apisecret, $versionNum){
       $obj = json_decode($execResult, true);
       //echo "<BR> URL : $url";
       //newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
+      echo "<BR>";
       var_dump($obj);
+      echo "<BR>";
     }
 
     return $obj;
