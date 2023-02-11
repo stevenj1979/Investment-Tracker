@@ -29,7 +29,8 @@ if(!empty($_GET['uuid'])){
   if ($resultOrd['status'] == 'OPEN'){
 
     $orderQty = $resultOrd["quantity"];$qtySold = $resultOrd["fillQuantity"];
-    $$orderQtyRemaining = $orderQty-$qtySold;
+    $orderQtyRemaining = $orderQty-$qtySold;
+    echo "<BR> OrderQtyRemaining: $orderQtyRemaining = $orderQty-$qtySold;";
     logAction("bittrexOrder: orderQty $orderQty | orderQtyRemaining $orderQtyRemaining | qtySold $qtySold", 'BuySell',0);
     Echo "<BR> HERE 3 | Type: ".$_GET['type']." Qty: $orderQty | QtyRemaining $orderQtyRemaining";
     $uuid = $_GET['uuid']; $apikey = $_GET['apikey']; $apisecret = $_GET['apisecret']; $transID =  $_GET['transactionID'];
@@ -99,6 +100,8 @@ if(!empty($_GET['uuid'])){
         logAction("Bittrex Cancel 4 : ".json_encode($result), 'BuySell',0);
       }
     }
+  }elseif ($resultOrd['status'] == 'CLOSED'){
+
   }
   //header('Location: bittrexOrders.php');
 }
