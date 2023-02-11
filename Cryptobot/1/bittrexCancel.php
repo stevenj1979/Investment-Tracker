@@ -104,9 +104,14 @@ if(!empty($_GET['uuid'])){
       }
     }
   }elseif ($resultOrd['status'] == 'CLOSED'){
+    if (($_GET['type'] == 'Sell') OR ($_GET['type'] == 'SpreadSell')){
       $orderQty = $resultOrd["quantity"];$qtySold = $resultOrd["fillQuantity"];
       echo "<BR> ORDER Closed: $orderQtyRemaining = $orderQty-$qtySold; ";
-
+      if ($qtySold == 0){
+        bittrexSellCancel($uuid, $transID,'ManualBittrexBuyCancel');
+        echo "<BR> bittrexSellCancel($uuid, $transID,'ManualBittrexBuyCancel'); ";
+      }
+    }
   }
   //header('Location: bittrexOrders.php');
 }
