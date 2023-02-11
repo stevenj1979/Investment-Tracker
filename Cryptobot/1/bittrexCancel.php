@@ -16,24 +16,7 @@ $apiVersion = 3;
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
-?>
-<div class"row">
-    <div class="header">
-      <table><TH>CryptoBot: Logged in as:</th><th>  <i class="glyphicon glyphicon-user"></i> <?php echo $_SESSION['username'] ?></th></Table><br>
-    </div>
-    <div class="topnav">
-      <a href="Dashboard.php">Dashboard</a>
-      <a href="Transactions.php">Transactions</a>
-      <a href="Stats.php">Stats</a>
-      <a href="BuyCoins.php">Buy Coins</a>
-      <a href="SellCoins.php">Sell Coins</a>
-      <a href="Profit.php">Profit</a>
-      <a href="bittrexOrders.php" class="active">Bittrex Orders</a>
-      <a href="Settings.php">Settings</a><?php
-      if ($_SESSION['AccountType']==1){echo "<a href='AdminSettings.php'>Admin Settings</a>";}
-      ?>
-    </div>
-<?php
+displayHeader(6);
 echo "UUID ".$_GET['uuid']." | ".$_GET['apikey']." | ".$_GET['apisecret']." | ".$_GET['transactionID'];
 //echo "<BR> EMPTY ".empty($_GET['uuid']);
 Echo "<BR> HERE 1 | ".$_GET['uuid'];
@@ -83,6 +66,7 @@ if(!empty($_GET['uuid'])){
         //bittrexSellCancel($_GET['uuid'], $_GET['transactionID']);
         //New Transaction
         //$result = bittrexCancel($_GET['apikey'],$_GET['apisecret'],$_GET['uuid']);
+          Echo "<BR> HERE 5 | ";
         $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
         $canStatus = $result['status'];
         if ($canStatus == 'CLOSED'){
@@ -102,6 +86,7 @@ if(!empty($_GET['uuid'])){
         }
         logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell',0);
       }else {
+          Echo "<BR> HERE 6 | ";
         bittrexUpdateBuyQty($transID, $orderQty-$orderQtyRemaining);
         $result = bittrexCancel($apikey,$apisecret,$uuid,$apiVersion);
         $canStatus = $result['status'];
