@@ -113,7 +113,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         echoText("EXIT CoinAllocation: $symbol | $baseCurrency | $type | $BTCAmount | $ogBTCAmount| $coinAllocation",$echoExitText);
         continue;
     }
-    newLogToSQL("CoinAllocation","CoinAlloc: $coinAllocation | override: $overrideCoinAlloc",3,1,"addTrackingCoin","TrackingID:$trackingID");
+    newLogToSQL("CoinAllocation","CoinAlloc: $coinAllocation | override: $overrideCoinAlloc",3,0,"addTrackingCoin","TrackingID:$trackingID");
     echoText("Tracking Buy Count 3 <BR>",$echoTestText);
     if ($coinMode > 0 and $overrideCoinAlloc == 0){
       $indexLookup = 1;

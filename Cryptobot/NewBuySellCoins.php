@@ -1557,6 +1557,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
             echo "<br> Old MultiSell : ".$oldMultiSellStatus[0][0]." | ".$oldMultiSellStatus[0][1];
             if ($oldMultiSellStatus[0][0] == 1){$multiSellRuleEnabled = 1;$multiSellRuleTemplateID=$oldMultiSellStatus[0][1];}
           //}
+          copyMultiSellIDfromRule($ruleIDBTBuy, $transactionID);
 
           if ($multiSellRuleTemplateID <> 0){
               $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);

@@ -5025,6 +5025,27 @@ function updateNoOfRisesInPrice($newTrackingCoinID, $num){
   newLogToSQL("updateNoOfRisesInPrice",$sql,3,0,"SQL","TrackingCoinID:$newTrackingCoinID");
 }
 
+function copyMultiSellIDfromRule($ruleIDBTBuy, $transactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Update `Transaction` SET `MultiSellRuleEnabled` = (SELECT `MultiSellRuleEnabled` FROM `BuyRules` WHERE `ID` = $ruleIDBTBuy)
+          , `MultiSellRuleTemplateID` = (SELECT `MultiSellRuleTemplateID` FROM `BuyRules` WHERE `ID` = $ruleIDBTBuy) where `ID` = $transactionID";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("copyMultiSellIDfromRule: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("copyMultiSellIDfromRule",$sql,3,0,"SQL","TransID:$transactionID");
+}
+
 function getNumberColour($ColourText){
   if ($ColourText >= 0){
     $colour = "#3cb371";
