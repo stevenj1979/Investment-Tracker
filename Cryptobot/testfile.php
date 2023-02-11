@@ -300,5 +300,8 @@ function findCoinStatsLoc($CMCStats, $symbol){
 
 bittrexOpenOrders($apikey,$apisecret,3);
 
+bittrexAllBalances($apikey, $apisecret, 3);
+
+
 ?>
 </html>
