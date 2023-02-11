@@ -44,6 +44,7 @@ if(!empty($_GET['uuid'])){
         if ($canStatus == 'CLOSED'){
           bittrexSellCancel($uuid, $transID,'ManualBittrexSellCancel');
           newLogToSQL("bittrexSellCancel","bittrexSellCancel($uuid, $transID,'ManualBittrexCancel'); $canStatus",3,1,"SQL CALL","UUID:$uuid");
+          //header('Location: bittrexOrders.php');
         }
         logAction("Bittrex Cancel 1 : ".json_encode($result), 'BuySell',0);
 
@@ -55,6 +56,7 @@ if(!empty($_GET['uuid'])){
         if ($canStatus == 'CLOSED'){
           bittrexBuyCancel($uuid, $transID,'ManualBittrexBuyCancel');
           newLogToSQL("bittrexBuyCancel","bittrexBuyCancel($uuid, $transID,'ManualBittrexBuyCancel'); $canStatus",3,1,"SQL CALL","UUID:$uuid");
+          //header('Location: bittrexOrders.php');
         }
         logAction("Bittrex Cancel 2 : ".json_encode($result), 'BuySell',0);
 
@@ -86,6 +88,7 @@ if(!empty($_GET['uuid'])){
             $from = 'Coin Sale <sale@investment-tracker.net>';
             //sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from);
           }
+
           //break;
         }
         logAction("Bittrex Cancel 3 : ".json_encode($result), 'BuySell',0);
@@ -101,7 +104,8 @@ if(!empty($_GET['uuid'])){
       }
     }
   }elseif ($resultOrd['status'] == 'CLOSED'){
-
+      echo "<BR> ORDER Closed: $orderQtyRemaining = $orderQty-$qtySold; ";
+      
   }
   //header('Location: bittrexOrders.php');
 }
