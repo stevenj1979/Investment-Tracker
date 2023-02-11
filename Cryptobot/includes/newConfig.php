@@ -5070,6 +5070,7 @@ function getMultiSellRules($transID){
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
+    echo "<BR>$sql";
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['SellRuleID']);
     }
