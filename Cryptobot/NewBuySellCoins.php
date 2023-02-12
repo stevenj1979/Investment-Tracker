@@ -1908,7 +1908,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           }
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-      } //end $type Buy Sell
+      }else{ echo "<BR> EXIT : Type: $type";} //end $type Buy Sell
     //}else{
     //  echo "<BR> NOT SET!!!";
   //    logAction("bittrexCheckOrder: ".$status, 'Bittrex', $GLOBALS['logToFileSetting'] );
