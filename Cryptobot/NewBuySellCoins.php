@@ -1322,6 +1322,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           }
         }
       }
+      $finalHoursFlat = ($priceDipHoursFlatTarget/100)*(100 - $profit);
       echoAndLog("","Checking:  $coin | $userID | $ruleIDSell",3,$echoProgramFlow,"","");
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
@@ -1353,7 +1354,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $sTest13 = autoSellMain($LiveCoinPrice,$autoBuyPrice,$autoSellCoinEnabled,$coinID,$scoreSettingsAlert,"AutoSellPrice:13");
       $sellResultAry[] = Array($sTest12, "Auto Sell $coin", $LiveCoinPrice);
       $sTest12 = $GLOBALS['allDisabled'];
-      $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$scoreSettingsAlert,"HoursFlat:14");
+      $sTest14 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$finalHoursFlat, $priceDipHours,$scoreSettingsAlert,"HoursFlat:14");
       $sellResultAry[] = Array($sTest14, "Coin Price Match $coin", $LiveCoinPrice);
       $sTest15 = sellWithMin($priceDipMaxPriceEnabled,$finalPriceDipMaxPrice,$LiveCoinPrice,$LiveBTCPrice,$scoreSettingsAlert,"DipPrice:15");
       $sellResultAry[] = Array($sTest15, "Coin Price Match $coin", $LiveCoinPrice);

@@ -769,10 +769,10 @@ Insert into `NewUserProfit`
   ,`Tv`.`BuyRule` as `RuleID`
 ,`Tv`.`SpreadBetRuleID`
 ,`Tv`.`SpreadBetTransactionID`
-  FROM `TransactionsView` `Tv`
+  FROM `View5_SellCoins` `Tv`
   join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
   WHERE (`Tv`.`SpreadBetTransactionID` in (SELECT `Tv`.`SpreadBetTransactionID`
-  FROM `TransactionsView` `Tv`
+  FROM `View5_SellCoins` `Tv`
   WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')));
 END$$
 DELIMITER ;
@@ -1765,7 +1765,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `CompleteBittrexSell`(IN `Bit
     MODIFIES SQL DATA
 BEGIN
 
-	UPDATE `BittrexAction` SET `SellPrice` = Final_Price, `CompletionDate` = now(), `Status` = 'Closed',`BittrexRef` = Bittrex_Ref, `Type` = 'Sell' where  `TransactionID` = Trans_ID and `Type` = 'Sell';
+	UPDATE `BittrexAction` SET `SellPrice` = Final_Price, `CompletionDate` = now(), `Status` = 'Closed',`BittrexRef` = Bittrex_Ref where  `TransactionID` = Trans_ID;
 	UPDATE `Transaction` SET `Status` = 'Sold', `CompletionDate` = now(),`BittrexRef` = Bittrex_Ref where `ID` = Trans_ID;
 End$$
 DELIMITER ;
