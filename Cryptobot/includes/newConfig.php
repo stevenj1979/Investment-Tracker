@@ -3614,60 +3614,62 @@ function displayNewHeader(){
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
   $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
   ?>
+  <div class="flex-container">
+    <div>
+      <nav role="navigation">
+      <ul>
+        <li><a href="Dashboard.php">Dashboard</a></li>
+        <li><a href="Transactions.php">Transactions</a>
+        <li><a href="Stats.php">Stats</a></li>
+        <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a>
+          <ul class="dropdown">
+            <li><a href="BuyCoins.php">Buy Coins</a></li>
+            <li><a href="BuyCoinsFilter.php">Buy Coins Filter</a></li>
+            <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a></li>
+            <li><a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a></li>
+            <li><a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a></li>
+          </ul>
+        </li>
+        <li><a href="SellCoins.php">Sell Coins (<?php echo $sellTotal; ?>)</a>
+          <ul class="dropdown">
+            <li><a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a></li>
+            <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
+            <li><a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a></li>
+            <li><a href="SellCoins_Spread.php">Spread Bet (<?php echo $spreadSell; ?>)</a></li>
+            <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a></li>
+            <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
+          </ul>
+        </li>
+        <li><a href="Profit.php">Profit</a>
+          <ul class="dropdown">
+            <li><a href="Profit.php">All Profit</a></li>
+            <li><a href="Profit_BuyBack.php">BuyBack Profit</a></li>
+            <li><a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a></li>
+            <li><a href="Profit_SpreadBet.php">SpreadBet Profit</a></li>
+            <li><a href="Profit_SpreadBet_EXP.php">SpreadBet Profit EXP</a></li>
+          </ul>
+        </li>
+        <li><a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a></li>
+        <li><a href="Settings.php">Settings</a>
+          <ul class="dropdown">
+            <li><a href="Settings.php">User Settings</a></li>
+            <li><a href="BuySettings.php">Buy Settings</a></li>
+            <li><a href="SellSettings.php">Sell Settings</a></li>
+            <li><a href="Settings_Patterns.php">Setting Patterns</a></li>
+            <?php if ($_SESSION['AccountType']==1){
+                echo "<li><a href='AdminSettings.php'>Admin Settings</a></li>";
+            }?>
+          </ul>
+        </li>
+        <li><a href="CoinAlerts.php">Coin Alerts<a></li>
+        <li><a href="console.php">Console</a></li>
+        <!--<li><a href="CoinMode.php">CoinMode</a></li> -->
 
-  <nav role="navigation">
-  <ul>
-    <li><a href="Dashboard.php">Dashboard</a></li>
-    <li><a href="Transactions.php">Transactions</a>
-    <li><a href="Stats.php">Stats</a></li>
-    <li><a href="BuyCoins.php">Buy Coins (<?php echo $buyTotal; ?>)</a>
-      <ul class="dropdown">
-        <li><a href="BuyCoins.php">Buy Coins</a></li>
-        <li><a href="BuyCoinsFilter.php">Buy Coins Filter</a></li>
-        <li><a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a></li>
-        <li><a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a></li>
-        <li><a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a></li>
       </ul>
-    </li>
-    <li><a href="SellCoins.php">Sell Coins (<?php echo $sellTotal; ?>)</a>
-      <ul class="dropdown">
-        <li><a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a></li>
-        <li><a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a></li>
-        <li><a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a></li>
-        <li><a href="SellCoins_Spread.php">Spread Bet (<?php echo $spreadSell; ?>)</a></li>
-        <li><a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a></li>
-        <li><a href="SellCoins_SwapCoins.php">Swap Coins</a></li>
-      </ul>
-    </li>
-    <li><a href="Profit.php">Profit</a>
-      <ul class="dropdown">
-        <li><a href="Profit.php">All Profit</a></li>
-        <li><a href="Profit_BuyBack.php">BuyBack Profit</a></li>
-        <li><a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a></li>
-        <li><a href="Profit_SpreadBet.php">SpreadBet Profit</a></li>
-        <li><a href="Profit_SpreadBet_EXP.php">SpreadBet Profit EXP</a></li>
-      </ul>
-    </li>
-    <li><a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a></li>
-    <li><a href="Settings.php">Settings</a>
-      <ul class="dropdown">
-        <li><a href="Settings.php">User Settings</a></li>
-        <li><a href="BuySettings.php">Buy Settings</a></li>
-        <li><a href="SellSettings.php">Sell Settings</a></li>
-        <li><a href="Settings_Patterns.php">Setting Patterns</a></li>
-        <?php if ($_SESSION['AccountType']==1){
-            echo "<li><a href='AdminSettings.php'>Admin Settings</a></li>";
-        }?>
-      </ul>
-    </li>
-    <li><a href="CoinAlerts.php">Coin Alerts<a></li>
-    <li><a href="console.php">Console</a></li>
-    <!--<li><a href="CoinMode.php">CoinMode</a></li> -->
+    </nav>
+  </div>
 
-  </ul>
-</nav>
-<br>
-<DIV class="pageBody">
+<DIV>
   <?php
 }
 
@@ -3680,14 +3682,14 @@ function displaySideColumn(){
       </div>
     </div>-->
 
-    <div class="footer">
+    <div>
       <hr>
       <!-- <input type="button" value="Logout">
       <a href='logout.php'>Logout</a>-->
 
       <input type="button" onclick="location='logout.php'" value="Logout"/>
 
-    </div><?php
+    </div></div><?php
 }
 
 function displayMiddleColumn(){
