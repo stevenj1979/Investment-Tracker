@@ -1445,7 +1445,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
     $overrideBittrexCancellation = $BittrexReqs[$b][71]; $currentTime = $BittrexReqs[$b][73]; $dateAdd = $BittrexReqs[$b][69]; $actionMins = $BittrexReqs[$b][74];
     $overrideBBAmount = $BittrexReqs[$b][75];$overrideBBSaving = $BittrexReqs[$b][76]; $overrideBBAmountSR = $BittrexReqs[$b][77]; $overrideBBSavingSR  = $BittrexReqs[$b][78];
     $bbminsToCancel = $BittrexReqs[$b][79]; $timeToCancelBa = $BittrexReqs[$b][80]; $timeStampNow = $BittrexReqs[$b][81]; $timeStampTimeToCancel = $BittrexReqs[$b][82];
-    $buyBackMax = $BittrexReqs[$b][84]; $buyBackCounter = $BittrexReqs[$b][83];
+    $buyBackMax = $BittrexReqs[$b][84]; $buyBackCounter = $BittrexReqs[$b][83]; $disableBuyBack = $BittrexReqs[$b][85];
     //$cancelTimeCheck = $BittrexReqs[$b][69];
     //$sqlDate = Date("Y-m-d H:i",$date);
     //$stringToTime = strtotime("+ $timeToCancelMins Minutes", $sqlDate);
@@ -1778,7 +1778,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack2","TransactionID:$transactionID");
-                if ($buyBackEnabled == 1){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);}
+                if (($buyBackEnabled == 1) AND ($disableBuyBack == 0)){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);}
               }
               if ($allocationType == 'SpreadBet'){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
