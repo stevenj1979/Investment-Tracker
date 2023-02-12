@@ -2363,7 +2363,18 @@ UPDATE `CryptoBotWebUsageTable` SET `BittrexAction`= Bittrex_Action WHERE `UserI
 
 UPDATE `CryptoBotWebUsageTable` SET `SpreadSellCoin`= Spread_Bet_Coin WHERE `UserID` = User_ID;
 
-UPDATE `CryptoBotWebUsageTable` SET `SpreadSell`= Spread_Bet WHERE `UserID` = User_ID; 
+UPDATE `CryptoBotWebUsageTable` SET `SpreadSell`= Spread_Bet WHERE `UserID` = User_ID;
 
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `reSellAtCurrentPrice`(IN `OldBittrex_Ref` VARCHAR(100), IN `Bit_Price` DECIMAL(20,14), IN `NewBittrex_Ref` VARCHAR(100))
+    MODIFIES SQL DATA
+BEGIN
+
+INSERT into `BittrexAction` (`CoinID`, `TransactionID`, `UserID`, `Type`, BittrexRef, `ActionDate`, `CompletionDate`, `Status`, SellPrice, `RuleID`, `RuleIDSell`, `QuantityFilled`, `MultiplierPrice`, `BuyBack`, `OldBuyBackTransID`, `ResidualAmount`, `MultiSellRuleID`, `ReduceLossBuy`, `MinsToCancelAction`, `TimeToCancel`)
+SELECT  `CoinID`, `TransactionID`, `UserID`, `Type`, NewBittrex_Ref, `ActionDate`, `CompletionDate`, `Status`, Bit_Price, `RuleID`, `RuleIDSell`, `QuantityFilled`, `MultiplierPrice`, `BuyBack`, `OldBuyBackTransID`, `ResidualAmount`, `MultiSellRuleID`, `ReduceLossBuy`, `MinsToCancelAction`, `TimeToCancel` FROM `BittrexAction` WHERE `BittrexRef` = OldBittrex_Ref;
+DELETE FROM `BittrexAction` WHERE `BittrexRef` = OldBittrex_Ref;
 END$$
 DELIMITER ;

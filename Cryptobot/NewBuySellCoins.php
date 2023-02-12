@@ -1857,7 +1857,10 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         }
         if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
           if ($overrideBittrexCancellation == 1){ continue;}
-          if ($type == 'SpreadSell') { continue;}
+          if ($type == 'SpreadSell' AND $pctFromSale >= 4 AND $orderQtyRemaining == $orderQty) { 
+            reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$amount,$baseCurrency,$coin);
+            continue;
+          }
           echo "<BR>% from sale! $pctFromSale CANCELLING!";
           if ($orderQtyRemaining == $orderQty){
             $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
