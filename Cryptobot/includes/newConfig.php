@@ -3645,6 +3645,7 @@ function displayNewHeader(){
         <li><a href="Profit_BuyBack.php">BuyBack Profit</a></li>
         <li><a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a></li>
         <li><a href="Profit_SpreadBet.php">SpreadBet Profit</a></li>
+        <li><a href="Profit_SpreadBet_EXP.php">SpreadBet Profit EXP</a></li>
       </ul>
     </li>
     <li><a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a></li>
