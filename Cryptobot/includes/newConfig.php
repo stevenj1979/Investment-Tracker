@@ -3956,7 +3956,7 @@ function reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$bt
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-            newLogToSQL("reSellAtCurrentPrice",$sql,3,0,"SQL","BittrexRef:$bittrexRef");
+            newLogToSQL("reSellAtCurrentPrice",$sql,3,1,"SQL","BittrexRef:$uuid");
         }
     }
 }
