@@ -1420,13 +1420,14 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 }
 
 function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
-  $finalBool = False;
+
   $CancelBittrexLogFlag = $webSettingsAry[3][1];
   $CancelBittrexPartial = $webSettingsAry[7][1];
   $CancelBittrexBuyComplete = $webSettingsAry[8][1];
   $BittrexReqsSize = count($BittrexReqs);
   sleep(1);
   for($b = 0; $b < $BittrexReqsSize; $b++) {
+    $finalBool = False;
     //Variables
     $type = $BittrexReqs[$b][0]; $uuid = $BittrexReqs[$b][1]; $date = $BittrexReqs[$b][2]; $status = $BittrexReqs[$b][4];   $bitPrice = $BittrexReqs[$b][5]; $userName = $BittrexReqs[$b][6];
     $apiKey = $BittrexReqs[$b][7]; $apiSecret = $BittrexReqs[$b][8]; $coin = $BittrexReqs[$b][9];$amount = $BittrexReqs[$b][10];$cost = $BittrexReqs[$b][11];$userID = $BittrexReqs[$b][12];
