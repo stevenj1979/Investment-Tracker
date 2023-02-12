@@ -1768,7 +1768,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 updateBuyTrend($coinID, $transactionID, 'Rule', $ruleIDBTSell, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
 
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);$buyBackCounter / $buyBackMax", $userID, 1,"BuyBack1","TransactionID:$transactionID");
-                if ($buyBackEnabled == 1 AND $buyBackCounter <= $buyBackMax){
+                if (($buyBackEnabled == 1) AND ($buyBackCounter <= $buyBackMax) AND ($disableBuyBack == 0)){
                   //if ($stopBuyBack == 0){ $buyBackEnabled = 0;}
                     $tempRises = floor(($hr1PriceMovePct + 30)/5)+5;
                     $tempmins = floor(100-(($hr1PriceMovePct/60)*100));
