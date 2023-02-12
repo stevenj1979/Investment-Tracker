@@ -148,3 +148,4 @@ td{
   text-align: left;
 
 }
+.flex-container > div:nth-of-type(1) {flex-grow: 1;}
