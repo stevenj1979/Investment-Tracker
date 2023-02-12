@@ -1589,6 +1589,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
           if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBTBuy);}
           $finalBool = True;
+          echo "<BR> FinalBool 1";
         }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining && $finalBool == False){
           bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
           if ($sendEmail){
@@ -1639,6 +1640,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           newLogToSQL("BittrexBuyComplete", "bittrexBuyComplete($uuid, $transactionID, $finalPrice);", $userID, $CancelBittrexBuyComplete,"NewBuySellCoins","TransactionID:$transactionID");
           //addWebUsage($userID,"Remove","BittrexAction");
           logAction("runBittrex; bittrexBuyCompletePartial : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
+          echo "<BR> FinalBool 2";
           $finalBool = True;
         }
         //if ( substr($timeSinceAction,0,4) == $buyCancelTime){
@@ -1695,6 +1697,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           }
           addUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
           if ($buyBack == 1){ reopenCoinSwapCancel($BittrexID,1); }
+          echo "<BR> FinalBool 3";
           $finalBool = True;
           //($userID,"Remove","BittrexAction");
           //reOpenBuySellProfitRule($ruleIDBTBuy,$userID,$coinID);
@@ -1807,6 +1810,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               }
               logAction("runBittrex; bittrexSellComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
             //addSellRuletoSQL($transactionID, $ruleIDBTSell);
+            echo "<BR> FinalBool 4";
             $finalBool = True;
         }
         if ($daysOutstanding <= -28){
@@ -1820,6 +1824,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
               logAction("runBittrex; bittrexSellCancelFull : $coin | $daysOutstanding | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order over 28 Days. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFull","TransactionID:$transactionID");
+              echo "<BR> FinalBool 5";
               $finalBool = True;
             }else{
               logAction("bittrexCancelSellOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
@@ -1847,6 +1852,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                  $from = 'Coin Sale <sale@investment-tracker.net>';
                  sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
                }
+               echo "<BR> FinalBool 6";
                $finalBool = True;
              }else{
                logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );
@@ -1873,6 +1879,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               bittrexSellCancel($uuid, $transactionID, "PctFromSale: $pctFromSale CancelAction: $pctToCancelBittrexAction Override:$overrideBittrexCancellation");
               logAction("runBittrex; bittrexSellCancelFull_v2 : $coin | $pctFromSale | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $originalAmount | $residualAmount | $transactionID", 'BuySellFlow', 1);
               newLogToSQL("BittrexSell", "Sell Order 3% Less or 4% above. Cancelling OrderNo: $orderNo", $userID, $GLOBALS['logToSQLSetting'],"CancelFullPriceRise","TransactionID:$transactionID");
+              echo "<BR> FinalBool 7";
               $finalBool = True;
             }else{
               logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );
@@ -1900,6 +1907,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 //$debug = "$uuid : $transactionID - $orderQtyRemaining + $qtySold / $pctFromSale ! $liveProfitPct";
                 sendSellEmail($email, $coin, $orderQty-$orderQtyRemaining, $finalPrice, $orderNo, $totalScore,$profitPct,$profit,$subject,$userName,$from,$baseCurrency);
               }
+              echo "<BR> FinalBool 8";
               $finalBool = True;
             }else{
               logAction("bittrexCancelSellOrder: ".$result, 'Bittrex', $GLOBALS['logToFileSetting'] );
@@ -1908,7 +1916,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           }
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-      }else{ echo "<BR> EXIT : Type: $type";} //end $type Buy Sell
+      }else{ echo "<BR> EXIT : Type: $type | Bool:$finalBool ";} //end $type Buy Sell
     //}else{
     //  echo "<BR> NOT SET!!!";
   //    logAction("bittrexCheckOrder: ".$status, 'Bittrex', $GLOBALS['logToFileSetting'] );
