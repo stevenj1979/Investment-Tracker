@@ -1454,6 +1454,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
     //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
     //$finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
     //$cancelTimeAry = getCancelTime($transactionID);
+    Echo "<BR>------- New Bittrex Check---------";
     $cancelTimeCheck = 0;
     if (isset($timeStampNow) AND isset($timeStampTimeToCancel)){
       if ($timeStampTimeToCancel > $timeStampNow){ echo "<BR> DO NOT CANCEL: 0 | $timeStampTimeToCancel | $timeStampNow | $transactionID"; $cancelTimeCheck = 0;}
@@ -1485,6 +1486,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
       $qtySold = $resultOrd["fillQuantity"];
 
       $orderQtyRemaining = $orderQty-$qtySold;
+      Echo "<BR> OrderQuantity: $orderQtyRemaining = $orderQty-$qtySold";
       if ($resultOrd["status"] == 'OPEN'){$status = 1;$cancelInit = 1;$orderIsOpen = 1;}else{$status = 0; $cancelInit = 0;$orderIsOpen = 0;}
 
     }
@@ -1857,7 +1859,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         }
         if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
           if ($overrideBittrexCancellation == 1){ continue;}
-          if ($type == 'SpreadSell' AND $pctFromSale >= 4 AND $orderQtyRemaining == $orderQty) { 
+          if ($type == 'SpreadSell' AND $pctFromSale >= 4 AND $orderQtyRemaining == $orderQty) {
             reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$amount,$baseCurrency,$coin);
             continue;
           }
