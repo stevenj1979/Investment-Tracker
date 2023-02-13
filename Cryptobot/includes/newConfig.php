@@ -7677,14 +7677,14 @@ function sellSpreadBetCoins($spreadSellCoins){
   }
 }
 
-function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving){
+function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving,$spreadBetRuleID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving);";
+  $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving,$spreadBetRuleID);";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {

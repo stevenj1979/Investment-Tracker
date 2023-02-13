@@ -1774,7 +1774,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                     $tempmins = floor(100-(($hr1PriceMovePct/60)*100));
                     if ($tempRises <= 0){ $tempRises = 2;}
                     if ($tempmins <= 0){ $tempmins = 120;}
-                    WriteBuyBack($transactionID,$realProfitPct,$tempRises, $bbminsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);
+                    WriteBuyBack($transactionID,$realProfitPct,$tempRises, $bbminsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR,$spreadBetRuleID);
                     //addWebUsage($userID,"Add","BuyBack");
                   //}
                 }
@@ -1785,7 +1785,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 newLogToSQL("BittrexSell", "updateBuyTrend($coinID, $transactionID, CoinMode, $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);", $userID, $GLOBALS['logToSQLSetting'],"updateBuyTrend","TransactionID:$transactionID");
                 updateBuyTrend($coinID, $transactionID, 'CoinMode', $ruleIDBTBuy, $Hr1Trnd,$Hr24Trnd,$d7Trnd);
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack2","TransactionID:$transactionID");
-                if (($buyBackEnabled == 1) AND ($disableBuyBack == 0)){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR);}
+                if (($buyBackEnabled == 1) AND ($disableBuyBack == 0)){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR,$spreadBetRuleID);}
               }
               if ($allocationType == 'SpreadBet'){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
