@@ -2383,3 +2383,25 @@ SELECT  `CoinID`, `TransactionID`, `UserID`, `Type`, NewBittrex_Ref, `ActionDate
 DELETE FROM `BittrexAction` WHERE `BittrexRef` = OldBittrex_Ref;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `checkSpreadBetComplete`(IN `SBRule_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+DECLARE SBCount INT;
+
+SELECT count(`ID`) into SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = SBRule_ID and `Status` in ('Open','Pending');
+
+if (SBCount = 0) THEN
+INSERT INTO `SpreadBetTransactions` (`SpreadBetRuleID`,`TotalAmountToBuy`,`AmountPerCoin`)
+SELECT `SpreadBetRuleID`,`TotalAmountToBuy`,`AmountPerCoin` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = SBRule_ID;
+
+DELETE FROM  `SpreadBetTransactions` where `SpreadBetRuleID` = SBRule_ID order by `ID` ASC Limit 1;
+
+UPDATE `BuyBack` SET `DelayTime` = now() where `SpreadBetRuleID` = SBRule_ID;
+end if;
+
+
+END$$
+DELIMITER ;

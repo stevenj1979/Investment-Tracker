@@ -7350,7 +7350,7 @@ function getBuyBackData(){
             ,`Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,(`SellPrice` * `Quantity`)as `TotalUSDSalePrice`,(`LiveCoinPrice` * `Quantity`) as `TotalUSDLivePrice`
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
             , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
-            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackAutoPct`,`CaaOffset`
+            ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackAutoPct`,`CaaOffset`,`SpreadBetRuleIDBB`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' ";
   echo "<BR> $sql";
@@ -7365,7 +7365,7 @@ function getBuyBackData(){
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
       ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier'],$row['DelayCoinPurchase'] //48
       ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack'],$row['bbMinsToCancel'],$row['BuyBackMinsToCancel'] //55
-      ,$row['BuyBackAutoPct'],$row['CaaOffset']); //57
+      ,$row['BuyBackAutoPct'],$row['CaaOffset'],$row['SpreadBetRuleIDBB']); //58
   }
   $conn->close();
   return $tempAry;
@@ -7695,6 +7695,26 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
   $conn->close();
   logAction("WriteBuyBack: ".$sql, 'SQL_CALL', 0);
   newLogToSQL("WriteBuyBack","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
+}
+
+function checkSpreadBetComplete($spreadBetRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("checkSpreadBetComplete: ".$sql, 'SQL_CALL', 0);
+  newLogToSQL("checkSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
 }
 
 function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice){
