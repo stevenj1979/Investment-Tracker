@@ -660,7 +660,7 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
   ,sum(`Live7DChange`) as `Live7DChange`,sum(((`LiveCoinPrice` - `Live7DChange`) / `Live7DChange`) * 100) as `D7ChangePctChange`,`BaseCurrency`,avg(`LivePriceTrend`) as `LivePriceTrend`,avg(`LastPriceTrend`) as `LastPriceTrend`,avg(`Price3Trend`) as `Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,sum(`NoOfCoinSwapsThisWeek`) as `NoOfCoinSwapsThisWeek`,sum(`OriginalPrice`) as `OriginalPrice`, sum(`CoinFee`) as `CoinFee`,sum(`LivePrice`) as `LivePrice`, sum(`ProfitUSD`) as `ProfitUSD`
-  ,sum(`LiveCoinPrice`*`Amount`)-sum((`CoinPrice`*`Amount`))-sum((((`CoinPrice`*`Amount`)/100)*0.28))/sum((`CoinPrice`*`Amount`)) as ProfitPct
+  ,sum((`LiveCoinPrice`*`Amount`)-((`CoinPrice`*`Amount`))-(((`CoinPrice`*`Amount`)/100)*0.28))/((`CoinPrice`*`Amount`)) as ProfitPct
   ,avg(`CaptureTrend`) as `CaptureTrend`
   ,avg(`minsToDelay`) as `minsToDelay`,avg(`MinsFromBuy`) as `MinsFromBuy`,avg(`HoursFlatHighPdcs`) as `HoursFlatHighPdcs`,sum(`MaxPriceFromHigh`) as `MaxPriceFromHigh`,sum(`PctFromLiveToHigh`) as `PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp' as `SellPctCsp`,avg(`MaxHoursFlat`) as `MaxHoursFlat`,sum(`Hr1Top`) as `Hr1Top`,sum(`Hr1Bottom`) as `Hr1Bottom`,avg(`CaaOffset`) as `CaaOffset`
