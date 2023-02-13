@@ -255,7 +255,7 @@ function ClearCancelledTransactions($sql){
   logAction("ClearCancelledTransactions: ".$sql, 'SellCoin', 0);
 }
 
-function getBuyAmountPctOfTotal($type,$baseCurrency){
+function getBuyAmountPctOfTotal($type,$baseCurrency,$userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -269,7 +269,7 @@ function getBuyAmountPctOfTotal($type,$baseCurrency){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "select getTotalHolding('$baseCurrency') as totalHolding";
+  $sql = "select getTotalHolding('$baseCurrency',$userID) as totalHolding";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -291,19 +291,19 @@ function getBuyRuleID(){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "SELECT distinct(`LimitToBaseCurrency`) FROM `BuyRules` WHERE `BuyAmountPctOfTotalEnabled` = 1 ";
+  $sql = "SELECT `LimitToBaseCurrency`, `UserID`FROM `BuyRules` WHERE `BuyAmountPctOfTotalEnabled` = 1 Group by `LimitToBaseCurrency`, `UserID`";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['LimitToBaseCurrency']);
+      $tempAry[] = Array($row['LimitToBaseCurrency'],$row['UserID']);
   }
   $conn->close();
   return $tempAry;
 }
 
-function setBuyAmountPctOfTotal($totalAmount,$baseCurrency,$type){
+function setBuyAmountPctOfTotal($totalAmount,$baseCurrency,$type, $userID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -316,7 +316,7 @@ function setBuyAmountPctOfTotal($totalAmount,$baseCurrency,$type){
     $ruleType = 'SpreadBet';
   }
     $sql = "UPDATE `BuyRules` SET `BuyAmountOverrideEnabled` = 1 ,`BuyAmountOverride` = ($totalAmount/100)*`BuyAmountPctOfTotal`
-              where `BuyAmountPctOfTotalEnabled` = 1 and `LimitToBaseCurrency` = '$baseCurrency' and `RuleType` = '$ruleType'";
+              where `BuyAmountPctOfTotalEnabled` = 1 and `LimitToBaseCurrency` = '$baseCurrency' and `RuleType` = '$ruleType' and `UserID` = $userID";
   //}else{
   //  $spreadTotal = ($totalAmount/100)*33;
   //  $sql = "UPDATE `BuyRules` SET `BuyAmountOverrideEnabled` = 1 ,`BuyAmountOverride` = $newTotal,`SpreadBetTotalAmount` = $spreadTotal where `ID` = $BuyRuleID";
@@ -338,8 +338,8 @@ function runBuyAmountPctOfTotal(){
   $BRIDsSize = count($BRIDs);
 
   for ($x=0;$x<$BRIDsSize; $x++){
-    $baseCurrency = $BRIDs[$x][0];
-    $IDData = getBuyAmountPctOfTotal(1,$baseCurrency);
+    $baseCurrency = $BRIDs[$x][0]; $userID = $BRIDs[$x][1];
+    $IDData = getBuyAmountPctOfTotal(1,$baseCurrency,$userID);
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
@@ -349,13 +349,13 @@ function runBuyAmountPctOfTotal(){
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
       //elseif ($baseCurrency == 'BTC'){ $multiplier = $IDData[$p][5];}
       //elseif ($baseCurrency == 'ETH'){ $multiplier = $IDData[$p][6];}
-      setBuyAmountPctOfTotal($totalAmount,$baseCurrency,1);
+      setBuyAmountPctOfTotal($totalAmount,$baseCurrency,1,$userID);
     }
   }
   $BRIDs = getBuyRuleID();
   $BRIDsSize = count($BRIDs);
   for ($i=0;$i<$BRIDsSize; $i++){
-    $baseCurrency = $BRIDs[$i][0];
+    $baseCurrency = $BRIDs[$i][0];$userID = $BRIDs[$i][1];
     $IDData = getBuyAmountPctOfTotal(2,$baseCurrency);
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
@@ -366,7 +366,7 @@ function runBuyAmountPctOfTotal(){
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
       //elseif ($baseCurrency == 'BTC'){ $multiplier = $IDData[$p][5];}
       //elseif ($baseCurrency == 'ETH'){ $multiplier = $IDData[$p][6];}
-      setBuyAmountPctOfTotal($totalAmount,$baseCurrency,2);
+      setBuyAmountPctOfTotal($totalAmount,$baseCurrency,2,$userID);
     }
   }
 }

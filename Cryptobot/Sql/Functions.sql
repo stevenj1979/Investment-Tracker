@@ -210,7 +210,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getTotalHolding`(`Base_Currency` VARCHAR(50)) RETURNS decimal(20,14)
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getTotalHolding`(`Base_Currency` VARCHAR(50), `User_ID` INT) RETURNS decimal(20,14)
     READS SQL DATA
 BEGIN
 DECLARE Coin_ID INT;
@@ -219,9 +219,9 @@ DECLARE total_reserve DEC(20,14);
 
 SELECT `ID` into Coin_ID from `Coin` where `Symbol` like Base_Currency and `BuyCoin` = 1 limit 1;
 
-SELECT sum(`CoinPrice` * `Amount`*getBTCPrice(Coin_ID)) into total_holding FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` WHERE `Cn`.`BaseCurrency` = Base_Currency and `Tr`.`Status` in ('Open','Pending');
+SELECT sum(`CoinPrice` * `Amount`*getBTCPrice(Coin_ID)) into total_holding FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` WHERE `Cn`.`BaseCurrency` = Base_Currency and `Tr`.`Status` in ('Open','Pending') and `UserID` = User_ID;
 
-SELECT `Total`*getBTCPrice(Coin_ID) into total_reserve FROM `BittrexBalances` WHERE `Symbol` = Base_Currency;
+SELECT `Total`*getBTCPrice(Coin_ID) into total_reserve FROM `BittrexBalances` WHERE `Symbol` = Base_Currency and `UserID` = User_ID;
 
  return total_holding + total_reserve;
 
