@@ -119,7 +119,7 @@ function getTrackingSellCoinsLoc($userID){
     , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`
     ,sum((`LiveCoinPrice`*`Amount`)-((`CoinPrice`*`Amount`))-(((`CoinPrice`*`Amount`)/100)*0.28))/((`CoinPrice`*`Amount`)) as ProfitPct
     ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
-    FROM `View5_SellCoins`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' ORDER BY `ProfitPct` Desc";
+    FROM `View5_SellCoins`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' Group by `SpreadBetTransactionID` ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
