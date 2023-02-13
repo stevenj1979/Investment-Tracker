@@ -7251,7 +7251,7 @@ function updateSQLcancelSpreadBetTrackingSell($TransactionID){
   newLogToSQL("updateSQLcancelSpreadBetTrackingSell","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$TransactionID");
 }
 
-function enableBuyRule($buyRuleID, $buyCoin){
+function enableBuyRule($buyRuleID, $buyCoin,$PctChangeAvg,$pctChangeTargetAvg){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -7265,7 +7265,7 @@ function enableBuyRule($buyRuleID, $buyCoin){
   }
   $conn->close();
   logAction("enableBuyRule: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("enableBuyRule","$sql",3,0,"SQL CALL","BuyRuleID:$buyRuleID");
+  newLogToSQL("enableBuyRule","$sql ,AVG:$PctChangeAvg,Target:$pctChangeTargetAvg",3,1,"SQL CALL","BuyRuleID:$buyRuleID");
 }
 
 function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixSellRule){
