@@ -294,7 +294,7 @@ $date = date('Y/m/d H:i:s', time());
             //echo "$profit | $livePrice | $purchasePrice | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table><td rowspan='3'><a href='Stats.php?coin=$coin'><img src='$image'></a></td>";
+            echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
             NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
