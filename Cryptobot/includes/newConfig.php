@@ -6433,7 +6433,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell){
 
     $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell);";
     //LogToSQL("updateTransToSpread",$sql,3,1);
-  //print_r($sql);
+  print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
