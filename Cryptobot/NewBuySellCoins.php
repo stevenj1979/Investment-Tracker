@@ -1233,21 +1233,26 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $ProfitPctTop_Sell = 999.99;
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
         Echo "<BR> CALCULATED SELL PCT: $sellPctCsp";
-        if (!isset($sellPctCsp)){
-          echoText("Calculated Sell Pct: Its NOT set!! $sellPctCsp",$echoTestText);
-          $ProfitPctBtm_Sell = $calculatedSellPctStart;
-        }else{
-          echoText("Calculated Sell Pct: Its set!! $sellPctCsp - $calculatedSellPctEnd",$echoTestText);
-          $ProfitPctBtm_Sell = $sellPctCsp - $calculatedSellPctEnd;
-          $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*$calculatedSellPctReduction);
+        //if (!isset($sellPctCsp)){
+        //  echoText("Calculated Sell Pct: Its NOT set!! $sellPctCsp",$echoTestText);
+        //  $ProfitPctBtm_Sell = $calculatedSellPctStart;
+        //}else{
+        //  echoText("Calculated Sell Pct: Its set!! $sellPctCsp - $calculatedSellPctEnd",$echoTestText);
 
-          $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
-        }
+        //}
         $cspSize = count($csp);
         for ($y=0;$y<$cspSize;$y++){
           $cspTransID = $csp[$y][1]; $CspRuleID = $csp[$y][5];
           if ($cspTransID ==  $transactionID AND $CspRuleID == $ruleIDSell){
             $sellPctCsp = $csp[$y][2];
+            if (!isset($sellPctCsp)){
+              $ProfitPctBtm_Sell = $calculatedSellPctStart;
+            }else{
+              $ProfitPctBtm_Sell = $sellPctCsp - $calculatedSellPctEnd;
+              $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*$calculatedSellPctReduction);
+
+              $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
+            }
           }
         }
 
