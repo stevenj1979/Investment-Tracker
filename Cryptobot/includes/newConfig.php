@@ -1117,7 +1117,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             logAction("BITTREX BUY COIN| $coin | $bitPrice | $btcBuyAmount | ", 'BuySellFlow', 1);
           }
           logAction("Bittrex Status:  ".json_encode($obj), 'BuySell', 0);
-          logToSQL("Bittrex", "Add Buy Coin: ".json_encode($obj), $userID,1);
+          logToSQL("Bittrex", "Add Buy Coin: ".json_encode($obj)." | ".$obj['code'], $userID,1);
           if ($obj['code'] == 'INSUFFICIENT_FUNDS'){
             echo "<BR> INSUFFICIENT_FUNDS";
             pauseRule($ruleID, 24);
