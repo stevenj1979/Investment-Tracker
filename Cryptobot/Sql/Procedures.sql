@@ -2405,3 +2405,22 @@ end if;
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14), IN `Rule_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+DECLARE nStatus VARCHAR(20);
+
+SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
+
+if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID) THEN
+	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`,`SellPct`) VALUES (Trans_ID,User_ID,Rule_ID,ABS(Sell_Pct));
+end if;
+
+
+UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now(),`RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID and timestampdiff(HOUR,`LastUpdated`, now()) > 0;
+
+
+END$$
+DELIMITER ;
