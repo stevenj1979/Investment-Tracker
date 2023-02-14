@@ -1119,6 +1119,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           logAction("Bittrex Status:  ".json_encode($obj), 'BuySell', 0);
           logToSQL("Bittrex", "Add Buy Coin: ".json_encode($obj), $userID,1);
         }else{
+          logToSQL("Bittrex", "Error: ".json_encode($obj), $userID,1);
           $retBuy = 2;
         }
         if ($sendEmail==1 && $buyCoin ==0){
