@@ -1232,7 +1232,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //if ($ProfitPctTop_Sell < $ProfitPctTop_Sell_Original){ $ProfitPctTop_Sell = $ProfitPctTop_Sell_Original;}
         $ProfitPctTop_Sell = 999.99;
         $ProfitPctBtm_Sell_Original = $ProfitPctBtm_Sell;
-
+        Echo "<BR> CALCULATED SELL PCT: $sellPctCsp";
         if (!isset($sellPctCsp)){
           echoText("Calculated Sell Pct: Its NOT set!! $sellPctCsp",$echoTestText);
           $ProfitPctBtm_Sell = $calculatedSellPctStart;
