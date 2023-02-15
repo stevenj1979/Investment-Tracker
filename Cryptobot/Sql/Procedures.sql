@@ -1008,74 +1008,74 @@ DELIMITER ;
 DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` INT, IN `Rises_InPrice` INT, IN `Profit_PCT` DECIMAL(20,8), IN `Mins_ToCancel` INT, IN `Final_Price` DECIMAL(20,8), IN `nAmount` DECIMAL(20,8), IN `nCost` DECIMAL(20,8), IN `USD_Amount` DECIMAL(20,8), IN `BuyBack_Enabled` INT, IN `Override_Amount` INT, IN `Override_Saving` INT, IN `SB_RuleID` INT)
     MODIFIES SQL DATA
-BEGIN
-DECLARE BuyBack_TransID INT;
-DECLARE newRuleID INT;
-DECLARE buy_ruleID INT;
-Declare Buy_Amount_override_Enabled INT;
-DECLARE Buy_Amount DEC(20,14);
-DECLARE User_ID INT;
-DECLARE Base_Curr Varchar(50);
-DECLARE final_Price_Multiplier DEC(20,14);
-Declare Coin_ID INT;
-Declare nDelay DateTime;
+    BEGIN
+    DECLARE BuyBack_TransID INT;
+    DECLARE newRuleID INT;
+    DECLARE buy_ruleID INT;
+    Declare Buy_Amount_override_Enabled INT;
+    DECLARE Buy_Amount DEC(20,14);
+    DECLARE User_ID INT;
+    DECLARE Base_Curr Varchar(50);
+    DECLARE final_Price_Multiplier DEC(20,14);
+    Declare Coin_ID INT;
+    Declare nDelay Int;
 
-SELECT `CoinID` into Coin_ID From `Transaction` WHERE `ID` = Trans_ID;
-SELECT `BaseCurrency` into Base_Curr FROM `Coin` WHERE `ID` = Coin_ID;
+    SELECT `CoinID` into Coin_ID From `Transaction` WHERE `ID` = Trans_ID;
+    SELECT `BaseCurrency` into Base_Curr FROM `Coin` WHERE `ID` = Coin_ID;
 
-if (Base_Curr = 'USDT') THEN
-	SELECT getBTCPrice(83) into final_Price_Multiplier;
-elseif (Base_Curr = 'BTC') THEN
-	SELECT getBTCPrice(84) into final_Price_Multiplier;
-else
-	SELECT getBTCPrice(85) into final_Price_Multiplier;
-end if;
+    if (Base_Curr = 'USDT') THEN
+    	SELECT getBTCPrice(83) into final_Price_Multiplier;
+    elseif (Base_Curr = 'BTC') THEN
+    	SELECT getBTCPrice(84) into final_Price_Multiplier;
+    else
+    	SELECT getBTCPrice(85) into final_Price_Multiplier;
+    end if;
 
-if (SB_RuleID = 0) THEN
-  SET nDelay = now();
-else
-  SET nDelay = date_ADD(now(), INTERVAL 1 YEAR);
-End if;
+    if (SB_RuleID = 0) THEN
+      SET nDelay = 0;
+    else
+      SET nDelay = 8736;
+    End if;
 
-SELECT `BuyRule` into buy_ruleID FROM `Transaction` WHERE `ID` = Trans_ID;
+    SELECT `BuyRule` into buy_ruleID FROM `Transaction` WHERE `ID` = Trans_ID;
 
-SELECT `BuyAmountOverrideEnabled` into Buy_Amount_override_Enabled FROM `BuyRules` WHERE `ID` = buy_ruleID;
+    SELECT `BuyAmountOverrideEnabled` into Buy_Amount_override_Enabled FROM `BuyRules` WHERE `ID` = buy_ruleID;
 
-SELECT `UserID` into User_ID FROM `Transaction` WHERE `ID` = Trans_ID;
+    SELECT `UserID` into User_ID FROM `Transaction` WHERE `ID` = Trans_ID;
 
-if (Buy_Amount_override_Enabled = 1) THEN
-	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
-else
-	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
-End if;
+    if (Buy_Amount_override_Enabled = 1) THEN
+    	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
+    else
+    	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
+    End if;
 
-if (Override_Amount = 1) THEN
-  SELECT `Amount` * (SELECT `SellPrice` FROM `BittrexAction` WHERE `TransactionID` = Trans_ID) /final_Price_Multiplier into Buy_Amount FROM `Transaction` WHERE `ID` = Trans_ID;
-End if;
+    if (Override_Amount = 1) THEN
+      SELECT `Amount` * (SELECT `SellPrice` FROM `BittrexAction` WHERE `TransactionID` = Trans_ID) /final_Price_Multiplier into Buy_Amount FROM `Transaction` WHERE `ID` = Trans_ID;
+    End if;
 
-SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
+    SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `Transaction` Where `ID` = Trans_ID;
 
-If BuyBack_TransID = 0 THEN
-  SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 AND `UserID` =  User_ID order by `USDProfit` asc Limit 1;
-END if;
+    If BuyBack_TransID = 0 THEN
+      SELECT `BuyBackTransactionID` into BuyBack_TransID FROM `View22_BuyBackTransationIDProfit` WHERE `BaseCurrency` = Base_Curr  and `USDProfit` < 0 AND `UserID` =  User_ID order by `USDProfit` asc Limit 1;
+    END if;
 
-if BuyBack_TransID = 0 THEN
-  INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
-  Select `ID` into BuyBack_TransID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
-End if;
+    if BuyBack_TransID = 0 THEN
+      INSERT into `BuyBackTransaction` (`Name`) VALUES (concat('BuyBack_' , Trans_ID));
+      Select `ID` into BuyBack_TransID FROM `BuyBackTransaction` WHERE `Name` = concat('BuyBack_' , Trans_ID);
+    End if;
 
-If (BuyBack_Enabled = 0) THEN
-  If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
-  UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount,`OverrideAmount` = Override_Amount, `OverrideSaving` = Override_Saving WHERE  `TransactionID` = Trans_ID;
+    If (BuyBack_Enabled = 0) THEN
+      If EXISTS (SELECT `TransactionID` FROM `BuyBack` WHERE `TransactionID` = Trans_ID) THEN
+      UPDATE `BuyBack` SET `Quantity`= nAmount,`Status`= 'Open',`NoOfRaisesInPrice`= Rises_InPrice,`BuyBackPct`= -ABS(Profit_PCT),`MinsToCancel`= Mins_ToCancel,`SellPrice` = Final_Price, `CoinPrice` = nCost,  `USDBuyBackAmount` = Buy_Amount,`OverrideAmount` = Override_Amount, `OverrideSaving` = Override_Saving,`DelayTime` =  date_ADD(now(), INTERVAL nDelay Hour) WHERE  `TransactionID` = Trans_ID;
 
-  else
-  INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`,`OverrideAmount`, `OverrideSaving`,`SpreadBetRuleID`,`DelayTime`)
-    VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount,Override_Amount,Override_Saving,SB_RuleID,nDelay);
+      else
+    INSERT INTO `BuyBack`(`TransactionID`, `Quantity`, `Status`,`NoOfRaisesInPrice`,`BuyBackPct`,`MinsToCancel`,`SellPrice`,`CoinPrice`,`USDBuyBackAmount`,`OverrideAmount`, `OverrideSaving`,`SpreadBetRuleID`,`DelayTime`)
+        VALUES (Trans_ID, nAmount, 'Open',Rises_InPrice, -ABS(Profit_PCT),Mins_ToCancel, Final_Price, nCost, Buy_Amount,Override_Amount,Override_Saving,SB_RuleID,date_ADD(now(), INTERVAL nDelay Hour));
 
-  end if;
-end if;
-UPDATE `Transaction` SET `BuyBackTransactionID` = BuyBack_TransID wHERE `ID` = Trans_ID;
-END$$
+      end if;
+    end if;
+    UPDATE `Transaction` SET `BuyBackTransactionID` = BuyBack_TransID wHERE `ID` = Trans_ID;
+    END$$
 DELIMITER ;
 
 DELIMITER $$
