@@ -1876,7 +1876,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           //addWebUsage($userID,"Add","SellCoin");
           subUSDTBalance('USDT',$amount*$finalPrice,$finalPrice,$userID);
         }
-        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False) or ($pctFromSale >= 4 && $finalBool == False)){
+        if (($pctFromSale <= $pctToCancelBittrexAction && $finalBool == False and $allocationType <> 'SpreadBet') or ($pctFromSale >= 4 && $finalBool == False and $allocationType <> 'SpreadBet')){
           if ($overrideBittrexCancellation == 1){ continue;}
           if ($type == 'SpreadSell' AND $pctFromSale >= 4 AND $orderQtyRemaining == $orderQty) {
             reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$amount,$baseCurrency,$coin);
