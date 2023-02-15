@@ -156,7 +156,7 @@ FROM `BittrexAction`  `Ba`
     join `UserConfig` `Uc` on `Uc`.`UserID` = `Ba`.`UserID`
     join `Coin` `Cn` on `Cn`.`ID` = `Ba`.`CoinID`
     join `CoinPrice` `Cp` on `Ba`.`CoinID` = `Cp`.`CoinID`
-    join `CoinPrice` `CpSell` on `Ba`.`CoinID` = `CpSell`.`CoinID`
+    join `CoinAskPrice` `CpSell` on `Ba`.`CoinID` = `CpSell`.`CoinID`
     join `Transaction` `Tr` on (`Tr`.`ID` = `Ba`.`TransactionID`) and (`Ba`.`Type` = `Tr`.`Type`)
     join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Ba`.`CoinID`
     left join `SellRules` `Sr` on `Sr`.`ID` = `Tr`.`FixSellRule`
