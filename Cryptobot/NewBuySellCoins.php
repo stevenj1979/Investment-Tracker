@@ -1715,7 +1715,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
         echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction Days Outstanding: $daysOutstanding";
-        if (($orderIsOpen == 0) OR ($cancelInit == 0)){
+        if (($orderIsOpen == 0) AND ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
             if ($originalAmount == 0){ $originalAmount = $amount;}
