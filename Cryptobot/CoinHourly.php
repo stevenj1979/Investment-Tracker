@@ -123,14 +123,11 @@ function getOpenUserIDandBaseCurrency(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `Tr`.`UserID`, `Cn`.`BaseCurrency`
-              FROM `Transaction` `Tr`
-              join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-              WHERE `Tr`.`Status` = 'Open' and `Tr`.`Type` <> 'SpreadSell'
-              group by  `Tr`.`UserID`, `Cn`.`BaseCurrency`";
+    $sql = "SELECT `Tr`.`ID`
+              FROM `User` `Tr`";
     print_r($sql);
     $result = $conn->query($sql);
-    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['BaseCurrency']);}
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
     $conn->close();
     return $tempAry;
 }
@@ -147,7 +144,7 @@ function UpdateHolding($userID,$baseCurrency){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("UpdateHolding","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
+  newLogToSQL("UpdateHolding","$sql",3,1,"SQL","CoinID:$coinID UserID:$userID");
 
 }
 
@@ -160,7 +157,7 @@ function runAutoUpdateHolding(){
     for ($y=0;$y<count($baseAry);$y++){
       $baseCurrency = $baseAry[$y];
       Echo "UpdateHolding($userID,$baseCurrency);";
-      //UpdateHolding($userID,$baseCurrency);
+      UpdateHolding($userID,$baseCurrency);
     }
   }
 }

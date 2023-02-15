@@ -2430,6 +2430,11 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `autoUpdateHolding`(IN `base_
     MODIFIES SQL DATA
 BEGIN
 DECLARE finalCol varchar(50);
+
+if not EXISTS (SELECT `ID` FROM `UserCoinSavings` WHERE `UserID` = User_ID) Then
+  INSERT into `UserCoinSavings` (`UserID`) VALUES (User_ID);
+END if;
+
 if (base_Currency = 'USDT') THEN
 	UPDATE `UserCoinSavings` `Ucs`
 SET `HoldingUSDT` = (SELECT  sum(((`Tr`.`Amount`*`Tr`.`CoinPrice`)/100)*`Usc`.`CoinForBuyOutPct`) FROM `Transaction` `Tr` join `UserConfig` `Usc` on `Tr`.`UserID` = `Usc`.`UserID` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`  WHERE `Tr`.`Status` = 'Open' and `Tr`.`Type` <> 'SpreadSell'
