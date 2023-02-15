@@ -265,7 +265,7 @@ function displayOption($name){
               NewEcho("<TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Difference Live</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TH>&nbspHold&nbsp</TH><TR>";
+              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Profit</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TH>&nbspHold&nbsp</TH><TR>";
 
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
