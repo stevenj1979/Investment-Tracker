@@ -2424,3 +2424,28 @@ UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now(),`R
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `autoUpdateHolding`(IN `base_Currency` VARCHAR(50), IN `User_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+DECLARE finalCol varchar(50);
+if (base_Currency = 'USDT') THEN
+	UPDATE `UserCoinSavings` `Ucs`
+SET `HoldingUSDT` = (SELECT  sum(((`Tr`.`Amount`*`Tr`.`CoinPrice`)/100)*`Usc`.`CoinForBuyOutPct`) FROM `Transaction` `Tr` join `UserConfig` `Usc` on `Tr`.`UserID` = `Usc`.`UserID` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`  WHERE `Tr`.`Status` = 'Open' and `Tr`.`Type` <> 'SpreadSell'
+and `Cn`.`BaseCurrency` = base_Currency and `Tr`.`UserID`)
+where `Ucs`.`UserID` = User_ID ;
+
+ELSEIF (base_Currency = 'BTC') THEN
+ UPDATE `UserCoinSavings` `Ucs`
+SET `HoldingBTC` = (SELECT  sum(((`Tr`.`Amount`*`Tr`.`CoinPrice`)/100)*`Usc`.`CoinForBuyOutPct`) FROM `Transaction` `Tr` join `UserConfig` `Usc` on `Tr`.`UserID` = `Usc`.`UserID` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`  WHERE `Tr`.`Status` = 'Open' and `Tr`.`Type` <> 'SpreadSell'
+and `Cn`.`BaseCurrency` = base_Currency and `Tr`.`UserID`)
+where `Ucs`.`UserID` = User_ID ;
+ELSEIF (base_Currency = 'ETH') THEN
+		UPDATE `UserCoinSavings` `Ucs`
+SET `HoldingETH` = (SELECT  sum(((`Tr`.`Amount`*`Tr`.`CoinPrice`)/100)*`Usc`.`CoinForBuyOutPct`) FROM `Transaction` `Tr` join `UserConfig` `Usc` on `Tr`.`UserID` = `Usc`.`UserID` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`  WHERE `Tr`.`Status` = 'Open' and `Tr`.`Type` <> 'SpreadSell'
+and `Cn`.`BaseCurrency` = base_Currency and `Tr`.`UserID`)
+where `Ucs`.`UserID` = User_ID ;
+End if;
+END$$
+DELIMITER ;
