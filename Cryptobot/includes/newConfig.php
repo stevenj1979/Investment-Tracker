@@ -7347,7 +7347,7 @@ function getBuyBackData($tmpSBRuleID = 0){
   }
 
   if ($tmpSBRuleID > 0){
-    $whereclause = " and `SpreadBetRuleID` = $tmpSBRuleID ";
+    $whereclause = " and `SpreadBetRuleID` = $tmpSBRuleID and `PriceDifferecePct` < -1 ";
   }
 
   $sql = "SELECT `IDBb`, `TransactionIDBb`, `Quantity`, `SellPriceBb`, `StatusBb`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPrice` as `SellPriceBA`, `LiveCoinPrice`
