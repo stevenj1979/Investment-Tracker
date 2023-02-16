@@ -316,7 +316,7 @@ function displayTable($tracking, $header, $linkName){
     $pctOfAuto = $tracking[$x][33];
     $buyBackHoursFlatAutoEnabled = $tracking[$x][34];
     $maxHoursFlat = $tracking[$x][35];
-    $typeTr = $tracking[$x][39]; //$spreadBetTransactionID = $tracking[$x][38]; $spreadBetRuleID = $tracking[$x][37];
+    $typeTr = $tracking[$x][37]; //$spreadBetTransactionID = $tracking[$x][38]; $spreadBetRuleID = $tracking[$x][37];
 
     if ($buyBackHoursFlatAutoEnabled == 1){
       $hoursFlatTarget = Floor(($maxHoursFlat/100)*$pctOfAuto);
@@ -357,6 +357,7 @@ function displayTable($tracking, $header, $linkName){
     Echo "<td></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>$linkName</a></td>";
+    Echo "<td></td>";
     Echo "<td></td>";
     Echo "<td>$spreadBetTransactionID</td>";
     Echo "<td></td></tr>";
