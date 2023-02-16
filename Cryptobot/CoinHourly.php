@@ -144,7 +144,7 @@ function UpdateHolding($userID,$baseCurrency){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("UpdateHolding","$sql",3,1,"SQL","CoinID:$coinID UserID:$userID");
+  newLogToSQL("UpdateHolding","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
 
 }
 
