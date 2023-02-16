@@ -353,13 +353,14 @@ function displayTable($tracking, $header, $linkName){
     Echo "<td>Org: ".round($originalSaleProfitPct,$num)."</td>";
     Echo "<td>USD".round($USD_Amount,$num)."</td>";
     Echo "<td>$minsUntilEnable</td>";
+    Echo "<td>$spreadBetTransactionID</td>";
     echo "</tr><tr>";
     Echo "<td></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>$linkName</a></td>";
     Echo "<td></td>";
     Echo "<td></td>";
-    Echo "<td>$spreadBetTransactionID</td>";
+
     Echo "<td></td></tr>";
   }//end for
   print_r("</table>");
