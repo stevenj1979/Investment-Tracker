@@ -168,7 +168,7 @@ if ($open == 1){
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
             ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`,`PctOfAutoBuyBack`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
-            ,`hoursSinceClosed`
+            ,`hoursSinceClosed`,`SpreadBetRuleIDBB`,`SpreadBetTransactionID`,`Type`
             FROM `View9_BuyBack`
             where $WhereClause2 and `UserID` = $userID $WhereClause";
             //echo "<BR>$sql<BR>";
@@ -179,7 +179,7 @@ while ($row = mysqli_fetch_assoc($result)){
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
     ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency'],$row['MinsUntilEnable'] //32
-    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['hoursSinceClosed']); //36
+    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['hoursSinceClosed'],$row['SpreadBetRuleIDBB'],$row['SpreadBetTransactionID'],$row['Type']); //39
 }
 $conn->close();
 return $tempAry;
@@ -316,6 +316,7 @@ function displayTable($tracking, $header, $linkName){
     $pctOfAuto = $tracking[$x][33];
     $buyBackHoursFlatAutoEnabled = $tracking[$x][34];
     $maxHoursFlat = $tracking[$x][35];
+    $typeTr = $tracking[$x][39]; $spreadBetTransactionID = $tracking[$x][38]; $spreadBetRuleID = $tracking[$x][37];
 
     if ($buyBackHoursFlatAutoEnabled == 1){
       $hoursFlatTarget = Floor(($maxHoursFlat/100)*$pctOfAuto);
@@ -329,7 +330,7 @@ function displayTable($tracking, $header, $linkName){
     echo "<td>Sell: ".round($sellPriceBA,$num)."</td>";
 
     echo "<td>Qty: ".round($quantity,$num)."</td>";
-
+    Echo "<td>$typeTr</td>";
     //Echo "<td></td>";
     //Echo "<td></td>";
     $hoursFlatOriginalTarget = floor(($maxHoursFlat/100)*(($pctOfAuto)));
@@ -345,6 +346,7 @@ function displayTable($tracking, $header, $linkName){
     Echo "<td>HoursFlat: $hoursFlat / $hoursFlatTarget ($hoursFlatOriginalTarget)</td>";
     Echo "<td>1Hr Pct Change: $hr1PctChange</td>";
     Echo "<td>$baseCurrency</td>";
+    Echo "<td>$spreadBetRuleID</td>";
     echo "</tr><tr>";
     //$numCol = getNumberColour($priceDiff1);
     Echo "<td>Price Dif: ".round($priceDifferecePct,$num)." %</td>";
@@ -356,6 +358,7 @@ function displayTable($tracking, $header, $linkName){
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>$linkName</a></td>";
     Echo "<td></td>";
+    Echo "<td>$spreadBetTransactionID</td>";
     Echo "<td></td></tr>";
   }//end for
   print_r("</table>");
