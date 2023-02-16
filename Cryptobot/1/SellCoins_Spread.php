@@ -280,8 +280,8 @@ $date = date('Y/m/d H:i:s', time());
             $priceDiff1 = $livePrice - $LastCoinPrice;
 
             $liveTotalCost = $trackingSell[$x][57];
-            $originalPurchaseCost = $trackingSell[$x][56];
-            $fee = (($liveTotalCost-$originalPurchaseCost)/100)*0.28;
+            $originalPurchaseCost = $trackingSell[$x][55];
+            $fee = $trackingSell[$x][56];
             //$profit = $trackingSell[$x][55];
             //$profitBtc = $profit/($originalPurchaseCost)*100;
             //$profitPct = getTotalProfitSpreadBetSell($transactionID);
