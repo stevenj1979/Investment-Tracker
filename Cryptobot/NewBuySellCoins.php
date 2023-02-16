@@ -390,17 +390,39 @@ function runBuyBack($buyBackCoins){
 
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       if ($tmpLiveCoinPrice <> 0){
-        addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
-        echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
-        LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
-        LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
-        //CloseBuyBack
-        closeBuyBack($bBID);
-        //addWebUsage($userID,"Remove","BuyBack");
-        //addWebUsage($userID,"Add","BuyTracking");
-        buyBackDelay($tmpCoinID,4320,$tmpUserID);
-        addOldBuyBackTransID($bBID,$tmpCoinID);
-        logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
+        if ($tmpSBRuleID <> 0){
+          $spreadbetBuyBack = getBuyBackData($tmpSBRuleID);
+          $spreadbetBuyBackSize = count($spreadbetBuyBack);
+          for ($p=0;$p<$spreadbetBuyBackSize;$p++){
+            $tmpCoinID = $spreadbetBuyBack[$p][7]; $tmpLiveCoinPrice = $spreadbetBuyBack[$p][9]; $tmpUserID = $spreadbetBuyBack[$p][12]; $tmpBaseCur = $spreadbetBuyBack[$p][59]; $tmpSendEmail = 1; $tmpBuyCoin = 1;
+            $usdBBAmount = $spreadbetBuyBack[$p][37];$tmpBuyRule = $spreadbetBuyBack[$p][60];$tmpOffset = $spreadbetBuyBack[$p][62];$tmpOffsetEnabled = $spreadbetBuyBack[$p][61];$tmpBuyType = 1; $bbMinsToCancel = $spreadbetBuyBack[$p][54]; $tmpFixSellRule  = $spreadbetBuyBack[$p][63];
+            $tmpToMerge = $spreadbetBuyBack[$p][64]; $tmpNoOfPurchases = $spreadbetBuyBack[$p][65];$hoursFlatTarget = 1; $tmpType  = $spreadbetBuyBack[$p][66];$tmpSBTransID  = $spreadbetBuyBack[$p][5];$overrideCoinAlloc = $spreadbetBuyBack[$p][67]; $bBID = $spreadbetBuyBack[$p][0];
+            addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
+            echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
+            LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
+            LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
+            //CloseBuyBack
+            closeBuyBack($bBID);
+            //addWebUsage($userID,"Remove","BuyBack");
+            //addWebUsage($userID,"Add","BuyTracking");
+            buyBackDelay($tmpCoinID,4320,$tmpUserID);
+            addOldBuyBackTransID($bBID,$tmpCoinID);
+            logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
+          }
+        }else{
+          addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
+          echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
+          LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
+          LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
+          //CloseBuyBack
+          closeBuyBack($bBID);
+          //addWebUsage($userID,"Remove","BuyBack");
+          //addWebUsage($userID,"Add","BuyTracking");
+          buyBackDelay($tmpCoinID,4320,$tmpUserID);
+          addOldBuyBackTransID($bBID,$tmpCoinID);
+          logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
+        }
+
         return True;
       }else{
         echoAndLog("BuyBack","LivePrice: $tmpLiveCoinPrice Coin:$tmpSymbol CoinID:$tmpCoinID PriceWBuffer:$tmpOriginalPriceWithBuffer",3,1,"BuySellCoins","BBID:$bBID");

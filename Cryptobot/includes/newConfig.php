@@ -7336,7 +7336,7 @@ function getSpreadBetUserSettings(){
   return $tempAry;
 }
 
-function getBuyBackData(){
+function getBuyBackData($tmpSBRuleID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   //$whereClause = "";
@@ -7344,6 +7344,10 @@ function getBuyBackData(){
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
+  }
+
+  if ($tmpSBRuleID > 0){
+    $whereclause = " and `SpreadBetRuleID` = $tmpSBRuleID ";
   }
 
   $sql = "SELECT `IDBb`, `TransactionIDBb`, `Quantity`, `SellPriceBb`, `StatusBb`, `SpreadBetTransactionID`, `SpreadBetRuleID`, `CoinID`, `SellPrice` as `SellPriceBA`, `LiveCoinPrice`
@@ -7358,8 +7362,9 @@ function getBuyBackData(){
             ,((`LiveCoinPrice` * `Quantity`)  - (`SellPrice` * `Quantity`)) as `ProfitUSD`,`LowMarketModeEnabled`,`BuyBackHoursFlatTarget`,ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)) as AddNum
             , Abs((`BuyBackPct` /100)* (ABS(`BuyBackPct`)/(0.35*(ABS(`BuyBackPct`)/10)))) as Multiplier,if (`DelayTime` < now(),0,1) as  `DelayCoinPurchase`
             ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`,`PctOfAutoReduceLoss`,`PctOfAutoBuyBack`,`bbMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackAutoPct`,`CaaOffset`,`SpreadBetRuleIDBB`
+            ,`BaseCurrency2`,`BuyRule`,`CoinSellOffsetEnabled2`,`CoinSellOffsetPct2`,`SellRule`,`ToMerge`,`NoOfCoinPurchase`,`Type`,`OverrideCoinAllocation`
             FROM `View9_BuyBack`
-            where `StatusBb` <> 'Closed' ";
+            where `StatusBb` <> 'Closed' $whereclause";
   echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -7372,7 +7377,8 @@ function getBuyBackData(){
       ,$row['CoinPrice'],$row['SaveMode'],$row['CoinPriceBB'],$row['USDBuyBackAmount'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'] //40
       ,$row['TotalUSDSalePrice'],$row['TotalUSDLivePrice'],$row['ProfitUSD'],$row['LowMarketModeEnabled'],$row['BuyBackHoursFlatTarget'],$row['AddNum'],$row['Multiplier'],$row['DelayCoinPurchase'] //48
       ,$row['PctOfAuto'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['PctOfAutoReduceLoss'],$row['PctOfAutoBuyBack'],$row['bbMinsToCancel'],$row['BuyBackMinsToCancel'] //55
-      ,$row['BuyBackAutoPct'],$row['CaaOffset'],$row['SpreadBetRuleIDBB']); //58
+      ,$row['BuyBackAutoPct'],$row['CaaOffset'],$row['SpreadBetRuleIDBB'],$row['BaseCurrency2'],$row['BuyRule'],$row['CoinSellOffsetEnabled2'],$row['CoinSellOffsetPct2'],$row['SellRule'] //63
+      ,$row['ToMerge'],$row['NoOfCoinPurchase'],$row['Type'],$row['OverrideCoinAllocation']);  //67
   }
   $conn->close();
   return $tempAry;
