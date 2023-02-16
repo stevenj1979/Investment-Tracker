@@ -182,7 +182,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToSpreadBet`(IN `SB_RuleI
     MODIFIES SQL DATA
 BEGIN
 
-UPDATE `Transaction` SET `Type` = 'SpreadSell', `SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = SB_RuleID ), `SpreadBetRuleID` = SB_RuleID  where `ID` = Trans_ID;
+UPDATE `Transaction` SET `Type` = 'SpreadSell', `SpreadBetTransactionID` = (SELECT `ID` FROM `SpreadBetTransactions` WHERE `SpreadBetRuleID` = SB_RuleID ), `SpreadBetRuleID` = SB_RuleID, `MultiSellRuleTemplateID` = (SELECT `ID` FROM `MultiSellRuleTemplate` WHERE `DefaultRule` = 'SpreadSell' )  where `ID` = Trans_ID;
 if NOT EXISTS (SELECT  `TransactionID` FROM `SpreadBetSellTarget` WHERE `TransactionID`= Trans_ID) THEN
 INSERT INTO `SpreadBetSellTarget`( `TransactionID`, `SBTransactionID`, `SellPct`)
   VALUES (Trans_ID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = Trans_ID)
