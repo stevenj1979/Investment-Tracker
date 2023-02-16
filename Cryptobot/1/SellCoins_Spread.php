@@ -291,7 +291,7 @@ $date = date('Y/m/d H:i:s', time());
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
             $profit = $liveTotalCost-$originalPurchaseCost-$fee;
             //$profitPct = $trackingSell[$x][59];
-            echo "<BR> HELP: $liveTotalCost | $originalPurchaseCost | $fee | $profit";
+            //echo "<BR> HELP: $liveTotalCost | $originalPurchaseCost | $fee | $profit";
             $profitPct = ($profit/$originalPurchaseCost)*100;
             //$profitPct = ($profit/$purchasePrice)*100;
             //echo "$profit | $livePrice | $purchasePrice | $profitPct";
