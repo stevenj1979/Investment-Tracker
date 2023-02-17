@@ -1019,6 +1019,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` 
     DECLARE final_Price_Multiplier DEC(20,14);
     Declare Coin_ID INT;
     Declare nDelay Int;
+    DECLARE nType Varchar(50);
 
     SELECT `CoinID` into Coin_ID From `Transaction` WHERE `ID` = Trans_ID;
     SELECT `BaseCurrency` into Base_Curr FROM `Coin` WHERE `ID` = Coin_ID;
@@ -1043,11 +1044,17 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` 
 
     SELECT `UserID` into User_ID FROM `Transaction` WHERE `ID` = Trans_ID;
 
-    if (Buy_Amount_override_Enabled = 1) THEN
-    	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
+    SELECT `Type` into nType from `Transaction` WHERE `ID` = Trans_ID;
+
+    if (nType = 'SpreadSell') THEN
+      SELECT `SpreadBetTotalAmount` into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
     else
-    	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
-    End if;
+      if (Buy_Amount_override_Enabled = 1) THEN
+      	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
+      else
+      	SELECT `BTCBuyAmount`/final_Price_Multiplier into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
+      End if;
+    end if;
 
     if (Override_Amount = 1) THEN
       SELECT `Amount` * (SELECT `SellPrice` FROM `BittrexAction` WHERE `TransactionID` = Trans_ID) /final_Price_Multiplier into Buy_Amount FROM `Transaction` WHERE `ID` = Trans_ID;
