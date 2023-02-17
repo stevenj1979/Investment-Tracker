@@ -156,10 +156,11 @@ td{
 }
 .flex-container > div:nth-of-type(2) {
   flex-grow: 1;
-  height: 85%;
+  height: 80%;
+  position: relative;
 }
 .flex-container > div:nth-of-type(3) {
-  position: absolute;
+  position: relative;
   flex-grow: 1;
   height: 10%;
   bottom: 10px;
