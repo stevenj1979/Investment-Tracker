@@ -147,6 +147,7 @@ td{
   margin: 10px;
   text-align: left;
   flex-direction: column;
+  align-content: start;
 }
 .flex-container > div:nth-of-type(1) {
   position: relative;
