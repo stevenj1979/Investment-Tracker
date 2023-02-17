@@ -6721,7 +6721,7 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");
 }
 
-function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,$overrideBBSaving){
+function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID){
 
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -6729,7 +6729,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call AddToUserCoinSavings($UserID,$totalProfitUSD,'$baseCurrency',$overrideBBSaving)";
+  $sql = "call AddToUserCoinSavings($UserID,$totalProfitUSD,'$baseCurrency',$overrideBBSaving,'$type',$spreadBetTransactionID)";
 
   print_r($sql);
   logToSQL("ProfitAllocation","$sql | $coinID",$UserID,1);

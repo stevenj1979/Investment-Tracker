@@ -1778,13 +1778,13 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               }elseif ($coinModeRule >0){
                 $allocationType = 'CoinMode';
               }
-              if ($saveMode == 1 AND $profitPct > 0.25){
+              if ($saveMode == 1 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 $newProfit = ($profit / 100)*$pctToSave;
-                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving);
-              }elseif ($saveMode == 2 AND $profitPct > 0.25){
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+              }elseif ($saveMode == 2 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 //$newProfit = ($profit / 100)*$pctToSave;
                 $newProfit = $profit;
-                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving);
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
               }elseif ($profitPct < 0.25){
                 $newProfit = 0;
               }
@@ -1827,10 +1827,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               if ($allocationType == 'SpreadBet'){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
                 subPctFromProfitSB($spreadBetTransactionID,0.01, $transactionID);
-                //$openTransSB = getOpenSpreadCoins($userID,$spreadBetRuleID);
-                //if (count($openTransSB) == 0){
-                //  newSpreadTransactionID($UserID,$spreadBetRuleID);
-                //}
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
               }
               newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount | $amount | $finalPrice | $cost | $buyPrice | $sellPrice | $realSellPrice",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins3","TransactionID:$transactionID");
               if ($saveResidualCoins == 1 and $realProfitPct >= 0.25 AND $originalAmount <> 0){

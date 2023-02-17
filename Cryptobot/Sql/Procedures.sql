@@ -1776,10 +1776,25 @@ End$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToUserCoinSavings`(IN `User_ID` INT, IN `nSaving` DECIMAL(20,14), IN `nBase` VARCHAR(50), IN Override_Saving INT )
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddToUserCoinSavings`(IN `User_ID` INT, IN `nSaving` DECIMAL(20,14), IN `nBase` VARCHAR(50), IN Override_Saving INT, IN `nType` VARCHAR(50) , IN `SB_TransID` INT )
     MODIFIES SQL DATA
 BEGIN
+DECLARE nCount INT;
 
+if (nType = 'SpreadSell') THEN
+  SELECT count(`ID`) into nCount FROM `Transaction` WHERE `SpreadBetTransactionID` = SB_TransID and `Status` in ('Open','Pending');
+  if (nCount = 0) Then
+  SELECT sum(`Ba`.`SellPrice`*`Tr`.`Amount`-`Tr`.`CoinPrice`*`Tr`.`Amount`) into nSaving
+    FROM `Transaction` `Tr`
+    join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` = 'SpreadSell'
+    WHERE `Tr`.`Status` = 'Sold' and `Tr`.`SpreadBetTransactionID` = SB_TransID;
+    if (nSaving < 0) THEN
+      SET nSaving = 0;
+    end if;
+  else
+    SET nSaving = 0;
+  end if;
+end if;
 if NOT Exists (SELECT `UserID` FROM `UserCoinSavings` WHERE `UserID` = User_ID) THEN
 INSERT INTO `UserCoinSavings`(`UserID`) VALUES (User_ID);
 end if;
