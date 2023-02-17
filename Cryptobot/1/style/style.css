@@ -151,6 +151,7 @@ td{
 .flex-container > div:nth-of-type(1) {
   flex-grow: 1;
   height: 10%;
+  top: 10px;
 }
 .flex-container > div:nth-of-type(2) {
   flex-grow: 1;
@@ -159,4 +160,5 @@ td{
 .flex-container > div:nth-of-type(3) {
   flex-grow: 1;
   height: 10%;
+  bottom: 10px;
 }
