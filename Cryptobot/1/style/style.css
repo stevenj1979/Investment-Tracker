@@ -163,6 +163,5 @@ td{
 .flex-container > div:nth-of-type(3) {
   position: relative;
   flex-grow: 1;
-  height: 10%;
   bottom: 0px;
 }
