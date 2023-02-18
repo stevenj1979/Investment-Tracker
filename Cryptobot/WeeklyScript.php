@@ -270,7 +270,7 @@ function getBuyAmountPctOfTotal($type,$baseCurrency,$userID){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "select getTotalHolding('$baseCurrency',$userID) as totalHolding";
-  echo "<BR> $sql";
+  echo "<BR> $sql <BR>";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -343,7 +343,8 @@ function runBuyAmountPctOfTotal(){
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
-      $totalAmount = $IDData[0];
+      $totalAmount = $IDData[$p][0];
+      echo "<BR>TOTAL: $totalAmount | ".$IDData[$p][0]."<BR>";
       //$baseCurrency = $IDData[$p][2];
       //$pct = $IDData[$p][3];
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
@@ -360,7 +361,8 @@ function runBuyAmountPctOfTotal(){
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
-      $totalAmount = $IDData[1];
+      $totalAmount = $IDData[$p][0];
+      echo "<BR>TOTAL: $totalAmount | ".$IDData[$p][0]."<BR>";
       //$baseCurrency = $IDData[$p][2];
       //$pct = $IDData[$p][3]/2;
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
