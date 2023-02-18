@@ -1452,7 +1452,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 }
 
 function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
-
+  $finalBool = False;
   $CancelBittrexLogFlag = $webSettingsAry[3][1];
   $CancelBittrexPartial = $webSettingsAry[7][1];
   $CancelBittrexBuyComplete = $webSettingsAry[8][1];
@@ -2206,6 +2206,7 @@ $sellSpreadBetTimer = date('Y-m-d H:i');
 $buyCoinTimer = date('Y-m-d H:i');
 $sbBuyCoinTimer = date('Y-m-d H:i');
 $sellCoinTimer = date('Y-m-d H:i');
+$sellCoinSBTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
 $bittrexReqsTimer = date('Y-m-d H:i');

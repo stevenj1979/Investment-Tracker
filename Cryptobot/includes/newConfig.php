@@ -1924,7 +1924,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         curl_close($ch);
         $temp = json_decode($balance, true);
         //var_dump($temp);
-        $balance = $temp['lastTradeRate'];
+        $balance = $temp['askRate'];
       }
       //echo "<br> CoinPrice: $coin : $baseCoin<br>";
       //var_dump($temp);
@@ -7339,6 +7339,7 @@ function getSpreadBetUserSettings(){
 function getBuyBackData($tmpSBRuleID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
+  $whereclause = "";
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
