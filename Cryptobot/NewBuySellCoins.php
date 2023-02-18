@@ -1307,7 +1307,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
           if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);}
       }else{
-          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
+          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
       echoText("PlaceHolder: 2 | $coin",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}

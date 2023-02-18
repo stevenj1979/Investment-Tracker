@@ -264,7 +264,7 @@ function getBuyAmountPctOfTotal($type,$baseCurrency,$userID){
   if ($type == 1) { $whereClause = "'Normal'";}
   else{ $whereClause = "'SpreadBet'";}
 
-  if ($baseCurrency == 'USDT'){ $multiply = 83;}elseif {($baseCurrency == 'BTC'){ $multiply = 84;}elseif{($baseCurrency == 'ETH'){ $multiply = 85;}
+  if ($baseCurrency == 'USDT'){ $multiply = 83;}elseif ($baseCurrency == 'BTC'){ $multiply = 84;}elseif($baseCurrency == 'ETH'){ $multiply = 85;}
 
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
