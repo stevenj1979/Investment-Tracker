@@ -236,7 +236,7 @@ function showSellCoins($trackingSell,$title){
       $originalPurchaseCost = ($purchaseCost * $amount);
       $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
       $profitBtc = $profit/($originalPurchaseCost)*100;
-      $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][55];
+      $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][2];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51]; $targetSellPct = $trackingSell[$x][56];
       echo "<table><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
       echo "<td><p id='largeText' >$name</p></td>";
