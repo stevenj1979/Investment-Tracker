@@ -270,7 +270,7 @@ function getBuyAmountPctOfTotal($type,$baseCurrency,$userID){
       die("Connection failed: " . $conn->connect_error);
   }
   $sql = "select getTotalHolding('$baseCurrency',$userID) as totalHolding";
-  //echo "<BR> $sql";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -356,7 +356,7 @@ function runBuyAmountPctOfTotal(){
   $BRIDsSize = count($BRIDs);
   for ($i=0;$i<$BRIDsSize; $i++){
     $baseCurrency = $BRIDs[$i][0];$userID = $BRIDs[$i][1];
-    $IDData = getBuyAmountPctOfTotal(2,$baseCurrency);
+    $IDData = getBuyAmountPctOfTotal(2,$baseCurrency,$userID);
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
