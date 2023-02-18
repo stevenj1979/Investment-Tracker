@@ -929,7 +929,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
       echo "Error: " . $sql2 . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,1,"SQL","TransID:$transID");
+  newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,0,"SQL","TransID:$transID");
   logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
 }
 
