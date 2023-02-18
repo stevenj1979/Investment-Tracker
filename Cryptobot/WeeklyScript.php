@@ -343,7 +343,7 @@ function runBuyAmountPctOfTotal(){
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
-      $totalAmount = $IDData[$p][0];
+      $totalAmount = $IDData[0];
       //$baseCurrency = $IDData[$p][2];
       //$pct = $IDData[$p][3];
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
@@ -360,7 +360,7 @@ function runBuyAmountPctOfTotal(){
     $IDDataSize = count($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
-      $totalAmount = $IDData[$p][1];
+      $totalAmount = $IDData[1];
       //$baseCurrency = $IDData[$p][2];
       //$pct = $IDData[$p][3]/2;
       //if ($baseCurrency == 'USDT'){ $multiplier = $IDData[$p][4];}
