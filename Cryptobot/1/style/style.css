@@ -155,6 +155,7 @@ td{
   height: 5%;
   top: 10px;
   z-index: 2;
+  overflow: visible;
 }
 .flex-container > div:nth-of-type(2) {
   flex-grow: 8;
