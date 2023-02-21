@@ -1047,7 +1047,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteBuyBack`(IN `Trans_ID` 
     SELECT `Type` into nType from `Transaction` WHERE `ID` = Trans_ID;
 
     if (nType = 'SpreadSell') THEN
-      SELECT `SpreadBetTotalAmount` into Buy_Amount FROM `UserConfig` WHERE `UserID` = User_ID;
+      SELECT `SpreadBetTotalAmount` into Buy_Amount FROM `BuyRules` WHERE `UserID` = User_ID AND `ID` = buy_ruleID;
     else
       if (Buy_Amount_override_Enabled = 1) THEN
       	SELECT `BuyAmountOverride`/final_Price_Multiplier into Buy_Amount FROM `BuyRules` WHERE `ID` = buy_ruleID;
