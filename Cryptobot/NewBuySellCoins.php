@@ -1784,10 +1784,10 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               if ($saveMode == 1 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 $newProfit = ($profit / 100)*$pctToSave;
                 addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
-              }elseif ($saveMode == 2 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
+              //}elseif ($saveMode == 2 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 //$newProfit = ($profit / 100)*$pctToSave;
-                $newProfit = $profit;
-                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+              //  $newProfit = $profit;
+              //  addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
               }elseif ($profitPct < 0.25){
                 $newProfit = 0;
               }
