@@ -7718,8 +7718,28 @@ function checkSpreadBetComplete($spreadBetRuleID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
+  //$sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
+  $sql = "SELECT count(`ID`) as SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `Status` in ('Open','Pending');";
+  //print_r($sql);
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['SBCount']);
+  }
+  $conn->close();
+  return $tempAry;
+}
 
+function runSpreadBetComplete($spreadBetRuleID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
+  //$sql = "SELECT count(`ID`) as SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `Status` in ('Open','Pending');";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -7727,8 +7747,8 @@ function checkSpreadBetComplete($spreadBetRuleID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("checkSpreadBetComplete: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("checkSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  logAction("runSpreadBetComplete: ".$sql, 'SpreadBetSell', 0);
+  newLogToSQL("runSpreadBetComplete","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");
 }
 
 function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice){

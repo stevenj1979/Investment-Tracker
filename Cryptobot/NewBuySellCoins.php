@@ -1777,17 +1777,20 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){
                 $allocationType = 'SpreadBet';
-                checkSpreadBetComplete($spreadBetRuleID);
+                $sBCount = checkSpreadBetComplete($spreadBetRuleID);
+                if ($sBCount == 0){
+                  runSpreadBetComplete($spreadBetRuleID);
+                }
               }elseif ($coinModeRule >0){
                 $allocationType = 'CoinMode';
               }
               if ($saveMode == 1 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 $newProfit = ($profit / 100)*$pctToSave;
                 addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
-              //}elseif ($saveMode == 2 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
+              }elseif ($saveMode == 2 AND $profitPct > 0.25 and $type <> 'SpreadSell'){
                 //$newProfit = ($profit / 100)*$pctToSave;
-              //  $newProfit = $profit;
-              //  addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+                $newProfit = $profit;
+                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
               }elseif ($profitPct < 0.25){
                 $newProfit = 0;
               }
@@ -1827,10 +1830,12 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 newLogToSQL("BittrexSell", "WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount);", $userID, 1,"BuyBack2","TransactionID:$transactionID");
                 if (($buyBackEnabled == 1) AND ($disableBuyBack == 0)){WriteBuyBack($transactionID,$realProfitPct,10, 60,$finalPrice,$amount,$cost,$usd_Amount,$stopBuyBack,$overrideBBAmountSR,$overrideBBSavingSR,$spreadBetRuleID);}
               }
-              if ($allocationType == 'SpreadBet'){
+              if ($allocationType == 'SpreadBet' ){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
                 subPctFromProfitSB($spreadBetTransactionID,0.01, $transactionID);
-                addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+                if ($sBCount == 0){
+                  addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+                }
               }
               newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount | $amount | $finalPrice | $cost | $buyPrice | $sellPrice | $realSellPrice",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins3","TransactionID:$transactionID");
               if ($saveResidualCoins == 1 and $realProfitPct >= 0.25 AND $originalAmount <> 0){
