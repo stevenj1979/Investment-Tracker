@@ -1834,7 +1834,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
                 subPctFromProfitSB($spreadBetTransactionID,0.01, $transactionID);
                 if ($sBCount == 0){
-                  addProfitToAllocation($userID, $newProfit,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
+                  addProfitToAllocation($userID, 0,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
                 }
               }
               newLogToSQL("BittrexSell","Test1: $saveResidualCoins | $realProfitPct | $originalAmount | $amount | $finalPrice | $cost | $buyPrice | $sellPrice | $realSellPrice",3,$GLOBALS['logToSQLSetting'],"SaveResidualCoins3","TransactionID:$transactionID");
