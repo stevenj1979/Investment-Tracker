@@ -39,7 +39,8 @@ function getCoinsfromSQL($userID){
           if(`BaseCurrency` = 'BTC',((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )/100)*0.28)* 1) ,if(`BaseCurrency` = 'ETH'
             ,((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`) )/100)*0.28)* 1) ,if(`BaseCurrency` = 'USDT'
               ,((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
-             ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
+             ,`SpreadBetRuleID`,`SpreadBetTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`BaseCurrency` ,getBTCPrice(83) as `USDTPrice`
+             FROM `View15_OpenTransactions`
           WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
           order by `CompletionDate` desc";
     $result = $conn->query($sql);
@@ -47,8 +48,8 @@ function getCoinsfromSQL($userID){
     //$result = mysqli_query($link4, $query);
 	//mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
-        $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
-        ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
+        $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit'] //10
+        ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['BTCPrice'],$row['ETHPrice'],$row['BaseCurrency'],$row['USDTPrice']); //17
     }
     $conn->close();
     return $tempAry;
@@ -246,8 +247,10 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     //$purchasePriceUSD = number_format((float)$purchasePrice, 2, '.', '');
                     //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
                     //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
-                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10];
-                    $profitUSD = (($sellPrice-$purchasePrice-$fee)/$purchasePrice)*100;
+                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $btcPrice = $coins[$x][14];  $ethPrice = $coins[$x][15]; $baseCurrency = $coins[$x][16];
+                    $usdtPrice = $coins[$x][17];
+                    if ($baseCurrency == 'BTC'){ $multiplier = $btcPrice; }elseif ($baseCurrency == 'ETH'){ $multiplier = $ethPrice; }elseif ($baseCurrency == 'USDT'){ $multiplier = $usdtPrice; }
+                    $profitUSD = (($sellPrice-$purchasePrice-$fee)*$multiplier);
                     //$profitUSD = $coins[$x][11];
                     $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
