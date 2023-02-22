@@ -37,7 +37,7 @@ function getCoinsfromSQL($userID){
               if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
                 ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
                   ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
-                 ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(84) as `ETHPrice`
+                 ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`
                  FROM `View15_OpenTransactions`
               WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
               Group by `SpreadBetTransactionID` order by `CompletionDate` desc ";
@@ -245,7 +245,11 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     //$purchasePriceUSD = number_format((float)$purchasePrice, 2, '.', '');
                     //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
                     //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
-                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $profitUSD = $coins[$x][11];
+                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10];
+                    $profitUSD = ($sellPrice-$purchasePrice-$fee);
+
+                    
+                    //$profitUSD = $coins[$x][11];
                     $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
                     $totalProfitSumETH = $totalProfitSumETH + $profitETH;

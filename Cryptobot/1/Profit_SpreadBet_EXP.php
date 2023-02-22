@@ -246,7 +246,9 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     //$purchasePriceUSD = number_format((float)$purchasePrice, 2, '.', '');
                     //$sellPriceUSD = number_format((float)$sellPrice, 2, '.', '');
                     //$feeUSD = number_format((float)$fee*$btcPrice, 2, '.', '');
-                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10]; $profitUSD = $coins[$x][11];
+                    $profitBTC = $coins[$x][8]; $profitUSDT = $coins[$x][9]; $profitETH = $coins[$x][10];
+                    $profitUSD = ($sellPrice-$purchasePrice-$fee);
+                    //$profitUSD = $coins[$x][11];
                     $totalProfitSumUSD = $totalProfitSumUSD + $profitUSD;
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
                     $totalProfitSumETH = $totalProfitSumETH + $profitETH;

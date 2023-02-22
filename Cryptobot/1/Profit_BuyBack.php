@@ -37,7 +37,7 @@ function getCoinsfromSQL($userID){
               if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
                 ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
                   ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
-                 ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(84) as `ETHPrice`
+                 ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`
                  FROM `View15_OpenTransactions`
               WHERE `UserID` = $userID and `Type` = 'Sell' and `StatusTr` = 'Sold' and `BuyBackTransactionID` <> 0
               Group by `BuyBackTransactionID` order by `CompletionDate` desc ";
