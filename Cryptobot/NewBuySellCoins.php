@@ -1833,7 +1833,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               if ($allocationType == 'SpreadBet' ){
                 updateSpreadBetTotalProfitSell($transactionID,$finalPrice);
                 subPctFromProfitSB($spreadBetTransactionID,0.01, $transactionID);
-                if ($sBCount == 0){
+                if ($sBCount[0] == 0){
                   addProfitToAllocation($userID, 0,$saveMode, $baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID);
                 }
               }

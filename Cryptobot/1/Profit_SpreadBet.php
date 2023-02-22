@@ -37,7 +37,8 @@ function getCoinsfromSQL($userID){
               if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
                 ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
                   ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
-                 ,`SpreadBetRuleID`,`SpreadBetTransactionID` FROM `View15_OpenTransactions`
+                 ,`SpreadBetRuleID`,`SpreadBetTransactionID`,`BuyBackTransactionID`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(84) as `ETHPrice`
+                 FROM `View15_OpenTransactions`
               WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `StatusTr` = 'Sold' and `SpreadBetRuleID` <> 0
               Group by `SpreadBetTransactionID` order by `CompletionDate` desc ";
     $result = $conn->query($sql);
@@ -45,8 +46,8 @@ function getCoinsfromSQL($userID){
 	//mysqli_fetch_assoc($result);
   //echo "<BR> $sql";
     while ($row = mysqli_fetch_assoc($result)){
-        $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
-        ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);
+      $tempAry[] = Array($row['PurchasePrice'],$row['Year'],$row['Month'],$row['Day'],$row['SellPrice'],$row['Fee'],$row['Profit'],$row['Symbol'],$row['BTCProfit'],$row['USDTProfit'],$row['ETHProfit']
+      ,$row['USDProfit'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID'],$row['BuyBackTransactionID'],$row['BTCPrice'],$row['ETHPrice']);
     }
     $conn->close();
     return $tempAry;
