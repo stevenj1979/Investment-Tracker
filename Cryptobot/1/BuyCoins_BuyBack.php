@@ -42,7 +42,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     $sellPrice = $_GET['SellPrice'];
     $usd_Amount = $_GET['usd'];
     $baseCurrency = $_GET['BaseCurrency'];
-    $basePrice = $_GET['BaseCurrency'];
+    $basePrice = $_GET['BasePrice'];
     //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
     displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount,$baseCurrency,$basePrice);
