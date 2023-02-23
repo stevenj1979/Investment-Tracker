@@ -41,9 +41,11 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
     $livePrice = $_GET['LivePrice'];
     $sellPrice = $_GET['SellPrice'];
     $usd_Amount = $_GET['usd'];
+    $baseCurrency = $_GET['BaseCurrency'];
+    $basePrice = $_GET['BaseCurrency'];
     //echo "<BR> ID is $ID | $symbol | $quantity | $livePrice | $sellPrice";
     //Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA
-    displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount);
+    displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount,$baseCurrency,$basePrice);
   }elseif($_GET['Mode'] == 2){
     if (isset($_POST['refreshBtn'])){
       $ID = $_POST['ID'];
@@ -52,8 +54,10 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $livePrice = $_POST['LivePrice'];
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
+      $baseCurrency = $_POST['BaseCurrency'];
+      $basePrice = $_POST['BasePrice'];
       $newQuant = $priceUSD / $livePrice;
-      displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice,$priceUSD);
+      displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice,$priceUSD,$baseCurrency,$basePrice);
     }elseif (isset($_POST['submitBtn'])){
       echo "<BR>Submit button";
       $ID = $_POST['ID'];
@@ -62,7 +66,9 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $livePrice = $_POST['LivePrice'];
       $sellPrice = $_POST['SellPrice'];
       $priceUSD = $_POST['PriceUSD'];
-      writeBuyBackToSQL($ID,$priceUSD);
+      $baseCurrency = $_POST['BaseCurrency'];
+      $basePrice = $_POST['BasePrice'];
+      writeBuyBackToSQL($ID,$priceUSD/$basePrice);
       header('Location: BuyCoins_BuyBack.php');
     }elseif (isset($_POST['backBtn'])){
       header('Location: BuyCoins_BuyBack.php');
@@ -119,10 +125,12 @@ function writeBuyBackToSQL($ID, $usd_Amount){
   logAction("writeBuyBackToSQL: ".$sql, 'TrackingCoins', 0);
 }
 
-function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount){
+function displayEditHTML($ID, $symbol, $quantity,$livePrice,$sellPrice,$usd_Amount,$baseCurrency, $basePrice){
   displayHeader(3);
   echo "<form action='BuyCoins_BuyBack.php?Mode=2' method='post'>";
   echo "<input type='text' name='ID' id='ID' class='' placeholder='' value='$ID' style='color:Gray' readonly tabindex=''>";
+  echo "<input type='text' name='BaseCurrency' id='BaseCurrency' class='' placeholder='' value='$baseCurrency' style='color:Gray' readonly tabindex=''>";
+  echo "<input type='text' name='BasePrice' id='BasePrice' class='' placeholder='' value='$basePrice' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='Symbol' id='Symbol' class='' placeholder='' value='$symbol' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='Quantity' id='Quantity' class='' placeholder='' value='$quantity' style='color:Gray' readonly tabindex=''>";
   echo "<input type='text' name='LivePrice' id='LivePrice' class='' placeholder='' value='$livePrice' style='color:Gray' readonly tabindex=''>";
@@ -168,7 +176,7 @@ if ($open == 1){
             , `KEK`, (`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`) as `OriginalSaleProfit`
             , (((`CoinPrice`*`Amount`)-(`LiveCoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `OriginalSaleProfitPct`, `ProfitMultiply`, `NoOfRaisesInPrice`, `BuyBackPct`,`Image`,`Symbol`
             ,`USDBuyBackAmount`,`HoursFlatLowPdcs`,`HoursFlatHighPdcs`,`Hr1ChangePctChange`,`HoursFlatPdcs`,`BuyBackHoursFlatTarget`,`BaseCurrency`,`MinsUntilEnable`,`PctOfAutoBuyBack`,`BuyBackHoursFlatAutoEnabled`,`MaxHoursFlat`
-            ,`hoursSinceClosed`,`Type`
+            ,`hoursSinceClosed`,`Type`,getBTCPrice(83) as USDTPrice ,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice
             FROM `View9_BuyBack`
             where $WhereClause2 and `UserID` = $userID $WhereClause";
             //echo "<BR>$sql<BR>";
@@ -179,7 +187,7 @@ while ($row = mysqli_fetch_assoc($result)){
     ,$row['LiveCoinPrice'],$row['PriceDifferece'],$row['PriceDifferecePct'],$row['UserID'],$row['Email'],$row['UserName'],$row['ApiKey'],$row['ApiSecret'],$row['KEK'] //17
     ,$row['OriginalSaleProfit'],$row['OriginalSaleProfitPct'],$row['ProfitMultiply'],$row['NoOfRaisesInPrice'],$row['BuyBackPct'],$row['Image'],$row['Symbol'],$row['USDBuyBackAmount'] //25
     ,$row['HoursFlatLowPdcs'],$row['HoursFlatHighPdcs'],$row['Hr1ChangePctChange'],$row['HoursFlatPdcs'],$row['BuyBackHoursFlatTarget'],$row['BaseCurrency'],$row['MinsUntilEnable'] //32
-    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['hoursSinceClosed'],$row['Type']); //37
+    ,$row['PctOfAutoBuyBack'],$row['BuyBackHoursFlatAutoEnabled'],$row['MaxHoursFlat'],$row['hoursSinceClosed'],$row['Type'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice']); //40
 }
 $conn->close();
 return $tempAry;
@@ -321,6 +329,17 @@ function displayTable($tracking, $header, $linkName){
     if ($buyBackHoursFlatAutoEnabled == 1){
       $hoursFlatTarget = Floor(($maxHoursFlat/100)*$pctOfAuto);
     }
+    if ($baseCurrency == 'USDT'){
+      $multiply = $tracking[$x][38];
+
+    }elseif ($baseCurrency == 'BTC'){
+      $multiply = $tracking[$x][39];
+
+    }elseif ($baseCurrency == 'ETH'){
+      $multiply = $tracking[$x][40];
+
+    }
+    $USD_Amount = $tracking[$x][25] * $multiply;
 
     echo "<tr><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image'></img></a></td>";
     Echo "<td>$symbol</td>";
@@ -356,7 +375,7 @@ function displayTable($tracking, $header, $linkName){
     Echo "<td>$spreadBetTransactionID</td>";
     echo "</tr><tr>";
     Echo "<td></td>";
-    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount'>Edit</a></td>";
+    Echo "<td><a href='BuyCoins_BuyBack.php?Mode=1&ID=$ID&Symbol=$symbol&Quantity=$quantity&LivePrice=$liveCoinPrice&SellPrice=$sellPriceBA&usd=$USD_Amount&BaseCurrency=$baseCurrency&BasePrice=$multiply'>Edit</a></td>";
     Echo "<td><a href='BuyCoins_BuyBack.php?Mode=3&ID=$ID'>$linkName</a></td>";
     Echo "<td></td>";
     Echo "<td></td>";
