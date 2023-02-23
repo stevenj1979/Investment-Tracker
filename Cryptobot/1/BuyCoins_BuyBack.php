@@ -56,7 +56,7 @@ if (isset($_GET['Mode']) OR (isset($_POST['Mode']))){
       $priceUSD = $_POST['PriceUSD'];
       $baseCurrency = $_POST['BaseCurrency'];
       $basePrice = $_POST['BasePrice'];
-      $newQuant = $priceUSD / $livePrice;
+      $newQuant = ($priceUSD/$basePrice) / $livePrice;
       displayEditHTML($ID, $symbol, $newQuant,$livePrice,$sellPrice,$priceUSD,$baseCurrency,$basePrice);
     }elseif (isset($_POST['submitBtn'])){
       echo "<BR>Submit button";
