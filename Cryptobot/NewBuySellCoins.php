@@ -1420,17 +1420,17 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
           setTransactionPending($transactionID);
 
-          echoAndLog("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit_$ruleIDSell_$multiSellResult", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
+          echoAndLog("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit | $ruleIDSell | $multiSellResult SellRule:$ruleIDSell", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
           setTransactionPending($transactionID);
         }else{
           $spreadBetTransactionID = $sellCoins[$a][74];
           $spreadBetToSell = getSpreadBetSellCoins($spreadBetTransactionID);
           $spreadBetToSellSize = count($spreadBetToSell);
-          echoAndLog("SellCoinsSpreadBet", "getSpreadBetSellCoins($spreadBetTransactionID); $spreadBetToSellSize", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
+          echoAndLog("SellCoinsSpreadBet", "getSpreadBetSellCoins($spreadBetTransactionID); $spreadBetToSellSize", $userID, 0,"AddTrackingSellCoin","TransactionID:$transactionID");
           for ($a=0;$a<$spreadBetToSellSize;$a++){
             $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1]; $coinID = $spreadBetToSell[$a][3];
             newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
-            echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit_$ruleIDSell_$multiSellResult", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
+            echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit | $ruleIDSell | $multiSellResult SellRule:$ruleIDSell", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
             setTransactionPending($transactionID);
           }
 
