@@ -991,7 +991,7 @@ function getPriceConversion($price, $base){
   return $tempAry;
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$newTrackingType,$noOfPurchases = 0){
+function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$newTrackingType,$SBRuleID,$SBTransID,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;
   $originalBuyAmount = $btcBuyAmount;
@@ -6421,7 +6421,7 @@ function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
   }
   $conn->close();
   logAction("updateTransToSpread: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateTransToSpread","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID CoinID:$coinID");
+  newLogToSQL("updateTransToSpread","$sql",3,1,"SQL CALL","UserID:$userID CoinID:$coinID");
 }
 
 function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell){

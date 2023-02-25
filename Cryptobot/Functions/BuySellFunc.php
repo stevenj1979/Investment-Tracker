@@ -212,7 +212,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         if ($ogBTCAmount <= 0){ closeNewTrackingCoin($newTrackingCoinID, True,1,"Less Than 0 BTC Amount");}
         $date = date("Y-m-d H:i:s", time());
         if ($type == 'SpreadBuyCoins'){$newTrackingType = 'SpreadBuy';}else{$newTrackingType = 'Buy';}
-        $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$newTrackingType,$noOfPurchases+1);
+        $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyCoinPrice, $overrideCoinAlloc,$newTrackingType,$SBRuleID,$SBTransID,$noOfPurchases+1);
         $delayResponse = getCoinDelayState($coinID,$userID);
         echoText("delay response: $delayResponse",$echoTestText);
         if ($checkBuy == 1){
