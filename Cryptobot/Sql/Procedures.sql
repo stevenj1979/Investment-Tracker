@@ -2067,22 +2067,32 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14), IN `Rule_ID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalculatedSellPct`(IN `Trans_ID` INT, IN `User_ID` INT, IN `Sell_Pct` DECIMAL(20,14), IN `Rule_ID` INT, IN Calc_Sell_Red DECIMAL(20,14))
     MODIFIES SQL DATA
 BEGIN
 DECLARE refreshtime DateTime;
 DECLARE nStatus VARCHAR(20);
+DECLARE Calc_Sell_Pct Int;
+DECLARE Calc_Sell_bttm DEC(20,14);
+
+SELECT `CalculatedSellPctEnabled` into Calc_Sell_Pct FROM `SellRules` WHERE `ID` = Rule_ID;
 
 SELECT `Status` into nStatus FROM `Transaction` WHERE `ID` = Trans_ID;
 
 if NOT EXISTS (SELECT `ID` FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID) THEN
+  if (Calc_Sell_Pct = 1) Then
+    SELECT `CalculatedSellPctStart` into Sell_Pct FROM `SellRules` WHERE `ID` = Rule_ID;
+    SELECT `CalculatedSellPctEnd` FROM `SellRules` WHERE `ID` = Rule_ID;
+  else
+    SELECT `ProfitPctBtm` into Sell_Pct FROM `SellRules` WHERE `ID` = Rule_ID;
+  end if;
 	INSERT INTO `CalculatedSellPct`(`TransactionID`,`UserID`,`RuleID`,`SellPct`) VALUES (Trans_ID,User_ID,Rule_ID,ABS(Sell_Pct));
 end if;
 
 Select DATE_ADD(`LastUpdated`, INTERVAL 1 HOUR) into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID;
 
 if refreshtime < now() THEN
-  UPDATE `CalculatedSellPct` SET `SellPct`= ABS(Sell_Pct),`LastUpdated` = now(),`RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID;
+  UPDATE `CalculatedSellPct` SET `SellPct`= `SellPct`- ((`SellPct`/100)*Calc_Sell_Red),`LastUpdated` = now(),`RuleID` = Rule_ID WHERE `TransactionID` = Trans_ID;
 end if;
 
 Delete `Csp` FROM `CalculatedSellPct` as `Csp`

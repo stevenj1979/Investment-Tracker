@@ -6424,14 +6424,14 @@ function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
   newLogToSQL("updateTransToSpread","$sql",3,1,"SQL CALL","UserID:$userID CoinID:$coinID");
 }
 
-function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell){
+function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculatedSellPctReduction){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-    $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell);";
+    $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculatedSellPctReduction);";
     //LogToSQL("updateTransToSpread",$sql,3,1);
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
