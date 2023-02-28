@@ -3595,6 +3595,7 @@ function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   $logSettings = explode(",",$logSettingAry);
   echo "<BR> LSA: $logSettingAry";
   $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
+  echo "<BR> EMD: $enabled | $mode | $days ";
   $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
   $sql = str_replace("'","/",$comments);
   echo "<BR> SQL TEST: $sql | $enabled | $mode | $days | $UserID | $nFile | $comments | $nFunction | $ref";
