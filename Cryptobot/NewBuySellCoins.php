@@ -266,7 +266,12 @@ function runPriceDipRule($priceDipRules){
   }
 }
 
-function runBuyBack($buyBackCoins){
+function runBuyBack($buyBackCoins,$webSettingsAry){
+  $nfile = "BuySellCoins"; $nFunc = "BuyBack";
+  $tempSettings = getSetting($webSettingsAry,$nfile,$nFunc);
+  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
+
+
   $finalBool = False;
   $buyBackCoinsSize = count($buyBackCoins);
   for ($t=0; $t<$buyBackCoinsSize;$t++){
@@ -308,10 +313,10 @@ function runBuyBack($buyBackCoins){
       //$pctOfAuto = 100 + $profitPct;
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+($profitPct*4))));
     }
-    ECHO "<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct";
+    SuperLog($nFile,"<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct",$nFunc,"",$logFlowSettingAry);
     if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
-      Echo "<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)";
+      SuperLog($nFile,"<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)",$nFunc,"",$logVariSettingAry);
 
       //BuyBack
       $marketStats = getMarketstats();
@@ -322,7 +327,7 @@ function runBuyBack($buyBackCoins){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19]; $tmpSymbol = $reOpenData[0][20];
       $tmpMultiSellRuleTemplateID = $reOpenData[0][21];
-      LogToSQL("BuyBack","PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",3,0);
+      SuperLog($nFile,"PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",$nFunc,"",$logVariSettingAry);
       if ($bullBearStatus == 'BULL'){
         $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
       }else{
@@ -361,8 +366,8 @@ function runBuyBack($buyBackCoins){
       //if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0,$spreadBetRuleID);
       if ($coinAllocation <= $coinAllocMin && $allBuyBackAsOverride == 0){
-          echo "<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation";
-          newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
+          SuperLog($nFile,"<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation",$nFunc,"",$logExitSettingAry);
+          //newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
           continue;
       }
 
@@ -370,7 +375,7 @@ function runBuyBack($buyBackCoins){
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
 
-      echo "<BR> BB2: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice";
+      SuperLog($nFile,"<BR> BB2: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice",$nFunc,"",$logFlowSettingAry);
       //if ($profitPct > 0.25 AND $saveMode = 2){
       //  $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
       //  LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
@@ -378,15 +383,15 @@ function runBuyBack($buyBackCoins){
       //}else{
         $buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
-        LogToSQL("BuyBackTEST2A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",3,0);
-        LogToSQL("BuyBackTEST2B","$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",3,0);
+        SuperLog($nFile,"Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",$nFunc,"",$logVariSettingAry);
+        SuperLog($nFile,"$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",$nFunc,"",$logVariSettingAry);
       //}
 
 
 
       updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID);
       //if($tmpSalePrice <= 0 OR $hr1ChangePctChange > -7){ newLogToSQL("BuyBack","PctProfit: $tmpSalePrice | $hr1ChangePctChange",3,1,"Exit","BBID:$bBID");echo "<B> EXIT: PctProfit:$tmpSalePrice | $profitPct | $hr1ChangePctChange"; continue;}
-      if ($hoursFlat<$hoursFlatTarget){ newLogToSQL("BuyBack","HoursFlat: $hoursFlat",3,0,"Exit","BBID:$bBID"); echo "<B> EXIT: HoursFlat:$hoursFlat";  continue;}
+      if ($hoursFlat<$hoursFlatTarget){ SuperLog($nFile,"HoursFlat: $hoursFlat",$nFunc,"BBID:$bBID",$logExitSettingAry);  continue;}
 
       //if ($buyBackPurchasePrice < 20 or $totalAvailable < 20 ){ return False;}
       if ($tmpLiveCoinPrice <> 0){
@@ -399,35 +404,35 @@ function runBuyBack($buyBackCoins){
               $usdBBAmount = $spreadbetBuyBack[$p][37];$tmpBuyRule = $spreadbetBuyBack[$p][60];$tmpOffset = $spreadbetBuyBack[$p][62];$tmpOffsetEnabled = $spreadbetBuyBack[$p][61];$tmpBuyType = 1; $bbMinsToCancel = $spreadbetBuyBack[$p][54]; $tmpFixSellRule  = $spreadbetBuyBack[$p][63];
               $tmpToMerge = $spreadbetBuyBack[$p][64]; $tmpNoOfPurchases = $spreadbetBuyBack[$p][65];$hoursFlatTarget = 1; $tmpType  = $spreadbetBuyBack[$p][66];$tmpSBTransID  = $spreadbetBuyBack[$p][5];$overrideCoinAlloc = $spreadbetBuyBack[$p][67]; $bBID = $spreadbetBuyBack[$p][0];
               addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
-              echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
-              LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
-              LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
+              SuperLog($nFile,"<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"",$logFlowSettingAry);
+              //LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
+              SuperLog($nFile,"BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"",$logVariSettingAry);
               //CloseBuyBack
               closeBuyBack($bBID);
               //addWebUsage($userID,"Remove","BuyBack");
               //addWebUsage($userID,"Add","BuyTracking");
               buyBackDelay($tmpCoinID,4320,$tmpUserID);
               addOldBuyBackTransID($bBID,$tmpCoinID);
-              logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
+              //logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
             }
           }
         }else{
           addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
-          echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
-          LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
-          LogToSQL("BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",3,$GLOBALS['logToSQLSetting']);
+          //echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
+          SuperLog($nFile,"addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"",$logFlowSettingAry);
+          SuperLog($nFile,"Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"",$logVariSettingAry);
           //CloseBuyBack
           closeBuyBack($bBID);
           //addWebUsage($userID,"Remove","BuyBack");
           //addWebUsage($userID,"Add","BuyTracking");
           buyBackDelay($tmpCoinID,4320,$tmpUserID);
           addOldBuyBackTransID($bBID,$tmpCoinID);
-          logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
+          //logAction("runBuyBack; addTrackingCoin : $tmpSymbol | $tmpCoinID | $tmpBaseCur | $tmpLiveCoinPrice | $tmpUserID | $buyBackPurchasePrice | $noOfRaisesInPrice | $tmpType | $tmpOriginalPriceWithBuffer | $overrideCoinAlloc | $bBID | $bbKittyAmount | $TransactionID", 'BuySellFlow', 1);
         }
 
         return True;
       }else{
-        echoAndLog("BuyBack","LivePrice: $tmpLiveCoinPrice Coin:$tmpSymbol CoinID:$tmpCoinID PriceWBuffer:$tmpOriginalPriceWithBuffer",3,1,"BuySellCoins","BBID:$bBID");
+        SuperLog($nFile,"LivePrice: $tmpLiveCoinPrice Coin:$tmpSymbol CoinID:$tmpCoinID PriceWBuffer:$tmpOriginalPriceWithBuffer",$nFunc,"BBID:$bBID",$logVariSettingAry);
       }
     }
   }
@@ -2285,7 +2290,7 @@ while($completeFlag == False){
     $coin1HrPatternList = getCoin1HrPattenList();
     $autoBuyPrice = getAutoBuyPrices();
   }
-  echo "<blockquote><BR> CHECK Re-Buy Savings!! $i";
+  echo "<BR> CHECK Re-Buy Savings!! $i<blockquote>";
           if (($i == 0) or ($reRunBuySavingsFlag == True)){
             $reBuySavingsFixed = getOpenCoinSwaps();
             $reRunBuySavingsFlag = False;
@@ -2309,7 +2314,7 @@ while($completeFlag == False){
           $buyBackCoins = getBuyBackData();
           $runBuyBackFlag = False;
         }
-        $runBuyBackFlag = runBuyBack($buyBackCoins);
+        $runBuyBackFlag = runBuyBack($buyBackCoins,$newWebSettingsAry);
   echo "</blockquote><BR> CHECK Spreadbet Buy!! $i<blockquote>";
   if ($i == 0 OR $runSbBuyCoinsFlag == True){$sbBuyRules = getUserRules(2);}  //getSpreadBetUserRules
   if (date("Y-m-d H:i", time()) >= $sbBuyCoinTimer or $runSbBuyCoinsFlag == True){
