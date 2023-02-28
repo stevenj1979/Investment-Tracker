@@ -1470,6 +1470,18 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `daysToSave` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50))
+    MODIFIES SQL DATA
+BEGIN
+
+DELETE FROM `ActionLog` WHERE `DateToDelete` < now() Order by `ID` limit 50;
+
+INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(), INTERVAL daysToSave DAY));
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `updateSpreadProfit`(IN `Spread_Bet_RuleID` INT, IN `PctProfit` DECIMAL(20,8))
     MODIFIES SQL DATA
 BEGIN
