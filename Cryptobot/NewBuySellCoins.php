@@ -270,7 +270,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
   $nfile = "BuySellCoins"; $nFunc = "BuyBack";
   $tempSettings = getSetting($webSettingsAry,$nfile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
-
+  echo "<BR> CHECK SETTINGS: $nfile | $nFunc | $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
 
   $finalBool = False;
   $buyBackCoinsSize = count($buyBackCoins);
