@@ -3602,7 +3602,7 @@ function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   $newRef = str_replace("'","/",$ref);
   $sql = "call superLogToSQL($UserID,'$nFile','$newComments',$days,'$nFunction','$newRef')";
   $sql = str_replace("<BR>","",$sql);
-  echo "<BR> SQL TEST: START $sql END";
+  //echo "<BR> SQL TEST: START $sql END";
   if ($enabled == 1) {
     if ($mode > 0){
       echo "<BR> $nFile | $nFunction | $comments";
