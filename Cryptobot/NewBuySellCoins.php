@@ -270,7 +270,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
   $nFile = "BuySellCoins"; $nFunc = "BuyBack";
   $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
-  echo "<BR> CHECK SETTINGS: $nFile | $nFunc | $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
+  //echo "<BR> CHECK SETTINGS: $nFile | $nFunc | $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
 
   $finalBool = False;
   $buyBackCoinsSize = count($buyBackCoins);
@@ -814,32 +814,9 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry)
 
 
 function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,$ruleType,$webSettingsAry){
-  $tempSettings = getSetting($webSettingsAry,"BuySellCoins","BuyCoins");
-  //$echoAPIEnabled = $tempSettings[12];$echoAPIMode = $tempSettings[13];$echoAPIDays = $tempSettings[14];
-  //$echoExitEnabled = $tempSettings[9];$echoExitMode = $tempSettings[10];$echoExitDays = $tempSettings[11];
-  //$echoSQLEnabled = $tempSettings[6];$echoSQLMode = $tempSettings[7];$echoSQLDays = $tempSettings[8];
-  //$echoVariEnabled = $tempSettings[3];$echoVariMode = $tempSettings[4];$echoVariDays = $tempSettings[5];
-  //$echoFlowEnabled = $tempSettings[0];$echoFlowMode = $tempSettings[1];$echoFlowDays = $tempSettings[2];
-  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
   $nFile = "BuySellCoins"; $nFunc = "BuySellCoins";
-  //$echoProgramFlow = 1;
-  //$echoProgramFlow = $webSettingsAry[0][1];
-  //$echoTestText = 0;
-  //$echoTestText = $webSettingsAry[1][1];
-  //$buyCoinAddTracking = $webSettingsAry[9][1];
-  //$checkPriceDipCoinFlatArt = $webSettingsAry[10][1];
-  //$BuyCoinBuyWithMin10 = $webSettingsAry[11][1];
-  //$BuyCoinBuyWithMin16 = $webSettingsAry[12][1];
-  //$autoBuyMain11 = $webSettingsAry[13][1];
-  //$showLowScores = $webSettingsAry[14][1];
-  //$buyWithScore_MrktCap1 = $webSettingsAry[15][1];
-  //$buyWithScore_Vol2 = $webSettingsAry[16][1];
-  //$buyWithScore_BuyOrd3 = $webSettingsAry[17][1];
-  //$buyWithScore_1Hr4 = $webSettingsAry[18][1];
-  //$buyWithScore_24Hr5 = $webSettingsAry[19][1];
-  //$buyWithScore_7D6 = $webSettingsAry[20][1];
-  //$buyWithScore_CoinPrice7 = $webSettingsAry[21][1];
-  //$buyWithScore_SellOrd8 = $webSettingsAry[22][1];
+  $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
+  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
 
   $apiVersion = 3;
   $finalBool = False;
