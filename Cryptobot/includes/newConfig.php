@@ -3598,9 +3598,10 @@ function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   //echo "<BR> EMD: $enabled | $mode | $days ";
   //echo "<BR> File/Func: $nFile | $nFunction";
   //echo "<BR> Comments/Ref: $comments | $ref";
-  $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
+  $newComments = str_replace("'","/",$comments);
+  $newRef = str_replace("'","/",$ref);
+  $sql = "call superLogToSQL($UserID,'$nFile','$newComments',$days,'$nFunction','$newRef')";
   $sql = str_replace("<BR>","",$sql);
-  $sql = str_replace("'","/",$sql);
   echo "<BR> SQL TEST: START $sql END";
   if ($enabled == 1) {
     if ($mode > 0){
