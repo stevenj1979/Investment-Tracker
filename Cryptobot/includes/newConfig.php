@@ -3599,8 +3599,9 @@ function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   echo "<BR> File/Func: $nFile | $nFunction";
   echo "<BR> Comments/Ref: $comments | $ref";
   $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
-  $sql = str_replace("'","/",$comments);
   echo "<BR> SQL TEST: $sql | $enabled | $mode | $days | $UserID | $nFile | $comments | $nFunction | $ref";
+  $sql = str_replace("'","/",$comments);
+
   if ($enabled == 1) {
     if ($mode > 0){
       echo "<BR> $nFile | $nFunction | $comments";
