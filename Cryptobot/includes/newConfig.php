@@ -3593,15 +3593,15 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   $UserID = 3;
   $logSettings = explode(",",$logSettingAry);
-  echo "<BR> LSA: $logSettingAry";
+  //echo "<BR> LSA: $logSettingAry";
   $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
-  echo "<BR> EMD: $enabled | $mode | $days ";
-  echo "<BR> File/Func: $nFile | $nFunction";
-  echo "<BR> Comments/Ref: $comments | $ref";
+  //echo "<BR> EMD: $enabled | $mode | $days ";
+  //echo "<BR> File/Func: $nFile | $nFunction";
+  //echo "<BR> Comments/Ref: $comments | $ref";
   $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
-  echo "<BR> SQL TEST: $sql | $enabled | $mode | $days | $UserID | $nFile | $comments | $nFunction | $ref";
-  $sql = str_replace("'","/",$comments);
 
+  $sql = str_replace("'","/",$comments);
+  echo "<BR> SQL TEST: START $sql END";
   if ($enabled == 1) {
     if ($mode > 0){
       echo "<BR> $nFile | $nFunction | $comments";
