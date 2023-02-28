@@ -33,7 +33,7 @@ function getSymbols(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `ID`,`Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1";
+  $sql = "SELECT `ID`,`Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1 ";
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);

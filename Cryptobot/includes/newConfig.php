@@ -991,6 +991,25 @@ function getPriceConversion($price, $base){
   return $tempAry;
 }
 
+function getSetting($settings,$fileName, $functionName){
+  $tempAry = [];
+  $settingsSize = count($settings);
+  for ($l=0; $l<$settingsSize; $l++){
+    $tempFuncName = $settings[$l][0]; $tempFileName = $settings[$l][1];
+    if ($tempFuncName == $functionName AND $tempFileName == $fileName){
+      $tempFlow = $settings[$l][2]; $tempVari = $settings[$l][3];  $nSql = $settings[$l][4]; $nExit = $settings[$l][5]; $nAPI = $settings[$l][6];
+      $tempFlowAry = explode(",",$tempFlow);
+      $tempVariAry = explode(",",$tempVari);
+      $tempSQLAry = explode(",",$nSql);
+      $tempExitAry = explode(",",$nExit);
+      $tempAPIAry = explode(",",$nAPI);
+      $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI);
+      break;
+    }
+  }
+  return $tempAry;
+}
+
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$newTrackingType,$SBRuleID,$SBTransID,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;
@@ -3565,6 +3584,36 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 
   if ($enabled > 2){
     file_put_contents('./log/log_'.$subject.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$comments."|".$subTitle."|".$UserID.PHP_EOL, FILE_APPEND);
+  }
+}
+
+function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
+  $UserID = 3;
+  $logSettings = explode(",",$logSettingAry);
+  $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
+  $sql = "call newLogToSQL($UserID,'$nFile','$comments',100,'$nFunction','$ref')";
+  $sql = str_replace("'","/",$comments);
+  if ($enabled == 1) {
+    if ($mode > 0){
+      echo "<BR> $nFile | $nFunction | $comments";
+    }
+
+    if ($mode > 1){
+
+      $conn = getSQLConn(rand(1,3));
+      if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+      //print_r("<br>".$sql);
+      if ($conn->query($sql) === TRUE) {echo "";
+      } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        //sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+      }
+      $conn->close();
+    }
+
+    if ($mode > 2){
+      file_put_contents('./log/log_'.$nFile.'_'.date("j.n.Y").'.log', date("F j, Y, g:i a").':'.$comments."|".$nFunction."|".$UserID.PHP_EOL, FILE_APPEND);
+    }
   }
 }
 
