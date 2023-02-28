@@ -994,10 +994,10 @@ function getPriceConversion($price, $base){
 function getSetting($settings,$fileName, $functionName){
   $tempAry = [];
   $settingsSize = count($settings);
-  echo "<BR> Size:$settingsSize";
+  //echo "<BR> Size:$settingsSize";
   for ($l=0; $l<$settingsSize; $l++){
     $tempFuncName = $settings[$l][1]; $tempFileName = $settings[$l][0];
-    echo "<BR> count: $l | $tempFuncName | $tempFileName |$functionName | $fileName";
+    //echo "<BR> count: $l | $tempFuncName | $tempFileName |$functionName | $fileName";
     if ($tempFuncName == $functionName AND $tempFileName == $fileName){
       $tempFlow = $settings[$l][2]; $tempVari = $settings[$l][3];  $nSql = $settings[$l][4]; $nExit = $settings[$l][5]; $nAPI = $settings[$l][6];
       $tempFlowAry = explode(",",$tempFlow);
@@ -1005,7 +1005,7 @@ function getSetting($settings,$fileName, $functionName){
       $tempSQLAry = explode(",",$nSql);
       $tempExitAry = explode(",",$nExit);
       $tempAPIAry = explode(",",$nAPI);
-      echo "<BR> Correct";
+      //echo "<BR> Correct";
       $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI);
       //break;
     }
@@ -3596,7 +3596,7 @@ function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
   $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
   $sql = str_replace("'","/",$comments);
-  echo "<BR> SQL TEST: $sql";
+  echo "<BR> SQL TEST: $sql | $enabled | $mode | $days | $UserID | $nFile | $comments | $nFunction | $ref";
   if ($enabled == 1) {
     if ($mode > 0){
       echo "<BR> $nFile | $nFunction | $comments";
