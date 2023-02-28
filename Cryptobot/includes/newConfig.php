@@ -3593,6 +3593,7 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 function SuperLog($nFile, $comments,  $nFunction, $ref, $logSettingAry){
   $UserID = 3;
   $logSettings = explode(",",$logSettingAry);
+  echo "<BR> LSA: $logSettingAry";
   $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
   $sql = "call superLogToSQL($UserID,'$nFile','$comments',$days,'$nFunction','$ref')";
   $sql = str_replace("'","/",$comments);
