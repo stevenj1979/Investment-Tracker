@@ -79,7 +79,7 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
   }
 
   $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title` FROM `ActionLog` WHERE `UserID` = $userID and $sql_option and $sql_option2
-  and $sql_option3 Limit 100";
+  and $sql_option3 order by `DateTime` desc Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
