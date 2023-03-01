@@ -78,14 +78,14 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option and $sql_option2
+  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option and $sql_option2
   and $sql_option3 Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment'].": ".$row['MinsSinceLog'].": ".$row['SubTitle'].": ".$row['Reference']);
+      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment'].": ".$row['MinsSinceLog'].": ".$row['SubTitle'].": ".$row['Reference'].": ".$row['Title']);
   }
   $conn->close();
   return $tempAry;
