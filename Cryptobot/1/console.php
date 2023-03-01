@@ -85,7 +85,7 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['Comment'].": ".$row['MinsSinceLog'].": ".$row['SubTitle'].": ".$row['Reference'].": ".$row['Title']);
+      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['SubTitle'].": ".$row['Title'].": ".$row['Comment'].": [".$row['MinsSinceLog']."] REF:".$row['Reference']);
   }
   $conn->close();
   return $tempAry;
