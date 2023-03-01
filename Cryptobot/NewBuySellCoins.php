@@ -313,7 +313,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //$pctOfAuto = 100 + $profitPct;
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+($profitPct*4))));
     }
-    SuperLog($nFile,"<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct",$nFunc,"","",$logFlowSettingAry);
+    SuperLog($nFile,"<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct",$nFunc,"","",$logVariSettingAry);
     if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
       SuperLog($nFile,"<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)",$nFunc,"","",$logVariSettingAry);
