@@ -313,10 +313,10 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //$pctOfAuto = 100 + $profitPct;
       $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+($profitPct*4))));
     }
-    SuperLog($nFile,"<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct",$nFunc,"",$logFlowSettingAry);
+    SuperLog($nFile,"<BR> Check Price: $bBID | $priceDifferecePct | $buyBackPct",$nFunc,"","",$logFlowSettingAry);
     if ($profitPct <=  $buyBackPct AND $delayCoinPurchase <> 1){
       //if($delayMins > 0){ echo "<B> EXIT: Delay:$delayMins"; continue; }
-      SuperLog($nFile,"<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile,"<BR> $priceDifferecePct <=  ($buyBackPct+$profitMultiply)",$nFunc,"","",$logVariSettingAry);
 
       //BuyBack
       $marketStats = getMarketstats();
@@ -327,7 +327,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       $tmpNoOfPurchases = $reOpenData[0][14];$d15 = $reOpenData[0][15];$tmpType = $reOpenData[0][16];$tmpOriginalPrice = $reOpenData[0][17];
       $tmpSBTransID = $reOpenData[0][18];$tmpSBRuleID = $reOpenData[0][19]; $tmpSymbol = $reOpenData[0][20];
       $tmpMultiSellRuleTemplateID = $reOpenData[0][21];
-      SuperLog($nFile,"PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile,"PriceDiffPct: $priceDifferecePct | BuyBackPct: $buyBackPct Bull/Bear: $bullBearStatus | SellPrice: $sellPriceBA | LivePrice: $liveCoinPrice | BBID: $bBID | LCP: $tmpLiveCoinPrice",$nFunc,"","",$logVariSettingAry);
       if ($bullBearStatus == 'BULL'){
         $tmpOriginalPriceWithBuffer = $tmpLiveCoinPrice-(($tmpLiveCoinPrice/100)*1.0);
       }else{
@@ -366,7 +366,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //if ($allBuyBackAsOverride == 1){ $lowBuyMode = TRUE;}else{$lowBuyMode=FALSE; }
       $coinAllocation = getNewCoinAllocation($tmpBaseCur,$tmpUserID,$lowMarketMode,$allBuyBackAsOverride,0,$spreadBetRuleID);
       if ($coinAllocation <= $coinAllocMin && $allBuyBackAsOverride == 0){
-          SuperLog($nFile,"<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation",$nFunc,"",$logExitSettingAry);
+          SuperLog($nFile,"<BR> EXIT CoinAllocation: $tmpBaseCur | $type | $BTCAmount | $ogBTCAmount| $coinAllocation",$nFunc,"","",$logExitSettingAry);
           //newLogToSQL("BuyBack","CoinAllocation: $coinAllocation",3,0,"Exit","BBID:$bBID");
           continue;
       }
@@ -375,7 +375,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
 
-      SuperLog($nFile,"<BR> BB2: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"<BR> BB2: $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice",$nFunc,"","",$logFlowSettingAry);
       //if ($profitPct > 0.25 AND $saveMode = 2){
       //  $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
       //  LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
@@ -383,8 +383,8 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //}else{
         $buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount;
         //$buyBackPurchasePrice = $tmpLiveCoinPrice/$tmpPrice;
-        SuperLog($nFile,"Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",$nFunc,"",$logVariSettingAry);
-        SuperLog($nFile,"$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",$nFunc,"",$logVariSettingAry);
+        SuperLog($nFile,"Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct",$nFunc,"","",$logVariSettingAry);
+        SuperLog($nFile,"$buyBackPurchasePrice = $livePriceUSD + $bbKittyAmount; | $originalAmount * $livePriceUSD;| $saveMode | $profitPct",$nFunc,"","",$logVariSettingAry);
       //}
 
 
@@ -404,9 +404,9 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
               $usdBBAmount = $spreadbetBuyBack[$p][37];$tmpBuyRule = $spreadbetBuyBack[$p][60];$tmpOffset = $spreadbetBuyBack[$p][62];$tmpOffsetEnabled = $spreadbetBuyBack[$p][61];$tmpBuyType = 1; $bbMinsToCancel = $spreadbetBuyBack[$p][54]; $tmpFixSellRule  = $spreadbetBuyBack[$p][63];
               $tmpToMerge = $spreadbetBuyBack[$p][64]; $tmpNoOfPurchases = $spreadbetBuyBack[$p][65];$hoursFlatTarget = 1; $tmpType  = $spreadbetBuyBack[$p][66];$tmpSBTransID  = $spreadbetBuyBack[$p][5];$overrideCoinAlloc = $spreadbetBuyBack[$p][67]; $bBID = $spreadbetBuyBack[$p][0];
               addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
-              SuperLog($nFile,"<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"",$logFlowSettingAry);
+              SuperLog($nFile,"<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"","",$logFlowSettingAry);
               //LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
-              SuperLog($nFile,"BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"",$logVariSettingAry);
+              SuperLog($nFile,"BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"","",$logVariSettingAry);
               //CloseBuyBack
               closeBuyBack($bBID);
               //addWebUsage($userID,"Remove","BuyBack");
@@ -419,8 +419,8 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
         }else{
           addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
           //echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
-          SuperLog($nFile,"addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"",$logFlowSettingAry);
-          SuperLog($nFile,"Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"",$logVariSettingAry);
+          SuperLog($nFile,"addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"","",$logFlowSettingAry);
+          SuperLog($nFile,"Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"","",$logVariSettingAry);
           //CloseBuyBack
           closeBuyBack($bBID);
           //addWebUsage($userID,"Remove","BuyBack");
@@ -821,14 +821,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   $apiVersion = 3;
   $finalBool = False;
   echo "<blockquote>";
-  SuperLog($nFile,"BuyCoin Key: ",$nFunc,"",$logFlowSettingAry);
-  SuperLog($nFile,"1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$nFunc,"",$logFlowSettingAry);
-  SuperLog($nFile,"6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$nFunc,"",$logFlowSettingAry);
-  SuperLog($nFile,"11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$nFunc,"",$logFlowSettingAry);
-  SuperLog($nFile,"16: PriceDipMin <BR>",$nFunc,"",$logFlowSettingAry);
+  SuperLog($nFile,"BuyCoin Key: ",$nFunc,"","",$logFlowSettingAry);
+  SuperLog($nFile,"1: MarketCap | 2: Volume | 3: BuyOrders | 4: 1HrPctChange | 5: 24HrPctChange  ",$nFunc,"","",$logFlowSettingAry);
+  SuperLog($nFile,"6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$nFunc,"","",$logFlowSettingAry);
+  SuperLog($nFile,"11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$nFunc,"","",$logFlowSettingAry);
+  SuperLog($nFile,"16: PriceDipMin <BR>",$nFunc,"","",$logFlowSettingAry);
   $coinLength = Count($coins);
   $buyRulesSize = count($buyRules);
-  SuperLog($nFile,"Coin Length: $coinLength  RuleLength: $buyRulesSize <BR>",$nFunc,"",$logFlowSettingAry);
+  SuperLog($nFile,"Coin Length: $coinLength  RuleLength: $buyRulesSize <BR>",$nFunc,"","",$logFlowSettingAry);
   for($x = 0; $x < $coinLength; $x++) {
     //variables
     $coinID = $coins[$x][0]; $symbol = $coins[$x][1]; $baseCurrency = $coins[$x][26];
@@ -843,7 +843,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
     $hoursFlatHigh = $coins[$x][50];$hoursFlatLow = $coins[$x][51];
-    SuperLog($nFile,"Checking: $coinID - $symbol - $baseCurrency  <BR>",$nFunc,"",$logFlowSettingAry);
+    SuperLog($nFile,"Checking: $coinID - $symbol - $baseCurrency  <BR>",$nFunc,"","",$logFlowSettingAry);
     echo "<blockquote>";
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
@@ -871,9 +871,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOverMinPrice = $buyRules[$y][87]; $finalPriceDipMinPrice = $priceDipMinPrice + (($priceDipMinPrice/100)*$pctOverMinPrice);
 
       $buyRuleType = $buyRules[$y][89];
-      SuperLog($nFile, "This is a Test | $KEK | $APISecret | $APIKey",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile, "This is a Test | $KEK | $APISecret | $APIKey",$nFunc,"","",$logVariSettingAry);
       if (!Empty($KEK)){$APISecret = decrypt($KEK,$buyRules[$y][31]);}
-      SuperLog($nFile, "FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); LIVE: $LiveCoinPrice<BR>",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile, "FinalPriceDipMinPrice:  $finalPriceDipMinPrice = $priceDipMinPrice - (($priceDipMinPrice/100)*$pctOverMinPrice); LIVE: $LiveCoinPrice<BR>",$nFunc,"","",$logVariSettingAry);
 
       $EnableDailyBTCLimit = $buyRules[$y][32]; $DailyBTCLimit = $buyRules[$y][33]; $EnableTotalBTCLimit = $buyRules[$y][34];
       $TotalBTCLimit= $buyRules[$y][35]; $userID = $buyRules[$y][0]; $ruleIDBuy = $buyRules[$y][36]; $CoinSellOffsetPct = $buyRules[$y][37];
@@ -892,7 +892,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $pctOfAuto = $buyRules[$y][88];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
-      SuperLog($nFile,"Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",$nFunc,"","",$logFlowSettingAry);
       if ($buyRuleType != $ruleType){ continue;}
       if ($risesInPrice == 0){
         //$risesInPrice =
@@ -913,7 +913,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $priceDipHours = $hoursFlatLow;
         $priceDipCoinFlatEnabled = 1;
       }
-      SuperLog($nFile,"Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"Placeholder 2:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logFlowSettingAry);
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
       $delayCoinPurchaseSize = 0;
       if (!empty($delayCoinPurchase)){
@@ -923,33 +923,33 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
         $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
         if ($delayCoinPurchaseUserID == $userID AND $delayCoinPurchaseCoinID == $coinID){
-          SuperLog($nFile,"EXIT: Delay CoinID: $coinID! ",$nFunc,"",$logExitSettingAry); continue 2;
+          SuperLog($nFile,"EXIT: Delay CoinID: $coinID! ",$nFunc,"","",$logExitSettingAry); continue 2;
         }
       }
 
       if ($priceDipMinPriceEnabled == 1){
         if ($hoursSinceAdded < 3000){
-          SuperLog($nFile,"EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry);
+          SuperLog($nFile,"EXIT: PriceDip Hours Since Added less than 300: $hoursSinceAdded | $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry);
           continue;
         }
       }
-      SuperLog($nFile,"Placeholder 3:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"Placeholder 3:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logFlowSettingAry);
       $ruleProfitSize = count($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
-            SuperLog($nFile,	"TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,	"TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",$nFunc,"","",$logVariSettingAry);
 
             //echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",3,$echoTestText,"BuySellCoins","None");
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){SuperLog($nFile, "EXIT: Rule Amount Exceeded! ",$nFunc,"",$logExitSettingAry); continue;}
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][1] >= $limitBuyTransactions){SuperLog($nFile, "EXIT: Rule Amount Exceeded! ",$nFunc,"","",$logExitSettingAry); continue;}
           }
           if ($limitBuyTransactionsEnabled == 1 and $coinModeOverridePriceEnabled == 0){
-            SuperLog($nFile,"TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions",$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,"TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions",$nFunc,"","",$logVariSettingAry);
             //echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyTransactionEnabled: $limitBuyTransactionsEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][5]." | $limitBuyTransactions",3,$echoTestText,"BuySellCoins","None");
-            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){SuperLog($nFile,"EXIT: Rule Transaction Count Exceeded! ",$nFunc,"",$logExitSettingAry); continue;}
+            if ($ruleProfit[$h][4] == $ruleIDBuy and $ruleProfit[$h][5] >= $limitBuyTransactions){SuperLog($nFile,"EXIT: Rule Transaction Count Exceeded! ",$nFunc,"","",$logExitSettingAry); continue;}
           }elseif($coinModeOverridePriceEnabled == 1 and $limitBuyAmountEnabled == 1){
-            SuperLog($nFile,"TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5],$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,"TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5],$nFunc,"","",$logVariSettingAry);
             //echoAndLog("BuyCoin:$buyRuleType","TEST limitBuyTransactionEnabled: $limitBuyAmount | $noOfBuyModeOverrides | ".$ruleProfit[$h][5],3,$echoTestText,"BuySellCoins","None");
-            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){ SuperLog($nFile,"EXIT: Rule Transaction Count Override Exceeded! ",$nFunc,"",$logExitSettingAry); continue;}
+            if (($limitBuyAmount + $noOfBuyModeOverrides) >=  $ruleProfit[$h][5]){ SuperLog($nFile,"EXIT: Rule Transaction Count Override Exceeded! ",$nFunc,"","",$logExitSettingAry); continue;}
           }
       }
 
@@ -964,57 +964,57 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           pauseRule($ruleIDBuy,0, $userID);
         }
       }
-      SuperLog($nFile, "Placeholder 4:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile, "Placeholder 4:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logFlowSettingAry);
       //echo "<BR> I'm here1!!! USERID:$userID ; COIN:$symbol($coinID) ; BASE:$baseCurrency ; RULE:$ruleIDBuy";
       $profitNum = findUserProfit($userProfit,$userID);
       //echo "<BR> Profit!!! $totalProfitPauseEnabled ;$profitNum; $totalProfitPause ; $rulesPause ; $rulesPauseEnabled";
       if ($totalProfitPauseEnabled == 1 && $profitNum<= $totalProfitPause && $ruleIDBuy == $rulesPause){
         if ($rulesPauseEnabled == 1){
-          SuperLog($nFile, "PAUSING RULES $rulesPause for $rulesPauseHours HOURS",$nFunc,"",$logExitSettingAry);
+          SuperLog($nFile, "PAUSING RULES $rulesPause for $rulesPauseHours HOURS",$nFunc,"","",$logExitSettingAry);
           //newLogToSQL("BuyCoins", "pauseRule($rulesPause, $rulesPauseHours);", $userID,$GLOBALS['logToSQLSetting'],"RulesPause","RuleID:$ruleIDBuy CoinID:$coinID");
           pauseRule($rulesPause, $rulesPauseHours);
         }
-        SuperLog($nFile, "EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ",$nFunc,"",$logExitSettingAry);
+        SuperLog($nFile, "EXIT: TotalProfitPauseEnabled $totalProfitPauseEnabled Profit: $profitNum $totalProfitPause ",$nFunc,"","",$logExitSettingAry);
         continue;}
         //else{ echo "<BR> EXIT PROFIT!";}
       $GLOBALS['allDisabled'] = false;
-      if (empty($APIKey) && empty($APISecret)){ SuperLog($nFile, "EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry); continue;}
+      if (empty($APIKey) && empty($APISecret)){ SuperLog($nFile, "EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry); continue;}
       if ($APIKey=="NA" && $APISecret == "NA"){
         //Echo "<BR> EXIT: API Key Missing: $userID $APIKey $ruleIDBuy<BR>";
-        SuperLog($nFile, "EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry);
+        SuperLog($nFile, "EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry);
         continue;}
       if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){
-        SuperLog($nFile,"EXIT: Wrong BaseCurrency  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry);
+        SuperLog($nFile,"EXIT: Wrong BaseCurrency  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry);
         continue;}
 
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
         //Echo "<BR> EXIT: Limit to Coin: $userID $symbol $limitToCoin<BR>";
-        SuperLog($nFile,"EXIT: Wrong Symbol for Rule  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry);
+        SuperLog($nFile,"EXIT: Wrong Symbol for Rule  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry);
         continue;}
-      SuperLog($nFile,"Placeholder 5:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"Placeholder 5:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logFlowSettingAry);
       if ($doNotBuy == 1){
         //Echo "<BR> EXIT: Do Not Buy<BR>";
-        SuperLog($nFile,"EXIT: Do NOT Buy  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"",$logExitSettingAry);
+        SuperLog($nFile,"EXIT: Do NOT Buy  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"","",$logExitSettingAry);
         continue;}
       if ($overrideDailyLimit == 0 && $EnableTotalBTCLimit == 1){
-        SuperLog($nFile,"Check if over total limit! ",$nFunc,"",$logFlowSettingAry);
+        SuperLog($nFile,"Check if over total limit! ",$nFunc,"","",$logFlowSettingAry);
         $userBTCSpent = getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency);
-        SuperLog($nFile,"Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0],$nFunc,"",$logFlowSettingAry);
-          if ($userBTCSpent >= $TotalBTCLimit){ SuperLog($nFile,"EXIT: TOTAL BTC SPENT",$nFunc,"",$logExitSettingAry); continue;}else{  SuperLog($nFile,"Total Spend ".$userBTCSpent." Limit $TotalBTCLimit",$nFunc,"",$logExitSettingAry);}
+        SuperLog($nFile,"Testing Testing Testing| $userID | : ".$totalBTCSpent[0][0],$nFunc,"","",$logFlowSettingAry);
+          if ($userBTCSpent >= $TotalBTCLimit){ SuperLog($nFile,"EXIT: TOTAL BTC SPENT",$nFunc,"","",$logExitSettingAry); continue;}else{  SuperLog($nFile,"Total Spend ".$userBTCSpent." Limit $TotalBTCLimit",$nFunc,"","",$logExitSettingAry);}
       }
       if ($overrideDailyLimit == 0 && $EnableDailyBTCLimit == 1){
-        SuperLog($nFile,"Check if over daily limit! ",$nFunc,"",$logVariSettingAry);
+        SuperLog($nFile,"Check if over daily limit! ",$nFunc,"","",$logVariSettingAry);
         $userDailyBTCSpent = getUserTotalBTC($dailyBTCSpent,$userID,$baseCurrency);
-          if ($userDailyBTCSpent >= $DailyBTCLimit){SuperLog($nFile,"EXIT: DAILY BTC SPENT",$nFunc,"",$logExitSettingAry);continue;}else{ SuperLog($nFile,"Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit",$nFunc,"",$logVariSettingAry);}
+          if ($userDailyBTCSpent >= $DailyBTCLimit){SuperLog($nFile,"EXIT: DAILY BTC SPENT",$nFunc,"","",$logExitSettingAry);continue;}else{ SuperLog($nFile,"Daily Spend ".$userDailyBTCSpent." Limit $DailyBTCLimit",$nFunc,"","",$logVariSettingAry);}
       }
 
       echoText("Placeholder 6:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$echoTestText);
-      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ SuperLog($nFile,"EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$nFunc,"",$logExitSettingAry);//continue;
+      if ($buyCounter[$userID."-".$coinID] >= 1 && $overrideDailyLimit == 0){ SuperLog($nFile,"EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-".$coinID],$nFunc,"","",$logExitSettingAry);//continue;
       }
-      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ SuperLog($nFile,"EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"],$nFunc,"",$logExitSettingAry);//continue;
+      if ($buyCounter[$userID."-Total"] >= $noOfBuys && $overrideDailyLimit == 0){ SuperLog($nFile,"EXIT: Buy Counter Met! $noOfBuys ".$buyCounter[$userID."-Total"],$nFunc,"","",$logExitSettingAry);//continue;
       }
-      if ($userActive == False){ SuperLog($nFile,"EXIT: User Not Active!",$nFunc,"",$logExitSettingAry); continue;}
-      if ($hoursDisableUntil > 0){ SuperLog($nFile,"EXIT: Disabled until: ".$hoursDisableUntil,$nFunc,"",$logExitSettingAry); continue;}
+      if ($userActive == False){ SuperLog($nFile,"EXIT: User Not Active!",$nFunc,"","",$logExitSettingAry); continue;}
+      if ($hoursDisableUntil > 0){ SuperLog($nFile,"EXIT: Disabled until: ".$hoursDisableUntil,$nFunc,"","",$logExitSettingAry); continue;}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $APISecret,'USD','BTC',$apiVersion)), 8, '.', '');
       $newAutoBuyPrice = findAutoBuyPrice($autoBuyPrice,$coinID);
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled, $buyWithScore_MrktCap,'MarketCap');
@@ -1041,38 +1041,38 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 
       $buyResultAry[] = Array($test9, "Buy Price Pattern $symbol", $newPriceTrend);
       $test10 = buyWithMin($BuyPriceMinEnabled,$BuyPriceMin,$LiveCoinPrice,$BuyCoinBuyWithMin10,'BuyPrice10');
-      SuperLog($nFile,"TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile,"TEST 10: $BuyPriceMinEnabled | $BuyPriceMin | $LiveCoinPrice | $test10",$nFunc,"","",$logVariSettingAry);
       $buyResultAry[] = Array($test10, "Buy Price Minimum $symbol", $LiveCoinPrice);
       $test11 = autoBuyMain($LiveCoinPrice,$autoBuyPrice, $autoBuyCoinEnabled,$coinID,$autoBuyMain11,"Auto Buy Price:11");
       $buyResultAry[] = Array($test11, "Auto Buy Price $symbol", $LiveCoinPrice);
       $test12 = coinMatchPattern($coinPriceMatch,$LiveCoinPrice,$symbol,0,$coinPricePatternEnabled,$ruleIDBuy,0,1,"CoinMatchPattern:12");
       $buyResultAry[] = Array($test12, "Coin Price Pattern $symbol", $LiveCoinPrice);
-      SuperLog($nFile,"checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$checkPriceDipCoinFlatArt);",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile,"checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$checkPriceDipCoinFlatArt);",$nFunc,"","",$logVariSettingAry);
       $test15 = checkPriceDipCoinFlat($priceDipCoinFlatEnabled,$priceDipHoursFlatTarget, $priceDipHours,$checkPriceDipCoinFlatArt,"checkPriceDipCoinFlat:15");
       $buyResultAry[] = Array($test15, "Coin Price Dip Coin Flat $symbol", $LiveCoinPrice);
       $test16 = buyWithMin($priceDipMinPriceEnabled, $finalPriceDipMinPrice, $LiveCoinPrice,$BuyCoinBuyWithMin10,'PriceDipMinPrice16');
-      SuperLog($nFile,"buyWithMin($priceDipMinPriceEnabled, $finalPriceDipMinPrice, $LiveCoinPrice,$BuyCoinBuyWithMin10,'PriceDipMinPrice16');",$nFunc,"",$logVariSettingAry);
+      SuperLog($nFile,"buyWithMin($priceDipMinPriceEnabled, $finalPriceDipMinPrice, $LiveCoinPrice,$BuyCoinBuyWithMin10,'PriceDipMinPrice16');",$nFunc,"","",$logVariSettingAry);
       $buyResultAry[] = Array($test16, "Coin Price Dip Min Price $symbol", $LiveCoinPrice);
       if ($Hr1ChangeTrendEnabled){
         $test14 = newBuywithPattern($new1HrPriceChange,$coin1HrPatternList,$Hr1ChangeTrendEnabled,$ruleIDBuy,0,1,"CoinPattern:14");
       }else{$test14 = True;}
       $buyResultAry[] = Array($test14, "1 Hour Price Pattern $symbol", $new1HrPriceChange);
       $test13 = $GLOBALS['allDisabled'];
-      if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; SuperLog($nFile,"13: BuyAmountOverride set to : $buyAmountOverride | BTCAmount: $BTCAmount",$nFunc,"",$logVariSettingAry);}
+      if (buyAmountOverride($buyAmountOverrideEnabled)){$BTCAmount = $buyAmountOverride; SuperLog($nFile,"13: BuyAmountOverride set to : $buyAmountOverride | BTCAmount: $BTCAmount",$nFunc,"","",$logVariSettingAry);}
       $totalScore_Buy = $test1+$test2+$test3+$test4+$test5+$test6+$test7+$test8+$test9+$test10+$test11+$test12+$test13+$test14+$test15+$test16;
       if ($totalScore_Buy >= 15 ){
         $buyOutstanding = getOutStandingBuy($buyResultAry);
         logAction("UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol | 1:  $test1  2:  $test2  3:  $test3  4:  $test4  5:  $test5  6:  $test6  7:  $test7  8:  $test8  9:  $test9  10:  $test10  11:  $test11  12:  $test12  13:  $test13  14:  $test14   15:  $test15   16:  $test16 TOTAL: $totalScore_Buy / 16 $buyOutstanding","BuyScore", $GLOBALS['logToFileSetting'] );
-        SuperLog($nFile,"UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:$test1  2:$test2  3:$test3  4:$test4  5:$test5  6:$test6  7:$test7  8:$test8  9:$test9  10:$test10  11:$test11  12:$test12  13:$test13  14:$test14 15:$test15 16:$test16  TOTAL:$totalScore_Buy / 16",$nFunc,"",$logFlowSettingAry);
+        SuperLog($nFile,"UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:$test1  2:$test2  3:$test3  4:$test4  5:$test5  6:$test6  7:$test7  8:$test8  9:$test9  10:$test10  11:$test11  12:$test12  13:$test13  14:$test14 15:$test15 16:$test16  TOTAL:$totalScore_Buy / 16",$nFunc,"","",$logFlowSettingAry);
       }else{
         if ($showLowScores == 1){
-            SuperLog($nFile,"UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:$test1  2:$test2  3:$test3  4:$test4  5:$test5  6:$test6  7:$test7  8:$test8  9:$test9  10:$test10  11:$test11  12:$test12  13:$test13  14:$test14 15:$test15 16:$test16  TOTAL:$totalScore_Buy / 16",$nFunc,"",$logFlowSettingAry);
+            SuperLog($nFile,"UserID: $userID | RuleID: $ruleIDBuy | Coin : $symbol| 1:$test1  2:$test2  3:$test3  4:$test4  5:$test5  6:$test6  7:$test7  8:$test8  9:$test9  10:$test10  11:$test11  12:$test12  13:$test13  14:$test14 15:$test15 16:$test16  TOTAL:$totalScore_Buy / 16",$nFunc,"","",$logFlowSettingAry);
         }
       }
       if ($test1 == True && $test2 == True && $test3 == True && $test4 == True && $test5 == True && $test6 == True && $test7 == True && $test8 == True && $test9 == True && $test10 == True &&
       $test11 == True && $test12 == True && $test13 == True && $test14 == True && $test15 == True && $test16 == True){
         $date = date("Y-m-d H:i:s", time());
-        SuperLog($nFile,"Call Bittrex Bal: bittrexbalance($APIKey, $APISecret,$baseCurrency, $apiVersion);",$nFunc,"",$logFlowSettingAry);
+        SuperLog($nFile,"Call Bittrex Bal: bittrexbalance($APIKey, $APISecret,$baseCurrency, $apiVersion);",$nFunc,"","",$logFlowSettingAry);
         $BTCBalance = bittrexbalance($APIKey, $APISecret,$baseCurrency, $apiVersion);
         $reservedAmount = getReservedAmount($baseCurrency,$userID);
         SuperLog($nFile,"TEST BAL AND RES: $BTCBalance ; $BTCAmount ; ".$reservedAmount[0][0]."| ",$echoTestText); //.$BTCBalance-$reservedAmount
@@ -1093,41 +1093,41 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $ethReserved = ($reservedAmount[0][5]/$reservedAmount[0][2]);
         }
 
-        SuperLog($nFile,"$usdtReserved | $btcReserved | $ethReserved",$nFunc,"",$logFlowSettingAry);
+        SuperLog($nFile,"$usdtReserved | $btcReserved | $ethReserved",$nFunc,"","",$logFlowSettingAry);
         $totalReserved = $usdtReserved+$btcReserved+$ethReserved;
 
         if ($baseCurrency == 'BTC'){
-          SuperLog($nFile,"BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0],$nFunc,"",$logVariSettingAry);
+          SuperLog($nFile,"BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0],$nFunc,"","",$logVariSettingAry);
           $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][0];
           SuperLog($nFile,"BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],$nFunc,"RuleID:$ruleIDBuy CoinID:$coinID",$logVariSettingAry);
         }elseif ($baseCurrency == 'ETH'){
-          SuperLog($nFile,"ETH Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][1],$nFunc,"",$logVariSettingAry);
+          SuperLog($nFile,"ETH Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][1],$nFunc,"","",$logVariSettingAry);
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][1];
           SuperLog($nFile,"BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],$nFunc,"RuleID:$ruleIDBuy CoinID:$coinID",$logVariSettingAry);
         }else{
-          SuperLog($nFile,"USDT Bal Test : $BTCBalance | $totalReserved ",$nFunc,"",$logVariSettingAry);
+          SuperLog($nFile,"USDT Bal Test : $BTCBalance | $totalReserved ",$nFunc,"","",$logVariSettingAry);
           $totalBal = $BTCBalance-$totalReserved;
           $buyQuantity = $BTCAmount;
         }
         //newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$GLOBALS['logToSQLSetting'],"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
         if ($totalBal > 15 OR $overrideCoinAlloc == 1) {
-          if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"",$logExitSettingAry);continue;}
+          if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"","",$logExitSettingAry);continue;}
           if ($ruleType == 'Normal'){
-            SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"",$logFlowSettingAry);
+            SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"","",$logFlowSettingAry);
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
             //newLogToSQL("addTrackingCoin","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",3,$buyCoinAddTracking,"NewBuySellCoins","RuleID:$ruleIDBuy CoinID:$coinID");
             //addWebUsage($userID,"Add","BuyTracking");
             $buyCounter[$userID."-".$coinID] = $buyCounter[$userID."-".$coinID] + 1;
-            SuperLog($nFile,"Number of Coin Buys: 1 BuyCounter $userID $coinID | New Buy Counter: ".$buyCounter[$userID."-".$coinID],$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,"Number of Coin Buys: 1 BuyCounter $userID $coinID | New Buy Counter: ".$buyCounter[$userID."-".$coinID],$nFunc,"","",$logVariSettingAry);
             $buyCounter[$userID."-Total"] = $buyCounter[$userID."-Total"] + 1;
-            SuperLog($nFile,"Number of Total Buys: $noOfBuys BuyCounter: ".$buyCounter[$userID."-Total"],$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,"Number of Total Buys: $noOfBuys BuyCounter: ".$buyCounter[$userID."-Total"],$nFunc,"","",$logVariSettingAry);
           }else{
             $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][93];
             $spreadBetCoins = getSpreadbetCoins($baseCurrency);
             $spreadBetCoinsSize = count($spreadBetCoins);
-            SuperLog($nFile,"<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount",$nFunc,"",$logVariSettingAry);
+            SuperLog($nFile,"<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount",$nFunc,"","",$logVariSettingAry);
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
               $LiveCoinPrice = $spreadBetCoins[$l][2];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][4];
 
@@ -1135,9 +1135,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
               $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               if ($totalBuyAmount < $buyQuantity){
                 addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
-                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"",$logFlowSettingAry);
+                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"","",$logFlowSettingAry);
               }else{
-                SuperLog($nFile,"TotalAmout over: $buyQuantity | $totalBuyAmount ",$nFunc,"",$logFlowSettingAry);
+                SuperLog($nFile,"TotalAmout over: $buyQuantity | $totalBuyAmount ",$nFunc,"","",$logFlowSettingAry);
               }
             }
           }
@@ -1146,12 +1146,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           //if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBuy);}
           //logAction("runBuyCoins; addTrackingCoin : $symbol | $coinID | $LiveCoinPrice | $buyQuantity | $userID | $baseCurrency $timeToCancelBuyMins | $risesInPrice | $overrideCoinAlloc", 'BuySellFlow', 1);
           $finalBool = True;
-        }else{ SuperLog($nFile,"EXIT: $totalBal Less than 20 | $totalBal",$nFunc,"",$logExitSettingAry);}
+        }else{ SuperLog($nFile,"EXIT: $totalBal Less than 20 | $totalBal",$nFunc,"","",$logExitSettingAry);}
       }else{
-        if ($limitToCoin != "ALL"){ SuperLog($nFile,"LimitToCoin Found: Continue Rules!",$nFunc,"",$logFlowSettingAry); continue 2;}
+        if ($limitToCoin != "ALL"){ SuperLog($nFile,"LimitToCoin Found: Continue Rules!",$nFunc,"","",$logFlowSettingAry); continue 2;}
       }
 
-      SuperLog($nFile,"NEXT RULE <BR>",$nFunc,"",$logFlowSettingAry);
+      SuperLog($nFile,"NEXT RULE <BR>",$nFunc,"","",$logFlowSettingAry);
     }//Rule Loop
     echo "</blockquote>";
   }//Coin Loop

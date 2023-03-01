@@ -1470,13 +1470,16 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `daysToSave` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `daysToSave` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `nTitle` VARCHAR(50))
     MODIFIES SQL DATA
 BEGIN
+Declare nCount INT;
 
+SELECT count(`ID`) into nCount FROM `ActionLog` WHERE `Subject` = In_Sub and `SubTitle` = Sub_Title and `Title` = nTitle and `DateTime` < DATE_SUB(now(), INTERVAL 30 Minute);
 DELETE FROM `ActionLog` WHERE `DateToDelete` < now() Order by `ID` limit 50;
-
-INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(), INTERVAL daysToSave DAY));
+if (nCount < 5) THEN
+  INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`,`Title`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(), INTERVAL daysToSave DAY),nTitle);
+end if;
 
 END$$
 DELIMITER ;
