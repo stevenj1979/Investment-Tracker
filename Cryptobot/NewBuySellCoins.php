@@ -375,7 +375,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       //$buyBackPurchasePrice = (($sellPriceBA + (($sellPriceBA/100)*$priceDifferecePct))*$originalAmount*$tempConvAmt)+$bbKittyAmount;
       $delayMins = $buyBackCoins[$t][31]; $originalAmount = $buyBackCoins[$t][32]; $hoursFlat = $buyBackCoins[$t][33];
 
-      SuperLog($nFile,"<BR> $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice",$nFunc,"BB5","BBID:$bBID",$logFlowSettingAry);
+      SuperLog($nFile,"<BR> $bBID | $profit | $profitPct | $livePriceUSD | $origPurchasePrice",$nFunc,"BB5","BBID:$bBID",$logVariSettingAry);
       //if ($profitPct > 0.25 AND $saveMode = 2){
       //  $buyBackPurchasePrice = ($livePriceUSD - $profit)+$bbKittyAmount;
       //  LogToSQL("BuyBackTEST1A","Qty:$quantity CPBB: $coinPriceBB | $origPurchasePrice SPBA: $livePriceUSD | $livePriceUSD Profit: $profit PCT: $profitPct | HoursFlat: $hoursFlat",3,0);
