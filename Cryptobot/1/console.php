@@ -78,7 +78,7 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title` FROM `ActionLogView` WHERE `UserID` = $userID and $sql_option and $sql_option2
+  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title` FROM `ActionLog` WHERE `UserID` = $userID and $sql_option and $sql_option2
   and $sql_option3 Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
