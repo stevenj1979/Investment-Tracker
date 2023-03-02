@@ -984,7 +984,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         SuperLog($nFile, "EXIT: No API Key  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"BC27","",$logExitSettingAry);
         continue;}
       if ($limitToBaseCurrency != "ALL" && $baseCurrency != $limitToBaseCurrency){
-        SuperLog($nFile,"EXIT: Wrong BaseCurrency  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"BC28","",$logExitSettingAry);
+        SuperLog($nFile,"EXIT: Wrong BaseCurrency  $coinID - $symbol - $baseCurrency | $limitToBaseCurrency RuleID: $ruleIDBuy <BR>",$nFunc,"BC28","",$logExitSettingAry);
         continue;}
 
       if ($limitToCoin != "ALL" && $symbol != $limitToCoin) {
