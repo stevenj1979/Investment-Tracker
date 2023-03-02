@@ -561,7 +561,7 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,sum(`LiveVolume`) as LiveVolume,sum(`LastVolume`) as LastVolume,sum((`LiveVolume`-`LastVolume`)/100)*`LiveVolume`as  VolumePctChange,`BaseCurrency`,avg(`Price4Trend`) as Price4Trend,avg(`Price3Trend`) as Price3Trend, avg(`LastPriceTrend`) as LastPriceTrend, avg(`LivePriceTrend`) as LivePriceTrend,sum(`1HrPriceChangeLive`) as 1HrPriceChangeLive
     ,sum(`1HrPriceChangeLast`) as 1HrPriceChangeLast,sum(`1HrPriceChange3`) as 1HrPriceChange3,sum(`1HrPriceChange4`) as 1HrPriceChange4,avg(`SecondstoUpdate`) as SecondstoUpdate,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,avg(`HoursFlatPdcs`) as HoursFlatPdcs,sum(`MinPriceFromLow`) as MinPriceFromLow
     ,avg(`PctFromLiveToLow`) as PctFromLiveToLow,Trim(sum(`Month6Low`))+0 as 6MonthPrice ,Trim(sum(`Month3Low`))+0 as 3MonthPrice,Trim(sum(`AverageLowPrice`))+0 as AverageLowPrice,Max(`HoursSinceAdded`) as HoursSinceAdded
-    ,avg(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
+    ,min(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
     ,`Sbc`.`SpreadBetRuleID` as SpreadBetRuleID
     $table
     join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `IDCn`
