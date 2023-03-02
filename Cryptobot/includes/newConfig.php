@@ -561,7 +561,7 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,sum(`LiveVolume`) as LiveVolume,sum(`LastVolume`) as LastVolume,sum((`LiveVolume`-`LastVolume`)/100)*`LiveVolume`as  VolumePctChange,`BaseCurrency`,avg(`Price4Trend`) as Price4Trend,avg(`Price3Trend`) as Price3Trend, avg(`LastPriceTrend`) as LastPriceTrend, avg(`LivePriceTrend`) as LivePriceTrend,sum(`1HrPriceChangeLive`) as 1HrPriceChangeLive
     ,sum(`1HrPriceChangeLast`) as 1HrPriceChangeLast,sum(`1HrPriceChange3`) as 1HrPriceChange3,sum(`1HrPriceChange4`) as 1HrPriceChange4,avg(`SecondstoUpdate`) as SecondstoUpdate,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,avg(`HoursFlatPdcs`) as HoursFlatPdcs,sum(`MinPriceFromLow`) as MinPriceFromLow
     ,avg(`PctFromLiveToLow`) as PctFromLiveToLow,Trim(sum(`Month6Low`))+0 as 6MonthPrice ,Trim(sum(`Month3Low`))+0 as 3MonthPrice,Trim(sum(`AverageLowPrice`))+0 as AverageLowPrice,Max(`HoursSinceAdded`) as HoursSinceAdded
-    ,min(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
+    ,max(`MaxHoursFlat`) as MaxHoursFlat,avg(`CaaOffset`) as CaaOffset,avg(`CaaMinsToCancelBuy`) as CaaMinsToCancelBuy,avg(`HoursFlatHighPdcs`) as HoursFlatHighPdcs,avg(`HoursFlatLowPdcs`) as HoursFlatLowPdcs
     ,`Sbc`.`SpreadBetRuleID` as SpreadBetRuleID
     $table
     join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `IDCn`
@@ -4626,18 +4626,19 @@ $conn->close();
 return $tempAry;
 }
 
-function getSpreadbetCoins($baseCurrency){
+function getSpreadbetCoins($baseCurrency,$ruleIDBuy){
 $conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID,`BuyRisesInPrice`
           FROM `SpreadBetCoins` `Sbc`
       	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
           join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Sbc`.`SpreadBetRuleID`
+          join `BuyRules` `Br` on `Br`.`ID` = $ruleIDBuy
           WHERE `Cn`.`BaseCurrency` ='$baseCurrency'
           ORDER BY RAND()";
 echo "<BR>$sql";
@@ -4645,7 +4646,7 @@ $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID']);
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID'],$row['BuyRisesInPrice']);
 }
 $conn->close();
 return $tempAry;

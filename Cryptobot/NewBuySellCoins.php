@@ -1125,12 +1125,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             SuperLog($nFile,"Number of Total Buys: $noOfBuys BuyCounter: ".$buyCounter[$userID."-Total"],$nFunc,"BC60","",$logVariSettingAry);
           }else{
             $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][93];
-            $spreadBetCoins = getSpreadbetCoins($baseCurrency);
+            $spreadBetCoins = getSpreadbetCoins($baseCurrency,$ruleIDBuy);
             $spreadBetCoinsSize = count($spreadBetCoins);
             SuperLog($nFile,"<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount",$nFunc,"BC61","",$logVariSettingAry);
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
               $LiveCoinPrice = $spreadBetCoins[$l][2];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][4];
-
+              $risesInPrice = $spreadBetCoins[$l][5];
               //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
               $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               if ($totalBuyAmount < $buyQuantity){
