@@ -817,7 +817,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   $nFile = "BuySellCoins"; $nFunc = "BuySellCoins";
   $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
-
+  echo "<BR> Variables for Log: $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
   $apiVersion = 3;
   $finalBool = False;
   echo "<blockquote>";
