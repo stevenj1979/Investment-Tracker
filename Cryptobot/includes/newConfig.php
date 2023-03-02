@@ -7236,7 +7236,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       return 1;
     }
     //if liveprice is stable, add 1 - -0.5 - 0.5
-    if ($minsFromDate < 5){
+    if ($minsFromDate < 2){
         //: OPT 1
         return 2;
     }
