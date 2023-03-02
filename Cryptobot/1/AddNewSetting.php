@@ -1029,7 +1029,7 @@ function displayEdit($id){
     addNewTwoOption('Multi Sell Rules Enabled:','MultiSellRulesEnabled',$formSettings[0][81]);
     $multiSellTemplates = getMultiSellTemplates();
     displayMultiSell($multiSellTemplates,'MultiSellRules',$formSettings[0][81],$formSettings[0][82]);
-    addNewText('Total Purchase Per Rule: ', 'TotalPurchasePerRule', $formSettings[0][81], 52, 'Eg ALL', False,1);
+    addNewText('Total Purchase Per Rule: ', 'TotalPurchasePerRule', $formSettings[0][89], 52, 'Eg ALL', False,1);
   echo "</div>";
   echo "<div class='settingsform'>
     <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
