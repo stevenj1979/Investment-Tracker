@@ -2107,7 +2107,7 @@ end if;
 Select `LastUpdated` into refreshtime FROM `CalculatedSellPct` WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID;
 
 if refreshtime < now() THEN
-  UPDATE `CalculatedSellPct` SET `SellPct`= `SellPct`- ((`SellPct`/100)*Calc_Sell_Red),`LastUpdated` = DATE_ADD(now(), INTERVAL 1 HOUR) WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID;
+  UPDATE `CalculatedSellPct` SET `SellPct`= `SellPct`- ((`SellPct`/100)*10),`LastUpdated` = DATE_ADD(now(), INTERVAL 1 HOUR) WHERE `TransactionID` = Trans_ID and `RuleID` = Rule_ID;
 end if;
 
 Delete `Csp` FROM `CalculatedSellPct` as `Csp`
