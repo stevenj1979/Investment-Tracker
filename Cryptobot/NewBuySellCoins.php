@@ -1266,15 +1266,15 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           if ($cspTransID ==  $transactionID AND $CspRuleID == $ruleIDSell){
             $sellPctCsp = $csp[$y][2];
             if (!isset($sellPctCsp)){
-              $ProfitPctBtm_Sell = $calculatedSellPctStart;
+              //$ProfitPctBtm_Sell = $calculatedSellPctStart;
             }else{
               if ($ProfitPctEnabled == 1 and $ProfitPctBtm_Sell_Original < $calculatedSellPctEnd){
-                $calculatedSellPctEnd = $ProfitPctBtm_Sell_Original;
+                //$calculatedSellPctEnd = $ProfitPctBtm_Sell_Original;
               }
-              $ProfitPctBtm_Sell = $sellPctCsp - $calculatedSellPctEnd;
-              $amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*$calculatedSellPctReduction);
+              //$ProfitPctBtm_Sell = $sellPctCsp - $calculatedSellPctEnd;
+              //$amountToReduce = abs($ProfitPctBtm_Sell -($ProfitPctBtm_Sell/100)*$calculatedSellPctReduction);
 
-              $ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
+              //$ProfitPctBtm_Sell = ($calculatedSellPctEnd + $amountToReduce);
             }
           }
         }
