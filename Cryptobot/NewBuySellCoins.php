@@ -1278,9 +1278,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             }
           }
         }
+        if ($multiSellRuleEnabled == 0){
+          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
+          echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
+        }
 
-        writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
-        echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
         //echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
         //echoText("Calculated Sell Pct Enabled:  $ProfitPctBtm_Sell | $ProfitPctTop_Sell | $ProfitPctBtm_Sell_Original | $calculatedSellPctStart | $hoursSinceBuy | $calculatedSellPctEnd | $calculatedSellPctDays",$echoTestText);
 
@@ -1303,6 +1305,11 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           $multiSellRules = getMultiSellRules($transactionID);
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
+          $multiSellRulesSize = count($multiSellRules);
+          for ($a=0;$a<$multiSellRulesSize;$a++){
+            writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$multiSellRules[$a][0],$calculatedSellPctReduction);
+            echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,".$multiSellRules[$a][0].",$calculatedSellPctReduction);",3,$cspAlert,"","");
+          }
           if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);}
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
@@ -1351,7 +1358,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         }
       }
       $finalHoursFlat = ($priceDipHoursFlatTarget/100)*(100 - $profit);
-      echoAndLog("","Checking:  $coin | $userID | $ruleIDSell",3,$echoProgramFlow,"","");
+      echoAndLog("","Checking:  $coin | $userID | $ruleIDSell",3,$echoTestText,"","");
       $GLOBALS['allDisabled'] = false;
       $sTest12 = false;
 
