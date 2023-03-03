@@ -843,7 +843,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
     $maxHoursFlat = $coins[$x][47]; $month6Low = $coins[$x][43]; $month3Low = $coins[$x][44];
     $risesInPrice = $coins[$x][47]; $caaOffset = $coins[$x][48]; $caahours = $coins[$x][49];
     $hoursFlatHigh = $coins[$x][50];$hoursFlatLow = $coins[$x][51];
-    SuperLog($nFile,"Checking: $coinID - $symbol - $baseCurrency  <BR>",$nFunc,"BC7","",$logFlowSettingAry);
+    SuperLog($nFile,"Checking: $coinID - $symbol - $baseCurrency  <BR>",$nFunc,"BC7","",$logVariSettingAry);
     echo "<blockquote>";
     for($y = 0; $y < $buyRulesSize; $y++) {
       $buyResultAry = [];
@@ -2359,7 +2359,7 @@ while($completeFlag == False){
           $delayCoinPurchase = getDelayCoinPurchaseTimes();
           $runNewTrackingCoinFlag = False;
         }
-        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase,$webSettingsAry);
+        $runNewTrackingCoinFlag = runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase,$webSettingsAry,$newWebSettingsAry);
   echo "</blockquote><BR> Tracking SELL COINS!! $i<blockquote>";
         if ((date("Y-m-d H:i", time()) >= $trackingSellCoinTimer) Or ($runTrackingSellCoinFlag == True)) {
           $TSCcurrent_date = date('Y-m-d H:i');
