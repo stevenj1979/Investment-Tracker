@@ -5174,7 +5174,7 @@ function getSparklineData($coin){
     return $tempAry;
 }
 
-function getMultiSellRules($transID){
+function getMultiSellRules(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -5182,7 +5182,7 @@ function getMultiSellRules($transID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `SellRuleID` FROM `MultiSellRuleConfig` WHERE `TransactionID` = $transID";
+  $sql = "SELECT `SellRuleID` FROM `MultiSellRuleConfig`";
   //echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
@@ -5264,7 +5264,7 @@ function checkMultiSellRules($sellRule, $multiRuleAry){
     //echo "<BR> MultiSellRule Check: ".$multiRuleAry[$i][0]." - $sellRule";
     if ($multiRuleAry[$i][0] == $sellRule){
       //echo "<BR> Multi Sell Rule Found: $sellRule";
-      $ruleFlag = true;
+      return true;
     }
   }
   return $ruleFlag;

@@ -1160,7 +1160,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
 }
 
 
-function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,$ruleType){
+function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,$ruleType,$multiSellRules){
   $finalBool = False; $apiVersion = 3;
   $sellRulesSize = count($sellRules);
   $sellCoinsLength = count($sellCoins);
@@ -1302,7 +1302,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       echoText("PlaceHolder: 1 | $coin-$BaseCurrency",$echoTestText);
       if ($multiSellRuleEnabled == 1){
-          $multiSellRules = getMultiSellRules($transactionID);
+
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
           $multiSellRulesSize = count($multiSellRules);
@@ -2227,6 +2227,8 @@ function getCalculatedSellPct(){
 //get Settings
 $webSettingsAry = getSettings();
 $newWebSettingsAry = getNewSettings();
+//MultiRule
+$multiSellRules = getMultiSellRules();
 //get CSP
 $csp = getCalculatedSellPct();
 //set time
@@ -2349,7 +2351,7 @@ while($completeFlag == False){
           $runSellCoinsSBFlag = False;
           $buyToReduceLossFlag = True;
         }
-        $runSellCoinsFlag = runSellCoins($sellRulesSB,$sellCoinsSB,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadBet');
+        $runSellCoinsFlag = runSellCoins($sellRulesSB,$sellCoinsSB,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadBet',$multiSellRules);
 
   echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingCoinTimer OR $runNewTrackingCoinFlag == True){
@@ -2401,7 +2403,7 @@ while($completeFlag == False){
           $runSellCoinsFlag = False;
           $buyToReduceLossFlag = True;
         }
-        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'Normal');
+        $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'Normal',$multiSellRules);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or$refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
