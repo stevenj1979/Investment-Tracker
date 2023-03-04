@@ -43,7 +43,7 @@ function minAmountToSaving(){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("minAmountToSaving","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
+  newLogToSQL("minAmountToSaving","$sql",3,0,"SQL","");
 
 }
 
@@ -106,12 +106,13 @@ function getOpenTransactionsSB(){
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
-    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`IDTr` as TransactionID
+    $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`IDTr` as TransactionID,`CoinPrice`,`Amount`
+    ,`LiveCoinPrice`
        FROM `View7_SpreadBetSell` where `Type` = 'SpreadSell' and `Status` = 'Open'";
     print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID']
-          ,$row['SpreadBetRuleID'],$row['TransactionID']);}
+          ,$row['SpreadBetRuleID'],$row['TransactionID'],$row['CoinPrice'],$row['Amount'],$row['LiveCoinPrice']);}
     $conn->close();
     return $tempAry;
 }
@@ -144,7 +145,7 @@ function UpdateHolding($userID,$baseCurrency){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("UpdateHolding","$sql",3,0,"SQL","CoinID:$coinID UserID:$userID");
+  newLogToSQL("UpdateHolding","$sql",3,0,"SQL","UserID:$userID");
 
 }
 
@@ -169,7 +170,15 @@ function subPctFromOpenSpreadBetTransactions(){
   $startNum = 0.01;
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][7]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
-    $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0]; $pctProfit = $openTransSB[$l][9];
+    $transactionID = $openTransSB[$l][8]; $sBTransID = $openTransSB[$l][0];
+    $coinPrice = $openTransSB[$l][9];
+    $amount = $openTransSB[$l][10];
+    $liveCoinPrice = $openTransSB[$l][11];
+    $purchasePrice = $coinPrice * $amount;
+    $livePrice = $liveCoinPrice * $amount;
+    $fee = ($livePrice/100)*0.28;
+    $profit =  $livePrice - $purchasePrice - $fee;
+    $pctProfit = ($profit/$purchasePrice)*100;
     echo "<BR>subPctFromOpenSpreadBetTransactions DAYS: $days | spreadBetRuleID: $spreadBetRuleID | sellRuleID: $sellRuleID | SBTransID: $sBTransID";
     //if ($days >= 3){
       //if ($days % 2 == 0){
