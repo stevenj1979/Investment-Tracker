@@ -30,12 +30,14 @@ $allCoinStatusTimer = date("Y-m-d H:i",strtotime(allCoinsStatusRunTime, strtotim
 
 $completeFlag = False;
 
-
+Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
 while($completeFlag == False){
 
   if (date("Y-m-d H:i", time()) >= $allCoinStatusTimer ){
+    Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
     $allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
+    Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimer | CurrentTime: ".date('Y-m-d H:i'); 
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
