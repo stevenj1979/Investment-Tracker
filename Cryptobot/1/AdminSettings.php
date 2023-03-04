@@ -287,6 +287,8 @@ $userSubSize = count($userSub);
              <br>
              <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CoinSwap.php"> CoinSwap </a> every 12 mins
              <br>
+             <a href="http://www.investment-tracker.net/Investment-Tracker/Cryptobot/CryptoBotDirector.php"> CryptoBotDirector </a> every 30 mins
+             <br>
 
 <?php
   displaySideColumn();
