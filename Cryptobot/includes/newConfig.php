@@ -5182,14 +5182,14 @@ function getMultiSellRules(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `SellRuleID` FROM `MultiSellRuleConfig`";
+  $sql = "SELECT `SellRuleID`, `TransactionID` FROM `MultiSellRuleConfig`";
   //echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
     echo "<BR>$sql";
     while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['SellRuleID']);
+      $tempAry[] = Array($row['SellRuleID'],$row['TransactionID']);
     }
     $conn->close();
     return $tempAry;
@@ -5256,13 +5256,13 @@ function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
   newLogToSQL("writeMultiRuleTemplateID","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
 }
 
-function checkMultiSellRules($sellRule, $multiRuleAry){
+function checkMultiSellRules($sellRule, $multiRuleAry,$transactionID){
   $multiSellRuleArySize = count($multiRuleAry);
   $ruleFlag = false;
   //echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
     //echo "<BR> MultiSellRule Check: ".$multiRuleAry[$i][0]." - $sellRule";
-    if ($multiRuleAry[$i][0] == $sellRule){
+    if ($multiRuleAry[$i][0] == $sellRule AND  $multiRuleAry[$i][0] == $transactionID){
       //echo "<BR> Multi Sell Rule Found: $sellRule";
       return true;
     }

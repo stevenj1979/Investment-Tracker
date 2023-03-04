@@ -1303,7 +1303,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       echoText("PlaceHolder: 1 | $coin-$BaseCurrency",$echoTestText);
       if ($multiSellRuleEnabled == 1){
 
-          $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
+          $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules,$transactionID);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
           $multiSellRulesSize = count($multiSellRules);
 
