@@ -5262,7 +5262,7 @@ function checkMultiSellRules($sellRule, $multiRuleAry,$transactionID){
   //echo "<BR> Ary Size: $multiSellRuleArySize";
   for ($i=0; $i<$multiSellRuleArySize; $i++){
     //echo "<BR> MultiSellRule Check: ".$multiRuleAry[$i][0]." - $sellRule";
-    if ($multiRuleAry[$i][0] == $sellRule AND  $multiRuleAry[$i][0] == $transactionID){
+    if ($multiRuleAry[$i][0] == $sellRule AND  $multiRuleAry[$i][1] == $transactionID){
       //echo "<BR> Multi Sell Rule Found: $sellRule";
       return true;
     }
