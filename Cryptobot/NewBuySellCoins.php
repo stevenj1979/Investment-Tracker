@@ -1300,26 +1300,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       if ($sellAllCoinsEnabled == 1 and $profitNum <= $sellAllCoinsPct){assignNewSellID($transactionID, 25);}//else{Echo "<BR> HERE3!";}
       if ($limitToBuyRule == "ALL"){ $limitToBuyRuleEnabled = 0;}else{$limitToBuyRuleEnabled = 1;}
       echoText("PlaceHolder: 1 | $coin-$BaseCurrency",$echoTestText);
-      if ($multiSellRuleEnabled == 1){
 
-          $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules,$transactionID);
-          //echo "<BR> PlaceHolder: 1A Checking MultiSell";
-          $multiSellRulesSize = count($multiSellRules);
-
-          if ($multiSellResult == False){
-            echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;
-          } else{
-            echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);
-            for ($a=0;$a<$multiSellRulesSize;$a++){
-              writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
-              echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);",3,$cspAlert,"","");
-            }
-          }
-      }else{
-          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
-          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
-          echoAndLog("CalculatedSellPrice", "A_writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
-      }
       echoText("PlaceHolder: 2 | $coin",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
       $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
@@ -1362,6 +1343,26 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             coinSwapSell($LiveCoinPrice, $transactionID,$coinID,$BuyRule,$coinSwapAmount);
           }
         }
+      }
+      if ($multiSellRuleEnabled == 1){
+
+          $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules,$transactionID);
+          //echo "<BR> PlaceHolder: 1A Checking MultiSell";
+          $multiSellRulesSize = count($multiSellRules);
+
+          if ($multiSellResult == False){
+            echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;
+          } else{
+            echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);
+            for ($a=0;$a<$multiSellRulesSize;$a++){
+              writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
+              echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);",3,$cspAlert,"","");
+            }
+          }
+      }else{
+          if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
+          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
+          echoAndLog("CalculatedSellPrice", "A_writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
       }
       $finalHoursFlat = ($priceDipHoursFlatTarget/100)*(100 - $profit);
       echoAndLog("","Checking:  $coin | $userID | $ruleIDSell",3,$echoTestText,"","");
