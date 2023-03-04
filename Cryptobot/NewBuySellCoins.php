@@ -1279,8 +1279,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           }
         }
         if ($multiSellRuleEnabled == 0){
-          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
-          echoAndLog("CalculatedSellPrice", "A_writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
+
         }
 
         //echoText("writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell);",$echoTestText);
@@ -1318,6 +1317,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           }
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
+          writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
+          echoAndLog("CalculatedSellPrice", "A_writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell);",3,$cspAlert,"","");
       }
       echoText("PlaceHolder: 2 | $coin",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
