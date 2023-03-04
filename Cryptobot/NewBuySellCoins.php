@@ -1306,11 +1306,16 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
           $multiSellRulesSize = count($multiSellRules);
-          for ($a=0;$a<$multiSellRulesSize;$a++){
-            writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$multiSellRules[$a][0],$calculatedSellPctReduction);
-            echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,".$multiSellRules[$a][0].",$calculatedSellPctReduction);",3,$cspAlert,"","");
+
+          if ($multiSellResult == False){
+            echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;
+          } else{
+            echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);
+            for ($a=0;$a<$multiSellRulesSize;$a++){
+              writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$multiSellRules[$a][0],$calculatedSellPctReduction);
+              echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,".$multiSellRules[$a][0].",$calculatedSellPctReduction);",3,$cspAlert,"","");
+            }
           }
-          if ($multiSellResult == False){ echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;} else{echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);}
       }else{
           if ($fixSellRule != "ALL" && (int)$fixSellRule != $ruleIDSell){echoText("Exit: No2 Wrong Sell Rule | $coin | $userID | $ruleIDSell |",$echoExitText);continue;}//else{Echo "<BR> HERE4!";}  //echo "Exit: No2 | $coin | $userID | $BuyRule";
       }
