@@ -25,8 +25,10 @@ if (!empty($argv[1])){
 $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i'))));
 //AllCoinStatus
 $allCoinsStatusRunTime = "+20 minutes";
-$allCoinStatusTimer = date("Y-m-d H:i",strtotime(allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
-
+$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
+//Dashboard
+$dashBoardRunTime = "+20 minutes";
+$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
 
 $completeFlag = False;
 
@@ -36,8 +38,17 @@ while($completeFlag == False){
   if (date("Y-m-d H:i", time()) >= $allCoinStatusTimer ){
     Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
+    sleep (30);
     $allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
-    Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimer | CurrentTime: ".date('Y-m-d H:i'); 
+    Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimer | CurrentTime: ".date('Y-m-d H:i');
+  }
+
+  if (date("Y-m-d H:i", time()) >= $dashboardTimer ){
+    Echo "<BR> Running Dashboard.php";
+    exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Dashboard.php');
+    sleep (30);
+    $dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
+    Echo "<BR> Setting Run Time for Dashboard.php : $dashboardTimer | CurrentTime: ".date('Y-m-d H:i');
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
