@@ -38,6 +38,9 @@ $coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date
 //CoinMode
 $coinModeRunTime = "+30 minutes";
 $coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
+//PctChangeProcess
+$pctChangeProcessRunTime = "+20 minutes";
+$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
 
 $completeFlag = False;
 
@@ -82,6 +85,14 @@ while($completeFlag == False){
     sleep (30);
     $coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinMode.php : $coinModeTimer | CurrentTime: ".date('Y-m-d H:i');
+  }
+
+  if (date("Y-m-d H:i", time()) >= $pctChangeProcessTimer ){
+    Echo "<BR> Running PctChangeProcess.php";
+    exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/PctChangeProcess.php');
+    sleep (30);
+    $pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
+    Echo "<BR> Setting Run Time for PctChangeProcess.php : $pctChangeProcessTimer | CurrentTime: ".date('Y-m-d H:i');
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
