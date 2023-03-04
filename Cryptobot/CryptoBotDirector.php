@@ -29,6 +29,9 @@ $allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtoti
 //Dashboard
 $dashBoardRunTime = "+20 minutes";
 $dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
+//AutoUpdatePrice
+$autoUpdatePriceRunTime = "+20 minutes";
+$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
 
 $completeFlag = False;
 
@@ -49,6 +52,14 @@ while($completeFlag == False){
     sleep (30);
     $dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for Dashboard.php : $dashboardTimer | CurrentTime: ".date('Y-m-d H:i');
+  }
+
+  if (date("Y-m-d H:i", time()) >= $autoUpdatePriceTimer ){
+    Echo "<BR> Running AutoUpdatePrice.php";
+    exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AutoUpdatePrice.php');
+    sleep (30);
+    $autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
+    Echo "<BR> Setting Run Time for AutoUpdatePrice.php : $autoUpdatePriceTimer | CurrentTime: ".date('Y-m-d H:i');
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
