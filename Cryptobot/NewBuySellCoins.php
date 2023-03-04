@@ -1356,7 +1356,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             echoText("FoundSellRule: $coin | $userID | $ruleIDSell | $multiSellResult",$echoTestText);
             for ($a=0;$a<$multiSellRulesSize;$a++){
               writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);
-              echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);",3,$cspAlert,"","");
+              echoAndLog("CalculatedSellPrice", "writeCalculatedSellPct($transactionID,$sellCoinsUserID,$ProfitPctBtm_Sell,$ruleIDSell,$calculatedSellPctReduction);$coin",3,$cspAlert,"","");
             }
           }
       }else{
