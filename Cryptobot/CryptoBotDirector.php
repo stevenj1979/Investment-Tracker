@@ -63,7 +63,9 @@ function writeSQLTime($name, $time){
 
 function getTimer($timerAry, $name){
   $timerArySize = count($timerAry);
+  echo "<BR> ArraySize: $timerArySize";
   for($e=0;$e<$timerArySize;$e++){
+    echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
       echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0];
       return $timerAry[$e][0];
