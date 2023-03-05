@@ -63,11 +63,11 @@ function writeSQLTime($name, $time){
 
 function getTimer($timerAry, $name){
   $timerArySize = count($timerAry);
-  echo "<BR> ArraySize: $timerArySize";
+  //echo "<BR> ArraySize: $timerArySize";
   for($e=0;$e<$timerArySize;$e++){
-    echo"<BR>Name: $name | ".$timerAry[$e][1];
+    //echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
-      echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0];
+      //echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0];
       return $timerAry[$e][0];
     }
   }
@@ -83,22 +83,28 @@ $allCoinStatusTimer = getTimer($timerAry,"allCoinStatus");
 echo "<BR> AllCoinStatusTimer: $allCoinStatusTimer | currentTime ".date('Y-m-d H:i');
 //Dashboard
 $dashBoardRunTime = "+20 minutes";
-$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
+//$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
+$dashboardTimer = getTimer($timerAry,"dashBoard");
 //AutoUpdatePrice
 $autoUpdatePriceRunTime = "+20 minutes";
-$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
+//$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
+$autoUpdatePriceTimer = getTimer($timerAry,"autoUpdatePrice");
 //Hourly
 $coinHourlyRunTime = "+60 minutes";
-$coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date('Y-m-d H:i'))));
+//$coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date('Y-m-d H:i'))));
+$coinHourlyTimer = getTimer($timerAry,"coinHourly");
 //CoinMode
 $coinModeRunTime = "+30 minutes";
-$coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
+//$coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
+$coinModeTimer = getTimer($timerAry,"coinMode");
 //PctChangeProcess
 $pctChangeProcessRunTime = "+20 minutes";
-$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
+//$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
+$pctChangeProcessTimer = getTimer($timerAry,"pctChangeProcess");
 //coinSwap
 $coinSwapRunTime = "+20 minutes";
-$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date('Y-m-d H:i'))));
+//$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date('Y-m-d H:i'))));
+$coinSwapTimer = getTimer($timerAry,"coinSwap");
 
 $completeFlag = False;
 
@@ -164,5 +170,11 @@ while($completeFlag == False){
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
 writeSQLTime("allCoinStatus",$allCoinStatusTimer);
+writeSQLTime("dashBoard",$dashboardTimer);
+writeSQLTime("autoUpdatePrice",$autoUpdatePriceTimer);
+writeSQLTime("coinHourly",$coinHourlyTimer);
+writeSQLTime("coinMode",$coinModeTimer);
+writeSQLTime("pctChangeProcess",$pctChangeProcessTimer);
+writeSQLTime("coinSwap",$coinSwapTimer);
 ?>
 </html>
