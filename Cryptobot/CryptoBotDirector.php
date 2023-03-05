@@ -105,6 +105,9 @@ $pctChangeProcessTimer = getTimer($timerAry,"pctChangeProcess");
 $coinSwapRunTime = "+20 minutes";
 //$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date('Y-m-d H:i'))));
 $coinSwapTimer = getTimer($timerAry,"coinSwap");
+//CoinAdmin
+$coinAdminRunTime = "+24 hours";
+$coinAdminTimer = getTimer($timerAry,"coinAdmin");
 
 $completeFlag = False;
 
@@ -167,6 +170,14 @@ while($completeFlag == False){
     Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimer | CurrentTime: ".date('Y-m-d H:i');
   }
 
+  if (date("Y-m-d H:i", time()) >= $coinAdminTimer ){
+    Echo "<BR> Running CoinAdmin.php";
+    exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinAdmin.php');
+    sleep (30);
+    $coinAdminTimer = date("Y-m-d H:i",strtotime($coinAdminRunTime, strtotime(date('Y-m-d H:i'))));
+    Echo "<BR> Setting Run Time for CoinAdmin.php : $coinAdminTimer | CurrentTime: ".date('Y-m-d H:i');
+  }
+
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
 writeSQLTime("allCoinStatus",$allCoinStatusTimer);
@@ -176,5 +187,6 @@ writeSQLTime("coinHourly",$coinHourlyTimer);
 writeSQLTime("coinMode",$coinModeTimer);
 writeSQLTime("pctChangeProcess",$pctChangeProcessTimer);
 writeSQLTime("coinSwap",$coinSwapTimer);
+writeSQLTime("coinAdmin",$coinAdminTimer);
 ?>
 </html>
