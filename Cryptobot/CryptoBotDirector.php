@@ -20,12 +20,65 @@ if (!empty($argv[1])){
   //echo $tmpTime;
   //error_log($argv[1], 0);
 }
+function getTimeFromSQL(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT  `NextRunTime`, `Name`  FROM `CryptoBotDirector`";
+  //echo "<BR> $sql";
+  newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 1,"SQL CALL","RULEID:$ruleID");
+    $result = $conn->query($sql);
+    //$result = mysqli_query($link4, $query);
+    //mysqli_fetch_assoc($result);
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['NextRunTime'],$row['Name']);
+    }
+    $conn->close();
+    return $tempAry;
+}
+
+function writeSQLTime($name, $time){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `CryptoBotDirector` SET `NextRunTime`= '$time' WHERE `Name`= '$name' ";
+
+  //print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeSQLTime: ".$sql, 'SQL_CALL', 0);
+  newLogToSQL("writeSQLTime","$sql",3,1,"CryptoBotDirector","Name:$name");
+}
+
+function getTimer($timerAry, $name){
+  $timerArySize = count($timerAry);
+  for($e=0;$e<$timerArySize;$e++){
+    if ($timerAry[$e][1] == $name){
+      echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0];
+      return $timerAry[$e][0];
+    }
+  }
+}
+$timerAry = getTimeFromSQL();
 //Program
 //$programRunTime = "+30 minutes";
 $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i'))));
 //AllCoinStatus
 $allCoinsStatusRunTime = "+20 minutes";
-$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
+//$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
+$allCoinStatusTimer = getTimer($timerAry,"allCoinStatus");
+echo "<BR> AllCoinStatusTimer: $allCoinStatusTimer | currentTime ".date('Y-m-d H:i');
 //Dashboard
 $dashBoardRunTime = "+20 minutes";
 $dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
@@ -108,6 +161,6 @@ while($completeFlag == False){
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
-
+writeSQLTime("allCoinStatus",$allCoinStatusTimer);
 ?>
 </html>
