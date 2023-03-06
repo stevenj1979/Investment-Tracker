@@ -919,7 +919,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1,`FixSellRule` = $fixSellRule, `BuyRule` = $buyRule,`SellRule` = $sellRule, `MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellID
+  $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1,`FixSellRule` = $fixSellRule, `BuyRule` = $buyRule,`SellRule` = $fixSellRule, `MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellID
             , `Type` = '$type', `SpreadBetRuleID` = $sbRuleID, `SpreadBetTransactionID` = $sbTransID WHERE `ID` = $savingID;";
 
   print_r($sql);
@@ -931,19 +931,6 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
   $conn->close();
   $conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql2 = "UPDATE `Transaction` SET `ToMerge` = 1  WHERE `ID` = $transID;";
-
-  print_r($sql2);
-  if ($conn->query($sql2) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql2 . "<br>" . $conn->error;
-  }
-  $conn->close();
   //newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,0,"SQL","TransID:$transID");
   //logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
   SuperLog($nFile,"updateSavingsMerge",$nFunc,"SQL1","TransID:$transID",$logVariSettingAry);
