@@ -896,17 +896,17 @@ function getSavingsDataAgain(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `FixSellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` FROM `View24_SavingsReadyToOpenAndMerge` ";
+    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `FixSellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` ,`Type` FROM `View24_SavingsReadyToOpenAndMerge` ";
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SavingID'],$row['ID'],$row['UserID'],$row['MergeSavingWithPurchase'],$row['FixSellRule'],$row['BuyRule'],$row['SellRule'],$row['MultiSellRuleEnabled']
-          ,$row['MultiSellRuleTemplateID']);}
+          ,$row['MultiSellRuleTemplateID'],$row['Type']);}
   $conn->close();
   return $tempAry;
 }
 
-function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,$nFile,$nFunc,$logSettingAry){
+function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,$nFile,$nFunc,$logSettingAry,$type){
   $UserID = 3;
   $logSettings = explode(",",$logSettingAry);
   //echo "<BR> LSA: $logSettingAry";
@@ -918,7 +918,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
   }
 
   $sql = "UPDATE `Transaction` SET `Status` = 'Open',`ToMerge` = 1,`FixSellRule` = $fixSellRule, `BuyRule` = $buyRule,`SellRule` = $sellRule, `MultiSellRuleEnabled` = $multiSellEnabled,`MultiSellRuleTemplateID` = $multiSellID
-            , `Type` = 'Sell' WHERE `ID` = $savingID;";
+            , `Type` = '$type' WHERE `ID` = $savingID;";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -935,7 +935,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
 
   $sql2 = "UPDATE `Transaction` SET `ToMerge` = 1  WHERE `ID` = $transID;";
 
-  print_r($sql);
+  print_r($sql2);
   if ($conn->query($sql2) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -952,9 +952,9 @@ function runSavingsMerge(){
   $savingsArySize = count($savingsAry);
   for ($g=0;$g<$savingsArySize;$g++){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
-    $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][6]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
-
-    updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,"CoinHourly","updateSavingsMerge","1,2,3");
+    $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][4]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
+    $type = $savingsAry[$g][9];
+    updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,"CoinHourly","updateSavingsMerge","1,2,3",$type);
   }
 }
 

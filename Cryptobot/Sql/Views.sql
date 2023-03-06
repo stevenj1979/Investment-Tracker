@@ -699,7 +699,7 @@ CREATE OR REPLACE VIEW `View23_AvgCoinPricePct` as
   order by DiffFromMin asc;
 
 CREATE OR REPLACE VIEW `View24_SavingsReadyToOpenAndMerge` as
-SELECT `TrSav`.`ID` as SavingID, `Tr`.`ID`,`Tr`.`UserID`,`Uc`.`MergeSavingWithPurchase`,`Tr`.`FixSellRule`, `Tr`.`BuyRule`, `Tr`.`SellRule`,`Tr`.`MultiSellRuleEnabled`, `Tr`.`MultiSellRuleTemplateID`
+SELECT `TrSav`.`ID` as SavingID, `Tr`.`ID`,`Tr`.`UserID`,`Uc`.`MergeSavingWithPurchase`,`Tr`.`FixSellRule`, `Tr`.`BuyRule`, `Tr`.`SellRule`,`Tr`.`MultiSellRuleEnabled`, `Tr`.`MultiSellRuleTemplateID`, `Tr`.`Type`
 FROM `Transaction` `Tr`
 join `Transaction` `TrSav` on `Tr`.`CoinID` = `TrSav`.`CoinID`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
