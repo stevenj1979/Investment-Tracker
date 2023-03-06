@@ -896,7 +896,7 @@ function getSavingsDataAgain(){
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 
     //echo "<BR> Flag2: $lowFlag";
-    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `SellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` FROM `View24_SavingsReadyToOpenAndMerge` ";
+    $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `FixSellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` FROM `View24_SavingsReadyToOpenAndMerge` ";
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
@@ -906,7 +906,11 @@ function getSavingsDataAgain(){
   return $tempAry;
 }
 
-function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID){
+function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,$nFile,$nFunc,$logSettingAry){
+  $UserID = 3;
+  $logSettings = explode(",",$logSettingAry);
+  //echo "<BR> LSA: $logSettingAry";
+  $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -938,8 +942,9 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
       echo "Error: " . $sql2 . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,0,"SQL","TransID:$transID");
-  logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
+  //newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,0,"SQL","TransID:$transID");
+  //logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
+  SuperLog($nFile,"updateSavingsMerge",$nFunc,"SQL1","TransID:$transID",$logVariSettingAry);
 }
 
 function runSavingsMerge(){
@@ -949,7 +954,7 @@ function runSavingsMerge(){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
     $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][6]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
 
-    updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID);
+    updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,"CoinHourly","updateSavingsMerge","1,2,3");
   }
 }
 
