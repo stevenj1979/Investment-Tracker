@@ -710,3 +710,9 @@ SELECT Count(`ID`) as OpenTransactions ,`BuyRule`,`UserID`
 FROM `Transaction`
 WHERE `Status` in ('Pending','Open')
 group by `BuyRule`,`UserID`;
+
+CREATE OR REPLACE VIEW `View26_BalanceDifferences` AS
+SELECT sum(`OT15`.`Amount`),`OT15`.`Symbol` , `Bb`.`Total`,  `Bb`.`Total`-sum(`OT15`.`Amount`) as Difference
+FROM `View15_OpenTransactions` `OT15`
+join `BittrexBalances` `Bb` on `Bb`.`Symbol` = `OT15`.`Symbol`
+WHERE `OT15`.`StatusTr` in ('Open') group by `OT15`.`Symbol` having sum(`OT15`.`Amount`) > `Bb`.`Total`
