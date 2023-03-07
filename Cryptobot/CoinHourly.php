@@ -929,7 +929,24 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
+
+
   $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql2 = "UPDATE `Transaction` SET `ToMerge` = 1 WHERE `ID` = $transID;";
+
+  print_r($sql2);
+  if ($conn->query($sql2) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql2 . "<br>" . $conn->error;
+  }
+  $conn->close();
+
   // Check connection
   //newLogToSQL("updateSavingsMerge",$sql." ".$sql2,3,0,"SQL","TransID:$transID");
   //logAction("updateSavingsMerge: ".$sql." ".$sql2, 'SQL_UPDATE', 0);
