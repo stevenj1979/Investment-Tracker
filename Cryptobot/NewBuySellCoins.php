@@ -269,7 +269,7 @@ function runPriceDipRule($priceDipRules){
 function runBuyBack($buyBackCoins,$webSettingsAry){
   $nFile = "BuySellCoins"; $nFunc = "BuyBack";
   $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
-  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
+  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   //echo "<BR> CHECK SETTINGS: $nFile | $nFunc | $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
 
   $finalBool = False;
@@ -404,7 +404,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
               $usdBBAmount = $spreadbetBuyBack[$p][37];$tmpBuyRule = $spreadbetBuyBack[$p][60];$tmpOffset = $spreadbetBuyBack[$p][62];$tmpOffsetEnabled = $spreadbetBuyBack[$p][61];$tmpBuyType = 1; $bbMinsToCancel = $spreadbetBuyBack[$p][54]; $tmpFixSellRule  = $spreadbetBuyBack[$p][63];
               $tmpToMerge = $spreadbetBuyBack[$p][64]; $tmpNoOfPurchases = $spreadbetBuyBack[$p][65];$hoursFlatTarget = 1; $tmpType  = $spreadbetBuyBack[$p][66];$tmpSBTransID  = $spreadbetBuyBack[$p][5];$overrideCoinAlloc = $spreadbetBuyBack[$p][67]; $bBID = $spreadbetBuyBack[$p][0];
               addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
-              SuperLog($nFile,"<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"BB9","BBID:$bBID",$logFlowSettingAry);
+              SuperLog($nFile,"<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"BB9","BBID:$bBID",$logEventsSettingAry);
               //LogToSQL("BuyBack","addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",3,1);
               SuperLog($nFile,"BuyBackKitty","Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"BB10","BBID:$bBID",$logVariSettingAry);
               //CloseBuyBack
@@ -419,7 +419,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
         }else{
           addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $usdBBAmount, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, $bbMinsToCancel, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$hoursFlatTarget,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID,$overrideCoinAlloc,'BuyBack',0);
           //echo "<BR>addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);";
-          SuperLog($nFile,"addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"BB11","BBID:$bBID",$logFlowSettingAry);
+          SuperLog($nFile,"addTrackingCoin($tmpCoinID, $tmpLiveCoinPrice, $tmpUserID, $tmpBaseCur, $tmpSendEmail, $tmpBuyCoin, $buyBackPurchasePrice, $tmpBuyRule, $tmpOffset, $tmpOffsetEnabled, $tmpBuyType, 240, $tmpFixSellRule,$tmpToMerge,$tmpNoOfPurchases,$noOfRaisesInPrice,$tmpType,$tmpLiveCoinPrice,$tmpSBTransID,$tmpSBRuleID);",$nFunc,"BB11","BBID:$bBID",$logEventsSettingAry);
           SuperLog($nFile,"Adding $bbKittyAmount to $bBID | TotalBTC: $BTC_BB_Amount| Total USDT: $usdt_BB_Amount| TotalETH: $eth_BB_Amount | BTC_P: $portionBTC| USDT_P: $portion| ETH_P: $portionETH",$nFunc,"BB12","BBID:$bBID",$logVariSettingAry);
           //CloseBuyBack
           closeBuyBack($bBID);
