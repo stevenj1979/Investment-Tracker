@@ -35,7 +35,7 @@ function minAmountToSaving(){
   $sql = "Update `Transaction` `Tr`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
             SET `Tr`.`Status` = 'Saving'
-            WHERE `Status` = 'Open' and `Tr`.`Amount` < `Cn`.`MinTradeSize`";
+            WHERE `Status` = 'Open' and `Tr`.`Amount` < `Cn`.`MinTradeSize` and `Tr`.`ToMerge` = 0";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
