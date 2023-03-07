@@ -58,7 +58,7 @@ function writeSQLTime($name, $time){
   }
   $conn->close();
   logAction("writeSQLTime: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeSQLTime","$sql",3,1,"CryptoBotDirector","Name:$name");
+  newLogToSQL("writeSQLTime","$sql",3,0,"CryptoBotDirector","Name:$name");
 }
 
 function getTimer($timerAry, $name){
