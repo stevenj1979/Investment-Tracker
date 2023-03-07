@@ -959,7 +959,7 @@ function runSavingsMerge(){
   for ($g=0;$g<$savingsArySize;$g++){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
     $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][4]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
-    $type = $savingsAry[$g][9]; $sbRuleID = $savingsAry[$g][10];$sbTransID = $savingsAry[$g][10];
+    $type = $savingsAry[$g][9]; $sbRuleID = $savingsAry[$g][10];$sbTransID = $savingsAry[$g][11];
     updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,$multiSellEnabled,$multiSellID,"CoinHourly","updateSavingsMerge","1,2,3",$type,$sbRuleID,$sbTransID);
   }
 }
