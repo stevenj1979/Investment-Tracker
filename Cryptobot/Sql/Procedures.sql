@@ -1474,7 +1474,13 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` 
     MODIFIES SQL DATA
 BEGIN
 Declare nCount INT;
+DECLARE finalDeleteDate DateTime;
 
+if (daysToSave = -1) Then
+  SET finalDeleteDate = date_add(now(), INTERVAL 10 YEAR);
+else
+  SET finalDeleteDate = date_add(now(), INTERVAL daysToSave DAY);
+End if;
 SELECT count(`ID`) into nCount FROM `ActionLog` WHERE `Subject` = In_Sub and `SubTitle` = Sub_Title and `Title` = nTitle and `DateTime` < DATE_SUB(now(), INTERVAL 30 Minute);
 DELETE FROM `ActionLog` WHERE `DateToDelete` < now() Order by `ID` limit 50;
 if (nCount < 5) THEN

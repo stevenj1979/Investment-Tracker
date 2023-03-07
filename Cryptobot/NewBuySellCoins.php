@@ -816,7 +816,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry)
 function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent,$dailyBTCSpent,$baseMultiplier,$delayCoinPurchase,$buyRules,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$trackCounter,$buyCounter,$ruleType,$webSettingsAry){
   $nFile = "BuySellCoins"; $nFunc = "BuyCoins";
   $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
-  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4];
+  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   echo "<BR> Variables for Log: $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
   $apiVersion = 3;
   $finalBool = False;
@@ -1115,7 +1115,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         if ($totalBal > 15 OR $overrideCoinAlloc == 1) {
           if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry);continue;}
           if ($ruleType == 'Normal'){
-            SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"BC58","",$logFlowSettingAry);
+            SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"BC58","",$logEventsSettingAry);
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
             //newLogToSQL("addTrackingCoin","addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",3,$buyCoinAddTracking,"NewBuySellCoins","RuleID:$ruleIDBuy CoinID:$coinID");
             //addWebUsage($userID,"Add","BuyTracking");
@@ -1135,7 +1135,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
               $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               if ($totalBuyAmount < $buyQuantity){
                 addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
-                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"BC62","",$logFlowSettingAry);
+                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"BC62","",$logEventsSettingAry);
               }else{
                 SuperLog($nFile,"TotalAmout over: $buyQuantity | $totalBuyAmount ",$nFunc,"BC63","",$logFlowSettingAry);
               }
@@ -2193,12 +2193,12 @@ function getNewSettings(){
       die("Connection failed: " . $conn->connect_error);
   }
   //12
-  $sql = "SELECT `FileName`, `Funcname`, `Flow`, `Variables`, `nSQL`, `nExit`, `nAPI` FROM `LogSettings`";
+  $sql = "SELECT `FileName`, `Funcname`, `Flow`, `Variables`, `nSQL`, `nExit`, `nAPI`,`nEvents` FROM `LogSettings`";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['FileName'],$row['Funcname'],$row['Flow'],$row['Variables'],$row['nSQL'],$row['nExit'],$row['nAPI']); //
+    $tempAry[] = Array($row['FileName'],$row['Funcname'],$row['Flow'],$row['Variables'],$row['nSQL'],$row['nExit'],$row['nAPI'],$row['nEvents']); //
   }
   $conn->close();
   return $tempAry;
