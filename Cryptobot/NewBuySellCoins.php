@@ -2103,7 +2103,10 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
   return $finalBool;
 }
 
-function buyToreduceLoss($lossCoins){
+function buyToreduceLoss($lossCoins,$newWebSettingsAry){
+  $nFile = "BuySellCoins"; $nFunc = "ReduceLoss";
+  $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
+  $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   $finalBool = False;
   $lossCoinsSize = count($lossCoins);
   Echo "<BR>0: Total: $lossCoinsSize";
@@ -2150,7 +2153,8 @@ function buyToreduceLoss($lossCoins){
       $quant = $totalAmount*($currentBuy*$profitMultiplier);
       $newPurchase = ($totalAmount*$reduceLossMultiplier);
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
-      newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
+      //newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
+      SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry);
       //Buy Coin with Merge
       addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);
       //addWebUsage($userID,"Add","BuyTracking");
@@ -2432,7 +2436,7 @@ while($completeFlag == False){
           $buyToReduceLossFlag = False;
           $runSellCoinsFlag = True;
         }
-        $buyToReduceLossFlag = buyToreduceLoss($lossCoins);
+        $buyToReduceLossFlag = buyToreduceLoss($lossCoins,$newWebSettingsAry);
 
 
   sleep(15);
