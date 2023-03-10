@@ -2128,7 +2128,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       $finalReduceLoss = 0;
     }
     $excludeSpreadBet = 1;
-    if ($excludeSpreadBet = 1 and ($spreadBetTransactionID <> 0 and $overrideReduceLoss == 0 )){ echo "<BR> ExcludeSpreadBet: EXIT! "; continue;}
+    //if ($excludeSpreadBet = 1 and ($spreadBetTransactionID <> 0 and $overrideReduceLoss == 0 )){ echo "<BR> ExcludeSpreadBet: EXIT! "; continue;}
     if ($hoursFlatAutoEnabled == 1){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
     }
