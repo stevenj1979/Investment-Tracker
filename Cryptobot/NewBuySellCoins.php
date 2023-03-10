@@ -2119,7 +2119,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
-    $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][78]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81];
+    $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][78]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
     }elseif ($reduceLossEnabled == 1){
@@ -2156,7 +2156,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       //newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry);
       //Buy Coin with Merge
-      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);
+      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,$spreadBetTransactionID,$spreadBetRuleID,1,'buyToreduceLoss',$savingOverride,$transactionID);
       //addWebUsage($userID,"Add","BuyTracking");
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
