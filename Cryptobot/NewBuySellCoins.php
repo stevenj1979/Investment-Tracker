@@ -2122,7 +2122,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
-    if ($avgMarketPctChange < -2) { $pctOfAuto = $pctOfAuto + $avgMarketPctChange; }
+    if ($avgMarketPctChange < -2) { $pctOfAuto = $pctOfAuto + ($avgMarketPctChange * 2); }
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
     }elseif ($reduceLossEnabled == 1){
