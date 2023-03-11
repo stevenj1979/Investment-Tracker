@@ -78,14 +78,14 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title` FROM `ActionLog` WHERE `UserID` = $userID and $sql_option and $sql_option2
+  $sql = "SELECT `DateTime`,`Subject`,`Comment`, TimeStampDiff(MINUTE, now(),`DateTime`) As MinsSinceLog, `SubTitle`, `Reference`,`Title`,`LogType` FROM `ActionLog` WHERE `UserID` = $userID and $sql_option and $sql_option2
   and $sql_option3 order by `DateTime` desc Limit 100";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['SubTitle'].": ".$row['Title'].": ".$row['Comment'].": [".$row['MinsSinceLog']."] REF:".$row['Reference']);
+      $tempAry[] = Array($row['DateTime']."| ".$row['Subject'].": ".$row['SubTitle'].": ".$row['Title'].": ".$row['Comment'].": [".$row['MinsSinceLog']."] REF:".$row['Reference']." Type:".$row['LogType']);
   }
   $conn->close();
   return $tempAry;
