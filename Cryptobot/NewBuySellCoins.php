@@ -2122,7 +2122,8 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
-    if ($avgMarketPctChange < -2) { $pctOfAuto = $pctOfAuto + ($avgMarketPctChange * 2); }
+    $marketPctAvg = 1; $profitPctAvg = 1;
+    if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
     }elseif ($reduceLossEnabled == 1){
@@ -2132,17 +2133,22 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     }
     $excludeSpreadBet = 1;
     //if ($excludeSpreadBet = 1 and ($spreadBetTransactionID <> 0 and $overrideReduceLoss == 0 )){ echo "<BR> ExcludeSpreadBet: EXIT! "; continue;}
-    if ($hoursFlatAutoEnabled == 1){
-      $hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
-    }
+
     Echo "<BR>1: PctOfAuto: $pctOfAuto | $pctProfit";
     if ($pctProfit < -20){
         //$pctOfAuto = 100+$pctProfit;
         Echo "<BR>2: PctOfAuto: $pctOfAuto";
         //$hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
-        $hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$pctProfit)));
+        //$hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$pctProfit)));
+        $profitPctAvg = 1- ($pctProfit/-50);
+
     }
     //and $minsToDelay > 0
+    $totalAvg = ($marketPctAvg+$profitPctAvg)/2;
+    if ($hoursFlatAutoEnabled == 1){
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*($pctOfAuto*$totalAvg));
+    }
+    //$hoursFlatTarget = $maxHoursFlat
     $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
     echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
     if ($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget){
