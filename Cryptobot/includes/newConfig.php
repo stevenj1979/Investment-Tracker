@@ -3591,7 +3591,7 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
   }
 }
 
-function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry){
+function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry, $nType){
   $UserID = 3;
   $logSettings = explode(",",$logSettingAry);
   //echo "<BR> LSA: $logSettingAry";
@@ -3601,7 +3601,7 @@ function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry)
   //echo "<BR> Comments/Ref: $comments | $ref";
   $newComments = str_replace("'","/",$comments);
   $newRef = str_replace("'","/",$ref);
-  $sql = "call superLogToSQL($UserID,'$nFile','$newComments',$days,'$nFunction','$title','$newRef')";
+  $sql = "call superLogToSQL($UserID,'$nFile','$newComments',$days,'$nFunction','$title','$newRef','$nType')";
   $sql = str_replace("<BR>","",$sql);
   //echo "<BR> SQL TEST: START $sql END";
   if ($enabled == 1) {
