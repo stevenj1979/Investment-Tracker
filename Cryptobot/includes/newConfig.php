@@ -749,7 +749,7 @@ function getTrackingSellCoinsAll(){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
-    ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
+    ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatLowPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
     ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled'],$row['ReduceLossMinsToCancel'],$row['SpreadBetRuleID'] //82
   ,$row['Market24HrPctChange'],$row['Market7DPctChange']); //84
   }
