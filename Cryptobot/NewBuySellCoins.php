@@ -2126,6 +2126,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
+      $pctOfAuto = $pctOfAuto/2;
     }elseif ($reduceLossEnabled == 1){
       $finalReduceLoss = 1;
     }else{
