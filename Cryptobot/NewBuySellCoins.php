@@ -196,7 +196,7 @@ function runSellSavings($spreadBuyBack){
     if (($profitPCT <= -50 and $minsToDelay > 0 and $noOfBounceSells <= 1)){ $buyMoreFlag = True; }
     if (($profitFlag == True) OR ($hr1Flag == True)){
       newLogToSQL("runSellSavings_v1","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $hr1PctChange",3,1,"Profit","TransID:$transactionID");
-      newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_1');
+      newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,1, 1,0,0,10,'SavingsSell','RunSellSavings_1',0);
       setTransactionStatus($transactionID,"SavingsSell");
       logAction("runSellSavings; newTrackingSellCoins_v1 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $hr1PctChange", 'BuySellFlow', 1);
       updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
@@ -479,7 +479,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
           $totalRisesSell = 1;
       }
       LogToSQL("SellSpreadBet and BuyBack","newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,1,1,0,0.0,11);",3,1);
-      newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,11,'Sell','runSpreadBetSellAndBuyback');
+      newTrackingSellCoins($bounceTopPrice, $userID,$transactionID,1,1,0,0.0,11,'Sell','runSpreadBetSellAndBuyback',0);
       setTransactionPending($transactionID);
       $usd_Price = $LiveCoinPrice * $amount;
       WriteBuyBack($transactionID,$finalProfitPct,11, $totalMins,$LiveCoinPrice,$amount,$purchasePrice,$usd_Price);
@@ -1427,7 +1427,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           $newType = 'SellBypass';
         }
         if ($sellRuleType == 'Normal'){
-          newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
+          newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins',0);
           setTransactionPending($transactionID);
 
           echoAndLog("SellCoins", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit | $ruleIDSell | $multiSellResult SellRule:$ruleIDSell", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
@@ -1439,7 +1439,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           echoAndLog("SellCoinsSpreadBet", "getSpreadBetSellCoins($spreadBetTransactionID); $spreadBetToSellSize", $userID, 0,"AddTrackingSellCoin","TransactionID:$transactionID");
           for ($a=0;$a<$spreadBetToSellSize;$a++){
             $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1]; $coinID = $spreadBetToSell[$a][3];
-            newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins');
+            newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins',1);
             echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit | $ruleIDSell | $multiSellResult SellRule:$ruleIDSell", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
             setTransactionPending($transactionID);
           }
