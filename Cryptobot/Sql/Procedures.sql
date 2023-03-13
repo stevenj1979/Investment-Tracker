@@ -156,7 +156,7 @@ End$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddTrackingSellCoin`(IN `Coin_Price` DECIMAL(20,14), IN `User_ID` INT, IN `Trans_ID` INT, IN `Sell_Coin` INT, IN `Send_Email` INT, IN `Offset_Enabled` INT, IN `Offset_Pct` DECIMAL(20,8), IN `Fall_InPrice` INT, IN `nType` VARCHAR(50))
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddTrackingSellCoin`(IN `Coin_Price` DECIMAL(20,14), IN `User_ID` INT, IN `Trans_ID` INT, IN `Sell_Coin` INT, IN `Send_Email` INT, IN `Offset_Enabled` INT, IN `Offset_Pct` DECIMAL(20,8), IN `Fall_InPrice` INT, IN `nType` VARCHAR(50), IN `Override_BittrexCancel` INT)
     MODIFIES SQL DATA
 BEGIN
 
@@ -171,6 +171,8 @@ else
   SELECT `TrackingCount` into Tracking_Count FROM `TrackingSellCoins` WHERE `TransactionID` = Trans_ID;
   if Tracking_Count >= 5 THEN
     UPDATE `Transaction` SET `OverrideBittrexCancellation` = 1 where `ID`  = Trans_ID;
+  ELSE
+  UPDATE `Transaction` SET `OverrideBittrexCancellation` = Override_BittrexCancel where `ID`  = Trans_ID;
   end if;
 end if;
 
