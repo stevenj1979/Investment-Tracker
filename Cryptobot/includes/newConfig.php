@@ -1051,7 +1051,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   echo "<BR> btcBuyAmount $btcBuyAmount ";
   //if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
     //$btcBuyAmount = $btcBuyAmount;
-    $userSavingAmount = $userSaving[0][0];
+    $userSavingAmount = $userSaving[0];
     if ($overrideCoinAlloc == 1){
       $userSavingAmount = 0;
     }
