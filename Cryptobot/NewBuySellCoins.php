@@ -2150,7 +2150,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     }
     //and $minsToDelay > 0
     $totalAvg = ($marketPctAvg+$profitPctAvg)/2;
-    if ($hoursFlatAutoEnabled == 1){
+    if ($hoursFlatAutoEnabled == 1 AND $overrideReduceLoss == 0){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*($pctOfAuto*$totalAvg));
     }
     //$hoursFlatTarget = $maxHoursFlat
