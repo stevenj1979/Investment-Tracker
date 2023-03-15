@@ -2154,7 +2154,9 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*($pctOfAuto*$totalAvg));
     }
     //$hoursFlatTarget = $maxHoursFlat
-    $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
+    if ($overrideReduceLoss == 0){
+      $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
+    }
     echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
     if (($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1 AND $reduceLossCounter < $reduceLossMaxCounter AND $hoursFlat >= $hoursFlatTarget) OR ($pctProfit <= $reduceLossSellPct AND $overrideReduceLoss == 1 AND $hoursFlat >= $hoursFlatTarget)){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
