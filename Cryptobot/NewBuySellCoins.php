@@ -2129,7 +2129,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
       $pctOfAuto = $pctOfAuto/4;
-      $hoursFlatTarget = 4;
+      $hoursFlatTarget = floor(($maxHoursFlat/100)*5);
     }elseif ($reduceLossEnabled == 1){
       $finalReduceLoss = 1;
     }else{
