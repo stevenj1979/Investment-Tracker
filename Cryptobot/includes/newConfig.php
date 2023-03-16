@@ -1065,7 +1065,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   $subject = "Coin Alert: ".$coin;
   $from = 'Coin Alert <alert@investment-tracker.net>';
   echo "<BR>Balance: $BTCBalance";
-  $minTradeAmount = getMinTradeFromSQL($coinID);
+  $minTradeAmount = getMinTradeFromSQL($coinID,$baseCurrency);
   if ($buyCoin) {
     $subject = "Coin Purchase: ".$coin;
     $from = 'Coin Purchase <purchase@investment-tracker.net>';
@@ -1834,12 +1834,19 @@ function getMinTradeAmount($apiKey, $apisecret){
 
 }
 
-function getMinTradeFromSQL($coinID){
+function getMinTradeFromSQL($coinID,$baseCurrency){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
+  if ($baseCurrency == 'USDT'){
+    $btcPriceCoin = 83;
+  }elseif ($baseCurrency == 'BTC'){
+    $btcPriceCoin = 84;
+  }elseif ($baseCurrency == 'ETH'){
+    $btcPriceCoin = 85;
+  }
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` = $coinID";
+  $sql = "SELECT `MinTradeSize`/ getBTCPrice($btcPriceCoin) as MinTradeSize FROM `Coin` WHERE `ID` $coinID";
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['MinTradeSize']);}
   $conn->close();
