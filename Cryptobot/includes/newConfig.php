@@ -1057,7 +1057,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     }
   //}
   if ($BTCBalance < $originalBuyAmount){
-    $tempFee = ($BTCBalance/100)*1.0;
+    $tempFee = ($BTCBalance/100)*0.392;
     $btcBuyAmount = round(($BTCBalance-$tempFee-$userSavingAmount)/$bitPrice,10);
     LogToSQL("BuyCoinBalance","NewCoinBalance: $coin | $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance | Fee:$tempFee | OriginalBuyAmount: $originalBuyAmount | BitPrice: $bitPrice",3,1);
   }
