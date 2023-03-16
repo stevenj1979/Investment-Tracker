@@ -1058,7 +1058,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   //}
   if ($BTCBalance < $originalBuyAmount){
     $tempFee = ($BTCBalance/100)*0.30;
-    $btcBuyAmount = round(($BTCBalance-$tempFee-$userSavingAmount),10);
+    $btcBuyAmount = round(($BTCBalance-$tempFee-$userSavingAmount)/$bitPrice,10);
     LogToSQL("BuyCoinBalance","NewCoinBalance: $coin | $btcBuyAmount | Saving: $userSavingAmount | BTCBalance:$BTCBalance | Fee:$tempFee | OriginalBuyAmount: $originalBuyAmount | BitPrice: $bitPrice",3,1);
   }
   LogToSQL("BuyCoinAmount","btcBuyAmount: $btcBuyAmount | Saving: $userSavingAmount | BuyMin: $buyMin",3,1);
@@ -1846,7 +1846,7 @@ function getMinTradeFromSQL($coinID,$baseCurrency){
   }
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `MinTradeSize`/ getBTCPrice($btcPriceCoin) as MinTradeSize FROM `Coin` WHERE `ID` $coinID";
+  $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` $coinID";
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['MinTradeSize']);}
   $conn->close();
