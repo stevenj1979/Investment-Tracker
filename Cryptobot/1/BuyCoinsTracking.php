@@ -75,7 +75,7 @@ function showMain(){
           NewEcho("<td>&nbsp$symbol</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$baseCurrency</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp".round($coinPrice,$num)."</td>",$_SESSION['isMobile'],2);
-          NewEcho("<td>&nbsp".round($differenceToBuy,$num)."</td>",$_SESSION['isMobile'],2);
+          NewEcho("<td>&nbsp".number_format($differenceToBuy,$num,",",".")."</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp".round($differenceToBuyPct,$num)."</td>",$_SESSION['isMobile'],2);
           NewEcho("<td>&nbsp$UserName</td>",$_SESSION['isMobile'],0);
           NewEcho("<td>&nbsp$BuyCoin</td>",$_SESSION['isMobile'],0);
