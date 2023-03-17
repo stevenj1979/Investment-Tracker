@@ -185,10 +185,10 @@ FROM `BittrexAction`  `Ba`
     ,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) > 0),1,if(((`Cpc`.`1HrChange4` - `Cpc`.`1HrChange5`) < 0),-(1),0)) AS `1HrPriceChange4`
     ,`Uc`.`UserID` AS `UserID2`,`Uc`.`APIKey` AS `APIKey`,`Uc`.`APISecret` AS `APISecret`,`Uc`.`EnableDailyBTCLimit` AS `EnableDailyBTCLimit`,`Uc`.`EnableTotalBTCLimit` AS `EnableTotalBTCLimit`,`Uc`.`DailyBTCLimit` AS `DailyBTCLimit`,`Uc`.`TotalBTCLimit` AS `TotalBTCLimit`,`Uc`.`BTCBuyAmount` AS `BTCBuyAmount`,`Uc`.`CoinSellOffsetEnabled` AS `CoinSellOffsetEnabled2`,`Uc`.`CoinSellOffsetPct` AS `CoinSellOffsetPct2`,`Uc`.`BaseCurrency` AS `BaseCurrency2`,`Uc`.`NoOfCoinPurchase` AS `NoOfCoinPurchase`,`Uc`.`TimetoCancelBuy` AS `TimetoCancelBuy`,`Uc`.`TimeToCancelBuyMins` AS `TimeToCancelBuyMins`,`Uc`.`KEK` AS `KEK`,`Uc`.`MinsToPauseAlert` AS `MinsToPauseAlert`,`Uc`.`LowPricePurchaseEnabled` AS `LowPricePurchaseEnabled`,`Uc`.`NoOfPurchases` AS `NoOfPurchases2`,`Uc`.`PctToPurchase` AS `PctToPurchase`,`Uc`.`TotalRisesInPrice` AS `TotalRisesInPrice`,`Uc`.`TotalRisesInPriceSell` AS `TotalRisesInPriceSell`,`Uc`.`ReservedUSDT` AS `ReservedUSDT`,`Uc`.`ReservedBTC` AS `ReservedBTC`,`Uc`.`ReservedETH` AS `ReservedETH`,`Uc`.`TotalProfitPauseEnabled` AS `TotalProfitPauseEnabled`,`Uc`.`TotalProfitPause` AS `TotalProfitPause`,`Uc`.`PauseRulesEnabled` AS `PauseRulesEnabled`,`Uc`.`PauseRules` AS `PauseRules`,`Uc`.`PauseHours` AS `PauseHours`,`Uc`.`MergeAllCoinsDaily` AS `MergeAllCoinsDaily`,`Uc`.`MarketDropStopEnabled` AS `MarketDropStopEnabled`,`Uc`.`MarketDropStopPct` AS `MarketDropStopPct`,`Uc`.`SellAllCoinsEnabled` AS `SellAllCoinsEnabled`,`Uc`.`SellAllCoinsPct` AS `SellAllCoinsPct`,`Uc`.`CoinModeEmails` AS `CoinModeEmails`,`Uc`.`CoinModeEmailsSell` AS `CoinModeEmailsSell`,`Uc`.`CoinModeMinsToCancelBuy` AS `CoinModeMinsToCancelBuy`,`Uc`.`PctToSave` AS `PctToSave`,`Uc`.`SplitBuyAmounByPctEnabled` AS `SplitBuyAmounByPctEnabled`,`Uc`.`NoOfSplits` AS `NoOfSplits`,`Uc`.`SaveResidualCoins` AS `SaveResidualCoins`,`Uc`.`RedirectPurchasesToSpread` AS `RedirectPurchasesToSpread`,`Uc`.`SpreadBetRuleID` AS `SpreadBetRuleID2`,`Uc`.`MinsToPauseAfterPurchase` AS `MinsToPauseAfterPurchase`,`Uc`.`LowMarketModeEnabled` AS `LowMarketModeEnabled`,`Uc`.`LowMarketModeDate` AS `LowMarketModeDate`,`Uc`.`AutoMergeSavings` AS `AutoMergeSavings`,`Uc`.`AllBuyBackAsOverride` AS `AllBuyBackAsOverride`,`Uc`.`TotalPurchasesPerCoin` AS `TotalPurchasesPerCoin`,`Uc`.`SellSavingsEnabled`,`Uc`.`HoldCoinForBuyOut`,`Uc`.`CoinForBuyOutPct`,`Uc`.`PctOfAuto`,`Uc`.`PctOfAutoBuyBack`,`Uc`.`PctOfAutoReduceLoss`
     ,`Tr`.`CoinPrice`*`Tr`.`Amount` as OriginalPrice,
-      ((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28 as CoinFee,
+      ((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.82 as CoinFee,
       `Cp`.`LiveCoinPrice`*`Tr`.`Amount` as LivePrice
-      ,(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28) as ProfitUSD
-      ,(((`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.28)) /(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as ProfitPct
+      ,(`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.82) as ProfitUSD
+      ,(((`Cp`.`LiveCoinPrice`*`Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`)-(((`Tr`.`CoinPrice`*`Tr`.`Amount`)/100)*0.82)) /(`Tr`.`CoinPrice`*`Tr`.`Amount`))*100 as ProfitPct
       ,TimeStampDiff(MINUTE, `Tr`.`DelayCoinSwapUntil`, now()) as `minsToDelay`
       ,TIMESTAMPDIFF(MINUTE, `Tr`.`OrderDate`, Now()) as MinsFromBuy
       ,if (`DelayCoinSwapUntil`< now(), 0,1) as CoinSwapDelayed
@@ -238,7 +238,7 @@ FROM `BittrexAction`  `Ba`
     , `Uc`.`TotalPurchasesPerCoin`,`Uc`.`BuyBackEnabled`
     ,`Us`.`ID` as `IDUs`, `Us`.`AccountType`, `Us`.`Active`, `Us`.`UserName`, `Us`.`Password`, `Us`.`ExpiryDate`, `Us`.`FirstTimeLogin`, `Us`.`ResetComplete`, `Us`.`ResetToken`, `Us`.`Email`
     , `Us`.`DisableUntil`
-    ,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate,(`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`) as `ProfitUSD`, ((`LiveCoinPrice`*`Amount`)/100)*0.28 as `Fee`
+    ,TIMESTAMPDIFF(MINUTE,`TrackDate`, Now()) as MinsFromDate,(`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`) as `ProfitUSD`, ((`LiveCoinPrice`*`Amount`)/100)*0.82 as `Fee`
             ,(((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice`*`Amount`))/(`Tr`.`CoinPrice`*`Amount`))*100`PctProfit`
      , ((`LiveCoinPrice`*`Amount`)-(`Tr`.`CoinPrice` * `Amount`))/ (`Tr`.`CoinPrice` * `Amount`) * 100 as `OgPctProfit`
     , `Tr`.`CoinPrice` * `Amount` as `OriginalPurchasePrice`
@@ -682,9 +682,9 @@ SELECT `Us`.`ID` AS `IDUs`,`Us`.`AccountType` AS `AccountType`,`Us`.`Active` AS 
        where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
 
 CREATE OR REPLACE VIEW `View22_BuyBackTransationIDProfit` as
-       SELECT  `BuyBackTransactionID`,  if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
-                ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
-                  ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.28)) ,0)))as USDProfit
+       SELECT  `BuyBackTransactionID`,  if(`BaseCurrency` = 'BTC',sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.82)* getBTCPrice(84)) ,if(`BaseCurrency` = 'ETH'
+                ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.82)* getBTCPrice(85)) ,if(`BaseCurrency` = 'USDT'
+                  ,sum((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(`CoinPrice`* if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))-(((`SellPrice`*if(`OriginalAmount`=0,`Amount`,`OriginalAmount`))/100)*0.82)) ,0)))as USDProfit
                   , `BaseCurrency`,`UserID`
               FROM `View15_OpenTransactions`
               WHERE `UserID` = 3 and `Type` = 'Sell' and `StatusTr` = 'Sold' and `BuyBackTransactionID` <> 0

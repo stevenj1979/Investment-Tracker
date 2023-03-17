@@ -660,7 +660,7 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
   ,sum(`Live7DChange`) as `Live7DChange`,sum(((`LiveCoinPrice` - `Live7DChange`) / `Live7DChange`) * 100) as `D7ChangePctChange`,`BaseCurrency`,avg(`LivePriceTrend`) as `LivePriceTrend`,avg(`LastPriceTrend`) as `LastPriceTrend`,avg(`Price3Trend`) as `Price3Trend`
   ,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
   ,sum(`NoOfCoinSwapsThisWeek`) as `NoOfCoinSwapsThisWeek`,sum(`OriginalPrice`) as `OriginalPrice`, sum(`CoinFee`) as `CoinFee`,sum(`LivePrice`) as `LivePrice`, sum(`ProfitUSD`) as `ProfitUSD`
-        ,sum(((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-((((`LiveCoinPrice`*`Amount`))/100)*0.28))/(`CoinPrice`*`Amount`))*100 as ProfitPct
+        ,sum(((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-((((`LiveCoinPrice`*`Amount`))/100)*0.82))/(`CoinPrice`*`Amount`))*100 as ProfitPct
   ,avg(`CaptureTrend`) as `CaptureTrend`
   ,avg(`minsToDelay`) as `minsToDelay`,avg(`MinsFromBuy`) as `MinsFromBuy`,avg(`HoursFlatHighPdcs`) as `HoursFlatHighPdcs`,sum(`MaxPriceFromHigh`) as `MaxPriceFromHigh`,sum(`PctFromLiveToHigh`) as `PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp' as `SellPctCsp`,avg(`MaxHoursFlat`) as `MaxHoursFlat`,sum(`Hr1Top`) as `Hr1Top`,sum(`Hr1Bottom`) as `Hr1Bottom`,avg(`CaaOffset`) as `CaaOffset`
@@ -734,7 +734,7 @@ function getTrackingSellCoinsAll(){
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
   ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
-  ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.28) as ProfitUSD
+  ,`CoinPrice`*`Amount` as OriginalPrice, ((`CoinPrice`*`Amount`)/100)*0.82 as CoinFee, `LiveCoinPrice`*`Amount` as LivePrice, (`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-( ((`CoinPrice`*`Amount`)/100)*0.82) as ProfitUSD
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`
@@ -934,8 +934,8 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
   $testFlag = 0;
   echo "<BR> 0: returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){";
   if ($btcBuyAmount == 0){
-    echo "<BR> 1: $BTCBalance - (($BTCBalance/ 100 ) * 0.28) : ";
-    $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
+    echo "<BR> 1: $BTCBalance - (($BTCBalance/ 100 ) * 0.82) : ";
+    $returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
     echo " $returnPrice ";
     $testFlag = 1;
   }elseif ($btcBuyAmount > 0 && $buyType == 0){
@@ -960,7 +960,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
 
    if ($btcBuyAmount > $BTCBalance) {
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
-     $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
+     $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
      $returnPrice = $tempPrice/$bitPrice;
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }

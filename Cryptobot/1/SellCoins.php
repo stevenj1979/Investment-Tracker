@@ -231,7 +231,7 @@ function showSellCoins($trackingSell,$title){
       $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
       $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35];
       $priceDiff1 = $livePrice - $LastCoinPrice;
-      $fee = (($livePrice* $amount)/100)*0.28;
+      $fee = (($livePrice* $amount)/100)*0.82;
       $liveTotalCost = ($livePrice * $amount);
       $originalPurchaseCost = ($purchaseCost * $amount);
       $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
