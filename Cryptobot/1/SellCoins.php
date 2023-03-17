@@ -264,13 +264,13 @@ function showSellCoins($trackingSell,$title){
       //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
       $numCol = getNumberColour($priceDiff1);
-      echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
+      echo "<td><p id='smallText' style='color:$numCol'>".number_format($priceDiff1, $roundVar, '.', '')."</p></td>";
       echo "<td><p id='largeText' >".number_format($profit, $roundVar, '.', '')." $baseCurrency</p></td>";
 
       NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       $numCol = getNumberColour($profitBtc);
-      echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,$roundVar)."</p></td>";
+      echo "<td><p id='smallText' style='color:$numCol'>".number_format($profitBtc, $roundVar, '.', '')."</p></td>";
   }
   print_r("</table>");
   //echo "<BR><a href='SellCoins.php?lowMarketMode=1'>Enable Low Market Mode</a>";
