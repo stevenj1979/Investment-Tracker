@@ -4051,15 +4051,15 @@ function sendAlertEmail($to, $symbol , $price, $action, $user){
 }
 
 function setStyle($isMobile){
-  if ($isMobile){
-      echo "<style>";
-      include 'style/mStyle.css';
-      echo "</style>";
-  }else{
+  //if ($isMobile){
+  //    echo "<style>";
+  //    include 'style/mStyle.css';
+  //    echo "</style>";
+//}else{
     echo "<style>";
     include 'style/style.css';
     echo "</style>";
-  }
+  //}
 }
 
 function isMobile() {
