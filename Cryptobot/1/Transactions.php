@@ -4,10 +4,9 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
-<style>
-<?php setStyle($_SESSION['isMobile']); ?>
-</style> <?php
+include_once '../includes/newConfig.php';
+setStyle($_SESSION['isMobile']);
+
 
 //if not logged in redirect to login page
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
@@ -23,7 +22,7 @@ header( "Refresh: 120; URL=$current_url" );
 require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
 include_once ('../../../../SQLData.php');
 $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
-setStyle($_SESSION['isMobile']);
+//setStyle($_SESSION['isMobile']);
 
 setMobileVariables();
 

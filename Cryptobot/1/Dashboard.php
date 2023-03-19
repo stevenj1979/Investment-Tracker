@@ -4,6 +4,7 @@ require('includes/config.php');
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 include_once ('../../../../SQLData.php');
 include '../includes/newConfig.php';
+setStyle($_SESSION['isMobile']);
 ?>
 
 <html>
@@ -97,10 +98,10 @@ $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
 header( "Refresh: 120; URL=$current_url" );
 //include header template
-require($_SERVER['DOCUMENT_ROOT'].'/Investment-Tracker/Cryptobot/1/layout/header.php');
-include_once ('../../../../SQLData.php');
-$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/BuyCoins.php";
-setStyle($_SESSION['isMobile']);
+require('layout/header.php');
+//include_once ('../../../../SQLData.php');
+$locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
+
 //.page-wrapper
   //{
    //width:1000px;
