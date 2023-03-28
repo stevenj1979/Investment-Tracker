@@ -238,3 +238,28 @@ SELECT `Total`*getBTCPrice(Coin_ID) into total_reserve FROM `BittrexBalances` WH
 
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `GetTaxAmount`(`Start_Year` INT, `End_Year` INT, `BCurrency` VARCHAR(50)) RETURNS decimal(14,10)
+    NO SQL
+BEGIN
+DECLARE nMultiply DEC(14,10);
+DECLARE nReturn DEC(14,10);
+if (BCurrency = 'USDT') then
+ set nMultiply = getBTCPrice(83);
+ELSEIF (BCurrency = 'BTC') then
+ set nMultiply = getBTCPrice(84);
+elseif (BCurrency = 'ETH') then
+ set nMultiply = getBTCPrice(85);
+end if;
+SELECT
+sum((`Tr`.`Amount` *`Ba`.`SellPrice`- `Tr`.`CoinPrice`* `Tr`.`Amount`))* nMultiply
+into nReturn
+FROM `Transaction` `Tr`
+join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
+join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+
+WHERE `Tr`.`OrderDate` > makedate(Start_Year,95) and `Tr`.`Status` = 'Sold' and `Cn`.`BaseCurrency` = BCurrency and `Tr`.`OrderDate` < makedate(End_Year,95);
+return nReturn;
+End$$
+DELIMITER ;
