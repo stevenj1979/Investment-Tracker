@@ -240,7 +240,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `GetTaxAmount`(`Start_Year` INT, `End_Year` INT, `BCurrency` VARCHAR(50)) RETURNS decimal(14,10)
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `GetTaxAmount`(`Start_Year` INT, `End_Year` INT, `BCurrency` VARCHAR(50), `User_ID` INT) RETURNS decimal(14,10)
     NO SQL
 BEGIN
 DECLARE nMultiply DEC(14,10);
@@ -259,7 +259,7 @@ FROM `Transaction` `Tr`
 join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell','SpreadSell')
 join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
 
-WHERE `Tr`.`OrderDate` > makedate(Start_Year,95) and `Tr`.`Status` = 'Sold' and `Cn`.`BaseCurrency` = BCurrency and `Tr`.`OrderDate` < makedate(End_Year,95);
+WHERE `Tr`.`OrderDate` > makedate(Start_Year,95) and `Tr`.`Status` = 'Sold' and `Cn`.`BaseCurrency` = BCurrency and `Tr`.`OrderDate` < makedate(End_Year,95) and `Tr`.`UserID` = User_ID;
 return nReturn;
 End$$
 DELIMITER ;
