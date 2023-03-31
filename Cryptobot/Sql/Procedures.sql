@@ -1589,7 +1589,7 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `PriceDipEnable`(IN `n_status
 BEGIN
 declare c_status INT;
 if not exists(SELECT `ID` FROM `PriceDipMarketRule` WHERE `BuyRuleID` = rule_ID) THEN
-  INSERT INTO `PriceDipMarketRule`(`BuyRuleID`,  `HoursFlat`) VALUES (rule_ID,24);
+  INSERT INTO `PriceDipMarketRule`(`BuyRuleID`,  `HoursFlat`) VALUES (rule_ID,(SELECT `MarketHoursFlat` FROM `BuyRules` WHERE `ID` = rule_ID) );
 end if;
 Select  `PriceDipEnabled` into c_status from `PriceDipStatus` WHERE `BuyRuleID` = rule_ID;
 	UPDATE `PriceDipStatus` SET `PriceDipEnabled`= n_status, `MarketPrice` = Market_LivePrice WHERE `BuyRuleID` = rule_ID;
