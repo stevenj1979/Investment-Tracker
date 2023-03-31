@@ -7508,7 +7508,7 @@ function getPriceDipRules(){
           ,( `Hr24ChangePctChangeMkt` + `D7ChangePctChangeMkt`)/2 as LivePctChangeAvg
           ,(`24HrPriceDipPctBr`+`7DPriceDipPctBr`)/2 as PriceDipDisableAvg
           ,`MaxCoinPricePctChange`, `MaxHr1ChangePctChange`, `MaxHr24ChangePctChange`,`MaxD7ChangePctChange`, `MinCoinPricePctChange`, `MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
-          ,`PctOfAuto`,`DisableAfterDipPct`,`LiveCoinPriceMkt`,`marketHoursFlatHigh`,`marketHoursFlatTarget`
+          ,`PctOfAuto`,`DisableAfterDipPct`,`LiveCoinPriceMkt`,`marketHoursFlatLow`,`marketHoursFlatTarget`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` >= 1 ";
 
@@ -7520,7 +7520,7 @@ function getPriceDipRules(){
       $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDipBr'],$row['PriceDipEnable24Hour'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['PriceDipEnable7Day'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds'] //8
       ,$row['DipStartTimePds'],$row['HoursFlat'],$row['PctTolerance'],$row['24HrPriceDipPctBr'],$row['7DPriceDipPctBr'],$row['BuyCoin'],$row['PriceDipEnableAvg'],$row['LivePctChangeAvg'],$row['PriceDipDisableAvg'],$row['MaxCoinPricePctChange']//18
       ,$row['MaxHr1ChangePctChange'],$row['MaxHr24ChangePctChange'],$row['MaxD7ChangePctChange'],$row['MinCoinPricePctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange'],$row['PctOfAuto'],$row['DisableAfterDipPct']//27
-      ,$row['LiveCoinPriceMkt'],$row['marketHoursFlatHigh'],$row['marketHoursFlatTarget']); //30
+      ,$row['LiveCoinPriceMkt'],$row['marketHoursFlatLow'],$row['marketHoursFlatTarget']); //30
   }
   $conn->close();
   return $tempAry;
