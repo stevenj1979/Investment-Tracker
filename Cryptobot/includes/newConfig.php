@@ -7508,7 +7508,7 @@ function getPriceDipRules(){
           ,( `Hr24ChangePctChangeMkt` + `D7ChangePctChangeMkt`)/2 as LivePctChangeAvg
           ,(`24HrPriceDipPctBr`+`7DPriceDipPctBr`)/2 as PriceDipDisableAvg
           ,`MaxCoinPricePctChange`, `MaxHr1ChangePctChange`, `MaxHr24ChangePctChange`,`MaxD7ChangePctChange`, `MinCoinPricePctChange`, `MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
-          ,`PctOfAuto`,`DisableAfterDipPct`
+          ,`PctOfAuto`,`DisableAfterDipPct`,`LiveCoinPriceMkt`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` >= 1 ";
 
@@ -7519,7 +7519,8 @@ function getPriceDipRules(){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['RuleID'],$row['EnableRuleActivationAfterDipBr'],$row['PriceDipEnable24Hour'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['PriceDipEnable7Day'],$row['BuyRuleIDPds'],$row['PriceDipEnabledPds'],$row['HoursFlatPds'] //8
       ,$row['DipStartTimePds'],$row['HoursFlat'],$row['PctTolerance'],$row['24HrPriceDipPctBr'],$row['7DPriceDipPctBr'],$row['BuyCoin'],$row['PriceDipEnableAvg'],$row['LivePctChangeAvg'],$row['PriceDipDisableAvg'],$row['MaxCoinPricePctChange']//18
-    ,$row['MaxHr1ChangePctChange'],$row['MaxHr24ChangePctChange'],$row['MaxD7ChangePctChange'],$row['MinCoinPricePctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange'],$row['PctOfAuto'],$row['DisableAfterDipPct']); //27
+      ,$row['MaxHr1ChangePctChange'],$row['MaxHr24ChangePctChange'],$row['MaxD7ChangePctChange'],$row['MinCoinPricePctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange'],$row['PctOfAuto'],$row['DisableAfterDipPct']//27
+      ,$row['LiveCoinPriceMkt']); //28
   }
   $conn->close();
   return $tempAry;
@@ -7551,13 +7552,13 @@ function getMarketStatistics(){
   return $tempAry;
 }
 
-function setPriceDipEnable($ruleID,$status,$buyCoin){
+function setPriceDipEnable($ruleID,$status,$buyCoin,$liveCoinPriceMkt){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "call PriceDipEnable($status,$ruleID);";
+  $sql = "call PriceDipEnable($status,$ruleID,$liveCoinPriceMkt);";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

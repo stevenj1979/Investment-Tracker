@@ -1584,12 +1584,12 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `PriceDipEnable`(IN `n_status` INT, IN `rule_ID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `PriceDipEnable`(IN `n_status` INT, IN `rule_ID` INT, IN `Market_LivePrice` DEC(20,14))
     MODIFIES SQL DATA
 BEGIN
 declare c_status INT;
 Select  `PriceDipEnabled` into c_status from `PriceDipStatus` WHERE `BuyRuleID` = rule_ID;
-	UPDATE `PriceDipStatus` SET `PriceDipEnabled`= n_status WHERE `BuyRuleID` = rule_ID;
+	UPDATE `PriceDipStatus` SET `PriceDipEnabled`= n_status, `MarketPrice` = Market_LivePrice WHERE `BuyRuleID` = rule_ID;
  if (c_status = 1 AND n_Status = 0) Then
 	UPDATE `PriceDipStatus` SET `DipStartTime` = DATE_ADD(now(), INTERVAL 1 YEAR) WHERE `BuyRuleID` = rule_ID;
  ELSEIF (c_status = 0 AND n_Status = 1) THEN
