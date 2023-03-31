@@ -1588,6 +1588,9 @@ CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `PriceDipEnable`(IN `n_status
     MODIFIES SQL DATA
 BEGIN
 declare c_status INT;
+if not exists(SELECT `ID` FROM `PriceDipMarketRule` WHERE `BuyRuleID` = rule_ID) THEN
+  INSERT INTO `PriceDipMarketRule`(`BuyRuleID`,  `HoursFlat`) VALUES (rule_ID,24);
+end if;
 Select  `PriceDipEnabled` into c_status from `PriceDipStatus` WHERE `BuyRuleID` = rule_ID;
 	UPDATE `PriceDipStatus` SET `PriceDipEnabled`= n_status, `MarketPrice` = Market_LivePrice WHERE `BuyRuleID` = rule_ID;
  if (c_status = 1 AND n_Status = 0) Then
@@ -1595,6 +1598,7 @@ Select  `PriceDipEnabled` into c_status from `PriceDipStatus` WHERE `BuyRuleID` 
  ELSEIF (c_status = 0 AND n_Status = 1) THEN
  	UPDATE `PriceDipStatus` SET `DipStartTime` = now()   WHERE `BuyRuleID` = rule_ID;
  end if;
+
 END$$
 DELIMITER ;
 
@@ -2264,7 +2268,7 @@ SELECT ifnull(`MinD7ChangePctChange`,0) into MinD7Pct FROM `MarketCoinStats`;
 
 Delete from `MarketCoinStats`;
 
-INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`MaxCoinPricePctChange`,`MaxHr1ChangePctChange`,`MaxHr24ChangePctChange`,`MaxD7ChangePctChange`,`MinCoinPricePctChange`,`MinHr1ChangePctChange`,`MinHr24ChangePctChange`,`MinD7ChangePctChange`)
+INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`MaxCoinPricePctChange`,`MaxHr1ChangePctChange`,`MaxHr24ChangePctChange`,`MaxD7ChangePctChange`,`MinCoinPricePctChange`,`MinHr1ChangePctChange`,`MinHr24ChangePctChange`,`MinD7ChangePctChange`,`HoursFlat`,`HoursFlatLow`,`HoursFlatHigh`)
  SELECT sum(`Cp`.`LiveCoinPrice`) as LiveCoinPrice, sum(`Cp`.`LastCoinPrice`) as LastCoinPrice, sum(`Cp`.`Price3`) as Price3, sum(`Cp`.`Price4`) as Price4, sum(`Cp`.`Price5`) as Price5
      ,sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
      , sum(`Cmc`.`LiveMarketCap`) as LiveMarketCap, sum(`Cmc`.`LastMarketCap`) as LastMarketCap, sum(((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
@@ -2292,6 +2296,7 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
 ,if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr1Pct, if(  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99,  ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live1HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr1Pct), MinHr1Pct)
 ,if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinHr24Pct,  if( (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99,  (( sum(`Cp`.`LiveCoinPrice`)- sum(`Cpc`.`Live24HrChange`))/sum(`Cp`.`LiveCoinPrice`))*100, MinHr24Pct), MinHr24Pct)
 ,if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 < MinD7Pct, if( ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 > -99, ((sum(`Cp`.`LiveCoinPrice`) - sum(`Cpc`.`Live7DChange`))/sum(`Cp`.`LiveCoinPrice`))*100 , MinD7Pct) , MinD7Pct)
+,avg(`Pdcs`.`HoursFlat`) as HoursFlat,avg(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,avg(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
      FROM `Coin` `Cn`
      join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
      join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
@@ -2299,6 +2304,7 @@ INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price
      join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
      join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
      join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+     join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
        where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0
        having `LiveCoinPrice` <> 0;
 END$$
