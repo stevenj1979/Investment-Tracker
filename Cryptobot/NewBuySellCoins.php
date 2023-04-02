@@ -807,7 +807,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry)
         }
       }
       $finalBool = True;
-    }elseif ($readyToSell == 2){
+    }elseif ($readyToSell > 90){
       $finalBool = True;
     }
 
