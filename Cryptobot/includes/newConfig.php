@@ -7243,12 +7243,12 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       echo "<BR> Option7: Profit over 20% Sell";
       reopenTransaction($TransactionID);
       logAction("runTrackingSellCoin; ReadToSell : OPT7 | $coin | $type | $pctProfit", 'BuySellFlow', 1);
-      return 1;
+      return 2;
     }
     //if liveprice is stable, add 1 - -0.5 - 0.5
     if ($minsFromDate < 2){
         //: OPT 1
-        return 2;
+        return 98;
     }
 
     if ($type == 'SpreadSell' && $minsFromDate > 14400){
@@ -7257,7 +7257,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       updateSQLcancelSpreadBetTrackingSell($TransactionID);
       reopenTransaction($TransactionID);
       closeNewTrackingSellCoin($TransactionID);
-      return 2;
+      return 99;
     }
 
     if (abs($market1HrChangePct) > 0.25){
@@ -7271,7 +7271,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       newLogToSQL("TrackingSell", "OPT 2 (Sell): $mins | $livePrice | $basePrice | $NoOfRisesInPrice | $totalRisesInPrice | $pctProfit", 3, 1,"trackingCoinReadyToSell_2","TransactionID:$TransactionID");
       reopenTransaction($TransactionID);
       logAction("runTrackingSellCoin; ReadToSell : OPT2 | $coin | $type | $pctProfit | $minsFromDate", 'BuySellFlow', 1);
-      return 1;
+      return 3;
     }
     if (($livePrice <= $topSwing) AND($livePrice >= $bottomSwing)){
       //: OPT 3
@@ -7280,7 +7280,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       echo "<BR> Option3: CurrentPrice less than Swing";
       updateNoOfRisesInSellPrice($trackingSellID, $NoOfRisesInPrice+1, $livePrice);
       setLastPrice($livePrice,$trackingSellID, 'Sell');
-      return 2;
+      return 100;
     }
     //if liveprice is greater than or less than, reset to 0
     if (($livePrice > $topSwing) OR ($livePrice < $bottomSwing) ){  //OR ($currentPrice < $swingPrice)
@@ -7293,7 +7293,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
         setNewTrackingPrice($livePrice, $trackingSellID, 'Sell');
       }
       setLastPrice($livePrice,$trackingSellID, 'Sell');
-      return 2;
+      return 101;
     }
 
     if (($type == 'Sell' && $pctProfit < -3) OR ($type == 'Sell' && $pctProfit > 3)){
@@ -7303,7 +7303,7 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
       reopenTransaction($TransactionID);
       closeNewTrackingSellCoin($TransactionID);
       setLastPrice($livePrice,$trackingSellID, 'Sell');
-      return 2;
+      return 102;
     }
 
 
