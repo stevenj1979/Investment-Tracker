@@ -2109,7 +2109,7 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
 
 function buyToreduceLoss($lossCoins,$newWebSettingsAry){
   $nFile = "BuySellCoins"; $nFunc = "ReduceLoss";
-  $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
+  $tempSettings = getSetting($newWebSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   $finalBool = False;
   $lossCoinsSize = count($lossCoins);
