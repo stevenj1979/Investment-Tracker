@@ -1000,14 +1000,15 @@ function getSetting($settings,$fileName, $functionName){
     $tempFuncName = $settings[$l][1]; $tempFileName = $settings[$l][0];
     //echo "<BR> count: $l | $tempFuncName | $tempFileName |$functionName | $fileName";
     if ($tempFuncName == $functionName AND $tempFileName == $fileName){
-      $tempFlow = $settings[$l][2]; $tempVari = $settings[$l][3];  $nSql = $settings[$l][4]; $nExit = $settings[$l][5]; $nAPI = $settings[$l][6];
+      $tempFlow = $settings[$l][2]; $tempVari = $settings[$l][3];  $nSql = $settings[$l][4]; $nExit = $settings[$l][5]; $nAPI = $settings[$l][6]; $nEvent = $settings[$l][7];
       $tempFlowAry = explode(",",$tempFlow);
       $tempVariAry = explode(",",$tempVari);
       $tempSQLAry = explode(",",$nSql);
       $tempExitAry = explode(",",$nExit);
       $tempAPIAry = explode(",",$nAPI);
+      $tempEventAry = explode(",",$nEvent);
       //echo "<BR> Correct";
-      $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI);
+      $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI,$tempEventAry);
       //break;
     }
   }
