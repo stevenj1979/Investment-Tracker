@@ -275,7 +275,7 @@ function displayOption($name){
           $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24]; $bittrexID = $tracking[$x][25];
           if  (($type == 'Sell') OR ($type == 'SpreadSell')){
             $liveCoinPrice = $tracking[$x][26];
-            
+
           }
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
@@ -301,7 +301,7 @@ function displayOption($name){
             $livePricePct = 0;
           }else{
             $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, $roundNum, '.', '');
-            $livePricePct = number_format((float)(($liveCoinPrice-$cost)/$cost)*100,$roundNum, '.', '');
+            $livePricePct = number_format((float)(($sellPrice-$cost)/$cost)*100,$roundNum, '.', '');
           }
           //240 - 52
 
