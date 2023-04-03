@@ -15,7 +15,7 @@ $GLOBALS['logToFileSetting'] = getLogToFile();
 
 function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$ruleProfit,$coinPurchaseSettings,$clearCoinQueue,$openTransactions,$delayCoinPurchase,$webSettingsAry,$newWebSettingsAry){
   $nFile = "BuySellFunc"; $nFunc = "TrackingCoins";
-  $tempSettings = getSetting($webSettingsAry,$nFile,$nFunc);
+  $tempSettings = getSetting($newWebSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   echo "<BR> Variables for Log: $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
   $finalBool = False;
