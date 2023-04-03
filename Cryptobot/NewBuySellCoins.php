@@ -1018,7 +1018,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       }
       if ($userActive == False){ SuperLog($nFile,"EXIT: User Not Active!",$nFunc,"BC41","",$logExitSettingAry,'Exit'); continue;}
       if ($hoursDisableUntil > 0){ SuperLog($nFile,"EXIT: Disabled until: ".$hoursDisableUntil,$nFunc,"BC42","",$logExitSettingAry,'Exit'); continue;}
-      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $APISecret,'USD','BTC',$apiVersion)), 8, '.', '');
+      $LiveBTCPrice = number_format((float)(bittrexCoinPriceNew('USD','BTC')), 8, '.', '');
       $newAutoBuyPrice = findAutoBuyPrice($autoBuyPrice,$coinID);
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled, $buyWithScore_MrktCap,'MarketCap');
       $buyResultAry[] = Array($test1, "Market Cap $symbol", $MarketCapPctChange);
@@ -1306,7 +1306,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
       echoText("PlaceHolder: 2 | $coin",$echoTestText);
       if (!Empty($KEKSell)){ $apisecret = Decrypt($KEKSell,$sellRules[$z][34]);}//else{Echo "<BR> HERE5!";}
-      $LiveBTCPrice = number_format((float)(bittrexCoinPrice($APIKey, $apisecret,$BaseCurrency,$coin,$apiVersion)), 8, '.', '');
+      $LiveBTCPrice = number_format((float)(bittrexCoinPriceNew($BaseCurrency,$coin)), 8, '.', '');
       $limitToCoinSell = $sellRules[$z][39];
       $buyPrice = ($cost * $amount);
       $sellPrice = ($LiveCoinPrice * $amount);

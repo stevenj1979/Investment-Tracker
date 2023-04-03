@@ -319,9 +319,9 @@ for($x = 0; $x < $confSize; $x++) {
   $apikey = $conf[$x][1]; $apisecret = $conf[$x][2]; $Kek = $conf[$x][7];
   if (!empty($Kek)){$apisecret = Decrypt($Kek,$conf[$x][2]);}
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
-  $btcPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','BTC',3)), 8, '.', '');
-  $ethPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','ETH',3)), 8, '.', '');
-  $usdtPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USD','USDT',3)), 8, '.', '');
+  $btcPrice = number_format((float)(bittrexCoinPriceNew('USD','BTC')), 8, '.', '');
+  $ethPrice = number_format((float)(bittrexCoinPriceNew('USD','ETH')), 8, '.', '');
+  $usdtPrice = number_format((float)(bittrexCoinPriceNew('USD','USDT')), 8, '.', '');
   $bittrexBalBTC = bittrexbalance($apikey, $apisecret, 'BTC',3);
   if (empty($bittrexBalBTC)){$bittrexBalBTC = 0;}
   $bittrexBalUSDT = bittrexbalance($apikey, $apisecret, 'USDT',3);

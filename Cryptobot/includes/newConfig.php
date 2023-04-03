@@ -1041,7 +1041,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
-    $bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,$apiVersion)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPriceNew($baseCurrency,$coin)), 8, '.', '');
   }else{
     $bitPrice = $buyPriceCoin;
   }
@@ -1961,6 +1961,29 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       //echo "<br> CoinPrice: $coin : $baseCoin<br>";
       //var_dump($temp);
       return $balance;
+}
+
+function bittrexCoinPriceNew($baseCoin, $coin){
+    $conn = getSQLConn(rand(1,3));
+    //$whereClause = "";
+    //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT `LiveCoinPrice`
+              FROM `CoinAskPrice`
+              WHERE `CoinID` = (Select `ID` From `Coin` where `BaseCurrency` = 'USDT' and `Symbol` = 'VET' and `BuyCoin` = 1)";
+    //echo "<BR> $sql";
+    $result = $conn->query($sql);
+    //$result = mysqli_query($link4, $query);
+    //mysqli_fetch_assoc($result);
+    while ($row = mysqli_fetch_assoc($result)){
+        $tempAry[] = Array($row['LiveCoinPrice']);
+    }
+    $conn->close();
+      return $tempAry;
 }
 
 function writeBittrexAction($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice){
