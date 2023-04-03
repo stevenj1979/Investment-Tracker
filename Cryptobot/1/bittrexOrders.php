@@ -305,7 +305,7 @@ function displayOption($name){
           }
           //240 - 52
 
-          echo "<td>&nbsp".round($liveCoinPrice,$roundNum)."</td>";
+          echo "<td>&nbsp".number_format($liveCoinPrice,$roundNum)."</td>";
           echo "<td>&nbsp".round($pctDifference,$roundNum)."</td>";
           echo "<td>&nbsp".round($livePricePct,$roundNum)."</td>";
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
