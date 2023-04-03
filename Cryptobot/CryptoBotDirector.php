@@ -30,7 +30,7 @@ function getTimeFromSQL(){
 
   $sql = "SELECT  `NextRunTime`, `Name`,`Command`  FROM `CryptoBotDirector`";
   //echo "<BR> $sql";
-  newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 0,"SQL CALL","RULEID:$ruleID");
+  newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 0,"SQL CALL","");
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
