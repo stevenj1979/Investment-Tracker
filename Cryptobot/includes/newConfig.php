@@ -1955,7 +1955,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
         curl_close($ch);
         $temp = json_decode($balance, true);
         //var_dump($temp);
-        logAction("bittrexCoinPrice: ".var_dump($temp);, 'CryptoBotAuto', 1);
+        logAction("bittrexCoinPrice: ".var_dump($temp), 'CryptoBotAuto', 1);
         $balance = $temp['askRate'];
       }
       //echo "<br> CoinPrice: $coin : $baseCoin<br>";
