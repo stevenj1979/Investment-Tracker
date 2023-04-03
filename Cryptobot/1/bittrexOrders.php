@@ -292,9 +292,9 @@ function displayOption($name){
           }
           NewEcho("<td>&nbsp$orderNo</td>",$_SESSION['isMobile'],0);
           echo "<td>&nbsp".round($amount,$roundNum)."</td>";
-          echo "<td>&nbsp".round($cost,$roundNum)."</td>"; echo "<td>&nbsp$status</td>";
+          echo "<td>&nbsp".number_format($cost,$roundNum)."</td>"; echo "<td>&nbsp$status</td>";
           NewEcho("<td>&nbsp$bittrexRef</td>",$_SESSION['isMobile'],0);
-          echo "<td>&nbsp".round($sellPrice,$roundNum)."</td>";
+          echo "<td>&nbsp".number_format($sellPrice,$roundNum)."</td>";
           //$liveCoinPrice = number_format((float)bittrexCoinPriceLoc($apiKey,$apiSecret,$baseCurrency,$coin), 10, '.', '');
           if ($type == 'Buy'){
             $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, $roundNum, '.', '');
