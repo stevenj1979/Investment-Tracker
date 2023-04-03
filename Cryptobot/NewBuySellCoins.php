@@ -787,7 +787,7 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry)
             //ResidualCoinsToSaving($residualAmount,$OrderString ,$TransactionID);
             //newLogToSQL("TrackingSell","ResidualCoinsToSaving($oldAmount-$Amount, ORD.$coin.$newOrderDate.$BuyRule,$TransactionID);",3,1,"SaveResidualCoins3","TransactionID:$TransactionID");
           }
-          newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDateAgain, $baseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);[$readyToSell]",3,1,"Success","TransactionID:$TransactionID");
+          newLogToSQL("TrackingSell","sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDateAgain, $baseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);[$readyToSell][$trackingCount][$trackingType]",3,1,"Success","TransactionID:$TransactionID");
         $checkSell = sellCoins($APIKey, $APISecret,$coin, $Email, $userID, 0,$newOrderDateAgain, $baseCurrency,$SendEmail,$SellCoin, $FixSellRule,$UserName,$OrderNo,$Amount,$CoinPrice,$TransactionID,$CoinID,$CoinSellOffsetEnabled,$CoinSellOffsetPct,$LiveCoinPrice, $type);
 
         if ($checkSell){
