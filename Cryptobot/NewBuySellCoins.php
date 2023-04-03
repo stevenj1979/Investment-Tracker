@@ -728,14 +728,14 @@ function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry)
       logAction("runTrackingSellCoin; CancelSavingSell : $coin | $CoinID | $baseCurrency | $userID | $minsFromDate | $TransactionID ", 'BuySellFlow', 1);
       $finalBool = True;
     }
-
+    $ProfitPct = $newTrackingSellCoins[$b][44];
     echo "<BR> Checking $coin : $CoinPrice ; No Of RISES $NoOfRisesInPrice ! Profit % $ProfitPct | Mins from date $minsFromDate ! Original Coin Price $originalCoinPrice | mins from Start: $minsFromStart | UserID : $userID Falls in Price: $fallsInPrice TrackingCount: $trackingCount";
     $readyToSell = trackingCoinReadyToSell($LiveCoinPrice,$minsFromStart,$type,$baseSellPrice,$TransactionID,$totalRisesInPrice,$ProfitPct,$minsFromDate,$lastPrice,$NoOfRisesInPrice,$trackingSellID,$market1HrChangePct,$originalSellPrice);
-    if ($readyToSell < 90 OR $trackingCount >= 5 OR $trackingType == 'SellBypass'){
+    if ($readyToSell < 90 OR ($trackingCount >= 5 AND $ProfitPct > 0.25) OR $trackingType == 'SellBypass'){
       $PurchasePrice = ($Amount*$CoinPrice);
       $salePrice = $LiveCoinPrice * $Amount;
       $profit = $newTrackingSellCoins[$b][43];
-      $ProfitPct = $newTrackingSellCoins[$b][44];
+
       if ($trackingType == 'SavingsSell'){
         echo "<BR> $CoinID | $coin | $ProfitPct";
         $quant = $Amount;
@@ -1987,7 +1987,6 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
   }//Bittrex Loop
   return $finalBool;
 }
-
 
 
 function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
