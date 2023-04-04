@@ -183,17 +183,17 @@ function getLiveCoinPriceUSDLoc($symbol){
   return $tmpCoinPrice;
 }
 
-function tableHeader($th1,$th2,$th3,$th4,$th5,$th6,$th7,$th8,$th9,$th10,$th11){
-   Echo "<Table><TH>$th1</TH><TH>$th2</TH><TH>$th3</TH><TH>$th4</TH><TH>$th5</TH><TH>$th6</TH><TH>$th7</TH><TH>$th8</TH><TH>$th9</TH><TH>$th10</TH><TH>$th11</TH><TR>";
+function tableHeader($th1,$th2,$th3,$th4,$th5,$th6,$th7,$th8,$th9,$th10,$th11,$th12){
+   Echo "<Table><TH>$th1</TH><TH>$th2</TH><TH>$th3</TH><TH>$th4</TH><TH>$th5</TH><TH>$th6</TH><TH>$th7</TH><TH>$th8</TH><TH>$th9</TH><TH>$th10</TH><TH>$th11</TH><TH>$th12</TH><TR>";
 }
 
-function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10,$td11){
-    Echo "<td>$td1</td><td>$td2</td><td>$td3</td><td>$td4</td><td>$td5</td><td>$td6</td><td>$td7</td><td>$td8</td><td>$td9</td><td>$td10</td><td>$td11</td><tr>";
+function tableRow($td1,$td2,$td3,$td4,$td5,$td6,$td7,$td8,$td9,$td10,$td11,$td12){
+    Echo "<td>$td1</td><td>$td2</td><td>$td3</td><td>$td4</td><td>$td5</td><td>$td6</td><td>$td7</td><td>$td8</td><td>$td9</td><td>$td10</td><td>$td11</td><td>$td12</td><tr>";
 }
 
 function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
   echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'>$sumBTC</td><td class='totalRow'>$sumUSDT</td><td class='totalRow'>$sumETH</td><td class='totalRow'>$sumUSD</td>";
-  echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
+  echo "<td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><td class='totalRow'></td><tr></Table>";
 }
 
 ?>
@@ -257,9 +257,10 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     $totalProfitSumETH = $totalProfitSumETH + $profitETH;
                     $totalProfitSumBTC = $totalProfitSumBTC + $profitBTC;
                     $spreadBetTransID = $coins[$x][13];
+                    $pctProfit = number_format((($profitUSD)/$purchasePrice)*100,2);
                     //print_r("<tr><td>".$symbol."</td><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
-                    tableRow($spreadBetTransID,$purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth,$sellDay);
+                    tableRow($spreadBetTransID,$purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth,$sellDay,$pctProfit);
 
 
         }
