@@ -256,7 +256,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     $totalProfitSumUSDT = $totalProfitSumUSDT + $profitUSDT;
                     $totalProfitSumETH = $totalProfitSumETH + $ethProfitInUSD;
                     $totalProfitSumBTC = $totalProfitSumBTC + $btcProfitInUSD;
-                    $pctProfit = number_format((($sellPrice - $fee - $purchasePrice)/$purchasePrice)*100,8);
+                    $pctProfit = number_format((($sellPrice - $fee - $purchasePrice)/$purchasePrice)*100,2);
                     //print_r("<tr><td>".$symbol."</td><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
                     tableRow($symbol,$BuyBackTransID,$purchasePrice,$sellPrice,$fee,$btcProfitInUSD, $profitUSDT, $ethProfitInUSD, $profitUSD,$sellYear,$sellMonth,$sellDay,$pctProfit);
