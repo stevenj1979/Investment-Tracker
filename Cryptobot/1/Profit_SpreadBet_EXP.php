@@ -257,7 +257,7 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
                     $totalProfitSumETH = $totalProfitSumETH + $profitETH;
                     $totalProfitSumBTC = $totalProfitSumBTC + $profitBTC;
                     $spreadBetTransID = $coins[$x][13];
-                    $pctProfit = number_format((($profitUSD)/$purchasePrice)*100,2);
+                    $pctProfit = number_format((($profitUSD)/($purchasePrice*$multiplier))*100,2);
                     //print_r("<tr><td>".$symbol."</td><td>".$purchasePrice."</td><td>".$sellPrice."</td><td>".$fee."</td><td>".$profit."</td>");
                     //print_r("<td>$".$purchasePriceUSD."</td><td>$".$sellPriceUSD."</td><td>$".$feeUSD."</td><td>$".$usdProfit."</td><td>$sellYear</td><td>$sellMonth</td><td>$sellDay</td></tr>");
                     tableRow($symbol,$spreadBetTransID,$purchasePrice,$sellPrice,$fee,$profitBTC, $profitUSDT, $profitETH, $profitUSD,$sellYear,$sellMonth,$sellDay,$pctProfit);
