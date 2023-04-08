@@ -273,10 +273,10 @@ function displayOption($name){
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
           $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24]; $bittrexID = $tracking[$x][25];
-          if  (($type == 'Sell') OR ($type == 'SpreadSell')){
-            $liveCoinPrice = $tracking[$x][26];
+          //if  (($type == 'Sell') OR ($type == 'SpreadSell')){
+            //$liveCoinPrice = $tracking[$x][26];
 
-          }
+          //}
           if (!Empty($KEK)){$apiSecret = decrypt($KEK,$tracking[$x][8]);}
           echo "<td>&nbsp$type</td>";
           echo "<td>&nbsp<a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
