@@ -1118,9 +1118,9 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $buyQuantity = $BTCAmount / $finalMultiplier;
         }
         //newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$GLOBALS['logToSQLSetting'],"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
-        Echo "<BR> Here is the Total: $totalBal/$finalMultiplier Here is the BTC: $BTCAmount/$finalMultiplier";
-        if (($totalBal/$finalMultiplier) > 15 OR $overrideCoinAlloc == 1) {
-          if(($BTCAmount/$finalMultiplier) <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry,'Exit');continue;}
+        Echo "<BR> Here is the Total: $totalBal Here is the BTC: $BTCAmount";
+        if ($totalBal > 15 OR $overrideCoinAlloc == 1) {
+          if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry,'Exit');continue;}
           if ($ruleType == 'Normal'){
             SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"BC58","",$logEventsSettingAry,'Events');
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);
