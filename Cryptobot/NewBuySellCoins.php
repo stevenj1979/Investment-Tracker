@@ -1108,7 +1108,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           SuperLog($nFile,"ETH Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][1],$nFunc,"BC54","",$logVariSettingAry,'Variables');
           $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
           $buyQuantity = $BTCAmount / $baseMultiplier[0][1];
-          SuperLog($nFile,"BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],$nFunc,"BC55","RuleID:$ruleIDBuy CoinID:$coinID",$logVariSettingAry,'Variables');
+          SuperLog($nFile,"BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],$nFunc,"BC55","RuleID:$ruleIDBuy CoinID:$coinID",1,'Variables');
         }else{
           SuperLog($nFile,"USDT Bal Test : $BTCBalance | $totalReserved ",$nFunc,"BC56","",$logVariSettingAry,'Variables');
           $totalBal = $BTCBalance-$totalReserved;
