@@ -1041,7 +1041,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
-    $bitPrice = number_format((float)(bittrexCoinPriceNew($baseCurrency,$coin)), 8, '.', '');
+    $bitPrice = bittrexCoinPriceNew($baseCurrency,$coin);
     Echo "<BR> BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice";
   }else{
     $bitPrice = $buyPriceCoin;
