@@ -1118,7 +1118,8 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           $buyQuantity = $BTCAmount / $finalMultiplier;
         }
         //newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$GLOBALS['logToSQLSetting'],"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
-        Echo "<BR> Here is the Total: $totalBal Here is the BTC: $BTCAmount";
+        //Echo "<BR> Here is the Total: $totalBal Here is the BTC: $BTCAmount";
+        SuperLog($nFile,"Here is the Total: $totalBal Here is the BTC: $BTCAmount",$nFunc,"BC57A","",1,'Variables');
         if ($totalBal > 15 OR $overrideCoinAlloc == 1) {
           if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry,'Exit');continue;}
           if ($ruleType == 'Normal'){
