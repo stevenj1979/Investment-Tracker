@@ -1018,7 +1018,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       }
       if ($userActive == False){ SuperLog($nFile,"EXIT: User Not Active!",$nFunc,"BC41","",$logExitSettingAry,'Exit'); continue;}
       if ($hoursDisableUntil > 0){ SuperLog($nFile,"EXIT: Disabled until: ".$hoursDisableUntil,$nFunc,"BC42","",$logExitSettingAry,'Exit'); continue;}
-      $LiveBTCPrice = number_format((float)(bittrexCoinPriceNew('USD','BTC')), 8, '.', '');
+      $LiveBTCPrice = number_format((float)(bittrexCoinPriceNew('USDT','BTC')), 8, '.', '');
       $newAutoBuyPrice = findAutoBuyPrice($autoBuyPrice,$coinID);
       $test1 = buyWithScore($MarketCapTop,$MarketCapBtm,$MarketCapPctChange,$MarketCapEnabled, $buyWithScore_MrktCap,'MarketCap');
       $buyResultAry[] = Array($test1, "Market Cap $symbol", $MarketCapPctChange);
