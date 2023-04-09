@@ -1041,7 +1041,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
-    $bitPrice = number_format((float)(bittrexCoinPriceNew($baseCurrency,$coin)), 8, '.', '');
+    $bitPrice = number_format((float)(bittrexCoinPriceNew($baseCurrency,$coin,$coinID)), 8, '.', '');
+    Echo "<BR> BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice";
   }else{
     $bitPrice = $buyPriceCoin;
   }
@@ -1077,8 +1078,9 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     echo "buy Coin - Balance Sufficient";
     //$bitPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,$baseCurrency,$coin,$apiVersion)), 8, '.', '');
     if ($CoinSellOffsetEnabled == 1){
-
+      Echo "<BR> BITPRICE: $bitPrice";
       $bitPrice = number_format((float)newPrice($bitPrice,$CoinSellOffsetPct, "Buy"), 8, '.', '');
+      Echo "<BR> NEW BITPRICE: $bitPrice";
     }
     //$livePrice = getLiveCoinPrice($tracking[$x][0]);
     //$avgCoinPrice = getAveragePrice($coin);
@@ -1963,7 +1965,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
       return $balance;
 }
 
-function bittrexCoinPriceNew($baseCoin, $coin){
+function bittrexCoinPriceNew($baseCoin, $coin, $coinID){
     $conn = getSQLConn(rand(1,3));
     //$whereClause = "";
     //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
@@ -1974,7 +1976,7 @@ function bittrexCoinPriceNew($baseCoin, $coin){
 
     $sql = "SELECT `LiveCoinPrice`
               FROM `CoinAskPrice`
-              WHERE `CoinID` = (Select `ID` From `Coin` where `BaseCurrency` = 'USDT' and `Symbol` = 'VET' and `BuyCoin` = 1)";
+              WHERE `CoinID` = $coinID";
     //echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
