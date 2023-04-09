@@ -1100,23 +1100,26 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         $totalReserved = $usdtReserved+$btcReserved+$ethReserved;
 
         if ($baseCurrency == 'BTC'){
-          SuperLog($nFile,"BTC Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][0],$nFunc,"BC52","",$logVariSettingAry,'Variables');
-          $totalBal = ($BTCBalance*$baseMultiplier[0][0])-$totalReserved;
-          $buyQuantity = $BTCAmount / $baseMultiplier[0][0];
-          SuperLog($nFile,"BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$baseMultiplier[0][0],$nFunc,"BC53","RuleID:$ruleIDBuy CoinID:$coinID",$logVariSettingAry,'Variables');
+          $finalMultiplier = $baseMultiplier[0][0];
+          SuperLog($nFile,"BTC Bal Test : $BTCBalance | $totalReserved | ".$finalMultiplier,$nFunc,"BC52","",$logVariSettingAry,'Variables');
+          $totalBal = ($BTCBalance*$finalMultiplier)-$totalReserved;
+          $buyQuantity = $BTCAmount / $finalMultiplier;
+          SuperLog($nFile,"BaseCurrency is BTC : totalBal: $totalBal | BTC Bal: $BTCBalance | totalReserved: $totalReserved | Multiplier : ".$finalMultiplier,$nFunc,"BC53","RuleID:$ruleIDBuy CoinID:$coinID",$logVariSettingAry,'Variables');
         }elseif ($baseCurrency == 'ETH'){
-          SuperLog($nFile,"ETH Bal Test : $BTCBalance | $totalReserved | ".$baseMultiplier[0][1],$nFunc,"BC54","",$logVariSettingAry,'Variables');
-          $totalBal = ($BTCBalance * $baseMultiplier[0][1])-$totalReserved;
-          $buyQuantity = $BTCAmount / $baseMultiplier[0][1];
-          SuperLog($nFile,"BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$baseMultiplier[0][1],$nFunc,"BC55","RuleID:$ruleIDBuy CoinID:$coinID",1,'Variables');
+          $finalMultiplier = $baseMultiplier[0][1];
+          SuperLog($nFile,"ETH Bal Test : $BTCBalance | $totalReserved | ".$finalMultiplier,$nFunc,"BC54","",$logVariSettingAry,'Variables');
+          $totalBal = ($BTCBalance * $finalMultiplier)-$totalReserved;
+          $buyQuantity = $BTCAmount / $finalMultiplier;
+          SuperLog($nFile,"BuyCoins","BaseCurrency is ETH : totalBal: $totalBal | Multiplier : ".$finalMultiplier,$nFunc,"BC55","RuleID:$ruleIDBuy CoinID:$coinID",1,'Variables');
         }else{
+          $finalMultiplier = $baseMultiplier[0][2];
           SuperLog($nFile,"USDT Bal Test : $BTCBalance | $totalReserved ",$nFunc,"BC56","",$logVariSettingAry,'Variables');
-          $totalBal = $BTCBalance-$totalReserved;
-          $buyQuantity = $BTCAmount;
+          $totalBal = ($BTCBalance * $finalMultiplier)-$totalReserved;
+          $buyQuantity = $BTCAmount / $finalMultiplier;
         }
         //newLogToSQL("BuyCoins"," $totalBal | $BTCAmount",3,$GLOBALS['logToSQLSetting'],"OneTimeBuyRuleTest","RuleID:$ruleIDBuy CoinID:$coinID");
-        if ($totalBal > 15 OR $overrideCoinAlloc == 1) {
-          if($BTCAmount <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry,'Exit');continue;}
+        if (($totalBal/$finalMultiplier) > 15 OR $overrideCoinAlloc == 1) {
+          if(($BTCAmount/$finalMultiplier) <= 15 ){ SuperLog($nFile,"EXIT: BTC Amount less than 15!",$nFunc,"BC57","",$logExitSettingAry,'Exit');continue;}
           if ($ruleType == 'Normal'){
             SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);",$nFunc,"BC58","",$logEventsSettingAry,'Events');
             addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, $BuyCoin, $buyQuantity, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'Buy',$LiveCoinPrice,0,0,$overrideCoinAlloc,'BuyCoins',0);

@@ -5634,13 +5634,13 @@ function getBasePrices(){
 //12
 
   $sql = "select getBTCPrice(84) as BTCPrice
-          , getBTCPrice(85) as ETHPrice ";
+          , getBTCPrice(85) as ETHPrice, getBTCPrice(83) as USDTPrice ";
   //echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['BTCPrice'],$row['ETHPrice']);
+    $tempAry[] = Array($row['BTCPrice'],$row['ETHPrice'],$row['USDTPrice']);
   }
   $conn->close();
   return $tempAry;
