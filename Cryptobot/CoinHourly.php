@@ -386,7 +386,7 @@ Function updateBittrexBals(){
           elseif($value["currencySymbol"] == 'ETH'){ $base = 'USD';}
 
           $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
-          $price = $price[0][0];
+          $price = $priceAry[0][0];
           echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
 
           updateBittrexBalances($value["currencySymbol"],$value["total"],$price, $userID);
