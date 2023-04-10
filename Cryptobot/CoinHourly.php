@@ -382,8 +382,8 @@ Function updateBittrexBals(){
           $openBaseCurr = getOpenBaseCurrency($value["currencySymbol"]);
           $base = $openBaseCurr[0][0];
           if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';}
-          elseif($value["currencySymbol"] == 'BTC'){ $base = 'USD';}
-          elseif($value["currencySymbol"] == 'ETH'){ $base = 'USD';}
+          elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';}
+          elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';}
 
           $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
           $price = $priceAry[0][0];
