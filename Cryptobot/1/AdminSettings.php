@@ -161,8 +161,8 @@ function coinTblRow($iD, $symbol, $name, $baseCurrency, $buyCoin, $doNotBuy){
   Echo "<TD>$symbol</TD>";
   Echo "<TD>$name</TD>";
   Echo "<TD>$baseCurrency</TD>";
-  Echo "<TD>$buyCoin</TD>";
-  Echo "<TD>$doNotBuy</TD>";
+  Echo "<TD><a href='AdminAction.php?buyCoin=$iD'>$buyCoin</a></TD>";
+  Echo "<TD><a href='AdminAction.php?doNotBuy=$iD'>$doNotBuy</a></TD>";
   //Delete Icon
   echo "<td><a href='editCoinAdmin.php?deleteID=$iD'><span class='glyphicon glyphicon-trash' style='font-size:18px;'></span></a></td>";
   Echo "<TR>";

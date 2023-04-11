@@ -44,6 +44,57 @@ if (isset($_GET['fixTransaction'])){
   //echo "<BR>".$_POST['New_Amount']." : ".$_POST['Trans_ID'];
    fixTransaction($_POST['New_Amount'],$_POST['Trans_ID']);
 }
+if (isset($_GET['buyCoin'])){
+  $id = $_GET['buyCoin'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Coin`
+            SET `BuyCoin`= CASE
+             WHEN `BuyCoin` = 1 THEN 0
+             WHEN `BuyCoin` = 0 THEN 1
+             END
+            WHERE `ID` = $id";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  //logAction("reopenTransaction: ".$sql, 'SQL_UPDATE', 0);
+  //newLogToSQL("reopenTransaction",$sql,3,0,"SQL","TransactionID:$id");
+}
+if (isset($_GET['doNotBuy'])){
+  $id = $_GET['doNotBuy'];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "UPDATE `Coin`
+            SET `DoNotBuy`= CASE
+             WHEN `DoNotBuy` = 1 THEN 0
+             WHEN `DoNotBuy` = 0 THEN 1
+             END
+            WHERE `ID` = $id";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  //logAction("reopenTransaction: ".$sql, 'SQL_UPDATE', 0);
+  //newLogToSQL("reopenTransaction",$sql,3,0,"SQL","TransactionID:$id");
+}
+
 
 function fixTransaction($amount, $transactionID){
   $conn = getSQLConn(rand(1,3));
