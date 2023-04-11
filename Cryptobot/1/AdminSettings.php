@@ -103,11 +103,11 @@ function getCoins(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `ID`,`Symbol`,`Name`,`BaseCurrency`,`BuyCoin` FROM `Coin` Order by `BuyCoin` DESC";
+  $sql = "SELECT `ID`,`Symbol`,`Name`,`BaseCurrency`,`BuyCoin`,`DoNotBuy` FROM `Coin` Order by `BuyCoin` DESC";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['BuyCoin']);
+      $tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['BuyCoin'],$row['DoNotBuy']);
   }
   $conn->close();
   return $tempAry;
@@ -135,6 +135,7 @@ function startCoinTbl(){
   Echo "<TH>Name</TH>";
   Echo "<TH>BaseCurrency</TH>";
   Echo "<TH>BuyCoin</TH>";
+  Echo "<TH>DoNotBuy</TH>";
   Echo "<TH>Delete Coin</TH>";
   Echo "<TR>";
 }
@@ -153,7 +154,7 @@ function startUserTbl(){
   Echo "<TR>";
 }
 
-function coinTblRow($iD, $symbol, $name, $baseCurrency, $buyCoin){
+function coinTblRow($iD, $symbol, $name, $baseCurrency, $buyCoin, $doNotBuy){
   //Enable Icon
   echo "<td><a href='editCoinAdmin.php?activateID=$iD&activateBuyCoin=$buyCoin'><span class='fas fa-check' style='font-size:18px;'></span></a></td>";
   Echo "<TD>$iD</TD>";
@@ -161,6 +162,7 @@ function coinTblRow($iD, $symbol, $name, $baseCurrency, $buyCoin){
   Echo "<TD>$name</TD>";
   Echo "<TD>$baseCurrency</TD>";
   Echo "<TD>$buyCoin</TD>";
+  Echo "<TD>$doNotBuy</TD>";
   //Delete Icon
   echo "<td><a href='editCoinAdmin.php?deleteID=$iD'><span class='glyphicon glyphicon-trash' style='font-size:18px;'></span></a></td>";
   Echo "<TR>";
@@ -235,7 +237,7 @@ $userSubSize = count($userSub);
              $coinArySize = count($coinAry);
              startCoinTbl();
              for($x = 0; $x < $coinArySize; $x++) {
-               coinTblRow($coinAry[$x][0],$coinAry[$x][1],$coinAry[$x][2],$coinAry[$x][3],$coinAry[$x][4]);
+               coinTblRow($coinAry[$x][0],$coinAry[$x][1],$coinAry[$x][2],$coinAry[$x][3],$coinAry[$x][4],$coinAry[$x][5]);
              }
              endCoinTbl();
              ?>
