@@ -186,9 +186,9 @@ function getTotalHoldings($userID){
   }
   $sql = "SELECT
             (SELECT  `Date`FROM `BittrexBalances` WHERE `Symbol` = 'BTC') as ActionDate
-            ,(SELECT (`Total`*`Price`)* getBTCPrice(84) FROM `BittrexBalances` WHERE `Symbol` = 'BTC' and `UserID` = $userID) as TotalBTC
-            ,(SELECT (`Total`*`Price`)* getBTCPrice(85) FROM `BittrexBalances` WHERE `Symbol` = 'ETH' and `UserID` = $userID) as TotalETH
-            ,(SELECT `Total`* getBTCPrice(83) FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
+            ,(SELECT (`Total`*`Price`) FROM `BittrexBalances` WHERE `Symbol` = 'BTC' and `UserID` = $userID) as TotalBTC
+            ,(SELECT (`Total`*`Price`) FROM `BittrexBalances` WHERE `Symbol` = 'ETH' and `UserID` = $userID) as TotalETH
+            ,(SELECT `Total` FROM `BittrexBalances` WHERE `Symbol` = 'USDT' and `UserID` = $userID) as TotalUSDT
             ,(SELECT `SavingBTC`* getBTCPrice(84) FROM `UserCoinSavings`   WHERE `UserID` = $userID) as SavingBTC
             ,(SELECT `SavingUSDT`* getBTCPrice(83) FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingUSDT
             ,(SELECT `SavingETH`* getBTCPrice(85)  FROM `UserCoinSavings` WHERE `UserID` = $userID) as SavingETH
@@ -279,8 +279,8 @@ displayHeader(0);
               echo "<BR><H3>1Hr:".round($webMarketStats[0][0],2)."% \t| 24Hr:".round($webMarketStats[0][1],2)."%\t| 7D:".round($webMarketStats[0][2],2)."%\t | Avg: ".round($avgPrice,2)."%</H3><BR>";
               echo "<table><TH></TH><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
 
-                echo "<tr><td>&nbspHolding</td><td>&nbspUSD&nbsp".round($btcPrice,8)."</td><td>&nbspUSD&nbsp".round($ethProfit,8)."</td><td>&nbspUSD&nbsp".round($usdtPrice,2)."</td><td>USD&nbsp".round($bittrexTotal,2)."</td></tr>";
-                echo "<tr><td>&nbspSaving</td><td>&nbspUSD&nbsp".round($btcSaving,8)."</td><td>&nbspUSD&nbsp".round($ethSaving,8)."</td><td>&nbspUSD&nbsp".round($usdtSaving,2)."</td><td>USD&nbsp".round($savingTotal,2)."</td></tr>";
+                echo "<tr><td>&nbspHolding</td><td>&nbspUSD&nbsp".round($btcPrice,2)."</td><td>&nbspUSD&nbsp".round($ethProfit,2)."</td><td>&nbspUSD&nbsp".round($usdtPrice,2)."</td><td>USD&nbsp".round($bittrexTotal,2)."</td></tr>";
+                echo "<tr><td>&nbspSaving</td><td>&nbspUSD&nbsp".round($btcSaving,2)."</td><td>&nbspUSD&nbsp".round($ethSaving,2)."</td><td>&nbspUSD&nbsp".round($usdtSaving,2)."</td><td>USD&nbsp".round($savingTotal,2)."</td></tr>";
                 //echo "<tr><td>&nbspBuy With Saving</td><td>&nbsp<a href='Dashboard.php?zeroBTCSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 //echo "<td>&nbsp<a href='Dashboard.php?zeroETHSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
                 //echo "<td>&nbsp<a href='Dashboard.php?zeroUSDTSaving=Yes&UserID=$Id'>$fontSize</i></a> </td>";
