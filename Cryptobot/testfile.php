@@ -306,11 +306,13 @@ $balSize = count($bal);
 for ($t=0;$t<$balSize; $t++){
   $symbol = $bal[$t]['currencySymbol']; $total = $bal[$t]['total'];
   if ($total > 0){
-      Echo "<BR> $symbol | $total";
+      SuperLog("", "<BR> $symbol | $total","","","1-1-3")
   }
 
 }
-
+$uuid = '8ac96efe-f1ed-4d3a-849c-377254ca6529';
+$resultOrd = bittrexOrder($apikey, $apisecret, $uuid, 3);
+echo "<BR> OrderStatus: ".$resultOrd["status"];
 
 ?>
 </html>
