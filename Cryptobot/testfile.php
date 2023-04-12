@@ -306,7 +306,7 @@ $balSize = count($bal);
 for ($t=0;$t<$balSize; $t++){
   $symbol = $bal[$t]['currencySymbol']; $total = $bal[$t]['total'];
   if ($total > 0){
-      SuperLog("", "<BR> $symbol | $total","","","1-1-3")
+      //SuperLog("", "<BR> $symbol | $total","","","1-1-3");
   }
 
 }
