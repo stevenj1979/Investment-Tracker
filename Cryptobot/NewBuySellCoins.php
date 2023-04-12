@@ -1551,6 +1551,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
       $orderQtyRemaining = $orderQty-$qtySold;
 
       if ($resultOrd["status"] == 'OPEN'){$status = 1;$cancelInit = 1;$orderIsOpen = 1;}else{$status = 0; $cancelInit = 0;$orderIsOpen = 0;}
+      if ($resultOrd["status"] == 'CLOSED' AND $qtySold == 0){ $cancelInit = 1;$orderIsOpen = 0; }
       Echo "<BR> OrderQuantity: $orderQtyRemaining = $orderQty-$qtySold | $orderIsOpen | $cancelInit";
     }
 
