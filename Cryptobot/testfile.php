@@ -313,6 +313,7 @@ for ($t=0;$t<$balSize; $t++){
 $uuid = '8ac96efe-f1ed-4d3a-849c-377254ca6529';
 $resultOrd = bittrexOrder($apikey, $apisecret, $uuid, 3);
 echo "<BR> OrderStatus: ".$resultOrd["status"];
-
+echo "<BR>";
+var_dump($resultOrd);
 ?>
 </html>
