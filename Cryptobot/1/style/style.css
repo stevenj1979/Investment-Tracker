@@ -66,6 +66,13 @@ ul li ul li {
   width: 100%;
 }
 
+@media screen and (max-width: 400px) {
+  ul.sidenav li a {
+    text-align: center;
+    float: none;
+  }
+}
+
 th{
   padding: 14px;
   background-color: #2C3E50;
