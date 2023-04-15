@@ -66,8 +66,23 @@ ul li ul li {
   width: 100%;
 }
 
+@media screen and (max-width: 900px) {
+  ul {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  ul li a {
+    float: left;
+    padding: 15px;
+  }
+
+  div.content {margin-left: 0;}
+}
+
 @media screen and (max-width: 400px) {
-  ul.sidenav li a {
+  ul li a {
     text-align: center;
     float: none;
   }
