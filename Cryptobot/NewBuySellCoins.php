@@ -1517,7 +1517,8 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
     //date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
     //$finalCurrentTime = date("Y-m-d H:i",strtotime($currentTime));
     //$cancelTimeAry = getCancelTime($transactionID);
-    Echo "<BR>------- New Bittrex Check---------";
+    Echo "<BR>------- New Bittrex Check---------<blockquote>";
+
     $cancelTimeCheck = 0;
     if (isset($timeStampNow) AND isset($timeStampTimeToCancel)){
       if ($timeStampTimeToCancel > $timeStampNow){ echo "<BR> DO NOT CANCEL: 0 | $timeStampTimeToCancel | $timeStampNow | $transactionID"; $cancelTimeCheck = 0;}
@@ -2013,7 +2014,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
     echo "<br>Time Since Action $minsRemaining ".$BittrexReqs[$b][57]." | ".$BittrexReqs[$b][58]." | ".$BittrexReqs[$b][59];
 
-    echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining";
+    echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining</blockquote>";
   }//Bittrex Loop
   return $finalBool;
 }
