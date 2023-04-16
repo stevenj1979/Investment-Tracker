@@ -253,7 +253,7 @@ function displayOption($name){
 
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
-          $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][17];
+          $actionDate = $tracking[$x][2]; $baseCurrency = $tracking[$x][16]; $liveCoinPrice = $tracking[$x][26];
           $userName = $tracking[$x][6];$orderNo = $tracking[$x][14];$amount = $tracking[$x][10];$cost = $tracking[$x][11];$status = $tracking[$x][4];$bittrexRef = $tracking[$x][1];
           $sellPrice = $tracking[$x][5]; $transactionID = $tracking[$x][15]; $quantityFilled = $tracking[$x][18]; $KEK = $tracking[$x][19]; $minsFromAction = $tracking[$x][20];
           $minsUntilCancel = $tracking[$x][21];$minsRemaining = $tracking[$x][22]; $image = $tracking[$x][23];  $coinID = $tracking[$x][24]; $bittrexID = $tracking[$x][25];
