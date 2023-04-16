@@ -1781,7 +1781,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $profitPct = ($profit/$buyPrice)*100;
         $diffToSale = (($livePrice-$sellPrice)/$sellPrice)*100;
-        Echo "<BR> DiffToSale: $diffToSale | $sellPrice | $livePrice";
+        Echo "<BR> DiffToSale: $diffToSale | $sellPrice ($finalPrice) ($bitPrice) | $livePrice ($liveCoinPriceBit)";
         if ($diffToSale > 4.50 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
           $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);
@@ -2014,8 +2014,9 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
     echo "<br> Profit Pct $liveProfitPct Live Coin Price: $liveCoinPriceBit cost $cost";
     echo "<br>Time Since Action $minsRemaining ".$BittrexReqs[$b][57]." | ".$BittrexReqs[$b][58]." | ".$BittrexReqs[$b][59];
 
-    echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining</blockquote>";
+    echo "<BR> ORDERQTY: $orderQty - OrderQTYREMAINING: $orderQtyRemaining";
   }//Bittrex Loop
+  echo "</blockquote>";
   return $finalBool;
 }
 
