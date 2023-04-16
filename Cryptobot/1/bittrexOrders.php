@@ -42,28 +42,7 @@ if(!empty($_GET['hold'])){
   runBittrexHold($bittrexID);
 }
 
-function runBittrexHold($bittrexID){
-  $conn = getSQLConn(rand(1,3));
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
-    $sql = "UPDATE `BittrexAction` SET `Status` = CASE
-       WHEN `Status`='1' THEN 'Hold'
-       WHEN `Status`='Hold' THEN '1'
-    END WHERE `ID` = $bittrexID";
 
-    //print_r($sql);
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    newLogToSQL("runBittrexHold",$sql,3,1,"SQL","BittrexID:$bittrexID");
-    LogAction("runBittrexHold:".$sql, 'SQL_UPDATE', 0);
-    $conn->close();
-}
 
 function changeSelection(){
   //global $sql_option;

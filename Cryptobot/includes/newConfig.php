@@ -3856,6 +3856,67 @@ function getMarketstats(){
   return $tempAry;
 }
 
+function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit){
+  runBittrexHold($BittrexID);
+  $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
+  $canStatus = $result['status'];
+  if ($canStatus == 'CLOSED'){
+    $bitPrice = $liveCoinPriceBit;
+    $amount = ($sellPrice/$liveCoinPriceBit);
+    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
+    $bittrexRef = $obj["id"];
+    //Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
+    if ($bittrexRef <> ""){
+      updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
+      return True;
+    }
+  }
+  return False;
+}
+
+function updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    $sql = "Update `Transaction` SET `Amount` = $amount, `BittrexRef` = '$bittrexRef' WHERE `ID` = $transactionID;UPDATE `BittrexAction` SET `BittrexRef` = '$bittrexRef', `SellPrice` = $bitPrice, `Status` = '1' WHERE `ID` = $BittrexID;";
+
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateSQLBittrexSellReRun",$sql,3,1,"SQL","BittrexID:$bittrexID");
+    LogAction("updateSQLBittrexSellReRun:".$sql, 'SQL_UPDATE', 0);
+    $conn->close();
+}
+
+function runBittrexHold($bittrexID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    $sql = "UPDATE `BittrexAction` SET `Status` = CASE
+       WHEN `Status`='1' THEN 'Hold'
+       WHEN `Status`='Hold' THEN '1'
+    END WHERE `ID` = $bittrexID";
+
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("runBittrexHold",$sql,3,1,"SQL","BittrexID:$bittrexID");
+    LogAction("runBittrexHold:".$sql, 'SQL_UPDATE', 0);
+    $conn->close();
+}
+
 function getMarketAlerts($userID = 0){
   $tempAry = [];
   $whereClause = " where `UserID` = $userID";

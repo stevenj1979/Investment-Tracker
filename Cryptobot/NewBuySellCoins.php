@@ -1772,15 +1772,27 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
         echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction Days Outstanding: $daysOutstanding";
+        if ($originalAmount == 0){ $originalAmount = $amount;}
+        $sellPrice = ($finalPrice*$amount);
+        $buyPrice = $cost*$originalAmount;
+        $fee = (($sellPrice)/100)*0.25;
+        $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
+        $profitPct = ($profit/$buyPrice)*100;
+        if ($profitPct > 10.00){
+          $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit);
+          if ($returnVal){
+            $finalBool = True;
+          }
+        }
         if (($orderIsOpen == 0) AND ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
-            if ($originalAmount == 0){ $originalAmount = $amount;}
-            $sellPrice = ($finalPrice*$amount);
-            $buyPrice = $cost*$originalAmount;
-            $fee = (($sellPrice)/100)*0.25;
-            $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
-            $profitPct = ($profit/$buyPrice)*100;
+            //if ($originalAmount == 0){ $originalAmount = $amount;}
+            //$sellPrice = ($finalPrice*$amount);
+            //$buyPrice = $cost*$originalAmount;
+            //$fee = (($sellPrice)/100)*0.25;
+            //$profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
+            //$profitPct = ($profit/$buyPrice)*100;
             $realSellPrice = ($finalPrice*$originalAmount);
             $realProfitPct = (($realSellPrice-$buyPrice)/$buyPrice)*100;
             newLogToSQL("BittrexSell", "$finalPrice | $amount | $sellPrice | $cost | $originalAmount | $buyPrice | $fee | $profit | $profitPct | $realSellPrice | $realProfitPct", $userID, 0,"OriginalPrice","TransactionID:$transactionID");
@@ -2328,7 +2340,7 @@ while($completeFlag == False){
           }
           $reRunBuySavingsFlag = runReBuySavings($reBuySavingsFixed);
   echo "</blockquote><BR> CHECK Sell Savings!! $i<blockquote>";
-          if ($i == 0or $runSellSavingsFlag == True){
+          if ($i == 0 or $runSellSavingsFlag == True){
             $spreadBuyBack = getSavingsData();
             $runSellSavingsFlag = False;
           }
@@ -2445,7 +2457,7 @@ while($completeFlag == False){
         }
         $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'Normal',$multiSellRules,$newWebSettingsAry);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
-        if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or$refreshBittrexFlag == True){
+        if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or $refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
           $bittrexReqsTimer = date("Y-m-d H:i",strtotime("+2 minutes 34 seconds", strtotime($BRcurrent_date)));
           $BittrexReqs = getBittrexRequests();
