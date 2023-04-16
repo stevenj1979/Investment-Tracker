@@ -2391,7 +2391,7 @@ while($completeFlag == False){
           $runSellCoinsSBFlag = False;
           $buyToReduceLossFlag = True;
         }
-        $runSellCoinsFlag = runSellCoins($sellRulesSB,$sellCoinsSB,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadBet',$multiSellRules);
+        $runSellCoinsFlag = runSellCoins($sellRulesSB,$sellCoinsSB,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadBet',$multiSellRules,$newWebSettingsAry);
 
   echo "</blockquote><BR> Tracking COINS!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $trackingCoinTimer OR $runNewTrackingCoinFlag == True){
