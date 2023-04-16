@@ -3856,7 +3856,7 @@ function getMarketstats(){
   return $tempAry;
 }
 
-function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit){
+function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount){
   runBittrexHold($BittrexID);
   Echo "<BR> bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);";
   $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
@@ -3866,7 +3866,7 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
   if ($canStatus == 'CLOSED'){
     Echo "<BR> Cancel Successful";
     $bitPrice = $liveCoinPriceBit;
-    $amount = ($sellPrice/$liveCoinPriceBit);
+    //$amount = ($sellPrice/$liveCoinPriceBit);
     Echo "<BR> bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);";
     $obj = bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
     $bittrexRef = $obj["id"];
