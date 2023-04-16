@@ -3860,7 +3860,8 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
   runBittrexHold($BittrexID);
   Echo "<BR> bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);";
   $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
-  $canStatus = $result['status'];
+  $resultOrd = bittrexOrder($apiKey, $apiSecret, $uuid, $apiVersion);
+  $canStatus = $resultOrd['status'];
   Echo "<BR> Cancel Status: $canStatus";
   if ($canStatus == 'CLOSED'){
     Echo "<BR> Cancel Successful";
