@@ -3873,7 +3873,8 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
     //Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
     if ($bittrexRef <> ""){
       Echo "<BR> Sell Successful";
-      updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
+      updateSQLBittrexSellReRunTrans($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
+      updateSQLBittrexSellReRunBittrex($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
       return True;
     }
   }else{
@@ -3882,14 +3883,14 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
   return False;
 }
 
-function updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID){
+function updateSQLBittrexSellReRunTrans($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID){
   $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
-    $sql = "Update `Transaction` SET `Amount` = $amount, `BittrexRef` = '$bittrexRef' WHERE `ID` = $transactionID;UPDATE `BittrexAction` SET `BittrexRef` = '$bittrexRef', `SellPrice` = $bitPrice, `Status` = '1' WHERE `ID` = $BittrexID;";
+    $sql = "Update `Transaction` SET `Amount` = $amount, `BittrexRef` = '$bittrexRef' WHERE `ID` = $transactionID;";
 
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
@@ -3897,8 +3898,28 @@ function updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    newLogToSQL("updateSQLBittrexSellReRun",$sql,3,1,"SQL","BittrexID:$bittrexID");
-    LogAction("updateSQLBittrexSellReRun:".$sql, 'SQL_UPDATE', 0);
+    newLogToSQL("updateSQLBittrexSellReRunTrans",$sql,3,1,"SQL","BittrexID:$bittrexID");
+    LogAction("updateSQLBittrexSellReRunTrans:".$sql, 'SQL_UPDATE', 0);
+    $conn->close();
+}
+
+function updateSQLBittrexSellReRunBittrex($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID){
+  $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
+    $sql = "UPDATE `BittrexAction` SET `BittrexRef` = '$bittrexRef', `SellPrice` = $bitPrice, `Status` = '1' WHERE `ID` = $BittrexID;";
+
+    print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    newLogToSQL("updateSQLBittrexSellReRunBittrex",$sql,3,1,"SQL","BittrexID:$bittrexID");
+    LogAction("updateSQLBittrexSellReRunBittrex:".$sql, 'SQL_UPDATE', 0);
     $conn->close();
 }
 
