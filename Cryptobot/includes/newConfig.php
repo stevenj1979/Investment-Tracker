@@ -420,6 +420,51 @@ function bittrexOrder($apikey, $apisecret, $uuid, $versionNum){
     return $obj;
 }
 
+function bittrexOrderClosed($apikey, $apisecret, $uuid, $versionNum){
+    $nonce=time();
+    if ($versionNum == 1){
+      $uri='https://bittrex.com/api/v1.1/account/getorder?apikey='.$apikey.'&uuid='.$uuid.'&nonce='.$nonce;
+      //echo "<br>$uri<br>";
+      $sign=hash_hmac('sha512',$uri,$apisecret);
+      $ch = curl_init($uri);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('apisign:'.$sign));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $execResult = curl_exec($ch);
+      $obj = json_decode($execResult, true);
+      //$balance = $obj["result"]["IsOpen"];
+    }elseif ($versionNum == 3){
+      $timestamp = time()*1000;
+      $url = "https://api.bittrex.com/v3/orders/closed";
+      $method = "GET";
+      $content = '';
+      $subaccountId = "";
+      $contentHash = hash('sha512', $content);
+      $preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+      $signature = hash_hmac('sha512', $preSign, $apisecret);
+
+      $headers = array(
+      "Accept: application/json",
+      "Content-Type: application/json",
+      "Api-Key: ".$apikey."",
+      "Api-Signature: ".$signature."",
+      "Api-Timestamp: ".$timestamp."",
+      "Api-Content-Hash: ".$contentHash.""
+      );
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      $execResult = curl_exec($ch);
+      curl_close($ch);
+      $obj = json_decode($execResult, true);
+      //echo "<BR> URL : $url";
+      //newLogToSQL("CoinSwap",var_dump($obj),3,0,"bittrexOrder","BittrexID:$uuid");
+      //var_dump($obj);
+    }
+
+    return $obj;
+}
 
 function bittrexOpenOrders($apikey, $apisecret, $versionNum){
     $nonce=time();

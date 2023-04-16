@@ -315,5 +315,9 @@ $resultOrd = bittrexOrder($apikey, $apisecret, $uuid, 3);
 echo "<BR> OrderStatus: ".$resultOrd["status"];
 echo "<BR>";
 var_dump($resultOrd);
+
+$resultOrd = bittrexOrderClosed($apikey, $apisecret, $uuid, 3);
+Echo "<BR> CLOSED ORDERS!!!";
+var_dump($resultOrd);
 ?>
 </html>
