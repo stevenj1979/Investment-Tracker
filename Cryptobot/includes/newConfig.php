@@ -3861,12 +3861,15 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
   $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
   $canStatus = $result['status'];
   if ($canStatus == 'CLOSED'){
+    Echo "<BR> Cancel Successful";
     $bitPrice = $liveCoinPriceBit;
     $amount = ($sellPrice/$liveCoinPriceBit);
+    Echo "<BR> bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);";
     $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
     $bittrexRef = $obj["id"];
     //Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
     if ($bittrexRef <> ""){
+      Echo "<BR> Sell Successful";
       updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
       return True;
     }
@@ -3883,7 +3886,7 @@ function updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,
     //$sql = "UPDATE `BittrexAction` SET `Status` = 'Hold' WHERE `ID` = $bittrexID";
     $sql = "Update `Transaction` SET `Amount` = $amount, `BittrexRef` = '$bittrexRef' WHERE `ID` = $transactionID;UPDATE `BittrexAction` SET `BittrexRef` = '$bittrexRef', `SellPrice` = $bitPrice, `Status` = '1' WHERE `ID` = $BittrexID;";
 
-    //print_r($sql);
+    print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
