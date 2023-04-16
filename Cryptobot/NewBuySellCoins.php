@@ -1774,11 +1774,13 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction Days Outstanding: $daysOutstanding";
         if ($originalAmount == 0){ $originalAmount = $amount;}
         $sellPrice = ($finalPrice*$amount);
+        $livePrice = ($liveCoinPriceBit*$amount);
         $buyPrice = $cost*$originalAmount;
         $fee = (($sellPrice)/100)*0.25;
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $profitPct = ($profit/$buyPrice)*100;
-        if ($profitPct > 10.00 and $qtySold == 0){
+        $diffToSale = (($livePrice-$sellPrice)/$sellPrice)*100;
+        if ($diffToSale > 10.00 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell: reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
           $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);
           if ($returnVal){
