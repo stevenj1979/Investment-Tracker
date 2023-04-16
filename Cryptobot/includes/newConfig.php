@@ -3867,8 +3867,8 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
     Echo "<BR> Cancel Successful";
     $bitPrice = $liveCoinPriceBit;
     $amount = ($sellPrice/$liveCoinPriceBit);
-    Echo "<BR> bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);";
-    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
+    Echo "<BR> bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);";
+    $obj = bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
     $bittrexRef = $obj["id"];
     //Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
     if ($bittrexRef <> ""){
