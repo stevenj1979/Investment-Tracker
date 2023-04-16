@@ -3858,8 +3858,10 @@ function getMarketstats(){
 
 function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit){
   runBittrexHold($BittrexID);
+  Echo "<BR> bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);";
   $result = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
   $canStatus = $result['status'];
+  Echo "<BR> Cancel Status: $canStatus";
   if ($canStatus == 'CLOSED'){
     Echo "<BR> Cancel Successful";
     $bitPrice = $liveCoinPriceBit;
