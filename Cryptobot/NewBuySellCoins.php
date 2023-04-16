@@ -1781,7 +1781,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         $profitPct = ($profit/$buyPrice)*100;
         $diffToSale = (($livePrice-$sellPrice)/$sellPrice)*100;
         if ($diffToSale > 10.00 and $qtySold == 0){
-          ECHO "<BR> RE-RUN BittrexSell: reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
+          ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
           $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);
           if ($returnVal){
             $finalBool = True;
