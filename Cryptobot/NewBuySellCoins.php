@@ -1769,7 +1769,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         }
       }elseif (($type == "Sell" && $finalBool == False)or ($type == "SpreadSell" && $finalBool == False) or ($type == "SavingsSell" && $finalBool == False) ){ // $type Sell
         //logToSQL("Bittrex", "Sell Order | OrderNo: $orderNo Final Price: $finalPrice | $orderIsOpen | $cancelInit | $orderQtyRemaining", $userID, $GLOBALS['logToSQLSetting']);
-        $finalPrice = $BittrexReqs[$b][86];
+        $finalPrice = $BittrexReqs[$b][86]; $diffToSale = $BittrexReqs[$b][90];
         echo "<BR> SELL TEST: $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount | $finalPrice | $uuid";
         newLogToSQL("BittrexSell", "$type | $orderIsOpen | $cancelInit | $orderQtyRemaining | $amount| $finalPrice | $uuid", $userID,0,"SellComplete","TransactionID:$transactionID");
         echo "<BR> Pct From Sale: $pctFromSale Lice Profit Pct: $liveProfitPct Cancel Sale Pct Target: $pctToCancelBittrexAction Days Outstanding: $daysOutstanding";
@@ -1780,7 +1780,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         $fee = (($sellPrice)/100)*0.25;
         $profit = number_format((float)($sellPrice-$buyPrice)-$fee, 8, '.', '');
         $profitPct = ($profit/$buyPrice)*100;
-        $diffToSale = (($livePrice-$sellPrice)/$sellPrice)*100;
+        //$diffToSale = (($livePrice-$sellPrice)/$sellPrice)*100;
         Echo "<BR> DiffToSale: $diffToSale | $sellPrice ($finalPrice) ($bitPrice) | $livePrice ($liveCoinPriceBit)";
         if ($diffToSale > 4.50 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";

@@ -80,6 +80,10 @@ function getBTTrackingCoins($userID){
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`StatusBa`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,
           `TransactionID`,`BaseCurrency`,`LiveCoinPrice`,`QuantityFilled`,`KEK`,`MinsSinceAction`,`MinsToCancelAction`,`MinsRemaining`,`Image`,`CoinID4`,`IDBa`,`LiveCoinPriceSell`
+          ,(`SellPrice`*`Amount`) as `FullSellPrice`, (`LiveCoinPriceSell`*`Amount`) as `FullSellPriceLive`, (`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`) as `SellDifference`
+          , (((`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`))/(`SellPrice`*`Amount`))*100 as `SellDifferencePct`
+          ,(`CoinPrice`*`Amount`) as `FullBuyPrice`, (`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`) as `BuyDifference`
+          , (((`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `BuyDifferencePct`
   FROM `View4_BittrexBuySell` WHERE `userIDBa` = $userID and ".$statusA.$sqlOption.$statusB." order by `ActionDate` desc limit 50";
   //echo "<BR>$sql";
   $result = $conn->query($sql);
@@ -88,7 +92,8 @@ function getBTTrackingCoins($userID){
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Type'],$row['BittrexRef'],$row['ActionDate'],$row['CompletionDate'],$row['StatusBa'],$row['SellPrice'],$row['UserName'],$row['APIKey'],$row['APISecret'],$row['Symbol'] //9
       ,$row['Amount'],$row['CoinPrice'],$row['UserIDBa'],$row['Email'],$row['OrderNo'],$row['TransactionID'],$row['BaseCurrency'],$row['LiveCoinPrice'],$row['QuantityFilled'],$row['KEK'] //19
-    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4'],$row['IDBa'],$row['LiveCoinPriceSell']);  //26
+    ,$row['MinsSinceAction'],$row['MinsToCancelAction'],$row['MinsRemaining'],$row['Image'],$row['CoinID4'],$row['IDBa'],$row['LiveCoinPriceSell'],$row['FullSellPrice'],$row['FullSellPriceLive'] //28
+    ,$row['SellDifference'],$row['SellDifferencePct'],$row['FullBuyPrice'],$row['BuyDifference'],$row['BuyDifferencePct']);  //33
   }
   $conn->close();
   return $tempAry;
@@ -276,10 +281,12 @@ function displayOption($name){
           echo "<td>&nbsp".number_format($sellPrice,$roundNum)."</td>";
           //$liveCoinPrice = number_format((float)bittrexCoinPriceLoc($apiKey,$apiSecret,$baseCurrency,$coin), 10, '.', '');
           if ($type == 'Buy'){
-            $pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, $roundNum, '.', '');
+            //$pctDifference = number_format((float)(($liveCoinPrice-$cost)/$cost)*100, $roundNum, '.', '');
+            $pctDifference = $tracking[$x][33];
             $livePricePct = 0;
           }else{
-            $pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, $roundNum, '.', '');
+            //$pctDifference = number_format((float)(($liveCoinPrice-$sellPrice)/$sellPrice)*100, $roundNum, '.', '');
+            $pctDifference = $tracking[$x][30];
             $livePricePct = number_format((float)(($sellPrice-$cost)/$cost)*100,$roundNum, '.', '');
           }
           //240 - 52
