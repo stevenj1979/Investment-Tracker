@@ -3875,6 +3875,8 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
       updateSQLBittrexSellReRun($amount,$bittrexRef,$transactionID,$bitPrice,$BittrexID);
       return True;
     }
+  }else{
+    runBittrexHold($BittrexID);
   }
   return False;
 }
