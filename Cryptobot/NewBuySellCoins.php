@@ -1788,8 +1788,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           if ($returnVal){
             $finalBool = True;
           }
-        }
-        if (($orderIsOpen == 0) AND ($cancelInit == 0)){
+        }elseif (($orderIsOpen == 0) AND ($cancelInit == 0)){
           echo "<BR>SELL Order COMPLETE!";
             //$profitPct = ($finalPrice-$cost)/$cost*100;
             //if ($originalAmount == 0){ $originalAmount = $amount;}
