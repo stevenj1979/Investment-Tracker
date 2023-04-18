@@ -3875,7 +3875,7 @@ function cssButtonHeader(){
         <a href="SellSettings.php" class="link">Sell Settings</a>
         <a href="Settings_Patterns.php" class="link">Setting Patterns</a>
         <?php if ($_SESSION['AccountType']==1){
-            echo "<a href='AdminSettings.php' class="link">Admin Settings</a>";
+            echo "<a href='AdminSettings.php' class='link'>Admin Settings</a>";
         }?>
       </DIV>
     </DIV>
