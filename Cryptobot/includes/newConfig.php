@@ -3837,7 +3837,7 @@ function cssButtonHeader(){
     <a href="Stats.php" class="link">Stats</a>
     <DIV class="dropdown" data-dropdown>
   		<Button class="link" data-dropdown-button> Buy Coins (<?php echo $buyTotal; ?>) ^</Button>
-  		<DIV class="dropdown-menu">
+  		<DIV class="dropdown-menu information-grid">
         <a href="BuyCoins.php" class="link">Buy Coins</a>
         <a href="BuyCoinsFilter.php" class="link">Buy Coins Filter</a>
         <a href="BuyCoinsTracking.php" class="link">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a>
@@ -3847,7 +3847,7 @@ function cssButtonHeader(){
   	</DIV>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Sell Coins (<?php echo $sellTotal; ?>) ^</Button>
-      <DIV class="dropdown-menu">
+      <DIV class="dropdown-menu information-grid">
         <a href="SellCoins.php" class="link">Sell Coins (<?php echo $sellCoin; ?>)</a>
         <a href="SellCoins_Tracking.php" class="link">Tracking (<?php echo $sellTracking; ?>)</a>
         <a href="SellCoins_Saving.php" class="link">Saving (<?php echo $sellSaving; ?>)</a>
@@ -3858,7 +3858,7 @@ function cssButtonHeader(){
     </DIV>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Profit ^</Button>
-      <DIV class="dropdown-menu">
+      <DIV class="dropdown-menu information-grid">
         <a href="Profit.php" class="link">All Profit</a>
         <a href="Profit_BuyBack.php" class="link">BuyBack Profit</a>
         <a href="Profit_BuyBack_EXP.php" class="link">BuyBack Profit EXP</a>
@@ -3869,7 +3869,7 @@ function cssButtonHeader(){
     <a href="bittrexOrders.php" class="link">Bittrex Orders(<?php echo $bittrexAction; ?>)</a>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Settings ^</Button>
-      <DIV class="dropdown-menu">
+      <DIV class="dropdown-menu information-grid">
         <a href="Settings.php" class="link">User Settings</a>
         <a href="BuySettings.php" class="link">Buy Settings</a>
         <a href="SellSettings.php" class="link">Sell Settings</a>
