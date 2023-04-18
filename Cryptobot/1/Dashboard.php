@@ -18,7 +18,7 @@ setStyle($_SESSION['isMobile']);
   google.load('visualization', '1', {packages: ['corechart']});
   google.load('visualization2', '1', {packages: ['corechart']});
 </script>
-<script src="../script/script.js" defer></Script>
+<script src="../Script/script.js" defer></Script>
 <script type="text/javascript">
   function drawVisualization() {
     var jsonData = null;
