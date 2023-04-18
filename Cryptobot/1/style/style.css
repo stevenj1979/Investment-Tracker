@@ -26,7 +26,7 @@ nav {
 	padding: 0;
 }
 
-.dropdown.active	 + link,
+.dropdown.active + link,
 .link:hover {
 	cooler: black;
 }

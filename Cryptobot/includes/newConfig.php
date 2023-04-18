@@ -3830,57 +3830,57 @@ function cssButtonHeader(){
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
   $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
   ?>
-  
+
   <DIV Class="header">
     <a href="Dashboard.php" class="link"> Dashboard </a>
-    <a href="Transactions.php">Transactions</a>
-    <a href="Stats.php">Stats</a>
+    <a href="Transactions.php" class="link">Transactions</a>
+    <a href="Stats.php" class="link">Stats</a>
     <DIV class="dropdown" data-dropdown>
   		<Button class="link" data-dropdown-button> Buy Coins (<?php echo $buyTotal; ?>) ^</Button>
   		<DIV class="dropdown-menu">
-        <a href="BuyCoins.php">Buy Coins</a>
-        <a href="BuyCoinsFilter.php">Buy Coins Filter</a>
-        <a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a>
-        <a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a>
-        <a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a>
+        <a href="BuyCoins.php" class="link">Buy Coins</a>
+        <a href="BuyCoinsFilter.php" class="link">Buy Coins Filter</a>
+        <a href="BuyCoinsTracking.php" class="link">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a>
+        <a href="BuyCoins_Spread.php" class="link">Buy Coins Spread Bet</a>
+        <a href="BuyCoins_BuyBack.php" class="link">Buy Back (<?php echo $buyBack; ?>)</a>
   		</DIV>
   	</DIV>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Sell Coins (<?php echo $sellTotal; ?>) ^</Button>
       <DIV class="dropdown-menu">
-        <a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a>
-        <a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a>
-        <a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a>
-        <a href="SellCoins_Spread.php">Spread Bet (<?php echo $spreadSell; ?>)</a>
-        <a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a>
-        <a href="SellCoins_SwapCoins.php">Swap Coins</a>
+        <a href="SellCoins.php" class="link">Sell Coins (<?php echo $sellCoin; ?>)</a>
+        <a href="SellCoins_Tracking.php" class="link">Tracking (<?php echo $sellTracking; ?>)</a>
+        <a href="SellCoins_Saving.php" class="link">Saving (<?php echo $sellSaving; ?>)</a>
+        <a href="SellCoins_Spread.php" class="link">Spread Bet (<?php echo $spreadSell; ?>)</a>
+        <a href="SellCoins_SpreadCoin.php" class="link">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a>
+        <a href="SellCoins_SwapCoins.php" class="link">Swap Coins</a>
       </DIV>
     </DIV>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Profit ^</Button>
       <DIV class="dropdown-menu">
-        <a href="Profit.php">All Profit</a>
-        <a href="Profit_BuyBack.php">BuyBack Profit</a>
-        <a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a>
-        <a href="Profit_SpreadBet.php">SpreadBet Profit</a>
-        <a href="Profit_SpreadBet_EXP.php">SpreadBet Profit EXP</a>
+        <a href="Profit.php" class="link">All Profit</a>
+        <a href="Profit_BuyBack.php" class="link">BuyBack Profit</a>
+        <a href="Profit_BuyBack_EXP.php" class="link">BuyBack Profit EXP</a>
+        <a href="Profit_SpreadBet.php" class="link">SpreadBet Profit</a>
+        <a href="Profit_SpreadBet_EXP.php" class="link">SpreadBet Profit EXP</a>
       </DIV>
     </DIV>
-    <a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a>
+    <a href="bittrexOrders.php" class="link">Bittrex Orders(<?php echo $bittrexAction; ?>)</a>
     <DIV class="dropdown" data-dropdown>
       <Button class="link" data-dropdown-button> Settings ^</Button>
       <DIV class="dropdown-menu">
-        <a href="Settings.php">User Settings</a>
-        <a href="BuySettings.php">Buy Settings</a>
-        <a href="SellSettings.php">Sell Settings</a>
-        <a href="Settings_Patterns.php">Setting Patterns</a>
+        <a href="Settings.php" class="link">User Settings</a>
+        <a href="BuySettings.php" class="link">Buy Settings</a>
+        <a href="SellSettings.php" class="link">Sell Settings</a>
+        <a href="Settings_Patterns.php" class="link">Setting Patterns</a>
         <?php if ($_SESSION['AccountType']==1){
-            echo "<a href='AdminSettings.php'>Admin Settings</a>";
+            echo "<a href='AdminSettings.php' class="link">Admin Settings</a>";
         }?>
       </DIV>
     </DIV>
-    <a href="CoinAlerts.php">Coin Alerts<a>
-    <a href="console.php">Console</a>
+    <a href="CoinAlerts.php" class="link">Coin Alerts<a>
+    <a href="console.php" class="link">Console</a>
   </DIV>
   <?php
 }
