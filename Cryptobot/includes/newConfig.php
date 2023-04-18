@@ -3832,7 +3832,7 @@ function cssButtonHeader(){
   ?>
   <script src="script/script.js" defer></Script>
   <DIV Class="header">
-    <a href=“Dashboard.php” class="link"> Dashboard </a>
+    <a href="Dashboard.php" class="link"> Dashboard </a>
     <a href="Transactions.php">Transactions</a>
     <a href="Stats.php">Stats</a>
     <DIV class="dropdown" data-dropdown>
