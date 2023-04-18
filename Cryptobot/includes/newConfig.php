@@ -3824,6 +3824,33 @@ function displayNewHeader(){
   <?php
 }
 
+function cssButtonHeader(){
+  $webUsageAry = $_SESSION['webUsage'];
+  $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
+  $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
+  ?>
+  <script src=“script/script.js” defer></Script>
+  <DIV Class=“Header”>
+    <a href=“Dashboard.php” class”link”> Dashboard </a>
+    <a href="Transactions.php">Transactions</a>
+    <a href="Stats.php">Stats</a>
+    <DIV class-“dropdown” data-dropdown>
+  		<Button class=“link” data-dropdown-button> Buy Coins (<?php echo $buyTotal; ?>) ^</Button>
+  		<DIV class=“dropdown-menu”>
+        <a href="BuyCoins.php">Buy Coins</a>
+        <a href="BuyCoinsFilter.php">Buy Coins Filter</a>
+        <a href="BuyCoinsTracking.php">Buy Coins Tracking (<?php echo $buyTracking; ?>)</a>
+        <a href="BuyCoins_Spread.php">Buy Coins Spread Bet</a>
+        <a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a>
+  		</DIV>
+  	</DIV>
+
+
+  </DIV>
+  <?php
+}
+
 
 function displaySideColumn(){
   //Echo "";?>
