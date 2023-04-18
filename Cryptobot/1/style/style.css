@@ -8,10 +8,14 @@ nav {
 }
 
 ul {
-  background: #2C3E50;
-  list-style: none;
+  list-style-type: none;
   margin: 0;
-  padding-left: 0;
+  padding: 0;
+  width: 50%;
+  background-color: #2C3E50;
+  position: relative;
+  height: 100%;
+  overflow: auto;
 }
 
 li {
@@ -66,15 +70,65 @@ ul li ul li {
   width: 100%;
 }
 
+
 @media screen and (max-width: 900px) {
   ul {
-    width: 100%;
-    height: auto;
-    position: relative;
+    background: #2C3E50;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
   }
 
   li {
+    color: #fff;
+    background: #2C3E50;
+    display: block;
+    float: left;
+    padding: 1rem;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.5s;
+    z-index: 1;
+  }
 
+  li a {
+    color: #fff;
+  }
+
+  li:hover,
+  li:focus-within {
+    background: gray;
+    cursor: pointer;
+  }
+
+  li:focus-within a {
+    outline: none;
+  }
+
+  ul li ul {
+    background: #2C3E50;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 0;
+    display: none;
+  }
+
+  ul li:hover > ul,
+  ul li:focus-within > ul,
+  ul li ul:hover,
+  ul li ul:focus {
+    visibility: visible;
+    opacity: 1;
+    display: block
+  }
+
+  ul li ul li {
+    clear: both;
+    width: 100%;
   }
 
 
