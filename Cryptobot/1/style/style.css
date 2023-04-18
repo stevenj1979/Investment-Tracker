@@ -30,6 +30,7 @@ nav {
     transition-duration: 0.5s;
     z-index: 1;
     font-size: 50px;
+    text-align: center;
   }
 
   li a {
