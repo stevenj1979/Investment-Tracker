@@ -19,7 +19,7 @@ include '../includes/newConfig.php';
   google.load('visualization', '1', {packages: ['corechart']});
   google.load('visualization2', '1', {packages: ['corechart']});
 </script>
-<script src="../Script/script.js" defer></script>
+<script src="/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Script/script.js" defer></script>
 <script type="text/javascript">
   function drawVisualization() {
     var jsonData = null;
