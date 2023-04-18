@@ -22,7 +22,7 @@ li {
   color: #fff;
   background: #2C3E50;
   display: block;
-  float: left;
+  float: none;
   padding: 1rem;
   position: relative;
   text-decoration: none;
