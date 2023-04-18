@@ -11,7 +11,7 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 50%;
+  width: 90%;
   background-color: #2C3E50;
   position: relative;
   height: 100%;
@@ -144,7 +144,7 @@ ul li ul li {
   }
 
   li {
-
+    font-size: 14px;
   }
 }
 
