@@ -28,6 +28,7 @@ li {
   text-decoration: none;
   transition-duration: 0.5s;
   z-index: 1;
+  font-size: 30px;
 }
 
 li a {
