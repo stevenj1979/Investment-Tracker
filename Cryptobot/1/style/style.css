@@ -28,7 +28,7 @@ nav {
 
 .dropdown.active + link,
 .link:hover {
-	cooler: black;
+	color: black;
 }
 
 .dropdown {
