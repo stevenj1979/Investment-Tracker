@@ -7,6 +7,14 @@ nav {
   font-family: monospace;
 }
 
+.header {
+  background-color: #F3F3F3;
+  display: flex;
+  align-items: baseline;
+  padding: .5rem;
+  gap: 1rem;
+}
+
 .link {
 	background: none;
 	border: none;
