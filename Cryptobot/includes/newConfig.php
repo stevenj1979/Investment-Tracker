@@ -3830,7 +3830,7 @@ function cssButtonHeader(){
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
   $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
   ?>
-  <script src="script/script.js" defer></Script>
+  
   <DIV Class="header">
     <a href="Dashboard.php" class="link"> Dashboard </a>
     <a href="Transactions.php">Transactions</a>
