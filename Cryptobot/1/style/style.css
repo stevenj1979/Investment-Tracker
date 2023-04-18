@@ -66,6 +66,7 @@ nav {
     visibility: visible;
     opacity: 1;
     display: block
+    z-index: 1;
   }
 
   ul li ul li {
