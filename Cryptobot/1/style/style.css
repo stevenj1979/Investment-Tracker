@@ -136,7 +136,7 @@ ul li ul li {
 
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (min-width: 480px) {
   ul {
     width: 100%;
     height: auto;
