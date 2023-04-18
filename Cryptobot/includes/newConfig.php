@@ -3735,7 +3735,7 @@ function displayHeader($n){
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving;
   $headers = array("Dashboard.php", "Transactions.php", "Stats.php","BuyCoins.php","SellCoins.php","Profit.php","bittrexOrders.php","Settings.php", "CoinAlerts.php","console.php","CoinMode.php","AdminSettings.php");
-  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins (".$buyTotal.")","Sell Coins (".$sellTotal.")","Profit","Bittrex Orders (".$bittrexAction.")","Settings","Coin Alerts","Console","CoinMode","Admin Settings");
+  $ref = array("Dashboard", "Transactions", "Stats","Buy Coins (".$buyTotal.") ^","Sell Coins (".$sellTotal.") ^","Profit ^","Bittrex Orders (".$bittrexAction.")","Settings ^","Coin Alerts","Console","CoinMode","Admin Settings");
   $headerLen = count($headers);
   $imgpath = '/Investment-Tracker/Cryptobot/1/Images/CBLogoSmall.png';
 
