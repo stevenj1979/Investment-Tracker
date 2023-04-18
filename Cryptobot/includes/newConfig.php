@@ -3845,8 +3845,42 @@ function cssButtonHeader(){
         <a href="BuyCoins_BuyBack.php">Buy Back (<?php echo $buyBack; ?>)</a>
   		</DIV>
   	</DIV>
-
-
+    <DIV class="dropdown" data-dropdown>
+      <Button class="link" data-dropdown-button> Sell Coins (<?php echo $sellTotal; ?>) ^</Button>
+      <DIV class="dropdown-menu">
+        <a href="SellCoins.php">Sell Coins (<?php echo $sellCoin; ?>)</a>
+        <a href="SellCoins_Tracking.php">Tracking (<?php echo $sellTracking; ?>)</a>
+        <a href="SellCoins_Saving.php">Saving (<?php echo $sellSaving; ?>)</a>
+        <a href="SellCoins_Spread.php">Spread Bet (<?php echo $spreadSell; ?>)</a>
+        <a href="SellCoins_SpreadCoin.php">Spread Bet Coin (<?php echo $spreadSellCoin; ?>)</a>
+        <a href="SellCoins_SwapCoins.php">Swap Coins</a>
+      </DIV>
+    </DIV>
+    <DIV class="dropdown" data-dropdown>
+      <Button class="link" data-dropdown-button> Profit ^</Button>
+      <DIV class="dropdown-menu">
+        <a href="Profit.php">All Profit</a>
+        <a href="Profit_BuyBack.php">BuyBack Profit</a>
+        <a href="Profit_BuyBack_EXP.php">BuyBack Profit EXP</a>
+        <a href="Profit_SpreadBet.php">SpreadBet Profit</a>
+        <a href="Profit_SpreadBet_EXP.php">SpreadBet Profit EXP</a>
+      </DIV>
+    </DIV>
+    <a href="bittrexOrders.php">Bittrex Orders(<?php echo $bittrexAction; ?>)</a>
+    <DIV class="dropdown" data-dropdown>
+      <Button class="link" data-dropdown-button> Settings ^</Button>
+      <DIV class="dropdown-menu">
+        <a href="Settings.php">User Settings</a>
+        <a href="BuySettings.php">Buy Settings</a>
+        <a href="SellSettings.php">Sell Settings</a>
+        <a href="Settings_Patterns.php">Setting Patterns</a>
+        <?php if ($_SESSION['AccountType']==1){
+            echo "<a href='AdminSettings.php'>Admin Settings</a>";
+        }?>
+      </DIV>
+    </DIV>
+    <a href="CoinAlerts.php">Coin Alerts<a>
+    <a href="console.php">Console</a>
   </DIV>
   <?php
 }
