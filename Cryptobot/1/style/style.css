@@ -119,16 +119,16 @@ nav {
     font-size: 40px;
   }
   #username{
-    height: 60px;
-    width: 60%;
+    height: 80px;
+    width: 80%;
   }
   #password{
-    height: 60px;
-    width: 60%;
+    height: 80px;
+    width: 80%;
   }
   #submitLogin{
-    height: 60px;
-    width: 60%;
+    height: 80px;
+    width: 80%;
   }
 
 }
