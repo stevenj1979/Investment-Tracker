@@ -48,7 +48,7 @@ nav {
 }
 
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1100px) {
   ul {
     list-style-type: none;
     margin: 0;
@@ -118,9 +118,18 @@ nav {
   td{
     font-size: 40px;
   }
+  #username{
+    height: 30px;
+    width: 30%;
+  }
+  #password{
+    height: 30px;
+    width: 30%;
+  }
+
 }
 
-@media screen and (min-width: 1501px) {
+@media screen and (min-width: 1101px) {
   ul {
     background: #2C3E50;
     list-style: none;
