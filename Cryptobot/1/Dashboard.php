@@ -7,9 +7,8 @@ include '../includes/newConfig.php';
 
 ?>
 
-<html>
-<head>
-  <?php setStyle($_SESSION['isMobile']); ?>
+
+  <?php newHeaderHTML(); ?>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -92,10 +91,10 @@ include '../includes/newConfig.php';
 
 <?php
   //include 'includes/functions.php';
-
+  closeHTMLHeader();
 ?>
 
-<style>
+
 <?php
 $title = 'CryptoBot';
 $current_url = $_SERVER[ 'REQUEST_URI' ];
@@ -110,9 +109,7 @@ $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
    //width:1000px;
   // margin:0 auto;
 // }?>
-</style>
-</head>
-<body>
+
 <?php
 
 if ($_GET['zeroBTCSaving'] <> ""){
@@ -237,8 +234,8 @@ $uProfit = getTotalHoldings($_SESSION['ID']);
 $webMarketStats = getWebMarketStats();
 //$btcPrice = getLiveCoinPriceUSD("BTC");
 
-displayHeader(0);
-//cssButtonHeader();
+//displayHeader(0);
+cssButtonHeader();
               //$profitUSD = $uProfit[0][2]*$btcPrice;
               if ($_SESSION['isMobile']){
                 $num = 2; $fontSize = "<i class='fas fa-bolt' style='font-size:60px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd";
