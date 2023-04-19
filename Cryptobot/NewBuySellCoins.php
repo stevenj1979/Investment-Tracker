@@ -1787,6 +1787,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         Echo "<BR> DiffToSale: $diffToSale | $sellPrice ($finalPrice) ($bitPrice) | $livePrice ($liveCoinPriceBit)";
         if ($resultOrd["status"] = 'CLOSED' &&  $qtySold == 0){
           //cancel order
+          Echo "<BR> CANCEL ORDER ".$resultOrd["status"]." $qtySold";
           bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
         }elseif ($diffToSale > 4.50 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
