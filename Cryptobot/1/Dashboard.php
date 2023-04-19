@@ -15,11 +15,12 @@ include '../includes/newConfig.php';
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script src="script.js" defer></script>
   <script type="text/javascript">
   google.load('visualization', '1', {packages: ['corechart']});
   google.load('visualization2', '1', {packages: ['corechart']});
 </script>
-<script src="script.js" defer></script>
+
 <script type="text/javascript">
   function drawVisualization() {
     var jsonData = null;
@@ -88,12 +89,12 @@ include '../includes/newConfig.php';
   google.setOnLoadCallback(drawVisualization);
   google.setOnLoadCallback(drawVisualization2);
 </script>
-</head>
+
 <?php
   //include 'includes/functions.php';
 
 ?>
-<html>
+
 <style>
 <?php
 $title = 'CryptoBot';
@@ -110,6 +111,7 @@ $locationStr = "Location: /Investment-Tracker/Cryptobot/1/m/SellCoins.php";
   // margin:0 auto;
 // }?>
 </style>
+</head>
 <body>
 <?php
 
