@@ -1573,6 +1573,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         newLogToSQL("CheckOldTransIDBuy","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,0,"RunBittrex","TransID:$transactionID");
         if ($resultOrd["status"] == 'CLOSED' &&  $qtySold == 0){
           //cancel
+          Echo "<BR> CANCEL Buy ORDER ".$resultOrd["status"]." $qtySold";
           bittrexBuyCancel($uuid, $transactionID, "CancelMins: $minsSinceAction");
         }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQtyRemaining == 0){
           //sendtoSteven($transactionID,$orderQtyRemaining."_".$qtySold."_".$orderQty, $orderNo."_".$finalPrice."_".$liveCoinPriceBit, "BUY - OrderIsOpen != 1 & CancelInitiated != 1");
@@ -1787,8 +1788,9 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
         Echo "<BR> DiffToSale: $diffToSale | $sellPrice ($finalPrice) ($bitPrice) | $livePrice ($liveCoinPriceBit)";
         if ($resultOrd["status"] == 'CLOSED' &&  $qtySold == 0){
           //cancel order
-          Echo "<BR> CANCEL ORDER ".$resultOrd["status"]." $qtySold";
+          Echo "<BR> CANCEL Sell ORDER ".$resultOrd["status"]." $qtySold <BR>";
           bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
+          var_dump($resultOrd);
         }elseif ($diffToSale > 4.50 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
           $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);
