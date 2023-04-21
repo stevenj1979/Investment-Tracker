@@ -4238,6 +4238,24 @@ function updateBittrexQuantityFilled($quantFilled, $bittrexRef){
     newLogToSQL("updateBittrexQuantityFilled",$sql,3,0,"SQL","BittrexRef:$bittrexRef");
 }
 
+function cancelReduceLoss($userID, $baseCurrency){
+  $conn = getSQLConn(rand(1,3));
+  $current_date = date('Y-m-d H:i');
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed'  WHERE `Status` = 'Open' and `UserID` = $userID and `BaseCurrency` = '$baseCurrency' and `Type` = 'buyToreduceLoss';";
+    //print_r($sql);
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    newLogToSQL("cancelReduceLoss",$sql,3,0,"SQL","UserID:$userID");
+}
+
 
 function reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$btcBuyAmount,$baseCurrency,$coin){
   $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);

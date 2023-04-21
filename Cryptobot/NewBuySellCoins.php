@@ -1460,7 +1460,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
             echoAndLog("SellCoinsSpreadBet", "newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'Sell');$profit | $ruleIDSell | $multiSellResult SellRule:$ruleIDSell", $userID, 1,"AddTrackingSellCoin","TransactionID:$transactionID");
             setTransactionPending($transactionID);
           }
-
+          cancelReduceLoss($userID,$BaseCurrency);
         }
         $to_time = date("Y-m-d H:i:s", time());
         $from_time = strtotime($orderDate);
