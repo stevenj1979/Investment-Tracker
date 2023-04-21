@@ -1830,7 +1830,8 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
               $allocationType = 'Standard';
               if ($type == 'SpreadSell'){
                 $allocationType = 'SpreadBet';
-                $sBCount = checkSpreadBetComplete($spreadBetRuleID);
+                $sBCountAry = checkSpreadBetComplete($spreadBetRuleID);
+                $sBCount = $sBCountAry[0][0];
                 if ($sBCount == 0){
                   runSpreadBetComplete($spreadBetRuleID);
                 }
