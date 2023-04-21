@@ -203,7 +203,7 @@ function clearSQLLog($days){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "Delete FROM `ActionLog` WHERE datediff(now(),`DateTime`) > $days";
+  $sql = "Delete FROM `ActionLog` WHERE `DateToDelete` < now();";
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {

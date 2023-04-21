@@ -1484,7 +1484,6 @@ else
   SET finalDeleteDate = date_add(now(), INTERVAL daysToSave DAY);
 End if;
 SELECT count(`ID`) into nCount FROM `ActionLog` WHERE `Subject` = In_Sub and `SubTitle` = Sub_Title and `Title` = nTitle and `DateTime` < DATE_SUB(now(), INTERVAL 30 Minute);
-DELETE FROM `ActionLog` WHERE `DateToDelete` < now() Order by `ID` limit 50;
 if (nCount < 8) THEN
   INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`,`Title`,`LogType`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(), INTERVAL daysToSave DAY),nTitle,nType);
 end if;
