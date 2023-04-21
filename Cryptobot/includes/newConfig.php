@@ -8085,7 +8085,7 @@ function runSpreadBetComplete($spreadBetRuleID){
   }
   $conn->close();
   logAction("runSpreadBetComplete: ".$sql, 'SpreadBetSell', 0);
-  newLogToSQL("runSpreadBetComplete","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("runSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
 }
 
 function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice){
