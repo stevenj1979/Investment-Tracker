@@ -8064,6 +8064,7 @@ function checkSpreadBetComplete($spreadBetRuleID){
       $tempAry[] = Array($row['SBCount']);
   }
   $conn->close();
+  newLogToSQL("checkSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
   return $tempAry;
 }
 
