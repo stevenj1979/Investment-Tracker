@@ -339,7 +339,7 @@ BEGIN
     DELETE FROM `ActionLog` WHERE `UserID` = User_ID and `Subject` = In_Sub Order by `ID` limit 1;
 
   END IF;
-INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`) VALUES (User_ID,In_Sub,In_Comments);
+INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments,date_add(now(),INTERVAL 7 DAY));
 
 END$$
 DELIMITER ;
@@ -1466,7 +1466,7 @@ BEGIN
     DELETE FROM `ActionLog` WHERE `UserID` = User_ID and `Subject` = In_Sub Order by `ID` limit 1;
 
   END IF;
-INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef);
+INSERT INTO `ActionLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(),INTERVAL 7 DAY));
 
 END$$
 DELIMITER ;
