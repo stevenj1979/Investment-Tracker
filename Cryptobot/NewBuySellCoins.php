@@ -2161,7 +2161,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $pctProfit = $lossCoins[$y][58]; $transactionID = $lossCoins[$y][0]; $minsToDelay = $lossCoins[$y][60]; $userID = $lossCoins[$y][3]; $coinID = $lossCoins[$y][2];
     $liveCoinPrice = $lossCoins[$y][19]; $baseCurrency = $lossCoins[$y][36]; $totalAmount = $lossCoins[$y][54];
     $reduceLossEnabled = $lossCoins[$y][61]; $reduceLossSellPct = $lossCoins[$y][62]; $reduceLossMultiplier = $lossCoins[$y][63]; $reduceLossCounter = $lossCoins[$y][64]; $reduceLossMaxCounter = $lossCoins[$y][65];
-    $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67]; $symbol = $lossCoins[$y][11];
+    $hoursFlat = $lossCoins[$y][68];$overrideReduceLoss = $lossCoins[$y][67]; $symbol = $lossCoins[$y][11]; $type = $lossCoins[$y][1];
     $holdCoinForBuyOut = $lossCoins[$y][69];
     $coinForBuyOutPct = $lossCoins[$y][70];
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
@@ -2217,9 +2217,9 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       $newPurchase = ($totalAmount*$reduceLossMultiplier);
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
       //newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
-      SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry,'Events');
+      SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,$type,$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry,'Events');
       //Buy Coin with Merge
-      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,'Buy',$liveCoinPrice,$spreadBetTransactionID,$spreadBetRuleID,1,'buyToreduceLoss',$savingOverride,$transactionID);
+      addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,$type,$liveCoinPrice,$spreadBetTransactionID,$spreadBetRuleID,1,'buyToreduceLoss',$savingOverride,$transactionID);
       //addWebUsage($userID,"Add","BuyTracking");
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
