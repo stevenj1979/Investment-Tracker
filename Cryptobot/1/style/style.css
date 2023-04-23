@@ -130,7 +130,7 @@ nav {
   ul li ul:focus {
     visibility: visible;
     opacity: 1;
-    display: block
+    display: block;
     z-index: 1;
   }
 
