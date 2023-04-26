@@ -1151,6 +1151,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
                 $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               }else{
                 SuperLog($nFile,"TotalAmout over: $buyQuantity | $totalBuyAmount ",$nFunc,"BC63","",$logFlowSettingAry,'Flow');
+                pauseRule($ruleIDBuy,4, $userID);
               }
             }
           }
