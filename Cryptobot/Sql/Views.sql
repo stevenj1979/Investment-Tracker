@@ -205,7 +205,7 @@ FROM `BittrexAction`  `Ba`
       ,`Mcs`.`Hr24ChangePctChange` as `Market24HrPctChange`,`Mcs`.`D7ChangePctChange` as `Market7DPctChange`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
-      join `CoinAskPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
+      join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinBuyOrders` `Cbo` on((`Cbo`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinMarketCap` `Cmc` on((`Cmc`.`CoinID` = `Tr`.`CoinID`)))
       join `CoinSellOrders` `Cso` on((`Cso`.`CoinID` = `Tr`.`CoinID`)))
@@ -248,7 +248,7 @@ FROM `BittrexAction`  `Ba`
     ,`Sr`.`OverrideBuyBackAmount`,`Sr`.`OverrideBuyBackSaving`
     FROM `TrackingSellCoins` `Tsc`
     Join `Transaction` `Tr` on `Tr`.`ID` = `Tsc`.`TransactionID`
-     Join `CoinAskPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
      join `UserConfig` `Uc` on `Uc`.`UserID` = `Tr`.`UserID`
      join `User` `Us` on `Us`.`ID` = `Tr`.`UserID`
      join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
