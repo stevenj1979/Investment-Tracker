@@ -1143,11 +1143,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
               $LiveCoinPrice = $spreadBetCoins[$l][2];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][4];
               $risesInPrice = $spreadBetCoins[$l][5];
               //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
-              $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
+
               if ($totalBuyAmount < $buyQuantity){
                 addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
                 SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"BC62","",$logEventsSettingAry,'Events');
-                $totalBuyAmount = $totalBuyAmount + $buyQuantity;
+                //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
+                $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               }else{
                 SuperLog($nFile,"TotalAmout over: $buyQuantity | $totalBuyAmount ",$nFunc,"BC63","",$logFlowSettingAry,'Flow');
               }
