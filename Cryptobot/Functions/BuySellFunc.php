@@ -259,6 +259,9 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           }
           if ($type == 'buyToreduceLoss'){
             bittrexActionReduceLoss($coinID,$trackingID);
+            if ($SBRuleID <> 0 AND $SBTransID <> 0){
+              updateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);
+            }
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
           logAction("runNewTrackingCoins; buyCoins : $symbol | $coinID | $coinID | $baseCurrency | $ogBTCAmount | $timeToCancelBuyMins | $buyCoinPrice | $overrideCoinAlloc | $SBRuleID", 'BuySellFlow', 1);
