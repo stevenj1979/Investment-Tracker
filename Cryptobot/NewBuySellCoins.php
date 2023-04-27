@@ -2213,12 +2213,13 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       if ($minsToDelay < 0){ echo "<BR> MinsToDelay $minsToDelay: EXIT! "; continue; }
       if ($liveCoinPrice == 0){ echo "<BR> LiveCoinPrice = 0 $liveCoinPrice: EXIT! "; continue; }
       if ($reduceLossCounter > $reduceLossMaxCounter){ echo "<BR> ReduceLossCounter: $reduceLossCounter | $reduceLossMaxCounter : EXIT! "; continue; }
-      if ($hoursFlat < $hoursFlatTarget){ echo "<BR> HoursFlat: $hoursFlat | $hoursFlatTarget : EXIT! "; continue; }
-      echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
       if ($pctProfit <= -16 AND $hoursFlat >= 10){
         $hoursFlat = $hoursFlatTarget;
         echo "<BR> buyToreduceLoss3: $pctProfit | $hoursFlat | $hoursFlatTarget";
       }
+      if ($hoursFlat < $hoursFlatTarget){ echo "<BR> HoursFlat: $hoursFlat | $hoursFlatTarget : EXIT! "; continue; }
+      echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
+
       //get multiplier
       //$openTransNoAry = getOpenTransNo($userID, $coinID);
       $currentBuy = $reduceLossMultiplier;
