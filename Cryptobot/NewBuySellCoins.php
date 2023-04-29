@@ -2209,7 +2209,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
     //}
     //echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
-    SuperLog($nFile,"buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter;",$nFunc,"RL2","TransactionID:$transactionID",$logVariSettingAry,'Variables');
+    SuperLog($nFile,"buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter;",$nFunc,"RL2","TransactionID:$transactionID",$logFlowSettingAry,'Flow');
     if (($pctProfit <= $reduceLossSellPct  and $coinSwapDelayed == 0 AND $finalReduceLoss == 1  ) OR ($pctProfit <= $reduceLossSellPct AND $overrideReduceLoss == 1)){
       if (!isset($pctProfit)){ echo "<BR> PctProfit note set: EXIT! "; continue; }
       if ($minsToDelay < 0){ echo "<BR> MinsToDelay $minsToDelay: EXIT! "; continue; }
