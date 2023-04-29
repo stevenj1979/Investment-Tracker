@@ -3679,9 +3679,9 @@ function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry,
   $UserID = 3;
   Echo "VARDump: ";
   var_dump($logSettingAry);
-  $logSettings = explode(",",$logSettingAry);
+  //$logSettings = explode(",",$logSettingAry);
   //echo "<BR> LSA: $logSettingAry";
-  $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
+  $enabled = $logSettingAry[0]; $mode = $logSettingAry[1]; $days = $logSettingAry[2];
   //echo "<BR> EMD: $enabled | $mode | $days ";
   //echo "<BR> File/Func: $nFile | $nFunction";
   //echo "<BR> Comments/Ref: $comments | $ref";
