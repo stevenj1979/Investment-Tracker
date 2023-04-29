@@ -3687,7 +3687,7 @@ function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry,
   $newRef = str_replace("'","/",$ref);
   $sql = "call superLogToSQL($UserID,'$nFile','$newComments',$days,'$nFunction','$title','$newRef','$nType')";
   $sql = str_replace("<BR>","",$sql);
-  echo "<BR> SQL TEST: START $sql END Enabled:$enabled Mode:$mode ARRAY:$logSettingAry";
+  echo "<BR> SQL TEST: START $sql END Enabled:$enabled Mode:$mode Days:$days ARRAY:$logSettings";
   if ($enabled == 1) {
     if ($mode > 0){
       echo "<BR> $nFile | $nFunction | $comments";
