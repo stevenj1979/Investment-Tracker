@@ -3677,6 +3677,8 @@ function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
 
 function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry, $nType){
   $UserID = 3;
+  Echo "VARDump: ";
+  var_dump($logSettingAry);
   $logSettings = explode(",",$logSettingAry);
   //echo "<BR> LSA: $logSettingAry";
   $enabled = $logSettings[0]; $mode = $logSettings[1]; $days = $logSettings[2];
