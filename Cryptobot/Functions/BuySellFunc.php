@@ -216,6 +216,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
         if ($ogBTCAmount <= 0){ closeNewTrackingCoin($newTrackingCoinID, True,1,"Less Than 0 BTC Amount");}
         $date = date("Y-m-d H:i:s", time());
         if ($type == 'SpreadBuyCoins'){$newTrackingType = 'SpreadBuy';}else{$newTrackingType = 'Buy';}
+        if ($type == 'buyToreduceLoss' AND $SBRuleID <> 0 AND $SBTransID <> 0){ $type = 'SpreadBuy';}
         $checkBuy = buyCoins($APIKey, $APISecret,$symbol, $Email, $userID, $date, $baseCurrency,$SendEmail,$BuyCoin,$ogBTCAmount, $ruleIDBuy,$UserName,$coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $liveCoinPrice, $overrideCoinAlloc,$newTrackingType,$SBRuleID,$SBTransID,$noOfPurchases+1);
         $delayResponse = getCoinDelayState($coinID,$userID);
         echoText("delay response: $delayResponse",$echoTestText);
@@ -260,7 +261,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           if ($type == 'buyToreduceLoss'){
             bittrexActionReduceLoss($coinID,$trackingID);
             if ($SBRuleID <> 0 AND $SBTransID <> 0){
-              updateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);
+              //updateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);
             }
           }
           if ($type == 'Buy' and $transactionID <> 0) { bittrexActionBuyBack($coinID,$transactionID,0);}
