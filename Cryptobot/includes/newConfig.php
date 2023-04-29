@@ -1090,10 +1090,13 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
 //  }
   if ($buyPriceCoin == 0){
+    LogToSQL("BuyCoinAmount","BuyPriceCoin = 0 $buyPriceCoin | $bitPrice",3,1);
     $bitPriceAry = bittrexCoinPriceNew($baseCurrency,$coin);
     $bitPrice = $bitPriceAry[0][0];
+    LogToSQL("BuyCoinAmount","BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice",3,1);
     Echo "<BR> BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice";
   }else{
+    LogToSQL("BuyCoinAmount","BuyPriceCoin <> 0 $buyPriceCoin | $bitPrice",3,1);
     $bitPrice = $buyPriceCoin;
   }
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
@@ -2025,7 +2028,7 @@ function bittrexCoinPriceNew($baseCoin, $coin){
     }
 
     $sql = "SELECT `LiveCoinPrice`
-              FROM `CoinAskPrice`
+              FROM `CoinPrice`
               WHERE `CoinID` = (SELECT `ID` FROM `Coin` WHERE `BaseCurrency` = '$baseCoin' and `Symbol` = '$coin' and `BuyCoin` = 1 )";
     //echo "<BR> $sql";
     $result = $conn->query($sql);
