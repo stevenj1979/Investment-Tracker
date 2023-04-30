@@ -67,7 +67,7 @@ function getTimer($timerAry, $name){
   for($e=0;$e<$timerArySize;$e++){
     //echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
-      //echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0];
+      echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0]. " | $name";
       return Array($timerAry[$e][0],$timerAry[$e][2]);
     }
   }
