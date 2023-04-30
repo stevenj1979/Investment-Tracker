@@ -70,7 +70,7 @@ function getTimer($timerAry, $name){
 
       $nextRunTime =  strtotime($timerAry[$e][0]);
       $currentTime = date('d-m-y h:i:s');
-      $minsRemaining = round(abs($nextRunTime-$currentTime)/60,2);
+      $minsRemaining = round(($nextRunTime-$currentTime)/60,2);
       echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0]. " | $name | MINS:$minsRemaining";
       return $minsRemaining;
     }
