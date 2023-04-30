@@ -68,7 +68,7 @@ function getTimer($timerAry, $name){
     //echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
       echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0]. " | $name";
-      return Array($timerAry[$e][0],$timerAry[$e][2]);
+      return Array($timerAry[$e][0],$timerAry[$e][4]);
     }
   }
 }
@@ -82,49 +82,49 @@ $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i
 $allCoinStatusTimerAry = getTimer($timerAry,"allCoinStatus");
 var_dump($allCoinStatusTimerAry);
 $allCoinStatusTimerNext = $allCoinStatusTimerAry[0];
-$allCoinStatusTimerMins = $allCoinStatusTimerAry[4];
+$allCoinStatusTimerMins = $allCoinStatusTimerAry[1];
 echo "<BR> AllCoinStatusTimer: $allCoinStatusTimer | currentTime ".date('Y-m-d H:i');
 //Dashboard
 //$dashBoardRunTime = "+20 minutes";
 //$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
 $dashboardTimerAry = getTimer($timerAry,"dashBoard");
 $dashboardTimerNext = $dashboardTimerAry[0];
-$dashboardTimerMins = $dashboardTimerAry[4];
+$dashboardTimerMins = $dashboardTimerAry[1];
 //AutoUpdatePrice
 //$autoUpdatePriceRunTime = "+20 minutes";
 //$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
 $autoUpdatePriceTimerAry = getTimer($timerAry,"autoUpdatePrice");
 $autoUpdatePriceTimerNext = $autoUpdatePriceTimerAry[0];
-$autoUpdatePriceTimerMins = $autoUpdatePriceTimerAry[4];
+$autoUpdatePriceTimerMins = $autoUpdatePriceTimerAry[1];
 //Hourly
 //$coinHourlyRunTime = "+60 minutes";
 //$coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date('Y-m-d H:i'))));
 $coinHourlyTimerAry = getTimer($timerAry,"coinHourly");
 $coinHourlyTimerNext = $coinHourlyTimerAry[0];
-$coinHourlyTimerMins = $coinHourlyTimerAry[4];
+$coinHourlyTimerMins = $coinHourlyTimerAry[1];
 //CoinMode
 //$coinModeRunTime = "+30 minutes";
 //$coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
 $coinModeTimerAry = getTimer($timerAry,"coinMode");
 $coinModeTimerNext = $coinModeTimerAry[0];
-$coinModeTimerMins = $coinModeTimerAry[4];
+$coinModeTimerMins = $coinModeTimerAry[1];
 //PctChangeProcess
 //$pctChangeProcessRunTime = "+20 minutes";
 //$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
 $pctChangeProcessTimerAry = getTimer($timerAry,"pctChangeProcess");
 $pctChangeProcessTimerNext = $pctChangeProcessTimerAry[0];
-$pctChangeProcessTimerMins = $pctChangeProcessTimerAry[4];
+$pctChangeProcessTimerMins = $pctChangeProcessTimerAry[1];
 //coinSwap
 //$coinSwapRunTime = "+20 minutes";
 //$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date('Y-m-d H:i'))));
 $coinSwapTimerAry = getTimer($timerAry,"coinSwap");
 $coinSwapTimerNext = $coinSwapTimerAry[0];
-$coinSwapTimerMins = $coinSwapTimerAry[4];
+$coinSwapTimerMins = $coinSwapTimerAry[1];
 //CoinAdmin
 //$coinAdminRunTime = "+24 hours";
 $coinAdminTimerAry = getTimer($timerAry,"coinAdmin");
 $coinAdminTimerNext = $coinAdminTimerAry[0];
-$coinAdminTimerMins = $coinAdminTimerAry[4];
+$coinAdminTimerMins = $coinAdminTimerAry[1];
 
 $completeFlag = False;
 
