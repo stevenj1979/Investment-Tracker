@@ -85,9 +85,9 @@ $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i
 //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
 
 $completeFlag = False;
-
+$allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
 Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
-while($completeFlag == False){
+/*while($completeFlag == False){
   $allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
   //var_dump($allCoinStatusTimerAry);
   //$allCoinStatusTimerNext = $allCoinStatusTimerAry[0];
@@ -231,7 +231,7 @@ while($completeFlag == False){
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
-}//end While
+}//end While*/
 
 ?>
 </html>
