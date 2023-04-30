@@ -240,9 +240,9 @@ while($completeFlag == False){
   }else{
     echo "<BR> Waiting Timer!!!";
   }
-
+  */
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
-}//end While*/
+}//end While
 
 ?>
 </html>
