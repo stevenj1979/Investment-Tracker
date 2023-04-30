@@ -28,14 +28,14 @@ function getTimeFromSQL(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT  `NextRunTime`, `Name`,`Command`,`LastRunTime`,`MinsToRun` FROM `CryptoBotDirector`";
+  $sql = "SELECT  `NextRunTime`, `Name`,`Command`,`LastRunTime`,`MinsToRun`, TimeStampDiff(MINUTE, `NextRunTime`, now()) as MinsRemaining FROM `CryptoBotDirector`";
   //echo "<BR> $sql";
   newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 0,"SQL CALL","");
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['NextRunTime'],$row['Name'],$row['Command'],$row['LastRunTime'],$row['MinsToRun']);
+      $tempAry[] = Array($row['NextRunTime'],$row['Name'],$row['Command'],$row['LastRunTime'],$row['MinsToRun'],$row['MinsRemaining']);
     }
     $conn->close();
     return $tempAry;
@@ -68,7 +68,7 @@ function getTimer($timerAry, $name){
     //echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
       echo "<BR>Found : ".$timerAry[$e][1]." | ".$timerAry[$e][0]. " | $name";
-      return Array($timerAry[$e][0],$timerAry[$e][4]);
+      return Array($timerAry[$e][5],$timerAry[$e][4]);
     }
   }
 }
@@ -131,7 +131,7 @@ $completeFlag = False;
 Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
 while($completeFlag == False){
 
-  if (date("Y-m-d H:i", time()) >= strtotime($allCoinStatusTimerNext) ){
+  if ($allCoinStatusTimerNext >= 0 ){
     Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
@@ -141,7 +141,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($dashboardTimerNext) ){
+  if ($dashboardTimerNext >= 0 ){
     Echo "<BR> Running Dashboard.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Dashboard.php');
     //sleep (30);
@@ -152,7 +152,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($autoUpdatePriceTimerNext) ){
+  if ($autoUpdatePriceTimerNext >= 0 ){
     Echo "<BR> Running AutoUpdatePrice.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AutoUpdatePrice.php');
     //sleep (30);
@@ -163,7 +163,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($coinHourlyTimerNext) ){
+  if ($coinHourlyTimerNext >= 0 ){
     Echo "<BR> Running CoinHourly.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinHourly.php');
     //sleep (30);
@@ -174,7 +174,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($coinModeTimerNext) ){
+  if ($coinModeTimerNext >= 0 ){
     Echo "<BR> Running CoinMode.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinMode.php');
     //sleep (30);
@@ -185,7 +185,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($pctChangeProcessTimerNext) ){
+  if ($pctChangeProcessTimerNext >= 0 ){
     Echo "<BR> Running PctChangeProcess.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/PctChangeProcess.php');
     //sleep (30);
@@ -196,7 +196,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($coinSwapTimerNext) ){
+  if ($coinSwapTimerNext >= 0 ){
     Echo "<BR> Running CoinSwap.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinSwap.php');
     //sleep (30);
@@ -207,7 +207,7 @@ while($completeFlag == False){
     echo "<BR> Waiting Timer!!!";
   }
 
-  if (date("Y-m-d H:i", time()) >= strtotime($coinAdminTimerNext) ){
+  if ($coinAdminTimerNext >= 0){
     Echo "<BR> Running CoinAdmin.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinAdmin.php');
     //sleep (30);
