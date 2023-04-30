@@ -226,7 +226,7 @@ writeSQLTime("autoUpdatePrice",$autoUpdatePriceTimerMins);
 writeSQLTime("coinHourly",$coinHourlyTimerMins);
 writeSQLTime("coinMode",$coinModeTimerMins);
 writeSQLTime("pctChangeProcess",$pctChangeProcessTimerMins);
-writeSQLTime("coinSwap",$coinSwapRunTimeMins);
+writeSQLTime("coinSwap",$coinSwapTimerMins);
 writeSQLTime("coinAdmin",$coinAdminTimerMins);
 ?>
 </html>
