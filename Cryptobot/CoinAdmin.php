@@ -708,6 +708,26 @@ function addPriceDipCoins($userID,$coinID){
     logAction("addPriceDipCoins: ".$sql, 'BuySell', 0);
 }
 
+function clearSQLLog($days){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Delete FROM `ActionLog` WHERE `DateToDelete` < now();";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("clearSQLLog: ".$sql, 'SellCoin', 0);
+
+}
+
 
 
 //coinHistory(10);
@@ -785,5 +805,6 @@ deleteCoinSwapClosed();
 runNewDashboard();
 //fixQTUM();
 runAddPriceDipCoins();
+clearSQLLog(90);
 ?>
 </html>

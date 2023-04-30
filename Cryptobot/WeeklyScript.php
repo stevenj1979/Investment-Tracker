@@ -485,7 +485,7 @@ Function runCoinAutoActions($coinTrackingActions,$type){
 clearWeeklyCoinSwaps();
 spreadBetSettingsUpdate();
 clearBuyBack(60480);
-clearSQLLog(90);
+//clearSQLLog(90);
 //setBuySellPriceforProfit();
 ClearCancelledTransactions("DELETE FROM `BittrexAction` WHERE `Status` = 'Cancelled' and `ActionDate` < DATE_SUB(now(), INTERVAL 14 DAY);");
 ClearCancelledTransactions("DELETE FROM `Transaction` WHERE `Status` = 'Cancelled' and `OrderDate` < DATE_SUB(now(), INTERVAL 14 DAY);");

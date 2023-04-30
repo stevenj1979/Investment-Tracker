@@ -187,7 +187,7 @@ while($completeFlag == False){
     Echo "<BR> Running CoinSwap.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinSwap.php');
     //sleep (30);
-    $coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date('Y-m-d H:i'))));
+    $coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date($coinSwapTimer))));
     Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimer | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
   }
