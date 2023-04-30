@@ -327,7 +327,7 @@ table tr:last-child {
 .flex-container > div:nth-of-type(2) {
   flex-grow: 8;
   position: relative;
-  z-index: 1;
+  z-index: -1;
 }
 .flex-container > div:nth-of-type(3) {
   border: 5px;
