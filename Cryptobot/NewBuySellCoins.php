@@ -1663,7 +1663,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           updateCoinAllocation($userID, $lowMarketMode, $baseCurrency, $finalPrice*$amount);
           logAction("runBittrex; bittrexBuyComplete : $coin | $type | $baseCurrency | $userID | $liveCoinPriceBit | $coinID | $type | $finalPrice | $amount | $userID | $uuid | $orderQty | $transactionID", 'BuySellFlow', 1);
           if ($oneTimeBuy == 1){ disableBuyRule($ruleIDBTBuy);}
-          $finalBool = True;
+          return True;
           echo "<BR> FinalBool 1";
         }elseif ($orderIsOpen != 1 && $cancelInit != 1 && $orderQty <> $orderQtyRemaining && $finalBool == False){
           bittrexUpdateBuyQty($transactionID, $orderQty-$orderQtyRemaining);
