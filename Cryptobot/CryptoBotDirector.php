@@ -141,7 +141,7 @@ while($completeFlag == False){
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("allCoinStatus",$allCoinStatusTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -149,11 +149,11 @@ while($completeFlag == False){
   if ($dashboardTimerMins >= 0 ){
     Echo "<BR> Running Dashboard.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Dashboard.php');
-    //sleep (30);
+    //sleep (15);
     //$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for Dashboard.php : $dashboardTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("dashBoard",$dashboardTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -161,11 +161,11 @@ while($completeFlag == False){
   if ($autoUpdatePriceTimerMins >= 0 ){
     Echo "<BR> Running AutoUpdatePrice.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AutoUpdatePrice.php');
-    //sleep (30);
+    //sleep (15);
     //$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AutoUpdatePrice.php : $autoUpdatePriceTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("autoUpdatePrice",$autoUpdatePriceTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -173,11 +173,11 @@ while($completeFlag == False){
   if ($coinHourlyTimerMins >= 0 ){
     Echo "<BR> Running CoinHourly.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinHourly.php');
-    //sleep (30);
+    //sleep (15);
     //$coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinHourly.php : $coinHourlyTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("coinHourly",$coinHourlyTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -185,11 +185,11 @@ while($completeFlag == False){
   if ($coinModeTimerMins >= 0 ){
     Echo "<BR> Running CoinMode.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinMode.php');
-    //sleep (30);
+    //sleep (15);
     //$coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinMode.php : $coinModeTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("coinMode",$coinModeTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -197,11 +197,11 @@ while($completeFlag == False){
   if ($pctChangeProcessTimerMins >= 0 ){
     Echo "<BR> Running PctChangeProcess.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/PctChangeProcess.php');
-    //sleep (30);
+    //sleep (15);
     //$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for PctChangeProcess.php : $pctChangeProcessTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("pctChangeProcess",$pctChangeProcessTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -209,11 +209,11 @@ while($completeFlag == False){
   if ($coinSwapTimerMins >= 0 ){
     Echo "<BR> Running CoinSwap.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinSwap.php');
-    //sleep (30);
+    //sleep (15);
     //$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date($coinSwapTimer))));
     Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimerMins | Mins: $coinSwapRunTimeMins";
     writeSQLTime("coinSwap",$coinSwapTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
@@ -221,11 +221,11 @@ while($completeFlag == False){
   if ($coinAdminTimerMins >= 0){
     Echo "<BR> Running CoinAdmin.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinAdmin.php');
-    //sleep (30);
+    //sleep (15);
     //$coinAdminTimer = date("Y-m-d H:i",strtotime($coinAdminRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinAdmin.php : $coinAdminTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("coinAdmin",$coinAdminTimerMins);
-    //sleep (30);
+    sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
   }
