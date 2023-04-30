@@ -130,7 +130,7 @@ $completeFlag = False;
 
 Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
 while($completeFlag == False){
-
+  echo "<BR> AllCoin: $allCoinStatusTimerNext";
   if ($allCoinStatusTimerNext >= 0 ){
     Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
