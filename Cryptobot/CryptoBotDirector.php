@@ -61,19 +61,23 @@ function writeSQLTime($name, $minsToRun){
   newLogToSQL("writeSQLTime","$sql",3,0,"CryptoBotDirector","Name:$name");
 }
 
-function getTimer($timerAry, $name){
+function getTimer($timerAry, $name, $start_date){
   $timerArySize = count($timerAry);
   //echo "<BR> ArraySize: $timerArySize";
   for($e=0;$e<$timerArySize;$e++){
     //echo"<BR>Name: $name | ".$timerAry[$e][1];
     if ($timerAry[$e][1] == $name){
 
-      $nextRunTime =  date( 'Y-m-d H:i:s', strtotime($timerAry[$e][0]) );
-      $currentTime = date('d-m-y h:i:s');
-      $minsRemaining = round(($nextRunTime-$currentTime)/60,2);
-      $revMinsRemaining = round(($currentTime-$nextRunTime)/60,2);
-      echo "<BR>Found : $nextRunTime | $currentTime | $name | MINS:$minsRemaining | RevMins:$revMinsRemaining";
-      return $minsRemaining;
+      //$nextRunTime =  date( 'Y-m-d H:i:s', strtotime($timerAry[$e][0]) );
+      //$currentTime = date('d-m-y h:i:s');
+      $minsRemaining = $timerAry[$e][5];
+      $since_start = $start_date->diff(new DateTime('now'));
+      $minutes = $since_start->days * 24 * 60;
+      $minutes += $since_start->h * 60;
+      $minutes += $since_start->i;
+      //$revMinsRemaining = round(($currentTime-$nextRunTime)/60,2);
+      echo "<BR>Found $name | MINS:$minsRemaining | ProgramRunMins:$minutes";
+      return Array($minsRemaining,$minutes);
     }
   }
 }
@@ -84,12 +88,15 @@ $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i
 //AllCoinStatus
 //$allCoinsStatusRunTime = "+20 minutes";
 //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
-
+$currentTime = new DateTime('now');
 $completeFlag = False;
-$allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
+//$allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
 Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
-/*while($completeFlag == False){
-  $allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
+while($completeFlag == False){
+
+
+
+
   //var_dump($allCoinStatusTimerAry);
   //$allCoinStatusTimerNext = $allCoinStatusTimerAry[0];
   //$allCoinStatusTimerMins = $allCoinStatusTimerAry[1];
@@ -135,8 +142,11 @@ Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-
   $coinAdminTimerMins = getTimer($timerAry,"coinAdmin");
   //$coinAdminTimerNext = $coinAdminTimerAry[0];
   //$coinAdminTimerMins = $coinAdminTimerAry[1];
-  echo "<BR> AllCoin: $allCoinStatusTimerMins";
-  if ($allCoinStatusTimerMins >= 0 ){
+  $allCoinStatusTimerAry = getTimer($timerAry,"allCoinStatus",$currentTime);
+  $allCoinStatusTimerMins = $allCoinStatusTimerAry[0];
+  $minsFromStart = $allCoinStatusTimerAry[1];
+  echo "<BR> AllCoin: $allCoinStatusTimerMins | $minsFromStart";
+  /*if ($allCoinStatusTimerMins >= $minsFromStart ){
     Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
