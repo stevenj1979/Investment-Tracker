@@ -80,6 +80,7 @@ $newTime = date("Y-m-d H:i",strtotime($programRunTime, strtotime(date('Y-m-d H:i
 //$allCoinsStatusRunTime = "+20 minutes";
 //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
 $allCoinStatusTimerAry = getTimer($timerAry,"allCoinStatus");
+var_dump($allCoinStatusTimerAry);
 $allCoinStatusTimerNext = $allCoinStatusTimerAry[0];
 $allCoinStatusTimerMins = $allCoinStatusTimerAry[4];
 echo "<BR> AllCoinStatusTimer: $allCoinStatusTimer | currentTime ".date('Y-m-d H:i');
