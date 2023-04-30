@@ -50,7 +50,7 @@ function writeSQLTime($name, $minsToRun){
 
   $sql = "UPDATE `CryptoBotDirector` SET `LastRunTime` = `NextRunTime`, `NextRunTime` = Date_Add(`LastRunTime`, INTERVAL $minsToRun MINUTE) WHERE `Name`= '$name' ";
 
-  print_r($sql);
+  //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -137,6 +137,8 @@ while($completeFlag == False){
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($dashboardTimerNext) ){
@@ -146,6 +148,8 @@ while($completeFlag == False){
     //$dashboardTimer = date("Y-m-d H:i",strtotime($dashBoardRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for Dashboard.php : $dashboardTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($autoUpdatePriceTimerNext) ){
@@ -155,6 +159,8 @@ while($completeFlag == False){
     //$autoUpdatePriceTimer = date("Y-m-d H:i",strtotime($autoUpdatePriceRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AutoUpdatePrice.php : $autoUpdatePriceTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($coinHourlyTimerNext) ){
@@ -164,6 +170,8 @@ while($completeFlag == False){
     //$coinHourlyTimer = date("Y-m-d H:i",strtotime($coinHourlyRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinHourly.php : $coinHourlyTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($coinModeTimerNext) ){
@@ -173,6 +181,8 @@ while($completeFlag == False){
     //$coinModeTimer = date("Y-m-d H:i",strtotime($coinModeRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinMode.php : $coinModeTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($pctChangeProcessTimerNext) ){
@@ -182,6 +192,8 @@ while($completeFlag == False){
     //$pctChangeProcessTimer = date("Y-m-d H:i",strtotime($pctChangeProcessRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for PctChangeProcess.php : $pctChangeProcessTimerNext | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($coinSwapTimerNext) ){
@@ -191,6 +203,8 @@ while($completeFlag == False){
     //$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date($coinSwapTimer))));
     Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimerNext | Mins: $coinSwapRunTimeMins";
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= strtotime($coinAdminTimerNext) ){
@@ -200,6 +214,8 @@ while($completeFlag == False){
     //$coinAdminTimer = date("Y-m-d H:i",strtotime($coinAdminRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for CoinAdmin.php : $coinAdminTimer | CurrentTime: ".date('Y-m-d H:i');
     sleep (30);
+  }else{
+    echo "<BR> Waiting Timer!!!";
   }
 
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
