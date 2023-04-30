@@ -2,6 +2,7 @@
 
 <html>
 <?php
+ini_set('max_execution_time',1200);
 include_once ('/home/stevenj1979/public_html/Investment-Tracker/Cryptobot/includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
@@ -213,7 +214,7 @@ while($completeFlag == False){
   }else{
     echo "<BR> Waiting Timer!!!";
   }
-  
+
   if (date("Y-m-d H:i", time()) >= $newTime){ $completeFlag = True;}
 }//end While
 
