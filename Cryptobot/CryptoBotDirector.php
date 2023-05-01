@@ -100,7 +100,7 @@ while($completeFlag == False){
   $allCoinStatusTimerMins = $allCoinStatusTimerAry[0];
   $minsFromStart = $allCoinStatusTimerAry[1];
   echo "<BR> AllCoin: $allCoinStatusTimerMins | $minsFromStart";
-  if ($allCoinStatusTimerMins >= $minsFromStart OR $allCoinStatusTimerMins < 0){
+  if (($allCoinStatusTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running AllCoinStatus.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AllCoinStatus.php');
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
@@ -115,7 +115,7 @@ while($completeFlag == False){
   $dashboardTimerAry = getTimer($timerAry,"dashBoard",$currentTime);
   $dashboardTimerMins = $dashboardTimerAry[0];
   $minsFromStart = $dashboardTimerAry[1];
-  if ($dashboardTimerMins >= $minsFromStart OR $dashboardTimerMins < 0){
+  if (($dashboardTimerMins - $minsFromStar) <= 0){
     Echo "<BR> Running Dashboard.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Dashboard.php');
     //sleep (15);
@@ -130,7 +130,7 @@ while($completeFlag == False){
   $autoUpdatePriceTimerAry = getTimer($timerAry,"autoUpdatePrice",$currentTime);
   $autoUpdatePriceTimerMins = $autoUpdatePriceTimerAry[0];
   $minsFromStart = $autoUpdatePriceTimerAry[1];
-  if ($autoUpdatePriceTimerMins >= $minsFromStart OR $autoUpdatePriceTimerMins < 0){
+  if (($autoUpdatePriceTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running AutoUpdatePrice.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/AutoUpdatePrice.php');
     //sleep (15);
@@ -145,7 +145,7 @@ while($completeFlag == False){
   $coinHourlyTimerAry = getTimer($timerAry,"coinHourly",$currentTime);
   $coinHourlyTimerMins = $coinHourlyTimerAry[0];
   $minsFromStart = $coinHourlyTimerAry[1];
-  if ($coinHourlyTimerMins >= $minsFromStart OR $coinHourlyTimerMins < 0){
+  if (($coinHourlyTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running CoinHourly.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinHourly.php');
     //sleep (15);
@@ -160,7 +160,7 @@ while($completeFlag == False){
   $coinModeTimerAry = getTimer($timerAry,"coinMode",$currentTime);
   $coinModeTimerMins = $coinModeTimerAry[0];
   $minsFromStart = $coinModeTimerAry[1];
-  if ($coinModeTimerMins >= $minsFromStart OR $coinModeTimerMins < 0){
+  if (($coinModeTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running CoinMode.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinMode.php');
     //sleep (15);
@@ -175,7 +175,7 @@ while($completeFlag == False){
   $pctChangeProcessTimerAry = getTimer($timerAry,"pctChangeProcess",$currentTime);
   $pctChangeProcessTimerMins = $pctChangeProcessTimerAry[0];
   $minsFromStart = $pctChangeProcessTimerAry[1];
-  if ($pctChangeProcessTimerMins >= $minsFromStart OR  $pctChangeProcessTimerMins < 0){
+  if (($pctChangeProcessTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running PctChangeProcess.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/PctChangeProcess.php');
     //sleep (15);
@@ -190,7 +190,7 @@ while($completeFlag == False){
   $coinSwapTimerAry = getTimer($timerAry,"coinSwap",$currentTime);
   $coinSwapTimerMins = $coinSwapTimerAry[0];
   $minsFromStart = $coinSwapTimerAry[1];
-  if ($coinSwapTimerMins >= $minsFromStart OR $coinSwapTimerMins < 0){
+  if (($coinSwapTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running CoinSwap.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinSwap.php');
     //sleep (15);
@@ -205,7 +205,7 @@ while($completeFlag == False){
   $coinAdminTimerAry = getTimer($timerAry,"coinAdmin",$currentTime);
   $coinAdminTimerMins = $coinAdminTimerAry[0];
   $minsFromStart = $coinAdminTimerAry[1];
-  if ($coinAdminTimerMins >= $minsFromStart OR $coinAdminTimerMins < 0){
+  if (($coinAdminTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running CoinAdmin.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinAdmin.php');
     //sleep (15);
