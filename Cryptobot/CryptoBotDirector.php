@@ -49,7 +49,7 @@ function writeSQLTime($name, $minsToRun){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `CryptoBotDirector` SET `LastRunTime` = `NextRunTime`, `NextRunTime` = Date_Add(`LastRunTime`, INTERVAL `MinsToRun` MINUTE) WHERE `Name`= '$name' ";
+  $sql = "UPDATE `CryptoBotDirector` SET `LastRunTime` = now(), `NextRunTime` = Date_Add(now(), INTERVAL `MinsToRun` MINUTE) WHERE `Name`= '$name' ";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -59,7 +59,7 @@ function writeSQLTime($name, $minsToRun){
   }
   $conn->close();
   logAction("writeSQLTime: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeSQLTime","$sql",3,0,"CryptoBotDirector","Name:$name");
+  newLogToSQL("writeSQLTime","$sql",3,1,"CryptoBotDirector","Name:$name");
 }
 
 function getTimer($timerAry, $name, $start_date){
@@ -93,6 +93,7 @@ $currentTime = new DateTime('now');
 $completeFlag = False;
 //$allCoinStatusTimerMins = getTimer($timerAry,"allCoinStatus");
 Echo "<BR>Starting Program | Complete time: $newTime | CurrentTime: ".date('Y-m-d H:i');
+//$runNameAry = Array('allCoinStatus','dashBoard','','','','','',)
 while($completeFlag == False){
 
   $allCoinStatusTimerAry = getTimer($timerAry,"allCoinStatus",$currentTime);
@@ -105,6 +106,7 @@ while($completeFlag == False){
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("allCoinStatus",$allCoinStatusTimerMins);
+    newLogToSQL("CryptoBotDirector","Running All Coin Status Process | $minsFromStart | $allCoinStatusTimerMins",3,1,"","");
     sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
