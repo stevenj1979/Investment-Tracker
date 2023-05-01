@@ -625,15 +625,7 @@ function runNewDashboard(){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`,`TotalUSD`,`CoinID`,`BaseCurrency`)
-        SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`, `Bb`.`UserID`
-        ,if(`Bb`.`Symbol` = 'BTC', getBTCPrice(84),if(`Bb`.`Symbol` = 'ETH', getBTCPrice(85),if(`Bb`.`Symbol` = 'USDT', getBTCPrice(83)
-        ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1))))) as Multiplier
-        ,`Bb`.`Total`*`Bb`.`Price` as TotalUSD
-        ,`Cn`.`ID`,`Bb`.`BaseCurrency`
-        FROM `BittrexBalances` `Bb`
-        join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol` and `Cn`.`BaseCurrency` = `Bb`.`BaseCurrency`
-        where `Cn`.`BuyCoin` = 1";
+    $sql = "call newDashHistoricBittrex();";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

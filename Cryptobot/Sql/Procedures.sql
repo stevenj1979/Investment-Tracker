@@ -2535,3 +2535,26 @@ where `Ucs`.`UserID` = User_ID ;
 End if;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `newDashHistoricBittrex`()
+    MODIFIES SQL DATA
+BEGIN
+
+If NOT Exists(SELECT `ID` FROM `HistoricBittrexBalances` WHERE Year(`Date`) = Year(now()) and Month(`Date`) = Month(now()) and Day(`Date`) = Day(now()) ) THEN
+
+Delete FROM `HistoricBittrexBalances` WHERE Year(`Date`) = Year(now()) and Month(`Date`) = Month(now()) and Day(`Date`) = Day(now());
+
+End if;
+
+INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Multiplier`,`TotalUSD`,`CoinID`,`BaseCurrency`)
+        SELECT `Bb`.`Symbol`,`Bb`.`Total`,`Bb`.`Price`, `Bb`.`UserID`
+        ,if(`Bb`.`Symbol` = 'BTC', getBTCPrice(84),if(`Bb`.`Symbol` = 'ETH', getBTCPrice(85),if(`Bb`.`Symbol` = 'USDT', getBTCPrice(83)
+        ,if(`Cn`.`BaseCurrency` = 'BTC',getBTCPrice(84),if(`Cn`.`BaseCurrency` = 'ETH',getBTCPrice(85),1))))) as Multiplier
+        ,`Bb`.`Total`*`Bb`.`Price` as TotalUSD
+        ,`Cn`.`ID`,`Bb`.`BaseCurrency`
+        FROM `BittrexBalances` `Bb`
+        join `Coin` `Cn` on `Cn`.`Symbol` = `Bb`.`Symbol` and `Cn`.`BaseCurrency` = `Bb`.`BaseCurrency`
+        where `Cn`.`BuyCoin` = 1;
+End$$
+DELIMITER ;
