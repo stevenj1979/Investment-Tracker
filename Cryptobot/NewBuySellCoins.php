@@ -1252,7 +1252,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71]; $sellRuleType = $sellRules[$z][72];
       if ($sellRuleType != $ruleType){ continue;}
-      if ($sellRuleType == 'Normal' OR $sellRuleType == 'SpreadSellInd'){
+      if ($ruleType == 'Normal' OR $ruleType == 'SpreadSellInd'){
         $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
       }else{
         $profitWithSold = $sellCoins[$a][75];
@@ -1453,7 +1453,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         if ($bypassTrackingSell == 1){
           $newType = 'SellBypass';
         }
-        if ($sellRuleType == 'Normal' OR $sellRuleType == 'SpreadSellInd'){
+        if ($ruleType == 'Normal' OR $ruleType == 'SpreadSellInd'){
           newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins',0);
           setTransactionPending($transactionID);
           //echoAndLog("SellCoinResults1","UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:$sTest1  2:$sTest2  3:$sTest3  4:$sTest4  5:$sTest5  6:$sTest6  7:$sTest7  8:$sTest8 ",3,1,"AddTrackingSellCoin","TransactionID:$transactionID");
