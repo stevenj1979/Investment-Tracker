@@ -1216,12 +1216,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72]; //$profit = $sellCoins[$a][58];
     $sellStatus = $sellCoins[$a][6];
     $ogPriceBuy = $sellCoins[$a][54]; $livePriceSell = $sellCoins[$a][56]; $feeSell = $sellCoins[$a][55];
-    if ($sellRuleType == 'Normal'){
-      $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
-    }else{
-      $profitWithSold = $sellCoins[$a][75];
-      $profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
-    }
+
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1257,6 +1252,12 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71]; $sellRuleType = $sellRules[$z][72];
       if ($sellRuleType != $ruleType){ continue;}
+      if ($sellRuleType == 'Normal'){
+        $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
+      }else{
+        $profitWithSold = $sellCoins[$a][75];
+        $profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
+      }
       if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy",$echoExitText); continue;}
       if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy",$echoExitText); continue;}
       if ($sellCoinOffsetEnabled == 2){
