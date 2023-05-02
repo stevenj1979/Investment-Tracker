@@ -1452,7 +1452,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         if ($bypassTrackingSell == 1){
           $newType = 'SellBypass';
         }
-        if ($sellRuleType == 'Normal'){
+        if ($sellRuleType == 'Normal' OR $sellRuleType == 'SpreadSellInd'){
           newTrackingSellCoins($LiveCoinPrice,$userID, $transactionID,$SellCoin, $SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$newType,'RunSellCoins',0);
           setTransactionPending($transactionID);
           //echoAndLog("SellCoinResults1","UserID: $userID | RuleID: $ruleIDSell | Coin : $coin | 1:$sTest1  2:$sTest2  3:$sTest3  4:$sTest4  5:$sTest5  6:$sTest6  7:$sTest7  8:$sTest8 ",3,1,"AddTrackingSellCoin","TransactionID:$transactionID");
@@ -2334,6 +2334,7 @@ $buyCoinTimer = date('Y-m-d H:i');
 $sbBuyCoinTimer = date('Y-m-d H:i');
 $sellCoinTimer = date('Y-m-d H:i');
 $sellCoinSBTimer = date('Y-m-d H:i');
+$sellCoinSBIndTimer = date('Y-m-d H:i');
 $sharedVariablesTimer = date('Y-m-d H:i');
 $alertRunTimer = date('Y-m-d H:i');
 $bittrexReqsTimer = date('Y-m-d H:i');
@@ -2351,6 +2352,7 @@ $runSellCoinsSBFlag = False;
 $runBuyCoinsFlag = False;
 $runSbBuyCoinsFlag = False;
 $buyToReduceLossFlag = False;
+$runSellCoinsSBIndFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
 $clearCoinQueue = [];
@@ -2493,6 +2495,17 @@ while($completeFlag == False){
           $buyToReduceLossFlag = True;
         }
         $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'Normal',$multiSellRules,$newWebSettingsAry);
+  echo "</blockquote><BR> SELL SPREAD COINS (Individual)!! $i<blockquote>";
+              if ($i == 0 OR $runSellCoinsSBIndFlag == True){$sellRules = getUserSellRules('SpreadBet');}
+              if (date("Y-m-d H:i", time()) >= $sellCoinSBIndTimer or $runSellCoinsSBIndFlag == True){
+                $SCcurrent_date = date('Y-m-d H:i');
+                $sellCoinSBIndTimer = date("Y-m-d H:i",strtotime("+2 minutes 25 seconds", strtotime($SCcurrent_date)));
+                $sellCoins = getTrackingSellCoins("SpreadSell"); //getTrackingSpreadBetSellCoins("Sell");
+                $userProfit = getTotalProfit();
+                $runSellCoinsSBIndFlag = False;
+                $buyToReduceLossFlag = True;
+              }
+              $runSellCoinsSBIndFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadSellInd',$multiSellRules,$newWebSettingsAry);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
         if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or $refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
