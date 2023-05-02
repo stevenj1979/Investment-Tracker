@@ -1252,7 +1252,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
       $bypassTrackingSell = $sellRules[$z][65]; $pctOfAuto = $sellRules[$z][67]; $overrideBBAmount = $sellRules[$z][68]; $overrideBBSaving = $sellRules[$z][69];
       $hoursAfterPurchaseToStart = $sellRules[$z][70]; $hoursAfterPurchaseToEnd = $sellRules[$z][71]; $sellRuleType = $sellRules[$z][72];
       if ($sellRuleType != $ruleType){ continue;}
-      if ($sellRuleType == 'Normal'){
+      if ($sellRuleType == 'Normal' OR $sellRuleType == 'SpreadSellInd'){
         $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
       }else{
         $profitWithSold = $sellCoins[$a][75];
