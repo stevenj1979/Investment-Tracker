@@ -20,11 +20,22 @@ displayHeader(6);
 echo "UUID ".$_GET['uuid']." | ".$_GET['apikey']." | ".$_GET['apisecret']." | ".$_GET['transactionID'];
 //echo "<BR> EMPTY ".empty($_GET['uuid']);
 Echo "<BR> HERE 1 | ".$_GET['uuid'];
-if(!empty($_GET['Ref'])){
-  $oldRef = $_GET['Ref'];
+if(!empty($_GET['updateUUID'])){
+  $newRef = $_GET['newRefTxt'];
+  $oldRef = $_GET['oldRefTxt'];
+  $bittrexID = $_GET['BittrexIDTxt'];
+  echo "<BR> Replace Old Text: $oldRef with New Text:$newRef  for $bittrexID";
+  replaceBittrexRef($oldRef, $newRef, $bittrexID);
+  //header('Location: bittrexOrders.php');
+}
+
+if(!empty($_GET['RefID'])){
+  $bittrexID = $_GET['RefID'];
+  $oldRef = $_GET['BittrexRef'];
   echo "<form action='bittrexOrders.php?updateUUID=Yes' method='get'>";
-  echo "Current Ref: <input type='text' name='refTxt' readonly value='$oldRef'>";
-  echo "New Ref: <input type='text' name='refTxt' readonly value=''>";
+  echo "Current Ref: <input type='text' name='oldRefTxt' readonly value='$oldRef'>";
+  echo "BittrexID: <input type='text' name='BittrexIDTxt' readonly value='$bittrexID'>";
+  echo "New Ref: <input type='text' name='newRefTxt' readonly value=''>";
   echo "<input type='submit' name='submit' value='UpdateRef' class='settingsformsubmit' tabindex='1'></form>";
 }
 
@@ -166,6 +177,16 @@ function bittrexCopyTransNewAmountLoc($transactionID, $quantity){
   $conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   $sql = "call CopyTransNewAmount($transactionID,$quantity);";
+  print_r("<br>".$sql);
+  if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  $conn->close();
+}
+
+function replaceBittrexRef($oldRef, $newRef, $bittrexID){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  $sql = "UPDATE `BittrexAction` SET `BittrexRef` = '$newRef' where `ID` = $bittrexID ";
   print_r("<br>".$sql);
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {echo "Error: " . $sql . "<br>" . $conn->error;}
