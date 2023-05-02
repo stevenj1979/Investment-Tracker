@@ -112,11 +112,11 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
       //echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
-      $nPrice = Array($coinAry[$j]['lastTradeRate'],$coinAry[$j]['bidRate'],$coinAry[$j]['askRate']);
-      break;
+      return Array($coinAry[$j]['lastTradeRate'],$coinAry[$j]['bidRate'],$coinAry[$j]['askRate']);
+      //break;
     }
   }
-  return $nPrice;
+  //return $nPrice;
 }
 
 function testBittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
