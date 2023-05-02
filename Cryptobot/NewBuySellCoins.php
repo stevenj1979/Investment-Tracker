@@ -1257,6 +1257,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           if ($sellRuleType != $ruleType){ continue;}
         }else{
           if ($sellRuleType != 'SpreadBet'){ continue;}
+          $ProfitPctBtm_Sell = 15.0;
         }
         $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
       }else{
