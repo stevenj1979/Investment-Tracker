@@ -690,7 +690,7 @@ function getTrackingSellCoins($type, $userID = 0){
 
 function getTrackingSpreadBetSellCoins($type, $userID = 0){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = '$type'";}else{$whereclause = "Where `Status` = 'Open' and `Type` = '$type'";}
+  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -714,7 +714,8 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
   ,avg(`minsToDelay`) as `minsToDelay`,avg(`MinsFromBuy`) as `MinsFromBuy`,avg(`HoursFlatHighPdcs`) as `HoursFlatHighPdcs`,sum(`MaxPriceFromHigh`) as `MaxPriceFromHigh`,sum(`PctFromLiveToHigh`) as `PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp' as `SellPctCsp`,avg(`MaxHoursFlat`) as `MaxHoursFlat`,sum(`Hr1Top`) as `Hr1Top`,sum(`Hr1Bottom`) as `Hr1Bottom`,avg(`CaaOffset`) as `CaaOffset`
   ,avg(`CaaMinsToCancelSell`) as `CaaMinsToCancelSell`,avg(`CaaSellOffset`) as `CaaSellOffset`,`SpreadBetTransactionID`
-  FROM `View5_SellCoins` $whereclause group by `SpreadBetTransactionID` order by `ProfitPct` Desc ";
+  ,sum(if(`Status` = 'Sold', (`SellPrice` * `Amount`), if(`Status` = 'Open', (`LiveCoinPrice` * `Amount`), 0))) as ProfitWithSold
+  FROM `View5_SellCoins` $whereclause group by `SpreadBetTransactionID` having count(case when `Status`='Open' then 1 end) >= 1 order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
@@ -726,7 +727,8 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy'],$row['HoursFlatHighPdcs'],$row['MaxPriceFromHigh'],$row['PctFromLiveToHigh'] //64
-    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['CaaOffset'],$row['CaaMinsToCancelSell'],$row['CaaSellOffset'],$row['SpreadBetTransactionID']); //74
+    ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['CaaOffset'],$row['CaaMinsToCancelSell'],$row['CaaSellOffset'],$row['SpreadBetTransactionID'] //74
+    ,$row['ProfitWithSold']); //75
   }
   $conn->close();
   return $tempAry;

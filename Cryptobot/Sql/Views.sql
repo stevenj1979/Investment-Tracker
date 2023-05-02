@@ -203,6 +203,7 @@ FROM `BittrexAction`  `Ba`
       ,`Cpe`.`Hr1Top`,`Cpe`.`Hr1Bottom`
       ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
       ,`Mcs`.`Hr24ChangePctChange` as `Market24HrPctChange`,`Mcs`.`D7ChangePctChange` as `Market7DPctChange`
+      ,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID8`, `Ba`.`TransactionID` as `TransactionIDBa`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -220,7 +221,8 @@ FROM `BittrexAction`  `Ba`
       join `User` `Us` on `Us`.`ID` = `Uc`.`UserID`
       left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`
       left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`
-      join `MarketCoinStats` `Mcs`;
+      join `MarketCoinStats` `Mcs`
+      Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
 
     CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
     SELECT `Tsc`.`ID` as `IDTsc`, `Tsc`.`CoinPrice` as `CoinPriceTsc`, `Tsc`.`TrackDate`, `Tsc`.`UserID` as `UserIDTsc`, `Tsc`.`NoOfRisesInPrice`, `Tsc`.`TransactionID` as `TransactionIDTsc`, `Tsc`.`Status` as `StatusTsc`, `Tsc`.`SellCoin`, `Tsc`.`SendEmail`, `Tsc`.`CoinSellOffsetEnabled`, `Tsc`.`CoinSellOffsetPct`, `Tsc`.`TrackStartDate`, `Tsc`.`SellFallsInPrice` as `SellFallsInPriceSr`, `Tsc`.`BaseSellPrice`, `Tsc`.`LastPrice`, `Tsc`.`Type` as `TrackingType`, `Tsc`.`OriginalSellPrice`,`Tsc`.`TrackingCount`

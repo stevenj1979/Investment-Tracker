@@ -1214,7 +1214,14 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $priceDipHours = $sellCoins[$a][62]; $priceDipMaxPrice = $sellCoins[$a][63]; $multiSellRuleEnabled = $sellCoins[$a][65];$hoursSinceBuy =$sellCoins[$a][66];
     $sellPctCsp = $sellCoins[$a][67];$maxHoursFlat = $sellCoins[$a][68]; $topPriceExtra = $sellCoins[$a][69]; $bottomPriceExtra = $sellCoins[$a][70];
     $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72]; //$profit = $sellCoins[$a][58];
-    $profit = (($sellCoins[$a][56]-$sellCoins[$a][54]-$sellCoins[$a][55])/$sellCoins[$a][54])*100;
+    $sellStatus = $sellCoins[$a][6];
+    $ogPriceBuy = $sellCoins[$a][54]; $livePriceSell = $sellCoins[$a][56]; $feeSell = $sellCoins[$a][55];
+    if ($sellRuleType == 'Normal'){
+      $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
+    }else{
+      $profitWithSold = $sellCoins[$a][75];
+      $profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
+    }
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1276,7 +1283,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //  $ProfitPctBtm_Sell = $calculatedSellPctStart;
         //}else{
         //  echoText("Calculated Sell Pct: Its set!! $sellPctCsp - $calculatedSellPctEnd",$echoTestText);
-
+        //if ($sellStatus == 'Closed' OR $sellStatus == 'Sold'){ continue; }
         //}
         $cspSize = count($csp);
         for ($y=0;$y<$cspSize;$y++){
