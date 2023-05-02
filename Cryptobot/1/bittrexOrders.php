@@ -249,7 +249,7 @@ function displayOption($name){
               NewEcho("<TH>&nbspuserName&nbsp</TH><TH>&nbsporderNo&nbsp</TH>",$_SESSION['isMobile'],0);
               echo "<TH>&nbspamount&nbsp</TH><TH>&nbspcost&nbsp</TH><TH>&nbspstatus&nbsp</TH>";
               NewEcho("<TH>&nbspbittrex Ref&nbsp</TH>",$_SESSION['isMobile'],0);
-              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Profit</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TH>&nbspHold&nbsp</TH><TR>";
+              echo "<TH>&nbspsellPrice&nbsp</TH><TH>&nbsplivePrice&nbsp</TH><TH>% Difference Sale</TH><TH>% Profit</TH><TH>% Quantity Filled</TH><TH>Time Until Cancel</TH><TH>&nbspCancel&nbsp</TH><TH>&nbspHold&nbsp</TH><TH>&nbspUpdate Ref&nbsp</TH><TR>";
 
 				for($x = 0; $x < $newArrLength; $x++) {
           $type = $tracking[$x][0]; $apiKey = $tracking[$x][7];$apiSecret = $tracking[$x][8];$coin = $tracking[$x][9];$email = $tracking[$x][13];$userID = $tracking[$x][12];
@@ -297,7 +297,8 @@ function displayOption($name){
           echo "<td>&nbsp".round($quantityFilled,$roundNum)."</td>";
           echo "<td>&nbsp$minsRemaining</td>";
           echo "<td><a href='bittrexCancel.php?uuid=$bittrexRef&apikey=$apiKey&apisecret=$apiSecret&orderNo=$orderNo&transactionID=$transactionID&type=$type' onClick=\"javascript:return confirm('are you sure you want to cancel this order?');\"><i class='fas fa-ban' style='font-size:21px;color:#C0392B'></i></td>";
-          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to set this order on hold?');\">Hold</a></td><tr>";
+          echo "<td><a href='bittrexOrders.php?hold=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to set this order on hold?');\">Hold</a></td>";
+          echo "<td><a href='bittrexOrders.php?Ref=$bittrexID' onClick=\"javascript:return confirm('are you sure you want to set this order on hold?');\">Update Ref</a></td><tr>";
 				}
 				print_r("</table>");
 				displaySideColumn();

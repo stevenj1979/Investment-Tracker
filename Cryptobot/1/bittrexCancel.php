@@ -20,6 +20,14 @@ displayHeader(6);
 echo "UUID ".$_GET['uuid']." | ".$_GET['apikey']." | ".$_GET['apisecret']." | ".$_GET['transactionID'];
 //echo "<BR> EMPTY ".empty($_GET['uuid']);
 Echo "<BR> HERE 1 | ".$_GET['uuid'];
+if(!empty($_GET['Ref'])){
+  $oldRef = $_GET['Ref'];
+  echo "<form action='bittrexOrders.php?updateUUID=Yes' method='get'>";
+  echo "Current Ref: <input type='text' name='refTxt' readonly value='$oldRef'>";
+  echo "New Ref: <input type='text' name='refTxt' readonly value=''>";
+  echo "<input type='submit' name='submit' value='UpdateRef' class='settingsformsubmit' tabindex='1'></form>";
+}
+
 if(!empty($_GET['uuid'])){
   Echo "<BR> HERE 2 | ";
   $resultOrd = bittrexOrder($_GET['apikey'],$_GET['apisecret'],$_GET['uuid'],$apiVersion);
