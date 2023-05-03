@@ -947,7 +947,7 @@ function getUserSellRules($sellType){
   `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`,`AutoSellCoinEnabled`
   ,`SellFallsInPrice`,`SellAllCoinsEnabled`,`SellAllCoinsPct`,`CoinSwapEnabled`,`CoinSwapAmount`,`NoOfCoinSwapsPerWeek`,`MergeCoinEnabled`,`CoinModeRule`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctUnderMaxPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
-  ,`PctOfAuto`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`,`HoursAfterPurchaseToEnd`,`SellRuleType`
+  ,`PctOfAuto`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`,`HoursAfterPurchaseToEnd`,`SellRuleType`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
     FROM `View14_UserSellRules` WHERE `SellCoin` = 1 and `SellRuleType` = '$sellType'";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -960,7 +960,7 @@ function getUserSellRules($sellType){
     ,$row['CoinPricePatternEnabled'],$row['CoinPricePattern'],$row['AutoSellCoinEnabled'],$row['SellFallsInPrice'],$row['SellAllCoinsEnabled'],$row['SellAllCoinsPct'],$row['CoinSwapEnabled'],$row['CoinSwapAmount'],$row['NoOfCoinSwapsPerWeek']  //52
     ,$row['MergeCoinEnabled'],$row['CoinModeRule'],$row['PctFromHighSellPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'],$row['PctUnderMaxPrice'],$row['HoursPastBuyToSellEnabled'],$row['HoursPastBuyToSell'],$row['CalculatedSellPctEnabled'] //61
     ,$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'],$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['PctOfAuto'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']//69
-    ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd'],$row['SellRuleType']); //72
+    ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd'],$row['SellRuleType'],$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd']); //74
   }
   $conn->close();
   return $tempAry;
