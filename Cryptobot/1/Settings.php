@@ -343,7 +343,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
               </div>
           <div class="form-group">
-              <h2><b><u>Buy Admin: </h2></b></u>
+              <h3><b><u>Buy Admin: </h3></b></u></BR>
               <div class="form-group">
                 <?php displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,""); ?>
                 <?php displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,""); ?>
@@ -368,7 +368,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
                   <?php if ($userDetails[0][20] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
           <div class='settingsform'>
-                <h2><b><u>Enable Reduce Loss: </h2></b></u> <select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
+                <h3><b><u>Enable Reduce Loss: </h3></b></u></BR> <select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select>";?>
 
@@ -386,7 +386,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   <?php displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,""); ?>
           </div>
           <div class='settingsform'>
-                <h2><b><u>Redirect: </h2></b></u>
+                <h3><b><u>Redirect: </h3></b></u></BR>
                 <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                     <b>Redirect All Purchases To SpreadBet: </b> <select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
@@ -396,7 +396,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,""); ?>
           </div>
           <div class='settingsform'>
-                <h2><b><u>Buyback: </h2></b></u>
+                <h3><b><u>Buyback: </h3></b></u></BR>
                 <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                                       <b>Enable BuyBack: </b> <select name='enableBuyBack' id='enableBuyBack' class='enableTextBox'><?php
@@ -426,7 +426,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
           </div>
           <div class='settingsform'>
-                  <h2><b><u>Savings: </h2></b></u>
+                  <h3><b><u>Savings: </h3></b></u></BR>
                             <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                                                   <b>Enable Sell Savings: </b> <select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
@@ -449,14 +449,14 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                     <option value='".$option2."'>".$option2."</option></select>";?>
             </DIV>
             <div class='settingsform'>
-                      <h2><b><u>Coin Allocation: </h2></b></u>
+                      <h3><b><u>Coin Allocation: </h3></b></u></BR>
                             <?php displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,""); ?>
                             <?php displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,""); ?>
                             <?php displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,""); ?>
                             <?php displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,""); ?>
             </DIV>
             <div class='settingsform'>
-                      <h2><b><u>Low Market Mode: </h2></b></u>
+                      <h3><b><u>Low Market Mode: </h3></b></u></BR>
                       <?php displayYesNoAuto($userDetails[0][28],"enableLowMarketMode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
 
                         //  <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
@@ -471,7 +471,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
             </DIV>
 
             <div class='settingsform'>
-                        <h2><b><u>Save Mode: </h2></b></u>
+                        <h3><b><u>Save Mode: </h3></b></u></BR>
                           <?php displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,""); ?>
                           <?php displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,""); ?>
                         <?php if ($userDetails[0][50] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
@@ -483,7 +483,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                           <?php displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,""); ?>
             </div>
             <div class='settingsform'>
-                        <h2><b><u>SpreadBet: </h2></b></u>
+                        <h3><b><u>SpreadBet: </h3></b></u></BR>
 
                           <?php if ($userDetails[0][60] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
