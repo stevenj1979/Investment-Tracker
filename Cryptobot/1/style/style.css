@@ -275,22 +275,22 @@ table tr:last-child {
 }
 .settingsform select{
   justify-content: right;
-  height: 15px;
+  height: 25px;
   flex: 0 0 25%
 }
 .settingsform option{
   justify-content: right;
-  height: 15px;
+  height: 25px;
   flex: 0 0 25%
 }
 .settingsform input{
   justify-content: right;
-  height: 15px;
+  height: 25px;
   flex: 0 0 25%
 }
 .settingsform label{
   justify-content: right;
-  height: 15px;
+  height: 25px;
   flex: 0 0 25%
 }
 
