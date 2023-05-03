@@ -278,6 +278,9 @@ table tr:last-child {
 .settingsform input{
   flex: 30%;
 }
+.settingsform label{
+  flex: 30%;
+}
 
 .settingsform b{
   flex: 100%;
