@@ -267,14 +267,14 @@ table tr:last-child {
   padding-left: 60px;
 }
 
-.enableTextBox{
+.settingsform{
   display: flex;
   flex-wrap: wrap;
 }
-.enableTextBox select{
+.settingsform select{
   flex: 30%;
 }
-.enableTextBox input{
+.settingsform input{
   flex: 30%;
 }
 
