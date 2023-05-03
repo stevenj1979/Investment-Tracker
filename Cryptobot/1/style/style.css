@@ -278,6 +278,10 @@ table tr:last-child {
   flex: 30%;
 }
 
+.settingsform b{
+  flex: 100%;
+}
+
 /* Middle column */
 .column.middle {
     width: 70%;
