@@ -274,27 +274,27 @@ table tr:last-child {
   font-size: 16px;
 }
 .settingsform select{
-  flex: 50%;
+  flex: 25%;
   justify-content: right;
   height: 15px;
-  width: 30%;
+  width: 25%;
   flex: 0 0 30%
 }
 .settingsform option{
-  flex: 50%;
+  flex: 25%;
   justify-content: right;
   height: 15px;
-  width: 30%;
+  width: 25%;
   flex: 0 0 30%
 }
 .settingsform input{
-  flex: 50%;
+  flex: 25%;
   justify-content: right;
   height: 15px;
   flex: 0 0 30%
 }
 .settingsform label{
-  flex: 50%;
+  flex: 25%;
   justify-content: right;
   height: 15px;
   flex: 0 0 30%
