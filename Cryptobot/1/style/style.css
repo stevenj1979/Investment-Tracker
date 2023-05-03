@@ -273,13 +273,13 @@ table tr:last-child {
   font-size: 16px;
 }
 .settingsform select{
-  flex: 30%;
+  flex: 50%;
 }
 .settingsform input{
-  flex: 30%;
+  flex: 50%;
 }
 .settingsform label{
-  flex: 30%;
+  flex: 50%;
 }
 
 .settingsform b{
