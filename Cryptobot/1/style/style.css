@@ -270,8 +270,14 @@ table tr:last-child {
 .enableTextBox{
   display: flex;
   flex-wrap: wrap;
-
 }
+.enableTextBox select{
+  width 30%;
+}
+.enableTextBox input{
+  width 30%;
+}
+
 /* Middle column */
 .column.middle {
     width: 70%;
