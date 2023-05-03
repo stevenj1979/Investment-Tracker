@@ -272,10 +272,10 @@ table tr:last-child {
   flex-wrap: wrap;
 }
 .enableTextBox select{
-  width 30%;
+  flex: 30%;
 }
 .enableTextBox input{
-  width 30%;
+  flex: 30%;
 }
 
 /* Middle column */
