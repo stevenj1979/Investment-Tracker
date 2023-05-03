@@ -59,7 +59,7 @@ function writeSQLTime($name, $minsToRun){
   }
   $conn->close();
   logAction("writeSQLTime: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeSQLTime","$sql",3,1,"CryptoBotDirector","Name:$name");
+  newLogToSQL("writeSQLTime","$sql",3,0,"CryptoBotDirector","Name:$name");
 }
 
 function getTimer($timerAry, $name, $start_date){
@@ -106,7 +106,7 @@ while($completeFlag == False){
     //$allCoinStatusTimer = date("Y-m-d H:i",strtotime($allCoinsStatusRunTime, strtotime(date('Y-m-d H:i'))));
     Echo "<BR> Setting Run Time for AllCoinStatus.php : $allCoinStatusTimerMins | CurrentTime: ".date('Y-m-d H:i');
     writeSQLTime("allCoinStatus",$allCoinStatusTimerMins);
-    newLogToSQL("CryptoBotDirector","Running All Coin Status Process | $minsFromStart | $allCoinStatusTimerMins",3,1,"","");
+    newLogToSQL("CryptoBotDirector","Running All Coin Status Process | $minsFromStart | $allCoinStatusTimerMins",3,0,"","");
     sleep (15);
   }else{
     echo "<BR> Waiting Timer!!!";
