@@ -275,11 +275,15 @@ table tr:last-child {
 }
 .settingsform select{
   flex: 50%;
+  justify-content: right;
+  height: 15px;
+  width: 30%;
 }
 .settingsform option{
   flex: 50%;
   justify-content: right;
   height: 15px;
+  width: 30%;
 }
 .settingsform input{
   flex: 50%;
