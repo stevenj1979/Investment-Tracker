@@ -271,19 +271,19 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displaySubHeader("Settings"); ?>
 
               <form action="Settings.php?user=Yes" method="post">
-              <div class="form-group">
+              <div class="settingsform">
                 <?php displayText("newusername", "UserName: ",$userDetails[0][2],1,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                 <?php displayText("email", "Email: ",$userDetails[0][10],2,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                 <?php displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key"); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                 <?php displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key"); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy"); ?>
               </div>
                   <?php if ($userDetails[0][6] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
@@ -291,7 +291,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     <b>Enable Daily BTC Limit: </b> <select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select></div>";?>
-                  <div class="form-group">
+                  <div class="settingsform">
                     <?php displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,""); ?>
                   </div>
                   <?php if ($userDetails[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
@@ -300,7 +300,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select>";?>
                     </div>
-                  <div class="form-group">
+                  <div class="settingsform">
                     <?php displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,""); ?>
                   </div>
                   <?php if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
@@ -327,29 +327,29 @@ $userDetails = getUserIDs($_SESSION['ID']);
                             <b>Low Price Purchase Enabled: </b> <select name='lowPricePurchaseEnabled' id='enableDailyBTCLimit' class='enableTextBox'><?php
                               echo "<option value='".$option1."'>".$option1."</option>
                               <option value='".$option2."'>".$option2."</option></select></div>";?>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,""); ?>
               </div>
-              <div class="form-group">
+              <div class="settingsform">
                   <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
               </div>
-          <div class="form-group">
+          <div class="settingsform">
               <h3><b><u>Buy Admin: </h3></b></u></BR>
-              <div class="form-group">
+              <div class="settingsform">
                 <?php displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,""); ?>
                 <?php displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,""); ?>
               </div>
 
-              <div class="form-group">
+              <div class="settingsform">
                 <?php if ($userDetails[0][44] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                 <?php displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,""); ?>
                     <b>Pause CoinID After Purchase Enabled: </b>
