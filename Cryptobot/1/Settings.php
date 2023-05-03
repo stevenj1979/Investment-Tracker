@@ -110,7 +110,7 @@ function getUserIDs($userID){
   ,`SaveResidualCoins`,`RedirectPurchasesToSpreadID`,`RedirectPurchasesToSpread`,`MinsToPauseAfterPurchase`,`LowMarketModeEnabled`,`AllBuyBackAsOverride`,`HoursFlatTolerance`,`MergeSavingWithPurchase`
   ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`SaveMode`,`PctToSave`,`SellPct`,`OriginalPriceMultiplier`,`ReduceLossMaxCounter`
   , `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`,`BuyBackHoursFlatTarget`,`HoursFlatRls`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`SavingPctOfTotalEnabled`,`SavingPctOfTotal`
-  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackMax`,`BuyBackAutoPct`
+  ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackMax`,`BuyBackAutoPct`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -124,7 +124,8 @@ function getUserIDs($userID){
       ,$row['HoursFlatTolerance'],$row['MergeSavingWithPurchase'],$row['AutoMergeSavings'],$row['USDTAlloc'],$row['BTCAlloc'],$row['ETHAlloc'],$row['PctOnLow'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements'] //38
       ,$row['SaveMode'],$row['PctToSave'],$row['SellPct'],$row['OriginalPriceMultiplier'],$row['ReduceLossMaxCounter'],$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'] //45
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
-      ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']); //59
+      ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']//59
+      ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd']); //61
   }
   $conn->close();
   return $tempAry;
@@ -193,7 +194,8 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase, `LowMarketModeStartPct` = $lowMarketModeStartPct, `LowMarketModeIncrements` = $lowMarketModeIncrements
          ,`SaveMode` = $saveMode, `PctToSave` = $pctToSave, `PauseCoinIDAfterPurchaseEnabled` = $pauseCoinIDAfterPurchaseEnabled, `DaysToPauseCoinIDAfterPurchase` = $daysToPauseCoinIDAfterPurchase,`BuyBackHoursFlatTarget` = $bbHoursFlat,
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
-        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel,`BuyBackMax`= $buyBackCounter, `BuyBackAutoPct` = $enableBBAutoPct
+        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel,`BuyBackMax`= $buyBackCounter, `BuyBackAutoPct` = $enableBBAutoPct, `SpreadBetSellIndEnabled` = x
+        , `SpreadBetPctToSellInd` = y
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat
@@ -281,7 +283,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
               </div>
                   <?php if ($userDetails[0][6] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
                     <div class='settingsform'>
-                      <b>Enable Daily BTC Limit: </b><br/><select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
+                    <b>Enable Daily BTC Limit: </b><br/><select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select></div>";?>
                   <div class="form-group">
@@ -336,7 +338,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
               </div>
           <div class="form-group">
-              <b>Buy Admin: </b><br/>
+              <h2><b><u>Buy Admin: </h2></b></u><br/>
               <div class="form-group">
                 <?php displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,""); ?>
                 <?php displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,""); ?>
@@ -361,7 +363,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
                   <?php if ($userDetails[0][20] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
           <div class='settingsform'>
-                <b>Enable Reduce Loss: </b><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
+                <h2><b><u>Enable Reduce Loss: </h2></b></u><br/><select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
                         echo "<option value='".$option1."'>".$option1."</option>
                         <option value='".$option2."'>".$option2."</option></select>";?>
 
@@ -379,7 +381,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   <?php displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,""); ?>
           </div>
           <div class='settingsform'>
-                <b>Redirect: </b><br/>
+                <h2><b><u>Redirect: </h2></b></u><br/>
                 <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                     <b>Redirect All Purchases To SpreadBet: </b><br/><select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
@@ -389,7 +391,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,""); ?>
           </div>
           <div class='settingsform'>
-                <b>Buyback: </b><br/>
+                <h2><b><u>Buyback: </h2></b></u><br/>
                 <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                                       <b>Enable BuyBack: </b><br/><select name='enableBuyBack' id='enableBuyBack' class='enableTextBox'><?php
@@ -419,7 +421,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
 
           </div>
           <div class='settingsform'>
-                  <b>Savings: </b><br/>
+                  <h2><b><u>Savings: </h2></b></u><br/>
                             <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
 
                                                   <b>Enable Sell Savings: </b><br/><select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
@@ -442,14 +444,14 @@ $userDetails = getUserIDs($_SESSION['ID']);
                                     <option value='".$option2."'>".$option2."</option></select>";?>
             </DIV>
             <div class='settingsform'>
-                      <b>Coin Allocation: </b><br/>
+                      <h2><b><u>Coin Allocation: </h2></b></u><br/>
                             <?php displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,""); ?>
                             <?php displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,""); ?>
                             <?php displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,""); ?>
                             <?php displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,""); ?>
             </DIV>
             <div class='settingsform'>
-                      <b>Low Market Mode: </b><br/>
+                      <h2><b><u>Low Market Mode: </h2></b></u><br/>
                       <?php displayYesNoAuto($userDetails[0][28],"enableLowMarketMode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
 
                         //  <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
@@ -464,7 +466,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
             </DIV>
 
             <div class='settingsform'>
-                        <b>Save Mode: </b><br/>
+                        <h2><b><u>Save Mode: </h2></b></u><br/>
                           <?php displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,""); ?>
                           <?php displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,""); ?>
                         <?php if ($userDetails[0][50] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
@@ -474,6 +476,16 @@ $userDetails = getUserIDs($_SESSION['ID']);
                             <option value='".$option2."'>".$option2."</option></select>";?>
 
                           <?php displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,""); ?>
+            </div>
+            <div class='settingsform'>
+                        <h2><b><u>SpreadBet: </h2></b></u><br/>
+
+                          <?php if ($userDetails[0][60] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+
+                            <b>Enable SpreadBet Sell Ind: </b><br/><select name='EnableSpreadBetSellInd' id='EnableSpreadBetSellInd' class='enableTextBox'><?php
+                              echo "<option value='".$option1."'>".$option1."</option>
+                              <option value='".$option2."'>".$option2."</option></select>";?>
+                          <?php displayText("SpreadBetSellIndPct", "Spread Bet Sell Ind Pct: ",$userDetails[0][61],30,""); ?>
             </div>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="23">
           </div>

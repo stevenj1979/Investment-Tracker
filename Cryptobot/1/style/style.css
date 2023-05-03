@@ -267,6 +267,10 @@ table tr:last-child {
   padding-left: 60px;
 }
 
+.enableTextBox{
+  width: 80%;
+
+}
 /* Middle column */
 .column.middle {
     width: 70%;
