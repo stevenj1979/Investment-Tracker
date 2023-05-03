@@ -279,14 +279,17 @@ table tr:last-child {
 .settingsform option{
   flex: 50%;
   justify-content: right;
+  height: 15px;
 }
 .settingsform input{
   flex: 50%;
   justify-content: right;
+  height: 15px;
 }
 .settingsform label{
   flex: 50%;
   justify-content: right;
+  height: 15px;
 }
 
 .settingsform b{
