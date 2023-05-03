@@ -275,6 +275,9 @@ table tr:last-child {
 .settingsform select{
   flex: 50%;
 }
+.settingsform option{
+  flex: 50%;
+}
 .settingsform input{
   flex: 50%;
 }
