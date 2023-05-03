@@ -270,6 +270,8 @@ table tr:last-child {
 .settingsform{
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: right;
   font-size: 16px;
 }
 .settingsform select{
