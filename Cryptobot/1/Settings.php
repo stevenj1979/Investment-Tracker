@@ -342,6 +342,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
               <div class="settingsform">
                   <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
               </div>
+            </br>
           <div class="settingsform">
               <h3><b><u>Buy Admin: </h3></b></u></BR>
               <div class="settingsform">
