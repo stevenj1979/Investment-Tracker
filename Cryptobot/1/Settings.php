@@ -66,6 +66,8 @@ if(isset($_POST['submit'])){
     if(empty($_POST['ReduceLossMinsToCancel'])){ $reduceLossMinsCancel = 0;}
     if(empty($_POST['buyBackMinsToCancel'])){ $buyBackMinsToCancel = 0;}
     if(empty($_POST['buyBackCounter'])){ $buyBackCounter = 0;}
+    $spreadBetSellIndPct = $_POST['SpreadBetSellIndPct'];
+    $enableSpreadBetSellInd = $_POST['EnableSpreadBetSellInd'];
     //if($lowMarketModeEnabled == "Yes"){ $setLowMarket = -1;} else {$setLowMarket = 0;}
     if ($saveMode > 0 ){ $saveResidualCoins = 'No';}
     $holdCoinForBuyOut = $_POST['HoldCoinForBuyOut'];
@@ -79,7 +81,7 @@ if(isset($_POST['submit'])){
     $settingsUpdateAry = Array($userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,  //16
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,   //29
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements,$saveMode,$pctToSave,$sellPct,$originalPriceMultiplier,$reduceLossMaxCounter,$pauseCoinIDAfterPurchaseEnabled,$daysToPauseCoinIDAfterPurchase,$bbHoursFlat,$reduceLossHoursFlat,$holdCoinForBuyOut,   //45
-    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct,$reduceLossMinsCancel,$buyBackMinsToCancel,$buyBackCounter,$enableBBAutoPct);
+    $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct,$reduceLossMinsCancel,$buyBackMinsToCancel,$buyBackCounter,$enableBBAutoPct,$spreadBetSellIndPct,$enableSpreadBetSellInd);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     //$hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
@@ -156,6 +158,8 @@ function updateUser($settingsUpdateAry){
   $buyBackMinsToCancel = $settingsUpdateAry[54];
   $buyBackCounter = $settingsUpdateAry[55];
   $enableBBAutoPct = $settingsUpdateAry[56];
+  $spreadBetSellIndPct = $settingsUpdateAry[57];
+  $enableSpreadBetSellInd = $settingsUpdateAry[58];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -174,6 +178,7 @@ function updateUser($settingsUpdateAry){
   if ($enableSavePctofTotal == "Yes"){$enableSavePctofTotal = 1;}else{$enableSavePctofTotal = 0;}
   if ($enableBBAutoHoursFlat == "Yes"){$enableBBAutoHoursFlat = 1;}else{$enableBBAutoHoursFlat = 0;}
   if ($enableBBAutoPct == "Yes"){$enableBBAutoPct = 1;}else{$enableBBAutoPct = 0;}
+  if ($enableSpreadBetSellInd == "Yes"){$enableSpreadBetSellInd = 1;}else{$enableSpreadBetSellInd = 0;}
   $reduceLossHoursFlat = $settingsUpdateAry[44];
   $pctAuto = $settingsUpdateAry[49];
   //echo "<BR> Email $email ".$settingsUpdateAry[2]." APIKey $apiKey ".$settingsUpdateAry[3]."<br>";
@@ -194,8 +199,8 @@ function updateUser($settingsUpdateAry){
          ,`RebuySavingsEnabled`=$rebuySavingsEnabled,`AutoMergeSavings`=$autoMergeSavings,`MergeSavingWithPurchase`=$mergeSavingWithPurchase, `LowMarketModeStartPct` = $lowMarketModeStartPct, `LowMarketModeIncrements` = $lowMarketModeIncrements
          ,`SaveMode` = $saveMode, `PctToSave` = $pctToSave, `PauseCoinIDAfterPurchaseEnabled` = $pauseCoinIDAfterPurchaseEnabled, `DaysToPauseCoinIDAfterPurchase` = $daysToPauseCoinIDAfterPurchase,`BuyBackHoursFlatTarget` = $bbHoursFlat,
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
-        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel,`BuyBackMax`= $buyBackCounter, `BuyBackAutoPct` = $enableBBAutoPct, `SpreadBetSellIndEnabled` = x
-        , `SpreadBetPctToSellInd` = y
+        ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel,`BuyBackMax`= $buyBackCounter, `BuyBackAutoPct` = $enableBBAutoPct, `SpreadBetSellIndEnabled` = $enableSpreadBetSellInd
+        , `SpreadBetPctToSellInd` = $spreadBetSellIndPct
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat
