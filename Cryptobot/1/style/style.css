@@ -266,7 +266,10 @@ table tr:last-child {
   width: 90%;
   padding-left: 60px;
 }
-
+.settingsformMain{
+    display: flex;
+    flex-direction: column;
+}
 .settingsform{
   display: flex;
   flex-wrap: wrap;

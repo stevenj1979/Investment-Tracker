@@ -235,7 +235,7 @@ function getSequence($userID){
   return $tempAry;
 }
 
-function displayYesNoAuto($selection,$name){
+function displayYesNoAuto($selection,$name,$title){
   if ($selection == 1){
     $option1 = "Yes"; $option2 = "No";$option3 = "Auto";
   }elseif ($selection == 2){
@@ -243,6 +243,7 @@ function displayYesNoAuto($selection,$name){
   }else{
     $option1 = "No"; $option2 = "Yes";$option3 = "Auto";
   }
+  echo "<b>$title: </b>";
   echo "<select name='$name' id='$name' class='enableTextBox'>";
   echo "<option value='".$option1."'>".$option1."</option>
     <option value='".$option2."'>".$option2."</option>
@@ -253,6 +254,32 @@ function displayText($name, $text,$value,$tab, $comment){
   echo "<label for='$name'>$text</label><br>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
   echo "<p class='comments'>$comment</p>";
+}
+
+function displayMainSectionStart($name){
+?>
+  <h3><b><u><?php echo $name; ?>: </h3></b></u></BR>
+  <div class="settingsformMain">
+<?php
+}
+
+function displayMainSectionEnd(){
+  ?>
+  </div>
+  <?php
+}
+
+function displaySubSectionStart(){
+?>
+
+<div class="settingsform">
+<?php
+}
+
+function displaySubSectionEnd(){
+  ?>
+  </div>
+  <?php
 }
 
 
@@ -271,39 +298,20 @@ $userDetails = getUserIDs($_SESSION['ID']);
                 <?php displaySubHeader("Settings"); ?>
 
               <form action="Settings.php?user=Yes" method="post">
-              <div class="settingsform">
-                <?php displayText("newusername", "UserName: ",$userDetails[0][2],1,""); ?>
-              </div>
-              <div class="settingsform">
-                <?php displayText("email", "Email: ",$userDetails[0][10],2,""); ?>
-              </div>
-              <div class="settingsform">
-                <?php displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key"); ?>
-              </div>
-              <div class="settingsform">
-                <?php displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key"); ?>
-              </div>
-              <div class="settingsform">
-                  <?php displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy"); ?>
-              </div>
-                  <?php if ($userDetails[0][6] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                    <div class='settingsform'>
-                    <b>Enable Daily BTC Limit: </b> <select name='enableDailyBTCLimit' id='enableDailyBTCLimit' class='enableTextBox'><?php
-                        echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option></select></div>";?>
-                  <div class="settingsform">
-                    <?php displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,""); ?>
-                  </div>
-                  <?php if ($userDetails[0][7] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                    <div class='settingsform'>
-                      <b>Enable Total BTC Limit: </b> <select name='enableTotalBTCLimit' id='enableTotalBTCLimit' class='enableTextBox'><?php
-                        echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option></select>";?>
-                    </div>
-                  <div class="settingsform">
-                    <?php displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,""); ?>
-                  </div>
-                  <?php if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
+
+                <?php
+                displayMainSectionStart("Main");
+                  displayText("newusername", "UserName: ",$userDetails[0][2],1,"");
+                  displayText("email", "Email: ",$userDetails[0][10],2,"");
+                  displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key");
+                  displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key");
+                  displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy");
+                  displayYesNoAuto($userDetails[0][6],'enableDailyBTCLimit',"Enable Daily BTC Limit");
+                  displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,"");
+                  displayYesNoAuto($userDetails[0][7],'enableTotalBTCLimit',"Enable Total BTC Limit");
+                  displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,"");
+
+                  if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
                   elseif ($userDetails[0][12] == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
                   elseif ($userDetails[0][12] == 'ETH'){$option1 = "ETH"; $option2 = "BTC";$option3 = "USDT";$option4 = "All";}
                   elseif ($userDetails[0][12] == 'All'){$option1 = "All"; $option2 = "BTC";$option3 = "ETH";$option4 = "USDT";}?>
@@ -314,185 +322,85 @@ $userDetails = getUserIDs($_SESSION['ID']);
                         <option value='".$option3."'>".$option3."</option>
                         <option value='".$option4."'>".$option4."</option></select></div><BR>";
 
-                        Echo "<select name='$name' size='3'>";
-                        for ($i=0; $i<$sequenceCount; $i++){
-                          $sellRuleID = $sequence[$i][0]; $newSeq = $sequence[$i][1];
-                          echo "<option value='$newSeq'>$newSeq:$sellRuleID</option>";
-                        }
-                        echo "</select>";
-                        echo "<input type='submit' name='publishHr1' value='+'><input type='submit' name='removeHr1' value='-'>";
-                        ?>
-                        <?php if ($userDetails[0][14] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                          <div class='settingsform'>
-                            <b>Low Price Purchase Enabled: </b> <select name='lowPricePurchaseEnabled' id='enableDailyBTCLimit' class='enableTextBox'><?php
-                              echo "<option value='".$option1."'>".$option1."</option>
-                              <option value='".$option2."'>".$option2."</option></select></div>";?>
-              <div class="settingsform">
-                  <?php displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,""); ?>
-              </div>
-              <div class="settingsform">
-                  <?php displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,""); ?>
-              </div>
-              <div class="settingsform">
-                  <?php displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,""); ?>
-              </div>
-              <div class="settingsform">
-                  <?php displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,""); ?>
-              </div>
-              <div class="settingsform">
-                  <?php displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,""); ?>
-              </div>
-            </br>
-          <div class="settingsform">
-              <h3><b><u>Buy Admin: </h3></b></u></BR>
-              <div class="settingsform">
-                <?php displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,""); ?>
-                <?php displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,""); ?>
-              </div>
 
-              <div class="settingsform">
-                <?php if ($userDetails[0][44] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                <?php displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,""); ?>
-                    <b>Pause CoinID After Purchase Enabled: </b>
-                    <select name='PauseCoinIDAfterPurchaseEnabled' id='PauseCoinIDAfterPurchaseEnabled' class='enableTextBox'><?php
-                      echo "<option value='".$option1."'>".$option1."</option>
-                      <option value='".$option2."'>".$option2."</option></select></div>";?>
-                <?php displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,""); ?>
-              </div>
+                  displayYesNoAuto($userDetails[0][14],'lowPricePurchaseEnabled',"Low Price Purchase Enabled");
+                  displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,"");
+                  displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,"");
+                  displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,"");
+                  displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,"");
+                  displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,"");
+                displayMainSectionEnd();
 
-                  <?php if ($userDetails[0][24] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                                      <div class='settingsform'>
-                                        <b>Enable Save Residual: </b> <select name='saveResidual' id='saveResidual' class='enableTextBox'><?php
-                                          echo "<option value='".$option1."'>".$option1."</option>
-                                          <option value='".$option2."'>".$option2."</option></select></div>";?>
+                displayMainSectionStart("Buy Admin");
+                  displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,"");
+                  displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,"");
+                  displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,"");
+                  displayYesNoAuto($userDetails[0][44],'PauseCoinIDAfterPurchaseEnabled',"Pause CoinID After Purchase Enabled");
+                  displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,"");
+                  displayYesNoAuto($userDetails[0][24],'saveResidual',"Enable Save Residual");
+                  displayYesNoAuto($userDetails[0][20],'enableReduceLoss',"Enable Reduce Loss");
+                  displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,"");
+                displayMainSectionEnd();
 
+                displayMainSectionStart("Reduce Loss");
+                  displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,"");
+                  displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,"");
+                  displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,"");
+                  displayYesNoAuto($userDetails[0][48],'HoldCoinForBuyOut',"Hold Coin for buyout Enabled");
+                  displayText("CoinForBuyOutPct", "Hold Coin buyout Pct: ",$userDetails[0][49],21,"");
+                  displayText("ReduceLossAutoPct", "Auto Pct: ",$userDetails[0][55],22,"");
+                  displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,"");
+                displayMainSectionEnd();
 
-                  <?php if ($userDetails[0][20] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-          <div class='settingsform'>
-                <h3><b><u>Enable Reduce Loss: </h3></b></u></BR> <select name='enableReduceLoss' id='enableReduceLoss' class='enableTextBox'><?php
-                        echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option></select>";?>
+                displayMainSectionStart("Redirect");
+                  displayYesNoAuto($userDetails[0][26],'enableRedirectToSB',"Redirect All Purchases To SpreadBet");
+                  displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,"");
+                displayMainSectionEnd();
 
-                  <?php displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,""); ?>
-                  <?php displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,""); ?>
-                  <?php displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,""); ?>
-                  <?php displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,""); ?>
-                        <?php if ($userDetails[0][48] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                        <b>Hold Coin for buyout Enabled: </b> <select name='HoldCoinForBuyOut' id='HoldCoinForBuyOut' class='enableTextBox'><?php
-                          echo "<option value='".$option1."'>".$option1."</option>
-                          <option value='".$option2."'>".$option2."</option></select>";?>
+                displayMainSectionStart("Buyback");
+                  displayYesNoAuto($userDetails[0][23],'enableBuyBack',"Enable BuyBack");
+                  displayYesNoAuto($userDetails[0][29],'enableAllBBasOverride',"Enable All BuyBack as Override");
+                  displayText("buyBackHoursFlat", "Hours Flat: ",$userDetails[0][46],24,"");
+                  displayYesNoAuto($userDetails[0][53],'enableBBAutoHoursFlat',"Enable BuyBack Auto Hours Flat");
+                  displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,"");
+                  displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,"");
+                  displayText("buyBackCounter", "Max BuyBack Count: ",$userDetails[0][58],27,"");
+                  displayYesNoAuto($userDetails[0][59],'enableBBAutoPct',"Enable BuyBack Auto Pct");
+                displayMainSectionEnd();
 
-                  <?php displayText("CoinForBuyOutPct", "Hold Coin buyout Pct: ",$userDetails[0][49],21,""); ?>
-                  <?php displayText("ReduceLossAutoPct", "Auto Pct: ",$userDetails[0][55],22,""); ?>
-                  <?php displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,""); ?>
-          </div>
-          <div class='settingsform'>
-                <h3><b><u>Redirect: </h3></b></u></BR>
-                <?php if ($userDetails[0][26] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                displayMainSectionStart("Savings");
+                  displayYesNoAuto($userDetails[0][22],'enableSellSavings',"Enable Sell Savings");
+                  displayYesNoAuto($userDetails[0][21],'enableReBuySaving',"Enable ReBuy Savings");
+                  displayYesNoAuto($userDetails[0][32],'enableAutoMerge',"Enable Auto Merge Savings");
+                  displayYesNoAuto($userDetails[0][31],'enableMergeWithPurchase',"Enable Merge Saving With Purchase");
+                displayMainSectionEnd();
 
-                    <b>Redirect All Purchases To SpreadBet: </b> <select name='enableRedirectToSB' id='enableRedirectToSB' class='enableTextBox'><?php
-                      echo "<option value='".$option1."'>".$option1."</option>
-                      <option value='".$option2."'>".$option2."</option></select>";?>
+                displayMainSectionStart("Coin Allocation");
+                  displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,"");
+                  displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,"");
+                  displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,"");
+                  displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,"");
+                displayMainSectionEnd();
 
-                <?php displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,""); ?>
-          </div>
-          <div class='settingsform'>
-                <h3><b><u>Buyback: </h3></b></u></BR>
-                <?php if ($userDetails[0][23] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                displayMainSectionStart("Low Market Mode");
+                  displayYesNoAuto($userDetails[0][28],"enableLowMarketMode","Enable Low Market Mode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
+                  displayText("LowMarketModeNum", "Low Market Mode Number: ",$userDetails[0][28],30,"");
+                  displayText("LowMarketModeStartPct", "Low Market Mode Start Pct: ",$userDetails[0][37],31,"");
+                  displayText("LowMarketModeIncrements", "Low Market Mode Increments: ",$userDetails[0][38],32,"");
+                displayMainSectionEnd();
 
-                                      <b>Enable BuyBack: </b> <select name='enableBuyBack' id='enableBuyBack' class='enableTextBox'><?php
-                                        echo "<option value='".$option1."'>".$option1."</option>
-                                        <option value='".$option2."'>".$option2."</option></select>";?>
-                <?php if ($userDetails[0][29] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
+                displayMainSectionStart("Save Mode");
+                  displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,"");
+                  displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,"");
+                  displayYesNoAuto($userDetails[0][50],"EnableSavePctofTotal","Enable Save Pct of Total");
+                  displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,"");
+                displayMainSectionEnd();
 
-                                      <b>Enable All BuyBack as Override: </b> <select name='enableAllBBasOverride' id='enableAllBBasOverride' class='enableTextBox'><?php
-                                        echo "<option value='".$option1."'>".$option1."</option>
-                                        <option value='".$option2."'>".$option2."</option></select>";?>
-
-                <?php displayText("buyBackHoursFlat", "Hours Flat: ",$userDetails[0][46],24,""); ?>
-                                         <select name='enableBBAutoHoursFlat' id='enableBBAutoHoursFlat' class='enableTextBox'><?php
-                                          echo "<option value='".$option1."'>".$option1."</option>
-                                          <option value='".$option2."'>".$option2."</option></select>";?>
-                                          <b>Enable BuyBack Auto Hours Flat: </b>
-                                          <?php if ($userDetails[0][53] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                <?php displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,""); ?>
-                <?php displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,""); ?>
-                <?php displayText("buyBackCounter", "Max BuyBack Count: ",$userDetails[0][58],27,""); ?>
-                <?php if ($userDetails[0][59] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-                 <select name='enableBBAutoPct' id='enableBBAutoPct' class='enableTextBox'><?php
-                  echo "<option value='".$option1."'>".$option1."</option>
-                  <option value='".$option2."'>".$option2."</option></select>";?>
-                  <b>Enable BuyBack Auto Pct: </b>
-
-          </div>
-          <div class='settingsform'>
-                  <h3><b><u>Savings: </h3></b></u></BR>
-                            <?php if ($userDetails[0][22] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                                                  <b>Enable Sell Savings: </b> <select name='enableSellSavings' id='enableSellSavings' class='enableTextBox'><?php
-                                                    echo "<option value='".$option1."'>".$option1."</option>
-                                                    <option value='".$option2."'>".$option2."</option></select>";?>
-                            <?php if ($userDetails[0][21] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                                                <b>Enable ReBuy Savings: </b> <select name='enableReBuySaving' id='enableReBuySaving' class='enableTextBox'><?php
-                                                  echo "<option value='".$option1."'>".$option1."</option>
-                                                  <option value='".$option2."'>".$option2."</option></select>";?>
-                            <?php if ($userDetails[0][32] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                                                  <b>Enable Auto Merge Savings: </b> <select name='enableAutoMerge' id='enableAutoMerge' class='enableTextBox'><?php
-                                                    echo "<option value='".$option1."'>".$option1."</option>
-                                                    <option value='".$option2."'>".$option2."</option></select>";?>
-                            <?php if ($userDetails[0][31] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                                  <b>Enable Merge Saving With Purchase: </b> <select name='enableMergeWithPurchase' id='enableMergeWithPurchase' class='enableTextBox'><?php
-                                    echo "<option value='".$option1."'>".$option1."</option>
-                                    <option value='".$option2."'>".$option2."</option></select>";?>
-            </DIV>
-            <div class='settingsform'>
-                      <h3><b><u>Coin Allocation: </h3></b></u></BR>
-                            <?php displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,""); ?>
-                            <?php displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,""); ?>
-                            <?php displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,""); ?>
-                            <?php displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,""); ?>
-            </DIV>
-            <div class='settingsform'>
-                      <h3><b><u>Low Market Mode: </h3></b></u></BR>
-                      <?php displayYesNoAuto($userDetails[0][28],"enableLowMarketMode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
-
-                        //  <select name='enableLowMarketMode' id='enableLowMarketMode' class='enableTextBox'><?php
-                        //    echo "<option value='".$option1."'>".$option1."</option>
-                        //    <option value='".$option2."'>".$option2."</option></select><br>";-->
-                        ?>
-
-                          <?php displayText("LowMarketModeNum", "Low Market Mode Number: ",$userDetails[0][28],30,""); ?>
-                          <?php displayText("LowMarketModeStartPct", "Low Market Mode Start Pct: ",$userDetails[0][37],31,""); ?>
-                          <?php displayText("LowMarketModeIncrements", "Low Market Mode Increments: ",$userDetails[0][38],32,""); ?>
-
-            </DIV>
-
-            <div class='settingsform'>
-                        <h3><b><u>Save Mode: </h3></b></u></BR>
-                          <?php displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,""); ?>
-                          <?php displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,""); ?>
-                        <?php if ($userDetails[0][50] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                          <b>Enable Save Pct of Total: </b> <select name='EnableSavePctofTotal' id='EnableSavePctofTotal' class='enableTextBox'><?php
-                            echo "<option value='".$option1."'>".$option1."</option>
-                            <option value='".$option2."'>".$option2."</option></select>";?>
-
-                          <?php displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,""); ?>
-            </div>
-            <div class='settingsform'>
-                        <h3><b><u>SpreadBet: </h3></b></u></BR>
-
-                          <?php if ($userDetails[0][60] == 1){ $option1 = "Yes"; $option2 = "No";}else{$option1 = "No"; $option2 = "Yes";}?>
-
-                            <b>Enable SpreadBet Sell Ind: </b> <select name='EnableSpreadBetSellInd' id='EnableSpreadBetSellInd' class='enableTextBox'><?php
-                              echo "<option value='".$option1."'>".$option1."</option>
-                              <option value='".$option2."'>".$option2."</option></select>";?>
-                          <?php displayText("SpreadBetSellIndPct", "Spread Bet Sell Ind Pct: ",$userDetails[0][61],30,""); ?>
-            </div>
+                displayMainSectionStart("SpreadBet");
+                  displayYesNoAuto($userDetails[0][60],"EnableSpreadBetSellInd","Enable SpreadBet Sell Ind");
+                  displayText("SpreadBetSellIndPct", "Spread Bet Sell Ind Pct: ",$userDetails[0][61],30,"");
+                displayMainSectionEnd();
+                ?>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="23">
           </div>
         </form><?php
