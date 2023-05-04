@@ -256,9 +256,9 @@ function displayText($name, $text,$value,$tab, $comment){
   echo "<p class='comments'>$comment</p>";
 }
 
-function displayMainSectionStart($name){
+function displayMainSectionStart(){
 ?>
-  <h3><b><u><?php echo $name; ?>: </h3></b></u></BR>
+
   <div class="settingsformMain">
 <?php
 }
@@ -269,9 +269,9 @@ function displayMainSectionEnd(){
   <?php
 }
 
-function displaySubSectionStart(){
+function displaySubSectionStart($name){
 ?>
-
+<h3><b><u><?php echo $name; ?>: </h3></b></u></BR>
 <div class="settingsform">
 <?php
 }
@@ -300,105 +300,107 @@ $userDetails = getUserIDs($_SESSION['ID']);
               <form action="Settings.php?user=Yes" method="post">
 
                 <?php
-                displayMainSectionStart("Main");
-                  displayText("newusername", "UserName: ",$userDetails[0][2],1,"");
-                  displayText("email", "Email: ",$userDetails[0][10],2,"");
-                  displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key");
-                  displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key");
-                  displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy");
-                  displayYesNoAuto($userDetails[0][6],'enableDailyBTCLimit',"Enable Daily BTC Limit");
-                  displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,"");
-                  displayYesNoAuto($userDetails[0][7],'enableTotalBTCLimit',"Enable Total BTC Limit");
-                  displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,"");
+                displayMainSectionStart();
+                  displaySubSectionStart("Main");
+                    displayText("newusername", "UserName: ",$userDetails[0][2],1,"");
+                    displayText("email", "Email: ",$userDetails[0][10],2,"");
+                    displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key");
+                    displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key");
+                    displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy");
+                    displayYesNoAuto($userDetails[0][6],'enableDailyBTCLimit',"Enable Daily BTC Limit");
+                    displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,"");
+                    displayYesNoAuto($userDetails[0][7],'enableTotalBTCLimit',"Enable Total BTC Limit");
+                    displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,"");
 
-                  if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
-                  elseif ($userDetails[0][12] == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
-                  elseif ($userDetails[0][12] == 'ETH'){$option1 = "ETH"; $option2 = "BTC";$option3 = "USDT";$option4 = "All";}
-                  elseif ($userDetails[0][12] == 'All'){$option1 = "All"; $option2 = "BTC";$option3 = "ETH";$option4 = "USDT";}?>
-                    <div class='settingsform'>
-                      <b>User Base Currency: </b> <select name='userBaseCurrency' id='userBaseCurrency' class='enableTextBox'><?php
-                        echo "<option value='".$option1."'>".$option1."</option>
-                        <option value='".$option2."'>".$option2."</option>
-                        <option value='".$option3."'>".$option3."</option>
-                        <option value='".$option4."'>".$option4."</option></select></div><BR>";
+                    if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
+                    elseif ($userDetails[0][12] == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
+                    elseif ($userDetails[0][12] == 'ETH'){$option1 = "ETH"; $option2 = "BTC";$option3 = "USDT";$option4 = "All";}
+                    elseif ($userDetails[0][12] == 'All'){$option1 = "All"; $option2 = "BTC";$option3 = "ETH";$option4 = "USDT";}?>
+                      <div class='settingsform'>
+                        <b>User Base Currency: </b> <select name='userBaseCurrency' id='userBaseCurrency' class='enableTextBox'><?php
+                          echo "<option value='".$option1."'>".$option1."</option>
+                          <option value='".$option2."'>".$option2."</option>
+                          <option value='".$option3."'>".$option3."</option>
+                          <option value='".$option4."'>".$option4."</option></select></div><BR>";
 
 
-                  displayYesNoAuto($userDetails[0][14],'lowPricePurchaseEnabled',"Low Price Purchase Enabled");
-                  displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,"");
-                  displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,"");
-                  displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,"");
-                  displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,"");
-                  displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,"");
-                displayMainSectionEnd();
+                    displayYesNoAuto($userDetails[0][14],'lowPricePurchaseEnabled',"Low Price Purchase Enabled");
+                    displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,"");
+                    displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,"");
+                    displayText("TotalRisesInPrice", "Total Rises In Price: ",$userDetails[0][17],10,"");
+                    displayText("TotalRisesInPriceSell", "Total Rises In Price Sell: ",$userDetails[0][18],11,"");
+                    displayText("NoOfCoinPurchase", "No of Coin Purchase: ",$userDetails[0][19],12,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Buy Admin");
-                  displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,"");
-                  displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,"");
-                  displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,"");
-                  displayYesNoAuto($userDetails[0][44],'PauseCoinIDAfterPurchaseEnabled',"Pause CoinID After Purchase Enabled");
-                  displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,"");
-                  displayYesNoAuto($userDetails[0][24],'saveResidual',"Enable Save Residual");
-                  displayYesNoAuto($userDetails[0][20],'enableReduceLoss',"Enable Reduce Loss");
-                  displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Buy Admin");
+                    displayText("hoursFlatTol", "HoursFlatTolerance: ",$userDetails[0][30],13,"");
+                    displayText("pctAuto", "Auto Buy: ",$userDetails[0][52],14,"");
+                    displayText("minsPauseAfterPurchase", "Mins To Pause After Purchase: ",$userDetails[0][27],15,"");
+                    displayYesNoAuto($userDetails[0][44],'PauseCoinIDAfterPurchaseEnabled',"Pause CoinID After Purchase Enabled");
+                    displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,"");
+                    displayYesNoAuto($userDetails[0][24],'saveResidual',"Enable Save Residual");
+                    displayYesNoAuto($userDetails[0][20],'enableReduceLoss',"Enable Reduce Loss");
+                    displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Reduce Loss");
-                  displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,"");
-                  displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,"");
-                  displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,"");
-                  displayYesNoAuto($userDetails[0][48],'HoldCoinForBuyOut',"Hold Coin for buyout Enabled");
-                  displayText("CoinForBuyOutPct", "Hold Coin buyout Pct: ",$userDetails[0][49],21,"");
-                  displayText("ReduceLossAutoPct", "Auto Pct: ",$userDetails[0][55],22,"");
-                  displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Reduce Loss");
+                    displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,"");
+                    displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,"");
+                    displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,"");
+                    displayYesNoAuto($userDetails[0][48],'HoldCoinForBuyOut',"Hold Coin for buyout Enabled");
+                    displayText("CoinForBuyOutPct", "Hold Coin buyout Pct: ",$userDetails[0][49],21,"");
+                    displayText("ReduceLossAutoPct", "Auto Pct: ",$userDetails[0][55],22,"");
+                    displayText("ReduceLossMinsToCancel", "Mins To Cancel: ",$userDetails[0][56],22,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Redirect");
-                  displayYesNoAuto($userDetails[0][26],'enableRedirectToSB',"Redirect All Purchases To SpreadBet");
-                  displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Redirect");
+                    displayYesNoAuto($userDetails[0][26],'enableRedirectToSB',"Redirect All Purchases To SpreadBet");
+                    displayText("redirectSBID", "Redirect SpreadBet ID: ",$userDetails[0][25],23,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Buyback");
-                  displayYesNoAuto($userDetails[0][23],'enableBuyBack',"Enable BuyBack");
-                  displayYesNoAuto($userDetails[0][29],'enableAllBBasOverride',"Enable All BuyBack as Override");
-                  displayText("buyBackHoursFlat", "Hours Flat: ",$userDetails[0][46],24,"");
-                  displayYesNoAuto($userDetails[0][53],'enableBBAutoHoursFlat',"Enable BuyBack Auto Hours Flat");
-                  displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,"");
-                  displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,"");
-                  displayText("buyBackCounter", "Max BuyBack Count: ",$userDetails[0][58],27,"");
-                  displayYesNoAuto($userDetails[0][59],'enableBBAutoPct',"Enable BuyBack Auto Pct");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Buyback");
+                    displayYesNoAuto($userDetails[0][23],'enableBuyBack',"Enable BuyBack");
+                    displayYesNoAuto($userDetails[0][29],'enableAllBBasOverride',"Enable All BuyBack as Override");
+                    displayText("buyBackHoursFlat", "Hours Flat: ",$userDetails[0][46],24,"");
+                    displayYesNoAuto($userDetails[0][53],'enableBBAutoHoursFlat',"Enable BuyBack Auto Hours Flat");
+                    displayText("buyBackAutoPct", "Auto Pct: ",$userDetails[0][54],25,"");
+                    displayText("buyBackMinsToCancel", "Mins to Cancel: ",$userDetails[0][57],26,"");
+                    displayText("buyBackCounter", "Max BuyBack Count: ",$userDetails[0][58],27,"");
+                    displayYesNoAuto($userDetails[0][59],'enableBBAutoPct',"Enable BuyBack Auto Pct");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Savings");
-                  displayYesNoAuto($userDetails[0][22],'enableSellSavings',"Enable Sell Savings");
-                  displayYesNoAuto($userDetails[0][21],'enableReBuySaving',"Enable ReBuy Savings");
-                  displayYesNoAuto($userDetails[0][32],'enableAutoMerge',"Enable Auto Merge Savings");
-                  displayYesNoAuto($userDetails[0][31],'enableMergeWithPurchase',"Enable Merge Saving With Purchase");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Savings");
+                    displayYesNoAuto($userDetails[0][22],'enableSellSavings',"Enable Sell Savings");
+                    displayYesNoAuto($userDetails[0][21],'enableReBuySaving',"Enable ReBuy Savings");
+                    displayYesNoAuto($userDetails[0][32],'enableAutoMerge',"Enable Auto Merge Savings");
+                    displayYesNoAuto($userDetails[0][31],'enableMergeWithPurchase',"Enable Merge Saving With Purchase");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Coin Allocation");
-                  displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,"");
-                  displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,"");
-                  displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,"");
-                  displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Coin Allocation");
+                    displayText("usdtAllocTxt", "USDT Allocation: ",$userDetails[0][33],26,"");
+                    displayText("btcAllocTxt", "BTC Allocation: ",$userDetails[0][34],27,"");
+                    displayText("ethAllocTxt", "ETH Allocation: ",$userDetails[0][35],28,"");
+                    displayText("pctOnLowTxt", "% on Low Market Mode: ",$userDetails[0][36],29,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Low Market Mode");
-                  displayYesNoAuto($userDetails[0][28],"enableLowMarketMode","Enable Low Market Mode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
-                  displayText("LowMarketModeNum", "Low Market Mode Number: ",$userDetails[0][28],30,"");
-                  displayText("LowMarketModeStartPct", "Low Market Mode Start Pct: ",$userDetails[0][37],31,"");
-                  displayText("LowMarketModeIncrements", "Low Market Mode Increments: ",$userDetails[0][38],32,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Low Market Mode");
+                    displayYesNoAuto($userDetails[0][28],"enableLowMarketMode","Enable Low Market Mode");// if ($userDetails[0][28] == 0){ $option1 = "No"; $option2 = "Yes";}else{$option1 = "Yes"; $option2 = "No";}
+                    displayText("LowMarketModeNum", "Low Market Mode Number: ",$userDetails[0][28],30,"");
+                    displayText("LowMarketModeStartPct", "Low Market Mode Start Pct: ",$userDetails[0][37],31,"");
+                    displayText("LowMarketModeIncrements", "Low Market Mode Increments: ",$userDetails[0][38],32,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("Save Mode");
-                  displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,"");
-                  displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,"");
-                  displayYesNoAuto($userDetails[0][50],"EnableSavePctofTotal","Enable Save Pct of Total");
-                  displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,"");
-                displayMainSectionEnd();
+                  displaySubSectionStart("Save Mode");
+                    displayText("SaveMode", "Save Mode: ",$userDetails[0][39],33,"");
+                    displayText("PctToSave", "Pct To Save: ",$userDetails[0][40],34,"");
+                    displayYesNoAuto($userDetails[0][50],"EnableSavePctofTotal","Enable Save Pct of Total");
+                    displayText("SavingPctOfTotal", "Saving Pct Of Total: ",$userDetails[0][51],35,"");
+                  displaySubSectionEnd();
 
-                displayMainSectionStart("SpreadBet");
-                  displayYesNoAuto($userDetails[0][60],"EnableSpreadBetSellInd","Enable SpreadBet Sell Ind");
-                  displayText("SpreadBetSellIndPct", "Spread Bet Sell Ind Pct: ",$userDetails[0][61],30,"");
+                  displaySubSectionStart("SpreadBet");
+                    displayYesNoAuto($userDetails[0][60],"EnableSpreadBetSellInd","Enable SpreadBet Sell Ind");
+                    displayText("SpreadBetSellIndPct", "Spread Bet Sell Ind Pct: ",$userDetails[0][61],30,"");
+                  displaySubSectionEnd();
                 displayMainSectionEnd();
                 ?>
                 <input type="submit" name="submit" value="Update" class="form-control input-lg" tabindex="23">
