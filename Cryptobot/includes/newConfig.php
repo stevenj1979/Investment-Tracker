@@ -3655,6 +3655,22 @@ function newLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref){
   }
 }
 
+function newerLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, $daysToKeep){
+  if ($enabled == 1){
+    $comments = str_replace("'","/",$comments);
+    $conn = getSQLConn(rand(1,3));
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "call newerLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref',$daysToKeep)";
+    print_r("<br>".$sql);
+    if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    }
+    $conn->close();
+  }
+}
+
 function echoAndLog($subject, $comments, $UserID, $enabled, $subTitle, $ref){
   $sql = "call newLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref')";
   $sql = str_replace("'","/",$comments);
@@ -5036,7 +5052,7 @@ function runLowMarketMode($userID,$mode){
   $conn->close();
   if ($mode > 0){
     logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-    newLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID");
+    newerLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID",120);
   }
 }
 
