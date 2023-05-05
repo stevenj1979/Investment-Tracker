@@ -273,6 +273,7 @@ table tr:last-child {
 .settingsformitem{
     display: flex;
     flex-direction: row;
+    width: 50%;
 }
 .settingsform{
   display: flex;
