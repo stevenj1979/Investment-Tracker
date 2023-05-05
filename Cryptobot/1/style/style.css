@@ -274,13 +274,13 @@ table tr:last-child {
     display: flex;
     flex-direction: row;
     width: 50%;
+    align-items: stretch;
 }
 .settingsform{
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   font-size: 16px;
-  justify-content: left;
 }
 .settingsform select{
   justify-content: right;
