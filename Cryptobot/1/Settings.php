@@ -250,6 +250,19 @@ function displayYesNoAuto($selection,$name,$title){
     <option value='".$option3."'>".$option3."</option></select></div>";
 }
 
+function displayYesNoAutoCurrency($selection,$name,$title){
+  if ($selection == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
+  elseif ($selection == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
+  elseif ($selection == 'ETH'){$option1 = "ETH"; $option2 = "BTC";$option3 = "USDT";$option4 = "All";}
+  elseif ($selection == 'All'){$option1 = "All"; $option2 = "BTC";$option3 = "ETH";$option4 = "USDT";}
+  echo "<div class='settingsformitem'><b>$title: </b>";
+  echo "<select name='$name' id='$name' class='enableTextBox'>";
+  echo "<option value='".$option1."'>".$option1."</option>
+    <option value='".$option2."'>".$option2."</option>
+    <option value='".$option3."'>".$option3."</option>
+    <option value='".$option4."'>".$option4."</option></select></div>";
+}
+
 function displayText($name, $text,$value,$tab, $comment){
   echo "<div class='settingsformitem'><label for='$name'>$text</label><br>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
@@ -311,19 +324,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     displayText("dailyBTCLimit", "Daily BTC Limit: ",$userDetails[0][8],6,"");
                     displayYesNoAuto($userDetails[0][7],'enableTotalBTCLimit',"Enable Total BTC Limit");
                     displayText("totalBTCLimit", "Total BTC Limit: ",$userDetails[0][9],7,"");
-
-                    if ($userDetails[0][12] == 'BTC'){ $option1 = "BTC"; $option2 = "USDT";$option3 = "ETH";$option4 = "All";}
-                    elseif ($userDetails[0][12] == 'USDT'){$option1 = "USDT"; $option2 = "BTC";$option3 = "ETH";$option4 = "All";}
-                    elseif ($userDetails[0][12] == 'ETH'){$option1 = "ETH"; $option2 = "BTC";$option3 = "USDT";$option4 = "All";}
-                    elseif ($userDetails[0][12] == 'All'){$option1 = "All"; $option2 = "BTC";$option3 = "ETH";$option4 = "USDT";}?>
-                      <div class='settingsform'>
-                        <b>User Base Currency: </b> <select name='userBaseCurrency' id='userBaseCurrency' class='enableTextBox'><?php
-                          echo "<option value='".$option1."'>".$option1."</option>
-                          <option value='".$option2."'>".$option2."</option>
-                          <option value='".$option3."'>".$option3."</option>
-                          <option value='".$option4."'>".$option4."</option></select></div><BR>";
-
-
+                    displayYesNoAutoCurrency($userDetails[0][12],'userBaseCurrency',"User Base Currency");
                     displayYesNoAuto($userDetails[0][14],'lowPricePurchaseEnabled',"Low Price Purchase Enabled");
                     displayText("NoOfPurchases", "Number of Purchases: ",$userDetails[0][15],8,"");
                     displayText("PctToPurchase", "% to Purchase: ",$userDetails[0][16],9,"");
