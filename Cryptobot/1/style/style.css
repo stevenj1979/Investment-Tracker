@@ -274,6 +274,7 @@ table tr:last-child {
     display: flex;
     flex-direction: row;
     width: 50%;
+    justify-content: left;
 }
 .settingsform{
   display: flex;
