@@ -270,6 +270,10 @@ table tr:last-child {
     display: flex;
     flex-direction: column;
 }
+.settingsformitem{
+    display: flex;
+    flex-direction: row;
+}
 .settingsform{
   display: flex;
   flex-wrap: wrap;

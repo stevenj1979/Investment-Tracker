@@ -243,17 +243,17 @@ function displayYesNoAuto($selection,$name,$title){
   }else{
     $option1 = "No"; $option2 = "Yes";$option3 = "Auto";
   }
-  echo "<b>$title: </b>";
+  echo "<div class='settingsformitem'><b>$title: </b>";
   echo "<select name='$name' id='$name' class='enableTextBox'>";
   echo "<option value='".$option1."'>".$option1."</option>
     <option value='".$option2."'>".$option2."</option>
-    <option value='".$option3."'>".$option3."</option></select><br>";
+    <option value='".$option3."'>".$option3."</option></select></div>";
 }
 
 function displayText($name, $text,$value,$tab, $comment){
-  echo "<label for='$name'>$text</label><br>";
+  echo "<div class='settingsformitem'><label for='$name'>$text</label><br>";
   echo "<input type='text' name='$name' id='$name' class='form-control input-lg' placeholder='$text' value= $value tabindex='$tab'>";
-  echo "<p class='comments'>$comment</p>";
+  echo "<p class='comments'>$comment</p></div>";
 }
 
 function displayMainSectionStart(){
@@ -271,7 +271,7 @@ function displayMainSectionEnd(){
 
 function displaySubSectionStart($name){
 ?>
-<h3><b><u><?php echo $name; ?>: </h3></b></u></BR>
+<h3><b><u><?php echo $name; ?>: </h3></b></u>
 <div class="settingsform">
 <?php
 }
