@@ -2188,7 +2188,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $coinForBuyOutPct = $lossCoins[$y][70];
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
-    $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84];
+    $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84]; $emergencyRLBuyEnabled = $lossCoins[$y][85]; $emergencyRLBuyPct = $lossCoins[$y][86];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
@@ -2208,7 +2208,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     //if ($excludeSpreadBet = 1 and ($spreadBetTransactionID <> 0 and $overrideReduceLoss == 0 )){ echo "<BR> ExcludeSpreadBet: EXIT! "; continue;}
 
     Echo "<BR>1: PctOfAuto: $pctOfAuto | $pctProfit";
-    if ($pctProfit < -20){
+    if ($pctProfit < $emergencyRLBuyPct AND $emergencyRLBuyEnabled == 1){
         //$pctOfAuto = 100+$pctProfit;
         Echo "<BR>2: PctOfAuto: $pctOfAuto";
         //$hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
