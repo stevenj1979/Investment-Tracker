@@ -2210,6 +2210,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     Echo "<BR>1: PctOfAuto: $pctOfAuto | $pctProfit";
     if ($pctProfit < $emergencyRLBuyPct AND $emergencyRLBuyEnabled == 1){
         //$pctOfAuto = 100+$pctProfit;
+        $reduceLossMultiplier = $lossCoins[$y][87];
         Echo "<BR>2: PctOfAuto: $pctOfAuto";
         //$hoursFlatTarget = floor(($maxHoursFlat/100)*$pctOfAuto);
         //$hoursFlatTarget = floor(($maxHoursFlat/100)*(($pctOfAuto/100)*Abs(100+$pctProfit)));
