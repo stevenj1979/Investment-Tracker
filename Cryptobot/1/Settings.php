@@ -132,7 +132,7 @@ function getUserIDs($userID){
       ,$row['SaveMode'],$row['PctToSave'],$row['SellPct'],$row['OriginalPriceMultiplier'],$row['ReduceLossMaxCounter'],$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'] //45
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
       ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']//59
-      ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyPct']); //64
+      ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier']); //64
   }
   $conn->close();
   return $tempAry;
