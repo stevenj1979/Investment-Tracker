@@ -48,7 +48,7 @@ include '../includes/newConfig.php';
   //          );
   var chart = new google.visualization.AreaChart(document.getElementById('visualization')).
   draw(data, {curveType: "function",
-                    width: 80%, height: 50%,
+                    width: 50%, height: 20%,
                     }
             );
   }
@@ -80,7 +80,7 @@ include '../includes/newConfig.php';
   //          );
   var chart = new google.visualization.Table(document.getElementById('visualization2')).
   draw(data, {curveType: "function",
-                    width: 900, height: 400,
+                    width: 50%, height: 60%,
                     }
             );
   }
