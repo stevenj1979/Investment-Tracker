@@ -82,7 +82,7 @@ include '../includes/newConfig.php';
 
   var chart = new google.visualization.Table(document.getElementById('visualization2')).
   draw(data, {curveType: "function",
-                    width: nWidth*75, height: 400,
+                    width: nWidth*50, height: 400,
                     }
             );
   }
