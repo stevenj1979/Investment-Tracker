@@ -49,7 +49,7 @@ include '../includes/newConfig.php';
   var nWidth = window.screen.availWidth/100;
   var chart = new google.visualization.AreaChart(document.getElementById('visualization')).
   draw(data, {curveType: "function",
-                    width: nWidth*75, height: 400,
+                    width: nWidth*85, height: 400,
                     }
             );
   }
