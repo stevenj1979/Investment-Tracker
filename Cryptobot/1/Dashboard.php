@@ -46,9 +46,10 @@ include '../includes/newConfig.php';
   //                  width: 900, height: 400,
   //                  }
   //          );
+  var nWidth = window.screen.availWidth/100;
   var chart = new google.visualization.AreaChart(document.getElementById('visualization')).
   draw(data, {curveType: "function",
-                    width: 1500, height: 400,
+                    width: nWidth*75, height: 400,
                     }
             );
   }
