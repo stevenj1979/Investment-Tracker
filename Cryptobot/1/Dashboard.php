@@ -78,11 +78,11 @@ include '../includes/newConfig.php';
   //                  width: 900, height: 400,
   //                  }
   //          );
-  var nWidth = window.screen.availWidth;
+  var nWidth = window.screen.availWidth/100;
 
   var chart = new google.visualization.Table(document.getElementById('visualization2')).
   draw(data, {curveType: "function",
-                    width: (nWidth/100)*80, height: 400,
+                    width: nWidth*75, height: 400,
                     }
             );
   }
