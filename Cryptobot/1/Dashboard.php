@@ -46,7 +46,7 @@ include '../includes/newConfig.php';
   //                  width: 900, height: 400,
   //                  }
   //          );
-  var nWidth = window.screen.availWidth/100;
+  var nWidth = $(window).width()/100;
   var chart = new google.visualization.AreaChart(document.getElementById('visualization')).
   draw(data, {curveType: "function",
                     width: nWidth*85, height: 400,
@@ -79,7 +79,7 @@ include '../includes/newConfig.php';
   //                  width: 900, height: 400,
   //                  }
   //          );
-  var nWidth = window.screen.availWidth/100;
+  var nWidth = $(window).width()/100;
 
   var chart = new google.visualization.Table(document.getElementById('visualization2')).
   draw(data, {curveType: "function",
