@@ -7624,7 +7624,7 @@ function enableBuyRule($buyRuleID, $buyCoin,$PctChangeAvg,$pctChangeTargetAvg){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `BuyRules` SET `BuyCoin` = $buyCoin where `ID` = $buyRuleID;";
+  $sql = "UPDATE `BuyRules` SET `BuyCoin` = $buyCoin where `ID` = $buyRuleID and `EnableRuleActivationAfterDip` = 1;";
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
