@@ -297,8 +297,9 @@ function clearTrackingCoinQueue($UserID,$coinID){
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+    $mySQLError = $conn->error;
     $conn->close();
-    newLogToSQL("clearTrackingCoinQueue",$sql."|".$conn->error,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
+    newLogToSQL("clearTrackingCoinQueue",$sql."|".$mySQLError,3,1,"SQL","UserID:$UserID; CoinID:$coinID");
     logAction("clearTrackingCoinQueue: ".$sql, 'BuySell', 0);
 }
 
@@ -1099,8 +1100,8 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     LogToSQL("BuyCoinAmount","BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice",3,1);
     Echo "<BR> BuyPriceCoin: $buyPriceCoin | $baseCurrency | $coin | $bitPrice";
   }else{
-    LogToSQL("BuyCoinAmount","BuyPriceCoin <> 0 $buyPriceCoin | $bitPrice",3,1);
     $bitPrice = $buyPriceCoin;
+    LogToSQL("BuyCoinAmount","BuyPriceCoin <> 0 $buyPriceCoin | $bitPrice",3,1);
   }
   echo "<br> returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice, $apikey, $apisecret);";
   LogToSQL("BuyCoinAmount","returnBuyAmount($coin, $baseCurrency, round($btcBuyAmount,10), $buyType, $BTCBalance, round($bitPrice,8), $apikey, $apisecret);",3,1);
@@ -5228,8 +5229,9 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
+  $mySQLError = $conn->error;
   $conn->close();
-  logAction("closeNewTrackingCoin: ".$sql. $conn->error, 'TrackingCoins', 0);
+  logAction("closeNewTrackingCoin: ".$sql.$mySQLError, 'TrackingCoins', 0);
   newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,0,"SQL","TrackingCoinID:$ID");
 }
 
@@ -7857,7 +7859,7 @@ function setPriceDipEnable($ruleID,$status,$buyCoin,$liveCoinPriceMkt){
   }
   $conn->close();
   logAction("setPriceDipEnable: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,0,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,1,"SQL CALL","ruleID:$ruleID");
 }
 
 function writePriceDipHours($ruleID,$dipHourCounter){
