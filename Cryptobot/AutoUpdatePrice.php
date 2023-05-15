@@ -7,7 +7,9 @@ include_once ('/home/stevenj1979/SQLData.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
+
 function getCoinPriceStatsSell(){
+  $tempAry = [];
   $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -30,6 +32,7 @@ group by `CoinID`";
 }
 
 function getCoinPriceStats(){
+  $tempAry = [];
   $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -126,6 +129,7 @@ function updateSellPrice($newSellPrice,$coinID){
 }
 
 function getCoinTrend(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -205,6 +209,7 @@ function refreshCoinStatsWebTable(){
 }
 
 function get1HrTopandBottom($coinID){
+  $tempAry = [];
   $conn = getHistorySQL(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
