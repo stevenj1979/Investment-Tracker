@@ -79,7 +79,7 @@ function checkMarketforPctDip(){
     //    runLowMarketMode($userID,2);
     //    LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
     //  }
-  }elseif ($avgPctChange > 0 AND $lowMarketModeEnabled > 0){
+  }elseif ($avgPctChange > 0 AND $lowMarketModeEnabled >= 0){
       for ($t=0; $t<$userIDsSize; $t++){
         $userID = $userIDs[$t][0];
         echo "<BR> Enabing LowMarketMode for: $userID Mode: 0";
