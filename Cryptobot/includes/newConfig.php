@@ -1805,7 +1805,9 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
       $temp = json_decode($execResult, true);
       echo "<BR> $url";
       newLogtoSQL("BittrexAPI",var_dump($temp),3,0,"Balance","Base:$base");
-      $balance = $temp['total'];
+      if (array_key_exists("total",$temp)){
+          $balance = $temp['total'];
+      }
     }
     return $balance;
 }
@@ -2023,6 +2025,7 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
 }
 
 function bittrexCoinPriceNew($baseCoin, $coin){
+    $tempAry = [];
     $conn = getSQLConn(rand(1,3));
     //$whereClause = "";
     //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
