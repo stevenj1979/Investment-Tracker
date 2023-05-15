@@ -2315,11 +2315,15 @@ function getVolumeStats($stats, $apiVersion){
       }
     }else{
       //$mktSym = explode("-",$item['MarketName']);
-      $symbol = $stats["symbol"];
+      if (array_key_exists("symbol",$stats)){
+          $symbol = $stats["symbol"];
+          $high = $stats["high"];
+          $low = $stats["low"];
+          $volume = $stats["volume"];
+      }
+
       //$market = $mktSym[0];
-      $high = $stats["high"];
-      $low = $stats["low"];
-      $volume = $stats["volume"];
+
       //$last = $item["Last"];
       //$BaseVolume = $item["BaseVolume"];
       //$TimeStamp = $item["TimeStamp"];
