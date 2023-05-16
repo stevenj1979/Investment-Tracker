@@ -1771,6 +1771,7 @@ function sendEmail($to, $symbol, $amount, $cost, $orderNo, $score, $subject, $us
 
 function bittrexbalance($apikey, $apisecret, $base, $versionNum){
     $nonce=time();
+    $balance = 0.00;
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/account/getbalance?apikey='.$apikey.'&currency='.$base.'&nonce='.$nonce;
         $sign=hash_hmac('sha512',$uri,$apisecret);

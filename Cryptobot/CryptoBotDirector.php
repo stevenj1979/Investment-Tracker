@@ -115,7 +115,7 @@ while($completeFlag == False){
   $dashboardTimerAry = getTimer($timerAry,"dashBoard",$currentTime);
   $dashboardTimerMins = $dashboardTimerAry[0];
   $minsFromStart = $dashboardTimerAry[1];
-  if (($dashboardTimerMins - $minsFromStar) <= 0){
+  if (($dashboardTimerMins - $minsFromStart) <= 0){
     Echo "<BR> Running Dashboard.php";
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/Dashboard.php');
     //sleep (15);
@@ -195,7 +195,7 @@ while($completeFlag == False){
     exec ('/usr/bin/php /home/stevenj1979/public_html/Investment-Tracker/Cryptobot/CoinSwap.php');
     //sleep (15);
     //$coinSwapTimer = date("Y-m-d H:i",strtotime($coinSwapRunTime, strtotime(date($coinSwapTimer))));
-    Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimerMins | Mins: $coinSwapRunTimeMins";
+    Echo "<BR> Setting Run Time for CoinSwap.php : $coinSwapTimerMins | Mins: ";
     writeSQLTime("coinSwap",$coinSwapTimerMins);
     sleep (15);
   }else{
