@@ -220,6 +220,7 @@ while($date <= $newTime){
       }
     }else{
       $bitPriceAry = getArrayPrice($coinAry,$symbol,$baseCurrency);
+      var_dump($bitPriceAry);
       $bitPrice = $bitPriceAry[0]; $bidPrice = $bitPriceAry[1]; $askPrice = $bitPriceAry[2];
       copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);
       Echo "<BR> copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);";

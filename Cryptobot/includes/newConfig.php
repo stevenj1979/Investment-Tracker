@@ -243,7 +243,7 @@ function removeTransactionDelay($coinID, $userID){
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("removeTransactionDelay",$sql,3,0,"SQL","TransID:$transID");
+    newLogToSQL("removeTransactionDelay",$sql,3,0,"SQL","CoinID:$coinID");
     logAction("removeTransactionDelay: ".$sql, 'BuySell', 0);
 }
 
@@ -1151,7 +1151,10 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
     //  $ethCoinPrice = number_format((float)(bittrexCoinPrice($apikey, $apisecret,'USDT','ETH',$apiVersion)), 8, '.', '');
     //  $newMinTradeAmount = $minTradeAmount[0][0]/$ethCoinPrice;
     //}else{
+    if (isSet($minTradeAmount[0][0])){
       $newMinTradeAmount = $minTradeAmount[0][0];
+    }
+
     //}
 
     if ($btcBuyAmount >= $newMinTradeAmount  && $BTCBalance >= $buyMin){
@@ -1907,10 +1910,17 @@ function getMinTradeFromSQL($coinID,$baseCurrency){
     $btcPriceCoin = 85;
   }
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
   $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` $coinID";
+
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['MinTradeSize']);}
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['MinTradeSize']);
+  }
   $conn->close();
   return $tempAry;
 }
