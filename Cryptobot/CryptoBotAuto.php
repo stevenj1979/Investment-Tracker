@@ -220,7 +220,16 @@ while($date <= $newTime){
       }
     }else{
       $bitPriceAry = getArrayPrice($coinAry,$symbol,$baseCurrency);
-      var_dump($bitPriceAry);
+      if (!isSet($bitPriceAry[0])){
+        newerLogToSQL("CryptoBotAuto","getArrayPrice(Ary,$symbol,$baseCurrency);",3,1,"ZeroMissing","CoinID:$coinID",90);
+      }
+      if (!isSet($bitPriceAry[1])){
+        newerLogToSQL("CryptoBotAuto","getArrayPrice(Ary,$symbol,$baseCurrency);",3,1,"OneMissing","CoinID:$coinID",90);
+      }
+      if (!isSet($bitPriceAry[2])){
+        newerLogToSQL("CryptoBotAuto","getArrayPrice(Ary,$symbol,$baseCurrency);",3,1,"TwoMissing","CoinID:$coinID",90);
+      }
+      //var_dump($bitPriceAry);
       $bitPrice = $bitPriceAry[0]; $bidPrice = $bitPriceAry[1]; $askPrice = $bitPriceAry[2];
       copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);
       Echo "<BR> copyCoinPrice($coinID,$bitPrice,$askPrice,$bidPrice);";
