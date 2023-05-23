@@ -1774,7 +1774,7 @@ DECLARE last_Live DEC(20,14);
 DECLARE nSymbol VARCHAR(20);
 
 SELECT `LiveCoinPrice` INTO last_Live FROM `CoinBuyHistory` WHERE `ID` = Coin_ID order by `ActionDate` Desc Limit 1;
-
+Delete from `CoinBuyHistory` where `ActionDate` < date_sub(now(), INTERVAL 7 DAY) limit 50;
 if (last_Live is null) THEN
 	set last_Live = bit_price;
 END IF;
