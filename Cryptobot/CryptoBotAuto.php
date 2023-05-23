@@ -320,7 +320,7 @@ while($date <= $newTime){
       if (empty($D7Pct)){ $D7Pct = 0;}
       coinPriceHistory($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime,$Hr1Pct,$Hr24Pct,$D7Pct);
       newLogToSQL("CryptoBotAuto","copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime);",3,0,"copyCoinBuyHistoryStats","CoinID:$coinID");
-      //copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime);
+      copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime);
       //LogToSQL("CryptobotAuto","coinPriceHistory($coinID,$bitPrice,$baseCurrency,$coinPriceHistoryTime,$Hr1Pct,$Hr24Pct,$D7Pct);",3,1);
       //$Hr1Date = date("Y-m-d H",strtotime("-1 Hour"));
       //echo "<BR> get1HrChange($coinID,$Hr1Date);";
