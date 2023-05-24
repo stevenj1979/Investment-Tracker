@@ -2189,6 +2189,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84]; $emergencyRLBuyEnabled = $lossCoins[$y][85]; $emergencyRLBuyPct = $lossCoins[$y][86];
+    $usdtPrice = = $lossCoins[$y][88]; $btcPrice = = $lossCoins[$y][89]; $ethPrice = = $lossCoins[$y][88];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
@@ -2239,13 +2240,20 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       }
       if ($hoursFlat < $hoursFlatTarget){ echo "<BR> HoursFlat: $hoursFlat | $hoursFlatTarget : EXIT! "; continue; }
       echo "<BR> buyToreduceLoss2: $pctProfit |$reduceLossSellPct | $minsToDelay | $reduceLossEnabled";
-
+      if ($baseCurrency == 'USDT'){
+        $finalMultiplier = $usdtPrice;
+      }elseif ($baseCurrency == 'BTC'){
+        $finalMultiplier = $btcPrice;
+      }elseif ($baseCurrency == 'ETH'){
+        $finalMultiplier = $ethPrice;
+      }
       //get multiplier
       //$openTransNoAry = getOpenTransNo($userID, $coinID);
       $currentBuy = $reduceLossMultiplier;
       $profitMultiplier = ABS($reduceLossSellPct)/ABS($pctProfit);
       $quant = $totalAmount*($currentBuy*$profitMultiplier);
-      $newPurchase = ($totalAmount*$reduceLossMultiplier);
+      $newPurchase = (($totalAmount*$coinForBuyOutPct)*$finalMultiplier);
+      if ($type == 'SpreadSell'){ $newPurchase = ($totalAmount * $coinForBuyOutPct);}
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
       //newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,$type,$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry,'Events');
