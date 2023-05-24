@@ -1781,7 +1781,7 @@ END IF;
 
 Select `Symbol` INTO nSymbol from `Coin` where `ID` = Coin_ID;
 
-INSERT INTO `CoinBuyHistory`(`ID`, `LiveCoinPrice`,`Symbol`,`BaseCurrency`,`ActionDate`,`LastCoinPrice`) VALUES (Coin_ID,bit_price,nSymbol ,base_curr,nDate,last_Live);
+INSERT INTO `CoinBuyHistory`(`ID`, `LiveCoinPrice`,`Symbol`,`BaseCurrency`,`ActionDate`,`LastCoinPrice`) VALUES (Coin_ID,bit_price,nSymbol ,base_curr,now(),last_Live);
 
 DELETE FROM `CoinBuyHistory` WHERE `ActionDate` < now() - interval 8 DAY;
 END$$
