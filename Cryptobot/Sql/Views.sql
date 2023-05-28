@@ -725,3 +725,16 @@ SELECT sum(`OT15`.`Amount`),`OT15`.`Symbol` , `Bb`.`Total`,  `Bb`.`Total`-sum(`O
 FROM `View15_OpenTransactions` `OT15`
 join `BittrexBalances` `Bb` on `Bb`.`Symbol` = `OT15`.`Symbol`
 WHERE `OT15`.`StatusTr` in ('Open') group by `OT15`.`Symbol` having sum(`OT15`.`Amount`) > `Bb`.`Total`
+
+CREATE OR REPLACE VIEW `View27_SpreadBetAlertsView` AS
+SELECT `Sba`.`ID`, `Sba`.`SpreadBetRuleID`, `Sba`.`Action`, `Sba`.`Price`, `Sba`.`UserID`, `Sba`.`Status`, `Sba`.`Category`, `Sba`.`ReocurringAlert`, `Sba`.`DateTimeSent`, `Sba`.`SpreadBetAlertRuleID`
+,`Uc`.`UserID` as `UserID2`,`Uc`.`APIKey`,`Uc`.`APISecret`,`Uc`.`EnableDailyBTCLimit`, `Uc`.`EnableTotalBTCLimit`, `Uc`.`DailyBTCLimit`, `Uc`.`TotalBTCLimit`, `Uc`.`BTCBuyAmount`, `Uc`.`CoinSellOffsetEnabled` as `CoinSellOffsetEnabled2`
+, `Uc`.`CoinSellOffsetPct` as `CoinSellOffsetPct2`, `Uc`.`BaseCurrency` as `BaseCurrency2`, `Uc`.`NoOfCoinPurchase`, `Uc`.`TimetoCancelBuy`, `Uc`.`TimeToCancelBuyMins`, `Uc`.`KEK`, `Uc`.`MinsToPauseAlert`, `Uc`.`LowPricePurchaseEnabled`
+, `Uc`.`NoOfPurchases` as `NoOfPurchases2`, `Uc`.`PctToPurchase`, `Uc`.`TotalRisesInPrice`, `Uc`.`TotalRisesInPriceSell`, `Uc`.`ReservedUSDT`, `Uc`.`ReservedBTC`, `Uc`.`ReservedETH`, `Uc`.`TotalProfitPauseEnabled`
+, `Uc`.`TotalProfitPause`, `Uc`.`PauseRulesEnabled`, `Uc`.`PauseRules`, `Uc`.`PauseHours`, `Uc`.`MergeAllCoinsDaily`, `Uc`.`MarketDropStopEnabled`, `Uc`.`MarketDropStopPct`, `Uc`.`SellAllCoinsEnabled`
+, `Uc`.`SellAllCoinsPct`, `Uc`.`CoinModeEmails`, `Uc`.`CoinModeEmailsSell`, `Uc`.`CoinModeMinsToCancelBuy`, `Uc`.`PctToSave`, `Uc`.`SplitBuyAmounByPctEnabled`, `Uc`.`NoOfSplits`, `Uc`.`SaveResidualCoins`
+, `Uc`.`RedirectPurchasesToSpread`, `Uc`.`SpreadBetRuleID` as `SpreadBetRuleIDUc`, `Uc`.`MinsToPauseAfterPurchase`, `Uc`.`LowMarketModeEnabled`, `Uc`.`LowMarketModeDate`, `Uc`.`AutoMergeSavings`, `Uc`.`AllBuyBackAsOverride`
+, `Uc`.`TotalPurchasesPerCoin`
+FROM `SpreadBetAlerts` `Sba`
+join `UserConfig` `Uc` on `Uc`.`UserID` = `Sba`.`UserID`
+join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`;
