@@ -299,15 +299,15 @@ $date = date('Y/m/d H:i:s', time());
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
-            echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
-            NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
-            echo "<td><p id='largeText' >".round($amount,$roundVar)." $coin</p></td>";
+            echo "<td rowspan='2'><p id='largeText' >".round((float)$livePrice,$roundVar)."</p></td>";
+            NewEcho("<td><p id='normalText'>".round((float)$mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round((float)$pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            echo "<td><p id='largeText' >".round((float)$amount,$roundVar)." $coin</p></td>";
 
             echo "</tr><tr>";
             echo "<td><p id='normalText'>$coin</p></td>";
-            NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+            NewEcho("<td><p id='normalText'>".round((float)$volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round((float)$pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
             $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
             echo "<td><p id='normalText'>$cost</p></td>";
 
@@ -318,13 +318,13 @@ $date = date('Y/m/d H:i:s', time());
             //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
             $numCol = getNumberColour($priceDiff1);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($priceDiff1,$roundVar)."</p></td>";
-            echo "<td><p id='largeText' >".round($profit,$roundVar)." $baseCurrency</p></td>";
+            echo "<td><p id='smallText' style='color:$numCol'>".round((float)$priceDiff1,$roundVar)."</p></td>";
+            echo "<td><p id='largeText' >".round((float)$profit,$roundVar)." $baseCurrency</p></td>";
 
-            NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-            NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round((float)$sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
+            NewEcho("<td><p id='normalText'>".round((float)$pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
             $numCol = getNumberColour($profitPct);
-            echo "<td><p id='smallText' style='color:$numCol'>".round($profitPct,$roundVar)."</p></td>";
+            echo "<td><p id='smallText' style='color:$numCol'>".round((float)$profitPct,$roundVar)."</p></td>";
 
             echo "</tr><tr>";
 
