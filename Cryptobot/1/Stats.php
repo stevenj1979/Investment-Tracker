@@ -162,9 +162,9 @@ displayHeader(2);
             displayOptionOne($coinStats[$x][0],$coinStats[$x][1]);
         }
         echo "</select><SELECT name='timeSelect'>";
-        displayOption("15 Minute");
-        displayOption("30 Minute");
-        displayOption("1 Hour");
+        //displayOption("15 Minute");
+        //displayOption("30 Minute");
+        //displayOption("1 Hour");
         displayOption("6 Hour");
         displayOption("12 Hour");
         displayOption("1 Day");
