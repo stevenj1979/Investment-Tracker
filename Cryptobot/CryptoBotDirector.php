@@ -49,7 +49,7 @@ function writeSQLTime($name, $minsToRun){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "UPDATE `CryptoBotDirector` SET `LastRunTime` = now(), `NextRunTime` = Date_Add(now(), INTERVAL `MinsToRun` MINUTE) WHERE `Name`= '$name' ";
+  $sql = "UPDATE `CryptoBotDirector` SET `LastRunTime` = now(), `NextRunTime` = Date_Add(`LastRunTime`, INTERVAL `MinsToRun` MINUTE) WHERE `Name`= '$name' ";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
