@@ -810,7 +810,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     $order = "order by ProfitPct Asc";
   }elseif ($sbTransID > 1){
     $whereClause = " and `SpreadBetTransactionID` > 0";
-    $limit = " Limit 3";
+    $limit = " Limit 2";
     $order = "order by ProfitPct Asc";
   }
 
