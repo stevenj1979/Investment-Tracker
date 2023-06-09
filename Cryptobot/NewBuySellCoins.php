@@ -2339,6 +2339,8 @@ $newWebSettingsAry = getNewSettings();
 $multiSellRules = getMultiSellRules();
 //get CSP
 $csp = getCalculatedSellPct();
+
+$reduceLossSpreadBetTransID = getDistinctSpreadBetID();
 //set time
 setTimeZone();
 $i=0;
@@ -2371,6 +2373,7 @@ $runSellCoinsSBFlag = False;
 $runBuyCoinsFlag = False;
 $runSbBuyCoinsFlag = False;
 $buyToReduceLossFlag = False;
+$buyToReduceLossFlagSB = False;
 $runSellCoinsSBIndFlag = False;
 $apiVersion = 3;
 $trackCounter = [];
@@ -2547,12 +2550,22 @@ while($completeFlag == False){
         }
   echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS!! $i<blockquote>";
         if ($buyToReduceLossFlag == True){
-          $lossCoins = getTrackingSellCoinsAll();
+          $lossCoins = getTrackingSellCoinsAll(-1);
           $buyToReduceLossFlag = False;
           $runSellCoinsFlag = True;
         }
         $buyToReduceLossFlag = buyToreduceLoss($lossCoins,$newWebSettingsAry);
 
+echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i<blockquote>";
+        $reduceLossSpreadBetTransIDSize = count($reduceLossSpreadBetTransID);
+        for ($y=0; $y<$reduceLossSpreadBetTransIDSize; $y++){
+          if ($buyToReduceLossFlagSB == True){
+            $lossCoinsSB = getTrackingSellCoinsAll($reduceLossSpreadBetTransID[$y][0]);
+            $buyToReduceLossFlagSB = False;
+            $runSellCoinsFlag = True;
+          }
+          $buyToReduceLossFlagSB = buyToreduceLoss($lossCoinsSB,$newWebSettingsAry);
+        }
 
   sleep(15);
   $i = $i+1;

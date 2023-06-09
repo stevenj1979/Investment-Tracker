@@ -774,13 +774,43 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
   return $tempAry;
 }
 
-function getTrackingSellCoinsAll(){
+function getDistinctSpreadBetID(){
   $tempAry = [];
   //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Select Distinct(`SpreadBetTransactionID`) as SpreadBetTransactionID
+            FROM `View5_SellCoins`  WHERE `Status` = 'Open' and `SpreadBetTransactionID` <> 0 order by ProfitPct Asc";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['SpreadBetTransactionID']); //1
+  }
+  $conn->close();
+  return $tempAry;
+}
+
+function getTrackingSellCoinsAll($sbTransID = 0){
+  $tempAry = [];
+  $whereClause = "";$limit = "";$order = "";
+  //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  if ($sbTransID == -1){
+    $whereClause = " and `SpreadBetTransactionID` <> 0";
+    $order = "order by ProfitPct Asc";
+  }elseif ($sbTransID > 1){
+    $whereClause = " and `SpreadBetTransactionID` > 0";
+    $limit = " Limit 3";
+    $order = "order by ProfitPct Asc";
   }
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
@@ -791,7 +821,7 @@ function getTrackingSellCoinsAll(){
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
   ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`
- FROM `View5_SellCoins`  WHERE `Status` = 'Open' order by ProfitPct Asc ";
+ FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
