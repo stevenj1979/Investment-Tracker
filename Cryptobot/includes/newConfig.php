@@ -785,6 +785,7 @@ function getDistinctSpreadBetID(){
 
   $sql = "Select Distinct(`SpreadBetTransactionID`) as SpreadBetTransactionID
             FROM `View5_SellCoins`  WHERE `Status` = 'Open' and `SpreadBetTransactionID` <> 0 order by ProfitPct Asc";
+  echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -805,7 +806,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
       die("Connection failed: " . $conn->connect_error);
   }
   if ($sbTransID == -1){
-    $whereClause = " and `SpreadBetTransactionID` <> 0";
+    $whereClause = " and `SpreadBetTransactionID` = 0";
     $order = "order by ProfitPct Asc";
   }elseif ($sbTransID > 1){
     $whereClause = " and `SpreadBetTransactionID` > 0";
