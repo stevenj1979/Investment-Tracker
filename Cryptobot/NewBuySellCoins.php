@@ -2515,6 +2515,7 @@ while($completeFlag == False){
           $userProfit = getTotalProfit();
           $runSellCoinsFlag = False;
           $buyToReduceLossFlag = True;
+          $buyToReduceLossFlagSB = True;
         }
         $runSellCoinsFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'Normal',$multiSellRules,$newWebSettingsAry);
   echo "</blockquote><BR> SELL SPREAD COINS (Individual)!! $i<blockquote>";
@@ -2526,6 +2527,7 @@ while($completeFlag == False){
                 $userProfit = getTotalProfit();
                 $runSellCoinsSBIndFlag = False;
                 $buyToReduceLossFlag = True;
+                $buyToReduceLossFlagSB = True;
               }
               $runSellCoinsSBIndFlag = runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPricePatternList,$coin1HrPatternList,$autoBuyPrice,$webSettingsAry,$csp,'SpreadSellInd',$multiSellRules,$newWebSettingsAry);
   echo "</blockquote><BR> CHECK BITTREX!! $i<blockquote>";
