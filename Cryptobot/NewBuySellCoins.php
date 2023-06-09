@@ -2555,9 +2555,9 @@ while($completeFlag == False){
           $runSellCoinsFlag = True;
         }
         $buyToReduceLossFlag = buyToreduceLoss($lossCoins,$newWebSettingsAry);
+$reduceLossSpreadBetTransIDSize = count($reduceLossSpreadBetTransID);
+echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i $reduceLossSpreadBetTransIDSize <blockquote>";
 
-echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i<blockquote>";
-        $reduceLossSpreadBetTransIDSize = count($reduceLossSpreadBetTransID);
         for ($y=0; $y<$reduceLossSpreadBetTransIDSize; $y++){
           if ($buyToReduceLossFlagSB == True){
             $lossCoinsSB = getTrackingSellCoinsAll($reduceLossSpreadBetTransID[$y][0]);
