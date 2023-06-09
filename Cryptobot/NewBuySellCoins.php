@@ -2560,6 +2560,7 @@ echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i $reduceLossSprea
 
         for ($y=0; $y<$reduceLossSpreadBetTransIDSize; $y++){
           if ($buyToReduceLossFlagSB == True){
+            echo "<BR> Calling ".$reduceLossSpreadBetTransID[$y][0];
             $lossCoinsSB = getTrackingSellCoinsAll($reduceLossSpreadBetTransID[$y][0]);
             $buyToReduceLossFlagSB = False;
             $runSellCoinsFlag = True;
