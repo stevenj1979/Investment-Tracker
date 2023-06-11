@@ -367,7 +367,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     displayYesNoAuto($userDetails[0][62],'EmergencyReduceLossBuyEnabled',"Emergency ReduceLoss Buy Enabled");
                     displayText("EmergencyReduceLossBuyPct", "Emergency ReduceLoss Buy Pct",$userDetails[0][63],21,"");
                     displayText("EmergencyReduceLossBuyMultiplier", "Emergency ReduceLoss Buy Multiplier",$userDetails[0][64],21,"");
-                    displayText("ReduceLossDelayNextBuyHours", "ReduceLoss Delay Next Buy Hours",$userDetails[0][65],21,"");
+                    displayText("ReduceLossDelayNextBuyHours", "ReduceLoss Delay Next Buy Mins",$userDetails[0][65],21,"");
                   displaySubSectionEnd();
 
                   displaySubSectionStart("Redirect");
