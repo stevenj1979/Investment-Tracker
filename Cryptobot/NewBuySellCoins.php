@@ -1814,7 +1814,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           Echo "<BR> CANCEL Sell ORDER ".$resultOrd["status"]." $qtySold <BR>";
           bittrexSellCancel($uuid, $transactionID, "DaysOutstanding: $daysOutstanding");
           newLogToSQL("BittrexSell", "bittrexSellCancel($uuid, $transactionID, DaysOutstanding: $daysOutstanding);$qtySold | ".$resultOrd["status"], $userID, 1,"CancelBittrexSell","TransactionID:$transactionID");
-          var_dump($resultOrd);
+          //var_dump($resultOrd);
         }elseif ($diffToSale > 4.50 and $qtySold == 0){
           ECHO "<BR> RE-RUN BittrexSell ($diffToSale): reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);";
           $returnVal = reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$BittrexID,$sellPrice,$coin,$baseCurrency,$liveCoinPriceBit,$amount);
@@ -2189,7 +2189,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $holdingAmount = $lossCoins[$y][71]; $savingOverride = $lossCoins[$y][72]; $hoursFlatTarget = $lossCoins[$y][73]; $spreadBetTransactionID = $lossCoins[$y][74]; $coinSwapDelayed = $lossCoins[$y][75];
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84]; $emergencyRLBuyEnabled = $lossCoins[$y][85]; $emergencyRLBuyPct = $lossCoins[$y][86];
-    $usdtPrice = $lossCoins[$y][88]; $btcPrice =  $lossCoins[$y][89]; $ethPrice =  $lossCoins[$y][88];
+    $usdtPrice = $lossCoins[$y][88]; $btcPrice =  $lossCoins[$y][89]; $ethPrice =  $lossCoins[$y][88]; $rlDelayNextBuyHours =  $lossCoins[$y][91];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
@@ -2263,7 +2263,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
-      delaySavingBuy($transactionID,4320);
+      delaySavingBuy($transactionID,$rlDelayNextBuyHours);
       setNewTargetPrice($transactionID);
       updateReduceLossCounter($transactionID,'buyToreduceLoss');
       $finalBool =  True;
