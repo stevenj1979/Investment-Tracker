@@ -2177,7 +2177,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   $finalBool = False;
   $lossCoinsSize = count($lossCoins);
-  Echo "<BR>0: Total: $lossCoinsSize";
+  Echo "<BR>0: Total: $lossCoinsSize Delay Hours: $rlDelayNextBuyHours";
   //$apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$lossCoinsSize; $y++){
     $pctProfit = $lossCoins[$y][58]; $transactionID = $lossCoins[$y][0]; $minsToDelay = $lossCoins[$y][60]; $userID = $lossCoins[$y][3]; $coinID = $lossCoins[$y][2];
