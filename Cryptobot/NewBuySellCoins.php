@@ -207,7 +207,7 @@ function runSellSavings($spreadBuyBack){
       echo "<BR> runSellSavings $profitPCT | $minsToDelay";
       newLogToSQL("runSellSavings_v3","$symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $noOfBounceSells",3,1,"Profit","TransID:$transactionID");
       addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, 1, 1, 150, 96, 0, 0, 1, 720, 219,0,0,15,'Buy',$LiveCoinPrice,0,0,1,'runSellSavings');
-      delaySavingBuy($transactionID,7200);
+      delaySavingBuy($transactionID,7200,0,$userID);
       //setTransactionStatus($transactionID,"SavingsSell");
       //updateCoinSwapTransactionStatus('SavingsSell',$transactionID);
       logAction("runSellSavings; newTrackingSellCoins_v3 : $symbol | $baseCurrency | $sellPrice | $baseMin | $profitPCT | $profitTarget | $transactionID | $minsToDelay | $noOfBounceSells", 'BuySellFlow', 1);
@@ -257,7 +257,7 @@ function runPriceDipRule($priceDipRules){
     if ($PctChangeAvg >= $pctChangeDisableTargetAvg){
       if ($buyCoin <> 0){
         enableBuyRule($buyRuleID, 0,$PctChangeAvg,$pctChangeTargetAvg);
-        setPriceDipEnable($buyRuleID, 0,$buyCoin,$liveCoinPriceMkt);
+        setPriceDipEnable($buyRuleID, -1,$buyCoin,$liveCoinPriceMkt);
         newLogToSQL("runPriceDipRule","<BR> enableBuyRule($buyRuleID); Avg:$PctChangeAvg <= AvgTarget:$pctChangeDisableTargetAvg",3,1,"enableBuyRule0","ruleID:$buyRuleID");
       }
     }
@@ -1708,7 +1708,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
 
           if ($oldBuyBackTransID <> 0){
             addBuyBackTransID($oldBuyBackTransID,$transactionID);
-            delaySavingBuy($oldBuyBackTransID,80);
+            delaySavingBuy($oldBuyBackTransID,80,0,$userID);
             $oldMultiSellStatus = getOldMultiSell($oldBuyBackTransID);
             echo "<br> Old MultiSell : ".$oldMultiSellStatus[0][0]." | ".$oldMultiSellStatus[0][1];
             if ($oldMultiSellStatus[0][0] == 1){$multiSellRuleEnabled = 1;$multiSellRuleTemplateID=$oldMultiSellStatus[0][1];}
@@ -2263,7 +2263,8 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
-      delaySavingBuy($transactionID,$rlDelayNextBuyHours);
+      delaySavingBuy($transactionID,120,1,$userID);
+      delaySavingBuy($transactionID,$rlDelayNextBuyHours,0,$userID);
       setNewTargetPrice($transactionID);
       updateReduceLossCounter($transactionID,'buyToreduceLoss');
       $finalBool =  True;

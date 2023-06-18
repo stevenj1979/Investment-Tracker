@@ -7226,7 +7226,7 @@ function updateSpreadBuy($spreadBetRuleID){
   newLogToSQL("updateSpreadBuy",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");
 }
 
-function delaySavingBuy($transactionID,$delayMins){
+function delaySavingBuy($transactionID,$delayMins, $mode, $userID){
   //$savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
@@ -7234,7 +7234,12 @@ function delaySavingBuy($transactionID,$delayMins){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-  $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `ID` = $transactionID;";
+  if ($mode == 0){
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `ID` = $transactionID;";
+  }else{
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID;";
+  }
+
 
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -7244,7 +7249,7 @@ function delaySavingBuy($transactionID,$delayMins){
   }
   $conn->close();
   logAction("delaySavingBuy: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("delaySavingBuy",$sql,3,1,"SQL","TransID:$transactionID");
+  newLogToSQL("delaySavingBuy",$sql." - Mode: ".$mode,3,1,"SQL","TransID:$transactionID");
 }
 
 function updateSpreadProfit($spreadBetRuleID, $pctProfit){
