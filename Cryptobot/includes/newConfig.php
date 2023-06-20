@@ -8429,14 +8429,26 @@ function deleteSpreadBetTotalProfit($spreadBetTransactionID){
   logAction("deleteSpreadBetTotalProfit: ".$sql, 'TrackingCoins', 0);
 }
 
-function deleteSpreadBetTrackingCoins($spreadBetTransactionID){
+function deleteSpreadBetTrackingCoins($spreadBetTransactionID, $mode = 0){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
-
+  if ($mode == 0){
     $sql = "DELETE FROM `TrackingCoins` WHERE `SBTransID` = $spreadBetTransactionID";
+  }else{
+    $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open'";
+  }
+
+  function deleteReduceLossTrackingCoins($userID){
+    $conn = getSQLConn(rand(1,3));
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open'";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
@@ -8445,7 +8457,7 @@ function deleteSpreadBetTrackingCoins($spreadBetTransactionID){
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);
+  logAction("deleteReduceLossTrackingCoins: ".$sql, 'TrackingCoins', 0);
 }
 
 function CloseAllBuyBack($spreadBetTransactionID){

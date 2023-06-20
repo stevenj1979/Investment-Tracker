@@ -50,6 +50,7 @@ if(isset($_POST['submit'])){
     $emergencyReduceLossBuyPct = $_POST['EmergencyReduceLossBuyPct'];
     $emergencyReduceLossBuyMultiplier = $_POST['EmergencyReduceLossBuyMultiplier'];
     $reduceLossDelayNextBuyHours = $_POST['ReduceLossDelayNextBuyHours'];
+    $reduceLossDelayOtherBuyHours = $_POST['ReduceLossDelayOtherBuyHours'];
     if(empty($_POST['BTCBuyAmount'])){$btcBuyAmount = 0;}
     if(empty($_POST['dailyBTCLimit'])){$dailyBTCLimit = 0;}
     if(empty($_POST['enableDailyBTCLimit'])){$enableDailyBTCLimit = 0;}
@@ -86,7 +87,7 @@ if(isset($_POST['submit'])){
     $hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,   //29
     $usdtAlloc,$btcAlloc,$ethAlloc,$pctOnLow,$lowMarketModeStartPct,$lowMarketModeIncrements,$saveMode,$pctToSave,$sellPct,$originalPriceMultiplier,$reduceLossMaxCounter,$pauseCoinIDAfterPurchaseEnabled,$daysToPauseCoinIDAfterPurchase,$bbHoursFlat,$reduceLossHoursFlat,$holdCoinForBuyOut,   //45
     $coinForBuyOutPct,$enableSavePctofTotal,$savingPctOfTotal,$pctAuto,$enableBBAutoHoursFlat,$buyBackAutoPct,$reduceLossAutoPct,$reduceLossMinsCancel,$buyBackMinsToCancel,$buyBackCounter,$enableBBAutoPct,$spreadBetSellIndPct,$enableSpreadBetSellInd,$emergencyReduceLossBuyEnabled
-    ,$emergencyReduceLossBuyPct,$emergencyReduceLossBuyMultiplier,$reduceLossDelayNextBuyHours);
+    ,$emergencyReduceLossBuyPct,$emergencyReduceLossBuyMultiplier,$reduceLossDelayNextBuyHours,$reduceLossDelayOtherBuyHours);
     updateUser($settingsUpdateAry);
     //echo "Here2! $userID,$userName,$email,$APIKey,$APISecret,$dailyBTCLimit,$totalBTCLimit,$enableDailyBTCLimit,$enableTotalBTCLimit,$btcBuyAmount,$baseCurrency,$enableLowPurchasePrice,$noOfPurchases,$pctToPurchase,$totalRisesInPrice,$totalRisesInPriceSell,$noOfCoinPurchase,
     //$hoursFlatTolerance,$lowMarketModeEnabled,$minsToPauseAfterPurchase,$saveResidualCoins,$reduceLossEnabled,$redirectPurchasesToSpread,$redirectPurchasesToSpreadID,$buyBackEnabled,$allBuyBackAsOverride,$sellSavingsEnabled,$rebuySavingsEnabled,$autoMergeSavings,$mergeSavingWithPurchase,
@@ -118,7 +119,7 @@ function getUserIDs($userID){
   ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`SaveMode`,`PctToSave`,`SellPct`,`OriginalPriceMultiplier`,`ReduceLossMaxCounter`
   , `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`,`BuyBackHoursFlatTarget`,`HoursFlatRls`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`SavingPctOfTotalEnabled`,`SavingPctOfTotal`
   ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackMax`,`BuyBackAutoPct`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
-  ,`EmergencyRLBuyEnabled`, `EmergencyRLBuyPct`,`EmergencyRLBuyMultiplier`,`RLDelayNextBuyHours`
+  ,`EmergencyRLBuyEnabled`, `EmergencyRLBuyPct`,`EmergencyRLBuyMultiplier`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -133,7 +134,8 @@ function getUserIDs($userID){
       ,$row['SaveMode'],$row['PctToSave'],$row['SellPct'],$row['OriginalPriceMultiplier'],$row['ReduceLossMaxCounter'],$row['PauseCoinIDAfterPurchaseEnabled'],$row['DaysToPauseCoinIDAfterPurchase'] //45
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
       ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']//59
-      ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['RLDelayNextBuyHours']); //65
+      ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['RLDelayNextBuyHours']//65
+      ,$row['RLDelayNextBuyHours']); //66
   }
   $conn->close();
   return $tempAry;
@@ -170,6 +172,7 @@ function updateUser($settingsUpdateAry){
   $emergencyReduceLossBuyPct = $settingsUpdateAry[60];
   $emergencyReduceLossBuyMultiplier = $settingsUpdateAry[61];
   $reduceLossDelayNextBuyHours = $settingsUpdateAry[62];
+  $reduceLossDelayOtherBuyHours = $settingsUpdateAry[63];
   if ($enableDailyBTCLimit == "Yes"){$enableDailyBTCLimitNum = 1;}else{$enableDailyBTCLimitNum = 0;}
   if ($enableTotalBTCLimit == "Yes"){$enableTotalBTCLimitNum = 1;}else{$enableTotalBTCLimitNum = 0;}
   if ($lowPricePurchaseEnabled == "Yes"){$lowPricePurchaseEnabled = 1;}else{$lowPricePurchaseEnabled = 0;}
@@ -212,7 +215,7 @@ function updateUser($settingsUpdateAry){
         `HoldCoinForBuyOut` = $holdCoinForBuyOut, `CoinForBuyOutPct` = $coinForBuyOutPct,`SavingPctOfTotalEnabled` = $enableSavePctofTotal,`SavingPctOfTotal` = $savingPctOfTotal, `PctOfAuto` = $pctAuto, `BuyBackHoursFlatAutoEnabled` = $enableBBAutoHoursFlat
         ,`PctOfAutoBuyBack` = $buyBackAutoPct, `PctOfAutoReduceLoss` = $reduceLossAutoPct, `BuyBackMinsToCancel` = $buyBackMinsToCancel,`BuyBackMax`= $buyBackCounter, `BuyBackAutoPct` = $enableBBAutoPct, `SpreadBetSellIndEnabled` = $enableSpreadBetSellInd
         , `SpreadBetPctToSellInd` = $spreadBetSellIndPct,`EmergencyRLBuyEnabled` = $emergencyReduceLossBuyEnabled, `EmergencyRLBuyPct` = $emergencyReduceLossBuyPct, `EmergencyRLBuyMultiplier` = $emergencyReduceLossBuyMultiplier
-        , `RLDelayNextBuyHours` = $reduceLossDelayNextBuyHours
+        , `RLDelayNextBuyHours` = $reduceLossDelayNextBuyHours, `RLDelayAllOtherBuyMins` = $reduceLossDelayOtherBuyHours
          WHERE `UserID` = $userID;
          UPDATE `User` SET `UserName`='$newusername',`Email`='$email' WHERE `ID` = $userID;
          UPDATE `ReduceLossSettings` SET `Enabled`= $reduceLossEnabled, `SellPct` = $sellPct, `OriginalPriceMultiplier` = $originalPriceMultiplier, `ReduceLossMaxCounter` = $reduceLossMaxCounter, `HoursFlat` = $reduceLossHoursFlat
@@ -352,11 +355,11 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     displayYesNoAuto($userDetails[0][44],'PauseCoinIDAfterPurchaseEnabled',"Pause CoinID After Purchase Enabled");
                     displayText("DaysToPauseCoinIDAfterPurchase", "Days To Pause CoinID After Purchase: ",$userDetails[0][45],16,"");
                     displayYesNoAuto($userDetails[0][24],'saveResidual',"Enable Save Residual");
-                    displayYesNoAuto($userDetails[0][20],'enableReduceLoss',"Enable Reduce Loss");
-                    displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,"");
                   displaySubSectionEnd();
 
                   displaySubSectionStart("Reduce Loss");
+                    displayYesNoAuto($userDetails[0][20],'enableReduceLoss',"Enable Reduce Loss");
+                    displayText("SellPct", "Reduce Loss Sell %: ",$userDetails[0][41],17,"");
                     displayText("OriginalPriceMultiplier", "Reduce Loss Original Price Multiplier: ",$userDetails[0][42],18,"");
                     displayText("ReduceLossMaxCounter", "Reduce Loss Max Counter: ",$userDetails[0][43],19,"");
                     displayText("ReduceLossHoursFlat", "Reduce Loss Hours Flat: ",$userDetails[0][47],20,"");
@@ -368,6 +371,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                     displayText("EmergencyReduceLossBuyPct", "Emergency ReduceLoss Buy Pct",$userDetails[0][63],21,"");
                     displayText("EmergencyReduceLossBuyMultiplier", "Emergency ReduceLoss Buy Multiplier",$userDetails[0][64],21,"");
                     displayText("ReduceLossDelayNextBuyHours", "ReduceLoss Delay Next Buy Mins",$userDetails[0][65],21,"");
+                    displayText("ReduceLossDelayOtherBuyHours", "ReduceLoss Delay Other Buy Mins",$userDetails[0][66],21,"");
                   displaySubSectionEnd();
 
                   displaySubSectionStart("Redirect");
