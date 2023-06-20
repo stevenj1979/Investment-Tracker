@@ -8441,6 +8441,15 @@ function deleteSpreadBetTrackingCoins($spreadBetTransactionID, $mode = 0){
     $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open'";
   }
 
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);
+}
+
   function deleteReduceLossTrackingCoins($userID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
