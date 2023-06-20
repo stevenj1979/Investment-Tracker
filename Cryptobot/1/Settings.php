@@ -135,7 +135,7 @@ function getUserIDs($userID){
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
       ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']//59
       ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['RLDelayNextBuyHours']//65
-      ,$row['RLDelayNextBuyHours']); //66
+      ,$row['RLDelayAllOtherBuyMins']); //66
   }
   $conn->close();
   return $tempAry;
