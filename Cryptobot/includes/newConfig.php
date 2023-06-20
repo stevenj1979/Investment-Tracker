@@ -821,7 +821,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
-  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`
+  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
  echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -836,7 +836,8 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['ReduceLossEnabled'],$row['ReduceLossSellPct'],$row['OriginalPriceMultiplier'] //63
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
     ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled'],$row['ReduceLossMinsToCancel'],$row['SpreadBetRuleID'] //82
-  ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']); //91
+    ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']//91
+    ,$row['RLDelayAllOtherBuyMins']); //92
   }
   $conn->close();
   return $tempAry;
