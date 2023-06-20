@@ -2268,7 +2268,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       deleteReduceLossTrackingCoins($userID);
       setNewTargetPrice($transactionID);
       updateReduceLossCounter($transactionID,'buyToreduceLoss');
-      $finalBool =  True;
+      return True;
     }
   }
   return $finalBool;
