@@ -263,10 +263,13 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $openSpreadBetTransID = getDistinctSpreadBetID();
-        $comma_separated = implode(",", $openSpreadBetTransID);
-
-         var_dump($openSpreadBetTransID);
-        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$comma_separated);
+        //$comma_separated = implode(",", $openSpreadBetTransID);
+        $openSpreadBetTransIDSize = count($openSpreadBetTransID);
+        for ($u=0; $u<$openSpreadBetTransIDSize; $u++){
+          $comma_separated = $comma_separated.$openSpreadBetTransID[$u].",";
+        }
+         //var_dump($openSpreadBetTransID);
+        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],rtrim($comma_separated, ","));
         $arrLengthSell = count($trackingSell);
         $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
