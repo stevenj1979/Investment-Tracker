@@ -689,6 +689,31 @@ function getTrackingSellCoins($type, $userID = 0){
   return $tempAry;
 }
 
+function getTotalProfitSpreadBetSell($spreadBetTransactionID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice, Sum(`ProfitUSD`) as ProfitUSD
+          ,sum(`SellFee`) as SellFee
+            FROM `View28_SpreadBetTotalProfitView`
+            where `SpreadBetTransactionID` = $spreadBetTransactionID ";
+
+  //echo "<BR> $sql";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice'],$row['ProfitUSD'],$row['SellFee']);
+      //13  14  15
+
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getTrackingSpreadBetSellCoins($type, $userID = 0){
   $tempAry = [];
   if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
@@ -785,7 +810,7 @@ function getDistinctSpreadBetID(){
 
   $sql = "Select Distinct(`SpreadBetTransactionID`) as SpreadBetTransactionID
             FROM `View5_SellCoins`  WHERE `Status` = 'Open' and `SpreadBetTransactionID` <> 0 order by ProfitPct Asc";
-  echo "<BR> $sql";
+  //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);

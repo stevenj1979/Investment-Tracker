@@ -1216,7 +1216,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
     $caaOffset = $sellCoins[$a][73]; $caaMinsToCancelSell = $sellCoins[$a][72]; //$profit = $sellCoins[$a][58];
     $sellStatus = $sellCoins[$a][6];
     $ogPriceBuy = $sellCoins[$a][54]; $livePriceSell = $sellCoins[$a][56]; $feeSell = $sellCoins[$a][55];
-
+    $spreadBetTransactionID = $sellCoins[$a][74];
     //Echo "<BR> HERE2! $sellRulesSize";
     for($z = 0; $z < $sellRulesSize; $z++) {//Sell Rules
 
@@ -1264,8 +1264,13 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
       }else{
         if ($sellRuleType != $ruleType){ continue;}
-        $profitWithSold = $sellCoins[$a][75];
-        $profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
+        //$profitWithSold = $sellCoins[$a][75];
+        //$profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
+        $tempProfit = getTotalProfitSpreadBetSellLoc($spreadBetTransactionID);
+        $feeSell = $tempProfit[0][4];
+        $profitUSD = $tempProfit[0][3]-$feeSell;
+        $purchasePrice = $tempProfit[0][0];
+        $profit = ($profitUSD/$purchasePrice)*100;
       }
       if ($hoursAfterPurchaseToStart > $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToStart | $hoursSinceBuy",$echoExitText); continue;}
       if ($hoursAfterPurchaseToEnd < $hoursSinceBuy){ echoText("Exit Hours! $coin | $transactionID | $hoursAfterPurchaseToEnd | $hoursSinceBuy",$echoExitText); continue;}

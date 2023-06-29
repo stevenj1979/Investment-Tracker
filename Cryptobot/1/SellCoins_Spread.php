@@ -70,29 +70,6 @@ function getCoinsfromSQLLoc(){
     return $tempAry;
 }
 
-function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice, Sum(`ProfitUSD`) as ProfitUSD
-            FROM `View28_SpreadBetTotalProfitView`
-            where `SpreadBetTransactionID` = $spreadBetTransactionID ";
-
-  echo "<BR> $sql";
-  $result = $conn->query($sql);
-  //$result = mysqli_query($link4, $query);
-  //mysqli_fetch_assoc($result);
-  while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice'],$row['ProfitUSD']);
-      //13  14  15
-
-  }
-  $conn->close();
-  return $tempAry;
-}
 
 function getTrackingSellCoinsLoc($userID, $comma_separated){
   $tempAry = [];
@@ -269,7 +246,7 @@ $date = date('Y/m/d H:i:s', time());
           $comma_separated = $comma_separated.$openSpreadBetTransID[$u][0].",";
         }
          //var_dump($openSpreadBetTransID);
-         echo "<BR>$comma_separated<BR>";
+         //echo "<BR>$comma_separated<BR>";
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],rtrim($comma_separated, ","));
         $arrLengthSell = count($trackingSell);
         $roundVar = $_SESSION['roundVar'];
@@ -295,7 +272,7 @@ $date = date('Y/m/d H:i:s', time());
             //$profit = $trackingSell[$x][55];
             //$profitBtc = $profit/($originalPurchaseCost)*100;
             //$profitPct = getTotalProfitSpreadBetSell($transactionID);
-            $tempProfit = getTotalProfitSpreadBetSellLoc($spreadBetTransactionID);
+            $tempProfit = getTotalProfitSpreadBetSell($spreadBetTransactionID);
             //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
             $purchasePrice = $tempProfit[0][0];
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
@@ -304,7 +281,7 @@ $date = date('Y/m/d H:i:s', time());
             //echo "<BR> HELP: $liveTotalCost | $originalPurchaseCost | $fee | $profit";
             $profitPct = ($profit/$purchasePrice)*100;
             //$profitPct = ($profit/$purchasePrice)*100;
-            echo "PROFIT CALC: $profit | $livePrice | $liveTotalCost | $purchasePrice | $originalPurchaseCost | $fee | $profitPct";
+            //echo "PROFIT CALC: $profit | $livePrice | $liveTotalCost | $purchasePrice | $originalPurchaseCost | $fee | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";
