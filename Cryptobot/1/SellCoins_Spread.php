@@ -97,7 +97,7 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
 function getTrackingSellCoinsLoc($userID, $comma_separated){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
-  var_dump($comma_separated);
+  //var_dump($comma_separated);
   $idList = $comma_separated;
   // Check connection
   if ($conn->connect_error) {
@@ -263,12 +263,9 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $openSpreadBetTransID = getDistinctSpreadBetID();
-        var_dump($openSpreadBetTransID);
-        echo "<BR>".count($openSpreadBetTransID)."<BR>";
-        if (count($openSpreadBetTransID)>1){
-          $comma_separated = implode(",", $openSpreadBetTransID);
-        }
+        $comma_separated = implode(",", $openSpreadBetTransID);
 
+        var_dump($comma_separated);
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$comma_separated);
         $arrLengthSell = count($trackingSell);
         $roundVar = $_SESSION['roundVar'];
