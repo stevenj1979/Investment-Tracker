@@ -263,6 +263,8 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $openSpreadBetTransID = getDistinctSpreadBetID();
+        var_dump($openSpreadBetTransID);
+        echo "<BR>".count($openSpreadBetTransID)."<BR>";
         if (count($openSpreadBetTransID)>1){
           $comma_separated = implode(",", $openSpreadBetTransID);
         }
