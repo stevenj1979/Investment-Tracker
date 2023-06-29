@@ -97,6 +97,8 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
 function getTrackingSellCoinsLoc($userID, $comma_separated){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
+  var_dump($comma_separated);
+  $idList = $comma_separated;
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
