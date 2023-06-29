@@ -689,7 +689,7 @@ function getTrackingSellCoins($type, $userID = 0){
   return $tempAry;
 }
 
-function getTotalProfitSpreadBetSell($spreadBetTransactionID){
+function getTotalProfitSpreadBetSellNew($spreadBetTransactionID){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {

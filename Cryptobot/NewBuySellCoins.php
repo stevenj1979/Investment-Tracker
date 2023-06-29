@@ -1266,7 +1266,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         if ($sellRuleType != $ruleType){ continue;}
         //$profitWithSold = $sellCoins[$a][75];
         //$profit = (($profitWithSold - $ogPriceBuy - $feeSell)/$ogPriceBuy)*100;
-        $tempProfit = getTotalProfitSpreadBetSellLoc($spreadBetTransactionID);
+        $tempProfit = getTotalProfitSpreadBetSellNew($spreadBetTransactionID);
         $feeSell = $tempProfit[0][4];
         $profitUSD = $tempProfit[0][3]-$feeSell;
         $purchasePrice = $tempProfit[0][0];
