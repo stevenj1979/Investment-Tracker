@@ -77,8 +77,8 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice
-            FROM `SpreadBetTotalProfitView`
+  $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice, Sum(`ProfitUSD`) as ProfitUSD
+            FROM `View28_SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
 
   //echo "<BR> $sql";
@@ -86,7 +86,7 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice']);
+      $tempAry[] = Array($row['OriginalPurchasePrice'],$row['LiveTotalPrice'],$row['SaleTotalPrice'],$row['ProfitUSD']);
       //13  14  15
 
   }
@@ -94,7 +94,7 @@ function getTotalProfitSpreadBetSellLoc($spreadBetTransactionID){
   return $tempAry;
 }
 
-function getTrackingSellCoinsLoc($userID){
+function getTrackingSellCoinsLoc($userID, $comma_separated){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
@@ -119,7 +119,7 @@ function getTrackingSellCoinsLoc($userID){
     , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`
     ,sum(((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-((((`LiveCoinPrice`*`Amount`))/100)*0.28))/(`CoinPrice`*`Amount`))*100 as ProfitPct
     ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
-    FROM `View5_SellCoins`WHERE `UserID` = $userID and `Status` = 'Open' and `Type` = 'SpreadSell' Group by `SpreadBetTransactionID` ORDER BY `ProfitPct` Desc";
+    FROM `View5_SellCoins`WHERE `UserID` = $userID and `SpreadBetTransactionID` in ($comma_separated) and `Type` = 'SpreadSell' Group by `SpreadBetTransactionID` ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
   //$result = mysqli_query($link4, $query);
@@ -260,7 +260,9 @@ $date = date('Y/m/d H:i:s', time());
 				<?php
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
-        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
+        $openSpreadBetTransID = getDistinctSpreadBetID();
+        $comma_separated = implode(",", $openSpreadBetTransID);
+        $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$comma_separated);
         $arrLengthSell = count($trackingSell);
         $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
@@ -289,12 +291,12 @@ $date = date('Y/m/d H:i:s', time());
             //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
             $purchasePrice = $tempProfit[0][0];
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
-            $profit = $liveTotalCost-$originalPurchaseCost-$fee;
+            $profit = $tempProfit[0][3]-$fee;
             //$profitPct = $trackingSell[$x][59];
             //echo "<BR> HELP: $liveTotalCost | $originalPurchaseCost | $fee | $profit";
-            $profitPct = ($profit/$originalPurchaseCost)*100;
+            $profitPct = ($profit/$purchasePrice)*100;
             //$profitPct = ($profit/$purchasePrice)*100;
-            //echo "$profit | $livePrice | $purchasePrice | $profitPct";
+            echo "PROFIT CALC: $profit | $livePrice | $liveTotalCost | $purchasePrice | $originalPurchaseCost | $fee | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";

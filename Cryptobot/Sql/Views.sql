@@ -738,3 +738,14 @@ SELECT `Sba`.`ID`, `Sba`.`SpreadBetRuleID`, `Sba`.`Action`, `Sba`.`Price`, `Sba`
 FROM `SpreadBetAlerts` `Sba`
 join `UserConfig` `Uc` on `Uc`.`UserID` = `Sba`.`UserID`
 join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`;
+
+CREATE OR REPLACE VIEW `View28_SpreadBetTotalProfitView` AS
+SELECT `Tr`.`CoinPrice`*`Tr`.`Amount` as OriginalPurchasePrice, `Tr`.`Status`,
+`Cp`.`LiveCoinPrice` *`Tr`.`Amount` as LiveTotalPrice
+,`Ba`.`SellPrice` * `Tr`.`Amount` as SaleTotalPrice
+,`Tr`.`SpreadBetTransactionID`
+,if(`Tr`.`Status` = 'Sold',(`Ba`.`SellPrice` * `Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`) ,if(`Tr`.`Status` = 'Open',(`Cp`.`LiveCoinPrice` * `Tr`.`Amount`)-(`Tr`.`CoinPrice`*`Tr`.`Amount`) ,0)) as ProfitUSD
+FROM `Transaction` `Tr`
+Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+Right Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell', 'SpreadSell')
+WHERE  `Tr`.`SpreadBetTransactionID` <> 0 and `Tr`.`Status` in ('Pending','Sold','Open');
