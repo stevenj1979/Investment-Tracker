@@ -266,7 +266,7 @@ $date = date('Y/m/d H:i:s', time());
         //$comma_separated = implode(",", $openSpreadBetTransID);
         $openSpreadBetTransIDSize = count($openSpreadBetTransID);
         for ($u=0; $u<$openSpreadBetTransIDSize; $u++){
-          $comma_separated = $comma_separated.$openSpreadBetTransID[$u].",";
+          $comma_separated = $comma_separated.$openSpreadBetTransID[$u][0].",";
         }
          //var_dump($openSpreadBetTransID);
          echo "<BR>$comma_separated<BR>";
