@@ -120,7 +120,7 @@ function getTrackingSellCoinsLoc($userID, $comma_separated){
     ,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`, ((sum(`LiveCoinPrice`*`Amount`))/100)*0.28 as `CoinFee`, (sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
     , (sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`
     ,sum(((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`)-((((`LiveCoinPrice`*`Amount`))/100)*0.28))/(`CoinPrice`*`Amount`))*100 as ProfitPct
-    ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`
+    ,`SpreadBetRuleName`,(sum(`LiveCoinPrice`*`Amount`))-(sum(`CoinPrice`*`Amount`)) as `ProfitUSD`,(sum(`CoinPrice`*`Amount`)) as `OriginalPrice`,(sum(`LiveCoinPrice`*`Amount`)) as `LivePrice`,`SpreadBetTransactionID`
     FROM `View5_SellCoins`WHERE `UserID` = $userID and `SpreadBetTransactionID` in ($comma_separated) and `Type` = 'SpreadSell' Group by `SpreadBetTransactionID` ORDER BY `ProfitPct` Desc";
   $result = $conn->query($sql);
     //print_r($sql);
@@ -132,7 +132,7 @@ function getTrackingSellCoinsLoc($userID, $comma_separated){
       $row['CoinPricePctChange'],$row['LastSellOrders'],$row['LiveSellOrders'],$row['SellOrdersPctChange'],$row['LastVolume'],$row['LiveVolume'],$row['VolumePctChange'],$row['Last1HrChange'],$row['Live1HrChange'],$row['Hr1ChangePctChange'],$row['Last24HrChange'],$row['Live24HrChange'] //31
       ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
       ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['SpreadBetRuleName'] //54
-    ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['SpreadBetRuleName'],$row['ProfitUSD'],$row['OriginalPrice'],$row['LivePrice']); //63
+    ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['SpreadBetRuleName'],$row['ProfitUSD'],$row['OriginalPrice'],$row['LivePrice'],$row['SpreadBetTransactionID']); //64
   }
   $conn->close();
   return $tempAry;
@@ -288,14 +288,14 @@ $date = date('Y/m/d H:i:s', time());
             $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
             $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
             $priceDiff1 = $livePrice - $LastCoinPrice;
-
+            $spreadBetTransactionID = $trackingSell[$x][64];
             $liveTotalCost = $trackingSell[$x][57];
             $originalPurchaseCost = $trackingSell[$x][55];
             $fee = $trackingSell[$x][56];
             //$profit = $trackingSell[$x][55];
             //$profitBtc = $profit/($originalPurchaseCost)*100;
             //$profitPct = getTotalProfitSpreadBetSell($transactionID);
-            $tempProfit = getTotalProfitSpreadBetSellLoc($transactionID);
+            $tempProfit = getTotalProfitSpreadBetSellLoc($spreadBetTransactionID);
             //$tempSoldProfit = getSoldProfitSpreadBetSell($transactionID);
             $purchasePrice = $tempProfit[0][0];
             $livePrice = $tempProfit[0][1] + $tempProfit[0][2];
