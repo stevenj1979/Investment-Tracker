@@ -269,6 +269,7 @@ $date = date('Y/m/d H:i:s', time());
           $comma_separated = $comma_separated.$openSpreadBetTransID[$u].",";
         }
          //var_dump($openSpreadBetTransID);
+         echo "<BR>$comma_separated<BR>";
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],rtrim($comma_separated, ","));
         $arrLengthSell = count($trackingSell);
         $roundVar = $_SESSION['roundVar'];
