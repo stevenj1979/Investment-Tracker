@@ -8480,14 +8480,14 @@ function deleteSpreadBetTrackingCoins($spreadBetTransactionID, $mode = 0){
   logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);
 }
 
-  function deleteReduceLossTrackingCoins($userID){
+function deleteReduceLossTrackingCoins($userID,$baseCurrency){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open'";
+    $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open' and `BaseCurrency` = '$baseCurrency'";
 
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {

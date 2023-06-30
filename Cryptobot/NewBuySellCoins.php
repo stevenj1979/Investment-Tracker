@@ -2268,9 +2268,9 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       //Set Merge for current Coin
       //updateTrackingCoinToMerge($transactionID, $currentBuy);
       //Set Delay
-      delaySavingBuy($transactionID,$rlDelayAllOtherBuyMins,1,$userID);
-      delaySavingBuy($transactionID,$rlDelayNextBuyHours,0,$userID);
-      deleteReduceLossTrackingCoins($userID);
+      delaySavingBuy($transactionID,$rlDelayAllOtherBuyMins,1,$userID,$baseCurrency);
+      delaySavingBuy($transactionID,$rlDelayNextBuyHours,0,$userID,$baseCurrency);
+      deleteReduceLossTrackingCoins($userID,$baseCurrency);
       setNewTargetPrice($transactionID);
       updateReduceLossCounter($transactionID,'buyToreduceLoss');
       return True;
