@@ -748,5 +748,5 @@ SELECT `Tr`.`CoinPrice`*`Tr`.`Amount` as OriginalPurchasePrice, `Tr`.`Status`,
 ,if(`Tr`.`Status` = 'Open',((`Cp`.`LiveCoinPrice` * `Tr`.`Amount`)/100)*0.81,0) as SellFee
 FROM `Transaction` `Tr`
 Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
-Right Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell', 'SpreadSell')
+Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell', 'SpreadSell')
 WHERE  `Tr`.`SpreadBetTransactionID` <> 0 and `Tr`.`Status` in ('Pending','Sold','Open');
