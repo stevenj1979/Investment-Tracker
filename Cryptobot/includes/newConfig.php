@@ -7252,7 +7252,7 @@ function updateSpreadBuy($spreadBetRuleID){
   newLogToSQL("updateSpreadBuy",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");
 }
 
-function delaySavingBuy($transactionID,$delayMins, $mode, $userID){
+function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency){
   //$savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
@@ -7263,7 +7263,11 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID){
   if ($mode == 0){
     $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `ID` = $transactionID;";
   }else{
-    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID;";
+    //$sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency';";
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID and `ID` in (SELECT `Tr`.`ID`
+              FROM `Transaction` `Tr`
+              join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
+              WHERE `Cn`.`BaseCurrency` = '$baseCurrency' and `Tr`.`UserID` = $userID and `Tr`.`Status` = 'Open');";
   }
 
 
