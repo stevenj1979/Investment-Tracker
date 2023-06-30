@@ -2270,7 +2270,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       //Set Delay
       delaySavingBuy($transactionID,$rlDelayAllOtherBuyMins,1,$userID,$baseCurrency);
       delaySavingBuy($transactionID,$rlDelayNextBuyHours,0,$userID,$baseCurrency);
-      deleteReduceLossTrackingCoins($userID,$baseCurrency);
+      //deleteReduceLossTrackingCoins($userID,$baseCurrency);
       setNewTargetPrice($transactionID);
       updateReduceLossCounter($transactionID,'buyToreduceLoss');
       return True;
