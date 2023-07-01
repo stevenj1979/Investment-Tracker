@@ -45,16 +45,18 @@ function getUserID(){
 }
 
 function checkMarketforPctDip(){
-  $userIDs = getUserID();
-  $userIDsSize = count($userIDs);
+  //$userIDs = getUserID();
+  //$userIDsSize = count($userIDs);
   $marketStats = getNewMarketstats();
   $marketStatsSize = count($marketStats);
   echo "<BR> checkMarketforPctDip : $marketStatsSize";
   for ($y=0; $y<$marketStatsSize; $y++){
-    $marketPctChangeHr1 = $marketStats[$y][0]; $marketPctChangeHr24 = $marketStats[$y][1];$marketPctChangeD7 = $marketStats[$y][2];
-    $lowMarketModeStartPct = $userIDs[0][1]; $lowMarketModeIncrements = $userIDs[0][2]; $lowMarketModeAuto = $userIDs[0][3]; $pctOfAuto = $userIDs[0][4];
-    $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2; $lowMarketModeEnabled = $userIDs[0][5];
-    $minHr1ChangePctChange = $marketStats[$y][3]; $minHr24ChangePctChange = $marketStats[$y][4]; $minD7ChangePctChange = $marketStats[$y][5];
+
+    $userID = $marketStats[$y][0];$lowMarketModeStartPct = $marketStats[$y][1]; $lowMarketModeIncrements = $marketStats[$y][2]; $lowMarketModeAuto = $marketStats[$y][3]; $pctOfAuto = $marketStats[$y][4];
+    $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2; $lowMarketModeEnabled = $marketStats[$y][5];
+    $marketPctChangeHr1 = $marketStats[$y][6]; $marketPctChangeHr24 = $marketStats[$y][7];$marketPctChangeD7 = $marketStats[$y][8];
+    $minHr1ChangePctChange = $marketStats[$y][9]; $minHr24ChangePctChange = $marketStats[$y][10]; $minD7ChangePctChange = $marketStats[$y][11];
+
     if ($lowMarketModeAuto == 1){
       $lowMarketModeIncrements = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto)/4;
       $avgPctChange = (($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto;
@@ -62,15 +64,15 @@ function checkMarketforPctDip(){
     echo "<BR> Checking: 1Hr: $marketPctChangeHr1 | 24Hr: $marketPctChangeHr24 | 7D: $marketPctChangeD7 TotalUserID: $userIDsSize LowMarketStartPct:$lowMarketModeStartPct Inc:$lowMarketModeIncrements avg: $avgPctChange";
     if ($avgPctChange <= $lowMarketModeStartPct){
 
-        for ($t=0; $t<$userIDsSize; $t++){
-          $userID = $userIDs[$t][0];
+        //for ($t=0; $t<$userIDsSize; $t++){
+
           $mode = floor(abs($avgPctChange/$lowMarketModeIncrements));
           newLogToSQL("checkMarketforPctDip","Mode:$mode |  AvgPctCh: $avgPctChange | LowMMIncrements: $lowMarketModeIncrements | Auto:$lowMarketModeAuto | Min24HrPct:$minHr24ChangePctChange | Min7DPct: $minD7ChangePctChange | PctAuto: $pctOfAuto",3,1,"CoinMode","UserID:3");
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode 24H: $marketPctChangeHr24 Inc:$lowMarketModeIncrements avg:$avgPctChange";
           if ($mode <= 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
           LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24 : $avgPctChange",$userID,1);
-        }
+        //}
 
     //}elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
     //  for ($t=0; $t<$userIDsSize; $t++){
@@ -80,12 +82,12 @@ function checkMarketforPctDip(){
     //    LogToSQL("LowMarketMode","runLowMarketMode($userID,2); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
     //  }
   }elseif ($avgPctChange > 0 AND $lowMarketModeEnabled >= 0){
-      for ($t=0; $t<$userIDsSize; $t++){
-        $userID = $userIDs[$t][0];
+      //for ($t=0; $t<$userIDsSize; $t++){
+      //  $userID = $userIDs[$t][0];
         echo "<BR> Enabing LowMarketMode for: $userID Mode: 0";
         runLowMarketMode($userID,-1);
         LogToSQL("LowMarketMode","runLowMarketMode($userID,-1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
-      }
+      //}
     }
     WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
   }
@@ -99,16 +101,20 @@ function getNewMarketstats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT ((((`LiveCoinPrice`-`Live1HrChange`))/ (`Live1HrChange`))*100) as Hr1MarketPctChange
-            ,((((`LiveCoinPrice`-`Live24HrChange`))/ (`Live24HrChange`))*100) as Hr24MarketPctChange
-            ,((((`LiveCoinPrice`-`Live7DChange`))/ (`Live7DChange`))*100) as D7MarketPctChange
-            ,`MinHr1ChangePctChange`, `MinHr24ChangePctChange`, `MinD7ChangePctChange`
-            FROM `MarketCoinStats`  ";
+  $sql = "SELECT `Ucf`.`UserID`,`Ucf`.`LowMarketModeStartPct`,`Ucf`.`LowMarketModeIncrements`,`Ucf`.`LowMarketModeAuto`,`Ucf`.`PctOfAuto`,`Ucf`.`LowMarketModeEnabled`
+          , ((((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live1HrChange`))/ (`Mcs`.`Live1HrChange`))*100) as Hr1MarketPctChange
+            ,((((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`))/ (`Mcs`.`Live24HrChange`))*100) as Hr24MarketPctChange
+            ,((((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`))/ (`Mcs`.`Live7DChange`))*100) as D7MarketPctChange
+            ,`Mcs`.`MinHr1ChangePctChange`, `Mcs`.`MinHr24ChangePctChange`, `Mcs`.`MinD7ChangePctChange`
+            FROM `UserConfig` `Ucf`
+            join `MarketCoinStats` `Mcs`
+            where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Hr1MarketPctChange'],$row['Hr24MarketPctChange'],$row['D7MarketPctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange']);
+    $tempAry[] = Array($row['UserID'],$row['LowMarketModeStartPct'],$row['LowMarketModeIncrements'],$row['LowMarketModeAuto'],$row['PctOfAuto'],$row['LowMarketModeEnabled'],
+    $row['Hr1MarketPctChange'],$row['Hr24MarketPctChange'],$row['D7MarketPctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange']);
   }
   $conn->close();
   return $tempAry;
