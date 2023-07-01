@@ -846,7 +846,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
-  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`
+  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
  echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -862,7 +862,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
     ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled'],$row['ReduceLossMinsToCancel'],$row['SpreadBetRuleID'] //82
     ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']//91
-    ,$row['RLDelayAllOtherBuyMins']); //92
+    ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss']); //93
   }
   $conn->close();
   return $tempAry;
@@ -7266,7 +7266,7 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
     //$sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency';";
     $sql = "UPDATE  `Transaction` AS `Tr`
               INNER JOIN `Coin` AS `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-              SET `Tr`.`DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) 
+              SET `Tr`.`DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
               Where `Cn`.`BaseCurrency` = '$baseCurrency' and `Tr`.`UserID` = $userID and `Tr`.`Status` = 'Open'";
   }
 
