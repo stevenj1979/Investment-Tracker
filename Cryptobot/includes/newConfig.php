@@ -1130,7 +1130,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   $apiVersion = 3;
   $retBuy = 0;
   $originalBuyAmount = $btcBuyAmount;
-  $minPurchaseUSD = 15.0;
+  $minPurchaseUSD = 14.0;
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency, $apiVersion);
   if ($baseCurrency == 'USDT'){ $tmpPrice = getPriceConversion($minPurchaseUSD,'USDT');}
   elseif ($baseCurrency == 'BTC'){ $tmpPrice = getPriceConversion($minPurchaseUSD,'BTC');}
