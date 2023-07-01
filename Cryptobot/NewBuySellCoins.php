@@ -1759,6 +1759,8 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                newLogToSQL("BittrexBuyFullCancel", "bittrexBuyCancel($uuid, $transactionID, 'CancelMins: $minsSinceAction');", $userID, $CancelBittrexLogFlag,"NewBuySellCoins","TransactionID:$transactionID");
                reopenCoinSwapCancel($BittrexID,1);
                removeTransactionDelay($coinID, $userID);
+               delaySavingBuy($transactionID,1,1,$userID,$baseCurrency);
+               //delaySavingBuy($transactionID,$rlDelayNextBuyHours,0,$userID,$baseCurrency);
              }else{
                logAction("bittrexCancelBuyOrder: ".$cancelRslt, 'Bittrex', $GLOBALS['logToFileSetting'] );
                newLogToSQL("BittrexBuyCancel", "Order time exceeded for OrderNo: $orderNo Cancel order Error: $cancelRslt | $timeToCancelMins | $minsSinceAction", $userID, 1,"FullOrder","TransactionID:$transactionID");
