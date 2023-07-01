@@ -1224,7 +1224,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 
             //if ($BTCBalance-$userSavingAmount >= $buyMin){
 
-          $btcBuyAmount = number_format($btcBuyAmount,10);
+          $btcBuyAmount = number_format($btcBuyAmount,10,'.','');
           $bitPrice = number_format($bitPrice,8);
           if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
             //$btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
