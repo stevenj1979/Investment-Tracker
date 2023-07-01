@@ -440,19 +440,19 @@ function isBuyMode($coinAry, $minBuyAmount){
       }
 
   $buyFlag = False; $sellFlag = False;
-  $coinsAry = getCoins();
-  $coinsArySize = count($coinsAry);
+  //$coinsAry = getCoins();
+  //$coinsArySize = count($coinsAry);
   //echo "<BR> Checking Coin Mode:";
-  for ($x=0; $x<$coinsArySize; $x++){
+  //for ($x=0; $x<$coinsArySize; $x++){
     Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinsAry[$x][0];
-    $buyFlag = isBuyMode($coinsAry[$x],10.0);
+    //$buyFlag = isBuyMode($coinsAry[$x],10.0);
     echo " || $buyFlag";
-    $sellFlag = isSellMode($coinsAry[$x]);
+    //$sellFlag = isSellMode($coinsAry[$x]);
     echo " || $sellFlag";
-    if ($buyFlag == False AND $sellFlag == False){
-      isFlatMode($coinsAry[$x], 1);
-    }
-  }
+    //if ($buyFlag == False AND $sellFlag == False){
+      //isFlatMode($coinsAry[$x], 1);
+    //}
+//  }
 
 checkMarketforPctDip();
 //SpreadBetTest();
