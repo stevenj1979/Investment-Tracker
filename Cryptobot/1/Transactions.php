@@ -485,6 +485,7 @@ function displayDefault(){
       print_r("<td><a href='Transactions.php?stopBuyBack=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?overrideReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?overrideSavings=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      print_r("<td><a href='Transactions.php?overrideBittrex=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?stopReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<tr>");
   }
