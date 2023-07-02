@@ -56,7 +56,10 @@ if($_POST['transSelect'] <> ""){
 
         break;
       case "Merge":
-        header("Transactions.php?merge=Yes&SellRule=$id");
+        $sellrule = $temp[2];
+        updateMerge($sellrule);
+        //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
+        header('Location: Transactions.php');
         break;
       case "Fix Coin Amount":
 
@@ -529,7 +532,7 @@ function displayDefault(){
           <td>
         <select name='newSelect' id='newSelect' class='enableTextBox'>
           <?php echo "<option  selected='selected' value='Change Fixed Sell Rule_".$Id."'>Change Fixed Sell Rule</option>";
-          echo "<option  value='Merge_".$Id."'>Merge</option>";
+          echo "<option  value='Merge_".$Id."_".$fixSellRule."'>Merge</option>";
           echo "<option  value='Fix Coin Amount_".$Id."'>Fix Coin Amount</option>";
           echo "<option  value='Add To Spread_".$Id."'>Add To Spread</option>";
           echo "<option  value='Run Stop BuyBack_".$Id."'>Run Stop BuyBack</option>";
