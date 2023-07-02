@@ -47,8 +47,39 @@ if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
 }elseif($_POST['newSelect'] <> ""){
-    $returnVal = $_POST['newSelect'];
-    echo "Return: $returnVal";
+    $temp = explode("_",$_POST['newSelect']);
+    $returnVal = $temp[0];
+    $id = $temp[1];
+    echo "Return: $returnVal | $id";
+    switch ($returnVal) {
+      case "Change Fixed Sell Rule":
+
+        break;
+      case "Merge":
+        header("Transactions.php?merge=Yes&SellRule=$id");
+        break;
+      case "Fix Coin Amount":
+
+        break;
+      case "Add To Spread":
+
+        break;
+      case "Run Stop BuyBack":
+
+        break;
+      case "Run override Reduce Loss":
+
+        break;
+      case "Run override Savings":
+
+        break;
+      case "Run override Bittrex":
+
+        break;
+      case "Run Stop Reduce Loss":
+
+        break;
+    }
 }elseif ($_GET['changefixSell'] <> ""){
   //echo "1";
   displayChangeFix($_GET['FixSellRule'],$_GET['SellRule']);
@@ -499,13 +530,13 @@ function displayDefault(){
         <select name='newSelect' id='newSelect' class='enableTextBox'>
           <?php echo "<option  selected='selected' value='Change Fixed Sell Rule'>Change Fixed Sell Rule</option>";
           echo "<option  value='Merge'>Merge</option>";
-          echo "<option  value='Fix Coin Amount".$Id."'>Fix Coin Amount</option>";
-          echo "<option  value='Add To Spread".$Id."'>Add To Spread</option>";
-          echo "<option  value='Run Stop BuyBack".$Id."'>Run Stop BuyBack</option>";
-          echo "<option  value='Run override Reduce Loss".$Id."'>Run override Reduce Loss</option>";
-          echo "<option  value='Run override Savings".$Id."'>Run override Savings</option>";
-          echo "<option  value='Run override Bittrex".$Id."'>Run override Bittrex</option>";
-          echo "<option  value='Run Stop Reduce Loss".$Id."'>Run Stop Reduce Loss</option>";
+          echo "<option  value='Fix Coin Amount_".$Id."'>Fix Coin Amount</option>";
+          echo "<option  value='Add To Spread_".$Id."'>Add To Spread</option>";
+          echo "<option  value='Run Stop BuyBack_".$Id."'>Run Stop BuyBack</option>";
+          echo "<option  value='Run override Reduce Loss_".$Id."'>Run override Reduce Loss</option>";
+          echo "<option  value='Run override Savings_".$Id."'>Run override Savings</option>";
+          echo "<option  value='Run override Bittrex_".$Id."'>Run override Bittrex</option>";
+          echo "<option  value='Run Stop Reduce Loss_".$Id."'>Run Stop Reduce Loss</option>";
           ?>
         </td><td>
           <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
