@@ -458,6 +458,8 @@ function displayDefault(){
   print_r("<th>Run override Savings</th>");
   print_r("<th>Run override Bittrex</th>");
   print_r("<th>Run Stop Reduce Loss</th>");
+  print_r("<th>Action</th>");
+  print_r("<th>Action Button</th>");
   print_r("<tr>");
   for($x = 0; $x < $arrlength; $x++) {
       $Id = $coin[$x][0]; $coinPrice = $coin[$x][3]; $amount  = $coin[$x][4]; $status  = $coin[$x][5]; $coinID = $coin[$x][2]; $userID = $coin[$x][13];
@@ -487,6 +489,25 @@ function displayDefault(){
       print_r("<td><a href='Transactions.php?overrideSavings=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?overrideBittrex=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       print_r("<td><a href='Transactions.php?stopReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      ?>
+
+        <form action='Transactions.php?dropdown=Yes' method='post'>
+          <td>
+        <select name='newSelect' id='newSelect' class='enableTextBox'>
+          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule'></option>";
+          echo "<option  value='Merge'></option>";
+          echo "<option  value='Fix Coin Amount'></option>";
+          echo "<option  value='Add To Spread'></option>";
+          echo "<option  value='Run Stop BuyBack'></option>";
+          echo "<option  value='Run override Reduce Loss'></option>";
+          echo "<option  value='Run override Savings'></option>";
+          echo "<option  value='Run override Bittrex'></option>";
+          echo "<option  value='Run Stop Reduce Loss'></option>";
+          ?>
+        </td><td>
+          <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
+      </td></form>
+      <?php
       print_r("<tr>");
   }
   print_r("</Table>");
