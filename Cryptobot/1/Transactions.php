@@ -46,7 +46,7 @@ displayHeader(1);
 if($_POST['transSelect'] <> ""){
   //Print_r("I'm HERE!!!".$_POST['submit']);
   changeSelection();
-elseif($_POST['newSelect'] <> ""){
+}elseif($_POST['newSelect'] <> ""){
     $returnVal = $_POST['newSelect'];
     echo "Return: $returnVal";
 }elseif ($_GET['changefixSell'] <> ""){
