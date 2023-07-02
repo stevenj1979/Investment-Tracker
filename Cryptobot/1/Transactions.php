@@ -528,8 +528,8 @@ function displayDefault(){
         <form action='Transactions.php?dropdown=Yes' method='post'>
           <td>
         <select name='newSelect' id='newSelect' class='enableTextBox'>
-          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule'>Change Fixed Sell Rule</option>";
-          echo "<option  value='Merge'>Merge</option>";
+          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule_".$Id."'>Change Fixed Sell Rule</option>";
+          echo "<option  value='Merge_".$Id."'>Merge</option>";
           echo "<option  value='Fix Coin Amount_".$Id."'>Fix Coin Amount</option>";
           echo "<option  value='Add To Spread_".$Id."'>Add To Spread</option>";
           echo "<option  value='Run Stop BuyBack_".$Id."'>Run Stop BuyBack</option>";
