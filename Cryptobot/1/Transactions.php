@@ -494,15 +494,15 @@ function displayDefault(){
         <form action='Transactions.php?dropdown=Yes' method='post'>
           <td>
         <select name='newSelect' id='newSelect' class='enableTextBox'>
-          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule'></option>";
-          echo "<option  value='Merge'></option>";
-          echo "<option  value='Fix Coin Amount'></option>";
-          echo "<option  value='Add To Spread'></option>";
-          echo "<option  value='Run Stop BuyBack'></option>";
-          echo "<option  value='Run override Reduce Loss'></option>";
-          echo "<option  value='Run override Savings'></option>";
-          echo "<option  value='Run override Bittrex'></option>";
-          echo "<option  value='Run Stop Reduce Loss'></option>";
+          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule'>Change Fixed Sell Rule</option>";
+          echo "<option  value='Merge'>Merge</option>";
+          echo "<option  value='Fix Coin Amount".$Id."'>Fix Coin Amount</option>";
+          echo "<option  value='Add To Spread".$Id."'>Add To Spread</option>";
+          echo "<option  value='Run Stop BuyBack".$Id."'>Run Stop BuyBack</option>";
+          echo "<option  value='Run override Reduce Loss".$Id."'>Run override Reduce Loss</option>";
+          echo "<option  value='Run override Savings".$Id."'>Run override Savings</option>";
+          echo "<option  value='Run override Bittrex".$Id."'>Run override Bittrex</option>";
+          echo "<option  value='Run Stop Reduce Loss".$Id."'>Run Stop Reduce Loss</option>";
           ?>
         </td><td>
           <input type='submit' name='submit' value='Update' class='settingsformsubmit' tabindex='36'>
