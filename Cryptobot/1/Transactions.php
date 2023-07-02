@@ -53,35 +53,44 @@ if($_POST['transSelect'] <> ""){
     echo "Return: $returnVal | $id";
     switch ($returnVal) {
       case "Change Fixed Sell Rule":
-
+        $sellRule = $temp[2];
+        displayChangeFix($id,$sellRule);
         break;
       case "Merge":
-        //$sellrule = $temp[2];
-        //echo "SellRule: $sellrule";
         updateMerge($id);
-        //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
         header('Location: Transactions.php');
         break;
       case "Fix Coin Amount":
-
+        $coinID = $temp[2];
+        $amount = $temp[4];
+        $userID = $temp[3];
+        displayFixCoin($coinID,$id,$amount,$userID);
         break;
       case "Add To Spread":
-
+        $userID = $_SESSION['ID'];
+        $transID = $temp[2];
+        displayAddToSpread($userID, $transID);
         break;
       case "Run Stop BuyBack":
-
+        //$transID = $_GET['SellRule'];
+        runStopBuyBack($id);
+        header('Location: Transactions.php');
         break;
       case "Run override Reduce Loss":
-
+        runOverrideReduceLoss($id);
+        header('Location: Transactions.php');
         break;
       case "Run override Savings":
-
+        runOverrideSavings($id);
+        header('Location: Transactions.php');
         break;
       case "Run override Bittrex":
-
+        runOverrideBittrex($id);
+        header('Location: Transactions.php');
         break;
       case "Run Stop Reduce Loss":
-
+        runStopReduceLoss($id);
+        header('Location: Transactions.php');
         break;
     }
 }elseif ($_GET['changefixSell'] <> ""){
@@ -105,37 +114,12 @@ if($_POST['transSelect'] <> ""){
 
   //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
   //header('Location: Transactions.php');
-  ?>
-  <form action='Transactions.php?updateCoinAmount=Yes' method='post'>
-    CoinID: <input type="text" name="coin_ID" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><br>
-    TransactionID: <input type="text" name="Transaction_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
-    Amount: <input type="text" name="Coin_Amount" value="<?php echo $amount; ?>"><br>
-    UserID: <input type="text" name="User_ID" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
-    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
-  </form>
-  <?php
+  displayFixCoin($coinID,$transID,$amount,$userID);
 
 }elseif ($_GET['addToSpread'] <> ""){//
   $transID = $_GET['SellRule'];
   $userID = $_SESSION['ID'];
-  $rules = getRuleNames($userID);
-  $rulesSize = count($rules);
-  //echo "AddToSpread $transID";
-  ?>
-  <form action='Transactions.php?updateSpreadBet=Yes' method='post'>
-    <select name="Spread_Rules" id="Spread_Rules_ID">
-    <?php
-      for ($e=0; $e<$rulesSize; $e++){
-        $ruleName = $rules[$e][0]; $ruleID = $rules[$e][1];
-          echo "<option value='$ruleID'>$ruleName</option>";
-      }
-      echo "<option value='-1'>Remove from Spread</option>";
-      ?>
-      </select>
-      <input type="text" name="Trans_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
-    <input type='submit' name='submit' value='Add to Spread' class='settingsformsubmit' tabindex='36'>
-  </form>
-  <?php
+  displayAddToSpread($userID, $transID);
 }elseif($_POST['Spread_Rules'] <> ""){
   $transID = $_POST['Trans_ID'];
   if ($_POST['Spread_Rules'] == -1){
@@ -181,6 +165,40 @@ if(isset($_POST['coin_ID'])){
   //Echo "CoinID:$coinID | TransactionID: $transID | Amount:$amount |  UserID:$userID";
   updateCoinAmount($transID,$amount);
   header('Location: Transactions.php');
+}
+
+function displayAddToSpread($userID, $transID){
+
+  $rules = getRuleNames($userID);
+  $rulesSize = count($rules);
+  ?>
+  <form action='Transactions.php?updateSpreadBet=Yes' method='post'>
+    <select name="Spread_Rules" id="Spread_Rules_ID">
+    <?php
+      for ($e=0; $e<$rulesSize; $e++){
+        $ruleName = $rules[$e][0]; $ruleID = $rules[$e][1];
+          echo "<option value='$ruleID'>$ruleName</option>";
+      }
+      echo "<option value='-1'>Remove from Spread</option>";
+      ?>
+      </select>
+      <input type="text" name="Trans_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
+    <input type='submit' name='submit' value='Add to Spread' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <?php
+}
+
+function displayFixCoin($coinID,$transID,$amount,$userID){
+  ?>
+  <form action='Transactions.php?updateCoinAmount=Yes' method='post'>
+    CoinID: <input type="text" name="coin_ID" value="<?php echo $coinID; ?>" style='color:Gray' readonly ><br>
+    TransactionID: <input type="text" name="Transaction_ID" value="<?php echo $transID; ?>" style='color:Gray' readonly ><br>
+    Amount: <input type="text" name="Coin_Amount" value="<?php echo $amount; ?>"><br>
+    UserID: <input type="text" name="User_ID" value="<?php echo $userID; ?>" style='color:Gray' readonly ><br>
+    <input type='submit' name='submit' value='Set Alert' class='settingsformsubmit' tabindex='36'>
+  </form>
+  <?php
+
 }
 
 function runOverrideReduceLoss($transID){
@@ -487,15 +505,15 @@ function displayDefault(){
   print_r("<th>To Merge</th><th>Savings Override</th><th>StopBuyBack</th><th>OverrideReduceLoss</th>");
   print_r("<th>Override Bittrex</th>");
   print_r("<th>StopReduceLoss</th>");
-  print_r("<th>Change Fixed Sell Rule</th>");
-  print_r("<th>Merge</th>");
-  print_r("<th>Fix Coin Amount</th>");
-  print_r("<th>Add To Spread</th>");
-  print_r("<th>Run Stop BuyBack</th>");
-  print_r("<th>Run override Reduce Loss</th>");
-  print_r("<th>Run override Savings</th>");
-  print_r("<th>Run override Bittrex</th>");
-  print_r("<th>Run Stop Reduce Loss</th>");
+  //print_r("<th>Change Fixed Sell Rule</th>");
+  //print_r("<th>Merge</th>");
+  //print_r("<th>Fix Coin Amount</th>");
+  //print_r("<th>Add To Spread</th>");
+  //print_r("<th>Run Stop BuyBack</th>");
+  //print_r("<th>Run override Reduce Loss</th>");
+  //print_r("<th>Run override Savings</th>");
+  //print_r("<th>Run override Bittrex</th>");
+  //print_r("<th>Run Stop Reduce Loss</th>");
   print_r("<th>Action</th>");
   print_r("<th>Action Button</th>");
   print_r("<tr>");
@@ -518,23 +536,23 @@ function displayDefault(){
       print_r("<td>$overrideReduceLoss</td>");
       print_r("<td>$overrideBittrex</td>");
       print_r("<td>$stopReduceLoss</td>");
-      print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?addToSpread=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?stopBuyBack=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?overrideReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?overrideSavings=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?overrideBittrex=Yes&SellRule=$Id'>$fontSize</i></a></td>");
-      print_r("<td><a href='Transactions.php?stopReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?addToSpread=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?stopBuyBack=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?overrideReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?overrideSavings=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?overrideBittrex=Yes&SellRule=$Id'>$fontSize</i></a></td>");
+      //print_r("<td><a href='Transactions.php?stopReduceLoss=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       ?>
 
         <form action='Transactions.php?dropdown=Yes' method='post'>
           <td>
         <select name='newSelect' id='newSelect' class='enableTextBox'>
-          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule_".$Id."'>Change Fixed Sell Rule</option>";
-          echo "<option  value='Merge_".$Id."_".$fixSellRule."'>Merge</option>";
-          echo "<option  value='Fix Coin Amount_".$Id."'>Fix Coin Amount</option>";
+          <?php echo "<option  selected='selected' value='Change Fixed Sell Rule_".$Id."_".$fixSellRule."'>Change Fixed Sell Rule</option>";
+          echo "<option  value='Merge_".$Id."'>Merge</option>";
+          echo "<option  value='Fix Coin Amount_".$Id."_".$coinID."_".$userID."_".$amount."'>Fix Coin Amount</option>";
           echo "<option  value='Add To Spread_".$Id."'>Add To Spread</option>";
           echo "<option  value='Run Stop BuyBack_".$Id."'>Run Stop BuyBack</option>";
           echo "<option  value='Run override Reduce Loss_".$Id."'>Run override Reduce Loss</option>";
