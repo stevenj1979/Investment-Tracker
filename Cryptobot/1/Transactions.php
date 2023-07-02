@@ -56,11 +56,11 @@ if($_POST['transSelect'] <> ""){
 
         break;
       case "Merge":
-        $sellrule = $temp[2];
-        echo "SellRule: $sellrule";
-        updateMerge($sellrule);
+        //$sellrule = $temp[2];
+        //echo "SellRule: $sellrule";
+        updateMerge($id);
         //displayMerge($_GET['FixSellRule'],$_GET['SellRule']);
-        //header('Location: Transactions.php');
+        header('Location: Transactions.php');
         break;
       case "Fix Coin Amount":
 
