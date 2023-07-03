@@ -1042,6 +1042,14 @@ function newPrice($bitPrice, $pct, $action){
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
   //Convert USD to BTC/ETH/BCH
   //$btcBuyAmount = $btcBuyAmount/$bitPrice;
+  $basePrices = getBasePrices();
+  if ($baseCurrency == 'USDT'){
+    $btcBuyAmount = $btcBuyAmount / $basePrices[0][2];
+  }elseif ($baseCurrency == 'BTC'){
+    $btcBuyAmount = $btcBuyAmount / $basePrices[0][0];
+  }elseif ($baseCurrency == 'ETH'){
+    $btcBuyAmount = $btcBuyAmount / $basePrices[0][1];
+  }
   $testFlag = 0;
   echo "<BR> 0: returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){";
   if ($btcBuyAmount == 0){
@@ -1075,7 +1083,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      $returnPrice = $tempPrice/$bitPrice;
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
-   LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag",3,1);
+   LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag | $bitPrice",3,1);
    //echo "<BR> Balance : $BTCBalance ";
    //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
@@ -1225,7 +1233,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
             //if ($BTCBalance-$userSavingAmount >= $buyMin){
 
           $btcBuyAmount = number_format($btcBuyAmount,10,'.','');
-          $bitPrice = number_format($bitPrice,8);
+          $bitPrice = number_format($bitPrice,8,'.','');
           if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
             //$btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
           }
