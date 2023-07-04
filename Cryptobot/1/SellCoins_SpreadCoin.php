@@ -119,7 +119,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName, $enabled){
     ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`1HrPriceChangeLive`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`
     , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
     ,`OriginalPrice`, `CoinFee`, `LivePrice`, `ProfitUSD`, `ProfitPct`
-    ,`CaptureTrend`,`IDCn`,'SellPctCsp'
+    ,`CaptureTrend`,`IDCn`,'SellPctCsp',TIMESTAMPDIFF(MINUTE,`DelayCoinSwapUntil`, now()) as MinsDelay
     FROM `View5_SellCoins`
     WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open' and `SpreadBetRuleName` = '$spreadBetRuleName' $enabledStr
     ORDER BY `ProfitPct` Desc";
@@ -135,7 +135,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName, $enabled){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['PurchaseLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'] //59
-    ,$row['IDCn'],$row['SellPctCsp']); //61
+    ,$row['IDCn'],$row['SellPctCsp'],$row['MinsDelay']); //62
   }
   $conn->close();
   return $tempAry;
@@ -329,7 +329,7 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $originalPurchaseCost = $trackingSell[$x][54];
       $profit = $trackingSell[$x][57];
       $profitBtc = $trackingSell[$x][58];
-      $userID = $_SESSION['ID'];
+      $userID = $_SESSION['ID']; $minsDelay = $trackingSell[$x][62];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
       $numColProfit = getNumberColour($profitBtc);
       $boxAry = array (
@@ -337,6 +337,7 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
         array("CoinName",$coin,"","","",0,""),
         array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,""),
         array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD),
+        array("Mins Delay",$minsDelay,"","","",0,""),
 
         array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,""),
         array("ProfitBTC",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit),
