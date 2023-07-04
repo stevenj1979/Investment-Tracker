@@ -284,8 +284,8 @@ function showSellCoins($trackingSell,$title){
 
         array("PurchasePrice",$originalPurchaseCost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
-        array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2),
+        array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
+        array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
         array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
 
