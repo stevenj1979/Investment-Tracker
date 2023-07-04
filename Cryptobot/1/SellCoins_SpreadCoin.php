@@ -327,8 +327,8 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $fee = (($livePrice* $amount)/100)*0.82;
       $liveTotalCost = $trackingSell[$x][56];
       $originalPurchaseCost = $trackingSell[$x][54];
-      $profit = $trackingSell[$x][57];
-      $profitBtc = $trackingSell[$x][58];
+      $profit = $trackingSell[$x][58];
+      $profitBtc = $trackingSell[$x][57];
       $userID = $_SESSION['ID']; $minsDelay = $trackingSell[$x][62];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
       $numColProfit = getNumberColour($profitBtc);
