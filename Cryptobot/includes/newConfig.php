@@ -3859,8 +3859,8 @@ function displaySubHeader($page){
     echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking ($buyTracking)</a>&nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins Spread Bet</a>
     &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back ($buyBack)</a></h3>";
   }elseif ($page == 'SellCoin'){
-    echo "<h3><a href='SellCoins.php'>Sell Coins ($sellCoin)</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking ($sellTracking)</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving ($sellSaving)</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
-     &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
+    echo "<h3><a href='SellCoins.php'>Sell Coins ($sellCoin)</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking ($sellTracking)</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving ($sellSaving)</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet ($spreadSell)</a>
+    &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin ($spreadSellCoin)</a> &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
   }elseif ($page == 'Profit'){
      echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='Profit_BuyBack.php'>BuyBack Profit</a> &nbsp > &nbsp <a href='Profit_SpreadBet.php'>SpreadBet Profit</a> &nbsp </h3>";
   }elseif ($page == 'Settings'){
