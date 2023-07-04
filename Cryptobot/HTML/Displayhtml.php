@@ -21,7 +21,7 @@ function displayBox($boxAry){
       }elseif ($type == "Link"){
         echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
       }elseif ($type == "Colour"){
-        echo "<DIV class='flex-CoinBoxItemRow'>$name : <p id='smallText' style='color:$colour'>$data</p></DIV>";
+        echo "<DIV class='flex-CoinBoxItemRow'>$name : <div style='color:$colour'>$data</div></DIV>";
       }elseif ($type == "Pct"){
         echo "<DIV class='flex-CoinBoxItemRow'>$name : $data %</DIV>";
       }else{
