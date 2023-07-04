@@ -257,7 +257,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
        $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
       $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
-      $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $spreadBetRuleName = $trackingSell[$x][54];
+      $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $originalPrice = $trackingSell[$x][54];
       $priceDiff1 = $livePrice - $LastCoinPrice; $coinID = $trackingSell[$x][2];
       $fee = (($livePrice* $amount)/100)*0.28;
       $liveTotalCost = $trackingSell[$x][56];
@@ -267,7 +267,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       $userID = $_SESSION['ID'];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
       echo "<table><td rowspan='4'><a href='Stats.php?coin=$coinID'><img src='$image'></a></td>";
-      echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
+      echo "<td><p id='largeText' >".round((float)$originalPrice+0,$roundVar)."</p></td>";
       echo "<td rowspan='2'><p id='largeText' >".round((float)$livePrice+0,$roundVar)."</p></td>";
       NewEcho("<td><p id='normalText'>".round((float)$mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       NewEcho("<td><p id='normalText'>".round((float)$pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
