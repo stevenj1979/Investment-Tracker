@@ -342,7 +342,7 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
 
         array("PurchasePrice",$originalPrice,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$coin","Float",$roundVar),
+        array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
         array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
         array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
