@@ -83,8 +83,9 @@ function getCoinSwap(){
         $arrLengthSell = count($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Swap Coins</h2>");
-        echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
-         &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
+        displaySubHeader("SellCoin");
+        //echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
+        // &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         echo "<table border=1>";
         NewEcho ("<th>TransactionID</th><th>Status</th><th>BittrexRefSell</th><th>BittrexRefBuy</th>",$_SESSION['isMobile'],2);
         NewEcho ("<th>NewCoinIDCandidate</th><th>NewCoinPrice</th><th>BaseCurrency</th>",$_SESSION['isMobile'],2);
