@@ -268,7 +268,7 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
       echo "<table><td rowspan='4'><a href='Stats.php?coin=$coinID'><img src='$image'></a></td>";
       echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
-      echo "<td rowspan='2'><p id='largeText' >".round((float)$livePrice,$roundVar)."</p></td>";
+      echo "<td rowspan='2'><p id='largeText' >".round((float)$livePrice+0,$roundVar)."</p></td>";
       NewEcho("<td><p id='normalText'>".round((float)$mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       NewEcho("<td><p id='normalText'>".round((float)$pctChange1Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
       echo "<td><p id='largeText' >".round((float)$amount,$roundVar)." $coin</p></td>";
