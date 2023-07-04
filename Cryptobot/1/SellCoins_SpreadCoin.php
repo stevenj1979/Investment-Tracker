@@ -324,7 +324,7 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
       $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $originalPrice = $trackingSell[$x][54];
       $priceDiff1 = $livePrice - $LastCoinPrice; $coinID = $trackingSell[$x][2];
-      $fee = (($livePrice* $amount)/100)*0.28;
+      $fee = (($livePrice* $amount)/100)*0.82;
       $liveTotalCost = $trackingSell[$x][56];
       $originalPurchaseCost = $trackingSell[$x][54];
       $profit = $trackingSell[$x][57];
@@ -336,11 +336,12 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $boxAry = array (
         array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0),
         array("CoinName",$coin."-".$baseCurrency,"","","",5,"","","Text",0),
-        array("LivePrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
+        array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
         array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
         array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
 
         array("PurchasePrice",$originalPrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$coin","Float",$roundVar),
         array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
         array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
