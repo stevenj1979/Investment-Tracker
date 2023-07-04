@@ -7,7 +7,7 @@ function displayBox($boxAry){
   echo "<div class='flex-CoinBox'>";
   for ($row = 0; $row < $boxArySize; $row++) {
     $name = $boxAry[$row][0]; $data = $boxAry[$row][1]; $size = $boxAry[$row][3]; $image = $boxAry[$row][2];$type = $boxAry[$row][4]; $group = $boxAry[$row][5];
-    $colour = $boxAry[$row][6]; $pct = $boxAry[$row][7]; 
+    $colour = $boxAry[$row][6]; $pct = $boxAry[$row][7]; $dataType = $boxAry[$row][8]; $roundVar = $boxAry[$row][9];
     if ($row == 0){
       $currentGroup = $group;
       echo "<DIV class='flex-CoinBoxItem'>";
@@ -15,6 +15,9 @@ function displayBox($boxAry){
     if ($currentGroup <> $group){
       $currentGroup = $group;
       echo "</DIV><DIV class='flex-CoinBoxItem'>";
+    }
+    if ($dataType == 'Float'){
+      $data = round((float)$data+0,$roundVar);
     }
 
       if ($type == "Image"){
