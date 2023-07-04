@@ -91,7 +91,7 @@ function getTrackingSellCoinsLoc($additionalWhere,$userID = 0){
   ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`1HrPriceChangeLive`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,`OriginalPrice`, `CoinFee`, `LivePrice`, `ProfitUSD`, `ProfitPct`
-  ,`CaptureTrend`,`IDCn`,'SellPctCsp',`CoinPrecision`
+  ,`CaptureTrend`,`IDCn`,'SellPctCsp',`CoinPrecision`,TIMESTAMPDIFF(MINUTE,`DelayCoinSwapUntil`, now()) as MinsDelay
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -103,7 +103,7 @@ function getTrackingSellCoinsLoc($additionalWhere,$userID = 0){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'] //53
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'] //59
-    ,$row['IDCn'],$row['SellPctCsp'],$row['CoinPrecision']); //62
+    ,$row['IDCn'],$row['SellPctCsp'],$row['CoinPrecision'],$row['MinsDelay']); //63
   }
   $conn->close();
   return $tempAry;
@@ -239,6 +239,7 @@ function showSellCoins($trackingSell,$title){
       $profitBtc = $profit/($originalPurchaseCost)*100;
       $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][2];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51]; $targetSellPct = $trackingSell[$x][56]; $num = $trackingSell[$x][62];
+      $minsDelay = $trackingSell[$x][63];
       /*echo "<table><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
       echo "<td><p id='largeText' >$name</p></td>";
       echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
