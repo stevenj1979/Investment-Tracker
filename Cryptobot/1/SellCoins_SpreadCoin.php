@@ -106,8 +106,8 @@ function getCoinsfromSQLLoc(){
 function getTrackingSellCoinsLoc($userID,$spreadBetRuleName, $enabled){
   $tempAry = [];
   if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = 'Sell' ";}else{$whereclause = "Where `Status` = 'Open' and `Type` = 'Sell' ";}
-  if ($enabled == 1){ $enabledStr = " and `DelayCoinSwapUntil` > now() ";}
-  else { $enabledStr = " and `DelayCoinSwapUntil` < now() "; }
+  if ($enabled == 1){ $enabledStr = " and `DelayCoinSwapUntil` < now() ";}
+  else { $enabledStr = " and `DelayCoinSwapUntil` > now() "; }
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
