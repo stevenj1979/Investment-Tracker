@@ -332,12 +332,17 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $userID = $_SESSION['ID'];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
       $boxAry = array (
-        array("Image","Stats.php?coin=$coinID","$image",""),
-        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"",""),
-        array("LivePrice",round((float)$livePrice+0,$roundVar),"",""),
-        array("MarketCap",round((float)$mrktCap,$roundVar),"",""),
-        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","")
+        array("Image","Stats.php?coin=$coinID","$image","","Image"),
+        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","",""),
+        array("LivePrice",round((float)$livePrice+0,$roundVar),"","",""),
+        array("MarketCap",round((float)$mrktCap,$roundVar),"","",""),
+        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","",""),
 
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link"),
+        array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link"),
+        array("TrackCoin","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link"),
+        array("Saving","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link"),
+        array("Buy Back","SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc","","","Link")
       );
       displayBox($boxAry);
     }

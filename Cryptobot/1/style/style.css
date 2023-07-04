@@ -349,6 +349,12 @@ table tr:last-child {
   flex-grow: 1;
 }
 
+.flex-CoinBoxItemRow{
+  position: relative;
+  flex-grow: 1;
+  flex-direction: row;
+}
+
 .flex-container {
   display: flex;
   flex-direction: column;
