@@ -4,7 +4,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
+include_once '../includes/newConfig.php';
+include_once '../HTML/Displayhtml.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
@@ -311,6 +312,36 @@ function displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$f
   print_r("</table><br>");
 }
 
+function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name,$fontSize){
+  echo "<h3> $name</h3><br>";
+  for($x = 0; $x < $arrLengthSell; $x++) {
+      //Variables
+      //$roundNum = 2;
+      //if($_SESSION['isMobile'] == False){$roundNum = 8;}
+      $coin = $trackingSell[$x][11];  $livePrice = $trackingSell[$x][19]; $LastCoinPrice = $trackingSell[$x][18]; $baseCurrency = $trackingSell[$x][36];
+      $amount = $trackingSell[$x][5];  $orderNo = $trackingSell[$x][10]; $transactionID = $trackingSell[$x][0];
+       $purchaseCost = $trackingSell[$x][4]; $realAmount = $trackingSell[$x][26];
+      $mrktCap = $trackingSell[$x][17];  $volume = $trackingSell[$x][26]; $sellOrders = $trackingSell[$x][23];
+      $pctChange1Hr = $trackingSell[$x][29]; $pctChange24Hr = $trackingSell[$x][32]; $pctChange7D = $trackingSell[$x][35]; $originalPrice = $trackingSell[$x][54];
+      $priceDiff1 = $livePrice - $LastCoinPrice; $coinID = $trackingSell[$x][2];
+      $fee = (($livePrice* $amount)/100)*0.28;
+      $liveTotalCost = $trackingSell[$x][56];
+      $originalPurchaseCost = $trackingSell[$x][54];
+      $profit = $trackingSell[$x][57];
+      $profitBtc = $trackingSell[$x][58];
+      $userID = $_SESSION['ID'];
+      $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+      $boxAry = array (
+        array("Image","Stats.php?coin=$coinID","$image",""),
+        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"",""),
+        array("LivePrice",round((float)$livePrice+0,$roundVar),"",""),
+        array("MarketCap",round((float)$mrktCap,$roundVar),"",""),
+        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","")
+
+      );
+      displayBox($boxAry);
+}
+
 function getSpreadBetIDOpen($userID){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -361,10 +392,12 @@ $date = date('Y/m/d H:i:s', time());
         for ($s=0; $s<$spreadBetIDSize; $s++){
           $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],1);
           $arrLengthSell = count($trackingSell);
-          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
+          //displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
+          newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
           $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],0);
           $arrLengthSell = count($trackingSell);
-          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
+          //displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
+          newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
         }
 
 
