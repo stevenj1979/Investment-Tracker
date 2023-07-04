@@ -17,7 +17,8 @@ function displayBox($boxAry){
       echo "</DIV><DIV class='flex-CoinBoxItem'>";
     }
     if ($dataType == 'Float'){
-      $data = round((float)$data+0,$roundVar);
+      //$data = round((float)$data+0,$roundVar);
+      $data = number_format($data+0, $roundVar, '.', '');
     }
     if ($name == "") {$seperator = "";}else{ $seperator = ":";}
 
