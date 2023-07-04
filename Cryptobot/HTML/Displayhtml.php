@@ -24,7 +24,7 @@ function displayBox($boxAry){
       }
 
   }
-  echo "</DIV></DIV>";
+  echo "</DIV></DIV><br>";
 }
 
 ?>
