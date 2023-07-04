@@ -293,10 +293,10 @@ $date = date('Y/m/d H:i:s', time());
               array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
               array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
 
-              array("PurchasePrice",$originalPrice,"","","",1,"","$baseCurrency","Float",$roundVar),
-              array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
-              array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
-              array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
+              array("PurchasePrice",$purchasePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+              array("LivePrice",$livePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+              array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
+              array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2),
               array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
               array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
 
