@@ -423,7 +423,7 @@ $date = date('Y/m/d H:i:s', time());
         }
 
 
-        Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+        //Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 				displaySideColumn();
 //include header template
 require('layout/footer.php');

@@ -307,7 +307,7 @@ $date = date('Y/m/d H:i:s', time());
               array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
               array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
 
-              array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
+              array("Sell Coins","SellCoins_Spread.php?Mode=1&SBTransID=$transactionID","","","Link",4,"","","Text",0)
 
             );
             displayBox($boxAry);
