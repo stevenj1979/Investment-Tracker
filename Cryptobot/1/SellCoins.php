@@ -4,7 +4,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
+include_once '../includes/newConfig.php';
+include_once '../HTML/Displayhtml.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
@@ -238,7 +239,7 @@ function showSellCoins($trackingSell,$title){
       $profitBtc = $profit/($originalPurchaseCost)*100;
       $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][2];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51]; $targetSellPct = $trackingSell[$x][56]; $num = $trackingSell[$x][62];
-      echo "<table><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
+      /*echo "<table><td rowspan='3'><a href='Stats.php?coin=$coinID'><img src='$image' width=60 height=60></a></td>";
       echo "<td><p id='largeText' >$name</p></td>";
       echo "<td rowspan='2'><p id='largeText' >".round($livePrice,$roundVar)."</p></td>";
       NewEcho("<td><p id='normalText'>".round($mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
@@ -253,26 +254,53 @@ function showSellCoins($trackingSell,$title){
       echo "</tr><tr>";
       echo "<td><p id='normalText'>$coin</p></td>";
       NewEcho("<td><p id='normalText'>".round($volume,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
-      NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);
+      NewEcho("<td><p id='normalText'>".round($pctChange24Hr,$roundVar)."</p></td>",$_SESSION['isMobile'],2);*/
       $cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8);
-      echo "<td><p id='normalText'>$cost</p></td>";
+      //echo "<td><p id='normalText'>$cost</p></td>";
 
-      echo "</tr><tr>";
+      //echo "</tr><tr>";
 
 
       //$numCol = getNumberColour($profitBtc);
       //echo "<td><p id='smallText' style='color:$numCol'>".round($profitBtc,8)."</p></td>";
 
-      $numCol = getNumberColour($priceDiff1);
+      /*$numCol = getNumberColour($priceDiff1);
       echo "<td><p id='smallText' style='color:$numCol'>".number_format($priceDiff1, $roundVar, '.', '')."</p></td>";
       echo "<td><p id='largeText' >".number_format($profit, $roundVar, '.', '')." $baseCurrency</p></td>";
 
       NewEcho("<td><p id='normalText'>".round($sellOrders,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       NewEcho("<td><p id='normalText'>".round($pctChange7D,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
       $numCol = getNumberColour($profitBtc);
-      echo "<td><p id='smallText' style='color:$numCol'>".number_format($profitBtc, $roundVar, '.', '')."</p></td>";
+      echo "<td><p id='smallText' style='color:$numCol'>".number_format($profitBtc, $roundVar, '.', '')."</p></td>";*/
+      $boxAry = array (
+        array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0),
+        array("",$name."-".$baseCurrency,"","","",5,"","","Text",0),
+        array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
+        array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
+        array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
+
+        array("PurchasePrice",$purchasePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("LivePrice",$livePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
+        array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2),
+        array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
+
+        array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar),
+        array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar),
+
+        array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar),
+        array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
+        array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
+
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
+        array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
+        array("Manual Sell with Tracking","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"","","Text",0)
+        array("Save Coins","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,"","","Text",0)
+      );
+      displayBox($boxAry);
   }
-  print_r("</table>");
+  //print_r("</table>");
   //echo "<BR><a href='SellCoins.php?lowMarketMode=1'>Enable Low Market Mode</a>";
   //Echo "<BR><a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 
