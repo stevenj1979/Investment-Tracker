@@ -293,9 +293,9 @@ function showSellCoins($trackingSell,$title){
         array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
         array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
 
-        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
-        array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
-        array("Manual Sell with Tracking","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"","","Text",0)
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0),
+        array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0),
+        array("Manual Sell with Tracking","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"","","Text",0),
         array("Save Coins","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,"","","Text",0)
       );
       displayBox($boxAry);
