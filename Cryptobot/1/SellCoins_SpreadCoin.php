@@ -333,20 +333,20 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
       $numColProfit = getNumberColour($profitBtc);
       $boxAry = array (
-        array("Image","Stats.php?coin=$coinID","$image","","Image",0,"",""),
+        array("Image","Stats.php?coin=$coinID","$image","","Image",5,"",""),
         array("CoinName",$coin,"","","",0,"",""),
         array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,"",""),
         array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD,""),
         array("Mins Delay",$minsDelay,"","","",0,"",""),
 
-        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,"",""),
+        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,"","$baseCurrency"),
         array("Profit",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit,"$coin"),
         array("Profit",round((float)$profit,2),"","Colour","Pct",1,"","%"),
-        array("Cost",round((float)$cost,$roundVar),"","","",1,"",""),
+        array("Cost per Coin",round((float)$cost,$roundVar),"","","",1,"",""),
         array("Amount",round((float)$amount,$roundVar),"","","",1,"","$coin"),
 
         array("MarketCap",round((float)$mrktCap,$roundVar),"","","Colour",2,"","%"),
-        array("Volume",round((float)$volume,$roundVar),"","","",2,"Colour","%"),
+        array("Volume",round((float)$volume,$roundVar),"","","Colour",2,"","%"),
 
         array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","Colour",3,"","%"),
         array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","Colour",3,"","%"),
