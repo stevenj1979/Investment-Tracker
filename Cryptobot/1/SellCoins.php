@@ -235,8 +235,10 @@ function showSellCoins($trackingSell,$title){
       $fee = (($livePrice* $amount)/100)*0.8;
       $liveTotalCost = ($livePrice * $amount);
       $originalPurchaseCost = ($purchaseCost * $amount);
-      $profit = ($liveTotalCost - $originalPurchaseCost - $fee);
-      $profitBtc = $profit/($originalPurchaseCost)*100;
+      //$profit = ($liveTotalCost - $originalPurchaseCost - $fee);
+      $profit = $trackingSell[$x][58];
+      //$profitBtc = $profit/($originalPurchaseCost)*100;
+      $profitBtc = $trackingSell[$x][57];
       $userID = $_SESSION['ID']; $coinID = $trackingSell[$x][2];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51]; $targetSellPct = $trackingSell[$x][56]; $num = $trackingSell[$x][62];
       $minsDelay = $trackingSell[$x][63];
@@ -280,8 +282,8 @@ function showSellCoins($trackingSell,$title){
         array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
         array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
 
-        array("PurchasePrice",$purchasePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("LivePrice",$livePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("PurchasePrice",$originalPurchaseCost,"","","",1,"","$baseCurrency","Float",$roundVar),
+        array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
         array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2),
         array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
