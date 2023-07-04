@@ -344,6 +344,16 @@ table tr:last-child {
   height: 30%
 }
 
+.greenText{
+  color: #3cb371;
+}
+.redText{
+  color: #ff0000;
+}
+.amberText{
+  color: #ffa500;
+}
+
 .flex-CoinBoxItem{
   position: relative;
   flex-grow: 1;
