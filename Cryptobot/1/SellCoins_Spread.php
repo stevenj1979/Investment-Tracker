@@ -4,7 +4,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <?php require('includes/config.php');
-include_once '../includes/newConfig.php';?>
+include_once '../includes/newConfig.php';
+include_once '../HTML/Displayhtml.php';?>
 <style>
 <?php include 'style/style.css'; ?>
 </style> <?php
@@ -285,7 +286,32 @@ $date = date('Y/m/d H:i:s', time());
             //echo "PROFIT CALC: $profit | $livePrice | $liveTotalCost | $purchasePrice | $originalPurchaseCost | $fee | $profitPct";
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
-            echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";
+            $boxAry = array (
+              array("Image","SellCoins_SpreadCoin.php","$image","","Image",5,"","","Text",0),
+              array("",$spreadBetRuleName."-".$baseCurrency,"","","",5,"","","Text",0),
+              array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
+              array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
+              array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
+
+              array("PurchasePrice",$originalPrice,"","","",1,"","$baseCurrency","Float",$roundVar),
+              array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
+              array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
+              array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
+              array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
+              array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
+
+              array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar),
+              array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar),
+
+              array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar),
+              array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
+              array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
+
+              array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0)
+
+            );
+            displayBox($boxAry);
+            /*echo "<table><td rowspan='3'><a href='SellCoins_SpreadCoin.php'><img src='$image'></a></td>";
             echo "<td><p id='largeText' >$spreadBetRuleName</p></td>";
             echo "<td rowspan='2'><p id='largeText' >".round((float)$livePrice,$roundVar)."</p></td>";
             NewEcho("<td><p id='normalText'>".round((float)$mrktCap,$roundVar)."</p></td>",$_SESSION['isMobile'],0);
@@ -321,10 +347,10 @@ $date = date('Y/m/d H:i:s', time());
             echo "<td><a href=''></a></td>";
             echo "<td><a href=''></a></td>";
             echo "<td><a href=''></a></td>";
-            echo "<td><a href=''></a></td>";
+            echo "<td><a href=''></a></td>";*/
         }
-        print_r("</table>");
-        Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
+        //print_r("</table>");
+        //Echo "<a href='SellCoins.php?noOverride=Yes'>View Mobile Page</a>".$_SESSION['MobOverride'];
 				displaySideColumn();
 //include header template
 require('layout/footer.php');
