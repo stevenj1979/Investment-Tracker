@@ -340,7 +340,8 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
 
       );
       displayBox($boxAry);
-}
+    }
+  }
 
 function getSpreadBetIDOpen($userID){
   $tempAry = [];
