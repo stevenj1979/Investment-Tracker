@@ -340,17 +340,17 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
 
         array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,""),
         array("ProfitBTC",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit),
-        array("Profit",round((float)$profit,$roundVar),"","","",1,""),
-        array("Cost",$cost,"","","",1,""),
-        array("Amount",$amount,"","","",1,""),
+        array("Profit",round((float)$profit,2),"","","Pct",1,""),
+        array("Cost",round((float)$cost,$roundVar),"","","",1,""),
+        array("Amount: $coin ",round((float)$amount,$roundVar),"","","",1,""),
 
 
         array("MarketCap",round((float)$mrktCap,$roundVar),"","","",2,""),
         array("Volume",round((float)$volume,$roundVar),"","","",2,""),
 
-        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","",3,""),
-        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","",3,""),
-        array("7DChange",round((float)$pctChange7D,$roundVar),"","","",3,""),
+        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","Pct",3,""),
+        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","Pct",3,""),
+        array("7DChange",round((float)$pctChange7D,$roundVar),"","","Pct",3,""),
 
         array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
         array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
