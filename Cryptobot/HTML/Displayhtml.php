@@ -22,11 +22,11 @@ function displayBox($boxAry){
         echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
       }elseif ($type == "Colour"){
         if ($data > 0){
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <div class='greenText'>$data</div></DIV>";
+          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='greenText'>$data</span></DIV>";
         }elseif ($data == 0){
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <div class='amberText'>$data</div></DIV>";
+          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='amberText'>$data</span></DIV>";
         }else{
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <div class='redText'>$data</div></DIV>";
+          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='redText'>$data</span></DIV>";
         }
       }elseif ($type == "Pct"){
         echo "<DIV class='flex-CoinBoxItemRow'>$name : $data %</DIV>";
