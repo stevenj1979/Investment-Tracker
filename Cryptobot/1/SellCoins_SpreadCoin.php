@@ -336,14 +336,14 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $boxAry = array (
         array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0),
         array("CoinName",$coin."-".$baseCurrency,"","","",5,"","","Text",0),
-        array("LivePrice",$livePrice,"","","",0,"","","Float",$roundVar),
-        array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"","Float",$roundVar),
+        array("LivePrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
+        array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
         array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
 
         array("PurchasePrice",$originalPrice,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$coin","Float",$roundVar),
         array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
-        array("Cost per Coin",$cost,"","","",1,"","","Float",$roundVar),
+        array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
         array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
 
         array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar),
