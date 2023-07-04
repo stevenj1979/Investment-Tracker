@@ -23,7 +23,7 @@ function displayBox($boxAry){
     if ($name == "") {$seperator = "";}else{ $seperator = ":";}
 
     if ($type == "Image"){
-      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'><img src='$image'></a> </DIV>";
+      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'><img src='$image'  width=60 height=60></a> </DIV>";
     }elseif ($type == "Link"){
       echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
     }elseif ($type == "Colour"){
