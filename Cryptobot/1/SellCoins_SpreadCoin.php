@@ -333,31 +333,30 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
       $numColProfit = getNumberColour($profitBtc);
       $boxAry = array (
-        array("Image","Stats.php?coin=$coinID","$image","","Image",0,""),
-        array("CoinName",$coin,"","","",0,""),
-        array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,""),
-        array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD),
-        array("Mins Delay",$minsDelay,"","","",0,""),
+        array("Image","Stats.php?coin=$coinID","$image","","Image",0,"",""),
+        array("CoinName",$coin,"","","",0,"",""),
+        array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,"",""),
+        array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD,""),
+        array("Mins Delay",$minsDelay,"","","",0,"",""),
 
-        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,""),
-        array("ProfitBTC",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit),
-        array("Profit",round((float)$profit,2),"","","Pct",1,""),
-        array("Cost",round((float)$cost,$roundVar),"","","",1,""),
-        array("Amount: $coin ",round((float)$amount,$roundVar),"","","",1,""),
+        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,"",""),
+        array("Profit",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit,"$coin"),
+        array("Profit",round((float)$profit,2),"","Colour","Pct",1,"","%"),
+        array("Cost",round((float)$cost,$roundVar),"","","",1,"",""),
+        array("Amount",round((float)$amount,$roundVar),"","","",1,"","$coin"),
 
+        array("MarketCap",round((float)$mrktCap,$roundVar),"","","Colour",2,"","%"),
+        array("Volume",round((float)$volume,$roundVar),"","","",2,"Colour","%"),
 
-        array("MarketCap",round((float)$mrktCap,$roundVar),"","","",2,""),
-        array("Volume",round((float)$volume,$roundVar),"","","",2,""),
+        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","Colour",3,"","%"),
+        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","Colour",3,"","%"),
+        array("7DChange",round((float)$pctChange7D,$roundVar),"","","Colour",3,"","%"),
 
-        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","Pct",3,""),
-        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","Pct",3,""),
-        array("7DChange",round((float)$pctChange7D,$roundVar),"","","Pct",3,""),
-
-        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
-        array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
-        array("TrackCoin","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,""),
-        array("Saving","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,""),
-        array("Buy Back","SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc","","","Link",4,"")
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"",""),
+        array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"",""),
+        array("TrackCoin","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"",""),
+        array("Saving","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,"",""),
+        array("Buy Back","SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc","","","Link",4,"","")
       );
       displayBox($boxAry);
     }
