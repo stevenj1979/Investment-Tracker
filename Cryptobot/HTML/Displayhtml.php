@@ -12,6 +12,7 @@ function displayBox($boxAry){
       echo "<DIV class='flex-CoinBoxItem'>";
     }
     if ($currentGroup <> $group){
+      $currentGroup = $group;
       echo "</DIV><DIV class='flex-CoinBoxItem'>";
     }
       if ($type == "Image"){
