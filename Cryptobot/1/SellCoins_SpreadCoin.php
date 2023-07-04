@@ -332,10 +332,10 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $userID = $_SESSION['ID']; $minsDelay = $trackingSell[$x][62];
       $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
       $numColProfit = getNumberColour($profitBtc);
-      ///BOXARY: Name, Data, Image, Size, Type, Group, Colour, TextAfterData
+      ///BOXARY: Name, Data, Image, Size, Type, Group, Colour, TextAfterData, DataType, RoundNumber
       $boxAry = array (
         array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0),
-        array("CoinName",$coin."-".$baseCurrency,"","","",5,"","","Text",0),
+        array("",$coin."-".$baseCurrency,"","","",5,"","","Text",0),
         array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
         array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
         array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),

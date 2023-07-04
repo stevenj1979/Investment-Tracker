@@ -20,21 +20,21 @@ function displayBox($boxAry){
       $data = round((float)$data+0,$roundVar);
     }
 
-      if ($type == "Image"){
-        echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'><img src='$image'></a> </DIV>";
-      }elseif ($type == "Link"){
-        echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
-      }elseif ($type == "Colour"){
-        if ($data > 0){
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='greenText'>$data</span> $pct</DIV>";
-        }elseif ($data == 0){
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='amberText'>$data</span> $pct</DIV>";
-        }else{
-          echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='redText'>$data</span> $pct</DIV>";
-        }
+    if ($type == "Image"){
+      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'><img src='$image'></a> </DIV>";
+    }elseif ($type == "Link"){
+      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
+    }elseif ($type == "Colour"){
+      if ($data > 0){
+        echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='greenText'>$data</span> $pct</DIV>";
+      }elseif ($data == 0){
+        echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='amberText'>$data</span> $pct</DIV>";
       }else{
-        echo "<DIV class='flex-CoinBoxItemRow'>$name : $data $pct</DIV>";
+        echo "<DIV class='flex-CoinBoxItemRow'>$name : <span class='redText'>$data</span> $pct</DIV>";
       }
+    }else{
+      echo "<DIV class='flex-CoinBoxItemRow'>$name : $data $pct</DIV>";
+    }
 
   }
   echo "</DIV></DIV><br>";
