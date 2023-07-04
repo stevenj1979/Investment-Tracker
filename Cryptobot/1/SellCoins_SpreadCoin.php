@@ -330,28 +330,33 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $profit = $trackingSell[$x][57];
       $profitBtc = $trackingSell[$x][58];
       $userID = $_SESSION['ID'];
-      $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
+      $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];$cost = round(number_format((float)$trackingSell[$x][4], 10, '.', ''),8); $numColPD = getNumberColour($priceDiff1);
+      $numColProfit = getNumberColour($profitBtc);
       $boxAry = array (
-        array("Image","Stats.php?coin=$coinID","$image","","Image",0),
-        array("CoinName",$coin,"","","",0),
-        array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0),
+        array("Image","Stats.php?coin=$coinID","$image","","Image",0,""),
+        array("CoinName",$coin,"","","",0,""),
+        array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,""),
+        array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD),
 
-        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1),
-        array("Profit",round((float)$profit,$roundVar),"","","",1),
-        array("Cost",$cost,"","","",1),
-        array("Amount",$amount,"","","",1),
+        array("PurchasePrice",round((float)$originalPrice+0,$roundVar),"","","",1,""),
+        array("ProfitBTC",round((float)$profitBtc,$roundVar),"","","Colour",1,$numColProfit),
+        array("Profit",round((float)$profit,$roundVar),"","","",1,""),
+        array("Cost",$cost,"","","",1,""),
+        array("Amount",$amount,"","","",1,""),
 
-        array("MarketCap",round((float)$mrktCap,$roundVar),"","","",2),
-        array("Volume",round((float)$volume,$roundVar),"","","",2),
-        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","",3),
-        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","",3),
-        array("7DChange",round((float)$pctChange7D,$roundVar),"","","",3),
 
-        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4),
-        array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4),
-        array("TrackCoin","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4),
-        array("Saving","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4),
-        array("Buy Back","SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc","","","Link",4)
+        array("MarketCap",round((float)$mrktCap,$roundVar),"","","",2,""),
+        array("Volume",round((float)$volume,$roundVar),"","","",2,""),
+
+        array("1HrChange",round((float)$pctChange1Hr,$roundVar),"","","",3,""),
+        array("24HrChange",round((float)$pctChange24Hr,$roundVar),"","","",3,""),
+        array("7DChange",round((float)$pctChange7D,$roundVar),"","","",3,""),
+
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
+        array("Split Coin","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,""),
+        array("TrackCoin","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,""),
+        array("Saving","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,""),
+        array("Buy Back","SellCoins_SpreadCoin.php?Mode=1&ID=$transactionID&ProfitPct=$profitBtc","","","Link",4,"")
       );
       displayBox($boxAry);
     }
