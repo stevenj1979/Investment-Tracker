@@ -334,7 +334,7 @@ function newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $name
       $numColProfit = getNumberColour($profitBtc);
       $boxAry = array (
         array("Image","Stats.php?coin=$coinID","$image","","Image",5,"",""),
-        array("CoinName",$coin,"","","",0,"",""),
+        array("CoinName",$coin."-".$baseCurrency,"","","",5,"",""),
         array("LivePrice",round((float)$livePrice+0,$roundVar),"","","",0,"",""),
         array("PriceDiff",round($priceDiff1,$roundVar),"","","Colour",0,$numColPD,""),
         array("Mins Delay",$minsDelay,"","","",0,"",""),
