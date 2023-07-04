@@ -103,9 +103,11 @@ function getCoinsfromSQLLoc(){
     return $tempAry;
 }
 
-function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
+function getTrackingSellCoinsLoc($userID,$spreadBetRuleName, $enabled){
   $tempAry = [];
   if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = 'Sell' ";}else{$whereclause = "Where `Status` = 'Open' and `Type` = 'Sell' ";}
+  if ($enabled == 1){ $enabledStr = " and `DelayCoinSwapUntil` > now() ";}
+  else { $enabledStr = " and `DelayCoinSwapUntil` < now() "; }
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -118,7 +120,7 @@ function getTrackingSellCoinsLoc($userID,$spreadBetRuleName){
     ,`OriginalPrice`, `CoinFee`, `LivePrice`, `ProfitUSD`, `ProfitPct`
     ,`CaptureTrend`,`IDCn`,'SellPctCsp'
     FROM `View5_SellCoins`
-    WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open' and `SpreadBetRuleName` = '$spreadBetRuleName'
+    WHERE `UserID` = $userID and `Type` = 'SpreadSell' and `Status` = 'Open' and `SpreadBetRuleName` = '$spreadBetRuleName' $enabledStr
     ORDER BY `ProfitPct` Desc";
     //a
   $result = $conn->query($sql);
@@ -357,9 +359,12 @@ $date = date('Y/m/d H:i:s', time());
         echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
          &nbsp > &nbsp <a href='SellCoins_SwapCoins.php'>Swap Coins</a></h3>";
         for ($s=0; $s<$spreadBetIDSize; $s++){
-          $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1]);
+          $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],1);
           $arrLengthSell = count($trackingSell);
-          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1],$fontSize);
+          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
+          $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],0);
+          $arrLengthSell = count($trackingSell);
+          displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
         }
 
 
