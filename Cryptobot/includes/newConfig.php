@@ -3872,7 +3872,7 @@ function displayNewHeader(){
   $webUsageAry = $_SESSION['webUsage'];
   $buyTracking = $webUsageAry[0][0];$buyBack = $webUsageAry[0][1]; $sellCoin = $webUsageAry[0][2];  $sellTracking = $webUsageAry[0][3]; $sellSaving = $webUsageAry[0][4]; $bittrexAction = $webUsageAry[0][5];
   $spreadSell = $webUsageAry[0][6];$spreadSellCoin = $webUsageAry[0][7];
-  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin + $spreadSell;
+  $buyTotal = $buyTracking + $buyBack; $sellTotal = $sellCoin + $sellTracking + $sellSaving + $spreadSellCoin;
   ?>
   <div class="flex-container">
     <div>
