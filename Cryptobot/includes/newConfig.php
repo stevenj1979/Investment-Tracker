@@ -1071,7 +1071,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
     //     $tempFee = ($BTCBalance/100)*0.28;
     //      $returnPrice = ($BTCBalance-$tempFee)/$bitPrice;
     //  }else{
-      $returnPrice = $btcBuyAmount/$multiplier;
+      $returnPrice = ($btcBuyAmount/$multiplier)/$bitPrice;
       //}
 
       echo " $returnPrice ";
@@ -1082,7 +1082,8 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      $balCheck = 'YES';
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     // $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
-     $returnPrice = ($BTCBalance - (($BTCBalance/100)*0.81));
+    $fee = ($BTCBalance/100)*0.81);
+     $returnPrice = ($BTCBalance - $fee)/$bitPrice;
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
    LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag | $bitPrice | $multiplier | $balCheck",3,1);
