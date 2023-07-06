@@ -1141,12 +1141,14 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
             SuperLog($nFile,"<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount",$nFunc,"BC61","",$logFlowSettingAry,'Variables'); //$logVariSettingAry
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
               $LiveCoinPrice = $spreadBetCoins[$l][2];$coinID = $spreadBetCoins[$l][1];$spreadBetTransID = $spreadBetCoins[$l][4];
-              $risesInPrice = $spreadBetCoins[$l][5];
+              $risesInPrice = $spreadBetCoins[$l][5]; $minTradeAmount = $spreadBetCoins[$l][6];
               //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
 
               if ($totalBuyAmount < $buyQuantity){
-                addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
-                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $spreadBetPerCoinAmount, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"BC62","",$logEventsSettingAry,'Events');
+                if($spreadBetPerCoinAmount<$minTradeAmount){ $finalBuyPerCoin = $minTradeAmount; }
+                else{ $finalBuyPerCoin = $spreadBetPerCoinAmount; }
+                addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $finalBuyPerCoin, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);
+                SuperLog($nFile,"addTrackingCoin($coinID, $LiveCoinPrice, $userID, $baseCurrency, $SendEmail, 1, $finalBuyPerCoin, $ruleIDBuy, $CoinSellOffsetPct, $CoinSellOffsetEnabled, $buyType, $timeToCancelBuyMins, $SellRuleFixed,0,0,$risesInPrice,'SpreadBuy',$LiveCoinPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,'SpreadBuyCoins',0);",$nFunc,"BC62","",$logEventsSettingAry,'Events');
                 //$totalBuyAmount = $totalBuyAmount + $buyQuantity;
                 $totalBuyAmount = $totalBuyAmount + $spreadBetPerCoinAmount;
               }else{
@@ -2197,7 +2199,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84]; $emergencyRLBuyEnabled = $lossCoins[$y][85]; $emergencyRLBuyPct = $lossCoins[$y][86];
     $usdtPrice = $lossCoins[$y][88]; $btcPrice =  $lossCoins[$y][89]; $ethPrice =  $lossCoins[$y][88]; $rlDelayNextBuyHours =  $lossCoins[$y][91]; $rlDelayAllOtherBuyMins =  $lossCoins[$y][92];
-    $stopReduceLoss = $lossCoins[$y][93];
+    $stopReduceLoss = $lossCoins[$y][93]; $minTradeSize = $lossCoins[$y][94];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
     if ($stopReduceLoss == 1){ continue; }
@@ -2262,8 +2264,11 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
       $profitMultiplier = ABS($reduceLossSellPct)/ABS($pctProfit);
       $quant = $totalAmount*($currentBuy*$profitMultiplier);
       //$newPurchase = ((($totalAmount/100)*$coinForBuyOutPct)*$finalMultiplier);
-      $newPurchase = 15;
+      
+      if ($minTradeSize < 15){$newPurchase = $minTradeSize; }
+      else{ $newPurchase = 15; }
       echo "<BR> buyToreduceLoss2: 2 | $currentBuy | $quant | $profitMultiplier | $totalAmount";
+
       //newLogToSQL("buyToreduceLoss","addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,10,'Buy',$liveCoinPrice,0,0,1,'buyToreduceLoss',$transactionID);",3,1,"addTrackingCoin","TransactionID:$transactionID");
       SuperLog($nFile,"addTrackingCoin($coinID, $liveCoinPrice, $userID, $baseCurrency, 1, 1, $newPurchase, 97, 0, 0, 1, $minsToCancel, 229,1,1,$hoursFlat,$type,$liveCoinPrice,0,0,1,'buyToreduceLoss',$savingOverride,$transactionID);$currentBuy _ $coinForBuyOutPct _ $finalMultiplier",$nFunc,"RL1","TransactionID:$transactionID",$logEventsSettingAry,'Events');
       //Buy Coin with Merge

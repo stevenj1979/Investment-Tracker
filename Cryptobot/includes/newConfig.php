@@ -846,7 +846,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
-  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`
+  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`,`MinTradeSize`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
  echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -862,7 +862,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
     ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled'],$row['ReduceLossMinsToCancel'],$row['SpreadBetRuleID'] //82
     ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']//91
-    ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss']); //93
+    ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss'],$row['MinTradeSize']); //94
   }
   $conn->close();
   return $tempAry;
@@ -5018,7 +5018,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID,`BuyRisesInPrice`
+$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID,`BuyRisesInPrice`,`MinTradeSize`
           FROM `SpreadBetCoins` `Sbc`
       	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
@@ -5031,7 +5031,7 @@ $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID'],$row['BuyRisesInPrice']);
+    $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID'],$row['BuyRisesInPrice'],$row['MinTradeSize']);
 }
 $conn->close();
 return $tempAry;
