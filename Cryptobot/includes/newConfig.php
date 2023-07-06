@@ -1044,11 +1044,11 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
   //$btcBuyAmount = $btcBuyAmount/$bitPrice;
   $basePrices = getBasePrices();
   if ($baseCurrency == 'USDT'){
-    $btcBuyAmount = $btcBuyAmount / $basePrices[0][2];
+    $multiplier = $basePrices[0][2];
   }elseif ($baseCurrency == 'BTC'){
-    $btcBuyAmount = $btcBuyAmount / $basePrices[0][0];
+    $multiplier =  $basePrices[0][0];
   }elseif ($baseCurrency == 'ETH'){
-    $btcBuyAmount = $btcBuyAmount / $basePrices[0][1];
+    $multiplier = $basePrices[0][1];
   }
   $testFlag = 0;
   echo "<BR> 0: returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){";
@@ -1070,17 +1070,17 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
     //     $tempFee = ($BTCBalance/100)*0.28;
     //      $returnPrice = ($BTCBalance-$tempFee)/$bitPrice;
     //  }else{
-        $returnPrice = $btcBuyAmount/$bitPrice;
+      $returnPrice = $btcBuyAmount/$multiplier;
       //}
 
       echo " $returnPrice ";
       $testFlag = 3;
     }
 
-   if ($btcBuyAmount > $BTCBalance) {
+   if ($btcBuyAmount < $BTCBalance) {
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
-     $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
-     $returnPrice = $tempPrice/$bitPrice;
+    // $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
+     $returnPrice = ($BTCBalance - (($BTCBalance/100)*0.81));
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
    LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag | $bitPrice",3,1);
