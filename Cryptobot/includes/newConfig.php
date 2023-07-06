@@ -1078,7 +1078,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
       $testFlag = 3;
     }
 
-   if ($btcBuyAmount < $BTCBalance) {
+   if ($btcBuyAmount > $BTCBalance) {
      $balCheck = 'YES';
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     // $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
