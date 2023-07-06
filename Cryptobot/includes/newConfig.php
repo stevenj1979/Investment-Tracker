@@ -1042,6 +1042,7 @@ function newPrice($bitPrice, $pct, $action){
 function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBalance, $bitPrice,$apikey,$apisecret){
   //Convert USD to BTC/ETH/BCH
   //$btcBuyAmount = $btcBuyAmount/$bitPrice;
+  $balCheck = 'NO';
   $basePrices = getBasePrices();
   if ($baseCurrency == 'USDT'){
     $multiplier = $basePrices[0][2];
@@ -1078,12 +1079,13 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
     }
 
    if ($btcBuyAmount < $BTCBalance) {
+     $balCheck = 'YES';
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     // $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
      $returnPrice = ($BTCBalance - (($BTCBalance/100)*0.81));
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
-   LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag | $bitPrice",3,1);
+   LogToSQL("BuyCoinTest","returnBuyAmount: $returnPrice | $BTCBalance | $btcBuyAmount | $testFlag | $bitPrice | $multiplier | $balCheck",3,1);
    //echo "<BR> Balance : $BTCBalance ";
    //if ($BTCBalance < 20.00){$returnPrice == 0;}
 
