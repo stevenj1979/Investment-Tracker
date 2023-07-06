@@ -1082,7 +1082,7 @@ function returnBuyAmount($coin, $baseCurrency, $btcBuyAmount, $buyType, $BTCBala
      $balCheck = 'YES';
      //$returnPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.28);
     // $tempPrice = $BTCBalance - (($BTCBalance/ 100 ) * 0.82);
-    $fee = ($BTCBalance/100)*0.81);
+      $fee = ($BTCBalance/100)*0.81;
      $returnPrice = ($BTCBalance - $fee)/$bitPrice;
     // echo "<BR> 4: $returnPrice = $returnPrice > $BTCBalance ";
    }
