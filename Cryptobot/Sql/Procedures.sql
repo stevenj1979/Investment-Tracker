@@ -2581,3 +2581,41 @@ INSERT INTO `HistoricBittrexBalances`(`Symbol`, `Total`, `Price`, `UserID`, `Mul
         where `Cn`.`BuyCoin` = 1;
 End$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `DisableRuleOnLowBalance`(IN `User_ID` INT)
+    NO SQL
+BEGIN
+DECLARE BTC_Bal DEC(20,14);
+DECLARE USDT_Bal DEC(20,14);
+DECLARE ETH_Bal DEC(20,14);
+
+SELECT `Total`*getBTCPrice(84) into BTC_Bal FROM `BittrexBalances` WHERE `UserID` = User_ID and Day(`Date`) = Day(now()) and Month(`Date`) = Month(now()) and Year(`Date`) = Year(now()) and `Symbol` = 'BTC';
+
+SELECT `Total`*getBTCPrice(83) into USDT_Bal FROM `BittrexBalances` WHERE `UserID` = User_ID and Day(`Date`) = Day(now()) and Month(`Date`) = Month(now()) and Year(`Date`) = Year(now()) and `Symbol` = 'USDT';
+
+SELECT `Total`*getBTCPrice(85) into ETH_Bal FROM `BittrexBalances` WHERE `UserID` = User_ID and Day(`Date`) = Day(now()) and Month(`Date`) = Month(now()) and Year(`Date`) = Year(now()) and `Symbol` = 'ETH';
+
+if (BTC_Bal > 15) THEN
+	UPDATE `BuyRules` SET `DisableUntil`= DATE_ADD(now(),interval 24 hour) WHERE `LimitToBaseCurrency` = ‘BTC’ and `UserID` = User_ID;
+    Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 1  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'BTC' and `Tr`.`UserID` = User_ID;
+else
+	UPDATE `BuyRules` SET `DisableUntil`= now() WHERE `LimitToBaseCurrency` = 'BTC'  and `UserID` = User_ID;
+    Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 0  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'BTC' and `Tr`.`UserID` = User_ID;
+end if;
+if (USDT_Bal > 15) THEN
+	UPDATE `BuyRules` SET `DisableUntil`= DATE_ADD(now(),interval 24 hour) WHERE `LimitToBaseCurrency` = ‘USDT’ and `UserID` = User_ID;
+    Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 1  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'USDT' and `Tr`.`UserID` = User_ID;
+else
+	UPDATE `BuyRules` SET `DisableUntil`= now() WHERE `LimitToBaseCurrency` = 'USDT' and `UserID` = User_ID;
+    Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 0  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'USDT' and `Tr`.`UserID` = User_ID;
+end if;
+if (ETH_Bal > 15) THEN
+		UPDATE `BuyRules` SET `DisableUntil`= DATE_ADD(now(),interval 24 hour) WHERE `LimitToBaseCurrency` = 'ETH' and `UserID` = User_ID;
+        Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 1  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'ETH' and `Tr`.`UserID` = User_ID;
+else
+	UPDATE `BuyRules` SET `DisableUntil`= now() WHERE `LimitToBaseCurrency` = 'ETH' and `UserID` = User_ID;
+    Update `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` SET `StopReduceLoss` = 0  WHERE `Tr`.`Status` = 'Open' and `Cn`.`BaseCurrency` = 'ETH' and `Tr`.`UserID` = User_ID;
+end if;
+END$$
+DELIMITER ;
