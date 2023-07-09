@@ -361,8 +361,8 @@ function getUserData(){
   return $tempAry;
 }
 
-Function updateBittrexBals(){
-  $userConfig = getUserData();
+Function updateBittrexBals($userConfig){
+
   $userConfigSize = count($userConfig);
   echo "<BR> Array Size:$userConfigSize ";
   for ($j=0; $j<$userConfigSize; $j++){
@@ -998,6 +998,35 @@ function runMultiBuy(){
   }
 }
 
+function disableEnableRules($userID){
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call DisableRuleOnLowBalance($userID)";
+
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  newLogToSQL("disableEnableRules",$sql,3,0,"SQL","UserID:$userID");
+  logAction("disableEnableRules: ".$sql, 'SQL_UPDATE', 0);
+}
+
+function runDisableOnLowBalance($userConfig){
+  $userConfigSize = count($userConfig);
+  for ($b = 0; $b<$userConfigSize; $b++){
+    $userID = $userConfig[$b][2];
+    disableEnableRules($userID);
+  }
+}
+
+$userConfig = getUserData();
 Echo "<BR> CoinHourly";
 Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
@@ -1028,7 +1057,7 @@ updateSplitBuyAmountforRule();
 Echo "<BR> 10. deleteBittrexBalances();";
 deleteBittrexBalances();
 Echo "<BR> 11. updateBittrexBals();";
-updateBittrexBals();
+updateBittrexBals($userConfig);
 Echo "<BR> 12. updateWebSavings();";
 updateWebSavings();
 Echo "<BR> 13. getBounceIndex();";
@@ -1056,5 +1085,6 @@ runMultiBuy();
 minAmountToSaving();
 //closeTransactionswithNoAmountinBittrex();
 runAutoUpdateHolding();
+runDisableOnLowBalance($userConfig);
 ?>
 </html>
