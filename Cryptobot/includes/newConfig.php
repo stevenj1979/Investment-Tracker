@@ -846,7 +846,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
   , (ProfitUSD/OriginalPrice )*100 as ProfitPct
   ,`CaptureTrend`,`minsToDelay`,`Enabled` as `ReduceLossEnabled`,`SellPct` as `ReduceLossSellPct`,`OriginalPriceMultiplier`,`ReduceLossCounter`,`ReduceLossMaxCounter`,`HoursFlatLowPdcs` as `HoursFlat`,`OverrideReduceLoss`,`HoursFlatPdcs`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`holdingAmount`
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
-  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`,`MinTradeSize`
+  ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`,`MinTradeSize`,`LowBalanceDoNotBuy`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
  echo "<BR> $sql";
   $result = $conn->query($sql);
@@ -862,7 +862,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     ,$row['ReduceLossCounter'],$row['ReduceLossMaxCounter'],$row['HoursFlat'],$row['OverrideReduceLoss'],$row['HoursFlatPdcs'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['holdingAmount'],$row['SavingOverride']//72
     ,$row['HoursFlatRls'],$row['SpreadBetTransactionID'],$row['CoinSwapDelayed'],$row['MaxHoursFlat'],$row['PctOfAuto'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['HoursFlatAutoEnabled'],$row['ReduceLossMinsToCancel'],$row['SpreadBetRuleID'] //82
     ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']//91
-    ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss'],$row['MinTradeSize']); //94
+    ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss'],$row['MinTradeSize'],$row['LowBalanceDoNotBuy']); //95
   }
   $conn->close();
   return $tempAry;
@@ -932,7 +932,7 @@ function getUserRules($type){
   ,`BuyAmountOverrideEnabled`, `BuyAmountOverride`,`NewBuyPattern`,`KEK`,`SellRuleFixed`,`OverrideDailyLimit`,`CoinPricePatternEnabled`,`CoinPricePattern`,`1HrChangeTrendEnabled`,`1HrChangeTrend`,`BuyRisesInPrice`
   ,`TotalProfitPauseEnabled`,`TotalProfitPause`,`PauseRulesEnabled`,`PauseRules`,`PauseHours`,`MarketDropStopEnabled`,`MarketDropStopPct`,`OverrideDisableRule`,`LimitBuyAmountEnabled`,`LimitBuyAmount`,`OverrideCancelBuyTimeEnabled`
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
-  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`,`SpreadBetTotalAmount`
+  ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`,`SpreadBetTotalAmount`,`LowBalanceDoNotBuy`
    FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = $ruleType and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -949,7 +949,7 @@ function getUserRules($type){
     ,$row['BuyRisesInPrice'],$row['TotalProfitPauseEnabled'],$row['TotalProfitPause'],$row['PauseRulesEnabled'],$row['PauseRules'],$row['PauseHours'],$row['MarketDropStopEnabled'],$row['MarketDropStopPct'] //72
     ,$row['OverrideDisableRule'],$row['LimitBuyAmountEnabled'],$row['LimitBuyAmount'],$row['OverrideCancelBuyTimeEnabled'],$row['OverrideCancelBuyTimeMins'],$row['NoOfBuyModeOverrides'],$row['CoinModeOverridePriceEnabled'] //79
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
-   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr'],$row['SpreadBetTotalAmount']); //93
+   ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr'],$row['SpreadBetTotalAmount'],$row['LowBalanceDoNotBuy']); //94
   }
   $conn->close();
   return $tempAry;

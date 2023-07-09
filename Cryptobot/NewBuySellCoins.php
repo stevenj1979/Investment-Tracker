@@ -893,11 +893,12 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       $overrideCancelBuyTimeEnabled = $buyRules[$y][76];
       $overrideCancelBuyTimeMins = $buyRules[$y][77];
       $noOfBuyModeOverrides = $buyRules[$y][78];$coinModeOverridePriceEnabled = $buyRules[$y][79];
-      $pctOfAuto = $buyRules[$y][88];
+      $pctOfAuto = $buyRules[$y][88]; $lowBalDoNotBuy = $buyRules[$y][94];
       $buyCounter = initiateAry($buyCounter,$userID."-".$coinID);
       $buyCounter = initiateAry($buyCounter,$userID."-Total");
       SuperLog($nFile,"Placeholder 1:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy | $ruleType <BR>",$nFunc,"BC10","",$logFlowSettingAry,'Flow');
       if ($buyRuleType != $ruleType){ continue;}
+      if ($lowBalDoNotBuy == 1){ continue; }
       if ($risesInPrice == 0){
         //$risesInPrice =
       }
@@ -2199,13 +2200,14 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $hoursFlatAutoEnabled = $lossCoins[$y][80]; $pctOfAuto = $lossCoins[$y][79]; $maxHoursFlat = $lossCoins[$y][76]; $minsToCancel = $lossCoins[$y][81]; $spreadBetRuleID = $lossCoins[$y][82];
     $market24HrPctChange = $lossCoins[$y][83]; $market7DPctChange = $lossCoins[$y][84]; $emergencyRLBuyEnabled = $lossCoins[$y][85]; $emergencyRLBuyPct = $lossCoins[$y][86];
     $usdtPrice = $lossCoins[$y][88]; $btcPrice =  $lossCoins[$y][89]; $ethPrice =  $lossCoins[$y][88]; $rlDelayNextBuyHours =  $lossCoins[$y][91]; $rlDelayAllOtherBuyMins =  $lossCoins[$y][92];
-    $stopReduceLoss = $lossCoins[$y][93]; $minTradeSize = $lossCoins[$y][94];
+    $stopReduceLoss = $lossCoins[$y][93]; $minTradeSize = $lossCoins[$y][94]; $lowBalDoNotBuy = $lossCoins[$y][95];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
     if ($stopReduceLoss == 1){ continue; }
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
     if ($pctProfit <= -40){ $overrideReduceLoss = 1; }
     if ($pctProfit <= -50){ $pctOfAuto = 4.0; }
+    if ($lowBalDoNotBuy == 1){ continue; }
     if ($overrideReduceLoss == 1){
       $finalReduceLoss = 1;
       $pctOfAuto = $pctOfAuto/4;
