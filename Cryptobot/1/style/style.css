@@ -81,7 +81,7 @@ nav {
     height: 40px;
   }
 
-  .flex-CoinBoxNoShowBoth .flex-CoinBoxNoShow{
+  .flex-CoinBoxNoShowBoth.flex-CoinBoxNoShow{
     display: none;
   }
 
@@ -379,7 +379,7 @@ table tr:last-child {
   flex-direction: row;
 }
 
-.flex-CoinBoxNoShowBoth .flex-CoinBoxNoShowDsk{
+.flex-CoinBoxNoShowBoth.flex-CoinBoxNoShowDsk{
   display: none;
 }
 
