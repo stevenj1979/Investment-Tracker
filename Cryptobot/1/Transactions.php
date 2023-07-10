@@ -449,7 +449,7 @@ function getCoinsfromSQL($userID){
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "SELECT `IDTr`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,'BittrexStatus',`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
-            ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack`,`OverrideReduceLoss`,`SavingOverride`,`OverrideBittrexCancellation`,`StopReduceLoss`
+            ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack`,`OverrideReduceLoss`,`SavingOverride`,`OverrideBittrexCancellation`,`StopReduceLoss`,`LowBalanceDoNotBuy`
             FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
     //print_r($sql);
     $result = $conn->query($sql);
@@ -458,7 +458,7 @@ function getCoinsfromSQL($userID){
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['IDTr'],$row['Type'],$row['CoinID'],$row['CoinPrice'],$row['Amount'],$row['Status'],$row['OrderDate'],$row['CompletionDate'],$row['BittrexID'],$row['Symbol'],$row['BittrexRef'] //10
         ,$row['BittrexStatus'],$row['LiveCoinPrice'],$row['UserID'],$row['OrderNo'],$row['Symbol'],$row['FixSellRule'],$row['ToMerge'],$row['BaseCurrency'],$row['StopBuyBack'],$row['OverrideReduceLoss'] //20
-        ,$row['SavingOverride'],$row['OverrideBittrexCancellation'],$row['StopReduceLoss']); //23
+        ,$row['SavingOverride'],$row['OverrideBittrexCancellation'],$row['StopReduceLoss'],$row['LowBalanceDoNotBuy']); //24
     }
     $conn->close();
     return $tempAry;
@@ -505,7 +505,7 @@ function displayDefault(){
   print_r("<th>To Merge</th><th>Savings Override</th><th>StopBuyBack</th><th>OverrideReduceLoss</th>");
   print_r("<th>Override Bittrex</th>");
   print_r("<th>StopReduceLoss</th>");
-  //print_r("<th>Change Fixed Sell Rule</th>");
+  print_r("<th>Low Balance</th>");
   //print_r("<th>Merge</th>");
   //print_r("<th>Fix Coin Amount</th>");
   //print_r("<th>Add To Spread</th>");
@@ -522,7 +522,7 @@ function displayDefault(){
       $orderDate = $coin[$x][6]; $type = $coin[$x][1];
       $bittrexRef = $coin[$x][9];$orderNo = $coin[$x][14];$symbol = $coin[$x][15]; $fixSellRule = $coin[$x][16]; $toMerge = $coin[$x][17]; $baseCurrency = $coin[$x][18];
       $purchasePrice = ($amount*$coinPrice); $stopBuyBack = $coin[$x][19]; $overrideReduceLoss = $coin[$x][20]; $savingsOverride = $coin[$x][21];
-      $overrideBittrex = $coin[$x][22]; $stopReduceLoss = $coin[$x][23];
+      $overrideBittrex = $coin[$x][22]; $stopReduceLoss = $coin[$x][23]; $lowBalanceDoNotBuy = $coin[$x][24];
       print_r("<td>$Id</td>");
       NewEcho("<td>$orderNo</td>",$_SESSION['isMobile'],$mobNum);
       print_r("<td>$symbol</td><td>".round($amount,$roundNum)."</td><td>".round($coinPrice,$roundNum)."</td>");
@@ -536,6 +536,7 @@ function displayDefault(){
       print_r("<td>$overrideReduceLoss</td>");
       print_r("<td>$overrideBittrex</td>");
       print_r("<td>$stopReduceLoss</td>");
+      print_r("<td>$$lowBalanceDoNotBuy</td>");
       //print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       //print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       //print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
