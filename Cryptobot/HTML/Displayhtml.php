@@ -23,9 +23,9 @@ function displayBox($boxAry){
     if ($name == "") {$seperator = "";}else{ $seperator = ":";}
 
     if ($type == "Image"){
-      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'><img src='$image'  width=60 height=60></a> </DIV>";
+      echo "<DIV class='flex-CoinBoxImage'><a href='$data'><img src='$image'  width=60 height=60></a> </DIV>";
     }elseif ($type == "Link"){
-      echo "<DIV class='flex-CoinBoxItemRow'><a href='$data'>$name</a> </DIV>";
+      echo "<DIV class='flex-CoinBoxLink'><a href='$data'>$name</a> </DIV>";
     }elseif ($type == "Colour"){
       if ($data > 0){
         echo "<DIV class='flex-CoinBoxItemRow'>$name $seperator <span class='greenText'>$data</span> $pct</DIV>";
