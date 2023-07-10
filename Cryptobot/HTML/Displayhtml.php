@@ -18,7 +18,7 @@ function displayBox($boxAry){
     }
     if ($display == 1){ $class ='flex-CoinBoxItemRow'; }
     elseif ($display == 2){ $class ='flex-CoinBoxNoShowDsk'; }
-    elseif ($display == 3){ $class ='flex-CoinBoxNoShowMob'; }
+    elseif ($display == 3){ $class ='flex-CoinBoxNoShow'; }
     elseif ($display == 4){ $class ='flex-CoinBoxNoShowBoth'; }
     if ($dataType == 'Float'){
       //$data = round((float)$data+0,$roundVar);
