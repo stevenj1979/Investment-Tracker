@@ -536,7 +536,7 @@ function displayDefault(){
       print_r("<td>$overrideReduceLoss</td>");
       print_r("<td>$overrideBittrex</td>");
       print_r("<td>$stopReduceLoss</td>");
-      print_r("<td>$$lowBalanceDoNotBuy</td>");
+      print_r("<td>$lowBalanceDoNotBuy</td>");
       //print_r("<td><a href='Transactions.php?changefixSell=Yes&SellRule=$Id&FixSellRule=$fixSellRule'>$fontSize</i></a></td>");
       //print_r("<td><a href='Transactions.php?merge=Yes&SellRule=$Id'>$fontSize</i></a></td>");
       //print_r("<td><a href='Transactions.php?fixCoinAmount=Yes&SellRule=$Id&CoinID=$coinID&UserID=$userID&Amount=$amount'>$fontSize</i></a></td>");
