@@ -292,9 +292,9 @@ function showSellCoins($trackingSell,$title){
         array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar,3),
         array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar,3),
 
-        array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar,1),
-        array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar,1),
-        array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar,1),
+        array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar,3),
+        array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar,3),
+        array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar,3),
 
         array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0,1),
         array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0,1),

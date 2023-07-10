@@ -33,14 +33,14 @@ function displayBox($boxAry){
       echo "<DIV class='flex-CoinBoxLink'><a href='$data'>$name</a> </DIV>";
     }elseif ($type == "Colour"){
       if ($data > 0){
-        echo "<DIV class='$class'>$name $seperator <span class='greenText'>$data</span> $pct</DIV>";
+        echo "<DIV class='flex-CoinBoxItemRow'>$name $seperator <span class='greenText'>$data</span> $pct</DIV>";
       }elseif ($data == 0){
-        echo "<DIV class='$class'>$name $seperator <span class='amberText'>$data</span> $pct</DIV>";
+        echo "<DIV class='flex-CoinBoxItemRow'>$name $seperator <span class='amberText'>$data</span> $pct</DIV>";
       }else{
-        echo "<DIV class='$class'>$name $seperator <span class='redText'>$data</span> $pct</DIV>";
+        echo "<DIV class='flex-CoinBoxItemRow'>$name $seperator <span class='redText'>$data</span> $pct</DIV>";
       }
     }else{
-      echo "<DIV class='$class'>$name $seperator $data $pct</DIV>";
+      echo "<DIV class='flex-CoinBoxItemRow'>$name $seperator $data $pct</DIV>";
     }
 
   }
