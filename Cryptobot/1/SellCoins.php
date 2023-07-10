@@ -276,30 +276,30 @@ function showSellCoins($trackingSell,$title){
       $numCol = getNumberColour($profitBtc);
       echo "<td><p id='smallText' style='color:$numCol'>".number_format($profitBtc, $roundVar, '.', '')."</p></td>";*/
       $boxAry = array (
-        array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0),
-        array("",$name."-".$baseCurrency,"","","",5,"","","Text",0),
-        array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
-        array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
-        array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
+        array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0,1),
+        array("",$name."-".$baseCurrency,"","","",5,"","","Text",0,1),
+        array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar,1),
+        array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar,1),
+        array("Mins Delay",$minsDelay,"","","",0,"","","Text",0,1),
 
-        array("PurchasePrice",$originalPurchaseCost,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
-        array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2),
-        array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
-        array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
+        array("PurchasePrice",$originalPurchaseCost,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+        array("LivePrice",$liveTotalCost,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+        array("Profit",$profitBtc,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar,1),
+        array("Profit",$profit,"","Colour","Colour",1,"","%","Float",2,1),
+        array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+        array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar,1),
 
-        array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar),
-        array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar),
+        array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar,3),
+        array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar,3),
 
-        array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar),
-        array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
-        array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
+        array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar,1),
+        array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar,1),
+        array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar,1),
 
-        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0),
-        array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0),
-        array("Manual Sell with Tracking","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"","","Text",0),
-        array("Save Coins","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,"","","Text",0)
+        array("Manual Sell","ManualSell.php?manSell=Yes&coin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0,1),
+        array("Split Coins","ManualSell.php?splitCoin=$coin&amount=".$amount."&cost=$originalPurchaseCost&baseCurrency=$baseCurrency&orderNo=$orderNo&transactionID=$transactionID&salePrice=$livePrice","","","Link",4,"","","Text",0,1),
+        array("Manual Sell with Tracking","ManualSell.php?trackCoin=Yes&baseCurrency=$baseCurrency&transactionID=$transactionID&salePrice=$livePrice&userID=$userID","","","Link",4,"","","Text",0,1),
+        array("Save Coins","ManualSell.php?manReopen=Yes&transactionID=$transactionID","","","Link",4,"","","Text",0,1)
       );
       displayBox($boxAry);
   }

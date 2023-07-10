@@ -288,27 +288,27 @@ $date = date('Y/m/d H:i:s', time());
             $userID = $_SESSION['ID'];
             $name = $trackingSell[$x][50]; $image = $trackingSell[$x][51];
             $boxAry = array (
-              array("Image","SellCoins_SpreadCoin.php","$image","","Image",5,"","","Text",0),
-              array("",$spreadBetRuleName."-".$baseCurrency,"","","",5,"","","Text",0),
-              array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar),
-              array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar),
-              array("Mins Delay",$minsDelay,"","","",0,"","","Text",0),
+              array("Image","SellCoins_SpreadCoin.php","$image","","Image",5,"","","Text",0,1),
+              array("",$spreadBetRuleName."-".$baseCurrency,"","","",5,"","","Text",0,1),
+              array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar,1),
+              array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar,1),
+              array("Mins Delay",$minsDelay,"","","",0,"","","Text",0,1),
 
-              array("PurchasePrice",$purchasePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
-              array("LivePrice",$livePrice,"","","",1,"","$baseCurrency","Float",$roundVar),
-              array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar),
-              array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2),
-              array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar),
-              array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar),
+              array("PurchasePrice",$purchasePrice,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+              array("LivePrice",$livePrice,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+              array("Profit",$profit,"","","Colour",1,$numColProfit,"$baseCurrency","Float",$roundVar,1),
+              array("Profit",$profitPct,"","Colour","Colour",1,"","%","Float",2,1),
+              array("Cost per Coin",$cost,"","","",1,"","$baseCurrency","Float",$roundVar,1),
+              array("Amount",$amount,"","","",1,"","$coin","Float",$roundVar,1),
 
-              array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar),
-              array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar),
+              array("MarketCap",$mrktCap,"","","Colour",2,"","%","Float",$roundVar,3),
+              array("Volume",$volume,"","","Colour",2,"","%","Float",$roundVar,3),
 
-              array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar),
-              array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar),
-              array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar),
+              array("1HrChange",$pctChange1Hr,"","","Colour",3,"","%","Float",$roundVar,1),
+              array("24HrChange",$pctChange24Hr,"","","Colour",3,"","%","Float",$roundVar,1),
+              array("7DChange",$pctChange7D,"","","Colour",3,"","%","Float",$roundVar,1),
 
-              array("Sell Coins","SellCoins_Spread.php?Mode=1&SBTransID=$transactionID","","","Link",4,"","","Text",0)
+              array("Sell Coins","SellCoins_Spread.php?Mode=1&SBTransID=$transactionID","","","Link",4,"","","Text",0,1)
 
             );
             displayBox($boxAry);
