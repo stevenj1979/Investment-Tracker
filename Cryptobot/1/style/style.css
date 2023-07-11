@@ -168,6 +168,10 @@ nav {
 }
 
 @media screen and (min-width: 1101px) {
+  .flex-CoinBoxNoShowDsk{
+    display: none;
+  }
+  
   ul {
     background: #2C3E50;
     list-style: none;
@@ -373,10 +377,6 @@ table tr:last-child {
 .flex-CoinBoxItemRow{
   position: relative;
   flex-direction: row;
-}
-
-.flex-CoinBoxNoShowDsk{
-  display: none;
 }
 
 .flex-CoinBoxNoShowBoth{

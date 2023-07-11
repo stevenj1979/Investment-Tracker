@@ -416,6 +416,9 @@ function getMarketChange(){
 
 function runMarketStats(){
     writeMarketStats();
+    writeMarketStatsCurr('USDT');
+    writeMarketStatsCurr('BTC');
+    writeMarketStatsCurr('ETH');
 }
 
 function writeMarketStats(){
@@ -435,6 +438,25 @@ function writeMarketStats(){
   $conn->close();
   logAction("writeMarketStats: ".$sql, 'TrackingCoins', 0);
   newLogToSQL("writeMarketStats","$sql",3,0,"SQL CALL","");
+}
+
+function writeMarketStatsCurr($baseCurrency){
+
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "Call UpdateMarketStatsCurr('$baseCurrency');";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("writeMarketStatsCurr: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("writeMarketStatsCurr","$sql",3,0,"SQL CALL","");
 }
 
 function DeleteMarketStats(){
