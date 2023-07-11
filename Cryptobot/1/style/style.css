@@ -216,7 +216,6 @@ nav {
     margin-top: 1rem;
     left: 0;
     display: none;
-    z-index: 100;
   }
 
   ul li:hover > ul,
@@ -231,6 +230,7 @@ nav {
   ul li ul li {
     clear: both;
     width: 100%;
+    z-index: 100;
   }
 
   td{
