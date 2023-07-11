@@ -415,10 +415,11 @@ function getMarketChange(){
 }
 
 function runMarketStats(){
-    writeMarketStats();
+
     writeMarketStatsCurr('USDT');
     writeMarketStatsCurr('BTC');
     writeMarketStatsCurr('ETH');
+    writeMarketStats();
 }
 
 function writeMarketStats(){
