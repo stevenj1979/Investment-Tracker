@@ -364,13 +364,13 @@ table tr:last-child {
   color: #ffa500;
 }
 
-.flex-CoinBoxItem{
+.flex-CoinBoxItem, .flex-CoinBoxNoShow{
   position: relative;
   flex-grow: 1;
   flex-direction: column;
 }
 
-.flex-CoinBoxItemRow, .flex-CoinBoxNoShow{
+.flex-CoinBoxItemRow{
   position: relative;
   flex-direction: row;
 }
