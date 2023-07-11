@@ -73,13 +73,6 @@ nav {
 
 
 @media screen and (max-width: 1100px) {
-  .flex-CoinBoxImage{
-    position: relative;
-    flex-grow: 1;
-    flex-direction: row;
-    width: 40px;
-    height: 40px;
-  }
 
 .flex-CoinBoxNoShow{
     display: none;
@@ -392,9 +385,7 @@ table tr:last-child {
 }
 
 .flex-CoinBoxImage{
-  position: relative;
-  flex-grow: 1;
-  flex-direction: row;
+
 }
 
 .flex-container {
