@@ -33,6 +33,7 @@ nav {
 
 .dropdown {
   position: relative;
+  z-index: 100;
 }
 
 .dropdown-menu {
@@ -230,7 +231,6 @@ nav {
   ul li ul li {
     clear: both;
     width: 100%;
-    z-index: 100;
   }
 
   td{
