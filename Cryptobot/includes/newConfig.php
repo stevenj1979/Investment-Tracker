@@ -4197,10 +4197,18 @@ function getMarketAlertsTotal(){
      FROM `MarketAlertsView`";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //4
-    ,$row['Category'],$row['Action'],$row['Minutes'],$row['MarketAlertRuleID'],$row['Price']);
-  }
+
+  //$result = mysqli_query( $sql );
+    if( $result ){
+      // success! check results
+      while ($row = mysqli_fetch_assoc($result)){
+        $tempAry[] = Array($row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //4
+        ,$row['Category'],$row['Action'],$row['Minutes'],$row['MarketAlertRuleID'],$row['Price']);
+      }
+    }
+    else{
+    // failure! check for errors and do something else
+    }
   $conn->close();
   return $tempAry;
 }
@@ -4235,9 +4243,11 @@ function getSpreadBetAlertsTotal(){
   FROM `SpreadBetAlertsView`";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['LiveCoinPrice'],$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange'],$row['LiveMarketCap'],$row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
-    ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct']);
+  if( $result ){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['LiveCoinPrice'],$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange'],$row['LiveMarketCap'],$row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
+      ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct']);
+    }
   }
   $conn->close();
   return $tempAry;

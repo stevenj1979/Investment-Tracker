@@ -53,10 +53,11 @@ function checkMarketforPctDip(){
   for ($y=0; $y<$marketStatsSize; $y++){
 
     $userID = $marketStats[$y][0];$lowMarketModeStartPct = $marketStats[$y][1]; $lowMarketModeIncrements = $marketStats[$y][2]; $lowMarketModeAuto = $marketStats[$y][3]; $pctOfAuto = $marketStats[$y][4];
-    $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2; $lowMarketModeEnabled = $marketStats[$y][5];
+
     $marketPctChangeHr1 = $marketStats[$y][6]; $marketPctChangeHr24 = $marketStats[$y][7];$marketPctChangeD7 = $marketStats[$y][8];
     $minHr1ChangePctChange = $marketStats[$y][9]; $minHr24ChangePctChange = $marketStats[$y][10]; $minD7ChangePctChange = $marketStats[$y][11];
-
+    $avgPctChange = ($marketPctChangeHr24 + $marketPctChangeD7)/2; $lowMarketModeEnabled = $marketStats[$y][5];
+    
     if ($lowMarketModeAuto == 1){
       $lowMarketModeIncrements = ((($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto)/4;
       $avgPctChange = (($minHr24ChangePctChange + $minD7ChangePctChange)/2)*$pctOfAuto;
@@ -444,7 +445,7 @@ function isBuyMode($coinAry, $minBuyAmount){
   //$coinsArySize = count($coinsAry);
   //echo "<BR> Checking Coin Mode:";
   //for ($x=0; $x<$coinsArySize; $x++){
-    Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinsAry[$x][0];
+    //Echo "<BR> --------- Checking NEW Coin for Coin Mode: ".$coinsAry[$x][0];
     //$buyFlag = isBuyMode($coinsAry[$x],10.0);
     echo " || $buyFlag";
     //$sellFlag = isSellMode($coinsAry[$x]);
