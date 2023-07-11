@@ -107,7 +107,7 @@ function getNewMarketstats(){
             ,((((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`))/ (`Mcs`.`Live7DChange`))*100) as D7MarketPctChange
             ,`Mcs`.`MinHr1ChangePctChange`, `Mcs`.`MinHr24ChangePctChange`, `Mcs`.`MinD7ChangePctChange`
             FROM `UserConfig` `Ucf`
-            join `MarketCoinStats` `Mcs`
+            join `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = 'ALL'
             where (`LowMarketModeEnabled` > 0) or (`LowMarketModeEnabled` = -1)";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);

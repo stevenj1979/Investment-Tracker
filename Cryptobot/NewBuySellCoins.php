@@ -218,7 +218,12 @@ function runSellSavings($spreadBuyBack){
 }
 
 function runPriceDipRule($priceDipRules){
-  $priceDipRulesSize = count($priceDipRules);
+  if(isset($priceDipRules)){
+    $priceDipRulesSize = count($priceDipRules);
+  }else{
+    $priceDipRulesSize = 0;
+  }
+
   //echo "<BR>";
   //var_dump($priceDipRules);
   for ($a=0; $a<$priceDipRulesSize;$a++){

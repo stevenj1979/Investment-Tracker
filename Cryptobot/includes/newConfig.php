@@ -7843,6 +7843,7 @@ function getBuyBackData($tmpSBRuleID = 0){
 }
 
 function getBuyBackKittyAmount($userID){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -7863,6 +7864,7 @@ function getBuyBackKittyAmount($userID){
 }
 
 function getMarketPrices($dateTime){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -7883,6 +7885,7 @@ function getMarketPrices($dateTime){
 }
 
 function getPriceDipRules(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
@@ -7915,6 +7918,7 @@ function getPriceDipRules(){
 }
 
 function getMarketStatistics(){
+  $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {

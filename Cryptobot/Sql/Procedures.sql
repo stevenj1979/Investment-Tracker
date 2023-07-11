@@ -2279,18 +2279,18 @@ DECLARE MinHr1Pct DEC(20,14);
 DECLARE MinHr24Pct DEC(20,14);
 DECLARE MinD7Pct DEC(20,14);
 
-SELECT ifnull(`MaxCoinPricePctChange`,0) into CoinPct FROM `MarketCoinStats`;
-SELECT ifnull(`MaxHr1ChangePctChange`,0) into Hr1Pct FROM `MarketCoinStats`;
-SELECT ifnull(`MaxHr24ChangePctChange`,0) into Hr24Pct FROM `MarketCoinStats`;
-SELECT ifnull(`MaxD7ChangePctChange`,0) into D7Pct FROM `MarketCoinStats`;
-SELECT ifnull(`MinCoinPricePctChange`,0) into MinCoinPct FROM `MarketCoinStats`;
-SELECT ifnull(`MinHr1ChangePctChange`,0) into MinHr1Pct FROM `MarketCoinStats`;
-SELECT ifnull(`MinHr24ChangePctChange`,0) into MinHr24Pct FROM `MarketCoinStats`;
-SELECT ifnull(`MinD7ChangePctChange`,0) into MinD7Pct FROM `MarketCoinStats`;
+SELECT ifnull(`MaxCoinPricePctChange`,0) into CoinPct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MaxHr1ChangePctChange`,0) into Hr1Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MaxHr24ChangePctChange`,0) into Hr24Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MaxD7ChangePctChange`,0) into D7Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MinCoinPricePctChange`,0) into MinCoinPct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MinHr1ChangePctChange`,0) into MinHr1Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MinHr24ChangePctChange`,0) into MinHr24Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
+SELECT ifnull(`MinD7ChangePctChange`,0) into MinD7Pct FROM `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
 
-Delete from `MarketCoinStats`;
+Delete from `MarketCoinStatsBaseCurr` where `BaseCurrency` = 'All';
 
-INSERT INTO `MarketCoinStats`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`MaxCoinPricePctChange`,`MaxHr1ChangePctChange`,`MaxHr24ChangePctChange`,`MaxD7ChangePctChange`,`MinCoinPricePctChange`,`MinHr1ChangePctChange`,`MinHr24ChangePctChange`,`MinD7ChangePctChange`,`HoursFlat`,`HoursFlatLow`,`HoursFlatHigh`,`BaseCurrency`)
+INSERT INTO `MarketCoinStatsBaseCurr`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`,`MaxCoinPricePctChange`,`MaxHr1ChangePctChange`,`MaxHr24ChangePctChange`,`MaxD7ChangePctChange`,`MinCoinPricePctChange`,`MinHr1ChangePctChange`,`MinHr24ChangePctChange`,`MinD7ChangePctChange`,`HoursFlat`,`HoursFlatLow`,`HoursFlatHigh`,`BaseCurrency`)
  SELECT sum(`Cp`.`LiveCoinPrice`) as LiveCoinPrice, sum(`Cp`.`LastCoinPrice`) as LastCoinPrice, sum(`Cp`.`Price3`) as Price3, sum(`Cp`.`Price4`) as Price4, sum(`Cp`.`Price5`) as Price5
      ,sum(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
      , sum(`Cmc`.`LiveMarketCap`) as LiveMarketCap, sum(`Cmc`.`LastMarketCap`) as LastMarketCap, sum(((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
