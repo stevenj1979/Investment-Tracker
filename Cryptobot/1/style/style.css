@@ -370,7 +370,7 @@ table tr:last-child {
   flex-direction: column;
 }
 
-.flex-CoinBoxItemRow{
+.flex-CoinBoxItemRow, .flex-CoinBoxNoShow{
   position: relative;
   flex-direction: row;
 }
