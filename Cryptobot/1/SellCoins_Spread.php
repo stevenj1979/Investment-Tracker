@@ -87,9 +87,9 @@ function getTrackingSellCoinsLoc($userID, $comma_separated){
   ,((sum(`LiveMarketCap`-`LastMarketCap`))/sum(`LastMarketCap`))*100 as `MarketCapPctChange`, sum(`LastCoinPrice`) as `LastCoinPrice `, sum(`LiveCoinPrice`) as `LiveCoinPrice `
   , ((sum(`LiveCoinPrice`-`LastCoinPrice`))/sum(`LastCoinPrice`))*100 as `CoinPricePctChange`, sum(`LastSellOrders`) as `LastSellOrders `, sum(`LiveSellOrders`) as `LiveSellOrders`
   ,((sum(`LiveSellOrders`-`LastSellOrders`))/sum(`LastSellOrders`))*100 as `SellOrdersPctChange`, sum(`LastVolume`) as `LastVolume `, sum(`LiveVolume`) as `LiveVolume `
-  , ((sum(`LiveVolume`-`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange `, ((sum(`Live1HrChange`-`Last1HrChange`))/sum(`Last1HrChange`))*100 as `Hr1ChangePctChange`
-  , sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange `, ((sum(`Live24HrChange`-`Last24HrChange`))/sum(`Last24HrChange`))*100 as `Hr24ChangePctChange`, sum(`Last7DChange`) as `Last7DChange `
-  , sum(`Live7DChange`) as `Live7DChange `, ((sum(`Live7DChange`-`Last7DChange`))/sum(`Last7DChange`))*100 as `D7ChangePctChange`,`BaseCurrency`
+  , ((sum(`LiveVolume`-`LastVolume`))/sum(`LastVolume`))*100 as `VolumePctChange`, sum(`Last1HrChange`) as `Last1HrChange `, sum(`Live1HrChange`) as `Live1HrChange `, ((sum(`LiveCoinPrice`-`Live1HrChange`))/sum(`Live1HrChange`))*100 as `Hr1ChangePctChange`
+  , sum(`Last24HrChange`) as `Last24HrChange `, sum(`Live24HrChange`) as `Live24HrChange `, ((sum(`LiveCoinPrice`-`Live24HrChange`))/sum(`Live24HrChange`))*100 as `Hr24ChangePctChange`, sum(`Last7DChange`) as `Last7DChange `
+  , sum(`Live7DChange`) as `Live7DChange `, ((sum(`LiveCoinPrice`-`Live7DChange`))/sum(`Live7DChange`))*100 as `D7ChangePctChange`,`BaseCurrency`
     , if(sum(`Price4`-`Price5`) > 0, 1, if(sum(`Price4` -`Price5`) < 0, -1, 0)) as  `Price4Trend`
     ,if(sum(`Price3` -`Price4`) > 0, 1, if(sum(`Price3` -`Price4`) < 0, -1, 0)) as `Price3Trend`
     ,if(sum(`LastCoinPrice` -`Price3`) > 0, 1, if(sum(`LastCoinPrice`-`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
