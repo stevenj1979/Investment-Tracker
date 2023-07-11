@@ -8,7 +8,7 @@ function displayBox($boxAry){
   for ($row = 0; $row < $boxArySize; $row++) {
     $name = $boxAry[$row][0]; $data = $boxAry[$row][1]; $size = $boxAry[$row][3]; $image = $boxAry[$row][2];$type = $boxAry[$row][4]; $group = $boxAry[$row][5];
     $colour = $boxAry[$row][6]; $pct = $boxAry[$row][7]; $dataType = $boxAry[$row][8]; $roundVar = $boxAry[$row][9]; $display = $boxAry[$row][10];
-    if ($display == 1){ $class ='flex-CoinBoxItemRow'; }
+    if ($display == 1){ $class ='flex-CoinBoxItem'; }
     elseif ($display == 2){ $class ='flex-CoinBoxNoShowDsk'; }
     elseif ($display == 3){ $class ='flex-CoinBoxNoShow'; }
     elseif ($display == 4){ $class ='flex-CoinBoxNoShowBoth'; }
