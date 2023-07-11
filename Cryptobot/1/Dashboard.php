@@ -280,8 +280,13 @@ displayHeader(0);
               //echo "<BR> $LiveBTCPrice : $LiveETHPrice";
               //$totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice)+$pendingUSDT;
               echo "<h3>Dashboard</h3>";
-              $avgPrice = ($webMarketStats[0][1]+$webMarketStats[0][2])/2;
-              echo "<BR><H3>1Hr:".round($webMarketStats[0][0],2)."% \t| 24Hr:".round($webMarketStats[0][1],2)."%\t| 7D:".round($webMarketStats[0][2],2)."%\t | Avg: ".round($avgPrice,2)."%</H3><BR>";
+              $webMarketStatsSize = count($webMarketStats);
+              for ($l=0; $l<$webMarketStatsSize;$l++){
+                $baseCurr = $webMarketStats[$l][3];
+                $avgPrice = ($webMarketStats[$l][1]+$webMarketStats[$l][2])/2;
+                echo "<BR><H3>$baseCurr 1Hr:".round($webMarketStats[$l][0],2)."% \t| 24Hr:".round($webMarketStats[$l][1],2)."%\t| 7D:".round($webMarketStats[$l][2],2)."%\t | Avg: ".round($avgPrice,2)."%</H3><BR>";
+              }
+
               echo "<table><TH></TH><TH>BTC</TH><TH>ETH</TH><TH>USDT</TH><TH>Total</TH><tr>";
 
                 echo "<tr><td>&nbspHolding</td><td>&nbspUSD&nbsp".round($btcPrice,2)."</td><td>&nbspUSD&nbsp".round($ethProfit,2)."</td><td>&nbspUSD&nbsp".round($usdtPrice,2)."</td><td>USD&nbsp".round($bittrexTotal,2)."</td></tr>";

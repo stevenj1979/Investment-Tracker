@@ -8301,14 +8301,14 @@ function getWebMarketStats(){
       die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange` FROM `MarketCoinStats`";
+  $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,`BaseCurrency` FROM `MarketCoinStatsBaseCurr`";
 
   //echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
-      $tempAry[] = Array($row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange']);
+      $tempAry[] = Array($row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['BaseCurrency']);
       //13  14  15
 
   }
