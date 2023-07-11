@@ -216,6 +216,7 @@ nav {
     margin-top: 1rem;
     left: 0;
     display: none;
+    z-index: 100;
   }
 
   ul li:hover > ul,
@@ -225,8 +226,6 @@ nav {
     visibility: visible;
     opacity: 1;
     display: block;
-    position: absolute;
-    z-index: 100;
   }
 
   ul li ul li {
