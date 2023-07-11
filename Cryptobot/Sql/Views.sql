@@ -222,7 +222,7 @@ FROM `BittrexAction`  `Ba`
       join `User` `Us` on `Us`.`ID` = `Uc`.`UserID`
       left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`
       left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`
-      join `MarketCoinStats` `Mcs`
+      join `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = `Cn`.`BaseCurrency`
       Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
 
     CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
@@ -484,7 +484,7 @@ from (((`BuyRules` `Br`
   left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
   left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`
   left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`
-  join  `MarketCoinStats` `Mcs`
+  join  `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = `Cn`.`BaseCurrency`
   left join `View25_NoOfOpenTransactions` `Noot` on `Noot`.`BuyRule` = `Br`.`ID` and `Noot`.`UserID` = `Br`.`UserID`
   left join `PriceDipMarketRule` `Pdmr` on `Pdmr`.`BuyRuleID` = `Br`.`ID`
   where `Mcs`.`Hr24ChangePctChange` <> 0 AND `Mcs`.`D7ChangePctChange` <> 0;
