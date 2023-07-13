@@ -393,6 +393,9 @@ Function updateBittrexBals($userConfig){
             $price = $priceAry[0][0];
             echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : $price | $x | $amount | $runningTotal";
             if (!isset($price)){ $price = 0;}
+            if (!isset($base)){ $base = '';}
+            if (!isset($coinID)){ $coinID = 0;}
+            if (!isset($amount) AND ($openBaseCurrSize <= 1)){ $amount = $value["total"];}
             if ($runningTotal >= $amount){
                 updateBittrexBalances($value["currencySymbol"],$amount,$price, $userID,$base, $coinID);
             }
