@@ -6248,7 +6248,7 @@ function updateBittrexBalances($symbol, $total, $price, $userID,$base, $coinID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base' $coinID);";
+    $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base', $coinID);";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
