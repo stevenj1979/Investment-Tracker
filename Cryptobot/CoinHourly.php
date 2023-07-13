@@ -375,10 +375,7 @@ Function updateBittrexBals($userConfig){
     echo "<BR> Array Size : $bittrexBalsSize";
     foreach ($bittrexBals as $value){
         if ($value["total"] > 0){
-          Echo $value["currencySymbol"];
-          Echo $value["total"];
-          Echo $value["available"];
-          echo "<BR>";
+          Echo $value["currencySymbol"]." | ".$value["total"]." | ".$value["available"]."<BR>";
           $openBaseCurr = getOpenBaseCurrency($value["currencySymbol"]);
           $openBaseCurrSize = count($openBaseCurr);
           $runningTotal = 0;
@@ -391,7 +388,7 @@ Function updateBittrexBals($userConfig){
 
             $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
             $price = $priceAry[0][0];
-            echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : $price | $x | $amount | $runningTotal";
+            //echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : $price | $x | $amount | $runningTotal";
             if (!isset($price)){ $price = 0;}
             if (!isset($base)){ $base = '';}
             if (!isset($coinID)){ $coinID = 0;}
@@ -402,6 +399,8 @@ Function updateBittrexBals($userConfig){
             $runningTotal = $runningTotal - $amount;
 
           }
+        }else{
+          Echo $value["currencySymbol"]." | Zero Val";
         }
     }
   }

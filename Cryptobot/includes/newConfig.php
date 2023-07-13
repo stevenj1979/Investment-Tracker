@@ -2949,7 +2949,7 @@ function getOpenBaseCurrency($symbol){
               join `Transaction` `Tr` on `Tr`.`CoinID` = `Cn`.`ID`
               WHERE `Cn`.`Symbol` = '$symbol' and `Tr`.`Status` in ('Open','Pending','Saving')";
 
-  echo "<BR> $sql";
+  //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency'],$row['ID'],$row['Amount']);}
