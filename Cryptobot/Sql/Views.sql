@@ -721,10 +721,14 @@ WHERE `Status` in ('Pending','Open')
 group by `BuyRule`,`UserID`;
 
 CREATE OR REPLACE VIEW `View26_BalanceDifferences` AS
-SELECT sum(`OT15`.`Amount`),`OT15`.`Symbol` , `Bb`.`Total`,  `Bb`.`Total`-sum(`OT15`.`Amount`) as Difference
-FROM `View15_OpenTransactions` `OT15`
-join `BittrexBalances` `Bb` on `Bb`.`Symbol` = `OT15`.`Symbol`
-WHERE `OT15`.`StatusTr` in ('Open') group by `OT15`.`Symbol` having sum(`OT15`.`Amount`) > `Bb`.`Total`
+SELECT sum(`OT15`.`Amount`),`OT15`.`Symbol` , `Bb`.`Total`
+, (Select Sum(`Total`) from `BittrexBalances` Where `Symbol` = `OT15`.`Symbol` ) as BittrexTotal
+, (SELECT Sum(`Tr`.`Amount`) FROM `Transaction` `Tr` where `Tr`.`Status` in ('Open','Pending','Saving') and `CoinID` in (Select `ID` from `Coin` where `Symbol` = `OT15`.`Symbol`)) as CryptoBotTotal
+,  (Select Sum(`Total`) from `BittrexBalances` Where `Symbol` = `OT15`.`Symbol` ) - (SELECT Sum(`Tr`.`Amount`) FROM `Transaction` `Tr` where `Tr`.`Status` in ('Open','Pending','Saving') and `CoinID` in (Select `ID` from `Coin` where `Symbol` = `OT15`.`Symbol`)) as Difference
+FROM `BittrexBalances` `Bb`
+join `View15_OpenTransactions` `OT15` on `Bb`.`Symbol` = `OT15`.`Symbol`
+WHERE `OT15`.`StatusTr` in ('Open','Pending','Saving') and (Select Sum(`Total`) from `BittrexBalances` Where `Symbol` = `OT15`.`Symbol` ) - (SELECT Sum(`Tr`.`Amount`) FROM `Transaction` `Tr` where `Tr`.`Status` in ('Open','Pending','Saving') and `CoinID` in (Select `ID` from `Coin` where `Symbol` = `OT15`.`Symbol`)) <> 0
+group by  `Bb`.`Symbol`,`Bb`.`BaseCurrency`;
 
 CREATE OR REPLACE VIEW `View27_SpreadBetAlertsView` AS
 SELECT `Sba`.`ID`, `Sba`.`SpreadBetRuleID`, `Sba`.`Action`, `Sba`.`Price`, `Sba`.`UserID`, `Sba`.`Status`, `Sba`.`Category`, `Sba`.`ReocurringAlert`, `Sba`.`DateTimeSent`, `Sba`.`SpreadBetAlertRuleID`

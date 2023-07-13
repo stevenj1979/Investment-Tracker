@@ -2018,89 +2018,15 @@ End$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddNewBittrexBal`(IN `nSymbol` VARCHAR(50), IN `nTotal` DECIMAL(20,14), IN `nPrice` DECIMAL(20,14), IN `User_ID` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddNewBittrexBal`(IN `nSymbol` VARCHAR(50), IN `nTotal` DECIMAL(20,14), IN `nPrice` DECIMAL(20,14), IN `User_ID` INT, IN `Base_Curr` VARCHAR(50), IN `Coin_ID` INT)
     MODIFIES SQL DATA
 Begin
-Declare Base_USDT INT;
-Declare Base_BTC INT;
-Declare Base_ETH INT;
-Declare running_Bal DEC(20,14);
-Declare USDT_Bal DEC(20,14);
-Declare BTC_Bal DEC(20,14);
-Declare ETH_Bal DEC(20,14);
-DECLARE writeUSDTBal DEC(20,14);
-DECLARE writeBTCBal DEC(20,14);
-DECLARE writeETHBal DEC(20,14);
-Declare Pbase Varchar(50);
 
-SET running_Bal = nTotal;
-SELECT count(`Cn`.`ID`) into Base_USDT FROM `Transaction` `Tr`
-join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-WHERE `CoinID` = (SELECT `ID` from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = 'USDT' and `BuyCoin` = 1) and `Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'USDT';
-
-SELECT count(`Cn`.`ID`) into Base_BTC FROM `Transaction` `Tr`
-join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-WHERE `CoinID` = (SELECT `ID` from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = 'BTC' and `BuyCoin` = 1) and `Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'BTC';
-
-SELECT count(`Cn`.`ID`) into Base_ETH FROM `Transaction` `Tr`
-join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-WHERE `CoinID` = (SELECT `ID` from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = 'ETH' and `BuyCoin` = 1) and `Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'ETH';
-
-if (Base_USDT > 0 and nSymbol not in ('USDT','BTC','ETH')) THEN
-	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = 'USDT' ) THEN
-		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price` ) VALUES (nSymbol,User_ID,'USDT',0,0);
-	end if;
-    SELECT sum(`Tr`.`Amount`) into USDT_Bal FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-	WHERE `Tr`.`CoinID` = (SELECT `ID` from `Coin` Where `Symbol` = nSymbol and `BaseCurrency` = 'USDT' and `BuyCoin` = 1) and `Tr`.`UserID` = User_ID and `Tr`.`Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'USDT';
-    if (USDT_Bal = running_Bal ) THEN
-    	SET writeUSDTBal = USDT_Bal;
-        SET running_Bal = 0;
-    else
-    	SET writeUSDTBal = USDT_Bal;
-        SET running_Bal = running_Bal - USDT_Bal;
-    end if;
-	UPDATE `BittrexBalances` SET `Total` = writeUSDTBal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = 'USDT';
-elseif (Base_BTC > 0 and nSymbol not in ('USDT','BTC','ETH')) Then
-	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = 'BTC' ) THEN
-		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol,User_ID,'BTC',0,0);
-	end if;
-    SELECT sum(`Tr`.`Amount`) into BTC_Bal FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-	WHERE `Tr`.`CoinID` = (SELECT `ID` from `Coin` Where `Symbol` = nSymbol and `BaseCurrency` = 'BTC' and `BuyCoin` = 1) and `Tr`.`UserID` = User_ID and `Tr`.`Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'BTC';
-    if (BTC_Bal = running_Bal ) THEN
-    	SET writeBTCBal = BTC_Bal;
-        SET running_Bal = 0;
-    else
-    	SET writeBTCBal = BTC_Bal;
-        SET running_Bal = running_Bal - BTC_Bal;
-    end if;
-	UPDATE `BittrexBalances` SET `Total` = writeBTCBal,`Price` = nPrice,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = 'BTC';
-elseif  (Base_ETH > 0 and nSymbol not in ('USDT','BTC','ETH')) Then
-	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = 'ETH' ) THEN
-		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol, User_ID, 'ETH',0,0);
-	end if;
-        SELECT sum(`Tr`.`Amount`) into ETH_Bal FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-	WHERE `Tr`.`CoinID` = (SELECT `ID` from `Coin` Where `Symbol` = nSymbol and `BaseCurrency` = 'ETH' and `BuyCoin` = 1) and `Tr`.`UserID` = User_ID and `Tr`.`Status` in ('Open','Pending','Saving') and `Cn`.`BaseCurrency` = 'ETH';
-    if (ETH_Bal = running_Bal ) THEN
-    	SET writeETHBal = ETH_Bal;
-        SET running_Bal = 0;
-    else
-    	SET writeETHBal = ETH_Bal;
-        SET running_Bal = running_Bal - ETH_Bal;
-    end if;
-	UPDATE `BittrexBalances` SET `Total` = writeETHBal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = 'ETH';
-elseif nSymbol in ('USDT','BTC','ETH') THEN
-  If nSymbol = ('USDT') THEN
-    Set Pbase = 'USD';
-  elseif nSymbol in ('BTC','ETH') THEN
-    Set Pbase = 'USDT';
-  end if;
-	IF NOT EXISTS (SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = nSymbol ) THEN
-		INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`) VALUES (nSymbol, User_ID, Pbase,0,0);
-  end if;
-  UPDATE `BittrexBalances` SET `Total` = nTotal,`Price` = nPrice ,`Date` = now() where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = Pbase;
-
+if NOT Exists(SELECT `ID` From `BittrexBalances` WHERE `Symbol` = nSymbol and `UserID` = User_ID and  `BaseCurrency` = Base_Curr) THEN
+INSERT INTO `BittrexBalances`(`Symbol`, `UserID`, `BaseCurrency`,`Total`,`Price`, `CoinID`) VALUES (nSymbol,User_ID,Base_Curr,0,0,Coin_ID);
 end if;
 
+UPDATE `BittrexBalances` SET `Total` = nTotal,`Price` = nPrice ,`Date` = now(), `CoinID` = Coin_ID where `Symbol`= nSymbol and `UserID` = User_ID and `BaseCurrency` = Base_Curr;
 End$$
 DELIMITER ;
 
