@@ -385,9 +385,9 @@ Function updateBittrexBals($userConfig){
           for ($x=0;$x<$openBaseCurrSize;$x++){
             $base = $openBaseCurr[$x][0]; $coinID = $openBaseCurr[$x][1]; $amount = $openBaseCurr[$x][2];
             if ($x==0){ $runningTotal = $value["total"];}
-            if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';}
-            elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';}
-            elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';}
+            if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 83);continue;}
+            elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 84);continue;}
+            elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 85);continue;}
 
             $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
             $price = $priceAry[0][0];
