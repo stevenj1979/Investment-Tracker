@@ -26,6 +26,10 @@ nav {
   padding: 0;
 }
 
+body{
+  z-index: 1;
+}
+
 .dropdown.active > .link,
 .link:hover {
   color: black;

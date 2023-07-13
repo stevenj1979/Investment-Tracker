@@ -388,7 +388,7 @@ Function updateBittrexBals($userConfig){
           $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
           $price = $priceAry[0][0];
           echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : ".$price;
-
+          if (!isset($price)){ $price = 0;}
           updateBittrexBalances($value["currencySymbol"],$value["total"],$price, $userID);
         }
     }
@@ -984,7 +984,10 @@ function getMultiBuyIDs(){
 
 function runMultiBuy(){
   $multiBuyAry = getMultiBuyIDs();
-  $multiBuyArySize = count($multiBuyAry);
+  if (isset($multiBuyAry)){
+    $multiBuyArySize = count($multiBuyAry);
+  }else{$multiBuyArySize = 0;}
+
   for($d=0;$d<$multiBuyArySize;$d++){
     $multiSellRuleTemplateID = $multiBuyAry[$d][1]; $transactionID = $multiBuyAry[$d][0]; $userID = $multiBuyAry[$d][2];
     $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
