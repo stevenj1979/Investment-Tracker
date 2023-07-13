@@ -6246,6 +6246,9 @@ function getDailyBalance($apikey,$apisecret){
 
 function updateBittrexBalances($symbol, $total, $price, $userID,$base, $coinID){
     $conn = getSQLConn(rand(1,3));
+    if ($base == 'USDT' OR $base == 'BTC' OR $base == 'ETH'){
+      $price = "getBTCPrice($coinID)";
+    }
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base', $coinID);";
