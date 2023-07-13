@@ -2944,7 +2944,7 @@ function getOpenBaseCurrency($symbol){
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     //echo "<BR> Flag1: $lowFlag";
-    $sql = "Select `Cn`.`BaseCurrency` as BaseCurrency,`Cn`.`ID`
+    $sql = "Select `Cn`.`BaseCurrency` as BaseCurrency,`Cn`.`ID`,`Tr`.`Amount`
               From `Coin` `Cn`
               join `Transaction` `Tr` on `Tr`.`CoinID` = `Cn`.`ID`
               WHERE `Cn`.`Symbol` = '$symbol' and `Tr`.`Status` in ('Open','Pending','Saving')";
@@ -2952,7 +2952,7 @@ function getOpenBaseCurrency($symbol){
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency'],$row['ID']);}
+  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency'],$row['ID'],$row['Amount']);}
   $conn->close();
   return $tempAry;
 }
@@ -6244,11 +6244,11 @@ function getDailyBalance($apikey,$apisecret){
   return $temp;
 }
 
-function updateBittrexBalances($symbol, $total, $price, $userID){
+function updateBittrexBalances($symbol, $total, $price, $userID,$base, $coinID){
     $conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-    $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID);";
+    $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base' $coinID);";
     print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
