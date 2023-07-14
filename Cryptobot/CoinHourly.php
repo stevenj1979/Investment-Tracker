@@ -379,10 +379,11 @@ Function updateBittrexBals($userConfig){
           $openBaseCurr = getOpenBaseCurrency($value["currencySymbol"]);
           $openBaseCurrSize = count($openBaseCurr);
           $runningTotal = 0;
-          if($openBaseCurrSize == 0 AND $value["total"] > 0){ updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,'', 0);continue;}
+
           if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 83);continue;}
           elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 84);continue;}
           elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 85);continue;}
+          if($openBaseCurrSize == 0 AND $value["total"] > 0){ updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,'', 0);continue;}
           for ($x=0;$x<$openBaseCurrSize;$x++){
             $base = $openBaseCurr[$x][0]; $coinID = $openBaseCurr[$x][1]; $amount = $openBaseCurr[$x][2];
             if ($x==0){ $runningTotal = $value["total"];}
