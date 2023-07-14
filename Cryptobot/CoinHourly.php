@@ -383,16 +383,17 @@ Function updateBittrexBals($userConfig){
           if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 83);continue;}
           elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 84);continue;}
           elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 85);continue;}
-          if($openBaseCurrSize == 0 AND $value["total"] > 0){ updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,'', 0);continue;}
+          if($openBaseCurrSize == 0 AND $value["total"] > 0){ updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,'', -1);continue;}
           for ($x=0;$x<$openBaseCurrSize;$x++){
             $base = $openBaseCurr[$x][0]; $coinID = $openBaseCurr[$x][1]; $amount = $openBaseCurr[$x][2];
             if ($x==0){ $runningTotal = $value["total"];}
             $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
             $price = $priceAry[0][0];
             //echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : $price | $x | $amount | $runningTotal";
-            if (!isset($price)){ $price = 0;}
-            if (!isset($base)){ $base = '';}
-            if (!isset($coinID)){ $coinID = 0;}
+
+            if (!isset($openBaseCurr)){
+              $coinID = 0;$base = '';$price = 0;
+            }
             if (!isset($amount) AND ($openBaseCurrSize <= 1)){ $amount = $value["total"];}
             if ($runningTotal >= $amount){
                 updateBittrexBalances($value["currencySymbol"],$amount,$price, $userID,$base, $coinID);
