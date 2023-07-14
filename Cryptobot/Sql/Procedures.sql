@@ -2611,3 +2611,21 @@ INSERT INTO `MarketCoinStatsBaseCurr`(`LiveCoinPrice`, `LastCoinPrice`, `Price3`
        having `LiveCoinPrice` <> 0;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `AddTransactionWithCopy`(IN `nSymbol` VARCHAR(50), IN `nBase` VARCHAR(50), IN `nPrice` DECIMAL(20,14), IN `nStatus` VARCHAR(100), IN `nID` INT, IN `nAmount` DECIMAL(20,14))
+    MODIFIES SQL DATA
+BEGIN
+Declare insertID INT;
+Declare coin_ID INT;
+
+INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `CaptureTrend`, `SpreadBetRuleID`, `OriginalAmount`, `OverrideCoinAllocation`, `DelayCoinSwapUntil`, `ReduceLossCounter`, `BuyBackTransactionID`, `BuyBackCounter`, `MultiSellRuleEnabled`, `MultiSellRuleTemplateID`, `StopBuyBack`, `OverrideReduceLoss`, `holdingAmount`, `SavingOverride`, `OverrideBittrexCancellation`, `OverrideBBAmount`, `OverrideBBSaving`, `StopReduceLoss`, `LowBalanceDoNotBuy`)
+SELECT `Type`, `CoinID`, `UserID`, nPrice, nAmount, 'Import', now(), `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `CaptureTrend`, `SpreadBetRuleID`, `OriginalAmount`, `OverrideCoinAllocation`, `DelayCoinSwapUntil`, 0, `BuyBackTransactionID`, 0, `MultiSellRuleEnabled`, `MultiSellRuleTemplateID`, `StopBuyBack`, `OverrideReduceLoss`, `holdingAmount`, `SavingOverride`, `OverrideBittrexCancellation`, `OverrideBBAmount`, `OverrideBBSaving`, `StopReduceLoss`, `LowBalanceDoNotBuy` FROM `Transaction` WHERE `ID` = nID;
+
+Select `ID` into insertID FROM `Transaction`where `Status` = 'Import' and `CoinPrice` = nPrice and `Amount` = nAmount;
+
+Select `ID` into coin_ID from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = Base_Curr and `BuyCoin` = 1;
+
+Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = 'ORD' & nSymbol & DATE_FORMAT(now(), "%Y %M %d %k %i %s"),`Status` = nStatus where `ID` = insertID;
+END$$
+DELIMITER ;

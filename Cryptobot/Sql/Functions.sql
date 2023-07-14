@@ -263,3 +263,23 @@ WHERE `Tr`.`OrderDate` > makedate(Start_Year,95) and `Tr`.`Status` = 'Sold' and 
 return nReturn;
 End$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` FUNCTION `getPriceBySymbol`(`nSymbol` VARCHAR(50), `Base_Curr` VARCHAR(50)) RETURNS decimal(20,14)
+    READS SQL DATA
+BEGIN
+
+Declare Coin_ID INT;
+Declare nPrice DEC(20,14);
+
+Set nPrice = 0;
+
+SELECT `ID` into Coin_ID FROM `Coin` where `Symbol` = nSymbol and `BaseCurrency` = Base_Curr and `BuyCoin` = 1;
+
+Select `LiveCoinPrice` into nPrice From `CoinPrice` where `CoinID` = Coin_ID;
+
+return nPrice;
+
+END$$
+DELIMITER ;

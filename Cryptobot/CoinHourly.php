@@ -379,7 +379,7 @@ Function updateBittrexBals($userConfig){
           $openBaseCurr = getOpenBaseCurrency($value["currencySymbol"]);
           $openBaseCurrSize = count($openBaseCurr);
           $runningTotal = 0;
-
+          ECHO "<BR> LoopSize: $openBaseCurrSize <BR>";
           if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 83);continue;}
           elseif($value["currencySymbol"] == 'BTC'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 84);continue;}
           elseif($value["currencySymbol"] == 'ETH'){ $base = 'USDT';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 85);continue;}
