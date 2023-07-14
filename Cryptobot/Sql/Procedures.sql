@@ -1331,7 +1331,7 @@ SELECT `HoldingBTC` into BTCOnHold FROM `UserCoinSavings` WHERE `UserID` = User_
 SELECT `HoldingETH` into ETHOnHold FROM `UserCoinSavings` WHERE `UserID` = User_ID;
 
 UPDATE `UserConfig` SET `LowMarketModeDate` = date_add(now(),INTERVAL nMins MINUTE), `LowMarketModeEnabled` = nMode
-where `UserID` = User_ID and (`LowMarketModeEnabled` > 0 OR `LowMarketModeEnabled` < 0);
+where `UserID` = User_ID;
 
 
 if NOT EXISTS (SELECT `ID` FROM `UserCoinAllocationAmounts` WHERE `UserID` = User_ID and `BaseCurrency` = 'USDT' and `CoinAllocationID` = 1) THEN
@@ -2630,6 +2630,6 @@ Select `ID` into coin_ID from `Coin` where `Symbol` = nSymbol and `BaseCurrency`
 if (nPrice = 0.00) THEN
 	Select `CoinPrice` into nPrice FROM `Transaction` where `CoinID` = coin_ID and `OrderDate` < now()-1 limit 1;
 End if;
-Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = concat('ORD', nSymbol,DATE_FORMAT(now(), "%Y%m%d%k%i%s")),`Status` = nStatus where `ID` = insertID;
+Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = concat('ORD', nSymbol,DATE_FORMAT(now(), "%Y%m%d%k%i%s")),`Status` = nStatus, `CoinPrice` = nPrice where `ID` = insertID;
 END$$
 DELIMITER ;
