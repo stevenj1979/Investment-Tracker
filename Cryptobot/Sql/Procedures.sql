@@ -2622,10 +2622,14 @@ Declare coin_ID INT;
 INSERT INTO `Transaction`(`Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `CaptureTrend`, `SpreadBetRuleID`, `OriginalAmount`, `OverrideCoinAllocation`, `DelayCoinSwapUntil`, `ReduceLossCounter`, `BuyBackTransactionID`, `BuyBackCounter`, `MultiSellRuleEnabled`, `MultiSellRuleTemplateID`, `StopBuyBack`, `OverrideReduceLoss`, `holdingAmount`, `SavingOverride`, `OverrideBittrexCancellation`, `OverrideBBAmount`, `OverrideBBSaving`, `StopReduceLoss`, `LowBalanceDoNotBuy`)
 SELECT `Type`, `CoinID`, `UserID`, nPrice, nAmount, 'Import', now(), `OrderNo`, `BuyOrderCancelTime`, `SellOrderCancelTime`, `FixSellRule`, `BuyRule`, `SellRule`, `ToMerge`, `NoOfPurchases`, `NoOfCoinSwapsThisWeek`, `NoOfCoinSwapPriceOverrides`, `SpreadBetTransactionID`, `CaptureTrend`, `SpreadBetRuleID`, `OriginalAmount`, `OverrideCoinAllocation`, `DelayCoinSwapUntil`, 0, `BuyBackTransactionID`, 0, `MultiSellRuleEnabled`, `MultiSellRuleTemplateID`, `StopBuyBack`, `OverrideReduceLoss`, `holdingAmount`, `SavingOverride`, `OverrideBittrexCancellation`, `OverrideBBAmount`, `OverrideBBSaving`, `StopReduceLoss`, `LowBalanceDoNotBuy` FROM `Transaction` WHERE `ID` = nID;
 
-Select `ID` into insertID FROM `Transaction`where `Status` = 'Import' and `CoinPrice` = nPrice and `Amount` = nAmount;
 
-Select `ID` into coin_ID from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = Base_Curr and `BuyCoin` = 1;
+Select `ID` into insertID FROM `Transaction`where `Status` = 'Import' and `CoinPrice` = nPrice and `Amount` = nAmount LIMIT 1;
 
-Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = 'ORD' & nSymbol & DATE_FORMAT(now(), "%Y %M %d %k %i %s"),`Status` = nStatus where `ID` = insertID;
+Select `ID` into coin_ID from `Coin` where `Symbol` = nSymbol and `BaseCurrency` = nBase and `BuyCoin` = 1 LIMIT 1;
+
+if (nPrice = 0.00) THEN
+	Select `CoinPrice` into nPrice FROM `Transaction` where `CoinID` = coin_ID and `OrderDate` < now()-1 limit 1;
+End if;
+Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = concat('ORD', nSymbol,DATE_FORMAT(now(), "%Y%m%d%k%i%s")),`Status` = nStatus where `ID` = insertID;
 END$$
 DELIMITER ;
