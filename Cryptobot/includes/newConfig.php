@@ -6250,6 +6250,7 @@ function updateBittrexBalances($symbol, $total, $price, $userID,$base, $coinID){
       $price = "getBTCPrice($coinID)";
     }
     if ($coinID == 0){ $price = "getPriceBySymbol('$symbol','USDT')";}
+    if (!isset($price)){ $price = 0;}
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base', $coinID);";
