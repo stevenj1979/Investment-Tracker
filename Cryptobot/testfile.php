@@ -341,7 +341,7 @@ $data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
 //}
 $datasize= count($data);
 for ($y=0; $y<$dataSize;$y++){
-  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];/
+  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
 }
 
 ?>
