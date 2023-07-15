@@ -2899,6 +2899,7 @@ function updateCoinAllocation($userID, $mode, $baseCurrency, $buyAmount){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("updateCoinAllocation","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
 }
@@ -2933,7 +2934,11 @@ function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spre
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  }else{
+    errorLogToSQL("getNewUSDTAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   return $tempAry;
 }
@@ -2952,7 +2957,11 @@ function getOpenBaseCurrency($symbol){
   //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency'],$row['ID'],$row['Amount']);}
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['BaseCurrency'],$row['ID'],$row['Amount']);}
+  }else{
+    errorLogToSQL("getOpenBaseCurrency","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   return $tempAry;
 }
@@ -2969,7 +2978,11 @@ function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$sprea
   echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  if($result){
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  }else{
+    errorLogToSQL("getNewBTCAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   return $tempAry;
 }
@@ -2986,7 +2999,11 @@ function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$sprea
   //echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AllocTotal']);}
+  }else{
+    errorLogToSQL("getNewETHAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   return $tempAry;
 }
@@ -3061,7 +3078,10 @@ function updateSQL($baseCurrency, $transactionID, $BittrexID){
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
-    } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("updateSQL","$sql;",3,1,"NewConfig",$conn->error,90);
+    }
     $conn->close();
     newLogToSQL("updateSQL",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
     LogAction("updateSQL:".$sql, 'SQL_UPDATE', 0);
@@ -3078,7 +3098,10 @@ function updateTransStatus($transactionID,$status){
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
-    } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("updateTransStatus","$sql;",3,1,"NewConfig",$conn->error,90);
+    }
     $conn->close();
     newLogToSQL("updateTransStatus",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
     LogAction("updateTransStatus:".$sql, 'SQL_UPDATE', 0);
@@ -3096,7 +3119,10 @@ function clearBittrexRef($transactionID){
     //print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
-    } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("clearBittrexRef","$sql;",3,1,"NewConfig",$conn->error,90);
+    }
     $conn->close();
     newLogToSQL("clearBittrexRef",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
     LogAction("clearBittrexRef:".$sql, 'SQL_UPDATE', 0);
@@ -3212,6 +3238,7 @@ function cancelBittrexSQL($id){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("cancelBittrexSQL","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   logAction("cancelBittrexSQL: ".$sql, 'BuySell', 0);
 }
@@ -3228,6 +3255,7 @@ function changeTransStatus($transactionID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("changeTransStatus","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("changeTransStatus",$sql,3,sQLUpdateLog,"SQL","TransactionID:$transactionID");
@@ -3245,6 +3273,7 @@ function bittrexBuyAdd($coinID, $userID, $type, $bittrexRef, $status, $ruleID, $
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexBuyAdd","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexBuyAdd: ".$sql, 'SQL_CALL', 0);
@@ -3262,6 +3291,7 @@ function bittrexAddNoOfPurchases($bittrexRef, $noOfPurchases){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexAddNoOfPurchases","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("bittrexAddNoOfPurchases",$sql,3,0,"SQL","BittrexRef:$bittrexRef");
@@ -3279,6 +3309,7 @@ function bittrexSellAdd($coinID, $transactionID, $userID, $type, $bittrexRef, $s
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexSellAdd","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexSellAdd: ".$sql, 'SQL_CALL', 0);
@@ -3296,6 +3327,7 @@ function bittrexSellCancel($bittrexRef, $transactionID, $errorCode){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexSellCancel","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexSellCancel: ".$sql, 'SQL_CALL', 0);
@@ -3313,6 +3345,7 @@ function bittrexBuyCancel($bittrexRef, $transactionID, $errorCode){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexBuyCancel","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexBuyCancel: ".$sql, 'SQL_CALL', 0);
@@ -3330,6 +3363,7 @@ function bittrexBuyComplete($bittrexRef,$transactionID, $finalPrice, $type){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexBuyComplete","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexBuyComplete: ".$sql, 'SQL_CALL', 0);
@@ -3347,6 +3381,7 @@ function bittrexSellComplete($bittrexRef,$transactionID, $finalPrice){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexSellComplete","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexSellComplete: ".$sql, 'SQL_CALL', 0);
@@ -3364,6 +3399,7 @@ function bittrexBuyCompleteUpdateAmount($transactionID, $amount){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexBuyCompleteUpdateAmount","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexBuyCompleteUpdateAmount: ".$sql, 'SQL_CALL', 0);
@@ -3381,6 +3417,7 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("bittrexSellCompleteUpdateAmount","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexSellCompleteUpdateAmount: ".$sql, 'SQL_CALL', 0);
@@ -3420,7 +3457,11 @@ function getDailyBTC(){
   $sql = "SELECT sum(`CoinPrice`*`Amount`) as `AmountOpen`,`UserID`,`BaseCurrency` FROM `View15_OpenTransactions` where timeStampDiff(Hour,`OrderDate`,now()) <  24
           Group by `BaseCurrency`,`UserID`";
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
+  }else{
+    errorLogToSQL("getDailyBTC","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   return $tempAry;
 }
@@ -3434,6 +3475,7 @@ function copyCoinHistory($coin){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("copyCoinHistory","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("copyCoinHistory","$sql",3,sQLUpdateLog,"SQL CALL","Coin:$coin");
@@ -3448,6 +3490,7 @@ function copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHisto
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("copyCoinBuyHistoryStats","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("copyCoinBuyHistoryStats","$sql",3,0,"SQL CALL","CoinID:$coinID");
@@ -3462,6 +3505,7 @@ function copyBuyHistory($coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("copyBuyHistory","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("copyBuyHistory","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3474,8 +3518,12 @@ function getAveragePrice($symbol){
   if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
   $sql = "SELECT `AvgCoinPrice` FROM `AvgCoinPriceView` WHERE `Symbol` = '$symbol'";
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['AvgCoinPrice']);
+  if ($resule){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['AvgCoinPrice']);
+    }
+  }else{
+    errorLogToSQL("getAveragePrice","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   return $tempAry;
@@ -3491,6 +3539,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("coinPriceHistory","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("coinPriceHistory","$sql",3,0,"SQL CALL","CoinID:$coinID");
@@ -3506,6 +3555,7 @@ function coinPriceHistorySpreadBet($coinID,$price,$baseCurrency,$date,$hr1Pct,$h
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("coinPriceHistorySpreadBet","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("coinPriceHistorySpreadBet","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3518,8 +3568,12 @@ function get1HrChange($coinID){
   $sql = "SELECT `Price` FROM `OneHourPrice` WHERE `CoinID` = $coinID";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Price']);
+  if($result){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Price']);
+    }
+  }else{
+    errorLogToSQL("get1HrChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   return $tempAry;
@@ -3537,6 +3591,7 @@ function update1HrPriceChange($price,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      errorLogToSQL("update1HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   if ($coinID == 130){
@@ -3551,8 +3606,12 @@ function get24HrChange($coinID){
   $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Price']);
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Price']);
+    }
+  }else{
+    errorLogToSQL("get24HrChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   return $tempAry;
@@ -3570,7 +3629,7 @@ function get7DayChange($coinID){
       $tempAry[] = Array($row['Price']);
     }
   }else{
-    newerLogToSQL("get7DayChange","$sql;",3,1,"NewConfig",$conn->error,90);
+    errorLogToSQL("get7DayChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   return $tempAry;
@@ -3588,7 +3647,7 @@ function update7DPriceChange($sevenDayPrice,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
-      newerLogToSQL("update7DPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
+      errorLogToSQL("update7DPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update7DPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
@@ -3604,7 +3663,7 @@ function updatePctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
-      newerLogToSQL("updatePctChange","$sql;",3,1,"NewConfig",$conn->error,90);
+      errorLogToSQL("updatePctChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("updatePctChange","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3623,7 +3682,7 @@ function update24HrPriceChange($price,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
-      newerLogToSQL("update24HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
+      errorLogToSQL("update24HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update24HrPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
@@ -3639,7 +3698,7 @@ function update8HrPriceChange($price,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
-      newerLogToSQL("update8HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
+      errorLogToSQL("update8HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update8HrPriceChange","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3653,7 +3712,7 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
-    newerLogToSQL("bittrexUpdateBuyQty","$sql;",3,1,"NewConfig",$conn->error,90);
+    errorLogToSQL("bittrexUpdateBuyQty","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexUpdateBuyQty: ".$sql, 'BuySell', 0);
@@ -3668,7 +3727,7 @@ function bittrexUpdateSellQty($transactionID, $quantity){
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
-    newerLogToSQL("bittrexUpdateSellQty","$sql;",3,1,"NewConfig",$conn->error,90);
+    errorLogToSQL("bittrexUpdateSellQty","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexUpdateSellQty: ".$sql, 'SQL_CALL', 1);
@@ -3683,7 +3742,8 @@ function bittrexCopyTransNewAmount($transactionID, $oQuantity, $nQuantity, $orde
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
-    sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    //sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    errorLogToSQL("bittrexCopyTransNewAmount","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   logAction("bittrexCopyTransNewAmount: ".$sql, 'SQL_CALL', 0);
@@ -3775,7 +3835,7 @@ function newerLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, 
   }
 }
 
-function erroLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, $daysToKeep){
+function errorLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, $daysToKeep){
   if ($enabled == 1){
     $comments = str_replace("'","/",$comments);
     $conn = getSQLConn(rand(1,3));
