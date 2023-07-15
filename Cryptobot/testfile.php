@@ -5,6 +5,7 @@ require('includes/newConfig.php');
 //set_include_path('/home/stevenj1979/repositories/gdax/src/Configuration.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
+include_once ('/home/stevenj1979/Investment-Tracker/Cryptobot/includes/SQLDbCommands.php');
 
 $SQLUpdateLog = 1;
 $SQLProcedureLog = 1;
@@ -319,5 +320,24 @@ var_dump($resultOrd);
 $resultOrd = bittrexOrderClosed($apikey, $apisecret, $uuid, 3);
 Echo "<BR> CLOSED ORDERS!!!";
 var_dump($resultOrd);
+
+Echo "<BR> TEST New SELECT <BR> ";
+$sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
+,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
+,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimeToCancelBuyMins`,`BuyBack`,`OldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
+,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
+,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
+,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`,`OverrideBuyBackAmount` as OverrideBuyBackAmountSR,`OverrideBuyBackSaving` as OverrideBuyBackSavingSR
+,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`,`BuyBackCounter`,`BuyBackMax`,`DisableBuyBack`,`LiveCoinPriceSell`,(`SellPrice`*`Amount`) as `FullSellPrice`, (`LiveCoinPriceSell`*`Amount`) as `FullSellPriceLive`, (`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`) as `SellDifference`
+, (((`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`))/(`SellPrice`*`Amount`))*100 as `SellDifferencePct`
+,(`CoinPrice`*`Amount`) as `FullBuyPrice`, (`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`) as `BuyDifference`
+, (((`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `BuyDifferencePct`
+FROM `View4_BittrexBuySell`
+where (`StatusBa` = '1')  and `UserIDBa` = 3 order by `ActionDate` desc";
+$data = SQLSelect($sql);
+foreach ($data as $row) {
+    echo $row['BittrexRef'];
+}
+
 ?>
 </html>
