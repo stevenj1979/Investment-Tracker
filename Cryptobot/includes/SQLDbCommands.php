@@ -1,5 +1,5 @@
 <?PHP
-require('../../../SQLDb.php');
+include_once ('/home/stevenj1979/SQLData.php');
 
 function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
     if($history == 1){
