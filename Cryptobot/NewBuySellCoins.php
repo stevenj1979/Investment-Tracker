@@ -6,6 +6,7 @@ require('Functions/BuySellFunc.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
+include_once ('includes/SQLDbCommands.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToSQLSetting = getLogToSQL();
