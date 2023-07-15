@@ -29,7 +29,7 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
 }
 
 function SQLSelect($sql) {
-  echo "<BR> Start";
+  /*echo "<BR> Start";
   $res = mysql_query($sql) or trigger_error("db: ".mysql_error()." in ".$sql);
   $a   = array();
   if ($res) {
@@ -37,18 +37,19 @@ function SQLSelect($sql) {
   }else{
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
   }
-  return $a;
+  return $a;*/
 }
 
 function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
   $tempAry = array();
   $conn = getSQLConn(rand(1,3));
+  Echo "<BR>$sql<BR>";
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
   $result = $conn->query($sql);
   if ($result){
-      while ($row = mysqli_fetch_assoc($result)) $tempAry[] = $row);
+      while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row);}
   }else{
     //error here
   }
