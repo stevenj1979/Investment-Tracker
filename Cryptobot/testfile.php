@@ -322,18 +322,13 @@ Echo "<BR> CLOSED ORDERS!!!";
 var_dump($resultOrd);
 
 Echo "<BR> TEST New SELECT <BR> ";
-$sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
-,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
-,`MinsToPauseAfterPurchase`,`OriginalAmount`,`SaveResidualCoins`,`MinsSinceAction`,`TimeToCancelBuyMins`,`BuyBack`,`OldBuyBackTransID`,`ResidualAmount`,`MergeSavingWithPurchase`,`BuyBackEnabled`,`SaveMode`, `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`
-,getBTCPrice(84) as BTCPrice,getBTCPrice(85) as ETHPrice,`MultiSellRuleEnabled`,`MultiSellRuleTemplateID`,`StopBuyBack`,`MultiSellRuleID`,`TypeBa`,`ReduceLossBuy`,`IDBa`,IfNull(`BuyOrderCancelTimeMins`,0) as BuyOrderCancelTimeMins,`MinsToCancelAction`,`MinsRemaining`,`LowMarketModeEnabled`,`HoldCoinForBuyOut`
-,`CoinForBuyOutPct`,`holdingAmount`,`NoOfPurchases`,(((`LiveCoinPrice`-`Live1HrChange`))/`LiveCoinPrice`)*100 as Hr1PriceMovePct,`PctToCancelBittrexAction`,((`LiveCoinPrice`-`SellPrice`)/`SellPrice`)*100 as PctFromSale, ((`LiveCoinPrice`-`CoinPrice`)/`CoinPrice`)*100 as LiveProfitPct
-,`OneTimeBuyRuleBr`,`DateADD`,`timeToCancel`,`OverrideBittrexCancellation`,`Image`,now() as `CurrentTime`, TIMESTAMPDIFF(MINUTE,`ActionDate`,NOW()) as MinsFromAction,`OverrideBBAmount`, `OverrideBBSaving`,`OverrideBuyBackAmount` as OverrideBuyBackAmountSR,`OverrideBuyBackSaving` as OverrideBuyBackSavingSR
-,`BuyBackMinsToCancel`,`TimeToCancelBa`,`TimeStampNow`,`TimeStampTimeToCancel`,`BuyBackCounter`,`BuyBackMax`,`DisableBuyBack`,`LiveCoinPriceSell`,(`SellPrice`*`Amount`) as `FullSellPrice`, (`LiveCoinPriceSell`*`Amount`) as `FullSellPriceLive`, (`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`) as `SellDifference`
-, (((`LiveCoinPriceSell`*`Amount`)-(`SellPrice`*`Amount`))/(`SellPrice`*`Amount`))*100 as `SellDifferencePct`
-,(`CoinPrice`*`Amount`) as `FullBuyPrice`, (`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`) as `BuyDifference`
-, (((`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `BuyDifferencePct`
-FROM `View4_BittrexBuySell`
-where (`StatusBa` = '1')  and `UserIDBa` = 3 order by `ActionDate` desc";
+$sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
+,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
+,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
+,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
+,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
+,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp',`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`,`CaaSellOffset`,`SpreadBetTransactionID`
+FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'SpreadSell' order by `ProfitPct` Desc";
 //$data = mySQLSelect($sql);
 $data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
 //foreach ($data as $row) {
