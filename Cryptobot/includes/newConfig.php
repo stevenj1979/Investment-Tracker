@@ -1,5 +1,7 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('includes/SQLDbCommands.php');
+
 
 Define("sQLUpdateLog","0");
 Define("SQLProcedureLog","0");
@@ -5167,108 +5169,110 @@ return $tempAry;
 }
 
 function addTrackingCoin($coinID, $coinPrice, $userID, $baseCurrency, $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, $toMerge, $noOfPurchases, $risesInPrice, $type, $originalPrice,$spreadBetTransID,$spreadBetRuleID,$overrideCoinAlloc,$callName, $savingOverride, $transID = 0){
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //if ($conn->connect_error) {
+    //  die("Connection failed: " . $conn->connect_error);
+  //}
 
   $sql = "INSERT INTO `TrackingCoins`(`CoinID`, `CoinPrice`, `UserID`, `BaseCurrency`, `SendEmail`, `BuyCoin`, `Quantity`, `RuleIDBuy`, `CoinSellOffsetPct`, `CoinSellOffsetEnabled`, `BuyType`, `MinsToCancelBuy`, `SellRuleFixed`, `Status`, `ToMerge`
     ,`NoOfPurchases`,`OriginalPrice`,`BuyRisesInPrice`,`Type`,`LastPrice`,`SBRuleID`,`SBTransID`,`OverrideCoinAllocation`,`TransactionID`,`BaseBuyPrice`,`SavingOverride`)
   VALUES ($coinID,$coinPrice,$userID,'$baseCurrency', $sendEmail, $buyCoin, $quantity, $ruleIDBuy, $coinSellOffsetPct, $coinSellOffsetEnabled, $buyType, $minsToCancelBuy, $sellRuleFixed, 'Open', $toMerge, $noOfPurchases,$originalPrice, $risesInPrice, '$callName',$coinPrice,$spreadBetRuleID
   ,$spreadBetTransID,$overrideCoinAlloc,$transID,$coinPrice,$savingOverride)";
-
-  print_r($sql);
-  LogToSQL("SpreadBetTrackingSQL","$sql",3,0);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("NewBuySellCoins:$callName","$sql",3,0,"addTrackingCoin","UserID:$userID");
+  SQLInsertUpdateCall("AddTrackingCoin: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //print_r($sql);
+  //LogToSQL("SpreadBetTrackingSQL","$sql",3,0);
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //logAction("AddTrackingCoin: ".$sql, 'TrackingCoins', 0);
+  //newLogToSQL("NewBuySellCoins:$callName","$sql",3,0,"addTrackingCoin","UserID:$userID");
 }
 
 function updateReduceLossCounter($transID,$callName){
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //if ($conn->connect_error) {
+  //    die("Connection failed: " . $conn->connect_error);
+  //}
 
   $sql = "UPDATE `TrackingCoins` SET `ReduceLossCounter`= `ReduceLossCounter` + 1 WHERE `TransactionID` = $transID";
-
-  print_r($sql);
-  LogToSQL("updateReduceLossCounter","$sql",3,0);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("updateReduceLossCounter: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateReduceLossCounter:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
+  SQLInsertUpdateCall("updateReduceLossCounter: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //print_r($sql);
+  //LogToSQL("updateReduceLossCounter","$sql",3,0);
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //logAction("updateReduceLossCounter: ".$sql, 'TrackingCoins', 0);
+  //newLogToSQL("updateReduceLossCounter:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
 }
 
 function addReduceLossCounterToTrans($reduceLossCounter,$coinID,$userID,$callName){
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //if ($conn->connect_error) {
+  //    die("Connection failed: " . $conn->connect_error);
+  //}
 
   $sql = "UPDATE `Transaction` SET `ReduceLossCounter` = $reduceLossCounter WHERE `CoinID` = $coinID and `UserID` = $userID Order by `OrderDate` Desc Limit 1";
-
-  print_r($sql);
-  LogToSQL("addReduceLossCounterToTrans","$sql",3,0);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("addReduceLossCounterToTrans: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addReduceLossCounterToTrans:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
+  SQLInsertUpdateCall("addReduceLossCounterToTrans: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //print_r($sql);
+  //LogToSQL("addReduceLossCounterToTrans","$sql",3,0);
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //logAction("addReduceLossCounterToTrans: ".$sql, 'TrackingCoins', 0);
+  //newLogToSQL("addReduceLossCounterToTrans:$callName","$sql",3,1,"addTrackingCoin","TransID:$transID");
 }
 
 
 function runLowMarketMode($userID,$mode){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //$conn = getSQLConn(rand(1,3));
+  //if ($conn->connect_error) {
+  //    die("Connection failed: " . $conn->connect_error);
+  //}
   $sql = "call setLowMarketMode($userID,90,$mode);";
+  SQLInsertUpdateCall("runLowMarketMode: ",$sql,3, 1, 1, 0, "NewConfig", 90);
   //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  if ($mode > 0){
-    logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
-    newerLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID",120);
-  }
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //if ($mode > 0){
+  //  logAction("runLowMarketMode: ".$sql,'TrackingCoins', 0);
+  //  newerLogToSQL("runLowMarketMode","$sql",3,1,"SQL CALL","UserID:$userID",120);
+  //}
 }
 
 function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerge){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //$conn = getSQLConn(rand(1,3));
+  //if ($conn->connect_error) {
+  //    die("Connection failed: " . $conn->connect_error);
+  //}
   $sql = "UPDATE `Transaction` SET `OverrideCoinAllocation` = $overrideCoinAlloc, `ToMerge` = $toMerge where `CoinID` = $coinID and `UserID` = $userID
             order by `OrderDate` desc
             Limit 1 ";
+  SQLInsertUpdateCall("updateCoinAllocationOverride: ",$sql,3, 1, 1, 0, "NewConfig", 90);
   //print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("updateCoinAllocationOverride: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateCoinAllocationOverride","$sql",3,1,"SQL CALL","UserID:$userID");
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //logAction("updateCoinAllocationOverride: ".$sql, 'SQL_UPDATE', 0);
+  //newLogToSQL("updateCoinAllocationOverride","$sql",3,1,"SQL CALL","UserID:$userID");
 }
 
 function getNewTrackingCoins($userID = 0){
@@ -5337,43 +5341,43 @@ function getOpenTransactions(){
 }
 
 function setNewTrackingPrice($coinPrice, $ID, $mode){
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  //if ($conn->connect_error) {
+  //    die("Connection failed: " . $conn->connect_error);
+  //}
   if ($mode == 'Buy'){
       $sql = "UPDATE `TrackingCoins` SET `BaseBuyPrice` = $coinPrice WHERE `ID` = $ID";
   }else{
     $sql = "UPDATE `TrackingSellCoins` SET `BaseSellPrice` = $coinPrice WHERE `ID` = $ID";
   }
 
-
-  print_r($sql);
-  if ($conn->query($sql) === TRUE) {
-      echo "New record created successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-  logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setNewTrackingPrice",$sql,3,0,"SQL","TrackingID:$mode:$ID");
+  SQLInsertUpdateCall("updateCoinAllocationOverride: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //print_r($sql);
+  //if ($conn->query($sql) === TRUE) {
+  //    echo "New record created successfully";
+  //} else {
+  //    echo "Error: " . $sql . "<br>" . $conn->error;
+  //}
+  //$conn->close();
+  //logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
+  //newLogToSQL("setNewTrackingPrice",$sql,3,0,"SQL","TrackingID:$mode:$ID");
 }
 
 function setLastPrice($coinPrice, $ID, $mode){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($mode == 'Buy'){
       $sql = "UPDATE `TrackingCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
   }else{
     $sql = "UPDATE `TrackingSellCoins` SET `LastPrice` = $coinPrice WHERE `ID` = $ID";
   }
 
-
-  print_r($sql);
+  SQLInsertUpdateCall("setLastPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5381,18 +5385,18 @@ function setLastPrice($coinPrice, $ID, $mode){
   }
   $conn->close();
   logAction("setNewTrackingPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setNewTrackingPrice",$sql,3,0,"SQL","TrackingID:$mode:$ID");
+  newLogToSQL("setNewTrackingPrice",$sql,3,0,"SQL","TrackingID:$mode:$ID");*/
 }
 
 function setNewTargetPrice($transactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `SpreadBetSellTarget` SET `SellPct`=`SellPct` + 1.5  WHERE `TransactionID` = $transactionID ";
-
-  print_r($sql);
+  SQLInsertUpdateCall("setLastPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5400,15 +5404,15 @@ function setNewTargetPrice($transactionID){
   }
   $conn->close();
   logAction("setNewTargetPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setNewTargetPrice",$sql,3,0,"SQL","TransID:$transactionID");
+  newLogToSQL("setNewTargetPrice",$sql,3,0,"SQL","TransID:$transactionID");*/
 }
 
 function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($deleteFlag == True){
     $updateSQL = "DELETE from `TrackingCoins` ";
   }else{
@@ -5416,8 +5420,8 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
   }
 
   $sql = "$updateSQL WHERE `ID` = $ID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("closeNewTrackingCoin: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
   } else {
@@ -5426,19 +5430,19 @@ function closeNewTrackingCoin($ID, $deleteFlag, $verNum, $reason){
   $mySQLError = $conn->error;
   $conn->close();
   logAction("closeNewTrackingCoin: ".$sql.$mySQLError, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,0,"SQL","TrackingCoinID:$ID");
+  newLogToSQL("closeNewTrackingCoin$verNum",$sql." Reason $reason",3,0,"SQL","TrackingCoinID:$ID");*/
 }
 
 function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
 
   $sql = "call CancelBuySellProfit($ruleID, $userID, $coinID)";
-
-  print_r($sql);
+  SQLInsertUpdateCall("reOpenBuySellProfitRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5446,20 +5450,20 @@ function reOpenBuySellProfitRule($ruleID, $userID, $coinID){
   }
   $conn->close();
   logAction("reOpenBuySellProfitRule: ".$sql. $conn->error, 'TrackingCoins', 0);
-  newLogToSQL("reOpenBuySellProfitRule",$sql,3,1,"SQL","RuleID:$ruleID");
+  newLogToSQL("reOpenBuySellProfitRule",$sql,3,1,"SQL","RuleID:$ruleID");*/
 }
 
 function updateTrackingCoinToMerge($ID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` `Tr`
             SET `Tr`.`ToMerge`= 1  WHERE `Tr`.`ID` in ($ID,(SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `TransactionID` = $ID))";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateTrackingCoinToMerge: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5467,19 +5471,19 @@ function updateTrackingCoinToMerge($ID){
   }
   $conn->close();
   logAction("updateTrackingCoinToMerge: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$ID");
+  newLogToSQL("updateTrackingCoinToMerge",$sql,3,1,"SQL","TransactionID:$ID");*/
 }
 
 function updateReduceLossSettings($ID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call updateReduceLossSettings($ID);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateReduceLossSettings: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5487,7 +5491,7 @@ function updateReduceLossSettings($ID){
   }
   $conn->close();
   logAction("updateReduceLossSettings: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");
+  newLogToSQL("updateReduceLossSettings",$sql,3,1,"SQL","TransactionID:$ID");*/
 }
 
 function updateMergeAry($toMergeAry, $finalMergeAry){
@@ -5535,12 +5539,13 @@ function updateMergeAry($toMergeAry, $finalMergeAry){
 
 
 function UpdateTransCount($count,$transactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call UpdateTransCount($count,$transactionID);";
-  //print_r($sql);
+  SQLInsertUpdateCall("UpdateTransCount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5548,16 +5553,17 @@ function UpdateTransCount($count,$transactionID){
   }
   $conn->close();
   logAction("UpdateTransCount($count,$transactionID)",'TrackingCoins', 0);
-  newLogToSQL("UpdateTransCount","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("UpdateTransCount","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");*/
 }
 
 function mergeTransactions($transactionID, $amount, $avCost){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call MergeTransactions($avCost,$transactionID,$amount);";
-  //print_r($sql);
+  SQLInsertUpdateCall("mergeTransactions: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5565,7 +5571,7 @@ function mergeTransactions($transactionID, $amount, $avCost){
   }
   $conn->close();
   logAction("mergeTransactions($avCost,$transactionID,$amount,$lastTransID)",'TrackingCoins', 0);
-  newLogToSQL("mergeTransactions","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("mergeTransactions","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");*/
 }
 
 function deleteOldTrans($lastTransID){
@@ -5579,12 +5585,13 @@ function deleteOldTrans($lastTransID){
 }
 
 function closeOldTransSQL($id){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `Transaction` SET `Status` = 'Merged' WHERE `ID` in ($id)";
-  //print_r($sql);
+  SQLInsertUpdateCall("closeOldTransSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5592,19 +5599,19 @@ function closeOldTransSQL($id){
   }
   $conn->close();
   logAction("closeOldTransSQL: $sql",'TrackingCoins',0);
-  newLogToSQL("closeOldTransSQL",$sql,3,1,"SQL","TransID:$id");
+  newLogToSQL("closeOldTransSQL",$sql,3,1,"SQL","TransID:$id");*/
 }
 
 function updateNoOfRisesInPrice($newTrackingCoinID, $num){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingCoins` SET `NoOfRisesInPrice`= $num WHERE `ID` = $newTrackingCoinID ";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateNoOfRisesInPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5612,20 +5619,20 @@ function updateNoOfRisesInPrice($newTrackingCoinID, $num){
   }
   $conn->close();
   logAction("updateNoOfRisesInPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateNoOfRisesInPrice",$sql,3,0,"SQL","TrackingCoinID:$newTrackingCoinID");
+  newLogToSQL("updateNoOfRisesInPrice",$sql,3,0,"SQL","TrackingCoinID:$newTrackingCoinID");*/
 }
 
 function copyMultiSellIDfromRule($ruleIDBTBuy, $transactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Update `Transaction` SET `MultiSellRuleEnabled` = (SELECT `MultiSellRuleEnabled` FROM `BuyRules` WHERE `ID` = $ruleIDBTBuy)
           , `MultiSellRuleTemplateID` = (SELECT `MultiSellRuleTemplateID` FROM `BuyRules` WHERE `ID` = $ruleIDBTBuy) where `ID` = $transactionID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("copyMultiSellIDfromRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5633,7 +5640,7 @@ function copyMultiSellIDfromRule($ruleIDBTBuy, $transactionID){
   }
   $conn->close();
   logAction("copyMultiSellIDfromRule: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("copyMultiSellIDfromRule",$sql,3,0,"SQL","TransID:$transactionID");
+  newLogToSQL("copyMultiSellIDfromRule",$sql,3,0,"SQL","TransID:$transactionID");*/
 }
 
 function getNumberColour($ColourText){
@@ -5711,15 +5718,15 @@ function getMultiSellRulesTemplate($ruleID){
 }
 
 function writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call WriteMultiRule($userID,$transactionID,$sellRuleIDFromTemplate);";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("writeMultiRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5727,19 +5734,19 @@ function writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID){
   }
   $conn->close();
   logAction("writeMultiRule: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeMultiRule","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
+  newLogToSQL("writeMultiRule","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");*/
 }
 
 function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `MultiSellRuleTemplateID` = $multiSellRuleTemplateID,`MultiSellRuleEnabled` = 1 where `ID` = $transactionID; ";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("writeMultiRuleTemplateID: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5747,7 +5754,7 @@ function writeMultiRuleTemplateID($transactionID,$multiSellRuleTemplateID){
   }
   $conn->close();
   logAction("writeMultiRuleTemplateID: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeMultiRuleTemplateID","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");
+  newLogToSQL("writeMultiRuleTemplateID","$sql",3,1,"BittrexBuy","TransactionID:$transactionID");*/
 }
 
 function checkMultiSellRules($sellRule, $multiRuleAry,$transactionID){
@@ -5792,14 +5799,14 @@ function saveImage($coin, $url, $savePath){
 }
 
 function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$type,$callName,$overrideBittrexCancel){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call AddTrackingSellCoin($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,'$type',$overrideBittrexCancel);";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("newTrackingSellCoins: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5807,19 +5814,19 @@ function newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$
   }
   $conn->close();
   logAction("newTrackingSellCoins: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("BuySellCoins:$callName","$sql",3,1,"newTrackingSellCoins","TransactionID:$transactionID");
+  newLogToSQL("BuySellCoins:$callName","$sql",3,1,"newTrackingSellCoins","TransactionID:$transactionID");*/
 }
 
 function setBuyPct($bounceDifference,$transactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `SwapCoins` SET `PctToBuy` = $bounceDifference where `TransactionID` = $transactionID ";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("setBuyPct: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5827,19 +5834,19 @@ function setBuyPct($bounceDifference,$transactionID){
   }
   $conn->close();
   logAction("setBuyPct: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setBuyPct","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("setBuyPct","$sql",3,1,"SQL CALL","TransactionID:$transactionID");*/
 }
 
 function setTransactionPending($id){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Status`= 'Pending' WHERE `ID` = $id ";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("setTransactionPending: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5847,19 +5854,19 @@ function setTransactionPending($id){
   }
   $conn->close();
   logAction("setTransactionPending: ".$sql, 'SQL_UPDATE',0);
-  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$id");
+  newLogToSQL("updateTrackingCoinToMerge",$sql,3,0,"SQL","TransactionID:$id");*/
 }
 
 function setTransactionStatus($id,$status){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Status`= '$status' WHERE `ID` = $id ";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("setTransactionStatus: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5867,19 +5874,19 @@ function setTransactionStatus($id,$status){
   }
   $conn->close();
   logAction("setTransactionStatus: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("setTransactionStatus",$sql,3,0,"SQL","TransactionID:$id");
+  newLogToSQL("setTransactionStatus",$sql,3,0,"SQL","TransactionID:$id");*/
 }
 
 function fixResidual(){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Amount` = `OriginalAmount`, `OriginalAmount` = 0 where `Status` = 'Open' and `OriginalAmount` <> 0 and `Status` <> 'Sold'";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("fixResidual: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5887,19 +5894,19 @@ function fixResidual(){
   }
   $conn->close();
   logAction("fixResidual: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("fixResidual",$sql,3,0,"SQL","NA");
+  newLogToSQL("fixResidual",$sql,3,0,"SQL","NA");*/
 }
 
 function updateSellAmount($TransactionID,$Amount,$oldAmount){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Amount`= $Amount,`OriginalAmount` = $oldAmount WHERE `ID` = $TransactionID and `OriginalAmount` = 0";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("updateSellAmount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5907,7 +5914,7 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
   }
   $conn->close();
   logAction("updateSellAmount: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");
+  newLogToSQL("updateSellAmount",$sql,3,1,"SQL","TransactionID:$TransactionID");*/
 }
 
 function getNewTrackingSellCoins($userID = 0){
@@ -5946,15 +5953,15 @@ function getNewTrackingSellCoins($userID = 0){
 }
 
 function closeNewTrackingSellCoin($ID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingSellCoins` SET `Status` = 'Closed' WHERE `TransactionID` = $ID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("closeNewTrackingSellCoin: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5962,19 +5969,19 @@ function closeNewTrackingSellCoin($ID){
   }
   $conn->close();
   logAction("closeNewTrackingSellCoin: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("closeNewTrackingSellCoin",$sql,3,1,"SQL","TrackingSellCoinsID:$ID");
+  newLogToSQL("closeNewTrackingSellCoin",$sql,3,1,"SQL","TrackingSellCoinsID:$ID");*/
 }
 
 function addBuyBackOverride($overrideBBAmount,$overrideBBSaving,$TransactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingSellCoins` SET `overrideBBAmount` = $overrideBBAmount, `overrideBBSaving` = $overrideBBSaving WHERE `TransactionID` = $TransactionID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("addBuyBackOverride: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -5982,19 +5989,19 @@ function addBuyBackOverride($overrideBBAmount,$overrideBBSaving,$TransactionID){
   }
   $conn->close();
   logAction("addBuyBackOverride: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("addBuyBackOverride",$sql,3,1,"SQL","TransID:$TransactionID");
+  newLogToSQL("addBuyBackOverride",$sql,3,1,"SQL","TransID:$TransactionID");*/
 }
 
 function setNewTrackingSellPrice($coinPrice, $ID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingSellCoins` SET `CoinPrice` = $coinPrice, `TrackDate` = CURRENT_TIMESTAMP() WHERE `TransactionID` = $ID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("setNewTrackingSellPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6002,19 +6009,19 @@ function setNewTrackingSellPrice($coinPrice, $ID){
   }
   $conn->close();
   logAction("setNewTrackingSellPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setNewTrackingSellPrice",$sql,3,0,"SQL","TrackingSellCoinsID:$ID");
+  newLogToSQL("setNewTrackingSellPrice",$sql,3,0,"SQL","TrackingSellCoinsID:$ID");*/
 }
 
 function updateNoOfRisesInSellPrice($newTrackingCoinID, $num, $price){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingSellCoins` SET `NoOfRisesInPrice`= $num, `CoinPrice` = $price WHERE `ID` = $newTrackingCoinID ";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateNoOfRisesInSellPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6022,15 +6029,15 @@ function updateNoOfRisesInSellPrice($newTrackingCoinID, $num, $price){
   }
   $conn->close();
   logAction("updateNoOfRisesInSellPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateNoOfRisesInSellPrice",$sql,3,0,"SQL","TrackingSellCoinsID:$newTrackingCoinID");
+  newLogToSQL("updateNoOfRisesInSellPrice",$sql,3,0,"SQL","TrackingSellCoinsID:$newTrackingCoinID");*/
 }
 
 function reopenTransaction($id){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction`
             SET `Status`= CASE
@@ -6039,8 +6046,8 @@ function reopenTransaction($id){
              WHEN `Type` = 'SavingsSell' THEN 'Saving'
              END
             WHERE `ID` = $id";
-
-  print_r($sql);
+  SQLInsertUpdateCall("reopenTransaction: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6048,7 +6055,7 @@ function reopenTransaction($id){
   }
   $conn->close();
   logAction("reopenTransaction: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("reopenTransaction",$sql,3,0,"SQL","TransactionID:$id");
+  newLogToSQL("reopenTransaction",$sql,3,0,"SQL","TransactionID:$id");*/
 }
 
 function getReservedAmount($baseCurrency, $userID){
@@ -6129,34 +6136,35 @@ function getUserDisabled($userID){
 }
 
 function logHoldingTimeToSQL($coinID, $holdingMins){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "INSERT INTO `AverageCoinHolingTime`(`CoinID`, `MinsHolding`) VALUES ($coinID, $holdingMins)";
-
-  print_r($sql);
+  SQLInsertUpdateCall("logHoldingTimeToSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("logHoldingTimeToSQL: ".$sql, 'SellCoins', 0);
+  logAction("logHoldingTimeToSQL: ".$sql, 'SellCoins', 0);*/
 }
 
 function cancelTrackingSell($id){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   //$sql = "UPDATE `TrackingSellCoins` SET `Status`= 'Closed' WHERE `TransactionID` = $id";
   $sql = "call cancelTrackingSellUpdateSBTransID($id);";
-  print_r($sql);
+  SQLInsertUpdateCall("cancelTrackingSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6164,7 +6172,7 @@ function cancelTrackingSell($id){
   }
   $conn->close();
   logAction("cancelTrackingSell: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("cancelTrackingSell",$sql,3,0,"SQL","TransactionID:$id");
+  newLogToSQL("cancelTrackingSell",$sql,3,0,"SQL","TransactionID:$id");*/
 }
 
 function getNewTrackingSellCoinTrans($ID){
@@ -6207,15 +6215,15 @@ function setMobileVariables(){
 }
 
 function updateSQLQuantity($uuid, $quantity){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Amount` = $quantity WHERE `BittrexRef` = '$uuid'";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSQLQuantity: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6223,7 +6231,7 @@ function updateSQLQuantity($uuid, $quantity){
   }
   $conn->close();
   logAction("updateSQLQuantity: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");
+  newLogToSQL("updateSQLQuantity",$sql,3,1,"SQL","BittrexRef:$uuid");*/
 }
 
 function getCoinPriceMatchNames($userID, $table, $limit){
@@ -6286,19 +6294,19 @@ function findUserProfit($userProfit, $userID){
 }
 
 function pauseRule($id, $hours, $userID = 0){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $whereClause = "";
   if ($hours == 0){ $dateClause = "DATE_ADD(now(),interval 24 hour)";}else{ $dateClause = "DATE_ADD(now(),interval $hours hour)";}
   if ($userID <> 0){ $whereClause = " and `UserID` = $userID ";}
 
   $sql = "UPDATE `BuyRules` SET `DisableUntil`= $dateClause
           WHERE `ID` in ($id) $whereClause and `OverrideDisableRule` = 0";
-
-  print_r($sql);
+  SQLInsertUpdateCall("pauseRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6306,7 +6314,7 @@ function pauseRule($id, $hours, $userID = 0){
   }
   $conn->close();
   logAction("pauseRule: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("pauseRule",$sql,3,0,"SQL","BuyRuleID:$id");
+  newLogToSQL("pauseRule",$sql,3,0,"SQL","BuyRuleID:$id");*/
 }
 
 function getDailyBalance($apikey,$apisecret){
@@ -6341,80 +6349,84 @@ function getDailyBalance($apikey,$apisecret){
 }
 
 function updateBittrexBalances($symbol, $total, $price, $userID,$base, $coinID){
-    $conn = getSQLConn(rand(1,3));
+    //$conn = getSQLConn(rand(1,3));
     if ($symbol == 'USDT' OR $symbol == 'BTC' OR $symbol == 'ETH'){
       $price = "getBTCPrice($coinID)";
     }
     if ($coinID == 0){ $price = "getPriceBySymbol('$symbol','USDT')";}
     if (!isset($price)){ $price = 0;}
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "Call AddNewBittrexBal('$symbol',$total,$price, $userID,'$base', $coinID);";
-    print_r($sql);
+    SQLInsertUpdateCall("updateBittrexBalances: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("updateBittrexBalances","$sql",3,0,"SQL CALL","UserID:$userID");
+    newLogToSQL("updateBittrexBalances","$sql",3,0,"SQL CALL","UserID:$userID");*/
 }
 
 function deleteBittrexBalances(){
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "Delete FROM `BittrexBalances`";
-    print_r($sql);
+    SQLInsertUpdateCall("deleteBittrexBalances: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("deleteBittrexBalances","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+    newLogToSQL("deleteBittrexBalances","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");*/
 }
 
 function addUSDTBalance($symbol, $usdtPurchase, $price, $userID){
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "Call UpdateUSDTBal('$symbol',$usdtPurchase, $userID, $price);";
-    //print_r($sql);
+    SQLInsertUpdateCall("addUSDTBalance: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("addUSDTBalance","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+    newLogToSQL("addUSDTBalance","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");*/
 }
 
 function subUSDTBalance($symbol, $usdtPurchase, $price, $userID){
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "Call subUSDTBal('$symbol',$usdtPurchase, $userID, $price);";
-    //print_r($sql);
+    SQLInsertUpdateCall("subUSDTBalance: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     $conn->close();
-    newLogToSQL("subUSDTBalance","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");
+    newLogToSQL("subUSDTBalance","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID");*/
 }
 
 function pauseTracking($userID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingCoins` SET `BuyCoin` = 0 WHERE `Status` = 'Open' and `UserID` = $userID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("pauseTracking: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6422,7 +6434,7 @@ function pauseTracking($userID){
   }
   $conn->close();
   logAction("pauseTracking: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("pauseTracking",$sql,3,0,"SQL","UserID:$userID");
+  newLogToSQL("pauseTracking",$sql,3,0,"SQL","UserID:$userID");*/
 }
 
 function getMarketProfit(){
@@ -6487,15 +6499,15 @@ function getLiveMarketPrice($status){
 }
 
 function writeMarketPrice($price){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "INSERT INTO `MarketPriceChange`(`MarketPrice`) VALUES ($price)";
-
-  print_r($sql);
+  SQLInsertUpdateCall("writeMarketPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6503,7 +6515,7 @@ function writeMarketPrice($price){
   }
   $conn->close();
   logAction("writeMarketPrice: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("writeMarketPrice",$sql,3,0,"SQL","M_Price:$price");
+  newLogToSQL("writeMarketPrice",$sql,3,0,"SQL","M_Price:$price");*/
 }
 
 function getRuleProfit(){
@@ -6534,15 +6546,15 @@ function getRuleProfit(){
 }
 
 function assignNewSellID($transID, $sellRuleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `FixSellRule` = $sellRuleID WHERE `Status` = 'Open' and `ID` = $transID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("assignNewSellID: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6550,20 +6562,20 @@ function assignNewSellID($transID, $sellRuleID){
   }
   $conn->close();
   logAction("assignNewSellID: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("assignNewSellID",$sql,3,0,"SQL","TransactionID:$transID");
+  newLogToSQL("assignNewSellID",$sql,3,0,"SQL","TransactionID:$transID");*/
 }
 
 function setTransStatus($status,$transID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Status` = '$status', `SpreadBetRuleID` = 0,`SpreadBetTransactionID` = 0, `Type` = 'Sell'
           WHERE `ID` = $transID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("setTransStatus: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6571,19 +6583,19 @@ function setTransStatus($status,$transID){
   }
   $conn->close();
   logAction("setTransStatus: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("setTransStatus",$sql,3,0,"SQL","TransactionID:$transID");
+  newLogToSQL("setTransStatus",$sql,3,0,"SQL","TransactionID:$transID");*/
 }
 
 function setCustomisedSellRule($buyRule, $coinID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "Call CustomisedSellRule($buyRule,$coinID);";
-
-  print_r($sql);
+    SQLInsertUpdateCall("setCustomisedSellRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6591,19 +6603,19 @@ function setCustomisedSellRule($buyRule, $coinID){
   }
   $conn->close();
   logAction("setCustomisedSellRule: ".$sql, 'SellCoin', 0);
-  newLogToSQL("setCustomisedSellRule","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$buyRule");
+  newLogToSQL("setCustomisedSellRule","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$buyRule");*/
 }
 
 function setCustomisedSellRuleBased($buyRule, $coinID, $pctToSell){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "call CustomisedSell_RuleBased($coinID,$buyRule,$pctToSell);";
-
-  print_r($sql);
+    SQLInsertUpdateCall("setCustomisedSellRuleBased: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6611,7 +6623,7 @@ function setCustomisedSellRuleBased($buyRule, $coinID, $pctToSell){
   }
   $conn->close();
   logAction("setCustomisedSellRuleBased: ".$sql, 'SellCoin', 0);
-  newLogToSQL("setCustomisedSellRuleBased","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$buyRule");
+  newLogToSQL("setCustomisedSellRuleBased","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$buyRule");*/
 }
 
 function coinSwapBuyModeLookup($coinID){
@@ -6637,15 +6649,15 @@ function coinSwapBuyModeLookup($coinID){
 }
 
 function coinSwapSell($livePrice, $transactionID,$coinID,$buyRule, $buyAmount){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Call CoinSwapSell($livePrice, $transactionID,$coinID,$buyRule, $buyAmount);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("coinSwapSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6653,7 +6665,7 @@ function coinSwapSell($livePrice, $transactionID,$coinID,$buyRule, $buyAmount){
   }
   $conn->close();
   logAction("coinSwapSell: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("coinSwapSell","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID TransactionID:$transactionID");
+  newLogToSQL("coinSwapSell","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID TransactionID:$transactionID");*/
 }
 
 function getCoinMode($userID){
@@ -6685,15 +6697,15 @@ function getCoinMode($userID){
 }
 
 function updateBuyAmount($transactionID, $amount){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Amount` = $amount WHERE `ID` = $transactionID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateBuyAmount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6701,19 +6713,19 @@ function updateBuyAmount($transactionID, $amount){
   }
   $conn->close();
   logAction("updateBuyAmount: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateBuyAmount",$sql,3,1,"SQL","TransactionID:$transactionID");*/
 }
 
 function cancelTrackingBuy($ruleId,$reason){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `TrackingCoins` SET `Status` = 'Closed' where `RuleIDBuy` = $ruleId";
-
-  print_r($sql);
+  SQLInsertUpdateCall("cancelTrackingBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6721,19 +6733,19 @@ function cancelTrackingBuy($ruleId,$reason){
   }
   $conn->close();
   logAction("cancelTrackingBuy: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("cancelTrackingBuy",$sql." Reason: $reason",3,1,"SQL","BuyRuleID:$ruleId");
+  newLogToSQL("cancelTrackingBuy",$sql." Reason: $reason",3,1,"SQL","BuyRuleID:$ruleId");*/
 }
 
 function UpdateProfit(){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call UpdateNewUserProfit();";
-
-  print_r($sql);
+  SQLInsertUpdateCall("UpdateProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6741,19 +6753,19 @@ function UpdateProfit(){
   }
   $conn->close();
   logAction("UpdateProfit: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("UpdateProfit","$sql",3,sQLUpdateLog,"SQL CALL","All Users");
+  newLogToSQL("UpdateProfit","$sql",3,sQLUpdateLog,"SQL CALL","All Users");*/
 }
 
 function updateTypeToBittrex($type,$transID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `BittrexAction` SET `Type` = '$type' where `TransactionID` = $transID ";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateTypeToBittrex: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6761,19 +6773,19 @@ function updateTypeToBittrex($type,$transID){
   }
   $conn->close();
   logAction("updateTypeToBittrex: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateTypeToBittrex","$sql",3,1,"SQL CALL","All Users");
+  newLogToSQL("updateTypeToBittrex","$sql",3,1,"SQL CALL","All Users");*/
 }
 
 function updateTypeToTrans($type,$transID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `Transaction` SET `Type` = '$type' where `ID` = $transID ";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateTypeToTrans: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6781,19 +6793,19 @@ function updateTypeToTrans($type,$transID){
   }
   $conn->close();
   logAction("updateTypeToBittrex: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateTypeToBittrex","$sql",3,0,"SQL CALL","All Users");
+  newLogToSQL("updateTypeToBittrex","$sql",3,0,"SQL CALL","All Users");*/
 }
 
 function UpdateSpreadBetTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call UpdateSpreadBetTotalProfit();";
-
-  print_r($sql);
+  SQLInsertUpdateCall("UpdateSpreadBetTotalProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6801,19 +6813,19 @@ function UpdateSpreadBetTotalProfit(){
   }
   $conn->close();
   logAction("UpdateSpreadBetTotalProfit: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("UpdateSpreadBetTotalProfit","$sql",3,sQLUpdateLog,"SQL CALL","All Users");
+  newLogToSQL("UpdateSpreadBetTotalProfit","$sql",3,sQLUpdateLog,"SQL CALL","All Users");*/
 }
 
 function extendPctToBuy($coinID, $userID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "Call AddToPct($coinID,$userID, 0.24);";
-
-  print_r($sql);
+    SQLInsertUpdateCall("extendPctToBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -6821,7 +6833,7 @@ function extendPctToBuy($coinID, $userID){
   }
   $conn->close();
   logAction("extendPctToBuy: ".$sql, 'SellCoin', 0);
-  newLogToSQL("extendPctToBuy","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID CoinID:$coinID");
+  newLogToSQL("extendPctToBuy","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID CoinID:$coinID");*/
 }
 
 function getSpreadBetData(){
@@ -6921,11 +6933,11 @@ function getSpreadCoinData($ID){
 }
 
 function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
     $sql = "UPDATE `Transaction` AS `t1` JOIN `Transaction` AS `t2` ON `t2`.`ID` = $oldID
             SET    `t1`.`Type` = 'SpreadSell'
             , `t1`.`SpreadBetRuleID` = `t2`.`SpreadBetRuleID`
@@ -6933,7 +6945,8 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
             WHERE `t1`.`CoinID` = $coinID and `t1`.`Amount` = $quantity
             order by `ID` Desc
             limit 1 ";
-    LogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,1);
+    SQLInsertUpdateCall("SpreadBetBittrexCancelPartialSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*LogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -6942,17 +6955,18 @@ function SpreadBetBittrexCancelPartialSell($oldID,$coinID, $quantity){
   }
   $conn->close();
   logAction("SpreadBetBittrexCancelPartialSell: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,0,"SQL","TransactionID:$oldID");
+  newLogToSQL("SpreadBetBittrexCancelPartialSell",$sql,3,0,"SQL","TransactionID:$oldID");*/
 }
 
 function SpreadBetBittrexCancelPartialBuy($transactionID,$quantity){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
     $sql = "UPDATE `Transaction` SET `Amount` =  $quantity where `ID` = $transactionID";
-    LogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,0);
+    SQLInsertUpdateCall("SpreadBetBittrexCancelPartialBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*LogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,0);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -6961,18 +6975,19 @@ function SpreadBetBittrexCancelPartialBuy($transactionID,$quantity){
   }
   $conn->close();
   logAction("SpreadBetBittrexCancelPartialBuy: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("SpreadBetBittrexCancelPartialBuy",$sql,3,0,"SQL","TransactionID:$transactionID");*/
 }
 
 function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "Call UpdateTransToSpread($SBRuleID,$coinID,$userID,$SBTransID);";
-    LogToSQL("updateTransToSpread",$sql,3,1);
+    SQLInsertUpdateCall("updateTransToSpread: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*LogToSQL("updateTransToSpread",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -6981,18 +6996,19 @@ function updateTransToSpread($SBRuleID,$coinID, $userID,$SBTransID){
   }
   $conn->close();
   logAction("updateTransToSpread: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateTransToSpread","$sql",3,1,"SQL CALL","UserID:$userID CoinID:$coinID");
+  newLogToSQL("updateTransToSpread","$sql",3,1,"SQL CALL","UserID:$userID CoinID:$coinID");*/
 }
 
 function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculatedSellPctReduction){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "Call writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculatedSellPctReduction);";
-    //LogToSQL("updateTransToSpread",$sql,3,1);
+    SQLInsertUpdateCall("writeCalculatedSellPct: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*LogToSQL("updateTransToSpread",$sql,3,1);
   print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -7001,7 +7017,7 @@ function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculat
   }
   $conn->close();
   logAction("writeCalculatedSellPct: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("writeCalculatedSellPct","$sql",3,0,"SQL CALL","UserID:$userID TransID:$transID");
+  newLogToSQL("writeCalculatedSellPct","$sql",3,0,"SQL CALL","UserID:$userID TransID:$transID");*/
 }
 
 function getCoinAllocation($userID){
@@ -7028,14 +7044,15 @@ function getCoinAllocation($userID){
 }
 
 function updateToSpreadSell($transID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "UPDATE `Transaction` SET `Type`= 'SpreadSell' WHERE  `ID` = $transID";
-    LogToSQL("updateToSpreadSell",$sql,3,1);
+    SQLInsertUpdateCall("updateToSpreadSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    /*LogToSQL("updateToSpreadSell",$sql,3,1);
   print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -7044,7 +7061,7 @@ function updateToSpreadSell($transID){
   }
   $conn->close();
   logAction("updateToSpreadSell: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("updateToSpreadSell",$sql,3,0,"SQL","TransactionID:$transID");
+  newLogToSQL("updateToSpreadSell",$sql,3,0,"SQL","TransactionID:$transID");*/
 }
 
 function getSpreadBetSellData($ID = 0){
@@ -7262,15 +7279,15 @@ function getSavingsData($ID = 0){
 }
 
 function newSpreadTransactionID($UserID, $spreadBetRuleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "Call NewSpreadBetTransaction($UserID,$spreadBetRuleID);";
-
-  print_r($sql);
+    SQLInsertUpdateCall("newSpreadTransactionID: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7278,20 +7295,20 @@ function newSpreadTransactionID($UserID, $spreadBetRuleID){
   }
   $conn->close();
   logAction("newSpreadTransactionID: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");
+  newLogToSQL("newSpreadTransactionID","$sql",3,sQLUpdateLog,"SQL CALL","UserID:$userID SBRuleID:$spreadBetRuleID");*/
 }
 
 function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,$overrideBBSaving,$type,$spreadBetTransactionID){
 
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call AddToUserCoinSavings($UserID,$totalProfitUSD,'$baseCurrency',$overrideBBSaving,'$type',$spreadBetTransactionID)";
-
-  print_r($sql);
+  SQLInsertUpdateCall("addProfitToAllocation: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   logToSQL("ProfitAllocation","$sql | $coinID",$UserID,1);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -7300,7 +7317,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,
   }
   $conn->close();
   logAction("addProfitToAllocation: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("addProfitToAllocation",$sql,3,1,"SQL","UserID:$UserID;SaveMode:$saveMode");
+  newLogToSQL("addProfitToAllocation",$sql,3,1,"SQL","UserID:$UserID;SaveMode:$saveMode");*/
 }
 
 function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
@@ -7355,16 +7372,16 @@ function getOpenTransNo($userID, $coinID){
 }
 
 function updateSpreadBuy($spreadBetRuleID){
-  //$savingUsdt = $totalProfit * 0.1;
+  /*$savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `SpreadBetSettings` SET `NoOfTransactions` = (`NoOfTransactions` + 1) WHERE `SpreadBetRuleID` = $spreadBetRuleID;";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSpreadBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7372,17 +7389,17 @@ function updateSpreadBuy($spreadBetRuleID){
   }
   $conn->close();
   logAction("updateSpreadBuy: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSpreadBuy",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("updateSpreadBuy",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency){
-  //$savingUsdt = $totalProfit * 0.1;
+  /*$savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($mode == 0){
     $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `ID` = $transactionID;";
   }else{
@@ -7393,8 +7410,8 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
               Where `Cn`.`BaseCurrency` = '$baseCurrency' and `Tr`.`UserID` = $userID and `Tr`.`Status` = 'Open'";
   }
 
-
-  print_r($sql);
+  SQLInsertUpdateCall("delaySavingBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7402,20 +7419,20 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
   }
   $conn->close();
   logAction("delaySavingBuy: ".$sql, 'SQL_UPDATE', 0);
-  newLogToSQL("delaySavingBuy",$sql." - Mode: ".$mode,3,1,"SQL","TransID:$transactionID");
+  newLogToSQL("delaySavingBuy",$sql." - Mode: ".$mode,3,1,"SQL","TransID:$transactionID");*/
 }
 
 function updateSpreadProfit($spreadBetRuleID, $pctProfit){
-  //$savingUsdt = $totalProfit * 0.1;
+  /*savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call updateSpreadProfit($spreadBetRuleID,$pctProfit);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSpreadProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7423,20 +7440,20 @@ function updateSpreadProfit($spreadBetRuleID, $pctProfit){
   }
   $conn->close();
   logAction("updateSpreadProfit: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSpreadProfit","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("updateSpreadProfit","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function updateSpreadSell($spreadBetRuleID, $orderDate){
-  //$savingUsdt = $totalProfit * 0.1;
+  /*$savingUsdt = $totalProfit * 0.1;
   //$typeUsdt = $totalProfit - $savingUsdt;
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call updateSpreadSell($spreadBetRuleID,'$orderDate');";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSpreadSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7444,18 +7461,18 @@ function updateSpreadSell($spreadBetRuleID, $orderDate){
   }
   $conn->close();
   logAction("updateSpreadSell: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateSpreadSell","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("updateSpreadSell","$sql",3,sQLUpdateLog,"SQL CALL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function updateBuyTrend($coinID, $transactionID, $mode, $ID, $hr1, $hr24, $d7){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call UpdateBuyTrend($coinID, $transactionID, '$mode', $ID,$hr1, $hr24, $d7);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateBuyTrend: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7463,7 +7480,7 @@ function updateBuyTrend($coinID, $transactionID, $mode, $ID, $hr1, $hr24, $d7){
   }
   $conn->close();
   logAction("updateBuyTrend: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateBuyTrend","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID CoinID:$coinID");
+  newLogToSQL("updateBuyTrend","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID CoinID:$coinID");*/
 }
 
 function updateBuyTrendHistory($coinID, $buyDate){
@@ -7507,14 +7524,14 @@ function updateBuyTrendHistorySB($spreadBetRuleID, $buyDate){
 }
 
 function updateSpreadBetPctAmount($spreadBetRuleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `SpreadBetSettings` SET `PctProfitSell` = (`PctProfitSell` + 0.24) WHERE `SpreadBetRuleID` = $spreadBetRuleID and  `PctProfitSell` <= 15.0;";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSpreadBetPctAmount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7522,18 +7539,18 @@ function updateSpreadBetPctAmount($spreadBetRuleID){
   }
   $conn->close();
   logAction("updateSpreadBetPctAmount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSpreadBetPctAmount",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("updateSpreadBetPctAmount",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID, $BTCAmount){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `SpreadBetTransactions` SET `TotalAmountToBuy`= $nPrice, `AmountPerCoin` = $BTCAmount WHERE `SpreadBetRuleID` = $spreadBetRuleID and `TotalAmountToBuy` = 0.00";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateSpreadBetTransactionAmount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7541,7 +7558,7 @@ function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID, $BTCAmount)
   }
   $conn->close();
   logAction("updateSpreadBetTransactionAmount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateSpreadBetTransactionAmount",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("updateSpreadBetTransactionAmount",$sql,3,0,"SQL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
@@ -7589,14 +7606,14 @@ function getMaxPct($date,$coinID){
 }
 
 function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call UpdateSellTrendToSQL('$mode', $ruleID, $coinID, $price);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateMaxPctToSql: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7604,7 +7621,7 @@ function updateMaxPctToSql($price, $coinID, $mode, $ruleID){
   }
   $conn->close();
   logAction("updateMaxPctToSql: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateMaxPctToSql","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$ruleID");
+  newLogToSQL("updateMaxPctToSql","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID RuleID:$ruleID");*/
 }
 
 function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $TransactionID, $NoOfRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $totalRisesInPrice, $trackingID,$quickBuyCount,$market1HrChangePct,$oneTimeBuy){
@@ -7811,12 +7828,13 @@ function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $Transact
 }
 
 function updateSQLcancelSpreadBetTrackingSell($TransactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call cancelSpreadBetTrackingSell($TransactionID);";
-  //print_r($sql);
+  SQLInsertUpdateCall("updateSQLcancelSpreadBetTrackingSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7824,16 +7842,17 @@ function updateSQLcancelSpreadBetTrackingSell($TransactionID){
   }
   $conn->close();
   logAction("updateSQLcancelSpreadBetTrackingSell: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateSQLcancelSpreadBetTrackingSell","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$TransactionID");
+  newLogToSQL("updateSQLcancelSpreadBetTrackingSell","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$TransactionID");*/
 }
 
 function enableBuyRule($buyRuleID, $buyCoin,$PctChangeAvg,$pctChangeTargetAvg){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `BuyRules` SET `BuyCoin` = $buyCoin where `ID` = $buyRuleID and `EnableRuleActivationAfterDip` = 1;";
-  print_r($sql);
+  SQLInsertUpdateCall("enableBuyRule: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7841,16 +7860,17 @@ function enableBuyRule($buyRuleID, $buyCoin,$PctChangeAvg,$pctChangeTargetAvg){
   }
   $conn->close();
   logAction("enableBuyRule: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("enableBuyRule","$sql ,AVG:$PctChangeAvg,Target:$pctChangeTargetAvg",3,1,"SQL CALL","BuyRuleID:$buyRuleID");
+  newLogToSQL("enableBuyRule","$sql ,AVG:$PctChangeAvg,Target:$pctChangeTargetAvg",3,1,"SQL CALL","BuyRuleID:$buyRuleID");*/
 }
 
 function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixSellRule){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call NewBuySellProfitSetup($coinID,$userID,$enableBuy,$enableSell,$nPct,$FixSellRule);";
-  print_r($sql);
+  SQLInsertUpdateCall("buySellProfitEnable: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7858,7 +7878,7 @@ function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixS
   }
   $conn->close();
   logAction("buySellProfitEnable: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("buySellProfitEnable","$sql",3,1,"SQL CALL","BuyRuleID:$buyRuleID");
+  newLogToSQL("buySellProfitEnable","$sql",3,1,"SQL CALL","BuyRuleID:$buyRuleID");*/
 }
 
 function getSpreadBetCount($SBTransID){
@@ -8057,13 +8077,14 @@ function getMarketStatistics(){
 }
 
 function setPriceDipEnable($ruleID,$status,$buyCoin,$liveCoinPriceMkt){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call PriceDipEnable($status,$ruleID,$liveCoinPriceMkt);";
-  print_r($sql);
+  SQLInsertUpdateCall("setPriceDipEnable: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8071,16 +8092,17 @@ function setPriceDipEnable($ruleID,$status,$buyCoin,$liveCoinPriceMkt){
   }
   $conn->close();
   logAction("setPriceDipEnable: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,1,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("setPriceDipEnable","$sql | $buyCoin",3,1,"SQL CALL","ruleID:$ruleID");*/
 }
 
 function writePriceDipHours($ruleID,$dipHourCounter){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call updatePriceDipHours($ruleID,$dipHourCounter);";
-  print_r($sql);
+  SQLInsertUpdateCall("writePriceDipHours: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8088,16 +8110,17 @@ function writePriceDipHours($ruleID,$dipHourCounter){
   }
   $conn->close();
   logAction("writePriceDipHours: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writePriceDipHours","$sql",3,0,"SQL CALL","ruleID:$ruleID");
+  newLogToSQL("writePriceDipHours","$sql",3,0,"SQL CALL","ruleID:$ruleID");*/
 }
 
 function writePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipHourCounterHigh){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "call updatePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipHourCounterHigh);";
-  print_r($sql);
+  SQLInsertUpdateCall("writePriceDipCoinHours: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8105,16 +8128,17 @@ function writePriceDipCoinHours($coinID,$dipHourCounter,$dipHourCounterLow,$dipH
   }
   $conn->close();
   logAction("writePriceDipHours: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","coinID:$coinID");
+  newLogToSQL("writePriceDipHours","$sql",3,sQLUpdateLog,"SQL CALL","coinID:$coinID");*/
 }
 
 function writeCoinPriceDipPrice($coinID,$price){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "INSERT INTO `PriceDipCoins`(`CoinID`, `Price`) VALUES ($coinID,$price)";
-  print_r($sql);
+  SQLInsertUpdateCall("writeCoinPriceDipPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8122,7 +8146,7 @@ function writeCoinPriceDipPrice($coinID,$price){
   }
   $conn->close();
   logAction("writeCoinPriceDipPrice: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writeCoinPriceDipPrice","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("writeCoinPriceDipPrice","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");*/
 }
 
 function reOpenTransactionfromBuyBack($buyBackID){
@@ -8154,12 +8178,13 @@ function reOpenTransactionfromBuyBack($buyBackID){
 }
 
 function reOpenTransactionfromBuyBackNew($buyBackID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `BuyBack` SET `Status` = 'Open' WHERE `TransactionID` = $buyBackID;";
-  //print_r($sql);
+  SQLInsertUpdateCall("reOpenTransactionfromBuyBackNew: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8167,16 +8192,17 @@ function reOpenTransactionfromBuyBackNew($buyBackID){
   }
   $conn->close();
   logAction("reOpenTransactionfromBuyBackNew: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("reOpenTransactionfromBuyBackNew","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");
+  newLogToSQL("reOpenTransactionfromBuyBackNew","$sql",3,1,"SQL CALL","BuyBackID:$buyBackID");*/
 }
 
 function addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier, $base){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call addToBuyBackMultiply($buyBackID,$addNum,$buyBackPct,$multiplier, $base);";
-  //print_r($sql);
+  SQLInsertUpdateCall("addToBuyBackMultiplier: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8184,16 +8210,17 @@ function addToBuyBackMultiplier($buyBackID,$addNum,$buyBackPct,$multiplier, $bas
   }
   $conn->close();
   logAction("addToBuyBackMultiplier: ".$sql, 'TrackingCoins', 1);
-  newLogToSQL("addToBuyBackMultiplier","$sql",3,0,"SQL CALL","BuyBackID:$buyBackID");
+  newLogToSQL("addToBuyBackMultiplier","$sql",3,0,"SQL CALL","BuyBackID:$buyBackID");*/
 }
 
 function closeBuyBack($buyBackID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `BuyBack` SET `Status`= 'Closed',`DateClosed` = now() WHERE `ID` = $buyBackID ";
-  //print_r($sql);
+  SQLInsertUpdateCall("closeBuyBack: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8201,16 +8228,17 @@ function closeBuyBack($buyBackID){
   }
   $conn->close();
   logAction("closeBuyBack: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("closeBuyBack",$sql,3,1,"SQL","BuyBackID:$buyBackID");
+  newLogToSQL("closeBuyBack",$sql,3,1,"SQL","BuyBackID:$buyBackID");*/
 }
 
 function buyBackDelay($coinID, $mins,$tmpUserID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call AddDelayToBuyBack($coinID,$mins,$tmpUserID);";
-  //print_r($sql);
+  SQLInsertUpdateCall("buyBackDelay: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8218,7 +8246,7 @@ function buyBackDelay($coinID, $mins,$tmpUserID){
   }
   $conn->close();
   logAction("buyBackDelay: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("buyBackDelay",$sql,3,0,"SQL","CoinID:$coinID");
+  newLogToSQL("buyBackDelay",$sql,3,0,"SQL","CoinID:$coinID");*/
 }
 
 function sellSpreadBetCoins($spreadSellCoins){
@@ -8266,15 +8294,15 @@ function sellSpreadBetCoins($spreadSellCoins){
 }
 
 function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving,$spreadBetRuleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Call WriteBuyBack($transactionID,$noOfRisesInPrice,$profitPct,$minsToCancel,$finalPrice,$amount,$cost,$usd_Amount,$buyBackEnabled,$overrideAmount,$overrideSaving,$spreadBetRuleID);";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("WriteBuyBack: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8282,7 +8310,7 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
   }
   $conn->close();
   logAction("WriteBuyBack: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("WriteBuyBack","$sql",3,1,"SQL CALL","TransactionID:$transactionID");
+  newLogToSQL("WriteBuyBack","$sql",3,1,"SQL CALL","TransactionID:$transactionID");*/
 }
 
 function checkSpreadBetComplete($spreadBetRuleID){
@@ -8307,14 +8335,15 @@ function checkSpreadBetComplete($spreadBetRuleID){
 }
 
 function runSpreadBetComplete($spreadBetRuleID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
-  //$sql = "SELECT count(`ID`) as SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `Status` in ('Open','Pending');";
+  SQLInsertUpdateCall("runSpreadBetComplete: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*$sql = "SELECT count(`ID`) as SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `Status` in ('Open','Pending');";
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -8323,19 +8352,19 @@ function runSpreadBetComplete($spreadBetRuleID){
   }
   $conn->close();
   logAction("runSpreadBetComplete: ".$sql, 'SpreadBetSell', 0);
-  newLogToSQL("runSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("runSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");*/
 }
 
 function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call AddProfitForWebTable($spreadBetTransactionID,$originalPurchasePrice, $liveTotalPrice, $saleTotalPrice);";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("writeProfitToWebTable: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8343,19 +8372,19 @@ function writeProfitToWebTable($spreadBetTransactionID,$originalPurchasePrice, $
   }
   $conn->close();
   logAction("writeProfitToWebTable: ".$sql, 'SpreadBetSell', 0);
-  newLogToSQL("writeProfitToWebTable","$sql",3,sQLUpdateLog,"SQL CALL","SBTransactionID:$spreadBetTransactionID");
+  newLogToSQL("writeProfitToWebTable","$sql",3,sQLUpdateLog,"SQL CALL","SBTransactionID:$spreadBetTransactionID");*/
 }
 
 function updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call updateBuyBackKittyAmount('$tmpBaseCur', $bbKittyAmount,$tmpUserID);";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("updateBuyBackKittyAmount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8363,19 +8392,19 @@ function updateBuyBackKittyAmount($tmpBaseCur,$bbKittyAmount,$tmpUserID){
   }
   $conn->close();
   logAction("updateBuyBackKittyAmount: ".$sql, 'SQL_CALL', 0);
-  newLogToSQL("updateBuyBackKittyAmount","$sql",3,sQLUpdateLog,"SQL CALL","");
+  newLogToSQL("updateBuyBackKittyAmount","$sql",3,sQLUpdateLog,"SQL CALL","");*/
 }
 
 function WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `WebMarketStats` SET `1HrPrice`=$marketPctChangeHr1,`24HrPrice`=$marketPctChangeHr24,`7DPrice`=$marketPctChangeD7 WHERE `ID` = 1";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("WriteWebMarketStats: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8383,7 +8412,7 @@ function WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPct
   }
   $conn->close();
   logAction("WriteWebMarketStats: ".$sql, 'SpreadBetSell', 0);
-  newLogToSQL("WriteWebMarketStats","$sql",3,sQLUpdateLog,"SQL CALL","");
+  newLogToSQL("WriteWebMarketStats","$sql",3,sQLUpdateLog,"SQL CALL","");*/
 }
 
 function getTotalProfitSpreadBetSell($spreadBetTransactionID){
@@ -8505,15 +8534,16 @@ function getSoldProfitSpreadBetSell($spreadBetTransactionID){
 }
 
 function updateSpreadBetTotalProfitBuy($transactionID, $coinPrice, $amount){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "INSERT INTO `SpreadBetTotalProfit`( `TransactionID`, `SpreadBetTransactionID`, `CoinPrice`, `Amount`)
   VALUES ($transactionID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = $transactionID),$coinPrice,$amount);";
-  logToSQL("BittrexSQL", "$sql", 3, 1);
+  SQLInsertUpdateCall("updateSpreadBetTotalProfitBuy: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*logToSQL("BittrexSQL", "$sql", 3, 1);
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -8522,19 +8552,19 @@ function updateSpreadBetTotalProfitBuy($transactionID, $coinPrice, $amount){
   }
   $conn->close();
   logAction("updateSpreadBetTotalProfitBuy: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateSpreadBetTotalProfitBuy",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateSpreadBetTotalProfitBuy",$sql,3,0,"SQL","TransactionID:$transactionID");*/
 }
 
 function updateSpreadBetTotalProfitSell($transactionID,$salePrice){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `SpreadBetTotalProfit` SET `SalePrice` = $salePrice, `Status`='Sold' WHERE `TransactionID` = $transactionID";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("updateSpreadBetTotalProfitSell: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8542,20 +8572,21 @@ function updateSpreadBetTotalProfitSell($transactionID,$salePrice){
   }
   $conn->close();
   logAction("updateSpreadBetTotalProfitSell: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("updateSpreadBetTotalProfitSell",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateSpreadBetTotalProfitSell",$sql,3,0,"SQL","TransactionID:$transactionID");*/
 }
 
 function updateSpreadBetSellTarget($transactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "INSERT INTO `SpreadBetSellTarget`( `TransactionID`, `SBTransactionID`, `SellPct`)
   VALUES ($transactionID,(SELECT `SpreadBetTransactionID` FROM `Transaction` WHERE `ID` = $transactionID )
   ,(SELECT `PctProfitSell`/7 FROM `SpreadBetSettings` WHERE `SpreadBetRuleID` = (SELECT `SpreadBetRuleID` FROM `Transaction` WHERE `ID` = $transactionID )) )";
-  logToSQL("BittrexSQL", "$sql", 3, 1);
+  SQLInsertUpdateCall("updateSpreadBetSellTarget: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*logToSQL("BittrexSQL", "$sql", 3, 1);
   //print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -8564,80 +8595,80 @@ function updateSpreadBetSellTarget($transactionID){
   }
   $conn->close();
   logAction("updateSpreadBetSellTarget: ".$sql, 'TrackingCoins', 1);
-  newLogToSQL("updateSpreadBetSellTarget",$sql,3,0,"SQL","TransactionID:$transactionID");
+  newLogToSQL("updateSpreadBetSellTarget",$sql,3,0,"SQL","TransactionID:$transactionID");*/
 }
 
 function deleteSpreadBetTotalProfit($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "DELETE FROM `SpreadBetTotalProfit`  WHERE `SpreadBetTransactionID` = $spreadBetTransactionID";
-
-  //print_r($sql);
+    SQLInsertUpdateCall("deleteSpreadBetTotalProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("deleteSpreadBetTotalProfit: ".$sql, 'TrackingCoins', 0);
+  logAction("deleteSpreadBetTotalProfit: ".$sql, 'TrackingCoins', 0);*/
 }
 
 function deleteSpreadBetTrackingCoins($spreadBetTransactionID, $mode = 0){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($mode == 0){
     $sql = "DELETE FROM `TrackingCoins` WHERE `SBTransID` = $spreadBetTransactionID";
   }else{
     $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open'";
   }
-
-  if ($conn->query($sql) === TRUE) {
+  SQLInsertUpdateCall("deleteSpreadBetTrackingCoins: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);
+  logAction("deleteSpreadBetTrackingCoins: ".$sql, 'TrackingCoins', 0);*/
 }
 
 function deleteReduceLossTrackingCoins($userID,$baseCurrency){
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
 
     $sql = "DELETE FROM `TrackingCoins` WHERE `UserID` = $userID and `Type` = 'buyToreduceLoss' and `Status` = 'Open' and `BaseCurrency` = '$baseCurrency'";
-
-  //print_r($sql);
+    SQLInsertUpdateCall("deleteReduceLossTrackingCoins: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("deleteReduceLossTrackingCoins: ".$sql, 'TrackingCoins', 0);
+  logAction("deleteReduceLossTrackingCoins: ".$sql, 'TrackingCoins', 0);*/
 }
 
 function CloseAllBuyBack($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "UPDATE `BuyBack`
             SET `Status` = 'Closed',`DateClosed` = now()
             WHERE `TransactionID` in (SELECT `ID` FROM `Transaction` WHERE `SpreadBetTransactionID` = $spreadBetTransactionID)";
-
-  //print_r($sql);
+  SQLInsertUpdateCall("CloseAllBuyBack: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -8645,21 +8676,22 @@ function CloseAllBuyBack($spreadBetTransactionID){
   }
   $conn->close();
   logAction("CloseAllBuyBack: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("CloseAllBuyBack",$sql,3,0,"SQL","SBTransactionID:$spreadBetTransactionID");
+  newLogToSQL("CloseAllBuyBack",$sql,3,0,"SQL","SBTransactionID:$spreadBetTransactionID");*/
 }
 
 function subPctFromProfitSB($sBTransID,$pctToSub, $transactionID){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "Call UpdateOrAddSBTransSellTargetPct($transactionID, $pctToSub,$sBTransID);";
-  print_r("<BR>".$sql."<BR>");
+  SQLInsertUpdateCall("subPctFromProfitSB: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r("<BR>".$sql."<BR>");
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("subPctFromProfitSB","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID SBTransID:$sBTransID");
+  newLogToSQL("subPctFromProfitSB","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID SBTransID:$sBTransID");*/
 }
 
 function echoText($text, $enabled){
