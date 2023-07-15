@@ -339,7 +339,9 @@ $data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
 //foreach ($data as $row) {
 //    echo $row['BittrexRef'];
 //}
-$datasize= count($data);
+$datasize = count($data);
+Echo "<BR> Count: $datasize <BR>";
+var_dump($data);
 for ($y=0; $y<$dataSize;$y++){
   echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
 }
