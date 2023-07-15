@@ -92,8 +92,10 @@ function getCurrentMonthMinMax(){
     and `Cmhp`.`Month` = month(now()) ";
   echo "<BR>".$sql;
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
+  if($result){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
+    }
   }
   $conn->close();
 return $tempAry;
