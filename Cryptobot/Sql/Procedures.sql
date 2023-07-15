@@ -2657,3 +2657,26 @@ End if;
 Update `Transaction` set `CoinID` = coin_ID, `OrderNo` = concat('ORD', nSymbol,DATE_FORMAT(now(), "%Y%m%d%k%i%s")),`Status` = nStatus, `CoinPrice` = nPrice where `ID` = insertID;
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `HourlyAvgCoinPriceCoinBuyHistory`()
+    NO SQL
+Begin
+Declare nMonth Int;
+Declare nYear Int;
+Declare nDay Int;
+Declare nHour Int;
+Declare nSymbol Varchar (50);
+Declare nBase Varchar (50);
+
+SELECT `Symbol`,Year(Min(`ActionDate`)),Month(Min(`ActionDate`)),Day(Min(`ActionDate`)),Hour(Min(`ActionDate`)), `BaseCurrency`
+INTO nSymbol, nYear, nMonth, nDay, nHour, nBase
+FROM `CoinBuyHistory` WHERE `HourlyAvg` = 0;
+
+Insert into `CoinBuyHistory` (`ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,`ActionDate`,`HourlyAvg`)
+SELECT `ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,Date(DATE_FORMAT(`ActionDate`, "%Y-%m-%d %h")),1 FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
+
+DELETE FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
+End$$
+DELIMITER ;

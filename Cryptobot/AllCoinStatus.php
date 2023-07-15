@@ -541,6 +541,25 @@ function runHoursforCoinPriceDip(){
   }
 }
 
+function runCoinBuyHistoryAverage(){
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+
+  $sql = "call HourlyAvgCoinPriceCoinBuyHistory();";
+  print_r($sql);
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+  }
+  $conn->close();
+  logAction("runCoinBuyHistoryAverage: ".$sql, 'TrackingCoins', 0);
+  newLogToSQL("runCoinBuyHistoryAverage","$sql",3,0,"SQL CALL","");
+
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
@@ -605,5 +624,6 @@ echo "EndTime ".date("Y-m-d H:i", time());
 //BearBullStats();
 runHoursforCoinPriceDip();
 runMarketStats();
+runCoinBuyHistoryAverage();
 ?>
 </html>
