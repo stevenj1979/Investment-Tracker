@@ -49,7 +49,7 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
   }
   $result = $conn->query($sql);
   if ($result){
-      while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row);}
+      while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row;}
   }else{
     //error here
   }
