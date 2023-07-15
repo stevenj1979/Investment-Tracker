@@ -2559,7 +2559,7 @@ while($completeFlag == False){
         if (date("Y-m-d H:i", time()) >= $bittrexReqsTimer or $refreshBittrexFlag == True){
           $BRcurrent_date = date('Y-m-d H:i');
           $bittrexReqsTimer = date("Y-m-d H:i",strtotime("+2 minutes 34 seconds", strtotime($BRcurrent_date)));
-          $BittrexReqs = getBittrexRequests();
+          $BittrexReqs = getBittrexRequestsOg();
           $refreshBittrexFlag = False;
         }
         $refreshBittrexFlag = runBittrex($BittrexReqs,$apiVersion,$webSettingsAry);

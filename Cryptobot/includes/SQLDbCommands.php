@@ -55,7 +55,6 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
   }
   $conn->close();
   return $tempAry;
-
 }
 
 ?>

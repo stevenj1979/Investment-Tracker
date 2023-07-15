@@ -71,7 +71,7 @@ if(isset($_POST['submit'])){
       $_SESSION['ConsoleSubSelected'] = "1";
       $_SESSION['ConsoleSearchTxt'] = "1";
       $_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($temp[0][2]));
-      $_SESSION['bittrexQueue'] = count(getBittrexRequests($temp[0][2]));
+      $_SESSION['bittrexQueue'] = count(getBittrexRequestsOg($temp[0][2]));
       $ruleID = getBuyRulesIDs($temp[0][2]);
       $_SESSION['RuleIDSelected'] = $ruleID[0][0];
       $_SESSION['MobOverride'] = False;

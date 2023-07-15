@@ -7,7 +7,7 @@ Define("SQLProcedureLog","0");
 Define("SQLAdvancedLog","0");
 Define("logToSQLSetting","0");
 
-function getBittrexRequests($userID = 0){
+function getBittrexRequestsOg($userID = 0){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
   $bittrexQueue = "";
