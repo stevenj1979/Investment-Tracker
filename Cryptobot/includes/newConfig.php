@@ -3565,8 +3565,12 @@ function get7DayChange($coinID){
   $sql = "SELECT `Price` FROM `SevenDayPrice` WHERE `CoinID` = $coinID";
   //print_r($sql);
   $result = $conn->query($sql);
-  while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['Price']);
+  if ($result){
+    while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['Price']);
+    }
+  }else{
+    newerLogToSQL("get7DayChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   return $tempAry;
@@ -3584,6 +3588,7 @@ function update7DPriceChange($sevenDayPrice,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      newerLogToSQL("update7DPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update7DPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
@@ -3599,6 +3604,7 @@ function updatePctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      newerLogToSQL("updatePctChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("updatePctChange","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3617,6 +3623,7 @@ function update24HrPriceChange($price,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      newerLogToSQL("update24HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update24HrPriceChange",$sql,3,0,"SQL","CoinID:$coinID");
@@ -3632,6 +3639,7 @@ function update8HrPriceChange($price,$coinID){
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
+      newerLogToSQL("update8HrPriceChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
   $conn->close();
   newLogToSQL("update8HrPriceChange","$sql",3,sQLUpdateLog,"SQL CALL","CoinID:$coinID");
@@ -3643,7 +3651,10 @@ function bittrexUpdateBuyQty($transactionID, $quantity){
   $sql = "call CompleteBittrexBuyUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
-  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    newerLogToSQL("bittrexUpdateBuyQty","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   logAction("bittrexUpdateBuyQty: ".$sql, 'BuySell', 0);
   newLogToSQL("bittrexUpdateBuyQty","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
@@ -3655,7 +3666,10 @@ function bittrexUpdateSellQty($transactionID, $quantity){
   $sql = "call CompleteBittrexSellUpdateAmount($transactionID,$quantity);";
   print_r("<br>".$sql);
   if ($conn->query($sql) === TRUE) {echo "New record created successfully";
-  } else {echo "Error: " . $sql . "<br>" . $conn->error;}
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    newerLogToSQL("bittrexUpdateSellQty","$sql;",3,1,"NewConfig",$conn->error,90);
+  }
   $conn->close();
   logAction("bittrexUpdateSellQty: ".$sql, 'SQL_CALL', 1);
   newLogToSQL("bittrexUpdateSellQty","$sql",3,sQLUpdateLog,"SQL CALL","TransactionID:$transactionID");
@@ -3751,6 +3765,22 @@ function newerLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, 
     $conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $sql = "call newerLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref',$daysToKeep)";
+    print_r("<br>".$sql);
+    if ($conn->query($sql) === TRUE) {echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      sqltoSteven("Error: " . $sql . "<br>" . $conn->error);
+    }
+    $conn->close();
+  }
+}
+
+function erroLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, $daysToKeep){
+  if ($enabled == 1){
+    $comments = str_replace("'","/",$comments);
+    $conn = getSQLConn(rand(1,3));
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    $sql = "call errorLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref',$daysToKeep)";
     print_r("<br>".$sql);
     if ($conn->query($sql) === TRUE) {echo "New record created successfully";
     } else {
@@ -3926,7 +3956,13 @@ function displayNewHeader(){
           </ul>
         </li>
         <li><a href="CoinAlerts.php">Coin Alerts<a></li>
-        <li><a href="console.php">Console</a></li>
+        <li><a href="console.php">Log</a>
+          <ul class="dropdown">
+            <li><a href="console.php">Console Log</a></li>
+            <li><a href="ErrorConsole.php">Error Log</a></li>
+            <li><a href="NotificationConsole.php">Notification Log</a></li>
+          </ul>
+        </li>
         <!--<li><a href="CoinMode.php">CoinMode</a></li> -->
 
       </ul>

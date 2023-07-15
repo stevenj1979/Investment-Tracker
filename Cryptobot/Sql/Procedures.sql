@@ -1495,6 +1495,30 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `erroLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `save_Total` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `Days_To_Keep` INT)
+    MODIFIES SQL DATA
+BEGIN
+  DECLARE CountOfAction INTEGER;
+
+  SELECT Count(`ID`) INTO CountOfAction
+	FROM `ErrorLog`
+	WHERE `UserID` = User_ID and `Subject` = In_Sub ;
+
+  if (Days_To_Keep = -1) THEN
+    SET Days_To_Keep = 15000;
+  end if;
+
+  IF (CountOfAction > save_Total) THEN
+    DELETE FROM `ErrorLog` WHERE `UserID` = User_ID and `Subject` = In_Sub Order by `ID` limit 1;
+
+  END IF;
+INSERT INTO `ErrorLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments, Sub_Title, nRef,date_add(now(),INTERVAL Days_To_Keep DAY));
+
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `daysToSave` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `nTitle` VARCHAR(50), IN `nType` VARCHAR(50))
     MODIFIES SQL DATA
 BEGIN
