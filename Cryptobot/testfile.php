@@ -5,7 +5,7 @@ require('includes/newConfig.php');
 //set_include_path('/home/stevenj1979/repositories/gdax/src/Configuration.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
-include_once ('../Includes/SQLDbCommands.php');
+include_once ('/includes/SQLDbCommands.php');
 
 $SQLUpdateLog = 1;
 $SQLProcedureLog = 1;
