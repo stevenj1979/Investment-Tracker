@@ -1,5 +1,6 @@
 <?PHP
 include_once ('/home/stevenj1979/SQLData.php');
+require('newConfig.php');
 
 function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
     if($history == 1){
@@ -37,6 +38,23 @@ function SQLSelect($sql) {
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
   }
   return $a;
+}
+
+function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
+  $tempAry = array();
+  $conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  $result = $conn->query($sql);
+  if ($result){
+      while ($row = mysqli_fetch_assoc($result)) $tempAry[] = $row);
+  }else{
+    //error here
+  }
+  $conn->close();
+  return $tempAry;
+
 }
 
 ?>
