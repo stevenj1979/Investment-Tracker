@@ -343,7 +343,8 @@ $datasize = count($data);
 Echo "<BR> Count: $datasize <BR>";
 //var_dump($data);
 for ($y=0; $y<$dataSize;$y++){
-  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
+  echo "<br> HERE";
+  echo "<BR> Here ".$data[$y][0]." | ".$data[$y][1];
 }
 
 ?>
