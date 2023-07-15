@@ -335,13 +335,13 @@ $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDat
 FROM `View4_BittrexBuySell`
 where (`StatusBa` = '1')  and `UserIDBa` = 3 order by `ActionDate` desc";
 $data = SQLSelect($sql);
-//foreach ($data as $row) {
-//    echo $row['BittrexRef'];
-//}
-$datasize= count($data);
-for ($y=0; $y<$dataSize;$y++){
-  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
+foreach ($data as $row) {
+    echo $row['BittrexRef'];
 }
+//$datasize= count($data);
+//for ($y=0; $y<$dataSize;$y++){
+//  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];/
+//}
 
 ?>
 </html>
