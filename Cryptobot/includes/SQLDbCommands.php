@@ -28,6 +28,7 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
 }
 
 function SQLSelect($sql) {
+  echo "<BR> Start";
   $res = mysql_query($sql) or trigger_error("db: ".mysql_error()." in ".$sql);
   $a   = array();
   if ($res) {
