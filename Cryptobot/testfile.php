@@ -336,15 +336,15 @@ FROM `View4_BittrexBuySell`
 where (`StatusBa` = '1')  and `UserIDBa` = 3 order by `ActionDate` desc";
 //$data = mySQLSelect($sql);
 $data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
-//foreach ($data as $row) {
-//    echo $row['BittrexRef'];
-//}
-$datasize = count($data);
-Echo "<BR> Count: $datasize <BR>";
-var_dump($data);
-for ($y=0; $y<$dataSize;$y++){
-  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
+foreach ($data as $row) {
+    echo "<BR> BittrexRef: ".$row['BittrexRef'];
 }
+//$datasize = count($data);
+//Echo "<BR> Count: $datasize <BR>";
+//var_dump($data);
+//for ($y=0; $y<$dataSize;$y++){
+//  echo "<BR> Here".$data[$y][0]." | ".$data[$y][1];
+//}
 
 ?>
 </html>
