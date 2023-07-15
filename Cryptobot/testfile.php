@@ -342,7 +342,7 @@ $data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
 $datasize = count($data);
 Echo "<BR> Count: $datasize <BR>";
 //var_dump($data);
-for ($y=0; $y<$dataSize;$y++){
+for ($y=0; $y<$datasize;$y++){
   echo "<br> HERE";
   echo "<BR> Here ".$data[$y][0]." | ".$data[$y][1];
 }
