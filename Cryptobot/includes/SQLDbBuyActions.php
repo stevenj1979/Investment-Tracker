@@ -1,7 +1,7 @@
 <?php
 require('../../SQLDb.php');
 
-function getTrackingCoins(){
+function getTrackingCoinsLoc(){
   $tempAry = [];
   $conn = getNewSQL(rand(1,4));
   // Check connection
@@ -23,7 +23,7 @@ function getTrackingCoins(){
   return $tempAry;
 }
 
-function getUserRules(){
+function getUserRulesLoc(){
   $tempAry = [];
   $conn = getNewSQL(rand(1,4));
   // Check connection
@@ -66,7 +66,7 @@ function newPrice($bitPrice, $pct, $action){
   }
 }
 
-function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins){
+function buyCoinsLoc($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins){
   $BTCBalance = bittrexbalance($apikey, $apisecret,$baseCurrency);
   //get min trade
   if ($buyType == 2){
@@ -125,7 +125,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
   }
 }
 
-function writeSQLTransBuy($type, $coinID,$userID, $cost,$amounttobuy, $date, $BittrexID, $orderNo){
+function writeSQLTransBuyLoc($type, $coinID,$userID, $cost,$amounttobuy, $date, $BittrexID, $orderNo){
   $currentDate = date("Y-m-d H:i:s", time());
   $conn = getNewSQL(rand(1,4));
     // Check connection

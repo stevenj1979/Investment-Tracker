@@ -1,7 +1,7 @@
 <?php
 require('../../SQLDb.php');
 
-function getBittrexRequests(){
+function getBittrexRequestsLoc(){
   $tempAry = [];
   $conn = getNewSQL(rand(1,4));
   // Check connection
@@ -24,7 +24,7 @@ function getBittrexRequests(){
   return $tempAry;
 }
 
-function deleteFromBittrexAction($bittrexRef){
+function deleteFromBittrexActionLoc($bittrexRef){
   $conn = getNewSQL(rand(1,4));
     // Check connection
     if ($conn->connect_error) {
@@ -40,7 +40,7 @@ function deleteFromBittrexAction($bittrexRef){
     $conn->close();
 }
 
-function writeBittrexActionBuy($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice,$ruleID){
+function writeBittrexActionBuyLoc($coinID,$transactionID,$userID,$type,$bittrexRef,$date,$status,$sellPrice,$ruleID){
     $conn = getNewSQL(rand(1,4));
     // Check connection
     if ($conn->connect_error) {
