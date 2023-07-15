@@ -1,7 +1,6 @@
 <?php
 include_once ('/home/stevenj1979/SQLData.php');
-include_once ('/home/stevenj1979/Investment-Tracker/Cryptobot/includes/SQLDbCommands.php');
-
+include_once ('SQLDbCommands.php');
 
 Define("sQLUpdateLog","0");
 Define("SQLProcedureLog","0");

@@ -5,7 +5,7 @@ require('includes/newConfig.php');
 //set_include_path('/home/stevenj1979/repositories/gdax/src/Configuration.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
-include_once ('/home/stevenj1979/Investment-Tracker/Cryptobot/includes/SQLDbCommands.php');
+include_once ('../Includes/SQLDbCommands.php');
 
 $SQLUpdateLog = 1;
 $SQLProcedureLog = 1;
@@ -188,7 +188,7 @@ function getArrayPrice($coinAry, $symbol, $baseCurrency){
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
     if ($coinAry[$j]['symbol'] == $symbol."-".$baseCurrency){
-      echo "<BR> ".$coinAry[$j]['symbol']." == $symbol."-".$baseCurrency";
+      echo "<BR> ".$coinAry[$j]['symbol']." == $symbol - $baseCurrency";
       $nPrice = $coinAry[$j]['askRate'];
       break;
     }
