@@ -6,7 +6,7 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
     if($history == 1){
       $conn = getHistorySQL(rand(1,4));
     }else{
-      $conn = getNewSQL(rand(1,4));
+      $conn = getSQLConn(rand(1,3));
     }
 
     // Check connection
@@ -45,7 +45,7 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
   if($history == 1){
     $conn = getHistorySQL(rand(1,4));
   }else{
-    $conn = getNewSQL(rand(1,4));
+    $conn = getSQLConn(rand(1,3));
   }
   if($echo == 1){
       print_r($sql);
