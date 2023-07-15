@@ -660,11 +660,11 @@ function getHoursforCoinPriceDip($whereclause){
 function getTrackingSellCoins($type, $userID = 0){
   $tempAry = [];
   if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Status` = 'Open' and `Type` = '$type'";}else{$whereclause = "Where `Status` = 'Open' and `Type` = '$type'";}
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
   ,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
@@ -673,7 +673,8 @@ function getTrackingSellCoins($type, $userID = 0){
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp',`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`,`CaaSellOffset`,`SpreadBetTransactionID`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getTrackingSellCoins: ",$sql,3,1,1,0,"TestFile",90);
+  /*$result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -686,7 +687,7 @@ function getTrackingSellCoins($type, $userID = 0){
     ,$row['OriginalPrice'],$row['CoinFee'],$row['LivePrice'],$row['ProfitUSD'],$row['ProfitPct'],$row['CaptureTrend'],$row['minsToDelay'],$row['MinsFromBuy'],$row['HoursFlatHighPdcs'],$row['MaxPriceFromHigh'],$row['PctFromLiveToHigh'] //64
     ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['CaaOffset'],$row['CaaMinsToCancelSell'],$row['CaaSellOffset'],$row['SpreadBetTransactionID']); //73
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 

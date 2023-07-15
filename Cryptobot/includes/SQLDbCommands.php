@@ -42,8 +42,14 @@ function SQLSelect($sql) {
 
 function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
   $tempAry = array();
-  $conn = getSQLConn(rand(1,3));
-  Echo "<BR>$sql<BR>";
+  if($history == 1){
+    $conn = getHistorySQL(rand(1,4));
+  }else{
+    $conn = getNewSQL(rand(1,4));
+  }
+  if($echo == 1){
+      print_r($sql);
+  }
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }
@@ -54,6 +60,7 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
       while($row = mysqli_fetch_array($result, MYSQLI_NUM)) {$tempAry[] = $row;}
   }else{
     //error here
+    errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
   }
   $conn->close();
   return $tempAry;
