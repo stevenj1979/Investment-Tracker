@@ -34,10 +34,10 @@ if(isset($_GET['noOverride'])){
 
 }
 
-if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
-  $_SESSION['roundVar'] = 2;
-  //header('Location: SellCoins_Mobile.php');
-}
+//if ($_SESSION['isMobile'] && $_SESSION['MobOverride'] == False){
+//  $_SESSION['roundVar'] = 2;
+  //header('Location: SellCoins_Mobile.php');//
+//}
 
 if(isset($_GET['lowMarketMode'])){
   $userID = $_SESSION['ID'];
@@ -223,7 +223,7 @@ function showSellCoins($trackingSell,$title){
   if ($_SESSION['isMobile']){  $fontSize = "font-size:60px"; }else{ $fontSize = "font-size:32px"; }
   echo "<h3>$title</h3>";
   var_dump($trackingSell);
-  echo "<BR> Rounf var: $roundVar";
+  echo "<BR> Rounf var: $roundVar | ".$_SESSION['roundVar'];;
   for($x = 0; $x < $arrLengthSell; $x++) {
       //Variables
       //$roundNum = 2;
