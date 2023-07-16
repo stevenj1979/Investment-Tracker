@@ -2675,7 +2675,7 @@ INTO nSymbol, nYear, nMonth, nDay, nHour, nBase
 FROM `CoinBuyHistory` WHERE `HourlyAvg` = 0;
 
 Insert into `CoinBuyHistory` (`ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,`ActionDate`,`HourlyAvg`)
-SELECT `ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,Date(DATE_FORMAT(`ActionDate`, "%Y-%m-%d %h")),1 FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
+SELECT `ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,`ActionDate`,1 FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
 
 DELETE FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
 End$$

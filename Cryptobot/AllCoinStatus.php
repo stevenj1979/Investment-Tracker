@@ -624,6 +624,9 @@ echo "EndTime ".date("Y-m-d H:i", time());
 //BearBullStats();
 runHoursforCoinPriceDip();
 runMarketStats();
-runCoinBuyHistoryAverage();
+for ($t=0;$t<5;$t++){  //run 5 times
+    runCoinBuyHistoryAverage();
+}
+
 ?>
 </html>
