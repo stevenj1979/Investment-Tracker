@@ -9,13 +9,13 @@ Define("logToSQLSetting","0");
 
 function getBittrexRequestsOg($userID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   $bittrexQueue = "";
   if ($userID <> 0){$bittrexQueue = " and `UserIDBa` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Type`,`BittrexRefBa` as `BittrexRef`,`ActionDate`,`CompletionDate`,`Status`,`SellPrice`,`UserName`,`APIKey`,`APISecret`,`Symbol`,`Amount`,`CoinPrice`,`UserIDBa`,`Email`,`OrderNo`,`TransactionID`,`BaseCurrency`,`BuyRule`,`DaysOutstanding`,`timeSinceAction`
   ,`CoinID4`,`RuleIDSell`,`LiveCoinPrice`,`TimetoCancelBuy`,`BuyOrderCancelTime`,`KEK`,`Live7DChange`,`CoinModeRule`,`OrderDate`,`PctToSave`,`SpreadBetRuleID`,`SpreadBetTransactionID`,`RedirectPurchasesToSpread`,`RedirectPurchasesToSpreadID` as`SpreadBetRuleIDRedirect`
@@ -29,7 +29,8 @@ function getBittrexRequestsOg($userID = 0){
   , (((`LiveCoinPriceSell`*`Amount`)-(`CoinPrice`*`Amount`))/(`CoinPrice`*`Amount`))*100 as `BuyDifferencePct`
   FROM `View4_BittrexBuySell`
   where (`StatusBa` = '1') $bittrexQueue order by `ActionDate` desc";
-  $conn->query("SET time_zone = '-07:00';");
+  $tempAry = mySQLSelect("getBittrexRequestsOg: ",$sql,3,1,1,0,"TestFile",90);
+  /*$conn->query("SET time_zone = '-07:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -46,30 +47,31 @@ function getBittrexRequestsOg($userID = 0){
         ,$row['BuyBackMinsToCancel'],$row['TimeToCancelBa'],$row['TimeStampNow'],$row['TimeStampTimeToCancel'],$row['BuyBackCounter'],$row['BuyBackMax'],$row['DisableBuyBack'],$row['LiveCoinPriceSell'],$row['FullSellPrice'],$row['FullSellPriceLive'] //88
         ,$row['SellDifference'],$row['SellDifferencePct'],$row['FullBuyPrice'],$row['BuyDifference'],$row['BuyDifferencePct']); //93
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCancelTime($transactionID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
 
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `TimeStampNow`,`TimeStampTimeToCancel`
   FROM `View4_BittrexBuySell`
   where `TransactionID` = $transactionID";
-  $conn->query("SET time_zone = '+04:00';");
+  $tempAry = mySQLSelect("getCancelTime: ",$sql,3,1,1,0,"TestFile",90);
+  /*$conn->query("SET time_zone = '+04:00';");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TimeStampNow'],	$row['TimeStampTimeToCancel']); //2
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -579,18 +581,19 @@ function bittrexAllBalances($apikey, $apisecret, $versionNum){
 
 function getTrackingCoins($whereclause, $table){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "SELECT `IDCn`,`Symbol`,`LiveBuyOrders`,`LastBuyOrders`,`BuyOrdersPctChange`,`LiveMarketCap`,`LastMarketCap`,`MarketCapPctChange`,`Live1HrChange`,`Last1HrChange`,`Hr1ChangePctChange`,`Live24HrChange`,`Last24HrChange`,`Hr24ChangePctChange`,`Live7DChange`,`Last7DChange`
     ,`D7ChangePctChange`,Trim(`LiveCoinPrice`)+0 as LiveCoinPrice,Trim(`LastCoinPrice`)+0 as LastCoinPrice,`CoinPricePctChange`,`LiveSellOrders`,`LastSellOrders`,`SellOrdersPctChange`,`LiveVolume`,`LastVolume`,`VolumePctChange`,`BaseCurrency`,`Price4Trend`,`Price3Trend`, `LastPriceTrend`, `LivePriceTrend`,`1HrPriceChangeLive`
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as `6MonthPrice` ,Trim(`Month3Low`)+0 as `3MonthPrice`,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`,`CaaOffset`,`CaaMinsToCancelBuy`,`HoursFlatHighPdcs`,`HoursFlatLowPdcs`
     $table $whereclause ";
-    echoAndLog("", "$sql",3,0,"","");
+    $tempAry = mySQLSelect("getTrackingCoins: ",$sql,3,1,1,0,"NewConfig",90);
+    /*echoAndLog("", "$sql",3,0,"","");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -601,17 +604,17 @@ function getTrackingCoins($whereclause, $table){
     ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice'] //45
     ,$row['HoursSinceAdded'],$row['MaxHoursFlat'],$row['CaaOffset'],$row['CaaMinsToCancelBuy'],$row['HoursFlatHighPdcs'],$row['HoursFlatLowPdcs']);//51
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadBetTrackingCoins($whereclause, $table){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "SELECT `IDCn`,`Symbol`,sum(`LiveBuyOrders`) as LiveBuyOrders,sum(`LastBuyOrders`) as LastBuyOrders,sum((`LiveBuyOrders`-`LastBuyOrders`)/100)*`LiveBuyOrders`as BuyOrdersPctChange,sum(`LiveMarketCap`) as LiveMarketCap,sum(`LastMarketCap`) as LastMarketCap,sum((`LiveMarketCap`-`LastMarketCap`)/100)*`LiveMarketCap`as MarketCapPctChange
     ,sum(`Live1HrChange`) as Live1HrChange
@@ -626,7 +629,8 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     $table
     join `SpreadBetCoins` `Sbc` on `Sbc`.`CoinID` =  `IDCn`
     $whereclause";
-    //echo "<BR> $sql <BR>";
+    $tempAry = mySQLSelect("getSpreadBetTrackingCoins: ",$sql,3,1,1,0,"NewConfig",90);
+    /*echo "<BR> $sql <BR>";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -637,17 +641,17 @@ function getSpreadBetTrackingCoins($whereclause, $table){
     ,$row['1HrPriceChange4'],$row['SecondstoUpdate'],$row['LastUpdated'],$row['Name'],$row['Image'],$row['DoNotBuy'],$row['HoursFlatPdcs'],$row['MinPriceFromLow'],$row['PctFromLiveToLow'],$row['6MonthPrice'],$row['3MonthPrice'],$row['AverageLowPrice'] //45
     ,$row['HoursSinceAdded'],$row['MaxHoursFlat'],$row['CaaOffset'],$row['CaaMinsToCancelBuy'],$row['HoursFlatHighPdcs'],$row['HoursFlatLowPdcs'],$row['SpreadBetRuleID']);//52
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getHoursforCoinPriceDip($whereclause){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "SELECT `IDCn`,`LiveCoinPrice`, `Us`.`ID` as `UserID`, `Usc`.`HoursFlatTolerance`
     FROM `View1_BuyCoins`
@@ -655,14 +659,15 @@ function getHoursforCoinPriceDip($whereclause){
     join `UserConfig` `Usc` on `Usc`.`UserID` = `Us`.`ID`
     $whereclause
     order by `ID`,`IDCn`";
-    echo "<BR> $sql";
+    $tempAry = mySQLSelect("getHoursforCoinPriceDip: ",$sql,3,1,1,0,"NewConfig",90);
+    /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDCn'],$row['LiveCoinPrice'],$row['UserID'],$row['HoursFlatTolerance']);//42
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -682,7 +687,7 @@ function getTrackingSellCoins($type, $userID = 0){
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp',`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`,`CaaSellOffset`,`SpreadBetTransactionID`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
-  $tempAry = mySQLSelect("getTrackingSellCoins: ",$sql,3,1,1,0,"TestFile",90);
+  $tempAry = mySQLSelect("getTrackingSellCoins: ",$sql,3,1,1,0,"NewConfig",90);
   /*$result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
@@ -701,18 +706,18 @@ function getTrackingSellCoins($type, $userID = 0){
 }
 
 function getTotalProfitSpreadBetSellNew($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT ifNull(sum(`OriginalPurchasePrice`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveTotalPrice`),0) as LiveTotalPrice,ifNull(sum(`SaleTotalPrice`),0) as SaleTotalPrice, Sum(`ProfitUSD`) as ProfitUSD
           ,sum(`SellFee`) as SellFee
             FROM `View28_SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getTotalProfitSpreadBetSellNew: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -721,18 +726,18 @@ function getTotalProfitSpreadBetSellNew($spreadBetTransactionID){
       //13  14  15
 
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getTrackingSpreadBetSellCoins($type, $userID = 0){
   $tempAry = [];
-  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
+  /*if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,sum(`CoinPrice`) as `CoinPrice`,sum(`Amount`) as `Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,sum(`LastBuyOrders`) as `LastBuyOrders`
   ,sum(`LiveBuyOrders`) as `LiveBuyOrders`,sum(((`LiveBuyOrders` - `LastBuyOrders`) / `LastBuyOrders`) * 100)  as `BuyOrdersPctChange`,sum(`LastMarketCap`) as `LastMarketCap`
@@ -753,7 +758,8 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
   ,avg(`CaaMinsToCancelSell`) as `CaaMinsToCancelSell`,avg(`CaaSellOffset`) as `CaaSellOffset`,`SpreadBetTransactionID`
   ,sum(if(`Status` = 'Sold', (`SellPrice` * `Amount`), if(`Status` = 'Open', (`LiveCoinPrice` * `Amount`), 0))) as ProfitWithSold
   FROM `View5_SellCoins` $whereclause group by `SpreadBetTransactionID` having count(case when `Status`='Open' then 1 end) >= 1 order by `ProfitPct` Desc ";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getTrackingSpreadBetSellCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -767,7 +773,7 @@ function getTrackingSpreadBetSellCoins($type, $userID = 0){
     ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['CaaOffset'],$row['CaaMinsToCancelSell'],$row['CaaSellOffset'],$row['SpreadBetTransactionID'] //74
     ,$row['ProfitWithSold']); //75
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -779,12 +785,12 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
    $whereclause = "Where `Status` = '$status' and `Type` = '$type' and `CompletionDate` BETWEEN DATE_SUB(NOW(),INTERVAL $hoursSinceBuy HOUR) AND NOW() ";
  }
 
- //WHERE `CompletionDate` BETWEEN DATE_SUB(NOW(),INTERVAL 168 HOUR) AND NOW()
+ /*WHERE `CompletionDate` BETWEEN DATE_SUB(NOW(),INTERVAL 168 HOUR) AND NOW()
    $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
   ,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
@@ -793,7 +799,8 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
   ,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
   ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, `SellPctCsp`,`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,floor(timestampdiff(second,`CompletionDate`, now())/3600) as `HoursSinceSell`
   FROM `View5_SellCoins` $whereclause order by `ProfitPct` Desc ";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getAutoActionCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   echo "<BR>$sql<BR>";
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -808,41 +815,42 @@ function getAutoActionCoins($type, $status,$hoursSinceBuy){
       ,$row['MultiSellRuleEnabled'],$row['HoursSinceBuy'],$row['SellPctCsp'],$row['MaxHoursFlat'],$row['Hr1Top'],$row['Hr1Bottom'],$row['HoursSinceSell']); //71
     }
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getDistinctSpreadBetID(){
   $tempAry = [];
-  //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  /*if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Select Distinct(`SpreadBetTransactionID`) as SpreadBetTransactionID
             FROM `View5_SellCoins`  WHERE `Status` = 'Open' and `SpreadBetTransactionID` <> 0 order by ProfitPct Asc";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getDistinctSpreadBetID: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['SpreadBetTransactionID']); //1
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getTrackingSellCoinsAll($sbTransID = 0){
   $tempAry = [];
   $whereClause = "";$limit = "";$order = "";
-  //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
+  /*if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($sbTransID == -1){
     $whereClause = " and `SpreadBetTransactionID` = 0";
     $order = "order by ProfitPct Asc";
@@ -861,7 +869,8 @@ function getTrackingSellCoinsAll($sbTransID = 0){
   ,`SavingOverride`,`HoursFlatRls`, `SpreadBetTransactionID`,`CoinSwapDelayed`,`MaxHoursFlat`,`PctOfAuto`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`HoursFlatAutoEnabled`,`ReduceLossMinsToCancel`,`SpreadBetRuleID`,`Market24HrPctChange`,`Market7DPctChange`,`EmergencyRLBuyEnabled`,`EmergencyRLBuyPct`
   ,`EmergencyRLBuyMultiplier`,getBTCPrice(83) as `USDTPrice`,getBTCPrice(84) as `BTCPrice`,getBTCPrice(85) as `ETHPrice`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`StopReduceLoss`,`MinTradeSize`,`LowBalanceDoNotBuy`
  FROM `View5_SellCoins`  WHERE `Status` = 'Open' $whereClause $order $limit";
- echo "<BR> $sql";
+ $tempAry = mySQLSelect("getTrackingSellCoinsAll: ",$sql,3,1,1,0,"NewConfig",90);
+/* echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -877,7 +886,7 @@ function getTrackingSellCoinsAll($sbTransID = 0){
     ,$row['Market24HrPctChange'],$row['Market7DPctChange'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['USDTPrice'],$row['BTCPrice'],$row['ETHPrice'],$row['RLDelayNextBuyHours']//91
     ,$row['RLDelayAllOtherBuyMins'],$row['StopReduceLoss'],$row['MinTradeSize'],$row['LowBalanceDoNotBuy']); //95
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -927,11 +936,11 @@ function bittrexCoinStats($apikey, $apisecret, $symbol, $baseCurrency, $versionN
 
 function getUserRules($type){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($type == 1){
     $ruleType = "'Normal'";
   }else{
@@ -947,7 +956,8 @@ function getUserRules($type){
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctOverMinPrice`,`PctOfAuto`,`RuleType`,`OpenTransactions`,`TotalPurchasesPerRule`,`RuleDisabledBr`,`SpreadBetTotalAmount`,`LowBalanceDoNotBuy`
    FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = $ruleType and ((`OpenTransactions` <= `TotalPurchasesPerRule`) OR `OpenTransactions` is Null) and `APIKey` <> 'NA' and `RuleDisabledBr` = 0";
-  $result = $conn->query($sql);
+   $tempAry = mySQLSelect("getUserRules: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -964,17 +974,17 @@ function getUserRules($type){
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
    ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['RuleType'],$row['OpenTransactions'],$row['TotalPurchasesPerRule'],$row['RuleDisabledBr'],$row['SpreadBetTotalAmount'],$row['LowBalanceDoNotBuy']); //94
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadBetUserRules(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
   $sql = "SELECT `UserID`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,`1HrChangeTop`,`1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`
   ,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`CoinPriceEnabled`,`CoinPriceTop`,`CoinPriceBtm`,`SellOrdersEnabled`,`SellOrdersTop`,`SellOrdersBtm`,`VolumeEnabled`,`VolumeTop`,`VolumeBtm`,`BuyCoin`,`SendEmail`,`BTCAmount`
@@ -985,7 +995,8 @@ function getSpreadBetUserRules(){
   ,`OverrideCancelBuyTimeMins`,`NoOfBuyModeOverrides`,`CoinModeOverridePriceEnabled`,`OverrideCoinAllocation`,`OneTimeBuyRule`,`LimitToBaseCurrency`,`HoursDisableUntil`,`PctFromLowBuyPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctOverMinPrice`,`PctOfAuto`,`SpreadBetTotalAmount`
    FROM `View13_UserBuyRules` where `BuyCoin` = 1 and `RuleType` = 'SpreadBet' and `RuleDisabledBr` = 0";
-  $result = $conn->query($sql);
+   $tempAry = mySQLSelect("getSpreadBetUserRules: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -1002,17 +1013,17 @@ function getSpreadBetUserRules(){
    ,$row['OverrideCoinAllocation'],$row['OneTimeBuyRule'],$row['LimitToBaseCurrency'],$row['HoursDisableUntil'],$row['PctFromLowBuyPriceEnabled'],$row['NoOfHoursFlatEnabled'],$row['NoOfHoursFlat'] //86
    ,$row['PctOverMinPrice'],$row['PctOfAuto'],$row['SpreadBetTotalAmount']); //89
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getUserSellRules($sellType){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`,`UserID`,`SellCoin`,`SendEmail`,`BuyOrdersEnabled`,`BuyOrdersTop`,`BuyOrdersBtm`,`MarketCapEnabled`,`MarketCapTop`,`MarketCapBtm`,`1HrChangeEnabled`,`1HrChangeTop`,
   `1HrChangeBtm`,`24HrChangeEnabled`,`24HrChangeTop`,`24HrChangeBtm`,`7DChangeEnabled`,`7DChangeTop`,`7DChangeBtm`,`ProfitPctEnabled`,`ProfitPctTop`,`ProfitPctBtm`,`CoinPriceEnabled`,
@@ -1022,7 +1033,8 @@ function getUserSellRules($sellType){
   ,`PctUnderMaxPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
   ,`PctOfAuto`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`,`HoursAfterPurchaseToEnd`,`SellRuleType`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
     FROM `View14_UserSellRules` WHERE `SellCoin` = 1 and `SellRuleType` = '$sellType'";
-  $result = $conn->query($sql);
+    $tempAry = mySQLSelect("getUserSellRules: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -1035,7 +1047,7 @@ function getUserSellRules($sellType){
     ,$row['CalculatedSellPctStart'],$row['CalculatedSellPctEnd'],$row['CalculatedSellPctDays'],$row['BypassTrackingSell'],$row['CalculatedSellPctReduction'],$row['PctOfAuto'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving']//69
     ,$row['HoursAfterPurchaseToStart'],$row['HoursAfterPurchaseToEnd'],$row['SellRuleType'],$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd']); //74
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -1315,11 +1327,12 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
 }
 
 function getNewSwapCoin($baseCurrency){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
     $sql = "SELECT `Bi`.`CoinID`,`Bi`.`TopPrice`,`Bi`.`LowPrice`,`Bi`.`Difference`,`Cp`.`LiveCoinPrice`, `Cn`.`Symbol`
           FROM `BounceIndex` `Bi`
 			     Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Bi`.`CoinID`
@@ -1328,130 +1341,143 @@ function getNewSwapCoin($baseCurrency){
            and `Cn`.`DoNotBuy` = 0 and `Cn`.`BuyCoin` = 1
             Order by `Difference` desc
             limit 1 ";
-    print_r($sql);
+    $tempAry = mySQLSelect("getNewSwapCoin: ",$sql,3,1,1,0,"NewConfig",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['LiveCoinPrice']
       ,$row['Symbol']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getAPIConfig($userID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
     $sql = "SELECT `APIKey`,`APISecret`,`KEK` FROM `UserConfig` WHERE `UserID` = $userID";
-    print_r($sql);
+    $tempAry = mySQLSelect("getAPIConfig: ",$sql,3,1,1,0,"NewConfig",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['KEK']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getCoinPurchaseSettings(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
     $sql = "SELECT `Uscf`.`UserID`,`Uscf`.`NoOfCoinPurchase`,`Uscf`.`NoOfPurchases`
             FROM `UserConfig` `Uscf`";
-    print_r($sql);
+    $tempAry = mySQLSelect("getCoinPurchaseSettings: ",$sql,3,1,1,0,"NewConfig",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['NoOfCoinPurchase'],$row['NoOfPurchases']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getCoinIDs(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID`, `Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1 ";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getCoinIDs: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['BaseCurrency']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinDelayState($coinID,$userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT if(`DelayTime`<now(),1,0) as `DelayTime` FROM `DelayCoinPurchase` WHERE `CoinID` = $coinID and `UserID` = $userID
             Union Select 0;";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getCoinDelayState: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['DelayTime']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinIDRuleID(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID`,`LimitToCoinID` FROM `SellRules` WHERE `PctFromHighSellPriceEnabled` = 1";
-  print_r($sql);
+  $tempAry = mySQLSelect("getCoinIDRuleID: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['LimitToCoinID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getPriceDipCoinPrices($coinID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID`, `CoinID`, `Price`, `PriceDipDate` FROM `PriceDipCoins` WHERE `CoinID` = $coinID order by `PriceDipDate` desc ";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getPriceDipCoinPrices: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['Price'],$row['PriceDipDate']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getTotalCoinPurchases(){
-  $conn = getSQLConn(rand(1,3));
+    $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
     $sql = "SELECT `UserID`, count(`CoinID`)as CountOfCoinID FROM `Transaction` WHERE `Status` in ('Pending','Open')";
-    print_r($sql);
+    $tempAry = mySQLSelect("getTotalCoinPurchases: ",$sql,3,1,1,0,"NewConfig",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['CountOfCoinID']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getCoinPurchasesByCoin(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
     $sql = "SELECT `UserID`,`CoinID`, count(`CoinID`)as CountOfCoinID FROM `Transaction` WHERE `Status` in ('Pending','Open')
             group by `CoinID`";
-    print_r($sql);
+    $tempAry = mySQLSelect("getCoinPurchasesByCoin: ",$sql,3,1,1,0,"NewConfig",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['CoinID'],$row['CountOfCoinID']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
@@ -1558,46 +1584,48 @@ function deleteMultiSellRuleConfig($transactionID){
 
 Function getOpenCoinSwaps(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `IDTr`, `Status`, `BittrexRef`, `NewCoinIDCandidate`, `NewCoinPrice`, `BaseCurrency`, `TotalAmount`, `OriginalPurchaseAmount`
             , `Apikey`, `ApiSecret`, `KEK`,`Symbol`,`CoinID` as `OriginalCoinID`, `OriginalSymbol` ,`BittrexRefSell`,`SellFinalPrice`,`LiveCoinPrice`,`UserID`
             ,`IDSc` as CoinSwapID,`PctToBuy`, ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as `Hr1PctChange`,`LiveCoinPrice`,`RebuySavingsEnabled`
             FROM `View8_SwapCoin`";
-  print_r("<BR>".$sql);
+  $tempAry = mySQLSelect("getOpenCoinSwaps: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['IDTr'],$row['Status'],$row['BittrexRef'],$row['NewCoinIDCandidate'],$row['NewCoinPrice'],$row['BaseCurrency'],$row['TotalAmount'],$row['OriginalPurchaseAmount'],$row['APIKey'],$row['APISecret'] //9
     ,$row['KEK'],$row['Symbol'],$row['OriginalCoinID'],$row['OriginalSymbol'],$row['BittrexRefSell'],$row['SellFinalPrice'],$row['LiveCoinPrice'],$row['UserID'],$row['CoinSwapID'],$row['PctToBuy'],$row['Hr1PctChange'],$row['LiveCoinPrice'] //21
   ,$row['RebuySavingsEnabled']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 Function getOldMultiSell($oldBuyBackTransID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `MultiSellRuleEnabled`,`MultiSellRuleTemplateID` FROM `Transaction` WHERE `ID` = (SELECT `OldBuyBackTransID` FROM `BittrexAction` WHERE `ID` = $oldBuyBackTransID)";
-  print_r("<BR>".$sql);
+  $tempAry = mySQLSelect("getOldMultiSell: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID']);
   }
   $conn->close();
-  newLogToSQL("getOldMultiSell", "$sql", 3, 1,"SQL CALL","TransactionID:$oldBuyBackTransID");
+  newLogToSQL("getOldMultiSell", "$sql", 3, 1,"SQL CALL","TransactionID:$oldBuyBackTransID");*/
   return $tempAry;
 }
 
 Function getCoinPrice($coinID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `Cp`.`LiveCoinPrice`
@@ -1607,12 +1635,13 @@ Function getCoinPrice($coinID){
 from `CoinPrice` `Cp`
 join `CoinPctChange` `Cpc` on `Cpc`.`CoinID` = `Cp`.`CoinID`
 where `Cp`.`CoinID` = $coinID";
-  //print_r("<BR>".$sql);
+  $tempAry = mySQLSelect("getCoinPrice: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r("<BR>".$sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1PctChange'],$row['Hr24PctChange'],$row['D7PctChange']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -1999,7 +2028,7 @@ function getMinTradeAmount($apiKey, $apisecret){
 
 function getMinTradeFromSQL($coinID,$baseCurrency){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   if ($baseCurrency == 'USDT'){
     $btcPriceCoin = 83;
   }elseif ($baseCurrency == 'BTC'){
@@ -2007,19 +2036,19 @@ function getMinTradeFromSQL($coinID,$baseCurrency){
   }elseif ($baseCurrency == 'ETH'){
     $btcPriceCoin = 85;
   }
-  // Check connection
+  /* Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` $coinID";
-
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getMinTradeFromSQL: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['MinTradeSize']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -2135,25 +2164,26 @@ function bittrexCoinPrice($apikey, $apisecret, $baseCoin, $coin, $versionNum){
 
 function bittrexCoinPriceNew($baseCoin, $coin){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     //$whereClause = "";
     //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
+    }*/
 
     $sql = "SELECT `LiveCoinPrice`
               FROM `CoinPrice`
               WHERE `CoinID` = (SELECT `ID` FROM `Coin` WHERE `BaseCurrency` = '$baseCoin' and `Symbol` = '$coin' and `BuyCoin` = 1 )";
-    //echo "<BR> $sql";
+    $tempAry = mySQLSelect("bittrexCoinPriceNew: ",$sql,3,1,1,0,"NewConfig",90);
+    /*echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
         $tempAry[] = Array($row['LiveCoinPrice']);
     }
-    $conn->close();
+    $conn->close();*/
       return $tempAry;
 }
 
@@ -2966,13 +2996,13 @@ function getNewCoinAllocation($baseCurrency,$userID,$lowBuyMode,$overrideFlag,$s
 
 function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     //echo "<BR> Flag1: $lowFlag";
     $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'USDT',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(83) as AllocTotal";
-
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getNewUSDTAlloc: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   if ($result){
@@ -2980,22 +3010,22 @@ function getNewUSDTAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spre
   }else{
     errorLogToSQL("getNewUSDTAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getOpenBaseCurrency($symbol){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     //echo "<BR> Flag1: $lowFlag";
     $sql = "Select `Cn`.`BaseCurrency` as BaseCurrency,`Cn`.`ID`,`Tr`.`Amount`
               From `Coin` `Cn`
               join `Transaction` `Tr` on `Tr`.`CoinID` = `Cn`.`ID`
               WHERE `Cn`.`Symbol` = '$symbol' and `Tr`.`Status` in ('Open','Pending','Saving')";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getOpenBaseCurrency: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   if ($result){
@@ -3003,20 +3033,20 @@ function getOpenBaseCurrency($symbol){
   }else{
     errorLogToSQL("getOpenBaseCurrency","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag1: $lowFlag";
     $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'BTC',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(84) as AllocTotal";
-
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getNewBTCAlloc: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   if($result){
@@ -3024,20 +3054,20 @@ function getNewBTCAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$sprea
   }else{
     errorLogToSQL("getNewBTCAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$spreadBet){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag1: $lowFlag";
     $sql = "SELECT getNewCoinAllocation($userID,$lowBuyMode,'ETH',$overrideFlag,$savingOverride,$spreadBet)*getBTCPrice(85) as AllocTotal";
-
-  //echo "<BR> $sql";
+    $tempAry = mySQLSelect("getNewETHAlloc: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   if ($result){
@@ -3045,7 +3075,7 @@ function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$sprea
   }else{
     errorLogToSQL("getNewETHAlloc","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -3479,16 +3509,17 @@ function bittrexSellCompleteUpdateAmount($transactionID, $amount){
 
 function getTotalBTC(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT sum(`CoinPrice` * `Amount`) as `AmountOpen`,`UserID`,`BaseCurrency` FROM `View15_OpenTransactions`
             where `StatusTr` in ('Open','Pending')
             group by `BaseCurrency`, `UserID`";
-  //LogToSQL("SQLTest",$sql,3,1);
+  $tempAry = mySQLSelect("getTotalBTC: ",$sql,3,1,1,0,"NewConfig",90);
+  /*LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -3504,18 +3535,19 @@ function getUserTotalBTC($totalBTCSpent,$userID,$baseCurrency){
 
 function getDailyBTC(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT sum(`CoinPrice`*`Amount`) as `AmountOpen`,`UserID`,`BaseCurrency` FROM `View15_OpenTransactions` where timeStampDiff(Hour,`OrderDate`,now()) <  24
           Group by `BaseCurrency`,`UserID`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getDailyBTC: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   if ($result){
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['AmountOpen'],$row['UserID'],$row['BaseCurrency']);}
   }else{
     errorLogToSQL("getDailyBTC","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -3569,11 +3601,12 @@ function copyBuyHistory($coinID){
 
 function getAveragePrice($symbol){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `AvgCoinPrice` FROM `AvgCoinPriceView` WHERE `Symbol` = '$symbol'";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getAveragePrice: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   if ($resule){
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['AvgCoinPrice']);
@@ -3581,7 +3614,7 @@ function getAveragePrice($symbol){
   }else{
     errorLogToSQL("getAveragePrice","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -3621,10 +3654,11 @@ function coinPriceHistorySpreadBet($coinID,$price,$baseCurrency,$date,$hr1Pct,$h
 
 function get1HrChange($coinID){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `Price` FROM `OneHourPrice` WHERE `CoinID` = $coinID";
-  //print_r($sql);
+  $tempAry = mySQLSelect("get1HrChange: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   if($result){
     while ($row = mysqli_fetch_assoc($result)){
@@ -3633,7 +3667,7 @@ function get1HrChange($coinID){
   }else{
     errorLogToSQL("get1HrChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -3660,10 +3694,11 @@ function update1HrPriceChange($price,$coinID){
 
 function get24HrChange($coinID){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
-  //print_r($sql);
+  $tempAry = mySQLSelect("get24HrChange: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   if ($result){
     while ($row = mysqli_fetch_assoc($result)){
@@ -3672,16 +3707,17 @@ function get24HrChange($coinID){
   }else{
     errorLogToSQL("get24HrChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function get7DayChange($coinID){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `Price` FROM `SevenDayPrice` WHERE `CoinID` = $coinID";
-  //print_r($sql);
+  $tempAry = mySQLSelect("get7DayChange: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   if ($result){
     while ($row = mysqli_fetch_assoc($result)){
@@ -3690,7 +3726,7 @@ function get7DayChange($coinID){
   }else{
     errorLogToSQL("get7DayChange","$sql;",3,1,"NewConfig",$conn->error,90);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -4206,25 +4242,26 @@ function displayFooter(){
 
 function getCoinAlerts(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
   ,`LiveSellOrders`,`LiveBuyOrders`,`LiveMarketCap`,`UserID`,TIMESTAMPDIFF(MINUTE,`DateTimeSent`, now()) as MinsSinceSent, `CoinPricePctChange` FROM `View11_CoinAlerts`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getCoinAlerts: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange'] //9
     ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['LiveSellOrders'],$row['LiveBuyOrders'],$row['LiveMarketCap'],$row['UserID'],$row['MinsSinceSent'] //18
     ,$row['CoinPricePctChange']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getMarketstats(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `Cp`.`LiveCoinPrice`,((`Cp`.`LiveCoinPrice`-`Cpc`.`Live1HrChange`)/`Cpc`.`Live1HrChange`)*100 as `Hr1ChangePctChange`
             ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as `Hr24ChangePctChange`
             ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as `D7ChangePctChange`
@@ -4236,13 +4273,14 @@ function getMarketstats(){
             join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
             join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cp`.`CoinID`
             where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0  ";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getMarketstats: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Hr1ChangePctChange'],$row['Hr24ChangePctChange'],$row['D7ChangePctChange'],$row['LiveMarketPctChange'],$row['MarketCapPctChange']
   ,$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -4340,29 +4378,31 @@ function getMarketAlerts($userID = 0){
   $tempAry = [];
   $whereClause = " where `UserID` = $userID";
   if ($userID = 0){ $whereClause = "";}
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "SELECT `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertRuleID` as `MarketAlertRuleID`, `Price`
      FROM `MarketAlertsView`$whereClause";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getMarketAlerts: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //4
     ,$row['Category'],$row['Action'],$row['Minutes'],$row['MarketAlertRuleID'],$row['Price']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getMarketAlertsTotal(){
   $tempAry = [];
-  //$whereClause = " where `UserID` = $userID";
+  /*$whereClause = " where `UserID` = $userID";
   //if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "SELECT `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `MarketAlertRuleID` as `MarketAlertRuleID`, `Price`
      FROM `MarketAlertsView`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getMarketAlertsTotal: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
 
   //$result = mysqli_query( $sql );
@@ -4376,7 +4416,7 @@ function getMarketAlertsTotal(){
     else{
     // failure! check for errors and do something else
     }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -4384,31 +4424,33 @@ function getSpreadBetAlerts($userID = 0){
   $tempAry = [];
   $whereClause = " where `UserID` = $userID";
   if ($userID = 0){ $whereClause = "";}
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `LiveCoinPrice`, `Live1HrChange`, `Live24HrChange`, `Live7DChange`, `LiveMarketCap`, `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `SpreadBetAlertRuleID`, `Price`
   , `LivePricePct`,`SpreadBetRuleID`
   FROM `SpreadBetAlertsView`$whereClause group by `SpreadBetAlertRuleID`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getSpreadBetAlerts: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['Live1HrChange'],$row['Live24HrChange'],$row['Live7DChange'],$row['LiveMarketCap'],$row['UserID'],$row['UserName'],$row['Email'],$row['DateTimeSent'],$row['ReocurringAlert'] //9
     ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct'],$row['SpreadBetRuleID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadBetAlertsTotal(){
   $tempAry = [];
-  //$whereClause = " where `UserID` = $userID";
+  /*$whereClause = " where `UserID` = $userID";
   //if ($userID = 0){ $whereClause = "";}
   $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `LiveCoinPrice`, `Live1HrChange`, `Live24HrChange`, `Live7DChange`, `LiveMarketCap`, `UserID`, `UserName`, `Email`, `DateTimeSent`, `ReocurringAlert`, `Category`, `Action`, `Minutes`, `SpreadBetAlertRuleID`, `Price`
   , `LivePricePct`
   FROM `SpreadBetAlertsView`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getSpreadBetAlertsTotal: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   if( $result ){
     while ($row = mysqli_fetch_assoc($result)){
@@ -4416,39 +4458,41 @@ function getSpreadBetAlertsTotal(){
       ,$row['Category'],$row['Action'],$row['Minutes'],$row['SpreadBetAlertRuleID'],$row['Price'],$row['LivePricePct']);
     }
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinAlertsUser($userId){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`,`CoinAlertRuleID`
   FROM `View11_CoinAlerts` WHERE `UserID` = $userId group by `CoinAlertRuleID`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getCoinAlertsUser: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
     ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent'],$row['CoinAlertRuleID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinAlertsbyID($id){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `ID`,`CoinID`, `Action`, `Price`, `Symbol`, `UserName`,`Email` ,`LiveCoinPrice`,`Category`,`Live1HrChange` ,`Live24HrChange` ,`Live7DChange`,`ReocurringAlert`,`DateTimeSent`
   FROM `View11_CoinAlerts` WHERE `CoinAlertRuleID` = $id";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getCoinAlertsbyID: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['Action'],$row['Price'],$row['Symbol'],$row['UserName'],$row['Email'],$row['LiveCoinPrice'],$row['Category'],$row['Live1HrChange']
     ,$row['Live24HrChange'],$row['Live7DChange'],$row['ReocurringAlert'],$row['DateTimeSent']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -4556,21 +4600,22 @@ function reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$bt
       $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
       $newBittrexRef = $obj["id"];
         if ($obj['status'] == 'CLOSED'){
-          $conn = getSQLConn(rand(1,3));
+          //$conn = getSQLConn(rand(1,3));
           $current_date = date('Y-m-d H:i');
             // Check connection
-            if ($conn->connect_error) {
+            /*if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
-            }
+            }*/
             $sql = "Call reSellAtCurrentPrice($uuid,$bitPrice,$newBittrexRef);";
-            //print_r($sql);
+            SQLInsertUpdateCall("reSellAtCurrentPrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+            /*print_r($sql);
             if ($conn->query($sql) === TRUE) {
                 echo "New record created successfully";
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
             $conn->close();
-            newLogToSQL("reSellAtCurrentPrice",$sql,3,1,"SQL","BittrexRef:$uuid");
+            newLogToSQL("reSellAtCurrentPrice",$sql,3,1,"SQL","BittrexRef:$uuid");*/
         }
     }
 }
@@ -4688,39 +4733,41 @@ function coinMatchPattern($coinPattern, $livePrice, $liveSymbol, $isGreater, $pE
 }
 function getNewStats(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT distinct `CMCID` FROM `View20_CoinPrices`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getNewStats: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['CMCID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getStats(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Symbol`,`IDCn`,`BaseCurrency`,`CMCID` FROM `View20_CoinPrices` order by `Symbol` asc";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getStats: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Symbol'],$row['IDCn'],$row['BaseCurrency'],$row['CMCID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -4895,168 +4942,183 @@ function getCoinList($coinStats, $num){
 }
 
 function getCoinPriceMatchList($userID = 0){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  //$conn = getSQLConn(rand(1,3));
   $whereClause = "";
   if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "select `Cpmr`.`BuyRuleID` AS `BuyRuleID`,`Cpmr`.`SellRuleID` AS `SellRuleID`,`Cpm`.`CoinID` AS `CoinID`,`Cpm`.`Price` AS `Price`,`Cn`.`Symbol` AS `Symbol`
           ,`Cpm`.`LowPrice` AS `LowPrice`,`Cpm`.`UserID` AS `UserID`
           from ((`CoinPriceMatchRules` `Cpmr` join `CoinPriceMatch` `Cpm` on((`Cpm`.`ID` = `Cpmr`.`CoinPriceMatchID`))) join `Coin` `Cn` on((`Cn`.`ID` = `Cpm`.`CoinID`)))$whereClause";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getCoinPriceMatchList: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getDelayCoinPurchaseTimes(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  ///$conn = getSQLConn(rand(1,3));
   $whereClause = "";
   //if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `CoinID`, `UserID`, `DelayTime`  FROM `View10_DelayCoinPurchase` WHERE `DelayTime` > now()";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getDelayCoinPurchaseTimes: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DelayTime']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinPriceMatchSettings($whereClause = ""){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `CoinID`,`Price`,`Symbol`,`LowPrice`,`Name`FROM `NewCoinPriceMatchSettingsView` $whereClause";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getCoinPriceMatchSettings: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['CoinID'],$row['Price'],$row['Symbol'],$row['LowPrice'],$row['Name'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinPricePattenList($userID = 0){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   $whereClause = "";
   if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Cppr`.`BuyRuleID`,`Cppr`.`SellRuleID`,`Cpp`.`CoinPattern`,`Cppr`.`UserID`
             FROM `CoinPricePatternRules` `Cppr`
             join `CoinPricePattern` `Cpp` on `Cpp`.`ID` = `Cppr`.`PatternID`$whereClause";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getCoinPricePattenList: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['CoinPattern'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoinPricePattenSettings(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Name`,`CoinPattern` FROM `NewCoinPricePatternSettingsView`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getCoinPricePattenSettings: ",$sql,3,1,1,0,"NewConfig",90);
+/*  $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Name'],$row['CoinPattern']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoin1HrPattenList($userID = 0){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  //$conn = getSQLConn(rand(1,3));
   $whereClause = "";
-  if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
+  /*if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Cpr`.`BuyRuleID`,`Cpr`.`SellRuleID`,`Cp`.`Pattern`,`Cpr`.`UserID`
         FROM `Coin1HrPatternRules` `Cpr`
         join `Coin1HrPattern` `Cp` on `Cp`.`ID` = `Cpr`.`Coin1HrPatternID` $whereClause order by `Cpr`.`BuyRuleID`,`Cpr`.`SellRuleID`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getCoin1HrPattenList: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['BuyRuleID'],$row['SellRuleID'],$row['Pattern'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getCoin1HrPattenSettings(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Name`,`Pattern` FROM `NewCoin1HrPatternSettingsView`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getCoin1HrPattenSettings: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Name'],$row['Pattern']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getAutoBuyPrices(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `CoinID`,`AutoBuyPrice`,`AutoSellPrice` FROM `CryptoAuto`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getAutoBuyPrices: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['CoinID'],$row['AutoBuyPrice'],$row['AutoSellPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -5115,20 +5177,22 @@ return $colour;
 }
 
 function getBuyRulesIDs($userID){
-$conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+/*$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+}*/
 
 $sql = "SELECT `RuleID` FROM `UserBuyRules` WHERE `UserID` = $userID and `BuyCoin` = 1";
-$result = $conn->query($sql);
+$tempAry = mySQLSelect("getBuyRulesIDs: ",$sql,3,1,1,0,"NewConfig",90);
+/*$result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['RuleID']);
 }
-$conn->close();
+$conn->close();*/
 return $tempAry;
 }
 
@@ -5175,32 +5239,35 @@ function addWebUsage($userID){
 }
 
 function getWebUsage($userID){
-$conn = getSQLConn(rand(1,3));
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }*/
 
-$sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction`,`SpreadSell`,`SpreadSellCoin` FROM `CryptoBotWebUsageTable`
-  WHERE `UserID` = $userID ";
-$result = $conn->query($sql);
-//$result = mysqli_query($link4, $query);
-//mysqli_fetch_assoc($result);
-while ($row = mysqli_fetch_assoc($result)){
-    $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction'],$row['SpreadSell'],$row['SpreadSellCoin']);
-}
-$conn->close();
-return $tempAry;
+  $sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction`,`SpreadSell`,`SpreadSellCoin` FROM `CryptoBotWebUsageTable`
+    WHERE `UserID` = $userID ";
+  $tempAry = mySQLSelect("getWebUsage: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+      $tempAry[] = Array($row['BuyTracking'],$row['BuyBack'],$row['SellCoin'],$row['SellTracking'],$row['SellSaving'],$row['BittrexAction'],$row['SpreadSell'],$row['SpreadSellCoin']);
+  }
+  $conn->close();*/
+  return $tempAry;
 }
 
 function getSpreadbetCoins($baseCurrency,$ruleIDBuy){
-$conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+/*$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+}*/
 
-$sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID,`BuyRisesInPrice`,`MinTradeSize`
+  $sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.`BaseCurrency`,`Sbt`.`ID` as SpreadBetTransactionID,`BuyRisesInPrice`,`MinTradeSize`
           FROM `SpreadBetCoins` `Sbc`
       	  join `Coin` `Cn` on  `Sbc`.`CoinID` = `Cn`.`ID`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Sbc`.`CoinID`
@@ -5208,35 +5275,38 @@ $sql = "SELECT `Sbc`.`SpreadBetRuleID`,`Sbc`.`CoinID`,`Cp`.`LiveCoinPrice`,`Cn`.
           join `BuyRules` `Br` on `Br`.`ID` = $ruleIDBuy
           WHERE `Cn`.`BaseCurrency` ='$baseCurrency'
           ORDER BY RAND()";
-echo "<BR>$sql";
+  $tempAry = mySQLSelect("getSpreadbetCoins: ",$sql,3,1,1,0,"NewConfig",90);
+/*echo "<BR>$sql";
 $result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['SpreadBetRuleID'],$row['CoinID'],$row['LiveCoinPrice'],$row['BaseCurrency'],$row['SpreadBetTransactionID'],$row['BuyRisesInPrice'],$row['MinTradeSize']);
 }
-$conn->close();
+$conn->close();*/
 return $tempAry;
 }
 
 function getSpreadBetSellCoins($spreadBetTransactionID){
-$conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+/*$conn = getSQLConn(rand(1,3));
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+}*/
 
-$sql = "SELECT `Cp`.`LiveCoinPrice`, `Tr`.`ID` as `TransactionID` ,`Tr`.`SpreadBetTransactionID`,`Cp`.`CoinID`
+  $sql = "SELECT `Cp`.`LiveCoinPrice`, `Tr`.`ID` as `TransactionID` ,`Tr`.`SpreadBetTransactionID`,`Cp`.`CoinID`
           FROM `Transaction` `Tr`
           join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
           WHERE `Tr`.`Type` = 'SpreadSell' and `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Open'";
-$result = $conn->query($sql);
+  $tempAry = mySQLSelect("getSpreadBetSellCoins: ",$sql,3,1,1,0,"NewConfig",90);
+/*$result = $conn->query($sql);
 //$result = mysqli_query($link4, $query);
 //mysqli_fetch_assoc($result);
 while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['LiveCoinPrice'],$row['TransactionID'],$row['SpreadBetTransactionID'],$row['CoinID']);
 }
-$conn->close();
+$conn->close();*/
 return $tempAry;
 }
 
@@ -5349,11 +5419,11 @@ function updateCoinAllocationOverride($coinID,$userID,$overrideCoinAlloc,$toMerg
 
 function getNewTrackingCoins($userID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
   $whereClause = " WHERE `TrackingStatus`  not in  ('Closed','Cancelled')";
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `TrackingStatus`  not in  ('Closed','Cancelled')";}
@@ -5365,7 +5435,8 @@ function getNewTrackingCoins($userID = 0){
       ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`,`LowMarketModeEnabled`,`SavingOverride`
       ,`HoursFlatPdcs`,`PctOfAuto`
       from `View2_TrackingBuyCoins` $whereClause order by `NoOfRisesInPrice` Desc";
-  $result = $conn->query($sql);
+      $tempAry = mySQLSelect("getNewTrackingCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
@@ -5377,18 +5448,18 @@ function getNewTrackingCoins($userID = 0){
     ,$row['BuyAmountCalculationEnabled'],$row['AllTimeHighPrice'],$row['TransactionID'],$row['CoinSwapID'],$row['OldBuyBackTransID'],$row['ToMerge'],$row['BaseBuyPrice'],$row['ReduceLossCounter'],$row['LowMarketModeEnabled']//56
     ,$row['SavingOverride'],$row['HoursFlatPdcs'],$row['PctOfAuto']); //59
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 
 }
 
 function getOpenTransactions(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
   $whereClause = " ";
   //if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
@@ -5402,13 +5473,14 @@ function getOpenTransactions(){
             left join `OpenRuleBasedTransactions` `Orbt` on `Orbt`.`UserID` = `Uc`.`UserID`
             left join `OpenSpreadBetTransactions` `Osbt` on `Osbt`.`UserID` =  `Uc`.`UserID`
             Left Join `BittrexAction` `Ba` on `Ba`.`UserID` = `Uc`.`UserID` and `Ba`.`Status` = '1' and `Ba`.`Type` in ('SpreadBuy','Buy')";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getOpenTransactions: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['UserID'],$row['CoinModeTransactions'],$row['RuleBasedTransactions'],$row['SpreadBetTransactions'],$row['OpenBittrexTransactions']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -5728,35 +5800,37 @@ function getNumberColour($ColourText){
 
 function getSparklineData($coin){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `LiveCoinPrice` as LiveCoinPrice
     FROM `CoinBuyHistory`
     order by `ActionDate` asc ";
-    $result = $conn->query($sql);
+    $tempAry = mySQLSelect("getSparklineData: ",$sql,3,1,1,0,"NewConfig",90);
+    /*$result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['LiveCoinPrice']);
     }
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getMultiSellRules(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `SellRuleID`, `TransactionID` FROM `MultiSellRuleConfig`";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMultiSellRules: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
     //mysqli_fetch_assoc($result);
@@ -5764,20 +5838,21 @@ function getMultiSellRules(){
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['SellRuleID'],$row['TransactionID']);
     }
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getMultiSellRulesTemplate($ruleID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `MultiRuleStr` FROM `MultiSellRuleTemplate` WHERE `ID` = $ruleID";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMultiSellRulesTemplate: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   newLogToSQL("getMultiSellRulesTemplate", "$sql", 3, 1,"SQL CALL","RULEID:$ruleID");
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
@@ -5785,7 +5860,7 @@ function getMultiSellRulesTemplate($ruleID){
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['MultiRuleStr']);
     }
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
@@ -5991,11 +6066,11 @@ function updateSellAmount($TransactionID,$Amount,$oldAmount){
 
 function getNewTrackingSellCoins($userID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
 
   if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID and `StatusTsc` not in ('Closed','Cancelled')";}
@@ -6007,7 +6082,8 @@ function getNewTrackingSellCoins($userID = 0){
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
             ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`,`OverrideBuyBackAmount`,`OverrideBuyBackSaving`,`Image`
             FROM `View6_TrackingSellCoins` $whereClause";
-  //echo $sql;
+  $tempAry = mySQLSelect("getNewTrackingSellCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6019,7 +6095,7 @@ function getNewTrackingSellCoins($userID = 0){
     ,$row['SaveResidualCoins'], $row['OriginalAmount'], $row['TrackingType'], $row['OriginalSellPrice'], $row['Profit'], $row['ProfitPct'], $row['ReEnableBuyRuleEnabled'], $row['ReEnableBuyRule'], $row['BuyBackEnabled']//47
     ,$row['TrackingCount'],$row['OverrideBuyBackAmount'],$row['OverrideBuyBackSaving'],$row['Image']); //51
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 
 }
@@ -6132,11 +6208,11 @@ function reopenTransaction($id){
 
 function getReservedAmount($baseCurrency, $userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
 
   $sql = "select (
@@ -6153,57 +6229,60 @@ function getReservedAmount($baseCurrency, $userID){
             from `TrackingCoins` where `BaseCurrency` = 'BTC' and `UserID` = $userID and `Status` = 'Open'),0)as TotalQuantityBTC
             ,ifnull((SELECT sum(`Quantity` )
             from `TrackingCoins` where `BaseCurrency` = 'ETH' and `UserID` = $userID and `Status` = 'Open'),0)as TotalQuantityETH";
-  //echo $sql;
+  $tempAry = mySQLSelect("getReservedAmount: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['TotalCoinPriceUSDT'],$row['TotalCoinPriceBTC'],$row['TotalCoinPriceETH'],$row['TotalQuantityUSDT'],$row['TotalQuantityBTC'],$row['TotalQuantityETH']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBasePrices(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
 
   $sql = "select getBTCPrice(84) as BTCPrice
           , getBTCPrice(85) as ETHPrice, getBTCPrice(83) as USDTPrice ";
-  //echo $sql;
+  $tempAry = mySQLSelect("getBasePrices: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['BTCPrice'],$row['ETHPrice'],$row['USDTPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getUserDisabled($userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
 
   $sql = "SELECT `DisableUntil` FROM `User` WHERE `ID` = $userID";
-  //echo $sql;
+  $tempAry = mySQLSelect("getUserDisabled: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['DisableUntil']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6249,11 +6328,11 @@ function cancelTrackingSell($id){
 
 function getNewTrackingSellCoinTrans($ID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 //12
   //$whereClause = "";
   //if ($userID <> 0){ $whereClause = " WHERE `UserID` = $userID";}
@@ -6263,7 +6342,8 @@ function getNewTrackingSellCoinTrans($ID){
   , `TotalRisesInPrice`, `Symbol`
   , (`LiveSellPrice`-(`OriginalCoinPrice` * `Amount`))/ (`OriginalCoinPrice` * `Amount`) * 100 as `OgPctProfit`, `OriginalPurchasePrice`,`OriginalCoinPrice`,`TotalRisesInPriceSell`
   FROM `TrackingSellCoinView` where `TransactionID` = $ID";
-  //echo $sql;
+  $tempAry = mySQLSelect("getNewTrackingSellCoinTrans: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6273,7 +6353,7 @@ function getNewTrackingSellCoinTrans($ID){
     ,$row['LiveCoinPrice'],$row['MinsFromDate'],$row['ProfitUSD'],$row['Fee'],$row['PctProfit'],$row['TotalRisesInPrice'],$row['Symbol'],$row['OgPctProfit'],$row['OriginalPurchasePrice'],$row['OriginalCoinPrice']
     ,$row['TotalRisesInPriceSell']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 
 }
@@ -6307,49 +6387,52 @@ function updateSQLQuantity($uuid, $quantity){
 }
 
 function getCoinPriceMatchNames($userID, $table, $limit){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Name`,`ID` FROM $table $limit";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getNewTrackingSellCoinTrans: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Name'],$row['ID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   $tempAry = [];
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT sum(`LiveCoinPrice` * `Amount`) as TotalLivePrice,sum(`CoinPrice` * `Amount`) as TotalPurchasePrice, sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice` * `Amount`)) as TotalProfit
         ,(sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice` * `Amount`))/ sum(`CoinPrice` * `Amount`))*100 as ProfitPct
         ,`UserID`
         FROM `View15_OpenTransactions` WHERE `StatusTr` in ('Open','Pending')
         group by `UserID`";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getTotalProfit: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6511,36 +6594,37 @@ function pauseTracking($userID){
 
 function getMarketProfit(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT sum(`LiveCoinPrice`-`LastCoinPrice`)/sum(`LastCoinPrice`)*100  as `5MinProfitPct`
           ,sum(`LiveCoinPrice`-`Live1HrChange`)/sum(`Live1HrChange`)*100 as `1HrProfitPct` FROM `View1_BuyCoins` ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMarketProfit: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['5MinProfitPct'],$row['1HrProfitPct']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getLiveMarketPrice($status){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDCn`,'Symbol'
     ,sum(`LiveBuyOrders`) as LiveBuyOrders,sum(`LastBuyOrders`) as LastBuyOrders,(sum(`LiveBuyOrders`-`LastBuyOrders`)/ sum(`LastBuyOrders`) * 100) as`BuyOrdersPctChange`
@@ -6556,7 +6640,8 @@ function getLiveMarketPrice($status){
    ,`Name`, 'Hr1BuyPrice', 'Hr24BuyPrice', 'D7BuyPrice',`BuyCoin`,'BullBearStatus'
    FROM `View1_BuyCoins`  WHERE `BuyCoin` = $status
    order by `Hr1ChangePctChange`+`Hr24ChangePctChange`+`D7ChangePctChange`asc";
-  //echo "<BR> $sql";
+   $tempAry = mySQLSelect("getLiveMarketPrice: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6566,7 +6651,7 @@ function getLiveMarketPrice($status){
       ,$row['LastCoinPrice'],$row['CoinPricePctChange'],$row['LiveSellOrders'],$row['LastSellOrders'],$row['SellOrdersPctChange'],$row['LiveVolume'],$row['LastVolume'],$row['VolumePctChange'],$row['BaseCurrency'] //26
     ,$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['Name'],$row['Hr1BuyPrice'],$row['Hr24BuyPrice'],$row['D7BuyPrice'],$row['BuyCoin'],$row['BullBearStatus']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6592,13 +6677,13 @@ function writeMarketPrice($price){
 
 function getRuleProfit(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT sum(`LiveCoinPrice` * `Amount`) as `TotalLivePrice`, sum(`CoinPrice` * `Amount`) as `TotalPurchasePrice`
         ,sum((`LiveCoinPrice` * `Amount`) - `CoinPrice` * `Amount`) as `TotalProfit`
@@ -6606,14 +6691,15 @@ function getRuleProfit(){
         ,`BuyRule`, count(`BuyRule`) as `RuleIDCount`
         FROM `View15_OpenTransactions` WHERE `StatusTr` in ('Open','Pending')
         group by `BuyRule` ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getRuleProfit: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['TotalLivePrice'],$row['TotalPurchasePrice'],$row['TotalProfit'],$row['ProfitPct'],$row['BuyRule'],$row['RuleIDCount']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6700,23 +6786,24 @@ function setCustomisedSellRuleBased($buyRule, $coinID, $pctToSell){
 
 function coinSwapBuyModeLookup($coinID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `CoinID` FROM `CoinModeRules` WHERE `CoinID` != $coinID and `ModeID` = 1  limit 1 ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("coinSwapBuyModeLookup: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['CoinID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6742,19 +6829,20 @@ function coinSwapSell($livePrice, $transactionID,$coinID,$buyRule, $buyAmount){
 
 function getCoinMode($userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `RuleID`, `CoinID`, `LiveCoinPrice`, `Avg6MonthMax`, `Avg6MonthMin`, `0MinsMin`, `15MinsMin`, `30MinsMin`, `45MinsMin`, `0MinsMax`, `15MinsMax`, `30MinsMax`
   , `45MinsMax`, `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `RuleIDSell`, `USDBuyAmount`, `1HourAvgPrice`, `ProjectedPriceMax`
   , `ProjectedPriceMin`, `UserID`, `ModeID`, `Hr1Top`, `Hr1Btm`, `Hr24Top`, `Hr24Btm`, `D7Top`, `D7Btm`, `SecondarySellRules`, `CoinModeEmails`, `Email`, `UserName`, `Symbol`
   , `CoinModeEmailsSell`, `CoinModeMinsToCancelBuy`,`PctToBuy`,`PctOfAllTimeHigh`,`1HrChange` FROM `CoinModePricesView` WHERE `UserID` = $userID ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getCoinMode: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6764,7 +6852,7 @@ function getCoinMode($userID){
       ,$row['1HourAvgPrice'],$row['ProjectedPriceMax'],$row['ProjectedPriceMin'],$row['UserID'],$row['ModeID'],$row['Hr1Top'],$row['Hr1Btm'],$row['Hr24Top'],$row['Hr24Btm'],$row['D7Top'],$row['D7Btm'],$row['SecondarySellRules'] //32
       ,$row['CoinModeEmails'],$row['Email'],$row['UserName'],$row['Symbol'],$row['CoinModeEmailsSell'],$row['CoinModeMinsToCancelBuy'],$row['PctToBuy'],$row['PctOfAllTimeHigh'],$row['1HrChange']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -6910,13 +6998,13 @@ function extendPctToBuy($coinID, $userID){
 
 function getSpreadBetData(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDCn`, `Name`, `Live1HrChange`, `Last1HrChange`, ((`Live1HrChange`-`Last1HrChange`)/`Last1HrChange`)*100 as `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100 as `Hr24ChangePctChange`
   , `Live7DChange`, `Last7DChange`
@@ -6932,7 +7020,8 @@ function getSpreadBetData(){
          as `PctofSixMonthHighPrice`,((`LiveCoinPrice`-`PriceAth`)/`PriceAth`)*100 as `PctofAllTimeHighPrice`,`DisableUntil`,`IDUs`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel`,`LowMarketModeEnabled`,`SpreadBetRuleIDSbc` as SpreadBetRuleID
          FROM `View3_SpreadBetBuy`
           where ((`Live24HrChange`-`Last24HrChange`)/`Last24HrChange`)*100  < 0 and  ((`Live7DChange`-`Last7DChange`)/`Last7DChange`)*100 < 0 ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadBetData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6943,25 +7032,26 @@ function getSpreadBetData(){
       , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['IDUs'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']//39
     , $row['LowMarketModeEnabled'], $row['SpreadBetRuleID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadBetDataFixed(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `Name`, 'Live1HrChange', 'Last1HrChange', 'Hr1ChangePctChange', 'Live24HrChange', 'Last24HrChange', 'Hr24ChangePctChange', 'Live7DChange', 'Last7DChange'
   , 'D7ChangePctChange', 'LiveCoinPrice', 'LastCoinPrice', 'CoinPricePctChange',  `BaseCurrency`, 'Price4Trend', 'Price3Trend', 'LastPriceTrend', 'LivePriceTrend', 'AutoBuyPrice'
   , '1HrPriceChangeLive', '1HrPriceChangeLast', '1HrPriceChange3', '1HrPriceChange4',`APIKey`,`APISecret`,`KEK`,`UserID`,`Email`,`UserName`,`SpreadBetTransID`, 'Hr1BuyPrice', 'Hr24BuyPrice'
   , 'D7BuyPrice',`PctofSixMonthHighPrice`,`PctofAllTimeHighPrice`,`DisableUntil`,`UserID`,`CalculatedFallsinPrice`,`CalculatedMinsToCancel` FROM `SpreadBetCoinStatsView` ";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadBetDataFixed: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6971,25 +7061,26 @@ function getSpreadBetDataFixed(){
       , $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['APIKey'], $row['APISecret'], $row['KEK'], $row['UserID'], $row['Email'], $row['UserName'], $row['SpreadBetTransID'] //30
       , $row['Hr1BuyPrice'], $row['Hr24BuyPrice'], $row['D7BuyPrice'], $row['PctofSixMonthHighPrice'], $row['PctofAllTimeHighPrice'], $row['DisableUntil'], $row['UserID'], $row['CalculatedFallsinPrice'], $row['CalculatedMinsToCancel']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadCoinData($ID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `Symbol`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `Live1HrChange`, `Last1HrChange`, `Hr1ChangePctChange`, `Live24HrChange`, `Last24HrChange`, `Hr24ChangePctChange`
   , `Live7DChange`, `Last7DChange`, `D7ChangePctChange`, `LiveCoinPrice`, `LastCoinPrice`, `CoinPricePctChange`, `LiveSellOrders`, `LastSellOrders`, `SellOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`, `BaseCurrency`, `Price4Trend`
   , `Price3Trend`, `LastPriceTrend`, `LivePriceTrend`, `AutoBuyPrice`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4`, `CMCID`, `SecondstoUpdate`, `LastUpdated`, `Name`, `Image`, `SpreadBetRuleID`,`SpreadBetTransactionID`
   FROM `SpreadBetCoinStatsCoinView` where `SpreadBetRuleID` = $ID";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadCoinData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7000,7 +7091,7 @@ function getSpreadCoinData($ID){
       , $row['LivePriceTrend'], $row['AutoBuyPrice'], $row['1HrPriceChangeLive'], $row['1HrPriceChangeLast'], $row['1HrPriceChange3'], $row['1HrPriceChange4'], $row['CMCID'], $row['SecondstoUpdate'], $row['LastUpdated'], $row['Name'], $row['Image']  //40
       , $row['SpreadBetRuleID'], $row['SpreadBetTransactionID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7094,24 +7185,25 @@ function writeCalculatedSellPct($transID, $userID,$sellPct,$ruleIDSell,$calculat
 
 function getCoinAllocation($userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `RuleBasedAvailable`,`CoinModeAvailable`,`SpreadBetAvailable`,`ID` FROM `CoinAmountsAvailableToBuy`
           where `ID` = $userID";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getCoinAllocation: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['RuleBasedAvailable'],$row['CoinModeAvailable'],$row['SpreadBetAvailable'],$row['ID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7140,13 +7232,13 @@ function getSpreadBetSellData($ID = 0){
   $tempAry = [];
   $whereClause = "Where `Status` in ('Open','Pending','Sold') and `Type` = 'SpreadSell'";
   if ($ID <> 0) { $whereClause = " Where `UserID` = $ID and `Status` in ('Open','Pending','Sold') and `Type` = 'SpreadSell'";}
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `Type`, `UserID`, sum(`CoinPrice`) as `CoinPrice`, sum(`Amount`) as `Amount`, `Status`, `OrderDate`, `CompletionDate`, sum(`LastBuyOrders`) as `LastBuyOrders`, sum(`LiveBuyOrders`) as `LiveBuyOrders`
   ,((sum(`LiveBuyOrders`-`LastBuyOrders`))/sum(`LastBuyOrders`))*100 as `BuyOrdersPctChange`, sum(`LastMarketCap`) as `LastMarketCap` , sum(`LiveMarketCap`) as `LiveMarketCap`
@@ -7173,7 +7265,8 @@ function getSpreadBetSellData($ID = 0){
   ,if(`Status` = 'Sold', sum(`SellPrice`*`Amount`),if(`Status` in('Open','Pending'), sum(`LiveCoinPrice`*`Amount`),0)) as `CurrentPrice`
 
   FROM `View7_SpreadBetSell` $whereClause Group by `SpreadBetTransactionID`";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadBetSellData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7186,7 +7279,7 @@ function getSpreadBetSellData($ID = 0){
       ,$row['Email'],$row['UserName'],$row['PctProfitSell'],$row['SpreadBetRuleID'],$row['CaptureTrend']  //57
       ,$row['Profit'],$row['PurchasePrice'],$row['LivePrice'],$row['CalculatedRisesInPrice'],$row['PurchasePriceUSDT'],$row['LivePriceUSDT'],$row['SoldPriceUSDT'],$row['ProfitPct'],$row['CurrentPrice']); //66
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7197,13 +7290,13 @@ function getSpreadCoinSellData($ID = 0){
     $whereclause = " WHERE `SpreadBetTransactionID` = $ID ";
   }
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`
   , ((`LiveBuyOrders`-`LastBuyOrders`)/`LastBuyOrders`)*100 as `BuyOrdersPctChange`
@@ -7218,7 +7311,8 @@ function getSpreadCoinSellData($ID = 0){
   ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`TopPrice` as `BounceTopPrice`,`LowPrice` as `BounceLowPrice`,`Difference` as `BounceDifference`
   ,TimeStampDiff(MINUTE, `DelayCoinSwapUntil`, now()) as `DelayCoinSwap`,`NoOfSells`
   FROM `View7_SpreadBetSell` $whereclause";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadCoinSellData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7231,7 +7325,7 @@ function getSpreadCoinSellData($ID = 0){
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference'],$row['DelayCoinSwap'],$row['NoOfSells']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7242,13 +7336,13 @@ function getSpreadCoinSellDataAll($ID = 0){
     $whereclause = " WHERE `TransactionID` = $ID ";
   }
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
   , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
@@ -7256,7 +7350,8 @@ function getSpreadCoinSellDataAll($ID = 0){
   , `LivePriceTrend`, `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, `PurchaseLimit`, `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, `MaxCoinMerges`, `SpreadBetTransactionID`
   ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`PctProfitSell`,`AutoBuyBackSell`,`BounceTopPrice`,`BounceLowPrice`,`BounceDifference`,`DelayCoinSwap`,`NoOfSells`
   FROM `SellCoinsAllView` $whereclause";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadCoinSellDataAll: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7269,7 +7364,7 @@ function getSpreadCoinSellDataAll($ID = 0){
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference'],$row['DelayCoinSwap'],$row['NoOfSells']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7280,13 +7375,13 @@ function getSpreadCoinSellDataFixed($ID = 0){
     $whereclause = " WHERE `ID` = $ID and `Status` = 'Open'";
   }
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, 'LastBuyOrders', 'LiveBuyOrders','BuyOrdersPctChange','LastMarketCap'
   , 'LiveMarketCap', 'MarketCapPctChange', 'LastCoinPrice', 'LiveCoinPrice', 'CoinPricePctChange', 'LastSellOrders', 'LiveSellOrders', 'SellOrdersPctChange', 'LastVolume', 'LiveVolume', 'VolumePctChange', 'Last1HrChange'
@@ -7294,7 +7389,8 @@ function getSpreadCoinSellDataFixed($ID = 0){
   , 'LivePriceTrend', `FixSellRule`, `SellRule`, `BuyRule`, `ToMerge`, `LowPricePurchaseEnabled`, 'PurchaseLimit', `PctToPurchase`, `BTCBuyAmount`, `NoOfPurchases`, `Name`, `Image`, 10 as `MaxCoinMerges`, `SpreadBetTransactionID`
   ,`PctToSave`,`CalculatedRisesInPrice`,`SpreadBetRuleID`,`SellPct` as `PctProfitSell`,`AutoBuyBackSell`,`TopPrice` as `BounceTopPrice`,`LowPrice` as `BounceLowPrice`,`Difference` as `BounceDifference`,`DelayCoinswapUntil` as `DelayCoinSwap`,`NoOfSells`
   FROM `View7_SpreadBetSell` $whereclause";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadCoinSellDataFixed: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7307,7 +7403,7 @@ function getSpreadCoinSellDataFixed($ID = 0){
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['BounceTopPrice'],$row['BounceLowPrice'],$row['BounceDifference'],$row['DelayCoinSwap'],$row['NoOfSells']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7318,13 +7414,13 @@ function getSavingsData($ID = 0){
     $whereclause = " WHERE `IDTr` = $ID and `Amount` >= `MinTradeSize` and `BuyCoin` = 1 and `Type` = 'Saving'";
   }
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`, `Type`, `CoinID`, `UserID`, `CoinPrice`, `Amount`, `Status`, `OrderDate`, `CompletionDate`, `BittrexID`, `OrderNo`, `Symbol`, `LastBuyOrders`, `LiveBuyOrders`, `BuyOrdersPctChange`, `LastMarketCap`
           , `LiveMarketCap`, `MarketCapPctChange`, `LastCoinPrice`, `LiveCoinPrice`, `CoinPricePctChange`, `LastSellOrders`, `LiveSellOrders`, `SellOrdersPctChange`, `LastVolume`, `LiveVolume`, `VolumePctChange`, `Last1HrChange`
@@ -7333,7 +7429,8 @@ function getSavingsData($ID = 0){
           , `Image`, 10 as `MaxCoinMerges`, 'SpreadBetTransactionID','PctToSave','CalculatedRisesInPrice','SpreadBetRuleID','PctProfitSell','AutoBuyBackSell',`TopPrice`,`LowPrice`,`Difference`,`minsToDelay`,`NoOfSells`
           ,getBTCPrice(84) as BTCPrice, getBTCPrice(85) as ETHPrice, `SellSavingsEnabled`
           FROM `View5_SellCoins` $whereclause";
-  echo "<BR> GET SAVINGS SQL: $sql";
+  $tempAry = mySQLSelect("getSavingsData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> GET SAVINGS SQL: $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -7346,7 +7443,7 @@ function getSavingsData($ID = 0){
       ,$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['SpreadBetTransactionID'],$row['PctToSave'],$row['CalculatedRisesInPrice'] //56
     ,$row['SpreadBetRuleID'],$row['PctProfitSell'],$row['AutoBuyBackSell'],$row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['minsToDelay'],$row['NoOfSells'],$row['BTCPrice'],$row['ETHPrice'],$row['SellSavingsEnabled']); //67
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7394,7 +7491,7 @@ function addProfitToAllocation($UserID, $totalProfitUSD,$saveMode,$baseCurrency,
 
 function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   $whereClause = "";
   if ($spreadBetRuleID <> 0){
     $whereClause = " and `Tr`.`SpreadBetRuleID` = $spreadBetRuleID";
@@ -7402,44 +7499,46 @@ function getOpenSpreadCoins($userID, $spreadBetRuleID = 0){
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Tr`.`SpreadBetRuleID` as SpreadBetRuleID, `Tr`.`UserID` , count( DISTINCT `Tr`.`SpreadBetTransactionID`) as countOfTransactions
 FROM `Transaction` `Tr`
     WHERE `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
     group by `Tr`.`SpreadBetRuleID` ";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getOpenSpreadCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['SpreadBetRuleID'],$row['UserID'],$row['countOfTransactions']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getOpenTransNo($userID, $coinID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
 
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT count(`ID`) as IDcount FROM `Transaction` WHERE `Status` = 'Open' and `UserID` = $userID and `CoinID` = $coinID
           group by `CoinID`";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getOpenTransNo: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['IDcount']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7556,42 +7655,44 @@ function updateBuyTrend($coinID, $transactionID, $mode, $ID, $hr1, $hr24, $d7){
 }
 
 function updateBuyTrendHistory($coinID, $buyDate){
-  $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
+  /*$conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > '$buyDate' and `Price` =
   (SELECT Min(`Price`) FROM `PriceHistory` WHERE `CoinID` = $coinID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("updateBuyTrendHistory: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function updateBuyTrendHistorySB($spreadBetRuleID, $buyDate){
-  $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
+  /*$conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "SELECT `Hr1Pct`,`Hr24Pct`,`D7Pct` FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `PriceDate` > '$buyDate' and `Price` =
   (SELECT Min(`Price`) FROM `SpreadBetPriceHistory` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `PriceDate` > '$buyDate' and `Price` <> 0.0)";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("updateBuyTrendHistorySB: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Hr1Pct'],$row['Hr24Pct'],$row['D7Pct']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7635,13 +7736,13 @@ function updateSpreadBetTransactionAmount($nPrice, $spreadBetRuleID, $BTCAmount)
 
 function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   $whereClause = "";
   if ($spreadBetRuleID <> 0){ $whereClause = " and `Tr`.`SpreadBetRuleID` = $spreadBetRuleID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "SELECT `Sbt`.`SpreadBetRuleID` as SpreadBetRuleID, sum(`Tr`.`CoinPrice` * `Amount`)  as PurchasePriceUSD, `Sbt`.`TotalAmountToBuy`,`Sbt`.`AmountPerCoin`
     ,count(`Tr`.`SpreadBetRuleID`) as NoOfTransactions
@@ -7649,31 +7750,34 @@ function checkOpenSpreadBet($userID, $spreadBetRuleID = 0){
       left join `SpreadBetTransactions` `Sbt` on `Sbt`.`SpreadBetRuleID` = `Tr`.`SpreadBetRuleID`
       WHERE  `Tr`.`Type` in ('SpreadBuy','SpreadSell') and `Tr`.`Status` in ('Open','Pending') and `Tr`.`UserID` = $userID $whereClause
       group by `Tr`.`SpreadBetRuleID` ";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("checkOpenSpreadBet: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['SpreadBetRuleID'],$row['PurchasePriceUSD'],$row['TotalAmountToBuy'],$row['AmountPerCoin'],$row['NoOfTransactions']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getMaxPct($date,$coinID){
-  $conn = getHistorySQL(rand(1,4));
+  $tempAry = [];
+  /*$conn = getHistorySQL(rand(1,4));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "SELECT getMaxPrice('$date',$coinID) as MaxPrice;";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getMaxPct: ",$sql,3,1,1,0,"NewConfig",90);
+  /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['MaxPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -7768,14 +7872,14 @@ function trackingCoinReadyToBuy($livePrice, $mins, $type, $buyPrice, $Transactio
 }
 
 function resetQuickBuyCount($trackingID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `TrackingCoins` SET `quickBuyCount`= 0 WHERE `ID` = $trackingID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("resetQuickBuyCount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7783,18 +7887,18 @@ function resetQuickBuyCount($trackingID){
   }
   $conn->close();
   logAction("resetQuickBuyCount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("resetQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");
+  newLogToSQL("resetQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");*/
 }
 
 function updateQuickBuyCount($trackingID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `TrackingCoins` SET `quickBuyCount`= (`quickBuyCount` +1) WHERE `ID` = $trackingID";
-
-  print_r($sql);
+  SQLInsertUpdateCall("updateQuickBuyCount: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -7802,7 +7906,7 @@ function updateQuickBuyCount($trackingID){
   }
   $conn->close();
   logAction("updateQuickBuyCount: ".$sql, 'BuyCoin', 0);
-  newLogToSQL("updateQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");
+  newLogToSQL("updateQuickBuyCount",$sql,3,0,"SQL","TrackingID:$trackingID");*/
 }
 
 function trackingCoinReadyToSell($livePrice, $mins, $type, $basePrice, $TransactionID, $totalRisesInPrice, $pctProfit, $minsFromDate, $lastPrice, $NoOfRisesInPrice, $trackingSellID,$market1HrChangePct,$originalSellPrice){
@@ -7955,58 +8059,60 @@ function buySellProfitEnable($coinID,$userID,$enableBuy, $enableSell,$nPct,$FixS
 
 function getSpreadBetCount($SBTransID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT count(`SBTransID`) as countOfOpenRules FROM `TrackingCoins` WHERE `SBTransID` = $SBTransID";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadBetCount: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['countOfOpenRules']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSpreadBetUserSettings(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `NoOfBuysPerCoin`,`TotalNoOfBuys`,`DivideAllocation`,`UserID` FROM `SpreadBetUserSettings`";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSpreadBetUserSettings: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['NoOfBuysPerCoin'],$row['TotalNoOfBuys'],$row['DivideAllocation'],$row['UserID']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBuyBackData($tmpSBRuleID = 0){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   $whereclause = "";
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
-  if ($conn->connect_error) {
+  /*if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   if ($tmpSBRuleID > 0){
     $whereclause = " and `SpreadBetRuleID` = $tmpSBRuleID and `PriceDifferecePct` < -1 ";
@@ -8027,7 +8133,8 @@ function getBuyBackData($tmpSBRuleID = 0){
             ,`BaseCurrency2`,`BuyRule`,`CoinSellOffsetEnabled2`,`CoinSellOffsetPct2`,`SellRule`,`ToMerge`,`NoOfCoinPurchase`,`Type`,`OverrideCoinAllocation`
             FROM `View9_BuyBack`
             where `StatusBb` <> 'Closed' $whereclause";
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getBuyBackData: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8042,59 +8149,59 @@ function getBuyBackData($tmpSBRuleID = 0){
       ,$row['BuyBackAutoPct'],$row['CaaOffset'],$row['SpreadBetRuleIDBB'],$row['BaseCurrency2'],$row['BuyRule'],$row['CoinSellOffsetEnabled2'],$row['CoinSellOffsetPct2'],$row['SellRule'] //63
       ,$row['ToMerge'],$row['NoOfCoinPurchase'],$row['Type'],$row['OverrideCoinAllocation']);  //67
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBuyBackKittyAmount($userID){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT  `USDTAmount`, `BTCAmount`,`ETHAmount`,`BuyPortion`,`BuyPortionBTC`,`BuyPortionETH` FROM `BuyBackKitty` WHERE  `UserID` = $userID; ";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getBuyBackKittyAmount: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['USDTAmount'],$row['BTCAmount'],$row['ETHAmount'],$row['BuyPortion'],$row['BuyPortionBTC'],$row['BuyPortionETH']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getMarketPrices($dateTime){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($dateTime == ''){ $timeVar = "now()";} else{ $timeVar = "'$dateTime'";}
   $sql = "SELECT  `MarketPrice`, `DateTime` FROM `MarketPriceChange` where `DateTime`  >  $timeVar order by `DateTime` Desc ";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMarketPrices: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['MarketPrice'],$row['DateTime']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getPriceDipRules(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `RuleID`,`EnableRuleActivationAfterDipBr`,`PriceDipEnable24Hour`,  `Hr24ChangePctChangeMkt` as `Hr24ChangePctChange`
           , `D7ChangePctChangeMkt` as `D7ChangePctChange`,`PriceDipEnable7Day`,`BuyRuleIDPds`,`PriceDipEnabledPds`,`HoursFlatPds`,`DipStartTimePds`,`HoursFlat`,`PctTolerance`
@@ -8106,8 +8213,8 @@ function getPriceDipRules(){
           ,`PctOfAuto`,`DisableAfterDipPct`,`LiveCoinPriceMkt`,`marketHoursFlatHigh`,`marketHoursFlatTarget`
             FROM `View13_UserBuyRules`
             WHERE `EnableRuleActivationAfterDip` >= 1 ";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getPriceDipRules: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8117,23 +8224,23 @@ function getPriceDipRules(){
       ,$row['MaxHr1ChangePctChange'],$row['MaxHr24ChangePctChange'],$row['MaxD7ChangePctChange'],$row['MinCoinPricePctChange'],$row['MinHr1ChangePctChange'],$row['MinHr24ChangePctChange'],$row['MinD7ChangePctChange'],$row['PctOfAuto'],$row['DisableAfterDipPct']//27
       ,$row['LiveCoinPriceMkt'],$row['marketHoursFlatHigh'],$row['marketHoursFlatTarget']); //30
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getMarketStatistics(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `LiveCoinPrice`, `LastCoinPrice`, `Price3`, `Price4`, `Price5`, `CoinPricePctChange`, `LiveMarketCap`, `LastMarketCap`, `MarketCapPctChange`, `LiveBuyOrders`, `LastBuyOrders`, `BuyOrdersPctChange`, `LiveVolume`, `LastVolume`, `VolumePctChange`
           , `Live1HrChange`, `Last1HrChange`, `Live24HrChange`, `Last24HrChange`, `Live7DChange`, `Last7DChange`, `1HrChange3`, `1HrChange4`, `1HrChange5`, `Hr1ChangePctChange`, `Hr24ChangePctChange`, `D7ChangePctChange`, `LiveSellOrders`, `LastSellOrders`
           , `SellOrdersPctChange`, `LivePriceTrend`, `LastPriceTrend`, `Price3Trend`, `Price4Trend`, `1HrPriceChangeLive`, `1HrPriceChangeLast`, `1HrPriceChange3`, `1HrPriceChange4` FROM `View21_MarketStats` ";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMarketStatistics: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8144,7 +8251,7 @@ function getMarketStatistics(){
       ,	$row['LiveSellOrders'],	$row['LastSellOrders'],	$row['SellOrdersPctChange'],	$row['LivePriceTrend'],	$row['LastPriceTrend'],	$row['Price3Trend'],	$row['Price4Trend'],	$row['1HrPriceChangeLive'],	$row['1HrPriceChangeLast']
       ,	$row['1HrPriceChange3'],	$row['1HrPriceChange4']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -8222,11 +8329,12 @@ function writeCoinPriceDipPrice($coinID,$price){
 }
 
 function reOpenTransactionfromBuyBack($buyBackID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Select `Tr`.`CoinID`, `Cp`.`LiveCoinPrice`, `Tr`.`UserID`, `Cn`.`BaseCurrency`,1 as SendEmail,1 as BuyCoin,
             (SELECT `SellPrice` from `BittrexAction` where `TransactionID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)and `Type` in ('Sell','SpreadSell')) * `Tr`.`Amount` as SalePrice, `Tr`.`BuyRule`, 0.0 as CoinOffset,0 as CoinOffsetEnabled,1 as BuyType
@@ -8235,8 +8343,8 @@ function reOpenTransactionfromBuyBack($buyBackID){
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
             where `Tr`.`ID` = (SELECT `TransactionID` FROM `BuyBack` WHERE `ID` = $buyBackID)";
-
-            echo "<BR> $sql";
+  $tempAry = mySQLSelect("reOpenTransactionfromBuyBack: ",$sql,3,1,1,0,"NewConfig",90);
+            /*echo "<BR> $sql";
             $result = $conn->query($sql);
             //$result = mysqli_query($link4, $query);
             //mysqli_fetch_assoc($result);
@@ -8245,7 +8353,7 @@ function reOpenTransactionfromBuyBack($buyBackID){
               ,$row['CoinOffset'],$row['CoinOffsetEnabled'],$row['BuyType'],$row['MinsToCancel'],$row['FixSellRule'],$row['toMerge'],$row['noOfPurchases'],$row['RisesInPrice'],$row['Type'],$row['OriginalPrice']  //17
             ,$row['SpreadBetTransactionID'],$row['SpreadBetRuleID'],$row['Symbol'],$row['MultiSellRuleTemplateID']); //21
             }
-            $conn->close();
+            $conn->close();*/
             return $tempAry;
 }
 
@@ -8386,15 +8494,17 @@ function WriteBuyBack($transactionID, $profitPct, $noOfRisesInPrice, $minsToCanc
 }
 
 function checkSpreadBetComplete($spreadBetRuleID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   //$sql = "CALL checkSpreadBetComplete($spreadBetRuleID);";
   $sql = "SELECT count(`ID`) as SBCount FROM `Transaction` WHERE `SpreadBetRuleID` = $spreadBetRuleID and `Status` in ('Open','Pending');";
-  //print_r($sql);
+  $tempAry = mySQLSelect("checkSpreadBetComplete: ",$sql,3,1,1,0,"NewConfig",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8402,7 +8512,7 @@ function checkSpreadBetComplete($spreadBetRuleID){
       $tempAry[] = Array($row['SBCount']);
   }
   $conn->close();
-  newLogToSQL("checkSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");
+  newLogToSQL("checkSpreadBetComplete","$sql",3,1,"SQL CALL","SBRuleID:$spreadBetRuleID");*/
   return $tempAry;
 }
 
@@ -8488,17 +8598,18 @@ function WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPct
 }
 
 function getTotalProfitSpreadBetSell($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT ifNull(sum(`CoinPrice`*`Amount`),0) as OriginalPurchasePrice ,ifNull(sum(`LiveCoinPrice` * `Amount`),0) as LiveTotalPrice,ifNull(sum(`SellPrice`*`Amount`),0) as SaleTotalPrice
     ,getBTCPrice(84) as getBTCPrice, getBTCPrice(85) as getETHPrice, ((sum((`LiveCoinPrice` * `Amount`)-(`CoinPrice`*`Amount`)))/(`CoinPrice`*`Amount`))*100 as `PctProfitSell`
             FROM `View15_OpenTransactions` $spreadBetTransactionID ";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getTotalProfitSpreadBetSell: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8507,20 +8618,21 @@ function getTotalProfitSpreadBetSell($spreadBetTransactionID){
       //13  14  15
 
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getWebMarketStats(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,`BaseCurrency` FROM `MarketCoinStatsBaseCurr`";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getWebMarketStats: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8529,20 +8641,21 @@ function getWebMarketStats(){
       //13  14  15
 
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSavingTotal($userID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `TotalUSDT`,`LivePrice`,`Profit` FROM `WebSavings` WHERE `UserID` = $userID";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSavingTotal: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8551,23 +8664,24 @@ function getSavingTotal($userID){
       //13  14  15
 
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getNewSavingTotal($userID, $baseCurrency){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   if ($baseCurrency == 'USDT'){ $nCol = '`SavingUSDT`';}
   elseif ($baseCurrency == 'BTC'){ $nCol = '`SavingBTC`';}
   elseif ($baseCurrency == 'ETH'){ $nCol = '`SavingETH`';}
 
   $sql = "SELECT $nCol as `Saving`, getBTCPrice(84) as `BTCPrice`, getBTCPrice(85) as `ETHPrice`  FROM `UserCoinSavings` WHERE `UserID` = $userID";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getNewSavingTotal: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -8576,16 +8690,17 @@ function getNewSavingTotal($userID, $baseCurrency){
       //13  14  15
 
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getSoldProfitSpreadBetSell($spreadBetTransactionID){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum(`Ba`.`SellPrice`*`Tr`.`Amount`) as SellPrice
       From `BittrexAction` `Ba`
@@ -8593,15 +8708,15 @@ function getSoldProfitSpreadBetSell($spreadBetTransactionID){
       join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
       WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Sold'
       and `Ba`.`Type` in ('Sell','SpreadSell')";
-
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSoldProfitSpreadBetSell: ",$sql,3,1,1,0,"NewConfig",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['OriginalPurchasePrice'],$row['SellPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
