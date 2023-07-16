@@ -345,6 +345,25 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `ErrorLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `save_Total` INT)
+    MODIFIES SQL DATA
+BEGIN
+  DECLARE CountOfAction INTEGER;
+
+  SELECT Count(`ID`) INTO CountOfAction
+	FROM `ErrorLog`
+	WHERE `UserID` = User_ID and `Subject` = In_Sub ;
+
+  IF (CountOfAction > save_Total) THEN
+    DELETE FROM `ErrorLog` WHERE `UserID` = User_ID and `Subject` = In_Sub Order by `ID` limit 1;
+
+  END IF;
+INSERT INTO `ErrorLog`(`UserID`, `Subject`, `Comment`,`DateToDelete`) VALUES (User_ID,In_Sub,In_Comments,date_add(now(),INTERVAL 7 DAY));
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `NewUpdate1HrPriceChange`(IN `C_Price` DECIMAL(14,8), IN `Coin_ID` INT)
     MODIFIES SQL DATA
 BEGIN
@@ -1495,7 +1514,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `erroLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `save_Total` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `Days_To_Keep` INT)
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `ErrorLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `save_Total` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `Days_To_Keep` INT)
     MODIFIES SQL DATA
 BEGIN
   DECLARE CountOfAction INTEGER;
@@ -1516,7 +1535,6 @@ INSERT INTO `ErrorLog`(`UserID`, `Subject`, `Comment`,`SubTitle`, `Reference`,`D
 
 END$$
 DELIMITER ;
-
 
 DELIMITER $$
 CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `superLogToSQL`(IN `User_ID` INT, IN `In_Sub` VARCHAR(100), IN `In_Comments` TEXT, IN `daysToSave` INT, IN `Sub_Title` VARCHAR(50), IN `nRef` VARCHAR(50), IN `nTitle` VARCHAR(50), IN `nType` VARCHAR(50))

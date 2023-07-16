@@ -222,6 +222,7 @@ function showSellCoins($trackingSell,$title){
   //$userConfig = getConfig($_SESSION['ID']);
   if ($_SESSION['isMobile']){  $fontSize = "font-size:60px"; }else{ $fontSize = "font-size:32px"; }
   echo "<h3>$title</h3>";
+  var_dump($trackingSell);
   for($x = 0; $x < $arrLengthSell; $x++) {
       //Variables
       //$roundNum = 2;
