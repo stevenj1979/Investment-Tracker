@@ -406,7 +406,8 @@ $date = date('Y/m/d H:i:s', time());
         displayHeader(4);
         $spreadBetID = getSpreadBetIDOpen($_SESSION['ID']);
         $spreadBetIDSize = count($spreadBetID);
-        $roundVar = $_SESSION['roundVar'];
+        //$roundVar = $_SESSION['roundVar'];
+        $roundVar = 8;
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");
         //echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>
