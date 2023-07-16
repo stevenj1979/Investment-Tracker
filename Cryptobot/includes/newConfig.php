@@ -5248,7 +5248,7 @@ function getWebUsage($userID){
 
   $sql = "SELECT `BuyTracking`, `BuyBack`, `SellCoin`, `SellTracking`, `SellSaving`, `BittrexAction`,`SpreadSell`,`SpreadSellCoin` FROM `CryptoBotWebUsageTable`
     WHERE `UserID` = $userID ";
-  $tempAry = mySQLSelect("getWebUsage: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getWebUsage: ",$sql,3,0,1,0,"NewConfig",90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
