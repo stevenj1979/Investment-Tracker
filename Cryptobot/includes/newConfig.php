@@ -592,7 +592,7 @@ function getTrackingCoins($whereclause, $table){
     ,`1HrPriceChangeLast`,`1HrPriceChange3`,`1HrPriceChange4`,`SecondstoUpdate`,`LastUpdated`,`Name`,`Image`,`DoNotBuy`,`HoursFlatPdcs`,`MinPriceFromLow`,`PctFromLiveToLow`,Trim(`Month6Low`)+0 as `6MonthPrice` ,Trim(`Month3Low`)+0 as `3MonthPrice`,Trim(`AverageLowPrice`)+0 as AverageLowPrice,`HoursSinceAdded`
     ,`MaxHoursFlat`,`CaaOffset`,`CaaMinsToCancelBuy`,`HoursFlatHighPdcs`,`HoursFlatLowPdcs`
     $table $whereclause ";
-    $tempAry = mySQLSelect("getTrackingCoins: ",$sql,3,1,1,0,"NewConfig",90);
+    $tempAry = mySQLSelect("getTrackingCoins: ",$sql,3,0,1,0,"NewConfig",90);
     /*echoAndLog("", "$sql",3,0,"","");
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -5225,7 +5225,7 @@ function addWebUsage($userID){
   }*/
 
   $sql = "call addWebUsage($userID);";
-  SQLInsertUpdateCall("addWebUsage: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("addWebUsage: ",$sql,3, 0, 1, 0, "NewConfig", 90);
   /*print_r($sql);
 
   if ($conn->query($sql) === TRUE) {
@@ -5435,7 +5435,7 @@ function getNewTrackingCoins($userID = 0){
       ,`OverrideCoinAllocation`,`OneTimeBuyRule`,`BuyAmountCalculationEnabled`,`ATHPrice` as AllTimeHighPrice,`TransactionID`,`CoinSwapID`,`OldBuyBackTransID`,`ToMerge`,`BaseBuyPrice`,`ReduceLossCounter`,`LowMarketModeEnabled`,`SavingOverride`
       ,`HoursFlatPdcs`,`PctOfAuto`
       from `View2_TrackingBuyCoins` $whereClause order by `NoOfRisesInPrice` Desc";
-      $tempAry = mySQLSelect("getNewTrackingCoins: ",$sql,3,1,1,0,"NewConfig",90);
+      $tempAry = mySQLSelect("getNewTrackingCoins: ",$sql,3,0,1,0,"NewConfig",90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -6082,7 +6082,7 @@ function getNewTrackingSellCoins($userID = 0){
             ,`OriginalAmount`,`TrackingType`,`OriginalSellPrice`,(`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) as `Profit`,((`LiveCoinPrice`*`Amount`)-(`CoinPrice`*`Amount`) )/(`CoinPrice`*`Amount`)*100 as `ProfitPct`
             ,`ReEnableBuyRuleEnabled`,`ReEnableBuyRule`,`BuyBackEnabled`,`TrackingCount`,`OverrideBuyBackAmount`,`OverrideBuyBackSaving`,`Image`
             FROM `View6_TrackingSellCoins` $whereClause";
-  $tempAry = mySQLSelect("getNewTrackingSellCoins: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getNewTrackingSellCoins: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -8654,7 +8654,7 @@ function getSavingTotal($userID){
   }*/
 
   $sql = "SELECT `TotalUSDT`,`LivePrice`,`Profit` FROM `WebSavings` WHERE `UserID` = $userID";
-  $tempAry = mySQLSelect("getSavingTotal: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getSavingTotal: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
