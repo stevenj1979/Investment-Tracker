@@ -4,9 +4,9 @@ include_once ('newConfig.php');
 
 function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
     if($history == 1){
-      $conn = getHistorySQL(rand(1,4));
+      $conn = getHistorySQL(rand(1,6));
     }else{
-      $conn = getSQLConn(rand(1,3));
+      $conn = getSQLConn(rand(1,6));
     }
 
     // Check connection
