@@ -716,7 +716,7 @@ function getTotalProfitSpreadBetSellNew($spreadBetTransactionID){
           ,sum(`SellFee`) as SellFee
             FROM `View28_SpreadBetTotalProfitView`
             where `SpreadBetTransactionID` = $spreadBetTransactionID ";
-  $tempAry = mySQLSelect("getTotalProfitSpreadBetSellNew: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getTotalProfitSpreadBetSellNew: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -830,7 +830,7 @@ function getDistinctSpreadBetID(){
 
   $sql = "Select Distinct(`SpreadBetTransactionID`) as SpreadBetTransactionID
             FROM `View5_SellCoins`  WHERE `Status` = 'Open' and `SpreadBetTransactionID` <> 0 order by ProfitPct Asc";
-  $tempAry = mySQLSelect("getDistinctSpreadBetID: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getDistinctSpreadBetID: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -6274,7 +6274,7 @@ function getUserDisabled($userID){
 //12
 
   $sql = "SELECT `DisableUntil` FROM `User` WHERE `ID` = $userID";
-  $tempAry = mySQLSelect("getUserDisabled: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getUserDisabled: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo $sql;
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
@@ -8631,7 +8631,7 @@ function getWebMarketStats(){
   }*/
 
   $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,`BaseCurrency` FROM `MarketCoinStatsBaseCurr`";
-  $tempAry = mySQLSelect("getWebMarketStats: ",$sql,3,1,1,0,"NewConfig",90);
+  $tempAry = mySQLSelect("getWebMarketStats: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
