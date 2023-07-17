@@ -3731,9 +3731,10 @@ function get7DayChange($coinID){
 }
 
 function update7DPriceChange($sevenDayPrice,$coinID){
+  $newPrice = Round($sevenDayPrice,8);
   /*$conn = getSQLConn(rand(1,3));
   echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
-  $newPrice = Round($sevenDayPrice,8);
+
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$sql = "Update `CoinPctChange` SET `Live7DChange` = $newPrice where `CoinID` = $coinID;";
   $sql = "Call Update7DPriceChangeAndHighLow($newPrice,$coinID);";
@@ -3749,9 +3750,10 @@ function update7DPriceChange($sevenDayPrice,$coinID){
   newLogToSQL("update7DPriceChange",$sql,3,0,"SQL","CoinID:$coinID");*/
 }
 function updatePctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
+  $newPrice = Round($sevenDayPrice,8);
   /*$conn = getSQLConn(rand(1,3));
   echo "<BR> Update7DPriceChange : call Update7DPriceChange($sevenDayPrice,$coinID);";
-  $newPrice = Round($sevenDayPrice,8);
+
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call UpdateCoinPctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price);";
   SQLInsertUpdateCall("updatePctChange: ",$sql,3, 1, 1, 0, "NewConfig", 90);
@@ -3768,9 +3770,10 @@ function updatePctChange($coinID,$sevenDayPrice,$hr24Price,$hr1Price){
 
 
 function update24HrPriceChange($price,$coinID){
+  $newPrice = Round($price,8);
   /*$conn = getSQLConn(rand(1,3));
   echo "<BR> Update24HrPriceChange : call Update24HrPriceChange($price,$coinID);";
-  $newPrice = Round($price,8);
+
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$sql = "Update `CoinPctChange` SET `Live24HrChange` = $newPrice where `CoinID` = $coinID;";
   $sql = "Call Update24HrPriceChangeAndHighLow($newPrice,$coinID);";
