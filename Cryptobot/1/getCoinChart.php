@@ -12,6 +12,7 @@ $coinID = $_GET['coinID'];
 date_default_timezone_set('Asia/Dubai');
 $time = str_replace("_"," ",$_GET['time']);
 //$query = "set time_zone='+04:00';";
+if(!isset($time)){$time == "6 Hour";}
 $query = "SELECT `ActionDate`,`LiveCoinPrice` as LiveCoinPrice
   FROM `CoinBuyHistory`
   WHERE  (`ActionDate` > DATE_SUB(now(), INTERVAL $time)) and ID = (select Max(`ID`) from `Coin` where `ID` = $coinID)

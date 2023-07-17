@@ -2,7 +2,7 @@
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('newConfig.php');
 
-function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
+function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep, $noError = 0){
     if($history == 1){
       $conn = getHistorySQL(rand(1,6));
     }else{
@@ -11,7 +11,9 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
 
     // Check connection
     if ($conn->connect_error) {
-        //errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+        if ($noError == 0){
+          errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+        }
         die("Connection failed: " . $conn->connect_error);
     }
 
@@ -23,7 +25,9 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
-        //errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+        if ($noError == 0){
+          errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+        }
     }
     $conn->close();
 }

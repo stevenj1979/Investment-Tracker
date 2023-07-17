@@ -3950,7 +3950,7 @@ function errorLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, 
     /*$conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "call errorLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref',$daysToKeep)";
-    SQLInsertUpdateCall("errorLogToSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+    SQLInsertUpdateCall("errorLogToSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90, 1);
     /*print_r("<br>".$sql);
     if ($conn->query($sql) === TRUE) {echo "New record created successfully";
     } else {
