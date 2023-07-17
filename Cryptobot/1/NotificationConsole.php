@@ -113,7 +113,7 @@ function main(){
   $dataCount = count($consoleData);
 
   print_r("<h2>Console</h2>");
-  echo "<form action='console.php?dropdown=Yes' method='post'>";
+  echo "<form action='NotificationConsole.php?dropdown=Yes' method='post'>";
   echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";
     displayDropDown($headers, $_SESSION['ConsoleSelected']);
     echo "</select>";
