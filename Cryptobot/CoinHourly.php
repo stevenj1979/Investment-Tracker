@@ -84,6 +84,7 @@ function UpdateMerge($coinID,$userID,$mode){
 }
 
 function getCurrentMonthMinMax(){
+  $tempAry = [];
   $conn = getHistorySQL(rand(1,4));
   $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MaxPrice` as `MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MinPrice` as `MonthLowPrice`
     FROM `MonthlyMaxPrices` `Cmhp`
@@ -390,7 +391,8 @@ Function updateBittrexBals($userConfig){
             $base = $openBaseCurr[$x][0]; $coinID = $openBaseCurr[$x][1]; $amount = $openBaseCurr[$x][2];
             if ($x==0){ $runningTotal = $value["total"];}
             $priceAry = bittrexCoinPriceNew($base,$value["currencySymbol"]);
-            $price = $priceAry[0][0];
+            if (isset($priceAry)){$price = $priceAry[0][0];}else{$price = 0;}
+
             //echo "Update BittrexBal: ".$value["currencySymbol"]." : ".$value["total"]." : $price | $x | $amount | $runningTotal";
 
             if (!isset($openBaseCurr)){
@@ -1049,13 +1051,13 @@ Echo "<BR> CoinHourly";
 Echo "<BR> 1. prepareToMergeSavings();";
 prepareToMergeSavings();
 
-Echo "<BR> 2. runMerge($transStats,'Open');";
+Echo "<BR> 2. runMerge(transStats,'Open');";
 $transStats = getTransStats();
 runMerge($transStats,'Open');
 
 Echo "<BR> 3. getCurrentMonthMinMax();";
 $minMaxPrice = getCurrentMonthMinMax();
-$minMaxPriceSize = count($minMaxPrice);
+if (isset($minMaxPrice)){$minMaxPriceSize = count($minMaxPrice);}else {$minMaxPriceSize=0;}
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
