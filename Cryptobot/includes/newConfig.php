@@ -9,9 +9,9 @@ Define("logToSQLSetting","0");
 
 function getBittrexRequestsOg($userID = 0){
   $tempAry = [];
-  /*$conn = getSQLConn(rand(1,3));
   $bittrexQueue = "";
   if ($userID <> 0){$bittrexQueue = " and `UserIDBa` = $userID";}
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -732,8 +732,8 @@ function getTotalProfitSpreadBetSellNew($spreadBetTransactionID){
 
 function getTrackingSpreadBetSellCoins($type, $userID = 0){
   $tempAry = [];
-  /*if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
-  $conn = getSQLConn(rand(1,3));
+  if ($userID <> 0){ $whereclause = "Where `UserID` = $userID and `Type` = '$type'";}else{$whereclause = "Where `Type` = '$type'";}
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
@@ -5015,10 +5015,11 @@ function getCoinPriceMatchSettings($whereClause = ""){
 
 function getCoinPricePattenList($userID = 0){
   $tempAry = [];
-  /*$conn = getSQLConn(rand(1,3));
-  // Check connection
   $whereClause = "";
   if ($userID <> 0){ $whereClause = " where `UserID` = $userID";}
+  /*$conn = getSQLConn(rand(1,3));
+  // Check connection
+
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }*/
