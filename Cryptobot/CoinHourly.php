@@ -3,15 +3,16 @@
 ini_set('max_execution_time', 600);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('includes/SQLDbCommands.php');
 
 //Define("sQLUpdateLog","0");
 //Define("SQLProcedureLog","0");
 
 function getTransStats(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  //$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  //if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `Tr`.`CoinID`,`Tr`.`UserID`, count(`Tr`.`CoinID`) as Count, `Usc`.`MergeAllCoinsDaily`, `Tr`.`ID`,`Cn`.`BaseCurrency`
@@ -20,10 +21,11 @@ function getTransStats(){
             join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
             WHERE `Status` = 'Open'
             Group by `CoinID`,`UserID`,`Cn`.`BaseCurrency`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getTransStats: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['UserID'],$row['Count'],$row['MergeAllCoinsDaily'],$row['ID'],$row['BaseCurrency']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 
 }
@@ -85,54 +87,57 @@ function UpdateMerge($coinID,$userID,$mode){
 
 function getCurrentMonthMinMax(){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
+  //$conn = getHistorySQL(rand(1,4));
   $sql = "SELECT `Cmhp`.`CoinID`,`Cmhp`.`MaxPrice` as `MonthHighPrice`,`Cmhp`.`Month`,`Cmhp`.`Year`,  `Cmmp`.`MinPrice` as `MonthLowPrice`
     FROM `MonthlyMaxPrices` `Cmhp`
   	join `MonthlyMinPrices` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`
     where `Cmhp`.`MaxPrice` <> 0 and `Cmmp`.`MinPrice` <> 0
     and `Cmhp`.`Month` = month(now()) ";
-  echo "<BR>".$sql;
+  $tempAry = mySQLSelect("getCurrentMonthMinMax: ",$sql,3,1,1,1,"CoinHourly",90);
+  /*echo "<BR>".$sql;
   $result = $conn->query($sql);
   if($result){
     while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
     }
   }
-  $conn->close();
+  $conn->close();*/
 return $tempAry;
 }
 
 function getOpenTransactionsSB(){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
     $sql = "SELECT `SpreadBetTransactionID`, 'CoinID', `UserID`, datediff(now(),`OrderDate`) as DaysFromPurchase, `PctProfitSell`, 'ProfitPctBtm','SellRuleID',`SpreadBetRuleID`,`IDTr` as TransactionID,`CoinPrice`,`Amount`
     ,`LiveCoinPrice`
        FROM `View7_SpreadBetSell` where `Type` = 'SpreadSell' and `Status` = 'Open'";
-    print_r($sql);
+    $tempAry = mySQLSelect("getOpenTransactionsSB: ",$sql,3,1,1,0,"CoinHourly",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SpreadBetTransactionID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctProfitSell'],$row['ProfitPctBtm'],$row['SellRuleID']
           ,$row['SpreadBetRuleID'],$row['TransactionID'],$row['CoinPrice'],$row['Amount'],$row['LiveCoinPrice']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function getOpenUserIDandBaseCurrency(){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
     $sql = "SELECT `Tr`.`ID`
               FROM `User` `Tr`";
-    print_r($sql);
+    $tempAry = mySQLSelect("getOpenUserIDandBaseCurrency: ",$sql,3,1,1,0,"CoinHourly",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
@@ -212,16 +217,17 @@ function subPctFromProfit($coinID,$userID,$pctToSub,$sellRuleID){
 
 function getOpenTransactionsLoc(){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     //$query = "SET time_zone = 'Asia/Dubai';";
     //$result = $conn->query($query);
     $sql = "SELECT `ID`, `CoinID`, `UserID`, `DaysFromPurchase`, `PctToBuy`, `ProfitPctBtm`,`SellRuleID` FROM `CoinModeRuleOpenTransactions`";
-    print_r($sql);
+    $tempAry = mySQLSelect("getOpenTransactionsLoc: ",$sql,3,1,1,0,"CoinHourly",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['CoinID'],$row['UserID'],$row['DaysFromPurchase'],$row['PctToBuy'],$row['ProfitPctBtm'],$row['SellRuleID']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
@@ -272,16 +278,17 @@ function addToBuyBackMultiplierHourly(){
 
 function getbuyBack(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `TransactionID` FROM `BuyBack` where `SellPrice` = 0.0 or isnull(`SellPrice`)";
-  print_r($sql);
+  $tempAry = mySQLSelect("getbuyBack: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TransactionID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -312,16 +319,17 @@ function updateSellPricetoBuyBack(){
 
 function getUserID(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID` FROM `User`";
-  print_r($sql);
+  $tempAry = mySQLSelect("getUserID: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -351,16 +359,17 @@ function updateSplitBuyAmountforRule(){
 
 function getUserData(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `APIKey`,`APISecret`,`IDUs`, `KEK` FROM `View12_UserConfig` ";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getUserData: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['APIKey'],$row['APISecret'],$row['IDUs'],$row['KEK']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -422,39 +431,41 @@ function prepareToMergeSavings(){
 
 function getSavings(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `UserID` FROM `UserConfig` where `AutoMergeSavings` = 1 ";
-  print_r($sql);
+  $tempAry = mySQLSelect("getSavings: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBounceIDs(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `ID` FROM `Coin` WHERE `BuyCoin` = 1 ";
-  print_r($sql);
+  $tempAry = mySQLSelect("getBounceIDs: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBouncePricesHistory($coinID,$flag){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
+  /*$conn = getHistorySQL(rand(1,4));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
 
@@ -465,25 +476,27 @@ function getBouncePricesHistory($coinID,$flag){
           FROM `PriceHistory` WHERE `PriceDateTimeID` in (SELECT `ID` FROM `PriceHistoryDate` WHERE `PriceDateTime` BETWEEN DATE_SUB(NOW(), INTERVAL 2 HOUR) and NOW())
           and `CoinID` = $coinID";
   if ($flag == 1){ $sql =  $sql_a;} else {$sql =  $sql_b;}
-  print_r($sql);
+  $tempAry = mySQLSelect("getBouncePricesHistory: ",$sql,3,1,1,1,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['TopPrice'],$row['LowPrice'],$row['Difference'],$row['PriceDateTimeID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getBounceCoinIDs(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `CoinID`,`TopPrice`,`LowPrice`,`Difference` FROM `BounceIndex` WHERE `Difference` > 2.5";
-  print_r($sql);
+  $tempAry = mySQLSelect("getBounceCoinIDs: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['CoinID'],$row['TopPrice'],$row['LowPrice'],$row['Difference']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -599,19 +612,20 @@ function runBounceTestBuy(){
 
 function getWebSavings(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$query = "SET time_zone = 'Asia/Dubai';";
   //$result = $conn->query($query);
   $sql = "SELECT `UserID`
           ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(84), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getBTCPrice(85), 0)))) as TotalUSD
           ,sum(`LiveCoinPrice` * `Amount`) as LivePrice  FROM `View5_SellCoins` WHERE `Status` = 'Saving'
            group by `UserID`";
-  print_r($sql);
+  $tempAry = mySQLSelect("getWebSavings: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['TotalUSD'],$row['LivePrice']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -713,17 +727,18 @@ function runHoursforPriceDip(){
 
 function  getCoinSwapIDs(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `ID`  FROM `SwapCoins` WHERE `Status` = 'AwaitingSavingsBuy'";
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getCoinSwapIDs: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -758,20 +773,21 @@ function runSQLAvgPrice($coinID, $highLow){
 
 function getMultiSellRulesData(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `Tr`.`ID`,`Tr`.`MultiSellRuleEnabled`,`Tr`.`MultiSellRuleTemplateID`,  `Mti`.`MultiRuleStr`,`Tr`.`UserID`
               FROM `Transaction` `Tr`
               Join `MultiSellRuleTemplate` `Mti` on `Mti`.`ID` = `Tr`.`MultiSellRuleTemplateID`
               WHERE  `Tr`.`Status` = 'Open' and `Tr`.`Type` in  ('Sell','SpreadSell') and `Tr`.`MultiSellRuleEnabled` = 1";
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getMultiSellRulesData: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['MultiSellRuleEnabled'],$row['MultiSellRuleTemplateID'],$row['MultiRuleStr'],$row['UserID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -813,19 +829,20 @@ function runMultiSellRulesConfig(){
 
 function getLiveCoinTable(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `ID`, `Symbol`, `Name`, `BaseCurrency`, `BuyCoin`, `CMCID`, ifNull(`SecondstoUpdate`,0) as SecondstoUpdate, `Image`, `MinTradeSize`, `CoinPrecision`, ifNull(`DoNotBuy`,0) as DoNotBuy
     FROM `Coin` Where `BuyCoin` = 1";
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getLiveCoinTable: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['Symbol'],$row['Name'],$row['BaseCurrency'],$row['BuyCoin'],$row['CMCID'],$row['SecondstoUpdate'],$row['Image']
     ,$row['MinTradeSize'],$row['CoinPrecision'],$row['DoNotBuy']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -909,20 +926,21 @@ function writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionI
 
 function getSavingsDataAgain(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `SavingID`, `ID`, `UserID`, `MergeSavingWithPurchase`,`FixSellRule`, `BuyRule`, `FixSellRule`,`MultiSellRuleEnabled`, `MultiSellRuleTemplateID` ,`Type`
     ,`SpreadBetRuleID`,`SpreadBetTransactionID`
     FROM `View24_SavingsReadyToOpenAndMerge` ";
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getSavingsDataAgain: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['SavingID'],$row['ID'],$row['UserID'],$row['MergeSavingWithPurchase'],$row['FixSellRule'],$row['BuyRule'],$row['SellRule'],$row['MultiSellRuleEnabled']
           ,$row['MultiSellRuleTemplateID'],$row['Type'],$row['SpreadBetRuleID'],$row['SpreadBetTransactionID']);}
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -986,17 +1004,19 @@ function runSavingsMerge(){
 
 function getMultiBuyIDs(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
 
     //echo "<BR> Flag2: $lowFlag";
     $sql = "SELECT `ID`,`MultiSellRuleTemplateID`,`UserID` FROM `Transaction` WHERE `MultiSellRuleEnabled` = 1 and `Status` = 'Open' ";
-  echo "<BR> $sql";
+    $tempAry = mySQLSelect("getMultiBuyIDs: ",$sql,3,1,1,0,"CoinHourly",90);
+  /*echo "<BR> $sql";
   //LogToSQL("SQLTest",$sql,3,1);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['ID'],$row['MultiSellRuleTemplateID'],$row['UserID']);}
-  $conn->close();
+  $conn->close();*/
+  return $tempAry;
 }
 
 function runMultiBuy(){
