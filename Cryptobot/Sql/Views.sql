@@ -754,3 +754,115 @@ FROM `Transaction` `Tr`
 Join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
 Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Ba`.`Type` in ('Sell', 'SpreadSell')
 WHERE  `Tr`.`SpreadBetTransactionID` <> 0 and `Tr`.`Status` in ('Pending','Sold','Open');
+
+
+CREATE OR REPLACE VIEW `View29_MarketStatsETH` AS
+SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCoinPrice, (`Cp`.`Price3`) as Price3, (`Cp`.`Price4`) as Price4, (`Cp`.`Price5`) as Price5
+    ,(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+    , (`Cmc`.`LiveMarketCap`) as LiveMarketCap, (`Cmc`.`LastMarketCap`) as LastMarketCap, (((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+    ,  (`Cbo`.`LiveBuyOrders`) as LiveBuyOrders, (`Cbo`.`LastBuyOrders`) as LastBuyOrders, (((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+    , (`Cv`.`LiveVolume`) as LiveVolume, (`Cv`.`LastVolume`) as LastVolume, ((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+    , (`Cpc`.`Hr1Price`) as Live1HrChange, (`Cpc`.`Hr24Price`) as Live24HrChange, (`Cpc`.`D7Price`) as Live7DChange
+    ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr1Price`)/ `Cpc`.`Hr1Price`)*100 as `Hr1ChangePctChange`
+    ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr24Price`)/ `Cpc`.`Hr24Price`)*100   as `Hr24ChangePctChange`
+    , ((`Cp`.`LiveCoinPrice`-`Cpc`.`D7Price`)/ `Cpc`.`D7Price`)*100   as `D7ChangePctChange`
+    , (`Cso`.`LiveSellOrders`) as LiveSellOrders,(`Cso`.`LastSellOrders`) as LastSellOrders,(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+    ,if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) > 0, 1, if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+              ,if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) > 0, 1, if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+              ,if((`Cp`.`Price3`) -(`Cp`.`Price4`) > 0, 1, if((`Cp`.`Price3`) -(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+              ,if((`Cp`.`Price4`) -(`Cp`.`Price5`) > 0, 1, if((`Cp`.`Price4`) - (`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+
+,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
+    FROM `Coin` `Cn`
+    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+    join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
+    join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
+    join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
+    join `CoinPriceOver7Days` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+    join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+    join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
+    Where `Cn`.`BaseCurrency` = 'ETH'
+    and `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+
+    CREATE OR REPLACE VIEW `View30_MarketStatsBTC` AS
+    SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCoinPrice, (`Cp`.`Price3`) as Price3, (`Cp`.`Price4`) as Price4, (`Cp`.`Price5`) as Price5
+        ,(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+        , (`Cmc`.`LiveMarketCap`) as LiveMarketCap, (`Cmc`.`LastMarketCap`) as LastMarketCap, (((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+        ,  (`Cbo`.`LiveBuyOrders`) as LiveBuyOrders, (`Cbo`.`LastBuyOrders`) as LastBuyOrders, (((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+        , (`Cv`.`LiveVolume`) as LiveVolume, (`Cv`.`LastVolume`) as LastVolume, ((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+        , (`Cpc`.`Hr1Price`) as Live1HrChange, (`Cpc`.`Hr24Price`) as Live24HrChange, (`Cpc`.`D7Price`) as Live7DChange
+        ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr1Price`)/ `Cpc`.`Hr1Price`)*100 as `Hr1ChangePctChange`
+        ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr24Price`)/ `Cpc`.`Hr24Price`)*100   as `Hr24ChangePctChange`
+        , ((`Cp`.`LiveCoinPrice`-`Cpc`.`D7Price`)/ `Cpc`.`D7Price`)*100   as `D7ChangePctChange`
+        , (`Cso`.`LiveSellOrders`) as LiveSellOrders,(`Cso`.`LastSellOrders`) as LastSellOrders,(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+        ,if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) > 0, 1, if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+                  ,if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) > 0, 1, if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+                  ,if((`Cp`.`Price3`) -(`Cp`.`Price4`) > 0, 1, if((`Cp`.`Price3`) -(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+                  ,if((`Cp`.`Price4`) -(`Cp`.`Price5`) > 0, 1, if((`Cp`.`Price4`) - (`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+
+    ,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
+        FROM `Coin` `Cn`
+        join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+        join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
+        join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
+        join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
+        join `CoinPriceOver7Days` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+        join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+        join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
+        Where `Cn`.`BaseCurrency` = 'BTC'
+        and `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+
+        CREATE OR REPLACE VIEW `View31_MarketStatsUSDT` AS
+        SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCoinPrice, (`Cp`.`Price3`) as Price3, (`Cp`.`Price4`) as Price4, (`Cp`.`Price5`) as Price5
+            ,(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+            , (`Cmc`.`LiveMarketCap`) as LiveMarketCap, (`Cmc`.`LastMarketCap`) as LastMarketCap, (((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+            ,  (`Cbo`.`LiveBuyOrders`) as LiveBuyOrders, (`Cbo`.`LastBuyOrders`) as LastBuyOrders, (((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+            , (`Cv`.`LiveVolume`) as LiveVolume, (`Cv`.`LastVolume`) as LastVolume, ((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+            , (`Cpc`.`Hr1Price`) as Live1HrChange, (`Cpc`.`Hr24Price`) as Live24HrChange, (`Cpc`.`D7Price`) as Live7DChange
+            ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr1Price`)/ `Cpc`.`Hr1Price`)*100 as `Hr1ChangePctChange`
+            ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr24Price`)/ `Cpc`.`Hr24Price`)*100   as `Hr24ChangePctChange`
+            , ((`Cp`.`LiveCoinPrice`-`Cpc`.`D7Price`)/ `Cpc`.`D7Price`)*100   as `D7ChangePctChange`
+            , (`Cso`.`LiveSellOrders`) as LiveSellOrders,(`Cso`.`LastSellOrders`) as LastSellOrders,(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+            ,if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) > 0, 1, if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+                      ,if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) > 0, 1, if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+                      ,if((`Cp`.`Price3`) -(`Cp`.`Price4`) > 0, 1, if((`Cp`.`Price3`) -(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+                      ,if((`Cp`.`Price4`) -(`Cp`.`Price5`) > 0, 1, if((`Cp`.`Price4`) - (`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+
+        ,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
+            FROM `Coin` `Cn`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+            join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
+            join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
+            join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
+            join `CoinPriceOver7Days` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+            join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+            join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
+            Where `Cn`.`BaseCurrency` = 'USDT'
+            and `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+
+            CREATE OR REPLACE VIEW `View32_MarketStatsAll` AS
+        SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCoinPrice, (`Cp`.`Price3`) as Price3, (`Cp`.`Price4`) as Price4, (`Cp`.`Price5`) as Price5
+            ,(((`Cp`.`LiveCoinPrice`-`Cp`.`LastCoinPrice`)/`Cp`.`LastCoinPrice`)*100) as `CoinPricePctChange`
+            , (`Cmc`.`LiveMarketCap`) as LiveMarketCap, (`Cmc`.`LastMarketCap`) as LastMarketCap, (((`Cmc`.`LiveMarketCap`-`Cmc`.`LastMarketCap`)/`Cmc`.`LastMarketCap`)*100) as `MarketCapPctChange`
+            ,  (`Cbo`.`LiveBuyOrders`) as LiveBuyOrders, (`Cbo`.`LastBuyOrders`) as LastBuyOrders, (((`Cbo`.`LiveBuyOrders`-`Cbo`.`LastBuyOrders`)/`Cbo`.`LastBuyOrders`)* 100) as `BuyOrdersPctChange`
+            , (`Cv`.`LiveVolume`) as LiveVolume, (`Cv`.`LastVolume`) as LastVolume, ((( `Cv`.`LiveVolume`- `Cv`.`LastVolume`)/ `Cv`.`LastVolume`)*100) as `VolumePctChange`
+            , (`Cpc`.`Hr1Price`) as Live1HrChange, (`Cpc`.`Hr24Price`) as Live24HrChange, (`Cpc`.`D7Price`) as Live7DChange
+            ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr1Price`)/ `Cpc`.`Hr1Price`)*100 as `Hr1ChangePctChange`
+            ,((`Cp`.`LiveCoinPrice`-`Cpc`.`Hr24Price`)/ `Cpc`.`Hr24Price`)*100   as `Hr24ChangePctChange`
+            , ((`Cp`.`LiveCoinPrice`-`Cpc`.`D7Price`)/ `Cpc`.`D7Price`)*100   as `D7ChangePctChange`
+            , (`Cso`.`LiveSellOrders`) as LiveSellOrders,(`Cso`.`LastSellOrders`) as LastSellOrders,(((`Cso`.`LiveSellOrders`-`Cso`.`LastSellOrders`)/`Cso`.`LastSellOrders`)*100) as `SellOrdersPctChange`
+            ,if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) > 0, 1, if((`Cp`.`LiveCoinPrice`) -(`Cp`.`LastCoinPrice`) < 0, -1, 0)) as  `LivePriceTrend`
+                      ,if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) > 0, 1, if((`Cp`.`LastCoinPrice`) -(`Cp`.`Price3`) < 0, -1, 0)) as  `LastPriceTrend`
+                      ,if((`Cp`.`Price3`) -(`Cp`.`Price4`) > 0, 1, if((`Cp`.`Price3`) -(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
+                      ,if((`Cp`.`Price4`) -(`Cp`.`Price5`) > 0, 1, if((`Cp`.`Price4`) - (`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
+
+        ,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
+            FROM `Coin` `Cn`
+            join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+            join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
+            join `CoinBuyOrders` `Cbo` on `Cbo`.`CoinID` = `Cn`.`ID`
+            join `CoinVolume` `Cv` on `Cv`.`CoinID` = `Cn`.`ID`
+            join `CoinPriceOver7Days` `Cpc` on `Cpc`.`CoinID` = `Cn`.`ID`
+            join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
+            join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
+            where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
