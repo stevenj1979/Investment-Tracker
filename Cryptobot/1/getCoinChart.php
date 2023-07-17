@@ -44,7 +44,7 @@ while ($row = mysqli_fetch_assoc($result)){
     $temp = array();
     // each column needs to have data inserted via the $temp array
     $temp[] = array('v' => $row['ActionDate']);
-    $temp[] = array('v' => (float) $row['LiveCoinPrice']);
+    $temp[] = array('v' => round((float)$row['LiveCoinPrice'], 8));
 
     // insert the temp array into $rows
     $rows[] = array('c' => $temp);
