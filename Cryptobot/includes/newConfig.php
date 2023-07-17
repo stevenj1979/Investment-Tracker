@@ -3623,7 +3623,7 @@ function coinPriceHistory($coinID,$price,$baseCurrency,$date,$hr1Pct,$hr24Pct,$d
   Echo "<BR> UpdateHistoryPrice : call UpdateHistoryPrice($coinID,$price,'$baseCurrency','$date');";
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call NewUpdatePriceHistory($coinID,$price,'$baseCurrency','$date',$hr1Pct,$hr24Pct,$d7Pct);";
-  SQLInsertUpdateCall("coinPriceHistory: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("coinPriceHistory: ",$sql,3, 1, 1, 1, "NewConfig", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
