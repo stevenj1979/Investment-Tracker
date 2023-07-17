@@ -156,8 +156,7 @@ displayHeader(2);
         $historyStats = getHistoryFromSQL();
         $historySize = count($historyStats);
         echo "<h2>Stats</h2><form action='Stats.php?dropdown=Yes' method='post'><select name='coinSelect'>";
-        echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
-        var_dump($_SESSION);
+
         for($x = 0; $x < $StatsArrLength; $x++) {
             //echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
             displayOptionOne($coinStats[$x][0]."-".$coinStats[$x][2],$coinStats[$x][1]);
@@ -171,7 +170,8 @@ displayHeader(2);
         displayOption("1 Day");
         displayOption("5 Day");
         displayOption("1 Week");
-        echo "<input type='submit' value='Update'/></form>";?>
+        echo "<input type='submit' value='Update'/></form>";echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
+        var_dump($_SESSION);?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
 
