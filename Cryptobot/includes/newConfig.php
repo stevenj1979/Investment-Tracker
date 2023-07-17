@@ -4028,19 +4028,19 @@ function SuperLog($nFile, $comments,  $nFunction, $title , $ref, $logSettingAry,
 function displayHeader($n){
   //$_SESSION['sellCoinsQueue'] = count(getTrackingSellCoins($_SESSION['ID']));
   //$_SESSION['bittrexQueue'] = count(getBittrexRequests($_SESSION['ID']));
-  $userDisabledUntil = getUserDisabled($_SESSION['ID']);
+  $userID = $_SESSION['ID'];
+  $userDisabledUntil = getUserDisabled($userID);
   $_SESSION['DisableUntil'] = $userDisabledUntil[0][0];
-
   //$_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
   //echo $_SESSION['headerTimeout'];
   if ($_SESSION['DisableUntil'] <= date("Y-m-d H:i:s", time())){$_SESSION['isDisabled'] = False;} else{$_SESSION['isDisabled'] = True;}
   if (!isset($_SESSION['headerTimeout'])){
-    addWebUsage($_SESSION['ID']);
-    $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
+    addWebUsage($userID);
+    $_SESSION['webUsage'] = getWebUsage($userID);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
   }elseif( strtotime($_SESSION['headerTimeout']) < strtotime('now')){
-    addWebUsage($_SESSION['ID']);
-    $_SESSION['webUsage'] = getWebUsage($_SESSION['ID']);
+    addWebUsage($userID);
+    $_SESSION['webUsage'] = getWebUsage($userID);
     $_SESSION['headerTimeout'] = date("Y-m-d H:i:s", strtotime("+10 minutes"));
     //echo "Refreshed!";
   }
