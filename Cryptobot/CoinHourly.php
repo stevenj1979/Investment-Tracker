@@ -1060,7 +1060,7 @@ function disableEnableRules($userID){
   }*/
 
   $sql = "call DisableRuleOnLowBalance($userID)";
-  SQLInsertUpdateCall("disableEnableRules: ",$sql2,3, 1, 1, 0, "CoinHourly", 90);
+  SQLInsertUpdateCall("disableEnableRules: ",$sql,3, 1, 1, 0, "CoinHourly", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
