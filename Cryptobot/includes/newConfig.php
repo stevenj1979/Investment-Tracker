@@ -2543,7 +2543,7 @@ function copyWebTable($coinID){
       die("Connection failed: " . $conn->connect_error);
   }*/
   $sql = "call UpdateWebTable($coinID);";
-  SQLInsertUpdateCall("copyWebTable: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //SQLInsertUpdateCall("copyWebTable: ",$sql,3, 1, 1, 0, "NewConfig", 90); //Doesnt Exist - NEED TO RECREATE
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
