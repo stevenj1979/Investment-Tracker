@@ -451,7 +451,7 @@ function getCoinsfromSQL($userID){
     $sql = "SELECT `IDTr`,`Type`,`CoinID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`BittrexRef`,'BittrexStatus',`LiveCoinPrice`,`UserID`,`OrderNo`,`Symbol`
             ,`FixSellRule`,`ToMerge`,`BaseCurrency`,`StopBuyBack`,`OverrideReduceLoss`,`SavingOverride`,`OverrideBittrexCancellation`,`StopReduceLoss`,`LowBalanceDoNotBuy`
             FROM `View5_SellCoins` WHERE ".$statusA.$status.$statusB." and `UserID` = $userID order by `OrderDate` desc ";
-    print_r($sql);
+    //print_r($sql);
     $result = $conn->query($sql);
     //$result = mysqli_query($link4, $query);
 	   //mysqli_fetch_assoc($result);
