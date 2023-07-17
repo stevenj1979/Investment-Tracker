@@ -157,6 +157,7 @@ displayHeader(2);
         $historySize = count($historyStats);
         echo "<h2>Stats</h2><form action='Stats.php?dropdown=Yes' method='post'><select name='coinSelect'>";
         echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
+        var_dump($_SESSION);
         for($x = 0; $x < $StatsArrLength; $x++) {
             //echo "<Option value='".$coinStats[$x][0].":".$coinStats[$x][2]."'>".$coinStats[$x][0].":".$coinStats[$x][2]."</option>";
             displayOptionOne($coinStats[$x][0]."-".$coinStats[$x][2],$coinStats[$x][1]);
