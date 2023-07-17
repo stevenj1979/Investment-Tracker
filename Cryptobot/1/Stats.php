@@ -170,8 +170,10 @@ displayHeader(2);
         displayOption("1 Day");
         displayOption("5 Day");
         displayOption("1 Week");
-        echo "<input type='submit' value='Update'/></form>";echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
-        var_dump($_SESSION);?>
+        echo "<input type='submit' value='Update'/></form>";
+        //echo $_SESSION['StatsListSelected']."&time=".str_replace(" ","_",$_SESSION['StatsListTime']);
+        //var_dump($_SESSION);
+        ?>
         <h2 align="center">Coin Price History</h2>
         <div id="visualization" style="width: 600px; height: 400px;"></div> <?php
 
