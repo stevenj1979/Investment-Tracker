@@ -1029,7 +1029,7 @@ function runMultiBuy(){
     $multiSellRuleTemplateID = $multiBuyAry[$d][1]; $transactionID = $multiBuyAry[$d][0]; $userID = $multiBuyAry[$d][2];
     $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
     $str_arr = explode (",", $ruleStr);
-    $str_arrSize = count($str_arr);
+    if (isset($str_arr)){$str_arrSize = count($str_arr);}else{$str_arrSize=0;}
     for ($t=0; $t<$str_arrSize; $t++){
       $sellRuleIDFromTemplate = $str_arr[$t];
       writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
