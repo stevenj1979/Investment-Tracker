@@ -3,6 +3,7 @@
 ini_set('max_execution_time', 500);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('includes/SQLDbCommands.php');
 
 //Define("sQLUpdateLog","0");
 //Define("SQLProcedureLog","0");
@@ -560,6 +561,34 @@ function runCoinBuyHistoryAverage(){
 
 }
 
+function writeCalculatedPrices($hr1Price,$hr24Price, $d7Price, $coinID){
+  $sql = "call WriteCalcPrices($hr1Price,$hr24Price, $d7Price, $coinID);";
+  SQLInsertUpdateCall("writeCalculatedPrices: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+}
+
+function getCalculatedPrices(){
+  $tempAry = [];
+  $sql ="SELECT `Cn`.`ID`,`Cp`.`LiveCoinPrice`,`Cmc`.`1HrPrice`,`Cmc`.`24HrPrice`,`Cmc`.`7DayPrice`
+  ,`Cp`.`LiveCoinPrice`+(`Cp`.`LiveCoinPrice`/100)*`Cmc`.`1HrPrice` as `Hr1CalculatedPrice`
+  ,`Cp`.`LiveCoinPrice`+(`Cp`.`LiveCoinPrice`/100)*`Cmc`.`24HrPrice` as `Hr24CalculatedPrice`
+  ,`Cp`.`LiveCoinPrice`+(`Cp`.`LiveCoinPrice`/100)*`Cmc`.`7DayPrice` as `D7CalculatedPrice`
+  FROM `Coin` `Cn`
+  join `CMCData` `Cmc` on `Cn`.`ID` = `Cmc`.`CoinID`
+  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+  WHERE `Cn`.`BuyCoin` = 1";
+  $tempAry = mySQLSelect("getAveragePrice: ",$sql,3,1,1,0,"NewConfig",90);
+  return $tempAry;
+}
+
+function runCalculatedPrices(){
+  $calcPrice = getCalculatedPrices();
+  $calcPriceSize = count($calcPrice);
+  for ($w=0;$w<$calcPriceSize;$w++){
+    $hr1Price = $calcPrice[$w][5];$hr24Price = $calcPrice[$w][6];$d7Price = $calcPrice[$w][7]; $coinID = $calcPrice[$w][0];
+    writeCalculatedPrices($hr1Price,$hr24Price, $d7Price, $coinID);
+  }
+}
+
 //set time
 setTimeZone();
 $date = date("Y-m-d H:i", time());
@@ -623,6 +652,7 @@ echo "EndTime ".date("Y-m-d H:i", time());
 
 //BearBullStats();
 runHoursforCoinPriceDip();
+runCalculatedPrices();
 runMarketStats();
 for ($t=0;$t<5;$t++){  //run 5 times
     runCoinBuyHistoryAverage();

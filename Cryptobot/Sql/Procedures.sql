@@ -2698,3 +2698,17 @@ SELECT `ID`,`Symbol`,`LiveCoinPrice`,`LastCoinPrice`,`BaseCurrency`,`ActionDate`
 DELETE FROM `CoinBuyHistory` WHERE Hour(`ActionDate`) = nHour and Day(`ActionDate`) = nDay and Month(`ActionDate`) = nMonth and Year(`ActionDate`) = nYear and `ActionDate` < date_Sub(now(),INTERVAL 5 DAY) and `HourlyAvg` = 0;
 End$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`stevenj1979`@`localhost` PROCEDURE `WriteCalcPrices`(IN `hr1_Price` DECIMAL(20,14), IN `hr24_Price` DECIMAL(20,14), IN `d7_Price` DECIMAL(20,14), IN `Coin_ID` INT)
+    MODIFIES SQL DATA
+BEGIN
+
+if NOT EXISTS (Select `ID` FROM `CoinPriceOver7Days` where `CoinID` = Coin_ID) THEN
+INSERT into `CoinPriceOver7Days` (`CoinID`) VALUES (Coin_ID);
+
+end if;
+UPDATE `CoinPriceOver7Days` SET `Hr1Price`= hr1_Price,`Hr24Price`= hr24_Price,`D7Price`= d7_Price WHERE `CoinID` = Coin_ID;
+
+end$$
+DELIMITER ;
