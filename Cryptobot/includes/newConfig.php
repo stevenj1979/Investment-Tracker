@@ -3656,7 +3656,7 @@ function get1HrChange($coinID){
   $tempAry = [];
   /*$conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
-  $sql = "SELECT `Price` FROM `OneHourPrice` WHERE `CoinID` = $coinID";
+  $sql = "SELECT `Hr1Price` FROM `CoinPriceOver7Days` WHERE `CoinID` = $coinID";
   $tempAry = mySQLSelect("get1HrChange: ",$sql,3,1,1,0,"NewConfig",90);
   /*print_r($sql);
   $result = $conn->query($sql);
@@ -3697,7 +3697,7 @@ function get24HrChange($coinID){
   $tempAry = [];
   /*$conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
-  $sql = "SELECT `Price` FROM `TwentyFourHourPrice` WHERE `CoinID` = $coinID";
+  $sql = "SELECT `Hr24Price` FROM `CoinPriceOver7Days` WHERE `CoinID` = $coinID";
   $tempAry = mySQLSelect("get24HrChange: ",$sql,3,1,1,0,"NewConfig",90);
   /*print_r($sql);
   $result = $conn->query($sql);
@@ -3716,7 +3716,7 @@ function get7DayChange($coinID){
   $tempAry = [];
   /*$conn = getHistorySQL(rand(1,4));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
-  $sql = "SELECT `Price` FROM `SevenDayPrice` WHERE `CoinID` = $coinID";
+  $sql = "SELECT `D7Price` FROM `CoinPriceOver7Days` WHERE `CoinID` = $coinID";
   $tempAry = mySQLSelect("get7DayChange: ",$sql,3,1,1,0,"NewConfig",90);
   /*print_r($sql);
   $result = $conn->query($sql);
