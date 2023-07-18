@@ -8635,7 +8635,10 @@ function getWebMarketStats(){
       die("Connection failed: " . $conn->connect_error);
   }*/
 
-  $sql = "SELECT `Hr1ChangePctChange`,`Hr24ChangePctChange`,`D7ChangePctChange`,`BaseCurrency` FROM `MarketCoinStatsBaseCurr`";
+  $sql = "SELECT ((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100 as Hr1ChangePctChange
+          ,((`LiveCoinPrice`-`Live24HrChange`)/`Live24HrChange`)*100 as Hr24ChangePctChange
+          ,((`LiveCoinPrice`-`Live7DChange`)/`Live7DChange`)*100 as D7ChangePctChange
+          ,`BaseCurrency` FROM `MarketCoinStatsBaseCurr`";
   $tempAry = mySQLSelect("getWebMarketStats: ",$sql,3,0,1,0,"NewConfig",90);
   /*echo "<BR> $sql";
   $result = $conn->query($sql);

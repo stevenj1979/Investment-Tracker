@@ -2625,7 +2625,7 @@ SELECT sum(LiveCoinPrice) as LiveCoinPrice, sum(LastCoinPrice) as LastCoinPrice,
     ,if( (( sum(`LiveCoinPrice`)- sum(`Hr24ChangePctChange`))/sum(`LiveCoinPrice`))*100 < MinHr24Pct,  if( (( sum(`LiveCoinPrice`)- sum(`Hr24ChangePctChange`))/sum(`LiveCoinPrice`))*100 > -99,  (( sum(`LiveCoinPrice`)- sum(`Hr24ChangePctChange`))/sum(`LiveCoinPrice`))*100, MinHr24Pct), MinHr24Pct)
     ,if( ((sum(`LiveCoinPrice`) - sum(`D7ChangePctChange`))/sum(`LiveCoinPrice`))*100 < MinD7Pct, if( ((sum(`LiveCoinPrice`) - sum(`D7ChangePctChange`))/sum(`LiveCoinPrice`))*100 > -99, ((sum(`LiveCoinPrice`) - sum(`D7ChangePctChange`))/sum(`LiveCoinPrice`))*100 , MinD7Pct) , MinD7Pct)
     ,avg(`HoursFlat`) as HoursFlat,avg(`HoursFlatLow`) as HoursFlatLow,avg(`HoursFlatHigh`) as HoursFlatHigh, Base_Curr
-    FROM `View32_MarketStatsAll`
+    FROM `View32_MarketStatsAll` where `BaseCurrency` = Base_Curr
        having `LiveCoinPrice` <> 0;
 END$$
 DELIMITER ;

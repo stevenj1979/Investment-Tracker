@@ -856,7 +856,7 @@ SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCo
                       ,if((`Cp`.`Price3`) -(`Cp`.`Price4`) > 0, 1, if((`Cp`.`Price3`) -(`Cp`.`Price4`) < 0, -1, 0)) as  `Price3Trend`
                       ,if((`Cp`.`Price4`) -(`Cp`.`Price5`) > 0, 1, if((`Cp`.`Price4`) - (`Cp`.`Price5`) < 0, -1, 0)) as  `Price4Trend`
 
-        ,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh
+        ,(`Pdcs`.`HoursFlat`) as HoursFlat,(`Pdcs`.`HoursFlatLow`) as HoursFlatLow,(`Pdcs`.`HoursFlatHigh`) as HoursFlatHigh, `Cn`.`BaseCurrency`
             FROM `Coin` `Cn`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
             join `CoinMarketCap` `Cmc` on `Cmc`.`CoinID` = `Cn`.`ID`
