@@ -471,7 +471,7 @@ select `Br`.`ID` AS `RuleID`,`Br`.`RuleName` AS `RuleName`,`Br`.`UserID` AS `Use
 ,`Pds`.`ID` as `IDPds`, `Pds`.`BuyRuleID` as `BuyRuleIDPds`, `Pds`.`PriceDipEnabled` as `PriceDipEnabledPds`, `Pds`.`HoursFlat` as `HoursFlatPds`,`Pds`.`DipStartTime` as `DipStartTimePds`
 ,`Pdse`.`ID` as `IDPdse`, `Pdse`.`RuleID` as `RuleIDPdse`, `Pdse`.`PriceDipEnable24Hour`, `Pdse`.`PriceDipEnable7Day`, `Pdse`.`HoursFlat`, `Pdse`.`PctTolerance`, `Pdse`.`PriceDipDisable24Hour`, `Pdse`.`PriceDipDisable7Day`
 ,DateDiff(`Br`.`DisableUntil`,now()) as HoursDisableUntil
-,`Mcs`.`LiveBuyOrders` as LiveBuyOrdersMkt, `Mcs`.`LastBuyOrders` as LastBuyOrdersMkt, `Mcs`.`BuyOrdersPctChange` as BuyOrdersPctChangeMkt, `Mcs`.`LiveMarketCap` as LiveMarketCapMkt,`Mcs`.`LastMarketCap` as LastMarketCapMkt, `Mcs`.`MarketCapPctChange` as MarketCapPctChangeMkt, `Mcs`.`Live1HrChange` as Live1HrChangeMkt, `Mcs`.`Last1HrChange` as Last1HrChangeMkt, `Mcs`.`Hr1ChangePctChange` as Hr1ChangePctChangeMkt, `Mcs`.`Live24HrChange` as Live24HrChangeMkt, `Mcs`.`Last24HrChange` as Last24HrChangeMkt, ((`Cp`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`Live24HrChange`)*100 as Hr24ChangePctChangeMkt, `Mcs`.`Live7DChange` as Live7DChangeMkt, `Mcs`.`Last7DChange` as Last7DChangeMkt, ((`Cp`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`Live7DChange`)*100 as D7ChangePctChangeMkt, `Mcs`.`LiveCoinPrice` as LiveCoinPriceMkt, `Mcs`.`LastCoinPrice` as LastCoinPriceMkt, `Mcs`.`CoinPricePctChange` as CoinPricePctChangeMkt, `Mcs`.`LiveSellOrders` as LiveSellOrdersMkt, `Mcs`.`LastSellOrders` as LastSellOrdersMkt
+,`Mcs`.`LiveBuyOrders` as LiveBuyOrdersMkt, `Mcs`.`LastBuyOrders` as LastBuyOrdersMkt, `Mcs`.`BuyOrdersPctChange` as BuyOrdersPctChangeMkt, `Mcs`.`LiveMarketCap` as LiveMarketCapMkt,`Mcs`.`LastMarketCap` as LastMarketCapMkt, `Mcs`.`MarketCapPctChange` as MarketCapPctChangeMkt, `Mcs`.`Live1HrChange` as Live1HrChangeMkt, `Mcs`.`Last1HrChange` as Last1HrChangeMkt, `Mcs`.`Hr1ChangePctChange` as Hr1ChangePctChangeMkt, `Mcs`.`Live24HrChange` as Live24HrChangeMkt, `Mcs`.`Last24HrChange` as Last24HrChangeMkt, ((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`Live24HrChange`)*100 as Hr24ChangePctChangeMkt, `Mcs`.`Live7DChange` as Live7DChangeMkt, `Mcs`.`Last7DChange` as Last7DChangeMkt, ((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`Live7DChange`)*100 as D7ChangePctChangeMkt, `Mcs`.`LiveCoinPrice` as LiveCoinPriceMkt, `Mcs`.`LastCoinPrice` as LastCoinPriceMkt, `Mcs`.`CoinPricePctChange` as CoinPricePctChangeMkt, `Mcs`.`LiveSellOrders` as LiveSellOrdersMkt, `Mcs`.`LastSellOrders` as LastSellOrdersMkt
 , `Mcs`.`SellOrdersPctChange` as SellOrdersPctChangeMkt, `Mcs`.`LiveVolume` as LiveVolumeMkt, `Mcs`.`LastVolume` as LastVolumeMkt, `Mcs`.`VolumePctChange` as VolumePctChangeMkt, `Mcs`.`Price4Trend` as Price4TrendMkt, `Mcs`.`Price3Trend` as Price3TrendMkt, `Mcs`.`LastPriceTrend` as LastPriceTrendMkt, `Mcs`.`LivePriceTrend` as LivePriceTrendMkt, `Mcs`.`AutoBuyPrice` as AutoBuyPriceMkt, `Mcs`.`1HrPriceChangeLive` as 1HrPriceChangeLiveMkt, `Mcs`.`1HrPriceChangeLast` as 1HrPriceChangeLastMkt, `Mcs`.`1HrPriceChange3` as 1HrPriceChange3Mkt, `Mcs`.`1HrPriceChange4` as 1HrPriceChange4Mkt,`Mcs`.`MaxCoinPricePctChange`, `Mcs`.`MaxHr1ChangePctChange`, `Mcs`.`MaxHr24ChangePctChange`,`Mcs`.`MaxD7ChangePctChange`, `Mcs`.`MinCoinPricePctChange`, `Mcs`.`MinHr1ChangePctChange`, `Mcs`.`MinHr24ChangePctChange`, `Mcs`.`MinD7ChangePctChange`,`Mcs`.`HoursFlat` as marketHoursFlat,`Mcs`.`HoursFlatLow` as marketHoursFlatLow,`Mcs`.`HoursFlatHigh` as marketHoursFlatHigh
 ,`Noot`.`OpenTransactions`, if (`Br`.`DisableUntil`>now(),1,0) as RuleDisabledBr
 ,`Pdmr`.`HoursFlat` as marketHoursFlatTarget
@@ -484,8 +484,7 @@ from (((`BuyRules` `Br`
   left join  `Coin1HrPatternName` `C1hPn` on `C1hPn`.`ID` = `Br`.`Coin1HrPatternID`
   left join `PriceDipStatus` `Pds` on `Pds`.`BuyRuleID` = `Br`.`ID`
   left join `PriceDipSettings` `Pdse` on `Pdse`.`UserID` = `Br`.`UserID`
-  join  `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = `Cn`.`BaseCurrency`
-  join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Cn`.`ID`
+  join  `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = `Br`.`LimitToBaseCurrency`
   left join `View25_NoOfOpenTransactions` `Noot` on `Noot`.`BuyRule` = `Br`.`ID` and `Noot`.`UserID` = `Br`.`UserID`
   left join `PriceDipMarketRule` `Pdmr` on `Pdmr`.`BuyRuleID` = `Br`.`ID`
   where `Mcs`.`Hr24ChangePctChange` <> 0 AND `Mcs`.`D7ChangePctChange` <> 0;
@@ -867,3 +866,9 @@ SELECT (`Cp`.`LiveCoinPrice`) as LiveCoinPrice, (`Cp`.`LastCoinPrice`) as LastCo
             join `CoinSellOrders` `Cso` on `Cso`.`CoinID` = `Cn`.`ID`
             join `PriceDipCoinStatus` `Pdcs` on `Pdcs`.`CoinID` = `Cn`.`ID`
             where `Cn`.`BuyCoin` = 1 and `Cn`.`DoNotBuy` = 0;
+
+
+CREATE OR REPLACE VIEW `View33_BittrexBalances` AS
+SELECT `Hbb`.`ID`,`Hbb`.`Symbol`,`Hbb`.`Date`,`Hbb`.`UserID`,if(`Hbb`.`Symbol` in ('BTC','USDT','ETH'), `Hbb`.`Total`*`Hbb`.`Price`, `Hbb`.`Total`*`Hbb`.`Price`*`Hbb`.`Multiplier`) as USDTPrice
+    ,`Hbb`.`BaseCurrency`
+FROM `HistoricBittrexBalances` `Hbb`
