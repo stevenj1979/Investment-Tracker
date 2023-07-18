@@ -85,8 +85,8 @@ function get1HrChangeSum(){
 function update1HrAllCoin($coinID, $hr1Diff){
   /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
-  $sql = "call update1HrAllCoin($coinID,$hr1Diff);";
-  SQLInsertUpdateCall("update1HrAllCoin: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  $sql = "call update1HrAllCoin($coinID,$hr1Diff);"; //Doesnt exist need to Recreate
+  //SQLInsertUpdateCall("update1HrAllCoin: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
