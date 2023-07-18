@@ -25,69 +25,76 @@ if (!empty($_GET['mins'])){
 }
 
 function get1HrChangeAll(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDCn`,`Live1HrChange` FROM `View1_BuyCoins`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("get1HrChangeAll: ",$sql,3,1,1,0,"AllCoinStatus",90);
+  /*$result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['IDCn'],$row['Live1HrChange']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 
 function getUserConfig(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Select `Active`, `DisableUntil`,`Email`, `UserName`,`IDUs`  FROM `View12_UserConfig`";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getUserConfig: ",$sql,3,1,1,0,"AllCoinStatus",90);
+  /*$result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Active'],$row['DisableUntil'],$row['Email'],$row['UserName'],$row['IDUs']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function get1HrChangeSum(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
     $sql = "SELECT sum(((`LiveCoinPrice`-`Live1HrChange`)/`Live1HrChange`)*100) as `Hr1Diff`,count(`CoinID`) as `noOfCoins` FROM `View1_BuyCoins`";
-  $result = $conn->query($sql);
+    $tempAry = mySQLSelect("get1HrChangeSum: ",$sql,3,1,1,0,"AllCoinStatus",90);
+  /*$result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Hr1Diff'],$row['noOfCoins']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function update1HrAllCoin($coinID, $hr1Diff){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call update1HrAllCoin($coinID,$hr1Diff);";
-  //print_r($sql);
+  SQLInsertUpdateCall("update1HrAllCoin: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("update1HrAllCoin",$sql,3,0,"SQL CALL","CoinID:$coinID");
+  newLogToSQL("update1HrAllCoin",$sql,3,0,"SQL CALL","CoinID:$coinID");*/
 }
 
 function tempDisableUsers($mins){
@@ -97,17 +104,18 @@ function tempDisableUsers($mins){
   }else{
     $newDate = $date;
   }
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call updateTempDisableUsers('$newDate');";
-  print_r($sql);
+  SQLInsertUpdateCall("tempDisableUsers: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("tempDisableUsers",$sql,3,0,"SQL CALL","Mins:$mins");
+  newLogToSQL("tempDisableUsers",$sql,3,0,"SQL CALL","Mins:$mins");*/
 }
 
 function emailUsersDisable($userConfig, $action, $disableUntil){
@@ -148,22 +156,23 @@ function emailUsersReenable($userConfig, $action, $disableUntil){
 }
 
 function deleteTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$date = date('Y-m-d H:i', time());
   $sql = "DELETE FROM `NewUserProfit`";
-  //print_r($sql);
+  SQLInsertUpdateCall("deleteTotalProfit: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function updateTotalProfit(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$date = date('Y-m-d H:i', time());
   $sql = "INSERT into `NewUserProfit`  ( `CoinID`, `CoinPrice`, `Amount`, `Status`, `UserID`, `LiveCoinPrice`, `PurchasePrice`, `LivePrice`, `Profit`, `RuleID`, `SpreadBetRuleID`, `SpreadBetTransactionID` )
           SELECT `Tv`.`CoinID` as `CoinID`,`Tv`.`CoinPrice` as `CoinPrice`,`Tv`.`Amount` as `Amount` ,`Tv`.`Status` as `Status`,`Tv`.`UserID` as `UserID`, `Cp`.`LiveCoinPrice` as `LiveCoinPrice`
@@ -174,47 +183,50 @@ function updateTotalProfit(){
             FROM `Transaction` `Tv`
             join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tv`.`CoinID`
             WHERE (`Tv`.`Status` = 'Open') OR (`Tv`.`Status` = 'Pending')";
-  //print_r($sql);
+  SQLInsertUpdateCall("updateTotalProfit: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function updateAllCoinRunningPrice(){
-  $conn = getSQLConn(rand(1,3));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getSQLConn(rand(1,3));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$date = date('Y-m-d H:i', time());
   $sql = "Insert into `AllCoinRunningPrice` (`Price`)
           SELECT sum(`Cp`.`LiveCoinPrice`)
           FROM `CoinPrice` `Cp`
           join `Coin` `Cn` on `Cn`.`ID` = `Cp`.`CoinID`
           WHERE `Cn`.`BuyCoin` = 1 ";
-  //print_r($sql);
+  SQLInsertUpdateCall("updateAllCoinRunningPrice: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 
 function ConsolidatePriceHostory(){
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   //$date = date('Y-m-d H:i', time());
   $sql = "call PriceHistoryConsolidate(date_sub(now(),INTERVAL 5 Minute),now())";
-  //print_r($sql);
+  SQLInsertUpdateCall("ConsolidatePriceHostory: ",$sql,3, 1, 1, 1, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  newLogToSQL("AllCoinStatus",$sql,3,0,"ConsolidatePriceHostory","");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"ConsolidatePriceHostory","");*/
 }
 
 function update1Hr_24Hr_7DPct(){
@@ -249,12 +261,13 @@ function update1Hr_24Hr_7DPct(){
 }
 
 function addBearBullStatsToSQL($price,$coinID){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call UpdateLastPriceBearBull($coinID,$price);";
-  //print_r($sql);
+  SQLInsertUpdateCall("addBearBullStatsToSQL: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -262,16 +275,17 @@ function addBearBullStatsToSQL($price,$coinID){
   }
   $conn->close();
   logAction("addBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("AllCoinStatus",$sql,3,0,"addBearBullStatsToSQL","CoinID:$coinID");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addBearBullStatsToSQL","CoinID:$coinID");*/
 }
 
 function addMarketBearBullStatsToSQL($price){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `BearBullStats` SET `MarketPriceChange`= $price";
-  print_r($sql);
+  SQLInsertUpdateCall("addMarketBearBullStatsToSQL: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -279,17 +293,18 @@ function addMarketBearBullStatsToSQL($price){
   }
   $conn->close();
   logAction("addMarketBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("AllCoinStatus",$sql,3,0,"addMarketBearBullStatsToSQL","Price:$price");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addMarketBearBullStatsToSQL","Price:$price");*/
 }
 
 function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,$min30Pct,$min45Pct,$min75Pct){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "UPDATE `BearBullStats` SET `OneHrPriceChange`= $hr1Pct, `Twenty4HrPriceChange` = $hr24Pct, `Min15PriceChange`=$min15Pct, `Min30PriceChange`=$min30Pct
   ,`Min45PriceChange`=$min45Pct, `Min75PriceChange`=$min75Pct, `Days7PriceChange` = $d7Pct where `CoinID` = $coinID ";
-  print_r($sql);
+  SQLInsertUpdateCall("addHistoryBearBullStatsToSQL: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -297,40 +312,42 @@ function addHistoryBearBullStatsToSQL($coinID,$hr1Pct,$hr24Pct,$d7Pct,$min15Pct,
   }
   $conn->close();
   logAction("addHistoryBearBullStatsToSQL: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("AllCoinStatus",$sql,3,0,"addHistoryBearBullStatsToSQL","CoinID:$coinID");
+  newLogToSQL("AllCoinStatus",$sql,3,0,"addHistoryBearBullStatsToSQL","CoinID:$coinID");*/
 }
 
 function getBearBullStats(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `LiveCoinPrice`,`LastCoinPrice`,`IDCn` FROM `View1_BuyCoins` ";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getBearBullStats: ",$sql,3,1,1,0,"AllCoinStatus",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice'],$row['IDCn']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function getHistoryStats(){
   $tempAry = [];
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "SELECT `ID`, `CoinID`, `1HrPrice`, `24HrPrice`, `7DPrice`, `15MinPrice`, `30MinPrice`, `45MinPrice`, `75MinPrice` FROM `PricePctChangeHistory`";
-  //print_r($sql);
+  $tempAry = mySQLSelect("getHistoryStats: ",$sql,3,1,1,1,"AllCoinStatus",90);
+  /*print_r($sql);
   $result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['ID'],$row['CoinID'],$row['1HrPrice'],$row['24HrPrice'],$row['7DPrice'],$row['15MinPrice'],$row['30MinPrice'],$row['45MinPrice'],$row['75MinPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -396,22 +413,23 @@ function BearBullStats(){
 }
 
 function getMarketChange(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT sum(`LiveCoinPrice`) as `LiveCoinPrice`,sum(`LastCoinPrice`) as `LastCoinPrice` FROM `View1_BuyCoins` WHERE `BuyCoin` = 1 and `DoNotBuy`= 0";
-
-  echo "<BR> $sql";
+  $tempAry = mySQLSelect("getMarketChange: ",$sql,3,1,1,0,"AllCoinStatus",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['LiveCoinPrice'],$row['LastCoinPrice']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -425,13 +443,14 @@ function runMarketStats(){
 
 function writeMarketStats(){
 
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Call UpdateMarketStats();";
-  print_r($sql);
+  SQLInsertUpdateCall("writeMarketStats: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -439,18 +458,19 @@ function writeMarketStats(){
   }
   $conn->close();
   logAction("writeMarketStats: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writeMarketStats","$sql",3,0,"SQL CALL","");
+  newLogToSQL("writeMarketStats","$sql",3,0,"SQL CALL","");*/
 }
 
 function writeMarketStatsCurr($baseCurrency){
 
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "Call UpdateMarketStatsCurr('$baseCurrency');";
-  print_r($sql);
+  SQLInsertUpdateCall("writeMarketStatsCurr: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -458,17 +478,18 @@ function writeMarketStatsCurr($baseCurrency){
   }
   $conn->close();
   logAction("writeMarketStatsCurr: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("writeMarketStatsCurr","$sql",3,0,"SQL CALL","");
+  newLogToSQL("writeMarketStatsCurr","$sql",3,0,"SQL CALL","");*/
 }
 
 function DeleteMarketStats(){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "DELETE FROM `MarketCoinStats`";
-  print_r($sql);
+  SQLInsertUpdateCall("DeleteMarketStats: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -476,7 +497,7 @@ function DeleteMarketStats(){
   }
   $conn->close();
   logAction("DeleteMarketStats: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("DeleteMarketStats","$sql",3,1,"SQL CALL","");
+  newLogToSQL("DeleteMarketStats","$sql",3,1,"SQL CALL","");*/
 }
 
 function runHoursforCoinPriceDip(){
@@ -543,13 +564,14 @@ function runHoursforCoinPriceDip(){
 }
 
 function runCoinBuyHistoryAverage(){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "call HourlyAvgCoinPriceCoinBuyHistory();";
-  print_r($sql);
+  SQLInsertUpdateCall("runCoinBuyHistoryAverage: ",$sql,3, 1, 1, 0, "AllCoinStatus", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
@@ -557,7 +579,7 @@ function runCoinBuyHistoryAverage(){
   }
   $conn->close();
   logAction("runCoinBuyHistoryAverage: ".$sql, 'TrackingCoins', 0);
-  newLogToSQL("runCoinBuyHistoryAverage","$sql",3,0,"SQL CALL","");
+  newLogToSQL("runCoinBuyHistoryAverage","$sql",3,0,"SQL CALL","");*/
 
 }
 
