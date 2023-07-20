@@ -280,7 +280,7 @@ function showSellCoins($trackingSell,$title){
       echo "<td><p id='smallText' style='color:$numCol'>".number_format($profitBtc, $roundVar, '.', '')."</p></td>";*/
       $boxAry = array (
         array("Image","Stats.php?coin=$coinID","$image","","Image",5,"","","Text",0,1),
-        array("",$name."-".$baseCurrency,"","","",5,"","","Text",0,1),
+        array("",$coin."-".$baseCurrency,"","","",5,"","","Text",0,1),
         array("CoinPrice",$livePrice,"","","",0,"","$baseCurrency","Float",$roundVar,1),
         array("PriceDiff",$priceDiff1,"","","Colour",0,$numColPD,"%","Float",$roundVar,1),
         array("Mins Delay",$minsDelay,"","","",0,"","","Text",0,1),
