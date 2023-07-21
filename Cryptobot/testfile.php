@@ -330,17 +330,17 @@ $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`Or
 ,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp',`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`,`CaaSellOffset`,`SpreadBetTransactionID`
 FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'SpreadSell' order by `ProfitPct` Desc";
 //$data = mySQLSelect($sql);
-$data = mySQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
-//foreach ($data as $row) {
-//    echo "<BR> BittrexRef: ".$row['BittrexRef'];
-//}
-$datasize = count($data);
-Echo "<BR> Count: $datasize <BR>";
-//var_dump($data);
-for ($y=0; $y<$datasize;$y++){
-  echo "<br> HERE";
-  echo "<BR> Here ".$data[$y][0]." | ".$data[$y][1];
+$data = assocSQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
+foreach ($data as $row) {
+    echo "<BR> BittrexRef: ".$row['BittrexRef'];
 }
+//$datasize = count($data);
+//Echo "<BR> Count: $datasize <BR>";
+//var_dump($data);
+//for ($y=0; $y<$datasize;$y++){
+//  echo "<br> HERE";
+//  echo "<BR> Here ".$data[$y][0]." | ".$data[$y][1];
+//}
 
 ?>
 </html>

@@ -32,16 +32,25 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
     $conn->close();
 }
 
-function SQLSelect($sql) {
-  /*echo "<BR> Start";
+function assocSQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep) {
+  //echo "<BR> Start";
+  if($history == 1){
+    $conn = getHistorySQL(rand(1,6));
+  }else{
+    $conn = getSQLConn(rand(1,6));
+  }
+
   $res = mysql_query($sql) or trigger_error("db: ".mysql_error()." in ".$sql);
   $a   = array();
+  if($echo == 1){
+      print_r($sql);
+  }
   if ($res) {
     while($row = mysql_fetch_assoc($res)) $a[]=$row;
   }else{
-    errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+
   }
-  return $a;*/
+  return $a;
 }
 
 function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
