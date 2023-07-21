@@ -1266,9 +1266,15 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
           if ($sellRuleType != $ruleType){ continue;}
         }else{
           $spreadBetSellIndEnabled = $sellRules[$z][74];
+          $overrideSpreadIndSellEnabled = $sellRules[$z][75];
           if ($spreadBetSellIndEnabled == 0) { continue; }
           if ($sellRuleType != 'SpreadBet'){ continue;}
-          $ProfitPctBtm_Sell = $sellRules[$z][74];
+          if ($overrideSpreadIndSellEnabled == 1){
+            $ProfitPctBtm_Sell = $sellRules[$z][76];
+          }else{
+            $ProfitPctBtm_Sell = $sellRules[$z][74];
+          }
+
         }
         $profit = (($livePriceSell- $ogPriceBuy-$feeSell)/$ogPriceBuy)*100;
       }else{

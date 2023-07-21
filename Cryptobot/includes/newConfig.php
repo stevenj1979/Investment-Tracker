@@ -1031,7 +1031,7 @@ function getUserSellRules($sellType){
   `SellCoinOffsetPct`,`SellPriceMinEnabled`,`SellPriceMin`,`LimitToCoin`,`KEK`,`SellPatternEnabled`,`SellPattern`,`LimitToBuyRule`,`CoinPricePatternEnabled`,`CoinPricePattern`,`AutoSellCoinEnabled`
   ,`SellFallsInPrice`,`SellAllCoinsEnabled`,`SellAllCoinsPct`,`CoinSwapEnabled`,`CoinSwapAmount`,`NoOfCoinSwapsPerWeek`,`MergeCoinEnabled`,`CoinModeRule`,`PctFromHighSellPriceEnabled`,`NoOfHoursFlatEnabled`,`NoOfHoursFlat`
   ,`PctUnderMaxPrice`,`HoursPastBuyToSellEnabled`, `HoursPastBuyToSell`, `CalculatedSellPctEnabled`, `CalculatedSellPctStart`, `CalculatedSellPctEnd`, `CalculatedSellPctDays`,`BypassTrackingSell`,`CalculatedSellPctReduction`
-  ,`PctOfAuto`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`,`HoursAfterPurchaseToEnd`,`SellRuleType`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
+  ,`PctOfAuto`,`OverrideBuyBackAmount`, `OverrideBuyBackSaving`,`HoursAfterPurchaseToStart`,`HoursAfterPurchaseToEnd`,`SellRuleType`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`, `OverrideSpreadIndSellEnabled`, `OverrideSpreadIndSellPct`
     FROM `View14_UserSellRules` WHERE `SellCoin` = 1 and `SellRuleType` = '$sellType'";
     $tempAry = mySQLSelect("getUserSellRules: ",$sql,3,1,1,0,"NewConfig",90);
   /*$result = $conn->query($sql);
