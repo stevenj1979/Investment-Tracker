@@ -33,24 +33,29 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
 }
 
 function assocSQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep) {
-  //echo "<BR> Start";
+  $tempAry = array();
   if($history == 1){
-    $conn = getHistorySQL(rand(1,6));
+    $conn = getHistorySQL(rand(1,4));
   }else{
-    $conn = getSQLConn(rand(1,6));
+    $conn = getSQLConn(rand(1,3));
   }
-
-  $res = mysql_query($sql) or trigger_error("db: ".mysql_error()." in ".$sql);
-  $a   = array();
   if($echo == 1){
       print_r($sql);
   }
-  if ($res) {
-    while($row = mysql_fetch_assoc($res)) $a[]=$row;
-  }else{
-
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
   }
-  return $a;
+  $result = $conn->query($sql);
+  if ($result){
+      while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row;}
+      //while ($row = $result->fetch_array(MYSQLI_NUM));
+      //while($row = mysqli_fetch_assoc($result, MYSQLI_NUM)) {$tempAry[] = $row;}
+  }else{
+    //error here
+    errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+  }
+  $conn->close();
+  return $tempAry;
 }
 
 function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $daysToKeep){
