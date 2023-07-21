@@ -419,7 +419,7 @@ Function updateBittrexBals($userConfig){
             if ($runningTotal >= $amount){
                 updateBittrexBalances($value["currencySymbol"],$amount,$price, $userID,$base, $coinID);
             }else{
-              errorLogToSQL("updateBittrexBals","updateBittrexBalances(".$value["currencySymbol"].",$amount,$price, $userID,$base, $coinID);",3,1,"CoinHourly","$coinID: over Amount",90);
+              errorLogToSQL("updateBittrexBals","updateBittrexBalances(".$value["currencySymbol"].",$amount,$price, $userID,$base, $coinID);",3,1,"CoinHourly","$coinID: over Amount".$value["total"],90);
             }
             $runningTotal = $runningTotal - $amount;
 
