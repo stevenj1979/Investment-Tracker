@@ -333,7 +333,7 @@ FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'Sp
 $data = assocSQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
 var_dump($data);
 foreach ($data as $row) {
-    echo "<BR> BittrexRef: ".$row['BittrexRef'];
+    echo "<BR> BittrexRef: ".$row['BittrexID'];
 }
 //$datasize = count($data);
 //Echo "<BR> Count: $datasize <BR>";
