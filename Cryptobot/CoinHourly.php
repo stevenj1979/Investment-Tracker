@@ -418,6 +418,8 @@ Function updateBittrexBals($userConfig){
             if (!isset($amount) AND ($openBaseCurrSize <= 1)){ $amount = $value["total"];}
             if ($runningTotal >= $amount){
                 updateBittrexBalances($value["currencySymbol"],$amount,$price, $userID,$base, $coinID);
+            }else{
+              errorLogToSQL("updateBittrexBals","updateBittrexBalances(".$value["currencySymbol"].",$amount,$price, $userID,$base, $coinID);",3,1,"CoinHourly","$coinID: over Amount",90);
             }
             $runningTotal = $runningTotal - $amount;
 
