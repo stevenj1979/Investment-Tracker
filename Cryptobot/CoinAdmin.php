@@ -756,6 +756,10 @@ function clearSQLLog($days){
 
   $sql = "Delete FROM `ActionLog` WHERE `DateToDelete` < now();";
   SQLInsertUpdateCall("clearSQLLog: ",$sql,3, 1, 1, 0, "CoinAdmin", 90);
+  $sql = "Delete FROM `ErrorLog` WHERE `DateToDelete` < now();";
+  SQLInsertUpdateCall("clearSQLLogError: ",$sql,3, 1, 1, 0, "CoinAdmin", 90);
+  $sql = "Delete FROM `NotificationLog` WHERE `DateToDelete` < now();";
+  SQLInsertUpdateCall("clearSQLLogNotification: ",$sql,3, 1, 1, 0, "CoinAdmin", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
