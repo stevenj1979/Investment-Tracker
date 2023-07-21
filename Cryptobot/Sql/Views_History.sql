@@ -1,15 +1,18 @@
+CREATE OR REPLACE VIEW `LastMonthHighPrice` AS
+select `Ph`.`CoinID` AS `CoinID`,max(`Ph`.`Price`) AS `MonthHighPrice`,month(`Phd`.`PriceDateTime`) AS `Month`,year(`Phd`.`PriceDateTime`) AS `Year` from `PriceHistory` `Ph` join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where (month(`Phd`.`PriceDateTime`) = (month(now()) - 1)) group by `Ph`.`CoinID`;
+
 CREATE OR REPLACE VIEW `CountOfCoinPrice` AS
-select count(`PriceHistory`.`Price`) AS `Count of Price`,`PriceHistory`.`Price` AS `Price`,`PriceHistory`.`CoinID` AS `CoinID`
-from `PriceHistory` where (`PriceHistory`.`PriceDate` >= ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 2 month)) group by `PriceHistory`.`Price` order by `PriceHistory`.`Price` desc;
+select count(`Ph`.`Price`) AS `Count of Price`,`Ph`.`Price` AS `Price`,`Ph`.`CoinID` AS `CoinID`
+from `PriceHistory` `Ph` join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID`  where (`Phd`.`PriceDateTime` >= ((select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`) - interval 2 month)) group by `Ph`.`Price` order by `Ph`.`Price` desc;
 
 CREATE OR REPLACE VIEW `CountOfCoinPrice_1Month` AS
-select count(`PriceHistory`.`Price`) AS `Count of Price`,`PriceHistory`.`Price` AS `Price`,`PriceHistory`.`CoinID` AS `CoinID` from `PriceHistory` where (`PriceHistory`.`PriceDate` >= ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 1 month)) group by `PriceHistory`.`Price` order by `PriceHistory`.`Price` desc;
+select count(`Ph`.`Price`) AS `Count of Price`,`Ph`.`Price` AS `Price`,`Ph`.`CoinID` AS `CoinID` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where (`Phd`.`PriceDateTime` >= ((select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`) - interval 1 month)) group by `Ph`.`Price` order by `Ph`.`Price` desc;
 
 CREATE OR REPLACE VIEW `CurrentMonthHighPrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,max(`PriceHistory`.`Price`) AS `MonthHighPrice`,month(`PriceHistory`.`PriceDate`) AS `Month`,year(`PriceHistory`.`PriceDate`) AS `Year` from `PriceHistory` where (month(`PriceHistory`.`PriceDate`) = month(now())) group by `PriceHistory`.`CoinID`;
+select `Ph`.`CoinID` AS `CoinID`,max(`Ph`.`Price`) AS `MonthHighPrice`,month(`Phd`.`PriceDateTime`) AS `Month`,year(`Phd`.`PriceDateTime`) AS `Year` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where (month(`Phd`.`PriceDateTime`) = month(now())) group by `Ph`.`CoinID`;
 
 CREATE OR REPLACE VIEW `CurrentMonthLowPrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,min(`PriceHistory`.`Price`) AS `MonthLowPrice`,month(`PriceHistory`.`PriceDate`) AS `Month`,year(`PriceHistory`.`PriceDate`) AS `Year` from `PriceHistory` where ((month(`PriceHistory`.`PriceDate`) = month(now())) and (`PriceHistory`.`Price` <> 0)) group by `PriceHistory`.`CoinID`;
+select `Ph`.`CoinID` AS `CoinID`,min(`Ph`.`Price`) AS `MonthLowPrice`,month(`Phd`.`PriceDateTime`) AS `Month`,year(`Phd`.`PriceDateTime`) AS `Year` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where ((month(`Phd`.`PriceDateTime`) = month(now())) and (`Ph`.`Price` <> 0)) group by `Ph`.`CoinID`;
 
 CREATE OR REPLACE VIEW `FifteenMinsPrice` AS
 select `PricePctChangeHistory`.`CoinID` AS `CoinID`,`PricePctChangeHistory`.`15MinPrice` AS `Price` from `PricePctChangeHistory`;
@@ -17,18 +20,15 @@ select `PricePctChangeHistory`.`CoinID` AS `CoinID`,`PricePctChangeHistory`.`15M
 CREATE OR REPLACE VIEW `FortyFiveMinsPrice` AS
 select `PricePctChangeHistory`.`CoinID` AS `CoinID`,`PricePctChangeHistory`.`45MinPrice` AS `Price` from `PricePctChangeHistory`;
 
-CREATE OR REPLACE VIEW `LastMonthHighPrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,max(`PriceHistory`.`Price`) AS `MonthHighPrice`,month(`PriceHistory`.`PriceDate`) AS `Month`,year(`PriceHistory`.`PriceDate`) AS `Year` from `PriceHistory` where (month(`PriceHistory`.`PriceDate`) = (month(now()) - 1)) group by `PriceHistory`.`CoinID`;
-
-
 CREATE OR REPLACE VIEW `LastMonthLowPrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,min(`PriceHistory`.`Price`) AS `MonthLowPrice`,month(`PriceHistory`.`PriceDate`) AS `Month`,year(`PriceHistory`.`PriceDate`) AS `Year` from `PriceHistory` where ((month(`PriceHistory`.`PriceDate`) = (month(now()) - 1)) and (`PriceHistory`.`Price` > 0)) group by `PriceHistory`.`CoinID`;
+select `Ph`.`CoinID` AS `CoinID`,min(`Ph`.`Price`) AS `MonthLowPrice`,month(`Phd`.`PriceDateTime`) AS `Month`,year(`Phd`.`PriceDateTime`) AS `Year` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where ((month(`Phd`.`PriceDateTime`) = (month(now()) - 1)) and (`Ph`.`Price` > 0)) group by `Ph`.`CoinID`;
 
 CREATE OR REPLACE VIEW `LastMonthMinPrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,max(`PriceHistory`.`Price`) AS `MonthHighPrice`,month(`PriceHistory`.`PriceDate`) AS `Month`,year(`PriceHistory`.`PriceDate`) AS `Year` from `PriceHistory` where (month(`PriceHistory`.`PriceDate`) = (month(now()) - 1)) group by `PriceHistory`.`CoinID`;
+select `Ph`.`CoinID` AS `CoinID`,max(`Ph`.`Price`) AS `MonthHighPrice`,month(`Phd`.`PriceDateTime`) AS `Month`,year(`Phd`.`PriceDateTime`) AS `Year` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID` where (month(`Phd`.`PriceDateTime`) = (month(now()) - 1)) group by `Ph`.`CoinID`;
 
 CREATE OR REPLACE VIEW `LivePrice` AS
-select `PriceHistory`.`CoinID` AS `CoinID`,avg(`PriceHistory`.`Price`) AS `Price`,max(`PriceHistory`.`Price`) AS `MaxPrice`,min(`PriceHistory`.`Price`) AS `MinPrice`,(select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) AS `PriceDate` from `PriceHistory` where ((`PriceHistory`.`PriceDate` < ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 1 minute)) and (`PriceHistory`.`PriceDate` > ((select max(`PriceHistory`.`PriceDate`) from `PriceHistory`) - interval 10 minute))) group by `PriceHistory`.`CoinID` order by `PriceHistory`.`CoinID` desc;
+select `Ph`.`CoinID` AS `CoinID`,avg(`Ph`.`Price`) AS `Price`,max(`Ph`.`Price`) AS `MaxPrice`,min(`Ph`.`Price`) AS `MinPrice`,(select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`) AS `PriceDate` from `PriceHistory` `Ph`  join `PriceHistoryDate` `Phd` on `Phd`.`ID` = `Ph`.`PriceDateTimeID`
+where (`Phd`.`PriceDateTime` = (select max(`PriceHistoryDate`.`PriceDateTime`) from `PriceHistoryDate`))  group by `Ph`.`CoinID` order by `Ph`.`CoinID` desc;
 
 CREATE OR REPLACE VIEW `OneHourPrice` AS
 select `PricePctChangeHistory`.`CoinID` AS `CoinID`,`PricePctChangeHistory`.`1HrPrice` AS `Price` from `PricePctChangeHistory`;

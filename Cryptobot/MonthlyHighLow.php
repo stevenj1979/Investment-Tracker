@@ -19,7 +19,7 @@ function getLastMonthCoinPrice(){
 	join `LastMonthLowPrice` `Lmmp` on `Lmmp`.`CoinID` = `Lmhp`.`CoinID` and `Lmmp`.`Month` = `Lmhp`.`Month` and `Lmmp`.`Year` = `Lmhp`.`Year`
   where `Lmhp`.`MonthHighPrice` <> 0 and `Lmmp`.`MonthLowPrice` <> 0  ";
   //echo "<BR>".$sql;
-  $tempAry = mySQLSelect("getLastMonthCoinPrice: ",$sql,3,1,1,1,"NewConfig",90);
+  $tempAry = mySQLSelect("getLastMonthCoinPrice: ",$sql,3,1,1,1,"MonthlyHighLow", 90);
   /*$result = $conn->query($sql);
   while ($row = mysqli_fetch_assoc($result)){
     $tempAry[] = Array($row['CoinID'],$row['MonthHighPrice'],$row['Month'],$row['Year'],$row['MonthLowPrice']);
@@ -32,7 +32,7 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
   /*$conn = getSQLConn(rand(1,3));
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call UpdateMonthlyMinMaxPrice($coinID,$minPrice,$price,$month,$year);";
-  SQLInsertUpdateCall("writePrice: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("writePrice: ",$sql,3, 1, 1, 0, "MonthlyHighLow", 90);
   /*print_r("<BR>".$sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -49,7 +49,7 @@ function writePctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, $ye
       die("Connection failed: " . $conn->connect_error);
   }*/
   $sql = "Call AddMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
-  SQLInsertUpdateCall("writePctDatatoSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("writePctDatatoSQL: ",$sql,3, 1, 1, 0, "MonthlyHighLow", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -74,7 +74,7 @@ function getPctChangeFromHistory(){
           and `Hr24Pct` > -30 and `Hr24Pct` < 30
           and `D7Pct` > -50 and `D7Pct` < 50
           group by `CoinID`";
-  $tempAry = mySQLSelect("getPctChangeFromHistory: ",$sql,3,1,1,1,"NewConfig",90);
+  $tempAry = mySQLSelect("getPctChangeFromHistory: ",$sql,3,1,1,1,"MonthlyHighLow", 90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -93,7 +93,7 @@ function writeAvgPctDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month, 
       die("Connection failed: " . $conn->connect_error);
   }*/
   $sql = "Call AddAvgMinPctChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
-  SQLInsertUpdateCall("writeAvgPctDatatoSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("writeAvgPctDatatoSQL: ",$sql,3, 1, 1, 0, "MonthlyHighLow", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -118,7 +118,7 @@ function getAvgPctChangeFromHistory(){
             and `Hr24Pct` > -30 and `Hr24Pct` < 0
             and `D7Pct` > -50 and `D7Pct` < 0
             group by `CoinID`";
-  $tempAry = mySQLSelect("getAvgPctChangeFromHistory: ",$sql,3,1,1,1,"NewConfig",90);
+  $tempAry = mySQLSelect("getAvgPctChangeFromHistory: ",$sql,3,1,1,1,"MonthlyHighLow", 90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -137,7 +137,7 @@ function writeMinPriceDatatoSQL($coinID, $hr1Price, $hr24Price, $d7Price, $month
       die("Connection failed: " . $conn->connect_error);
   }*/
   $sql = "Call AddMinPriceChangeByMonth($coinID, $hr1Price, $hr24Price, $d7Price, $month, $year);";
-  SQLInsertUpdateCall("writeMinPriceDatatoSQL: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  SQLInsertUpdateCall("writeMinPriceDatatoSQL: ",$sql,3, 1, 1, 0, "MonthlyHighLow", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
@@ -164,7 +164,7 @@ function getMinPriceChangeFromHistory(){
             and `Hr24Pct` <> 0
             and `D7Pct` <> 0
             group by `CoinID`";
-  $tempAry = mySQLSelect("getMinPriceChangeFromHistory: ",$sql,3,1,1,1,"NewConfig",90);
+  $tempAry = mySQLSelect("getMinPriceChangeFromHistory: ",$sql,3,1,1,1,"MonthlyHighLow", 90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
