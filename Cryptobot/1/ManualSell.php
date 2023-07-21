@@ -42,10 +42,13 @@ if(isset($_GET['trackCoin'])){
   $salePrice = trim($_GET['salePrice']);
   $userID = trim($_GET['userID']);
   //echo "<BR> newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);";
-  newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);
+  //newTrackingSellCoins($salePrice, $userID,$transactionID,1, 1,0,0,3);
+  newTrackingSellCoins($salePrice,$userID, $transactionID,1, 1,0,0,10,'Sell','ManualSell',0);
+  //newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$type,$callName,$overrideBittrexCancel){
   setTransactionPending($transactionID);
   header('Location: SellCoins.php');
 }
+
 
 if(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
