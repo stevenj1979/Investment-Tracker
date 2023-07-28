@@ -1173,6 +1173,7 @@ function getNewSetting($settings,$fileName, $functionName){
     if ($tempFuncName == $functionName AND $tempFileName == $fileName){
       switch ($tempLogName) {
           case 'API':
+          echo "API: $tempAPIAry = $enabled,$logType,$keephours;";
             $tempAPIAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'Events':
