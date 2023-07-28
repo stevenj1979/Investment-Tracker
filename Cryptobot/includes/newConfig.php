@@ -1174,27 +1174,27 @@ function getNewSetting($settings,$fileName, $functionName){
       switch ($tempLogName) {
           case 'API':
           echo "API: $tempAPIAry = $enabled,$logType,$keephours;";
-            $tempAPIAry = $enabled.",".$logType.",".$keephours;
+            $tempAPIAry = array($enabled,$logType,$keephours);
             break;
           case 'Events':
-            $tempEventAry = $enabled.",".$logType.",".$keephours;
+            $tempEventAry = array($enabled,$logType,$keephours);
             break;
           case 'Exit':
-            $tempExitAry = $enabled.",".$logType.",".$keephours;
+            $tempExitAry = array($enabled,$logType,$keephours);
             break;
           case 'Flow':
-            $tempFlowAry = $enabled.",".$logType.",".$keephours;
+            $tempFlowAry = array($enabled,$logType,$keephours);
             break;
           case 'SQL':
-            $tempSQLAry = $enabled.",".$logType.",".$keephours;
+            $tempSQLAry = array($enabled,$logType,$keephours);
             break;
           case 'Variables':
-            $tempVariAry = $enabled.",".$logType.",".$keephours;
+            $tempVariAry = array($enabled,$logType,$keephours);
             break;
       }
     }
   }
-  $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI,$tempEventAry);
+  $tempAry = Array($tempFlowAry,$tempVariAry,$tempSQLAry,$tempExitAry,$tempAPIAry,$tempEventAry);
   return $tempAry;
 }
 
