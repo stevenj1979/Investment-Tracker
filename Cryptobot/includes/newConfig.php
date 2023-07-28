@@ -1162,6 +1162,41 @@ function getSetting($settings,$fileName, $functionName){
   return $tempAry;
 }
 
+function getNewSetting($settings,$fileName, $functionName){
+  $tempAry = [];
+  $settingsSize = count($settings);
+  //echo "<BR> Size:$settingsSize";
+  for ($l=0; $l<$settingsSize; $l++){
+    $tempFuncName = $settings[$l][1]; $tempFileName = $settings[$l][0]; $tempLogName = $settings[$l][3];
+    $enabled = $settings[$l][4]; $logType = $settings[$l][5]; $keephours = $settings[$l][6];
+    //echo "<BR> count: $l | $tempFuncName | $tempFileName |$functionName | $fileName";
+    if ($tempFuncName == $functionName AND $tempFileName == $fileName){
+      switch ($tempLogName) {
+          case 'API':
+            $tempAPIAry = array($enabled,$logType,$keephours);
+            break;
+          case 'Events':
+            $tempEventAry = array($enabled,$logType,$keephours);
+            break;
+          case 'Exit':
+            $tempExitAry = array($enabled,$logType,$keephours);
+            break;
+          case 'Flow':
+            $tempFlowAry = array($enabled,$logType,$keephours);
+            break;
+          case 'SQL':
+            $tempSQLAry = array($enabled,$logType,$keephours);
+            break;
+          case 'Variables':
+            $tempVariAry = array($enabled,$logType,$keephours);
+            break;
+      }
+    }
+  }
+  $tempAry = Array($tempFlow,$tempVari,$nSql,$nExit,$nAPI,$tempEventAry);
+  return $tempAry;
+}
+
 function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurrency, $sendEmail, $buyCoin, $btcBuyAmount, $ruleID,$userName, $coinID,$CoinSellOffsetPct,$CoinSellOffsetEnabled,$buyType,$timeToCancelBuyMins,$SellRuleFixed, $buyPriceCoin,$overrideCoinAlloc,$newTrackingType,$SBRuleID,$SBTransID,$noOfPurchases = 0){
   $apiVersion = 3;
   $retBuy = 0;

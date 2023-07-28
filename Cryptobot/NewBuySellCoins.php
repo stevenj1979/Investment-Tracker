@@ -2195,7 +2195,7 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
 
 function buyToreduceLoss($lossCoins,$newWebSettingsAry){
   $nFile = "BuySellCoins"; $nFunc = "ReduceLoss";
-  $tempSettings = getSetting($newWebSettingsAry,$nFile,$nFunc);
+  $tempSettings = getNewSetting($newWebSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   $finalBool = False;
   $lossCoinsSize = count($lossCoins);
@@ -2341,6 +2341,25 @@ function getNewSettings(){
   return $tempAry;
 }
 
+function getNewerSettings(){
+  $tempAry = [];
+  $conn = getSQLConn(rand(1,3));
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  //12
+  $sql = "SELECT `FileName`, `Funcname`, `Title`, `LogName`, `Enabled`, `LogType`, `KeepLogHours` FROM `NewLogSettings` ORDER BY `LogName` ASC";
+  $result = $conn->query($sql);
+  //$result = mysqli_query($link4, $query);
+  //mysqli_fetch_assoc($result);
+  while ($row = mysqli_fetch_assoc($result)){
+    $tempAry[] = Array($row['FileName'],$row['Funcname'],$row['Title'],$row['LogName'],$row['Enabled'],$row['LogType'],$row['KeepLogHours']); //
+  }
+  $conn->close();
+  return $tempAry;
+}
+
 function getCalculatedSellPct(){
   $tempAry = [];
   $conn = getSQLConn(rand(1,3));
@@ -2366,6 +2385,7 @@ function getCalculatedSellPct(){
 //get Settings
 $webSettingsAry = getSettings();
 $newWebSettingsAry = getNewSettings();
+$newerWebSettingsAry = getNewerSettings();
 //MultiRule
 $multiSellRules = getMultiSellRules();
 //get CSP
@@ -2598,7 +2618,7 @@ echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i $reduceLossSprea
             $buyToReduceLossFlagSB = False;
             $runSellCoinsFlag = True;
           }
-          $buyToReduceLossFlagSB = buyToreduceLoss($lossCoinsSB,$newWebSettingsAry);
+          $buyToReduceLossFlagSB = buyToreduceLoss($lossCoinsSB,$newerWebSettingsAry);
         }
 
   sleep(15);

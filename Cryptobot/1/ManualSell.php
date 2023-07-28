@@ -26,17 +26,11 @@ if(isset($_GET['manSave'])){
   $transactionID = trim($_GET['transactionID']);
   setTransStatus("Open",$transactionID);
   header('Location: SellCoins.php');
-}
-
-if(isset($_GET['manReopen'])){
+}elseif(isset($_GET['manReopen'])){
   $transactionID = trim($_GET['transactionID']);
   setTransStatus("Saving",$transactionID);
   header('Location: SellCoins_Saving.php');
-}
-
-
-
-if(isset($_GET['trackCoin'])){
+}elseif(isset($_GET['trackCoin'])){
   $baseCurrency = trim($_GET['baseCurrency']);
   $transactionID = trim($_GET['transactionID']);
   $salePrice = trim($_GET['salePrice']);
@@ -47,10 +41,7 @@ if(isset($_GET['trackCoin'])){
   //newTrackingSellCoins($LiveCoinPrice, $userID,$transactionID,$SellCoin,$SendEmail,$sellCoinOffsetEnabled,$sellCoinOffsetPct,$fallsInPrice,$type,$callName,$overrideBittrexCancel){
   setTransactionPending($transactionID);
   header('Location: SellCoins.php');
-}
-
-
-if(isset($_GET['coinTxt'])){
+}elseif(isset($_GET['coinTxt'])){
   echo "manualPrice is set ".$_POST['manualPrice'];
   date_default_timezone_set('Asia/Dubai');
   $date = date("Y-m-d H:i:s", time());
@@ -102,8 +93,7 @@ if(isset($_GET['coinTxt'])){
   sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 552,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice,'Sell');
   //echo "sellCoins($apikey, $apisecret, $coin, $email, $userID, 0, $date,$baseCurrency, 1, 1, 99999,$userName, $orderNo ,$amount,$cost,$transactionID,$coinID,0,0,$salePrice);";
   header('Location: SellCoins.php');
-}
-elseif (isset($_GET['splitCoin'])){
+}elseif (isset($_GET['splitCoin'])){
 
     $coin = $_GET['splitCoin']; $transactionID = $_GET['transactionID']; $ruleIDBTSell = "9999";
     $amount = $_GET['amount']; $qtySold = round($amount/2,8); $orderQtyRemaining = $amount-$qtySold;
@@ -111,6 +101,8 @@ elseif (isset($_GET['splitCoin'])){
 
     bittrexCopyTransNewAmount($transactionID,$qtySold,$orderQtyRemaining,$newOrderNo);
     header('Location: SellCoins.php');
+}else{
+  runMain();
 }
 
 function bittrexbalanceMan($apikey, $apisecret){
@@ -214,51 +206,53 @@ function sellManualCoin($coin,$amount,$cost,$baseCurrency,$transactionID,$orderN
 
 }
 
+function runMain(){
+  echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
+  displayHeader(4);?>
 
-echo isset($_GET['coin'])."_".isset($_POST['manualPrice']);
-displayHeader(4);?>
+  <h1>Manual Sell Coin</h1>
+  <h2>Enter Price</h2>
+                  <form action='ManualSell.php?manualPrice=Yes' method='get'>
+                  Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
+                  Amount: <input type="text" name="amountTxt" value="<?php echo $GLOBALS['amount']; ?>"><br>
+                  <select name="priceSelect">
+                    <option value="manual" name='manualOpt'>Manual Price (Below)</option>
+                    <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
+                    <option value="0.5" name='zeroFivePctOpt'>0.5%</option>
+                    <option value="1" name='onePctOpt'>1%</option>
+                    <option value="1.5" name='onePointFivePctOpt'>1.5%</option>
+                    <option value="2" name='twoPctOpt'>2%</option>
+                    <option value="2.5" name='twoPointFivePctOpt'>2.5%</option>
+                    <option value="3" name='threePctOpt'>3%</option>
+                    <option value="5" name='fivePctOpt'>5%</option>
+                    <option value="10" name='tenPctOpt'>10%</option>
+                    <option value="20" name='twentyPctOpt'>20%</option>
+                  Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
+                  TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" style='color:Gray' readonly ><br>
+                  BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
+                  OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" style='color:Gray' readonly ><br>
+                  OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" style='color:Gray' readonly ><br>
+                  <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
+                  </form>
+                </div>
+                <div class="column side">
+                    &nbsp
+                </div>
+                </div>
 
-<h1>Manual Sell Coin</h1>
-<h2>Enter Price</h2>
-                <form action='ManualSell.php?manualPrice=Yes' method='get'>
-                Coin: <input type="text" name="coinTxt" value="<?php echo $GLOBALS['coin']; ?>"><br>
-                Amount: <input type="text" name="amountTxt" value="<?php echo $GLOBALS['amount']; ?>"><br>
-                <select name="priceSelect">
-                  <option value="manual" name='manualOpt'>Manual Price (Below)</option>
-                  <option value="0.25" name='zeroTwoFivePctOpt'>0% (Break Even)</option>
-                  <option value="0.5" name='zeroFivePctOpt'>0.5%</option>
-                  <option value="1" name='onePctOpt'>1%</option>
-                  <option value="1.5" name='onePointFivePctOpt'>1.5%</option>
-                  <option value="2" name='twoPctOpt'>2%</option>
-                  <option value="2.5" name='twoPointFivePctOpt'>2.5%</option>
-                  <option value="3" name='threePctOpt'>3%</option>
-                  <option value="5" name='fivePctOpt'>5%</option>
-                  <option value="10" name='tenPctOpt'>10%</option>
-                  <option value="20" name='twentyPctOpt'>20%</option>
-                Cost: <input type="text" name="costTxt" value="<?php echo $GLOBALS['salePrice']; ?>"><br>
-                TransactionID: <input type="text" name="TranIDTxt" value="<?php echo $GLOBALS['transactionID']; ?>" style='color:Gray' readonly ><br>
-                BaseCurrency: <input type="text" name="BaseCurTxt" value="<?php echo $GLOBALS['baseCurrency']; ?>" style='color:Gray' readonly ><br>
-                OrderNo: <input type="text" name="OrderNoTxt" value="<?php echo $GLOBALS['orderNo']; ?>" style='color:Gray' readonly ><br>
-                OriginalCost: <input type="text" name="origCostTxt" value="<?php echo $GLOBALS['cost']; ?>" style='color:Gray' readonly ><br>
-                <input type='submit' name='submit' value='Sell Coin' class='settingsformsubmit' tabindex='36'>
-                </form>
-              </div>
-              <div class="column side">
-                  &nbsp
-              </div>
-              </div>
+                <div class="footer">
+                    <hr>
+                    <!-- <input type="button" value="Logout">
+                    <a href='logout.php'>Logout</a>-->
 
-              <div class="footer">
-                  <hr>
-                  <!-- <input type="button" value="Logout">
-                  <a href='logout.php'>Logout</a>-->
+                    <input type="button" onclick="location='logout.php'" value="Logout"/>
 
-                  <input type="button" onclick="location='logout.php'" value="Logout"/>
+                </div>
 
-              </div>
+                <?php
+                //include header template
+                require('layout/footer.php');
 
-              <?php
-              //include header template
-              require('layout/footer.php');
-              ?>
+}
+?>
 </html>
