@@ -3,6 +3,7 @@
 include_once ('../../../../SQLData.php');
 include '../includes/newConfig.php';
 require('includes/config.php');
+include_once ('includes/SQLDbCommands.php');
 if(!$user->is_logged_in()){ header('Location: login.php'); exit(); }
 ?>
 <html>
@@ -152,10 +153,16 @@ if(isset($_POST['coinAltTxt'])){
 }
 
 if (isset($_GET['canTrack'])){
-  $trackingID = $_POST['trackID'];
+  $trackingID = $_GET['trackID'];
   echo "TrackingID is : $trackingID";
+  cancelTracking($trackingID);
+  header('Location: BuyCoinsTracking.php');
 }
 
+function cancelTracking($trackingID){
+  $sql = "UPDATE `TrackingCoins` SET `Status` = 'Cancelled' WHERE `ID` = $trackingID";
+  SQLInsertUpdateCall("cancelTracking: ",$sql,3, 1, 1, 0, "ManualBuy", 90);
+}
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
   //
