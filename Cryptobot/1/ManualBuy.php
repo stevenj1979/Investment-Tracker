@@ -151,7 +151,7 @@ if(isset($_POST['coinAltTxt'])){
   header('Location: CoinAlerts.php');
 }
 
-if (isset($_POST['canTrack'])){
+if (isset($_GET['canTrack'])){
   $trackingID = $_POST['trackID'];
   echo "TrackingID is : $trackingID";
 }
