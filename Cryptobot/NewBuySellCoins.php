@@ -2245,10 +2245,12 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
 
     }
     //and $minsToDelay > 0
+    Echo "<BR> HoursFlat Check 2B: $hoursFlat | $hoursFlatTarget | $maxHoursFlat";
     $totalAvg = ($marketPctAvg+$profitPctAvg)/2;
     if ($hoursFlatAutoEnabled == 1 AND $overrideReduceLoss == 0){
       $hoursFlatTarget = floor(($maxHoursFlat/100)*($pctOfAuto*$totalAvg));
     }
+    Echo "<BR> HoursFlat Check 2C: $hoursFlat | $hoursFlatTarget | $maxHoursFlat";
     //$hoursFlatTarget = $maxHoursFlat
     //if ($overrideReduceLoss == 0){
     $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
