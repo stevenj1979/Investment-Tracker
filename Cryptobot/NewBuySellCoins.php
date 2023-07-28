@@ -2215,6 +2215,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     $stopReduceLoss = $lossCoins[$y][93]; $minTradeSize = $lossCoins[$y][94]; $lowBalDoNotBuy = $lossCoins[$y][95];
     $avgMarketPctChange = ($market24HrPctChange + $market7DPctChange)/2;
     $marketPctAvg = 1; $profitPctAvg = 1;
+    Echo "<BR> HoursFlat Check 1: $hoursFlat | $hoursFlatTarget | $maxHoursFlat";
     if ($stopReduceLoss == 1){ continue; }
     if ($avgMarketPctChange < -2) { $marketPctAvg = 1-($avgMarketPctChange/-15); }
     if ($pctProfit <= -40){ $overrideReduceLoss = 1; }
@@ -2232,7 +2233,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     }
     $excludeSpreadBet = 1;
     //if ($excludeSpreadBet = 1 and ($spreadBetTransactionID <> 0 and $overrideReduceLoss == 0 )){ echo "<BR> ExcludeSpreadBet: EXIT! "; continue;}
-
+    Echo "<BR> HoursFlat Check 2: $hoursFlat | $hoursFlatTarget | $maxHoursFlat";
     Echo "<BR>1: PctOfAuto: $pctOfAuto | $pctProfit  Delay Hours: $rlDelayNextBuyHours";
     if ($pctProfit < $emergencyRLBuyPct AND $emergencyRLBuyEnabled == 1){
         //$pctOfAuto = 100+$pctProfit;
@@ -2251,6 +2252,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
     //$hoursFlatTarget = $maxHoursFlat
     //if ($overrideReduceLoss == 0){
     $hoursFlatPct = ($hoursFlat/$hoursFlatTarget)*100;
+    Echo "<BR> HoursFlat Check 3: $hoursFlat | $hoursFlatTarget | $maxHoursFlat";
     //}
     //echo "<BR> buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter";
     SuperLog($nFile,"buyToreduceLoss: $pctProfit : $reduceLossSellPct | $coinSwapDelayed | $transactionID | $userID | $coinID | $symbol | $liveCoinPrice | $baseCurrency | $totalAmount |$reduceLossEnabled | $reduceLossSellPct | $hoursFlat / $hoursFlatTarget ($hoursFlatPct %) | $overrideReduceLoss | $finalReduceLoss | $reduceLossCounter : $reduceLossMaxCounter;",$nFunc,"RL2","TransactionID:$transactionID",$logFlowSettingAry,'Flow');
