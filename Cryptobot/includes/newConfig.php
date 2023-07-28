@@ -1173,22 +1173,22 @@ function getNewSetting($settings,$fileName, $functionName){
     if ($tempFuncName == $functionName AND $tempFileName == $fileName){
       switch ($tempLogName) {
           case 'API':
-            $tempAPIAry = array($enabled,$logType,$keephours);
+            $tempAPIAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'Events':
-            $tempEventAry = array($enabled,$logType,$keephours);
+            $tempEventAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'Exit':
-            $tempExitAry = array($enabled,$logType,$keephours);
+            $tempExitAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'Flow':
-            $tempFlowAry = array($enabled,$logType,$keephours);
+            $tempFlowAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'SQL':
-            $tempSQLAry = array($enabled,$logType,$keephours);
+            $tempSQLAry = $enabled.",".$logType.",".$keephours;
             break;
           case 'Variables':
-            $tempVariAry = array($enabled,$logType,$keephours);
+            $tempVariAry = $enabled.",".$logType.",".$keephours;
             break;
       }
     }
