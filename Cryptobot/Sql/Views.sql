@@ -203,7 +203,7 @@ FROM `BittrexAction`  `Ba`
       , `Us`.`DisableUntil`
       ,`Cpe`.`Hr1Top`,`Cpe`.`Hr1Bottom`
       ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
-      ,((`Cp`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`Live24HrChange`)*100  as `Market24HrPctChange`,((`Cp`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`Live7DChange`)*100 as `Market7DPctChange`
+      ,((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`Live24HrChange`)*100  as `Market24HrPctChange`,((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`Live7DChange`)*100 as `Market7DPctChange`
       ,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID8`, `Ba`.`TransactionID` as `TransactionIDBa`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))

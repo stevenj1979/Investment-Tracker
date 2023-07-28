@@ -151,6 +151,11 @@ if(isset($_POST['coinAltTxt'])){
   header('Location: CoinAlerts.php');
 }
 
+if (isset($_POST['canTrack'])){
+  $trackingID = $_POST['trackID'];
+  echo "TrackingID is : $trackingID";
+}
+
 
 function AddCoinAlert($coinID,$action,$userID, $salePrice, $category, $reocurring,$newTime){
   //
