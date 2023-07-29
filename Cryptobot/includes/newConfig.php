@@ -1301,7 +1301,7 @@ function buyCoins($apikey, $apisecret, $coin, $email, $userID, $date,$baseCurren
           if ($baseCurrency == 'BTC' OR $baseCurrency == 'ETH'){
             //$btcBuyAmount = number_format($btcBuyAmount/$bitPrice,10);
           }
-          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
+          $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE,1);
           LogToSQL("BittrexAPI","bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);".json_encode($obj),3,1);
           //writeSQLBuy($coin, $quantity, $bitPrice, $date, $orderNo, $userID, $baseCurrency);
           //logToSQL("Bittrex", "bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);", $userID,1);
@@ -1978,7 +1978,7 @@ function bittrexbalance($apikey, $apisecret, $base, $versionNum){
     return $balance;
 }
 
-function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $versionNum, $useAwards){
+function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $versionNum, $useAwards, $market = 0){
     Echo "bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency)";
     $nonce=time();
     if ($versionNum == 1){
@@ -1994,16 +1994,27 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders";
       $method = "POST";
+      if ($market == 0){
+        $content = '{
+          "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
+          "direction": "BUY",
+          "type": "LIMIT",
+          "quantity": "'.$quant.'",
+          "limit": "'.$rate.'",
+          "timeInForce": "IMMEDIATE_OR_CANCEL",
+          "useAwards": "'.$useAwards.'"
+        }';
+      }else{
+        $content = '{
+          "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
+          "direction": "BUY",
+          "type": "MARKET",
+          "quantity": "'.$quant.'",
+          "timeInForce": "IMMEDIATE_OR_CANCEL",
+          "useAwards": "'.$useAwards.'"
+        }';
+      }
 
-      $content = '{
-        "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
-        "direction": "BUY",
-        "type": "MARKET",
-        "quantity": "'.$quant.'",
-        "limit": "'.$rate.'",
-        "timeInForce": "IMMEDIATE_OR_CANCEL",
-        "useAwards": "'.$useAwards.'"
-      }';
       echo "<BR>".$content;
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
@@ -2953,7 +2964,7 @@ function sellCoins($apikey, $apisecret, $coin, $email, $userID, $score, $date,$b
     $from = 'Coin Sale <sale@investment-tracker.net>';
     echo "<BR>bittrexsell($apikey, $apisecret, $coin ,$amount, $bitPrice, $baseCurrency);";
 
-    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
+    $obj = bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE, 1);
     LogToSQL("BittrexAPI","bittrexsell($apikey, $apisecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);".json_encode($obj),3,1);
     //Echo "<br>Here2";
     //$bittrexRef = $obj['result'][0]['uuid'];
@@ -3115,7 +3126,7 @@ function getNewETHAlloc($userID,$lowBuyMode,$overrideFlag,$savingOverride,$sprea
   return $tempAry;
 }
 
-function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards){
+function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency, $versionNum, $useAwards, $market = 0){
     $nonce=time();
     if ($versionNum == 1){
         $uri='https://bittrex.com/api/v1.1/market/selllimit?apikey='.$apikey.'&market='.$baseCurrency.'-'.$symbol.'&quantity='.$quant.'&rate='.$rate.'&nonce='.$nonce;
@@ -3129,16 +3140,27 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
       $timestamp = time()*1000;
       $url = "https://api.bittrex.com/v3/orders";
       $method = "POST";
+      if ($market == 0){
+        $content = '{
+          "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
+          "direction": "SELL",
+          "type": "LIMIT",
+          "quantity": "'.$quant.'",
+          "limit": "'.$rate.'",
+          "timeInForce": "IMMEDIATE_OR_CANCEL",
+          "useAwards": "'.$useAwards.'"
+        }';
+      }else{
+        $content = '{
+          "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
+          "direction": "SELL",
+          "type": "MARKET",
+          "quantity": "'.$quant.'",
+          "timeInForce": "IMMEDIATE_OR_CANCEL",
+          "useAwards": "'.$useAwards.'"
+        }';
+      }
 
-      $content = '{
-        "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
-        "direction": "SELL",
-        "type": "MARKET",
-        "quantity": "'.$quant.'",
-        "limit": "'.$rate.'",
-        "timeInForce": "IMMEDIATE_OR_CANCEL",
-        "useAwards": "'.$useAwards.'"
-      }';
       echo "<BR>".$content;
       $subaccountId = "";
       $contentHash = hash('sha512', $content);
@@ -4335,8 +4357,8 @@ function reRunBittrexSell($uuid, $transactionID,$apiKey,$apiSecret,$apiVersion,$
     Echo "<BR> Cancel Successful";
     $bitPrice = $liveCoinPriceBit;
     //$amount = ($sellPrice/$liveCoinPriceBit);
-    Echo "<BR> bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);";
-    $obj = bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE);
+    Echo "<BR> bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE, 1);";
+    $obj = bittrexsell($apiKey, $apiSecret, $coin ,round($amount,10), number_format($bitPrice,8), $baseCurrency, $apiVersion, FALSE, 1);
     $bittrexRef = $obj["id"];
     //Echo "<BR> API V3 Bittrex Ref: $bittrexRef | Direction : ".$obj["direction"];
     if ($bittrexRef <> ""){
@@ -4637,7 +4659,7 @@ function cancelReduceLoss($userID, $baseCurrency){
 function reSellAtCurrentPrice($apiKey,$apiSecret,$uuid,$apiVersion,$bitPrice,$btcBuyAmount,$baseCurrency,$coin){
   $cancelRslt = bittrexCancel($apiKey,$apiSecret,$uuid,$apiVersion);
   if ($cancelRslt['status'] == 'CLOSED'){
-      $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE);
+      $obj = bittrexbuy($apikey, $apisecret, $coin, $btcBuyAmount, $bitPrice, $baseCurrency,$apiVersion,FALSE,1);
       $newBittrexRef = $obj["id"];
         if ($obj['status'] == 'CLOSED'){
           //$conn = getSQLConn(rand(1,3));
