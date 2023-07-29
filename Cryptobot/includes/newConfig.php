@@ -2087,7 +2087,7 @@ function getMinTradeFromSQL($coinID,$baseCurrency){
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
   }*/
-  $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` $coinID";
+  $sql = "SELECT `MinTradeSize` FROM `Coin` WHERE `ID` = $coinID";
   $tempAry = mySQLSelect("getMinTradeFromSQL: ",$sql,3,1,1,0,"NewConfig",90);
   /*$result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
