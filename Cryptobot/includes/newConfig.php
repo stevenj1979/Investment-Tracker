@@ -1998,7 +1998,7 @@ function bittrexbuy($apikey, $apisecret, $symbol, $quant, $rate,$baseCurrency, $
       $content = '{
         "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
         "direction": "BUY",
-        "type": "LIMIT",
+        "type": "MARKET",
         "quantity": "'.$quant.'",
         "limit": "'.$rate.'",
         "timeInForce": "GOOD_TIL_CANCELLED",
@@ -3133,7 +3133,7 @@ function bittrexsell($apikey, $apisecret, $symbol, $quant, $rate, $baseCurrency,
       $content = '{
         "marketSymbol": "'.$symbol.'-'.$baseCurrency.'",
         "direction": "SELL",
-        "type": "LIMIT",
+        "type": "MARKET",
         "quantity": "'.$quant.'",
         "limit": "'.$rate.'",
         "timeInForce": "GOOD_TIL_CANCELLED",
