@@ -7638,6 +7638,7 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
     $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = case
                     when `DelayCoinSwapUntil` > now() THEN `DelayCoinSwapUntil` = DATE_ADD(`DelayCoinSwapUntil`, INTERVAL $delayMins MINUTE)
                     when `DelayCoinSwapUntil` <= now() THEN `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
+                     end
                     WHERE `ID` = $transactionID;";
   }else{
     //$sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency';";
@@ -7646,6 +7647,7 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
               SET `Tr`.`DelayCoinSwapUntil` = case
                               when `Tr`.`DelayCoinSwapUntil` > now() THEN `Tr`.`DelayCoinSwapUntil` = DATE_ADD(`Tr`.`DelayCoinSwapUntil`, INTERVAL $delayMins MINUTE)
                               when `Tr`.`DelayCoinSwapUntil` <= now() THEN `Tr`.`DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
+                               end
               Where `Cn`.`BaseCurrency` = '$baseCurrency' and `Tr`.`UserID` = $userID and `Tr`.`Status` = 'Open'";
   }
 
