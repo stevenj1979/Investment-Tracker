@@ -7635,12 +7635,17 @@ function delaySavingBuy($transactionID,$delayMins, $mode, $userID,$baseCurrency)
       die("Connection failed: " . $conn->connect_error);
   }*/
   if ($mode == 0){
-    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `ID` = $transactionID;";
+    $sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = case
+                    when `DelayCoinSwapUntil` > now() THEN `DelayCoinSwapUntil` = DATE_ADD(`DelayCoinSwapUntil`, INTERVAL $delayMins MINUTE)
+                    when `DelayCoinSwapUntil` <= now() THEN `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
+                    WHERE `ID` = $transactionID;";
   }else{
     //$sql = "UPDATE `Transaction` SET `DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE) WHERE `UserID` = $userID and `BaseCurrency` = '$baseCurrency';";
     $sql = "UPDATE  `Transaction` AS `Tr`
               INNER JOIN `Coin` AS `Cn` on `Cn`.`ID` = `Tr`.`CoinID`
-              SET `Tr`.`DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
+              SET `Tr`.`DelayCoinSwapUntil` = case
+                              when `Tr`.`DelayCoinSwapUntil` > now() THEN `Tr`.`DelayCoinSwapUntil` = DATE_ADD(`Tr`.`DelayCoinSwapUntil`, INTERVAL $delayMins MINUTE)
+                              when `Tr`.`DelayCoinSwapUntil` <= now() THEN `Tr`.`DelayCoinSwapUntil` = DATE_ADD(now(), INTERVAL $delayMins MINUTE)
               Where `Cn`.`BaseCurrency` = '$baseCurrency' and `Tr`.`UserID` = $userID and `Tr`.`Status` = 'Open'";
   }
 
