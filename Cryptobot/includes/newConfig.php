@@ -179,7 +179,7 @@ function pausePurchases($UserID){
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }*/
-    $sql = "UPDATE `User` SET `DisableUntil`= date_add(now(),Interval (select `MinsToPauseAfterPurchase` from `UserConfig` WHERE `ID` = $UserID) MINUTE) WHERE `ID` = $UserID";
+    $sql = "UPDATE `User` SET `DisableUntil`= date_add(now(),Interval (select `MinsToPauseAfterPurchase` from `UserConfig` WHERE `UserID` = $UserID) MINUTE) WHERE `ID` = $UserID";
     SQLInsertUpdateCall("pausePurchases: ",$sql,3, 1, 1, 0, "NewConfig", 90);
     /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
