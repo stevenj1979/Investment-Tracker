@@ -228,13 +228,12 @@ SELECT  `SavingETH` into total_saving FROM `UserCoinSavings` WHERE  `UserID` = U
 
 end if;
 
-SELECT `ID` into Coin_ID from `Coin` where `Symbol` like Base_Currency and `BuyCoin` = 1 limit 1;
+SELECT `ID` into Coin_ID from `Coin` where `Symbol` like Base_Currency and `BuyCoin` = 1 and `BaseCurrency` like 'USD%' limit 1;
 Select getBTCPrice(Coin_ID) into nMultiplier;
 SELECT ifnull(sum(`CoinPrice` * `Amount`*getBTCPrice(Coin_ID)),0) into total_holding FROM `Transaction` `Tr` join `Coin` `Cn` on `Cn`.`ID` = `Tr`.`CoinID` WHERE `Cn`.`BaseCurrency` = Base_Currency and `Tr`.`Status` in ('Open','Pending') and `UserID` = User_ID;
-
 SELECT `Total`*getBTCPrice(Coin_ID) into total_reserve FROM `BittrexBalances` WHERE `Symbol` = Base_Currency and `UserID` = User_ID;
 
- return total_holding + total_reserve - (total_saving*nMultiplier);
+return total_holding + total_reserve - (total_saving*nMultiplier);
 
 END$$
 DELIMITER ;
