@@ -19,7 +19,7 @@ if(isset($_POST['submit'])){
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if(empty($row['email'])){
-			$error[] = 'Email provided is not recognised.';
+			$error[] = 'Email provided is not recognised.'.$row['email'];
 		}
 
 	}
