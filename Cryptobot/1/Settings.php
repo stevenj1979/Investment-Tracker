@@ -119,7 +119,7 @@ function getUserIDs($userID){
   ,`AutoMergeSavings`,`USDTAlloc`,`BTCAlloc`,`ETHAlloc`,`PctOnLow`,`LowMarketModeStartPct`,`LowMarketModeIncrements`,`SaveMode`,`PctToSave`,`SellPct`,`OriginalPriceMultiplier`,`ReduceLossMaxCounter`
   , `PauseCoinIDAfterPurchaseEnabled`, `DaysToPauseCoinIDAfterPurchase`,`BuyBackHoursFlatTarget`,`HoursFlatRls`,`HoldCoinForBuyOut`,`CoinForBuyOutPct`,`SavingPctOfTotalEnabled`,`SavingPctOfTotal`
   ,`PctOfAuto`,`BuyBackHoursFlatAutoEnabled`,`PctOfAutoBuyBack`,`PctOfAutoReduceLoss`,`ReduceLossMinsToCancel`,`BuyBackMinsToCancel`,`BuyBackMax`,`BuyBackAutoPct`, `SpreadBetSellIndEnabled`, `SpreadBetPctToSellInd`
-  ,`EmergencyRLBuyEnabled`, `EmergencyRLBuyPct`,`EmergencyRLBuyMultiplier`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`
+  ,`EmergencyRLBuyEnabled`, `EmergencyRLBuyPct`,`EmergencyRLBuyMultiplier`,`RLDelayNextBuyHours`,`RLDelayAllOtherBuyMins`,`Password`
   FROM `View4_BittrexBuySell` WHERE `IDUs` = $userID";
 	//echo $sql;
   $result = $conn->query($sql);
@@ -135,7 +135,7 @@ function getUserIDs($userID){
       ,$row['BuyBackHoursFlatTarget'],$row['HoursFlatRls'],$row['HoldCoinForBuyOut'],$row['CoinForBuyOutPct'],$row['SavingPctOfTotalEnabled'],$row['SavingPctOfTotal'],$row['PctOfAuto'] //52
       ,$row['BuyBackHoursFlatAutoEnabled'],$row['PctOfAutoBuyBack'],$row['PctOfAutoReduceLoss'],$row['ReduceLossMinsToCancel'],$row['BuyBackMinsToCancel'],$row['BuyBackMax'],$row['BuyBackAutoPct']//59
       ,$row['SpreadBetSellIndEnabled'],$row['SpreadBetPctToSellInd'],$row['EmergencyRLBuyEnabled'],$row['EmergencyRLBuyPct'],$row['EmergencyRLBuyMultiplier'],$row['RLDelayNextBuyHours']//65
-      ,$row['RLDelayAllOtherBuyMins']); //66
+      ,$row['RLDelayAllOtherBuyMins'],$row['Password']); //67
   }
   $conn->close();
   return $tempAry;
@@ -332,6 +332,7 @@ $userDetails = getUserIDs($_SESSION['ID']);
                   displaySubSectionStart("Main");
                     displayText("newusername", "UserName: ",$userDetails[0][2],1,"");
                     displayText("email", "Email: ",$userDetails[0][10],2,"");
+                    displayText("password", "Password: ",$userDetails[0][67],2,"");
                     displayText("API_Key", "API Key: ",$userDetails[0][4],3,"Bittrex API Key");
                     displayText("API_Secret", "API Secret: ",$apisecret,4,"Bittrex Secret API Key");
                     displayText("BTCBuyAmount", "BTC Buy Amount: ",$userDetails[0][11],5,"Amount in BTC for each buy");
