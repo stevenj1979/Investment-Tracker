@@ -96,7 +96,7 @@ function getCurrentMonthMinMax(){
   	join `MonthlyMinPrices` `Cmmp` on `Cmmp`.`CoinID` = `Cmhp`.`CoinID` and `Cmmp`.`Month` = `Cmhp`.`Month` and `Cmmp`.`Year` = `Cmhp`.`Year`
     where `Cmhp`.`MaxPrice` <> 0 and `Cmmp`.`MinPrice` <> 0
     and `Cmhp`.`Month` = month(now()) ";
-  $tempAry = mySQLSelect("getCurrentMonthMinMax: ",$sql,3,1,1,1,"CoinHourly",90);
+  $tempAry = mySQLSelect("getCurrentMonthMinMax: ",$sql,3,1,1,0,"CoinHourly",90);
   /*echo "<BR>".$sql;
   $result = $conn->query($sql);
   if($result){
