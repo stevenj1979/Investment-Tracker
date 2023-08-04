@@ -46,7 +46,7 @@ function getUserID(){
 
 function checkMarketforPctDip(){
   //$userIDs = getUserID();
-  //$userIDsSize = count($userIDs);
+  //$userIDsSize = newCount($userIDs);
   $marketStats = getNewMarketstats();
   $marketStatsSize = count($marketStats);
   echo "<BR> checkMarketforPctDip : $marketStatsSize";

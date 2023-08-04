@@ -105,7 +105,7 @@ function getCMCstats($CMCStats, $coinStr){
 function findCoinStats($CMCStats, $symbol){
   echo "<BR> FIND: $symbol";
   $tempStats = [];
-  $statsLength = count($CMCStats);
+  $statsLength = newCount($CMCStats);
   for($y = 0; $y < $statsLength; $y++) {
     //echo "<br> FindCoin=".$CMCStats[$y][0];
     if ($CMCStats[$y][0]== $symbol){
@@ -148,7 +148,7 @@ $date = date("Y-m-d H:i", time());$current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime($tmpTime, strtotime($current_date)));
 $CMCStats = [];
 $coins = getSymbols();
-$coinCount = count($coins);
+$coinCount = newCount($coins);
 $coinStr = getCoinList(getStats(),3);
 Echo "<BR> Symbols Count:$coinCount ";
 for ($i=0; $i<$coinCount; $i++){

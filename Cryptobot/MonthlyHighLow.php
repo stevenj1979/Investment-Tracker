@@ -177,7 +177,7 @@ function getMinPriceChangeFromHistory(){
 }
 
 $maxPrices = getLastMonthCoinPrice();
-$maxPricesSize = Count($maxPrices);
+$maxPricesSize = newCount($maxPrices);
 
 for ($i=0; $i<$maxPricesSize; $i++){
   writePrice($maxPrices[$i][0],$maxPrices[$i][1],$maxPrices[$i][2],$maxPrices[$i][3],$maxPrices[$i][4]);
@@ -186,7 +186,7 @@ for ($i=0; $i<$maxPricesSize; $i++){
 // GET Min 1Hr / 24 hr and 7 day pct from History - Write to Live
 
 $pctData = getPctChangeFromHistory();
-$pctDataSize = count($pctData);
+$pctDataSize = newCount($pctData);
 for ($i=0;$i<$pctDataSize; $i++){
   $coinID = $pctData[$i][0]; $hr1Price = $pctData[$i][1]; $hr24Price = $pctData[$i][2]; $d7Price = $pctData[$i][3];
   $month = $pctData[$i][4]; $year = $pctData[$i][5];
@@ -195,7 +195,7 @@ for ($i=0;$i<$pctDataSize; $i++){
 }
 
 $pctAvgData = getAvgPctChangeFromHistory();
-$pctAvgDataSize = count($pctAvgData);
+$pctAvgDataSize = newCount($pctAvgData);
 for ($i=0;$i<$pctAvgDataSize; $i++){
   $coinID = $pctAvgData[$i][0]; $hr1Price = $pctAvgData[$i][1]; $hr24Price = $pctAvgData[$i][2]; $d7Price = $pctAvgData[$i][3];
   $month = $pctAvgData[$i][4]; $year = $pctAvgData[$i][5];
@@ -204,7 +204,7 @@ for ($i=0;$i<$pctAvgDataSize; $i++){
 }
 
 $minPriceData = getMinPriceChangeFromHistory();
-$minPriceDataSize = count($minPriceData);
+$minPriceDataSize = newCount($minPriceData);
 for ($i=0;$i<$minPriceDataSize; $i++){
   $coinID = $minPriceData[$i][0]; $hr1Price = $minPriceData[$i][1]; $hr24Price = $minPriceData[$i][2]; $d7Price = $minPriceData[$i][3];
   $month = $minPriceData[$i][4]; $year = $minPriceData[$i][5];

@@ -383,7 +383,7 @@ function getSpreadBetTargetSellPct($spreadBetRuleID){
 
 function renewSpreadBetTransactionID(){
   $SBTrans = getSpreadBetSellData();
-  $SBTransSize = count($SBTrans);
+  $SBTransSize = newCount($SBTrans);
   for ($c=0; $c<$SBTransSize; $c++){
     $sBTransID = $SBTrans[$c][0]; $sBRuleID = $SBTrans[$c][56]; $userID = $SBTrans[$c][2]; $profit = $SBTrans[$c][58]; //$sellTargetPct = $SBTrans[$c][55];
     //$SBOpenTotalProfit = getSpreadBetTotalProfit($sBTransID);
@@ -481,7 +481,7 @@ function clearDynamicRules(){
 
 function dynamicSpreadBetRules(){
   $coinIDs = getCoinIDs();
-  $coinIDsize = count($coinIDs);
+  $coinIDsize = newCount($coinIDs);
 
   if ($coinIDsize >= 3){
     clearDynamicRules();
@@ -493,7 +493,7 @@ function dynamicSpreadBetRules(){
 }
 
 $spreadBet = getSpreadBetAll();
-$spreadBetSize = count($spreadBet);
+$spreadBetSize = newCount($spreadBet);
 
 for ($i=0;$i<$spreadBetSize;$i++){
   $SBRuleID = $spreadBet[$i][0]; $userID = $spreadBet[$i][37]; $pctOfAllTimeHigh = $spreadBet[$i][35]; $pctofSixMonthHigh = $spreadBet[$i][34];

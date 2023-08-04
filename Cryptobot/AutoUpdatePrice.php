@@ -250,7 +250,7 @@ function write1HrTopandBottom($coinID, $top, $bottom){
 
 function run1HrTopandBottom(){
   $coin = getCoinIDs();
-  $coinSize = count($coin);
+  $coinSize = newCount($coin);
   for ($g=0; $g<$coinSize; $g++){
     $coinID = $coin[$g][0];
     $prices = get1HrTopandBottom($coinID);
@@ -264,7 +264,7 @@ setTimeZone();
 $date = date("Y-m-d H", time());
 // ***  UPDATE Buy price : for Autobuy
 $coinStatsAry = getCoinPriceStats();
-$coinStatsSize = count($coinStatsAry);
+$coinStatsSize = newCount($coinStatsAry);
 
 for($x = 0; $x < $coinStatsSize; $x++) {
   $newBuyPrice = $coinStatsAry[$x][0]; $coinID = $coinStatsAry[$x][1];
@@ -276,7 +276,7 @@ for($x = 0; $x < $coinStatsSize; $x++) {
 }
 // ***  UPDATE Sell price : for Autosell
 $coinStatsSellAry = getCoinPriceStatsSell();
-$coinStatsSellSize = count($coinStatsSellAry);
+$coinStatsSellSize = newCount($coinStatsSellAry);
 for($x = 0; $x < $coinStatsSellSize; $x++) {
   $newSellPrice = $coinStatsSellAry[$x][0]; $coinID = $coinStatsSellAry[$x][1];
   $sellPricePct = ($newSellPrice/100)*3;
@@ -286,7 +286,7 @@ for($x = 0; $x < $coinStatsSellSize; $x++) {
 }
 // ***  UPDATE Coin Trend
 $coinTrend = getCoinTrend();
-$coinTrendSize = Count($coinTrend);
+$coinTrendSize = newCount($coinTrend);
 Echo "<BR> coinTrendSize: $coinTrendSize";
 for($x = 0; $x < $coinTrendSize; $x++) {
   $coinID = $coinTrend[$x][0]; $priceTrend = $coinTrend[$x][6]; $hr1Trend = $coinTrend[$x][11];
@@ -299,7 +299,7 @@ for($x = 0; $x < $coinTrendSize; $x++) {
 echo "<BR> Generate sparkline Images";
 //$sparklineAry = [];
 $trackingCoins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-$coinSize = Count($trackingCoins);
+$coinSize = newCount($trackingCoins);
 
 for ($j=0; $j<$coinSize; $j++){
   Echo "<BR> Fetching ".$trackingCoins[$j][1];

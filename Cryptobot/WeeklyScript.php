@@ -93,7 +93,7 @@ function resetSpreadBetSettings(){
 
 function spreadBetSettingsUpdate(){
   $spreadBet = getSpreadBetSettings();
-  $spreadBetSize = count($spreadBet);
+  $spreadBetSize = newCount($spreadBet);
   $resetFlag = False;
   for ($i=0;$i<$spreadBetSize; $i++){
     $ID = $spreadBet[$i][0]; $spreadBetRuleID  = $spreadBet[$i][1]; $nextReviewDate = $spreadBet[$i][5]; $pctProfitSell = $spreadBet[$i][6]; $noOfTrans = $spreadBet[$i][7];
@@ -172,7 +172,7 @@ function closeOpenBuyBack($id,$userID){
 
 function clearBuyBack($mins){
   $buyBackAry = getOpenBuyBackData();
-  $buyBackArySize = count($buyBackAry);
+  $buyBackArySize = newCount($buyBackAry);
   for ($b=0; $b<$buyBackArySize; $b++){
     $bBID =$buyBackAry[$b][0]; $minsFromAdd = $buyBackAry[$b][1]; $userID = $buyBackAry[$b][2]; $bbPct = $buyBackAry[$b][3];
     if (($minsFromAdd >= $mins) OR ($bbPct >= 50)){
@@ -184,9 +184,9 @@ function clearBuyBack($mins){
 
 function setBuySellPriceforProfit(){
   $coinIDs = getCoinIDRuleID();
-  $coinIDsSize = count($coinIDs);
+  $coinIDsSize = newCount($coinIDs);
   $userIDs = getUserID();
-  $userIDsSize = count($userIDs);
+  $userIDsSize = newCount($userIDs);
   for ($e=0; $e<$coinIDsSize; $e++){
     $CoinID = $coinIDs[$e][1]; $sellRuleID = $coinIDs[$e][0];
     for ($w=0; $w<$userIDsSize; $w++){
@@ -335,12 +335,12 @@ function setBuyAmountPctOfTotal($totalAmount,$baseCurrency,$type, $userID){
 
 function runBuyAmountPctOfTotal(){
   $BRIDs = getBuyRuleID();
-  $BRIDsSize = count($BRIDs);
+  $BRIDsSize = newCount($BRIDs);
 
   for ($x=0;$x<$BRIDsSize; $x++){
     $baseCurrency = $BRIDs[$x][0]; $userID = $BRIDs[$x][1];
     $IDData = getBuyAmountPctOfTotal(1,$baseCurrency,$userID);
-    $IDDataSize = count($IDData);
+    $IDDataSize = newCount($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
       $totalAmount = $IDData[$p][0];
@@ -354,11 +354,11 @@ function runBuyAmountPctOfTotal(){
     }
   }
   $BRIDs = getBuyRuleID();
-  $BRIDsSize = count($BRIDs);
+  $BRIDsSize = newCount($BRIDs);
   for ($i=0;$i<$BRIDsSize; $i++){
     $baseCurrency = $BRIDs[$i][0];$userID = $BRIDs[$i][1];
     $IDData = getBuyAmountPctOfTotal(2,$baseCurrency,$userID);
-    $IDDataSize = count($IDData);
+    $IDDataSize = newCount($IDData);
     for ($p=0; $p<$IDDataSize; $p++){
       //$BuyRuleID = $IDData[$p][0];
       $totalAmount = $IDData[$p][0];
@@ -419,7 +419,7 @@ function setSavingPctOfTotal($UserID,$pct){
 function runSavingPctOfTotal(){
 
   $IDData = getSavingPctOfTotal();
-  $IDDataSize = count($IDData);
+  $IDDataSize = newCount($IDData);
   for ($o=0; $o<$IDDataSize; $o++){
     $UserID = $IDData[$o][0];
     //$totalAmount = $IDData[$o][1];
@@ -471,7 +471,7 @@ Function updateCoinAutoActions($type, $coinID, $pct, $hoursSincePurchase){
 }
 
 Function runCoinAutoActions($coinTrackingActions,$type){
-  $coinTrackingActionsSize = count($coinTrackingActions);
+  $coinTrackingActionsSize = newCount($coinTrackingActions);
   for ($o = 0; $o<$coinTrackingActionsSize; $o++){
     $coinID = $coinTrackingActions[$o][0]; $pct = $coinTrackingActions[$o][1]; $hours = $coinTrackingActions[$o][2];
     updateCoinAutoActions($type,$coinID,$pct,$hours);

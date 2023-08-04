@@ -121,7 +121,7 @@ function tempDisableUsers($mins){
 function emailUsersDisable($userConfig, $action, $disableUntil){
   $from = 'Coin Alert <alert@investment-tracker.net>';
   $subject = 'Account '.$action;
-  $configSize = count($userConfig);
+  $configSize = newCount($userConfig);
   for($y = 0; $y < $configSize; $y++) {
     $user = $userConfig[$y][3]; $to = $userConfig[$y][2];
     $body = "Dear ".$user.", <BR/>";
@@ -140,7 +140,7 @@ function emailUsersDisable($userConfig, $action, $disableUntil){
 function emailUsersReenable($userConfig, $action, $disableUntil){
   $from = 'Coin Alert <alert@investment-tracker.net>';
   $subject = 'Account '.$action;
-  $configSize = count($userConfig);
+  $configSize = newCount($userConfig);
   for($y = 0; $y < $configSize; $y++) {
     $user = $userConfig[$y][3]; $to = $userConfig[$y][2];
     $body = "Dear ".$user.", <BR/>";
@@ -231,7 +231,7 @@ function ConsolidatePriceHostory(){
 
 function update1Hr_24Hr_7DPct(){
   $coins = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-  $coinsSize = count($coins);
+  $coinsSize = newCount($coins);
   for ($u=0; $u<$coinsSize;$u++){
     $coinID = $coins[$u][0]; $bitPrice = $coins[$u][17]; $baseCurrency = $coins[$u][26]; $newhr1_Pct = $coins[$u][10]; $newhr24_Pct = $coins[$u][13];
     $newd7_Pct = $coins[$u][16];
@@ -355,7 +355,7 @@ function getHistoryStats(){
 
 function BearBullStats(){
   $livePriceChange = getBearBullStats();
-  $livePriceChangeSize = count($livePriceChange);
+  $livePriceChangeSize = newCount($livePriceChange);
   for ($m=0;$m<$livePriceChangeSize;$m++){
       $price =  $livePriceChange[$m][0] - $livePriceChange[$m][1];
       $pricePct = ($price/$livePriceChange[$m][1])*100;
@@ -363,7 +363,7 @@ function BearBullStats(){
       addBearBullStatsToSQL($pricePct,$coinID);
   }
   $marketStats = getMarketChange();
-  $marketStatsSize = count($marketStats);
+  $marketStatsSize = newCount($marketStats);
   for ($p=0;$p<$marketStatsSize;$p++){
     $price = $marketStats[$p][0] - $marketStats[$p][1];
     $pricePct = ($price/$marketStats[$p][1])*100;
@@ -371,9 +371,9 @@ function BearBullStats(){
     addMarketBearBullStatsToSQL($pricePct);
   }
   $historyStats = getHistoryStats();
-  $historyStatsSize = count($historyStats);
+  $historyStatsSize = newCount($historyStats);
   $livePriceAry = getBearBullStats();
-  $livePriceArySize = count($livePriceAry);
+  $livePriceArySize = newCount($livePriceAry);
   for ($l=0;$l<$historyStatsSize;$l++){
       $coinID = $historyStats[$l][1]; $hr1Price = $historyStats[$l][2];$hr24Price = $historyStats[$l][3]; $d7Price = $historyStats[$l][4];
       $min15Price = $historyStats[$l][5]; $min30Price = $historyStats[$l][6]; $min45Price = $historyStats[$l][7]; $min75Price = $historyStats[$l][8];
@@ -506,13 +506,13 @@ function runHoursforCoinPriceDip(){
   $lowFlag = True;$highFlag = True;$flatFlag = True;
   //get ID's
   $coinIDAry = getHoursforCoinPriceDip("WHERE `BuyCoin` = 1 ");
-  $coinIDArySize = count($coinIDAry);
+  $coinIDArySize = newCount($coinIDAry);
   echo "<BR>***** runHoursforCoinPriceDip ***** CoinIDSize: $coinIDArySize";
   for ($u=0;$u<$coinIDArySize; $u++){
     $coinID = $coinIDAry[$u][0]; $liveCoinPrice = $coinIDAry[$u][1]; $userID = $coinIDAry[$u][2]; $priceDipTolerance = $coinIDAry[$u][3];
     //getPrice
     $coinPriceAry = getPriceDipCoinPrices($coinID);
-    $coinPriceArySize = count($coinPriceAry);
+    $coinPriceArySize = newCount($coinPriceAry);
     $priceWithToleranceBtm = $liveCoinPrice-(($liveCoinPrice/100)*$priceDipTolerance);
     $priceWithToleranceTop = $liveCoinPrice+(($liveCoinPrice/100)*$priceDipTolerance);
     echo "<BR> CHECKING : $coinID | $coinPriceArySize | $liveCoinPrice | $priceWithToleranceTop | $priceWithToleranceBtm";
@@ -604,7 +604,7 @@ function getCalculatedPrices(){
 
 function runCalculatedPrices(){
   $calcPrice = getCalculatedPrices();
-  $calcPriceSize = count($calcPrice);
+  $calcPriceSize = newCount($calcPrice);
   for ($w=0;$w<$calcPriceSize;$w++){
     $hr1Price = $calcPrice[$w][5];$hr24Price = $calcPrice[$w][6];$d7Price = $calcPrice[$w][7]; $coinID = $calcPrice[$w][0];
     writeCalculatedPrices($hr1Price,$hr24Price, $d7Price, $coinID);
@@ -619,7 +619,7 @@ $current_date = date('Y-m-d H:i');
 $newTime = date("Y-m-d H:i",strtotime("+6 hours", strtotime( date('Y-m-d H:i'))));
 $i = 0;
 $coins = get1HrChangeAll();
-$coinLength = Count($coins);
+$coinLength = newCount($coins);
 
 
 echo "NEW LOOP ";

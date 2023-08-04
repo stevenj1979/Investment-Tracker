@@ -63,7 +63,7 @@ function writeSQLTime($name, $minsToRun){
 }
 
 function getTimer($timerAry, $name, $start_date){
-  $timerArySize = count($timerAry);
+  $timerArySize = newCount($timerAry);
   //echo "<BR> ArraySize: $timerArySize";
   for($e=0;$e<$timerArySize;$e++){
     //echo"<BR>Name: $name | ".$timerAry[$e][1];

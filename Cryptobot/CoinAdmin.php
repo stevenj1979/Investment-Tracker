@@ -225,10 +225,10 @@ function checkSellSequence(){
   //get sell sequesnce info
   //get all open trans
   $trans = getTransData();
-  $transcount = count($trans);
+  $transcount = newCount($trans);
   $nFlag = False;
   $sequence = getSequenceData();
-  $sequenceCount = count($sequence);
+  $sequenceCount = newCount($sequence);
   for($x = 0; $x < $transcount; $x++) {
     if ($trans[$x][4] == 0){  //check if the buy Tran Mod 7 days = 0;
       $userID = $trans[$x][1]; $fixSellRule = $trans[$x][3]; $transactionID = $trans[$x][0];
@@ -253,7 +253,7 @@ function checkSellSequence(){
 $subject = "Subscription Expiring!"; $from = "CryptoBot <subscription@investment-tracker.net>";
 //Get UserID + API Keys
 $conf = getUserConfig();
-$confSize = count($conf);
+$confSize = newCount($conf);
 for($x = 0; $x < $confSize; $x++) {
   $daysRemaining = $conf[$x][3]; $active = $conf[$x][6]; $userID = $conf[$x][0]; $email = $conf[$x][4]; $userName = $conf[$x][5];
   //$bittrexBalBTC = bittrexbalance($conf[$x][1], $conf[$x][2], 'BTC' );
@@ -467,7 +467,7 @@ function updateSpreadPct($coinID,$spreadBetRuleID, $mode){
 
 function updateCoinModeBuyPct(){
   $coinModeAry = getCoinModeData();
-  $coinModeArySize = count($coinModeAry);
+  $coinModeArySize = newCount($coinModeAry);
   for ($t=0; $t<$coinModeArySize; $t++){
     $coinID = $coinModeAry[$t][0];$buyRuleID = $coinModeAry[$t][1];
     updateCoinPct($coinID, $buyRuleID, 'CoinMode');
@@ -477,7 +477,7 @@ function updateCoinModeBuyPct(){
 
 function updateSpreadBetBuyPct(){
   $SpreadBetAry = getSpreadBetDataLoc();
-  $SpreadBetArySize = count($SpreadBetAry);
+  $SpreadBetArySize = newCount($SpreadBetAry);
   for ($t=0; $t<$SpreadBetArySize; $t++){
     $spreadBetRuleID = $SpreadBetAry[$t][0];
     updateSpreadPct(0, $spreadBetRuleID, 'SpreadBet');
@@ -547,7 +547,7 @@ return $tempAry;
 
 function RunSellTrendUpdate(){
   $soldCoins = getSoldfromSQL();
-  $soldCoinsSize = count($soldCoins);
+  $soldCoinsSize = newCount($soldCoins);
 
   for ($e=0; $e<$soldCoinsSize; $e++){
     $date = $soldCoins[$e][4];
@@ -640,7 +640,7 @@ function updateBuyBackOvernight($bbID,$bbPct){
 
 function overNightBuyBackReduction(){
   $buyBackAry = getNewBuyBackData();
-  $buyBackArySize = count($buyBackAry);
+  $buyBackArySize = newCount($buyBackAry);
   for ($e=0; $e<$buyBackArySize;$e++){
     $bbID = $buyBackAry[$e][0]; $transID = $buyBackAry[$e][1]; $bbPct = $buyBackAry[$e][2]; $sellPrice = $buyBackAry[$e][3]; $livePrice = $buyBackAry[$e][4];
     updateBuyBackOvernight($bbID,$bbPct);
@@ -720,7 +720,7 @@ return $tempAry;
 
 function runAddPriceDipCoins(){
   $priceDipCoins = getPriceDipCoins();
-  $priceDipCoinsSize = count($priceDipCoins);
+  $priceDipCoinsSize = newCount($priceDipCoins);
   for ($j=0; $j<$priceDipCoinsSize; $j++){
     $userID = $priceDipCoins[$j][0]; $coinID = $priceDipCoins[$j][1];
     addPriceDipCoins($userID,$coinID);
@@ -782,18 +782,18 @@ getMinTradeAmount($apikey,$apisecret);
 
 
 $minMaxPrice = getCurrentMonthMinMax();
-$minMaxPriceSize = count($minMaxPrice);
+$minMaxPriceSize = newCount($minMaxPrice);
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
 }
 
 $secondarySellRulesAry = getSecondaryRules();
-$secondarySellRulesSize = count($secondarySellRulesAry);
+$secondarySellRulesSize = newCount($secondarySellRulesAry);
 
 for ($j=0; $j<$secondarySellRulesSize; $j++){
   $smallerAry = explode(',',$secondarySellRulesAry[$j][0]);
-  $smallerArySize = count($smallerAry);
+  $smallerArySize = newCount($smallerAry);
   for ($k=0; $k<$smallerArySize; $k++){
     if ($smallerAry[$k] <> ""){
       checkRuleIsOpen($smallerAry[$k]);
@@ -802,7 +802,7 @@ for ($j=0; $j<$secondarySellRulesSize; $j++){
 }
 
 $orphanRules = getSellRules();
-$orphanRulesSize = count($orphanRules);
+$orphanRulesSize = newCount($orphanRules);
 
 for ($k=0; $k<$orphanRulesSize; $k++){
     clearOrphanedRules($orphanRules[$k][0],$orphanRules[$k][1],$orphanRules[$k][2]);
@@ -811,14 +811,14 @@ for ($k=0; $k<$orphanRulesSize; $k++){
 
 
 $coinHigh = getCoinHigh();
-$coinHighSize = count($coinHigh);
+$coinHighSize = newCount($coinHigh);
 for ($q=0; $q<$coinHighSize; $q++){
     $coinID = $coinHigh[$q][0]; $price = $coinHigh[$q][1];
     writeHigh($coinID,$price);
 }
 
 $coinLow = getCoinLow();
-$coinLowSize = count($coinLow);
+$coinLowSize = newCount($coinLow);
 for ($w=0; $w<$coinLowSize; $w++){
   $coinID = $coinLow[$w][0]; $price = $coinLow[$w][1];
   writeLow($coinID,$price);

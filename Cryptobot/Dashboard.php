@@ -268,7 +268,7 @@ function updateMergeSaving(){
 }
 
 function mergeCoins($sellTrackingCoins, $nStatus){
-  $sellTrackingCoinsSize = Count($sellTrackingCoins);
+  $sellTrackingCoinsSize = newCount($sellTrackingCoins);
   $z = 0;$toMergeAry = []; $finalMergeAry = [];
   echo "<BR> Tracking Coins to Merge. Count: $sellTrackingCoinsSize";
   for($x = 0; $x < $sellTrackingCoinsSize; $x++) {
@@ -284,7 +284,7 @@ function mergeCoins($sellTrackingCoins, $nStatus){
     }
   }
   echo "<BR>".var_dump($finalMergeAry)."<BR>";
-  $finalMergeArySize = Count($finalMergeAry);
+  $finalMergeArySize = newCount($finalMergeAry);
   echo "<BR> Tracking Coins to FinalMerge. Count: $finalMergeArySize";
   for($x = 0; $x < $finalMergeArySize; $x++) {
     $userID = $finalMergeAry[$x][0]; $coinID = $finalMergeAry[$x][1]; $symbol = $finalMergeAry[$x][2]; $transactionID = $finalMergeAry[$x][3];
@@ -313,7 +313,7 @@ $btcPrice = 0.00; $ethPrice = 0.00; $usdtPrice = 0.00;
 //$ethPrice = getLiveCoinPriceUSD('ETH');
 //$usdtPrice= getLiveCoinPriceUSD('USDT');
 Echo "<BR> BTC Price: $btcPrice : ETH Price :  $ethPrice : USDT Price : $usdtPrice ";
-$confSize = count($conf);
+$confSize = newCount($conf);
 for($x = 0; $x < $confSize; $x++) {
   $userID = $conf[$x][0];
   $apikey = $conf[$x][1]; $apisecret = $conf[$x][2]; $Kek = $conf[$x][7];

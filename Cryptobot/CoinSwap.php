@@ -74,7 +74,7 @@ function isBuyComplete($buyAry,$num){
 
 function runCoinSwaps(){
   $coinSwaps = getOpenCoinSwaps();
-  $coinSwapsSize = count($coinSwaps);
+  $coinSwapsSize = newCount($coinSwaps);
   $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1];
@@ -89,7 +89,7 @@ function runCoinSwaps(){
         $bitPrice = number_format($coinSwaps[$y][4],8); $baseCurrency = $coinSwaps[$y][5]; $totalAmount = $coinSwaps[$y][6];
         $btcBuyAmount =  number_format($totalAmount/$bitPrice,10); $transID = $coinSwaps[$y][0];
         $newCoinSwap = getNewSwapCoin($baseCurrency);
-        $coinSwapSize = count($newCoinSwap);
+        $coinSwapSize = newCount($newCoinSwap);
         if ($coinSwapSize > 0){
           $coin = $newCoinSwap[0][0]; $liveCoinPrice = $newCoinSwap[0][2];
           $symbol = $newCoinSwap[0][5]; //$totalAmount = $newCoinSwap[0][6];

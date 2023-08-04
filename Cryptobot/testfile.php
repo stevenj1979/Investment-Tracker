@@ -35,7 +35,7 @@ function timerReady($start, $seconds){
 }
 
 function findCoinStats($CMCStats, $symbol){
-  $statsLength = count($CMCStats);
+  $statsLength = newCount($CMCStats);
   for($y = 0; $y < $statsLength; $y++) {
     echo "<br> FindCoin=".$CMCStats[$y][0];
     if ($CMCStats[$y][0]== $symbol){
@@ -72,7 +72,7 @@ function SQLCommand(){
 
 function getOutStandingBuy($tmpAry){
   $tmpStr = "";
-  $tmpAryCount = count($tmpAry);
+  $tmpAryCount = newCount($tmpAry);
   for ($i=0; $i<$tmpAryCount; $i++){
     if ($tmpAry[$i][0] <> 1){ $tmpStr .= $tmpAry[$i][1].":".$tmpAry[$i][2].",";}
   }
@@ -183,7 +183,7 @@ function getSymbols(){
 }
 
 function getArrayPrice($coinAry, $symbol, $baseCurrency){
-  $coinArySize = count($coinAry);
+  $coinArySize = newCount($coinAry);
   echo "<BR> Size : $coinArySize";
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
@@ -287,7 +287,7 @@ function test(){
 function findCoinStatsLoc($CMCStats, $symbol){
   echo "<BR> FIND: $symbol";
   $tempStats = [];
-  $statsLength = count($CMCStats);
+  $statsLength = newCount($CMCStats);
   for($y = 0; $y < $statsLength; $y++) {
     //echo "<br> FindCoin=".$CMCStats[$y][0];
     if ($CMCStats[$y][0]== $symbol){
@@ -302,7 +302,7 @@ function findCoinStatsLoc($CMCStats, $symbol){
 bittrexOpenOrders($apikey,$apisecret,3);
 
 $bal = bittrexAllBalances($apikey, $apisecret, 3);
-$balSize = count($bal);
+$balSize = newCount($bal);
 
 for ($t=0;$t<$balSize; $t++){
   $symbol = $bal[$t]['currencySymbol']; $total = $bal[$t]['total'];
@@ -335,7 +335,7 @@ var_dump($data);
 foreach ($data as $row) {
     echo "<BR> BittrexRef: ".$row['BittrexID'];
 }
-//$datasize = count($data);
+//$datasize = newCount($data);
 //Echo "<BR> Count: $datasize <BR>";
 
 //for ($y=0; $y<$datasize;$y++){
