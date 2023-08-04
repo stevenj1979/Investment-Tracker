@@ -72,7 +72,7 @@ function checkMarketforPctDip(){
           echo "<BR> Enabing LowMarketMode for: $userID Mode: $mode 24H: $marketPctChangeHr24 Inc:$lowMarketModeIncrements avg:$avgPctChange";
           //if ($mode <= 0){ $mode = -1;}
           runLowMarketMode($userID,$mode);
-          LogToSQL("LowMarketMode","runLowMarketMode($userID,1); $marketPctChangeHr1 : $marketPctChangeHr24 : $avgPctChange",$userID,1);
+          LogToSQL("LowMarketMode","runLowMarketMode($userID,$mode); $marketPctChangeHr1 : $marketPctChangeHr24 : $avgPctChange",$userID,1);
         //}
 
     //}elseif ($marketPctChangeHr24 <= -10.0 and $marketPctChangeHr1 > 0){
@@ -87,7 +87,7 @@ function checkMarketforPctDip(){
       //  $userID = $userIDs[$t][0];
         echo "<BR> Enabing LowMarketMode for: $userID Mode: 0";
         runLowMarketMode($userID,0);
-        LogToSQL("LowMarketMode","runLowMarketMode($userID,-1); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
+        LogToSQL("LowMarketMode","runLowMarketMode($userID,0); $marketPctChangeHr1 : $marketPctChangeHr24",$userID,1);
       //}
     }
     WriteWebMarketStats($marketPctChangeHr1,$marketPctChangeHr24,$marketPctChangeD7);
