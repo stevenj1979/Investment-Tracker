@@ -117,7 +117,7 @@ function getUsers(){
   $conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
-  $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`Email`,`ExpiryDate`,`DisableUntil` FROM `UserConfigView`";
+  $sql = "SELECT `IDUs` as `ID`,`AccountType`,`UserName`,`Active`,`Email`,`ExpiryDate`,`DisableUntil` FROM `View12_UserConfig`";
   $result = $conn->query($sql);
   //print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
