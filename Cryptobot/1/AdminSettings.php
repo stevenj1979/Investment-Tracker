@@ -197,7 +197,12 @@ function endUserTbl(){
 }
 
 $userSub = getSubscription();
-$userSubSize = count($userSub);
+if (isset($userSub)){
+    $userSubSize = count($userSub);
+}else{
+  $userSubSize = 0;
+}
+
 //$userSettings = getConfig($_SESSION['ID']);
 
 //echo $userDetails[0][1];
