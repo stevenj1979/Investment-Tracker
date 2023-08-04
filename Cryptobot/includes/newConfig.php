@@ -8959,4 +8959,12 @@ function echoText($text, $enabled){
     echo "<BR> $text";
   }
 }
+
+function newCount($data){
+  $retData = 0;
+  if (isset($data)){
+    $retData = count($data);
+  }
+  return $retData;
+}
 ?>

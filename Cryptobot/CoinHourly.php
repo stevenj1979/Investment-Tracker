@@ -164,7 +164,8 @@ function UpdateHolding($userID,$baseCurrency){
 function runAutoUpdateHolding(){
   $baseAry = Array('USDT','BTC','ETH');
   $openIDs = getOpenUserIDandBaseCurrency();
-  $openIDsSize = count($openIDs);
+  $openIDsSize = 0;
+  if (isset($openIDs)){$openIDsSize = count($openIDs);}
   for ($t=0;$t<$openIDsSize;$t++){
     $userID = $openIDs[$t][0];
     for ($y=0;$y<count($baseAry);$y++){
@@ -178,7 +179,8 @@ function runAutoUpdateHolding(){
 
 function subPctFromOpenSpreadBetTransactions(){
   $openTransSB = getOpenTransactionsSB();
-  $openTransSBSize = Count($openTransSB);
+  $openTransSBSize = 0;
+  if (isset($openTransSB)){$openTransSBSize = Count($openTransSB);}
   $startNum = 0.01;
   for ($l=0; $l<$openTransSBSize; $l++){
     $days = $openTransSB[$l][3];$spreadBetRuleID = $openTransSB[$l][7]; $userID = $openTransSB[$l][2]; $sellRuleID = $openTransSB[$l][6];
@@ -238,8 +240,8 @@ function getOpenTransactionsLoc(){
 
 function subPctFromOpenCoinModeTransactions(){
   $openTrans = getOpenTransactionsLoc();
-  $openTransSize = Count($openTrans);
-
+  $openTransSize = 0;
+  if (isset($openTrans)){$openTransSize = Count($openTrans);}
   for ($l=0; $l<$openTransSize; $l++){
     $days = $openTrans[$l][3];$coinID = $openTrans[$l][1]; $userID = $openTrans[$l][2]; $sellRuleID = $openTrans[$l][6];
     //if ($days >= 3){
@@ -267,7 +269,8 @@ function writePrice($coinID, $price, $month, $year, $minPrice){
 
 function addToBuyBackMultiplierHourly(){
   $buyBackCoins = getBuyBackData();
-  $buyBackCoinsSize = count($buyBackCoins);
+  $buyBackCoinsSize = 0;
+  if (isset($buyBackCoins)){ $buyBackCoinsSize = count($buyBackCoins); }
   for ($p=0; $p<$buyBackCoinsSize; $p++){
     $buyBackID = $buyBackCoins[$p][0]; $addNum = $buyBackCoins[$p][46];  $buyBackPct = $buyBackCoins[$p][22]; $multiplier = $buyBackCoins[$p][47];
     $bbAutoPctEnabled = $buyBackCoins[$p][56]; $caaOffset = $buyBackCoins[$p][57];
@@ -315,7 +318,7 @@ function writeSellPriceToBuyBack($transactionID){
 
 function updateSellPricetoBuyBack(){
   $buyBackData = getbuyBack();
-  $buyBackDataSize = count($buyBackData);
+  $buyBackDataSize = newCount($buyBackData);
   echo "<BR> Checking buyBack Sell Price | $buyBackDataSize";
   for ($f=0; $f<$buyBackDataSize; $f++){
     $transactionID = $buyBackData[$f][0];
@@ -357,7 +360,7 @@ function updateBuyAmountSplitinSQL($userID){
 
 function updateSplitBuyAmountforRule(){
   $user = getUserID();
-  $userSize = count($user);
+  $userSize = newCount($user);
   for ($s=0; $s<$userSize; $s++){
     $userID = $user[$s][0];
     updateBuyAmountSplitinSQL($userID);
@@ -383,7 +386,7 @@ function getUserData(){
 
 Function updateBittrexBals($userConfig){
 
-  $userConfigSize = count($userConfig);
+  $userConfigSize = newCount($userConfig);
   echo "<BR> Array Size:$userConfigSize ";
   for ($j=0; $j<$userConfigSize; $j++){
     $userID = $userConfig[$j][2]; $apikey = $userConfig[$j][0]; $apisecret = $userConfig[$j][1];
@@ -391,13 +394,13 @@ Function updateBittrexBals($userConfig){
     if (!Empty($KEK)){ $apisecret = Decrypt($KEK,$userConfig[$j][1]);}
     if ($apikey == 'NA'){ continue;}
     $bittrexBals = getDailyBalance($apikey,$apisecret);
-    $bittrexBalsSize = count($bittrexBals);
+    $bittrexBalsSize = newCount($bittrexBals);
     echo "<BR> Array Size : $bittrexBalsSize";
     foreach ($bittrexBals as $value){
         if ($value["total"] > 0){
           Echo $value["currencySymbol"]." | ".$value["total"]." | ".$value["available"]."<BR>";
           $openBaseCurr = getOpenBaseCurrency($value["currencySymbol"]);
-          $openBaseCurrSize = count($openBaseCurr);
+          $openBaseCurrSize = newCount($openBaseCurr);
           $runningTotal = 0;
           ECHO "<BR> LoopSize: $openBaseCurrSize <BR>";
           if ($value["currencySymbol"] == 'USDT'){ $base = 'USD';updateBittrexBalances($value["currencySymbol"],$value["total"],0, $userID,$base, 83);continue;}
@@ -433,7 +436,7 @@ Function updateBittrexBals($userConfig){
 
 function prepareToMergeSavings(){
     $savingsAry = getSavings();
-    $savingsArySize = count($savingsAry);
+    $savingsArySize = newCount($savingsAry);
     for ($g=0; $g<$savingsArySize; $g++){
       setSavingsToMerge($savingsAry[$g][0]);
     }
@@ -542,11 +545,11 @@ function writeBouncePrice($topPrice,$lowPrice, $diff, $coinID){
 
 function getBounceIndex(){
   $bounceID = getBounceIDs();
-  $bounceIDSize = count($bounceID);
+  $bounceIDSize = newCount($bounceID);
   for ($r=0;$r<$bounceIDSize;$r++){
     $coinID = $bounceID[$r][0];
     $bouncePrice = getBouncePricesHistory($coinID,1);
-    $bouncePriceSize = count($bouncePrice);
+    $bouncePriceSize = newCount($bouncePrice);
     for ($t=0;$t<$bouncePriceSize;$t++){
       $topPrice = $bouncePrice[$t][0]; $lowPrice = $bouncePrice[$t][1]; $diff = $bouncePrice[$t][2];
       writeBouncePrice($topPrice,$lowPrice,$diff,$coinID);
@@ -561,7 +564,7 @@ function testBuyScript($priceAry,$topPrice,$lowPrice,$difference,$coinID){
   $nCounterBuy = 0;
   $nCounter = 0;
   $nCounterSell = 0;
-  $priceArySize = count($priceAry);
+  $priceArySize = newCount($priceAry);
   for ($t=0;$t<$priceArySize;$t++){
     $curPrice = $priceAry[$t][0];
     Echo "<BR> Test: $coinID | $curPrice | $topPrice | $lowPrice | $difference";
@@ -611,12 +614,12 @@ function coinSwapBuyPct($coinSwapID){
 
 function runBounceTestBuy(){
   $bounceIDs = getBounceCoinIDs();
-  $bounceIDSize = count($bounceIDs);
+  $bounceIDSize = newCount($bounceIDs);
   echo "<BR> Running BounceTestBuy: $bounceIDSize";
   for ($s=0;$s<$bounceIDSize;$s++){
     $coinID = $bounceIDs[$s][0]; $topPrice  = $bounceIDs[$s][1];$lowPrice = $bounceIDs[$s][2]; $difference = $bounceIDs[$s][3];
     $bouncePrice = getBouncePricesHistory($coinID,2);
-    $bouncePriceSize = count($bouncePrice);
+    $bouncePriceSize = newCount($bouncePrice);
     //for ($u=0;$u<$bouncePriceSize;$u++){
       $noOfSells = testBuyScript($bouncePrice,$topPrice,$lowPrice,$difference,$coinID);
       writeNoOfSells($coinID,$noOfSells);
@@ -661,7 +664,7 @@ function writeWebSavings($userID, $totalUSD, $livePrice){
 
 function updateWebSavings(){
   $saving = getWebSavings();
-  $savingSize = count($saving);
+  $savingSize = newCount($saving);
   for ($p=0; $p<$savingSize; $p++){
     $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][2];
     writeWebSavings($userID, $SavingUSD, $livePrice);
@@ -669,7 +672,7 @@ function updateWebSavings(){
 }
 
 function runMerge($transStats,$mode){
-  $transStatsSize = count($transStats);
+  $transStatsSize = newCount($transStats);
   for ($g=0; $g<$transStatsSize; $g++){
     $coinID = $transStats[$g][0]; $userID = $transStats[$g][1];
     $count = $transStats[$g][2]; $mergeAllCoinsDaily = $transStats[$g][3];
@@ -684,7 +687,7 @@ function runMerge($transStats,$mode){
 
 function runMarketPrice(){
   $priceDip = getLiveMarketPrice(1);
-  $priceDipSize = count($priceDip);
+  $priceDipSize = newCount($priceDip);
   $liveCoinPrice = $priceDip[0][17];
   echo "<BR> MarketPrice: writeMarketPrice($liveCoinPrice);";
   writeMarketPrice($liveCoinPrice);
@@ -697,7 +700,7 @@ function setPriceDipEnabled(){
 function runCoinPriceDipPrices(){
   //Get Coins + Price
   $coin = getTrackingCoins("WHERE `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-  $coinSize = count($coin);
+  $coinSize = newCount($coin);
   for ($t=0;$t<$coinSize; $t++){
       $coinID = $coin[$t][0]; $price = $coin[$t][17];
       writeCoinPriceDipPrice($coinID,$price);
@@ -707,7 +710,7 @@ function runCoinPriceDipPrices(){
 
 function runHoursforPriceDip(){
   $priceDipRules = getPriceDipRules();
-  $priceDipRulesSize = count($priceDipRules);
+  $priceDipRulesSize = newCount($priceDipRules);
   $inc = 5;
   echo "<BR>***** runHoursforPriceDip ***** priceDipRulesSize: $priceDipRulesSize";
   $liveMarketPriceAry = getLiveMarketPrice(1);
@@ -715,7 +718,7 @@ function runHoursforPriceDip(){
   for ($y=0; $y<$priceDipRulesSize; $y++){
       $dipStartTime = $priceDipRules[$y][9]; $priceDipTolerance = $priceDipRules[$y][11];
       $marketPrices = getMarketPrices($dipStartTime);
-      $marketPricesSize = count($marketPrices);
+      $marketPricesSize = newCount($marketPrices);
       $ruleID = $priceDipRules[$y][0];
       echo "<BR> marketPricesSize: $marketPricesSize | Checking Rule: $ruleID";
       for ($t=0; $t<$marketPricesSize; $t++){
@@ -759,7 +762,7 @@ function  getCoinSwapIDs(){
 
 function runReduceCoinSwapPct(){
   $coinSwapIDs = getCoinSwapIDs();
-  $coinSwapIDsSize = count($coinSwapIDs);
+  $coinSwapIDsSize = newCount($coinSwapIDs);
   for ($u=0; $u<$coinSwapIDsSize; $u++){
     $coinSwapID = $coinSwapIDs[$u][0];
     coinSwapBuyPct($coinSwapID);
@@ -828,12 +831,12 @@ function UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID){
 
 function runMultiSellRulesConfig(){
   $multiSellRules = getMultiSellRulesData();
-  $multiSellRulesSize = count($multiSellRules);
+  $multiSellRulesSize = newCount($multiSellRules);
   for ($p=0; $p<$multiSellRulesSize; $p++){
     $sellRuleStr = $multiSellRules[$p][3];
     Echo "<BR> Sell Rule String: $sellRuleStr";
     $sellRuleAry = explode(",",$sellRuleStr);
-    $sellRuleArySize = count($sellRuleAry);
+    $sellRuleArySize = newCount($sellRuleAry);
     for ($o=0; $o<$sellRuleArySize; $o++){
       $currentSellRule =  $sellRuleAry[$o]; $userID = $multiSellRules[$p][4]; $transactionID = $multiSellRules[$p][0];
       Echo "<BR>UpdateMultiSellRuleConfig($currentSellRule,$userID,$transactionID); ";
@@ -885,7 +888,7 @@ function writeCoinTableToHistory($coinAry){
 
 function copyCoinTableToHistory(){
   $liveCoinTblAry = getLiveCoinTable();
-  $liveCoinTblArySize = Count($liveCoinTblAry);
+  $liveCoinTblArySize = newCount($liveCoinTblAry);
   for ($y=0; $y<$liveCoinTblArySize; $y++){
     writeCoinTableToHistory($liveCoinTblAry[$y]);
   }
@@ -893,7 +896,7 @@ function copyCoinTableToHistory(){
 
 function runUpdateAvgPrices(){
   $coin = getCoinIDs();
-  $coinSize = count($coin);
+  $coinSize = newCount($coin);
 
   for ($v=0; $v<$coinSize; $v++){
     $coinID = $coin[$v][0];
@@ -905,7 +908,7 @@ function runUpdateAvgPrices(){
 }
 
 function runAutoActionBuy($autoActionCoins){
-  $autoActionCoinsSize = count($autoActionCoins);
+  $autoActionCoinsSize = newCount($autoActionCoins);
   for ($p=0; $p<$autoActionCoinsSize; $p++){
      $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][66]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
      writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,'Buy');
@@ -913,7 +916,7 @@ function runAutoActionBuy($autoActionCoins){
 }
 
 function runAutoActionSell($autoActionCoins){
-  $autoActionCoinsSize = count($autoActionCoins);
+  $autoActionCoinsSize = newCount($autoActionCoins);
   for ($p=0; $p<$autoActionCoinsSize; $p++){
      $profitPct = $autoActionCoins[$p][58]; $hoursSincePurchase = $autoActionCoins[$p][71]; $coinID = $autoActionCoins[$p][2]; $transactionID  = $autoActionCoins[$p][0];
      writeAutoActionBuy($profitPct,$hoursSincePurchase,$coinID,$transactionID,'Sell');
@@ -1007,7 +1010,7 @@ function updateSavingsMerge($savingID, $transID,$fixSellRule,$buyRule,$sellRule,
 
 function runSavingsMerge(){
   $savingsAry = getSavingsDataAgain();
-  $savingsArySize = count($savingsAry);
+  $savingsArySize = newCount($savingsAry);
   for ($g=0;$g<$savingsArySize;$g++){
     $savingID = $savingsAry[$g][0]; $transID = $savingsAry[$g][1];
     $fixSellRule = $savingsAry[$g][4];$buyRule = $savingsAry[$g][5]; $sellRule = $savingsAry[$g][4]; $multiSellEnabled = $savingsAry[$g][7]; $multiSellID = $savingsAry[$g][8];
@@ -1038,14 +1041,14 @@ function getMultiBuyIDs(){
 function runMultiBuy(){
   $multiBuyAry = getMultiBuyIDs();
   if (isset($multiBuyAry)){
-    $multiBuyArySize = count($multiBuyAry);
+    $multiBuyArySize = newCount($multiBuyAry);
   }else{$multiBuyArySize = 0;}
 
   for($d=0;$d<$multiBuyArySize;$d++){
     $multiSellRuleTemplateID = $multiBuyAry[$d][1]; $transactionID = $multiBuyAry[$d][0]; $userID = $multiBuyAry[$d][2];
     $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
     if (isset($ruleStr)){$str_arr = explode (",", $ruleStr);}
-    if (isset($str_arr)){$str_arrSize = count($str_arr);}else{$str_arrSize=0;}
+    if (isset($str_arr)){$str_arrSize = newCount($str_arr);}else{$str_arrSize=0;}
     for ($t=0; $t<$str_arrSize; $t++){
       $sellRuleIDFromTemplate = $str_arr[$t];
       writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
@@ -1075,7 +1078,7 @@ function disableEnableRules($userID){
 }
 
 function runDisableOnLowBalance($userConfig){
-  $userConfigSize = count($userConfig);
+  $userConfigSize = newCount($userConfig);
   for ($b = 0; $b<$userConfigSize; $b++){
     $userID = $userConfig[$b][2];
     disableEnableRules($userID);
@@ -1093,7 +1096,7 @@ runMerge($transStats,'Open');
 
 Echo "<BR> 3. getCurrentMonthMinMax();";
 $minMaxPrice = getCurrentMonthMinMax();
-if (isset($minMaxPrice)){$minMaxPriceSize = count($minMaxPrice);}else {$minMaxPriceSize=0;}
+if (isset($minMaxPrice)){$minMaxPriceSize = newCount($minMaxPrice);}else {$minMaxPriceSize=0;}
 
 for ($i=0; $i<$minMaxPriceSize; $i++){
   writePrice($minMaxPrice[$i][0],$minMaxPrice[$i][1],$minMaxPrice[$i][2],$minMaxPrice[$i][3],$minMaxPrice[$i][4]);
