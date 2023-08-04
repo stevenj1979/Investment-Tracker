@@ -636,7 +636,9 @@ function getWebSavings(){
   //$result = $conn->query($query);
   $sql = "SELECT `UserID`
           ,sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(84), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getBTCPrice(85), 0)))) as TotalUSD
-          ,sum(`LiveCoinPrice` * `Amount`) as LivePrice  FROM `View5_SellCoins` WHERE `Status` = 'Saving'
+          ,sum(`LiveCoinPrice` * `Amount`) as LivePrice
+          ,sum(`LiveCoinPrice` * `Amount`) - sum(if(`BaseCurrency` = 'USDT',`Amount`*`CoinPrice`, if(`BaseCurrency` = 'BTC',(`Amount`*`CoinPrice`)*getBTCPrice(84), if(`BaseCurrency` = 'ETH',(`Amount`*`CoinPrice`)*getBTCPrice(85), 0)))) as TotalProfit
+          FROM `View5_SellCoins` WHERE `Status` = 'Saving'
            group by `UserID`";
   $tempAry = mySQLSelect("getWebSavings: ",$sql,3,1,1,0,"CoinHourly",90);
   /*print_r($sql);
@@ -646,7 +648,7 @@ function getWebSavings(){
   return $tempAry;
 }
 
-function writeWebSavings($userID, $totalUSD, $livePrice){
+function writeWebSavings($userID, $totalUSD, $livePrice,$profit){
   /*$conn = getSQLConn(rand(1,3));
   $profit = $livePrice - $totalUSD;
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
@@ -666,8 +668,8 @@ function updateWebSavings(){
   $saving = getWebSavings();
   $savingSize = newCount($saving);
   for ($p=0; $p<$savingSize; $p++){
-    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][2];
-    writeWebSavings($userID, $SavingUSD, $livePrice);
+    $userID = $saving[$p][0]; $SavingUSD = $saving[$p][1]; $livePrice = $saving[$p][2]; $profit = $saving[$p][3];
+    writeWebSavings($userID, $SavingUSD, $livePrice, $profit);
   }
 }
 
