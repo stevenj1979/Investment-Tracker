@@ -79,7 +79,7 @@ function sendAlertEmailLocal($to, $symbol , $price, $action, $user,$livePrice,$c
 
 function getOutStandingBuy($tmpAry){
   $tmpStr = "";
-  $tmpAryCount = count($tmpAry);
+  $tmpAryCount = newCount($tmpAry);
   for ($i=0; $i<$tmpAryCount; $i++){
     //Echo "<BR> getOutStandingBuy: ".$tmpAry[$i][1].":".$tmpAry[$i][2].",";
     if ($tmpAry[$i][0] <> 1){ $tmpStr .= $tmpAry[$i][1].":".$tmpAry[$i][2].",";}
@@ -121,7 +121,7 @@ function returnAlert($price,$livePrice,$action){
 
 function runReBuySavings($coinSwaps){
   $finalBool = False;
-  $coinSwapsSize = count($coinSwaps);
+  $coinSwapsSize = newCount($coinSwaps);
   $apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$coinSwapsSize; $y++){
     $status = $coinSwaps[$y][1]; $reBuySavingsEnabled = $coinSwaps[$y][22];
@@ -161,7 +161,7 @@ function runSellSavings($spreadBuyBack){
   $finalBool = False;
   $versionNum = 3; $useAwards = False;
   $profitTarget = 40.0;
-  $spreadBuyBackSize = COUNT($spreadBuyBack);
+  $spreadBuyBackSize = newCount($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     if (!isset($spreadBuyBack[$u][65])){ continue; }
     $purchasePrice = $spreadBuyBack[$u][4];
@@ -220,7 +220,7 @@ function runSellSavings($spreadBuyBack){
 
 function runPriceDipRule($priceDipRules){
   if(isset($priceDipRules)){
-    $priceDipRulesSize = count($priceDipRules);
+    $priceDipRulesSize = newCount($priceDipRules);
   }else{
     $priceDipRulesSize = 0;
   }
@@ -282,7 +282,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
   //echo "<BR> CHECK SETTINGS: $nFile | $nFunc | $logFlowSettingAry | $logVariSettingAry | $logSQLSettingAry | $logExitSettingAry | $logAPISettingAry";
 
   $finalBool = False;
-  $buyBackCoinsSize = count($buyBackCoins);
+  $buyBackCoinsSize = newCount($buyBackCoins);
   for ($t=0; $t<$buyBackCoinsSize;$t++){
     $bBID = $buyBackCoins[$t][0];    $userID = $buyBackCoins[$t][12];    $TransactionID = $buyBackCoins[$t][1];    $coinID = $buyBackCoins[$t][7];    $spreadBetTransactionID = $buyBackCoins[$t][5];
     $spreadBetRuleID = $buyBackCoins[$t][6];
@@ -406,7 +406,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
       if ($tmpLiveCoinPrice <> 0){
         if ($tmpSBRuleID <> 0){
           $spreadbetBuyBack = getBuyBackData($tmpSBRuleID);
-          $spreadbetBuyBackSize = count($spreadbetBuyBack);
+          $spreadbetBuyBackSize = newCount($spreadbetBuyBack);
           for ($p=0;$p<$spreadbetBuyBackSize;$p++){
             if ($spreadbetBuyBackSize > 3){
               $tmpCoinID = $spreadbetBuyBack[$p][7]; $tmpLiveCoinPrice = $spreadbetBuyBack[$p][9]; $tmpUserID = $spreadbetBuyBack[$p][12]; $tmpBaseCur = $spreadbetBuyBack[$p][59]; $tmpSendEmail = 1; $tmpBuyCoin = 1;
@@ -450,7 +450,7 @@ function runBuyBack($buyBackCoins,$webSettingsAry){
 
 function runSpreadBetSellAndBuyback($spreadBuyBack){
   $finalBool = False;
-  $spreadBuyBackSize = COUNT($spreadBuyBack);
+  $spreadBuyBackSize = newCount($spreadBuyBack);
   for ($u=0; $u<$spreadBuyBackSize; $u++){
     $purchasePrice = $spreadBuyBack[$u][4];$amount = $spreadBuyBack[$u][5];$CoinID = $spreadBuyBack[$u][2];
     $userID = $spreadBuyBack[$u][3];$symbol = $spreadBuyBack[$u][11];$transactionID = $spreadBuyBack[$u][0];
@@ -501,7 +501,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
           //Choose new Coin
           newLogToSQL("SellSpreadBet and BuyBack", "Profit below -20: $CoinID | $profitPCT | $noOfBounceSells | $LiveCoinPrice | $bounceTopPrice", $userID, 1,"Sell Coin","TransactionID:$transactionID");
           $newCoinSwap = getNewSwapCoin($baseCurrency);
-          if (count($newCoinSwap)>0){
+          if (newCount($newCoinSwap)>0){
             //Change Transaction Status to CoinSwap
             updateCoinSwapTransactionStatus('CoinSwap',$transactionID);
             //Sell COIN
@@ -529,7 +529,7 @@ function runSpreadBetSellAndBuyback($spreadBuyBack){
 
 function runSellSpreadBet($sellSpread){
   $finalBool = False;
-  $sellSpreadSize = count($sellSpread);
+  $sellSpreadSize = newCount($sellSpread);
   for ($w=0; $w<$sellSpreadSize; $w++){
     $CoinPriceTot = $sellSpread[$w][3]; $TotAmount = $sellSpread[$w][4]; $LiveCoinPriceTot = $sellSpread[$w][15];
     $ID = $sellSpread[$w][0]; $APIKey = $sellSpread[$w][50]; $APISecret = $sellSpread[$w][51]; $KEK = $sellSpread[$w][52];
@@ -582,10 +582,10 @@ function runSellSpreadBet($sellSpread){
 
 function runSpreadBet($spread,$SpreadBetUserSettings){
   $finalBool = False;
-  $spreadSize = count($spread);
+  $spreadSize = newCount($spread);
   //if ($spreadSize == 0){LogToSQL("SpreadBetBuy","ERROR : Empty record set for getSpreadBetData",3,1);}
   //$noOfBuys = 2;
-  $SpreadBetUserSettingsSize = count($SpreadBetUserSettings);
+  $SpreadBetUserSettingsSize = newCount($SpreadBetUserSettings);
 
   for ($y=0; $y<$spreadSize; $y++){
     $ID = $spread[$y][0]; $Hr1ChangePctChange = $spread[$y][4]; $Hr24ChangePctChange = $spread[$y][7];$d7ChangePctChange = $spread[$y][10];
@@ -612,7 +612,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
     Echo "<BR>1) $Hr24ChangePctChange : $Hr24BuyPrice | $d7ChangePctChange : $D7BuyPrice | $Hr1ChangePctChange : $Hr1BuyPrice";
     if ($Hr24ChangePctChange <= $Hr24BuyPrice and $d7ChangePctChange <= $D7BuyPrice and $Hr1ChangePctChange >= $Hr1BuyPrice){
       $openCoins = getOpenSpreadCoins($userID);
-      $openCoinsSize = count($openCoins);
+      $openCoinsSize = newCount($openCoins);
 
       for ($v=0; $v<$openCoinsSize; $v++){
         Echo "<BR> Checking getOpenSpreadCoins : $ID | ".$openCoins[$v][0];
@@ -625,7 +625,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
       //GetCoinData
       echo "<BR> getSpreadCoinData($ID); ";
       $spreadCoins = getSpreadCoinData($ID);
-      $spreadCoinsSize = count($spreadCoins);
+      $spreadCoinsSize = newCount($spreadCoins);
       Echo "<BR> Buy Spread Coins : $spreadCoinsSize | $spreadBetTransID | $spreadCoinsSize";
       //How much to buy
       Echo "<BR>checkOpenSpreadBet($UserID,$ID); ";
@@ -706,7 +706,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
 
 function runTrackingSellCoin($newTrackingSellCoins,$marketStats,$webSettingsAry){
   $finalBool = False;
-  $newTrackingSellCoinsSize = count($newTrackingSellCoins);
+  $newTrackingSellCoinsSize = newCount($newTrackingSellCoins);
   $echoExitText = $webSettingsAry[2][1];
   //$echoProgramFlow = 1;
   $echoProgramFlow = $webSettingsAry[0][1];
@@ -835,8 +835,8 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
   SuperLog($nFile,"6: 7DPctChange | 7: CoinPrice | 8: SellOrders | 9: PriceTrend | 10: MinPrice ",$nFunc,"BC3","",$logVariSettingAry,'Variables');
   SuperLog($nFile,"11: AutoPrice | 12: CoinPattern | 13: GlobalAllDisabled | 14: 1HrPattern | 15: HoursFlat ",$nFunc,"BC4","",$logVariSettingAry,'Variables');
   SuperLog($nFile,"16: PriceDipMin <BR>",$nFunc,"BC5","",$logVariSettingAry,'Variables');
-  $coinLength = Count($coins);
-  $buyRulesSize = count($buyRules);
+  $coinLength = newCount($coins);
+  $buyRulesSize = newCount($buyRules);
   SuperLog($nFile,"Coin Length: $coinLength  RuleLength: $buyRulesSize <BR>",$nFunc,"BC6","",$logVariSettingAry,'Variables');
   for($x = 0; $x < $coinLength; $x++) {
     //variables
@@ -928,7 +928,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
       if ($overrideCancelBuyTimeEnabled == 1){$timeToCancelBuyMins = $overrideCancelBuyTimeMins;}
       $delayCoinPurchaseSize = 0;
       if (!empty($delayCoinPurchase)){
-        $delayCoinPurchaseSize = count($delayCoinPurchase);
+        $delayCoinPurchaseSize = newCount($delayCoinPurchase);
       }
 
       for ($b=0; $b<$delayCoinPurchaseSize; $b++){
@@ -945,7 +945,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
         }
       }
       SuperLog($nFile,"Placeholder 3:  $coinID - $symbol - $baseCurrency  RuleID: $ruleIDBuy <BR>",$nFunc,"BC14","",$logFlowSettingAry,'Flow');
-      $ruleProfitSize = count($ruleProfit);
+      $ruleProfitSize = newCount($ruleProfit);
       for ($h=0; $h<$ruleProfitSize; $h++){
           if ($limitBuyAmountEnabled == 1){
             SuperLog($nFile,	"TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount",$nFunc,"BC15","",$logVariSettingAry,'Variables');
@@ -1143,7 +1143,7 @@ function runBuyCoins($coins,$userProfit,$marketProfit,$ruleProfit,$totalBTCSpent
           }else{
             $spreadBetRuleID =  $coins[$x][52]; $spreadBetPerCoinAmount = $buyRules[$y][93];
             $spreadBetCoins = getSpreadbetCoins($baseCurrency,$ruleIDBuy);
-            $spreadBetCoinsSize = count($spreadBetCoins);
+            $spreadBetCoinsSize = newCount($spreadBetCoins);
             $totalBuyAmount = 0;
             SuperLog($nFile,"<BR> Size: $spreadBetCoinsSize | PerCoin: $spreadBetPerCoinAmount",$nFunc,"BC61","",$logFlowSettingAry,'Variables'); //$logVariSettingAry
             for ($l=0;$l<$spreadBetCoinsSize;$l++){
@@ -1189,8 +1189,8 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
   $nFile = "BuySellCoins"; $nFunc = "SellCoins";
   $tempSettings = getSetting($newWebSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
-  $sellRulesSize = count($sellRules);
-  $sellCoinsLength = count($sellCoins);
+  $sellRulesSize = newCount($sellRules);
+  $sellCoinsLength = newCount($sellCoins);
   //$echoExitText = 0;
   //$echoProgramFlow = 1;
   //$echoTestText = 0;
@@ -1315,7 +1315,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         //  echoText("Calculated Sell Pct: Its set!! $sellPctCsp - $calculatedSellPctEnd",$echoTestText);
         //if ($sellStatus == 'Closed' OR $sellStatus == 'Sold'){ continue; }
         //}
-        $cspSize = count($csp);
+        $cspSize = newCount($csp);
         for ($y=0;$y<$cspSize;$y++){
           $cspTransID = $csp[$y][1]; $CspRuleID = $csp[$y][5];
           if ($cspTransID ==  $transactionID AND $CspRuleID == $ruleIDSell){
@@ -1391,7 +1391,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         if ($profit < -4 and $daysSinceCoinPurchase > 21){
           //lookup if any Coin in Buy Mode currently
           $coinSwapBuyCoinID = coinSwapBuyModeLookup($coinID);
-          $coinSwapBuyCoinIDSize = count($coinSwapBuyCoinID);
+          $coinSwapBuyCoinIDSize = newCount($coinSwapBuyCoinID);
           echoAndLog("","COIN SWAP: No of coins in Buy Mode: $coinID | $coinSwapBuyCoinIDSize",3,$echoTestText,"","");
           if ($coinSwapBuyCoinIDSize > 0){
             //CoinSwap
@@ -1404,7 +1404,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
 
           $multiSellResult = checkMultiSellRules($ruleIDSell,$multiSellRules,$transactionID);
           //echo "<BR> PlaceHolder: 1A Checking MultiSell";
-          $multiSellRulesSize = count($multiSellRules);
+          $multiSellRulesSize = newCount($multiSellRules);
 
           if ($multiSellResult == False){
             echoText("Exit: No1 | $coin | $userID | $ruleIDSell | $multiSellResult",$echoExitText); continue;
@@ -1495,7 +1495,7 @@ function runSellCoins($sellRules,$sellCoins,$userProfit,$coinPriceMatch,$coinPri
         }else{
           $spreadBetTransactionID = $sellCoins[$a][74];
           $spreadBetToSell = getSpreadBetSellCoins($spreadBetTransactionID);
-          $spreadBetToSellSize = count($spreadBetToSell);
+          $spreadBetToSellSize = newCount($spreadBetToSell);
           echoAndLog("SellCoinsSpreadBet", "getSpreadBetSellCoins($spreadBetTransactionID); $spreadBetToSellSize", $userID, 0,"AddTrackingSellCoin","TransactionID:$transactionID");
           for ($a=0;$a<$spreadBetToSellSize;$a++){
             $LiveCoinPrice = $spreadBetToSell[$a][0]; $transactionID = $spreadBetToSell[$a][1]; $coinID = $spreadBetToSell[$a][3];
@@ -1529,7 +1529,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
   $CancelBittrexLogFlag = $webSettingsAry[3][1];
   $CancelBittrexPartial = $webSettingsAry[7][1];
   $CancelBittrexBuyComplete = $webSettingsAry[8][1];
-  $BittrexReqsSize = count($BittrexReqs);
+  $BittrexReqsSize = newCount($BittrexReqs);
   sleep(1);
   for($b = 0; $b < $BittrexReqsSize; $b++) {
     $finalBool = False;
@@ -1676,7 +1676,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           if ($multiSellRuleTemplateID <> 0){
               $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
               $str_arr = explode (",", $ruleStr);
-              $str_arrSize = count($str_arr);
+              $str_arrSize = newCount($str_arr);
               for ($t=0; $t<$str_arrSize; $t++){
                 $sellRuleIDFromTemplate = $str_arr[$t];
                 writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
@@ -1736,7 +1736,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           if ($multiSellRuleTemplateID <> 0){
               $ruleStr = getMultiSellRulesTemplate($multiSellRuleTemplateID);
               $str_arr = explode (",", $ruleStr);
-              $str_arrSize = count($str_arr);
+              $str_arrSize = newCount($str_arr);
               for ($t=0; $t<$str_arrSize; $t++){
                 $sellRuleIDFromTemplate = $str_arr[$t];
                 writeMultiRule($sellRuleIDFromTemplate,$transactionID,$userID);
@@ -2079,7 +2079,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
 function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
   $finalBool = False;
   if (isset($coinAlerts)){
-    $coinAlertsLength = count($coinAlerts);
+    $coinAlertsLength = newCount($coinAlerts);
     for($d = 0; $d < $coinAlertsLength; $d++) {
       $id = $coinAlerts[$d][0];
       $coinID = $coinAlerts[$d][1]; $action = $coinAlerts[$d][2]; $price  = $coinAlerts[$d][3]; $symbol  = $coinAlerts[$d][4];
@@ -2114,7 +2114,7 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
     }
   }
   if (isset($marketAlerts)){
-    $marketAlertsSize = count($marketAlerts);
+    $marketAlertsSize = newCount($marketAlerts);
     echo "<BR> MARKETS ALERT ARRAY SIZE: $marketAlertsSize";
     $marketStats = getMarketstats();
     for ($q=0; $q<$marketAlertsSize; $q++){
@@ -2154,7 +2154,7 @@ function runCoinAlerts($coinAlerts,$marketAlerts,$spreadBetAlerts){
     }
   }
   if (isset($spreadBetAlerts)){
-    $spreadBetAlertsSize = count($spreadBetAlerts);
+    $spreadBetAlertsSize = newCount($spreadBetAlerts);
     echo "<BR> SPREADBET ALERT ARRAY SIZE: $spreadBetAlertsSize";
     for ($g=0; $g<$spreadBetAlertsSize; $g++){
       $userName  = $spreadBetAlerts[$g][6];$email = $spreadBetAlerts[$g][7];$userID = $spreadBetAlerts[$g][5];
@@ -2198,7 +2198,7 @@ function buyToreduceLoss($lossCoins,$newWebSettingsAry){
   $tempSettings = getNewSetting($newWebSettingsAry,$nFile,$nFunc);
   $logFlowSettingAry = $tempSettings[0]; $logVariSettingAry = $tempSettings[1]; $logSQLSettingAry = $tempSettings[2]; $logExitSettingAry = $tempSettings[3]; $logAPISettingAry = $tempSettings[4]; $logEventsSettingAry = $tempSettings[5];
   $finalBool = False;
-  $lossCoinsSize = count($lossCoins);
+  $lossCoinsSize = newCount($lossCoins);
   Echo "<BR>0: Total: $lossCoinsSize";
   //$apiVersion = 3; $ruleID = 111111;
   for ($y=0; $y<$lossCoinsSize; $y++){
@@ -2612,7 +2612,7 @@ while($completeFlag == False){
           $runSellCoinsFlag = True;
         }
         $buyToReduceLossFlag = buyToreduceLoss($lossCoins,$newWebSettingsAry);
-$reduceLossSpreadBetTransIDSize = count($reduceLossSpreadBetTransID);
+$reduceLossSpreadBetTransIDSize = newCount($reduceLossSpreadBetTransID);
 echo "</blockquote><BR> CHECK BUY TO REDUCE LOSS SPREADBET!! $i $reduceLossSpreadBetTransIDSize <blockquote>";
 
         for ($y=0; $y<$reduceLossSpreadBetTransIDSize; $y++){
