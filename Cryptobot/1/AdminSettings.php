@@ -239,7 +239,8 @@ if (isset($userSub)){
              Live Coins<br>
              <?php
              $coinAry = getCoins();
-             $coinArySize = count($coinAry);
+             $coinArySize = 0;
+             if (isset($coinAry)){ $coinArySize = count($coinAry);}
              startCoinTbl();
              for($x = 0; $x < $coinArySize; $x++) {
                coinTblRow($coinAry[$x][0],$coinAry[$x][1],$coinAry[$x][2],$coinAry[$x][3],$coinAry[$x][4],$coinAry[$x][5]);
@@ -250,7 +251,8 @@ if (isset($userSub)){
              Users <br>
              <?php
              $userAry = getUsers();
-             $userArySize = count($userAry);
+             $userArySize = 0;
+             if (isset($userAry)){$userArySize = count($userAry);}
              startUserTbl();
              for($x = 0; $x < $userArySize; $x++) {
                userTblRow($userAry[$x][0],$userAry[$x][1],$userAry[$x][2],$userAry[$x][3],$userAry[$x][4],$userAry[$x][5],$userAry[$x][6]);
