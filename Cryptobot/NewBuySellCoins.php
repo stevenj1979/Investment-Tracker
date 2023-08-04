@@ -2595,9 +2595,9 @@ while($completeFlag == False){
         $refreshBittrexFlag = runBittrex($BittrexReqs,$apiVersion,$webSettingsAry);
   echo "</blockquote><BR> CHECK Alerts!! $i<blockquote>";
         if ($refreshAlertsFlag == True){
-          $coinAlerts = getCoinAlerts();
-          $marketAlerts = getMarketAlertsTotal();
-          $spreadBetAlerts = getSpreadBetAlertsTotal();
+          //$coinAlerts = getCoinAlerts();
+          //$marketAlerts = getMarketAlertsTotal();
+          //$spreadBetAlerts = getSpreadBetAlertsTotal();
           $refreshAlertsFlag = False;
         }
         if (date("Y-m-d H:i", time()) >= $alertRunTimer){
