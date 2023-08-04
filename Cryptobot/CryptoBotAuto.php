@@ -66,7 +66,7 @@ function getUserVariables(){
 
 function findCoinStats($CMCStats, $symbol){
   $tempStats = [];
-  $statsLength = count($CMCStats);
+  $statsLength = newCount($CMCStats);
   $findStatsFlag = False;
   echo "<BR> FIND: $symbol | length: $statsLength";
   for($y = 0; $y < $statsLength; $y++) {
@@ -106,7 +106,7 @@ function getSymbols(){
 }
 
 function getArrayPrice($coinAry, $symbol, $baseCurrency){
-  $coinArySize = count($coinAry);
+  $coinArySize = newCount($coinAry);
   echo "<BR> Size : $coinArySize";
   $nPrice = 0.0;
   for ($j=0; $j<$coinArySize; $j++){
@@ -174,7 +174,7 @@ $coinStr = "";
 logAction('CryptoBotAuto Start','CoinPrice', $logToFileSetting);
 $i = 0;
 $coins = getTrackingCoins("WHERE `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-$coinLength = Count($coins);
+$coinLength = newCount($coins);
 $coinStr = getCoinList(getNewStats(),0);
 echo "<BR>CoinStr: $coinStr";
 echo "<br> coinLength= $coinLength NEWTime=".$newTime." StartTime $date";
@@ -187,7 +187,7 @@ $firstTimeFlag = True;
 $timeFlag = False;
 $timeAry = []; $marketCap_date = date('Y-m-d H:i:s');
 $CMCStats = newCoinMarketCapStats($coinStr);
-$CMCStatsSize = count($CMCStats);
+$CMCStatsSize = newCount($CMCStats);
 Echo "<BR>Date:$date | NewTime:$newTime tmp: $tmpTime cL: $coinLength";
 while($date <= $newTime){
   echo "NEW LOOP ";
