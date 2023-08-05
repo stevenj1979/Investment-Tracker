@@ -1163,7 +1163,7 @@ function getSetting($settings,$fileName, $functionName){
 }
 
 function getNewSetting($settings,$fileName, $functionName){
-  $tempAry = [];
+  $tempAry = []; $tempFlowAry = [];$tempVariAry = [];$tempSQLAry = [];$tempExitAry = [];$tempAPIAry = [];$tempEventAry = [];
   $settingsSize = count($settings);
   //echo "<BR> Size:$settingsSize";
   for ($l=0; $l<$settingsSize; $l++){
