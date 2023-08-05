@@ -49,19 +49,21 @@ function saveCMCtoSQL($CMCID, $Hr1, $Hr24, $D7, $D30, $cmcRank){
 }
 
 function getUserVariables(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `ID`,`AccountType`,`UserName`,`Active`,`APIKey`,`APISecret`,`EnableDailyBTCLimit`,`EnableTotalBTCLimit`,`DailyBTCLimit`,`TotalBTCLimit` FROM `UserConfigView`  ";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getUserVariables: ",$sql,3,1,1,0,"CryptoBotAuto",90);
+  /*$result = $conn->query($sql);
   print_r($sql);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['ID'],$row['AccountType'],$row['UserName'],$row['Active'],$row['APIKey'],$row['APISecret'],$row['EnableDailyBTCLimit'],$row['EnableTotalBTCLimit'],$row['DailyBTCLimit'],$row['TotalBTCLimit']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
@@ -86,23 +88,25 @@ function findCoinStats($CMCStats, $symbol){
 }
 
 function getSymbols(){
-  $conn = getSQLConn(rand(1,3));
+  $tempAry = [];
+  /*$conn = getSQLConn(rand(1,3));
   //$whereClause = "";
   //if ($UserID <> 0){ $whereClause = " where `UserID` = $UserID";}
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `Symbol`,`BaseCurrency` FROM `Coin` WHERE `BuyCoin` = 1";
-  //echo "<BR> $sql";
+  $tempAry = mySQLSelect("getSymbols: ",$sql,3,1,1,0,"CryptoBotAuto",90);
+  /*echo "<BR> $sql";
   $result = $conn->query($sql);
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
   while ($row = mysqli_fetch_assoc($result)){
       $tempAry[] = Array($row['Symbol'],$row['BaseCurrency']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
