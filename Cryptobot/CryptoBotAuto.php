@@ -4,6 +4,7 @@ ini_set('max_execution_time', 600);
 require('includes/newConfig.php');
 
 include_once ('/home/stevenj1979/SQLData.php');
+include_once ('includes/SQLDbCommands.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
@@ -30,21 +31,21 @@ function timerReady($start, $seconds){
 }
 
 function saveCMCtoSQL($CMCID, $Hr1, $Hr24, $D7, $D30, $cmcRank){
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
   $sql = "Call addCMCData($CMCID, $Hr1, $Hr24, $D7, $D30, $cmcRank);";
-
-  print_r($sql);
+  SQLInsertUpdateCall("saveCMCtoSQL: ",$sql,3, 1, 1, 0, "CryptoBotAuto", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
   $conn->close();
-  logAction("saveCMCtoSQL: ".$sql, 'BuyCoin', 0);
+  logAction("saveCMCtoSQL: ".$sql, 'BuyCoin', 0);*/
 }
 
 function getUserVariables(){
