@@ -327,7 +327,7 @@ $sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum
     join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
     WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Sold'
     and `Ba`.`Type` in ('Sell','SpreadSell')";
-$tempAry = mySQLSelect("getSoldProfitSpreadBetSellTest: ",$sql,3,1,1,0,"NewConfig",90);
+$tempAry = mySQLSelect("getSoldProfitSpreadBetSellTest: ",$sql,3,1,1,0,"TESTFILE",90);
 
 //$datasize = newCount($data);
 //Echo "<BR> Count: $datasize <BR>";
