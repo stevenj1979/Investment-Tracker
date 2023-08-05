@@ -8,80 +8,85 @@ include_once ('includes/SQLDbCommands.php');
 
 function getUserConfig(){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
      $sql = "SELECT `IDUs`,`APIKey`,`APISecret`,datediff(`ExpiryDate`, CURDATE()) as DaysRemaining, `Email`, `UserName`, `Active` ,`KEK` FROM  `View12_UserConfig`";
-    $result = $conn->query($sql);
+     $tempAry = mySQLSelect("getUserConfig: ",$sql,3,1,1,0,"Dashboard",90);
+    /*$result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['IDUs'],$row['APIKey'],$row['APISecret'],$row['DaysRemaining'],$row['Email'],$row['UserName'],$row['Active'],$row['KEK']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
 function clearDailtBTCTbl($table){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "DELETE FROM $table";
-  print_r($sql);
+  SQLInsertUpdateCall("clearDailtBTCTbl: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function runTransaction($table, $dateWhere){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "INSERT INTO $table (select `Tr`.`UserID` AS `UserID`, sum((`Tr`.`Amount` * `Tr`.`CoinPrice`)) AS `AmountOpen`,`Cn`.`BaseCurrency` AS `BaseCurrency`
-from `Transaction` `Tr`
-	join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`))
-where `Tr`.`Status` in ('Open','Pending') $dateWhere
-group by `Tr`.`UserID`,`Cn`.`BaseCurrency`);";
-  print_r($sql);
+            from `Transaction` `Tr`
+            	join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`))
+            where `Tr`.`Status` in ('Open','Pending') $dateWhere
+            group by `Tr`.`UserID`,`Cn`.`BaseCurrency`);";
+  SQLInsertUpdateCall("runTransaction: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function runTracking($table, $dateWhere){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "INSERT INTO $table (select `Tc`.`UserID` AS `UserID`,sum((`Tc`.`Quantity` * `Tc`.`CoinPrice`)) AS `AmountOpen`,`Tc`.`BaseCurrency` AS `BaseCurrency`
-from `TrackingCoins` `Tc`
-where  `Tc`.`Status` in ('Open','Pending') $dateWhere
-group by `Tc`.`UserID`,`Tc`.`BaseCurrency`); ";
-  print_r($sql);
+            from `TrackingCoins` `Tc`
+            where  `Tc`.`Status` in ('Open','Pending') $dateWhere
+            group by `Tc`.`UserID`,`Tc`.`BaseCurrency`); ";
+  SQLInsertUpdateCall("DeleteHistory: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function DeleteHistory($hours){
-  $conn = getHistorySQL(rand(1,4));
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  /*$conn = getHistorySQL(rand(1,4));
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $date = date('Y-m-d H:i', time());
   $sql = "call Update1HrPriceChange($hours,$date);";
-  //print_r($sql);
+  SQLInsertUpdateCall("DeleteHistory: ",$sql,3, 1, 1, 1, "Dashboard", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function userHistory($userID){
@@ -124,45 +129,48 @@ function updateUserProfit($userID,$liveBTC,$BittrexBTC,$liveUSDT,$BittrexUSDT,$l
     //echo "<br> TEST2: ".empty($BTCfromCoins);
     //echo "<br> TEST3: ".isnull($BTCfromCoins);
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "call UpdateUserProfitNew($userID,$liveBTC, $BittrexBTC, $liveUSDT, $BittrexUSDT, $liveETH,$BittrexETH,'$date',$btcPrice, $ethPrice, $usdtPrice);";
-    print_r($sql);
+    SQLInsertUpdateCall("updateUserProfit: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    $conn->close();
+    $conn->close();*/
 }
 
 function coinHistory($hours){
-  $conn = getSQLConn(rand(1,3));
-    // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    //$conn = getSQLConn(rand(1,3));
+    /* Check connection
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "call deleteHistory($hours)";
-    print_r($sql);
+    SQLInsertUpdateCall("coinHistory: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    $conn->close();
+    $conn->close();*/
 }
 
 function updateSQLactive($userID){
-  $conn = getSQL();
+    /*$conn = getSQL();
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "UPDATE `User` SET `Active` = 'No' WHERE `ID` = $userID";
-    //print_r($sql);
+    SQLInsertUpdateCall("updateSQLactive: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    $conn->close();
+    $conn->close();*/
 }
 
 function sendRenewEmail($to, $subject, $user, $from, $daysRemaining){
@@ -210,34 +218,36 @@ function updateUserProfitUnrealised($userID,$liveBTC,$liveUSDT,$liveETH,$btcPric
     //echo "<br> TEST2: ".empty($BTCfromCoins);
     //echo "<br> TEST3: ".isnull($BTCfromCoins);
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
-    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+    if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "call AddPendingUSDtoUserProfit($userID,$totaltoAdd);";
-    print_r($sql);
+    SQLInsertUpdateCall("updateUserProfitUnrealised: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+    /*print_r($sql);
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    $conn->close();
+    $conn->close();*/
 }
 
 function getOpenCoins($status){
   $tempAry = [];
   //if ($userID <> 0){ $whereclause = "Where `UserID` = $userID";}else{$whereclause = "";}
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
   if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
-  }
+  }*/
 
   $sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`, `LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`
   ,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`
   , `Price4Trend`,`Price3Trend`,`LastPriceTrend`,`LivePriceTrend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`DailyBTCLimit`,`PctToPurchase`,`BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`,`NoOfCoinSwapsThisWeek`
   ,@OriginalPrice:=`CoinPrice`*`Amount` as OriginalPrice, @CoinFee:=((`CoinPrice`*`Amount`)/100)*0.28 as CoinFee, @LivePrice:=`LiveCoinPrice`*`Amount` as LivePrice, @coinProfit:=@LivePrice-@OriginalPrice-@CoinFee as ProfitUSD, @ProfitPct:=(@coinProfit/@OriginalPrice)*100 as ProfitPct
   ,`CaptureTrend` FROM `View5_SellCoins` WHERE  `Status` = '$status' and `ToMerge` = 1 order by `IDTr` Asc ";
-  $result = $conn->query($sql);
+  $tempAry = mySQLSelect("getOpenCoins: ",$sql,3,1,1,0,"Dashboard",90);
+  /*$result = $conn->query($sql);
   echo $sql;
   //$result = mysqli_query($link4, $query);
   //mysqli_fetch_assoc($result);
@@ -248,26 +258,27 @@ function getOpenCoins($status){
     ,$row['Hr24ChangePctChange'],$row['Last7DChange'],$row['Live7DChange'],$row['D7ChangePctChange'],$row['BaseCurrency'],$row['Price4Trend'],$row['Price3Trend'],$row['LastPriceTrend'],$row['LivePriceTrend'],$row['FixSellRule'],$row['SellRule'],$row['BuyRule'] //43
     ,$row['ToMerge'],$row['LowPricePurchaseEnabled'],$row['DailyBTCLimit'],$row['PctToPurchase'],$row['BTCBuyAmount'],$row['NoOfPurchases'],$row['Name'],$row['Image'],$row['MaxCoinMerges'],$row['NoOfCoinSwapsThisWeek'],$row['CaptureTrend']);
   }
-  $conn->close();
+  $conn->close();*/
   return $tempAry;
 }
 
 function updateMergeSaving(){
   $tempAry = [];
-  $conn = getSQLConn(rand(1,3));
+  /*$conn = getSQLConn(rand(1,3));
   // Check connection
-  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+  if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "UPDATE `Transaction` `Tr`
             join `UserConfig` `Uscf` on `Tr`.`UserID` = `Uscf`.`UserID`
             SET `Tr`.`ToMerge` = 1
             WHERE `Tr`.`Status` = 'Saving' and `Uscf`.`AutoMergeSavings` = 1 ";
-  print_r($sql);
+  SQLInsertUpdateCall("updateMergeSaving: ",$sql,3, 1, 1, 0, "Dashboard", 90);
+  /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
   } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  $conn->close();
+  $conn->close();*/
 }
 
 function mergeCoins($sellTrackingCoins, $nStatus){
