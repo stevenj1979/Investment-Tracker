@@ -75,8 +75,13 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
       errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->connect_error,$daysToKeep);
       die("Connection failed: " . $conn->connect_error);
   }
-  $result = $conn->query($sql);
-
+  try {
+    $result = $conn->query($sql);
+  } catch (mysqli_sql_exception $e) {
+    $error = $e->getMessage();
+    echo $error;
+    errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$error,$daysToKeep);
+  }
   if ($result){
       //while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row;}
       //while ($row = $result->fetch_array(MYSQLI_NUM));
