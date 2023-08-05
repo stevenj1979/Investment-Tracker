@@ -21,14 +21,22 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
         print_r($sql);
     }
 
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-        if ($noError == 0){
-          errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
-        }
+    try{
+      $conn->query($sql)
+    }catch (mysqli_sql_exception $e) {
+      $error = $e->getMessage();
+      if($echo == 1){
+        //echo "<BR>".$error;
+        echo "Error: " . $sql . "<br>" . $error;
+      }
+
+      if ($noError == 0){
+        errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
+      }
+      return;
     }
+
+
     $conn->close();
 }
 
