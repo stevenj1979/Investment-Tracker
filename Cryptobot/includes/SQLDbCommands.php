@@ -69,7 +69,9 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
       print_r($sql);
   }
   if ($conn->connect_error) {
-      echo "Conn Error / Logging Error | $conn->connect_error";
+      if($echo == 1){
+        echo "Conn Error / Logging Error | $conn->connect_error";
+      }
       errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->connect_error,$daysToKeep);
       die("Connection failed: " . $conn->connect_error);
   }
@@ -80,7 +82,9 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
       while($row = mysqli_fetch_array($result, MYSQLI_NUM)) {$tempAry[] = $row;}
   }else{
     //error here
-    Echo "Result Error / Logging Error| errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);";
+    if($echo == 1){
+      Echo "Result Error / Logging Error| errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);";
+    }
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
   }
   $conn->close();
