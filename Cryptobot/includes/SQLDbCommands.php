@@ -79,8 +79,11 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
     $result = $conn->query($sql);
   } catch (mysqli_sql_exception $e) {
     $error = $e->getMessage();
-    echo "<BR>".$error;
+    if($echo == 1){
+      echo "<BR>".$error;
+    }
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$error,$daysToKeep);
+    return;
   }
   if ($result){
       //while ($row = mysqli_fetch_assoc($result)) {$tempAry[] = $row;}
