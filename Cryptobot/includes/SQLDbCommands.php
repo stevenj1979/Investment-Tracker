@@ -22,7 +22,7 @@ function SQLInsertUpdateCall($name,$sql,$UserID, $echo, $enabled, $history, $fil
     }
 
     try{
-      $conn->query($sql)
+      $conn->query($sql);
     }catch (mysqli_sql_exception $e) {
       $error = $e->getMessage();
       if($echo == 1){
