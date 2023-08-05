@@ -8,6 +8,7 @@ include_once ('includes/SQLDbCommands.php');
 $apikey=getAPIKey();
 $apisecret=getAPISecret();
 $logToFileSetting = getLogToFile();
+$manRun = False;
 echo "<BR> API Secret: $apisecret";
 $tmpTime = "+5 seconds";
 if (!empty($argv[1])){
@@ -20,6 +21,8 @@ echo "<BR> isEmpty : ".empty($_GET['mins']);
 if (!empty($_GET['mins'])){
   $tmpTime = str_replace('_', ' ', $_GET['mins']);
   echo "<br> GETMINS: ".$_GET['mins'];
+}else{
+  $manRun = True;
 }
 
 function timerReady($start, $seconds){
@@ -249,7 +252,7 @@ while($date <= $newTime){
 
     echo "<br>";
     echo "getCoinMarketCapStats Refresh ";
-    if ($marketCapFlag == True){
+    if ($marketCapFlag == True OR $manRun == True){
       if ($marketCapStatsUpdateFlag == True){
         $marketCapStatsUpdateFlag = False; logAction("newCoinMarketCapStats('$coinStr')",'CMC', $logToFileSetting);
         for ($k=0; $k<$CMCStatsSize; $k++){
@@ -302,7 +305,7 @@ while($date <= $newTime){
       logAction('Market Cap Update Set','CoinPrice', $logToFileSetting);
     }
     //if ($i == 1){$historyFlag = True;}
-    if ($historyFlag ==  True){
+    if ($historyFlag ==  True OR $manRun == True){
       Echo "<BR> History flag Update ";
       if ($timeFlag == False){
         $coinPriceHistoryTime = date("Y-m-d H:i:s", time());
