@@ -321,20 +321,14 @@ $resultOrd = bittrexOrderClosed($apikey, $apisecret, $uuid, 3);
 Echo "<BR> CLOSED ORDERS!!!";
 var_dump($resultOrd);
 
-Echo "<BR> TEST New SELECT <BR> ";
-$sql = "SELECT `IDTr`,`Type`,`CoinID`,`UserID`,`CoinPrice`,`Amount`,`Status`,`OrderDate`,`CompletionDate`,`BittrexID`,`OrderNo`,`Symbol`,`LastBuyOrders`,`LiveBuyOrders`,`BuyOrdersPctChange`,`LastMarketCap`
-,`LiveMarketCap`,`MarketCapPctChange`,`LastCoinPrice`,`LiveCoinPrice`,`CoinPricePctChange`,`LastSellOrders`,`LiveSellOrders`,`SellOrdersPctChange`,`LastVolume`,`LiveVolume`,`VolumePctChange`,`Last1HrChange`
-,`Live1HrChange`,`Hr1ChangePctChange`,`Last24HrChange`,`Live24HrChange`,`Hr24ChangePctChange`,`Last7DChange`,`Live7DChange`,`D7ChangePctChange`,`BaseCurrency`,`LivePriceTrend`,`LastPriceTrend`,`Price3Trend`
-,`Price4Trend`,`FixSellRule`,`SellRule`,`BuyRule`,`ToMerge`,`LowPricePurchaseEnabled`,`TotalPurchasesPerCoin` as `PurchaseLimit`,`PctToPurchase`, `BTCBuyAmount`,`NoOfPurchases`,`Name`,`Image`,10 as `MaxCoinMerges`
-,`NoOfCoinSwapsThisWeek`,`OriginalPrice`, `CoinFee`,`LivePrice`, `ProfitUSD`, `ProfitPct`,`CaptureTrend`,`minsToDelay`,`MinsFromBuy`,`HoursFlatHighPdcs`,`MaxPriceFromHigh`,`PctFromLiveToHigh`,`MultiSellRuleEnabled`
-,floor(timestampdiff(second,`OrderDate`, now())/3600) as `HoursSinceBuy`, 'SellPctCsp',`MaxHoursFlat`,`Hr1Top`,`Hr1Bottom`,`CaaOffset`,`CaaMinsToCancelSell`,`CaaSellOffset`,`SpreadBetTransactionID`
-FROM `View5_SellCoins` Where `UserID` = 3 and `Status` = 'Open' and `Type` = 'SpreadSell' order by `ProfitPct` Desc";
-//$data = mySQLSelect($sql);
-$data = assocSQLSelect("TestSQL: ",$sql,3,1,1,0,"TestFile",90);
-var_dump($data);
-foreach ($data as $row) {
-    echo "<BR> BittrexRef: ".$row['BittrexID'];
-}
+$sql = "SELECT sum(`Tr`.`CoinPrice`*`Tr`.`Amount`) as OriginalPurchasePrice, sum(`Ba`.`SellPrice`*`Tr`.`Amount`) as SellPrice
+    From `BittrexAction` `Ba`
+    join `Transaction` `Tr` on `Tr`.`ID` = `Ba`.`TransactionID`
+    join `CoinPrice` `Cp` on `Cp`.`CoinID` = `Tr`.`CoinID`
+    WHERE `Tr`.`SpreadBetTransactionID` = $spreadBetTransactionID and `Tr`.`Status` = 'Sold'
+    and `Ba`.`Type` in ('Sell','SpreadSell')";
+$tempAry = mySQLSelect("getSoldProfitSpreadBetSellTest: ",$sql,3,1,1,0,"NewConfig",90);
+
 //$datasize = newCount($data);
 //Echo "<BR> Count: $datasize <BR>";
 
