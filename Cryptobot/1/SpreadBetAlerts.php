@@ -63,7 +63,7 @@ if (isset($_GET['alert'])){
     $reocurring = $_POST['reocurringChk'];
     $spreadBetRuleID = $_POST['SpreadBetRuleIDTxt'];
     $allRuleCheck = $_POST['allCoinChk'];
-    if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = count($allRules);}else{$allRulesSize = 1;}
+    if (isset($allRuleCheck)){ $allRules = getAllRules($userID); $allRulesSize = newCount($allRules);}else{$allRulesSize = 1;}
     if (isset($reocurring)){$temp = 1;}
     if ($action == "<"){ $actionTemp = "LessThan";}else{$actionTemp = "GreaterThan";}
     for ($o=0; $o<$allRulesSize; $o++){
@@ -130,7 +130,7 @@ function displayForm($id){
   $selected = "";$checked = "";
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-  $selectArraySize = count($selectArray);
+  $selectArraySize = newCount($selectArray);
   $temp = getSpreadBetAlertsFormData($id);
   $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4]; $spreadBetRuleID = $temp[0][5];
   ?> <h1>SpreadBet Alerts</h1>
@@ -176,7 +176,7 @@ function displayAddNewAlert($spreadBetRuleID){
   $userID = $_SESSION['ID'];
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-  $selectArraySize = count($selectArray);
+  $selectArraySize = newCount($selectArray);
   //$temp = getSpreadBetAlertsFormData($id);
   $category = ""; $price = ""; $action = ""; $reoccuring = 0;
   ?> <h1>SpreadBet Alerts</h1>
@@ -292,7 +292,7 @@ Function showMain(){
   newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,2);
   newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>Price Pct Change</TH><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getSpreadBetAlerts($userID);
-  $newArrLength = Count($coinAlerts);
+  $newArrLength = newCount($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][13]; $action = $coinAlerts[$x][11];
     $price = $coinAlerts[$x][14]; $userName = $coinAlerts[$x][6];

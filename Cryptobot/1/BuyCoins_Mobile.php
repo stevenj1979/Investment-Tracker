@@ -185,7 +185,7 @@ displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
       $tracking = getTrackingCoins();
-      $newArrLength = count($tracking);
+      $newArrLength = newCount($tracking);
 
       echo "<h3><a href='BuyCoins.php'>Buy Coins</a> &nbsp > &nbsp <a href='BuyCoinsFilter.php'>Buy Coins Filter</a> &nbsp > &nbsp <a href='BuyCoinsTracking.php'>Buy Coins Tracking</a> &nbsp > &nbsp <a href='BuyCoins_Spread.php'>Buy Coins SpreadBet</a>
        &nbsp > &nbsp <a href='BuyCoins_BuyBack.php'>Buy Back</a></h3>";

@@ -211,7 +211,7 @@ return $tempAry;
 
 function displayRules($buyRulesAry){
   $selectedRule = $_SESSION['RuleIDSelected'];
-  $buyRulesAryCount = count($buyRulesAry);
+  $buyRulesAryCount = newCount($buyRulesAry);
   for ($i=0; $i<$buyRulesAryCount; $i++){
     $ruleID = $buyRulesAry[$i][0];
     if ($selectedRule == $ruleID){
@@ -228,7 +228,7 @@ function showMain(){
 
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         $tracking = getTrackingCoins("WHERE `DoNotBuy` = 0 and `BuyCoin` = 1 ORDER BY `Symbol` ASC","FROM `View1_BuyCoins` ");
-        $newArrLength = count($tracking);
+        $newArrLength = newCount($tracking);
         $buyRuleAry = getBuyRules($_SESSION['ID']);
         $autoBuyPrice = getAutoBuyPrices();
         $coinPricePatternList = getCoinPricePattenList();

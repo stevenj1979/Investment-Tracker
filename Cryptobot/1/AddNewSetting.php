@@ -663,7 +663,7 @@ function addNewThreeOption($RealName, $idName, $value){
 }
 
 function displayAutoListBox($tempAry){
-  $tempCount = count($tempAry);
+  $tempCount = newCount($tempAry);
   for ($i=0; $i<$tempCount; $i++){
      $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1]; $bottomPrice = $tempAry[$i][2];
      $result = $symbol.":".$topPrice.":".$bottomPrice;
@@ -673,7 +673,7 @@ function displayAutoListBox($tempAry){
 }
 
 function displayListBox($tempAry){
-  $tempCount = count($tempAry);
+  $tempCount = newCount($tempAry);
   for ($i=0; $i<$tempCount; $i++){
     $price = $tempAry[$i][3]; $symbol = $tempAry[$i][4]; $lowPrice = $tempAry[$i][6];
     $result = $symbol.":".$price.":".$lowPrice;
@@ -683,8 +683,8 @@ function displayListBox($tempAry){
 }
 
 function displayListBoxNormal($tempAry, $num, $name, $enabled){
-  $tempCount = count($tempAry);
-  //$symbolListCount = count($symbolList);
+  $tempCount = newCount($tempAry);
+  //$symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -698,8 +698,8 @@ function displayListBoxNormal($tempAry, $num, $name, $enabled){
 }
 
 function displaySymbols($symbolList,$num, $name, $enabled, $num2, $selected){
-  $symbolListCount = count($symbolList);
-  //$symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
+  //$symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -719,7 +719,7 @@ function displaySymbols($symbolList,$num, $name, $enabled, $num2, $selected){
 }
 
 function displayTrendSymbols($symbolList, $name, $enabled){
-  $symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -770,7 +770,7 @@ function getMultiSellTemplates(){
 }
 
 function displayMultiSell($symbolList, $name, $enabled, $selected){
-  $symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -903,7 +903,7 @@ function displayEdit($id){
   addNewTwoOption('Price Trend Enabled: ', 'PriceTrendEnabled', $formSettings[0][31]);
   echo "<div class='settingsformCmbo'>";
   $coinPricePatternNames = getCoinPriceMatchNames($id, "`CoinPricePatternName`","");
-  $coinPricePatternNamesSize = count($coinPricePatternNames);
+  $coinPricePatternNamesSize = newCount($coinPricePatternNames);
   $coinPricePatternID = $formSettings[0][60];
   $coinPricePatternName = $formSettings[0][61];
 
@@ -924,7 +924,7 @@ function displayEdit($id){
   echo "<div class='settingsform'>";
   echo "<H3>New Coin Price Pattern</H3>";
   $coinPriceMatchNames = getCoinPriceMatchNames($id, "`CoinPriceMatchName`","");
-  $coinPriceMatchNamesSize = count($coinPriceMatchNames);
+  $coinPriceMatchNamesSize = newCount($coinPriceMatchNames);
   $coinPriceMatchID = $formSettings[0][59];
   $coinPriceMatchName = $formSettings[0][58];
   //$coinPriceMatchNameSelected = $_SESSION['coinPriceMatchNameSelected'];
@@ -995,7 +995,7 @@ function displayEdit($id){
     addNewTwoOption('Buy Coin: ', 'buyCoin', $formSettings[0][25]);
     //addNewText('BTC Buy Amount: ', 'bTCBuyAmount', $formSettings[0][27], 38, 'Eg 0 for full balance', False,1);
     //addNewText('Limit To Coin: ', 'limitToCoin', $formSettings[0][45], 45, 'Eg ALL', False,1);
-    $coinListSize = Count($coinList);
+    $coinListSize = newCount($coinList);
     Echo "<select name='LimitToCoinID'>";
     for ($w=0; $w<$coinListSize;$w++){
       $limitCoinID = $coinList[$w][0];   $sym = $coinList[$w][1]; $base = $coinList[$w][2];

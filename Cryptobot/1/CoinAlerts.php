@@ -30,7 +30,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   $showmain = false;
   $userID = $_SESSION['ID'];$selected = "";$checked = "";
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-  $selectArraySize = count($selectArray);
+  $selectArraySize = newCount($selectArray);
   echo "<BR> Alert : ".$_GET['alert'];
   $coin = $_GET['coinAlt']; $cost = number_format($_GET['coinPrice'],8); $baseCurrency = $_GET['baseCurrency']; $coinID = $_GET['coinID'];
   $temp = getCoinAlertsFormData($id);
@@ -74,7 +74,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
     $category = $alertDetails[0][8]; $price = $alertDetails[0][3]; $action = $alertDetails[0][2]; $reoccuring = $alertDetails[0][12];
     //echo "<BR> Coin $coin cost $cost CoinID $coinID";
     $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-    $selectArraySize = count($selectArray);
+    $selectArraySize = newCount($selectArray);
     //$temp = getCoinAlertsFormData($coinAlertRuleID);
 
   displayHeader(8);
@@ -129,7 +129,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   //echo "<BR> KEK $KEK | APISecret $APISecret | APIKey $APIKey";
   //if (isset($_POST['allCoinChk']){
   $allCoins = getAllCoins();
-  $allCoinsSize = count($allCoins);
+  $allCoinsSize = newCount($allCoins);
   //}
   $current_date = date('Y-m-d H:i');
   $newTime = date("Y-m-d H:i",strtotime("-30 mins", strtotime($current_date)));
@@ -185,7 +185,7 @@ if ($_GET['alert'] == 0 && isset($_GET['alert'])){
   newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,0);
   newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getCoinAlertsUser($userID);
-  $newArrLength = Count($coinAlerts);
+  $newArrLength = newCount($coinAlerts);
   for($x = 0; $x < $newArrLength; $x++) {
     $id = $coinAlerts[$x][14];$coinID = $coinAlerts[$x][1]; $action = $coinAlerts[$x][2];
     $price = round($coinAlerts[$x][3],$roundNum);$symbol = $coinAlerts[$x][4]; $userName = $coinAlerts[$x][5];

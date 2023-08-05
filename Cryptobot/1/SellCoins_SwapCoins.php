@@ -80,7 +80,7 @@ function getCoinSwap(){
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $trackingSell = getCoinSwap($_SESSION['ID']);
-        $arrLengthSell = count($trackingSell);
+        $arrLengthSell = newCount($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Swap Coins</h2>");
         displaySubHeader("SellCoin");

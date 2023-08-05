@@ -405,7 +405,7 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $spreadBetID = getSpreadBetIDOpen($_SESSION['ID']);
-        $spreadBetIDSize = count($spreadBetID);
+        $spreadBetIDSize = newCount($spreadBetID);
         //$roundVar = $_SESSION['roundVar'];
         $roundVar = 8;
         //$userConfig = getConfig($_SESSION['ID']);
@@ -415,11 +415,11 @@ $date = date('Y/m/d H:i:s', time());
         displaySubHeader("SellCoin");
         for ($s=0; $s<$spreadBetIDSize; $s++){
           $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],1);
-          $arrLengthSell = count($trackingSell);
+          $arrLengthSell = newCount($trackingSell);
           //displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
           newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Enabled",$fontSize);
           $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],$spreadBetID[$s][1],0);
-          $arrLengthSell = count($trackingSell);
+          $arrLengthSell = newCount($trackingSell);
           //displaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
           newDisplaySpreadBetCoins($trackingSell, $arrLengthSell,$roundVar, $spreadBetID[$s][1]."Disabled",$fontSize);
         }

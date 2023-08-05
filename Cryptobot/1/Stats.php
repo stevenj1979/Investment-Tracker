@@ -152,9 +152,9 @@ function getCoinsFromSQL(){
 displayHeader(2);
         //$coinStats = getCoinsFromSQL();
         $coinStats = $_SESSION['StatsList'];
-        $StatsArrLength = count($coinStats);
+        $StatsArrLength = newCount($coinStats);
         $historyStats = getHistoryFromSQL();
-        $historySize = count($historyStats);
+        $historySize = newCount($historyStats);
         echo "<h2>Stats</h2><form action='Stats.php?dropdown=Yes' method='post'><select name='coinSelect'>";
 
         for($x = 0; $x < $StatsArrLength; $x++) {

@@ -280,7 +280,7 @@ displayHeader(0);
               //echo "<BR> $LiveBTCPrice : $LiveETHPrice";
               //$totalProfit = ($btcPrice*$LiveBTCPrice)+($usdtPrice*$LiveUSDTPrice)+($ethProfit*$LiveETHPrice)+$pendingUSDT;
               echo "<h3>Dashboard</h3><BR>";
-              $webMarketStatsSize = count($webMarketStats);
+              $webMarketStatsSize = newCount($webMarketStats);
               for ($l=0; $l<$webMarketStatsSize;$l++){
                 $baseCurr = $webMarketStats[$l][3];
                 $avgPrice = ($webMarketStats[$l][1]+$webMarketStats[$l][2])/2;

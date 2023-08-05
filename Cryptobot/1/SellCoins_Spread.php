@@ -30,7 +30,7 @@ if(isset($_GET['Mode'])){
     $ID = $_GET['SBTransID'];
     echo "<BR>SpreadBet Transaction ID: $ID";
     $spreadSellCoins = getSpreadCoinSellData($ID);
-    $spreadSellCoinsSize = count($spreadSellCoins);
+    $spreadSellCoinsSize = newCount($spreadSellCoins);
     for ($r=0; $r<$spreadSellCoinsSize; $r++){
       echo "<BR>sellSpreadBetCoins($spreadSellCoins);";
       sellSpreadBetCoins($spreadSellCoins);
@@ -242,14 +242,14 @@ $date = date('Y/m/d H:i:s', time());
         displayHeader(4);
         $openSpreadBetTransID = getDistinctSpreadBetID();
         //$comma_separated = implode(",", $openSpreadBetTransID);
-        $openSpreadBetTransIDSize = count($openSpreadBetTransID);
+        $openSpreadBetTransIDSize = newCount($openSpreadBetTransID);
         for ($u=0; $u<$openSpreadBetTransIDSize; $u++){
           $comma_separated = $comma_separated.$openSpreadBetTransID[$u][0].",";
         }
          //var_dump($openSpreadBetTransID);
          //echo "<BR>$comma_separated<BR>";
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID'],rtrim($comma_separated, ","));
-        $arrLengthSell = count($trackingSell);
+        $arrLengthSell = newCount($trackingSell);
         //$roundVar = $_SESSION['roundVar'];
         $roundVar = 8;
         //$userConfig = getConfig($_SESSION['ID']);

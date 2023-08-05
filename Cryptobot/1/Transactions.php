@@ -170,7 +170,7 @@ if(isset($_POST['coin_ID'])){
 function displayAddToSpread($userID, $transID){
 
   $rules = getRuleNames($userID);
-  $rulesSize = count($rules);
+  $rulesSize = newCount($rules);
   ?>
   <form action='Transactions.php?updateSpreadBet=Yes' method='post'>
     <select name="Spread_Rules" id="Spread_Rules_ID">
@@ -484,7 +484,7 @@ function displayDefault(){
   }else{
     $num = 8; $fontSize = "<i class='fas fa-bolt' style='font-size:32px;color:#D4EFDF'>"; $dformat ="YYYY-mm-dd H:i:s";
   }
-  $arrlength = count($coin);
+  $arrlength = newCount($coin);
   echo "<html><h2>Transactions</h2>";
   echo "<form action='Transactions.php?dropdown=Yes' method='post'>";
   echo "<select name='transSelect' id='transSelect' class='enableTextBox'>";

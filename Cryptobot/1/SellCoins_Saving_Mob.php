@@ -208,7 +208,7 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $trackingSell = getSavingSellCoins($_SESSION['ID']);
-        $arrLengthSell = count($trackingSell);
+        $arrLengthSell = newCount($trackingSell);
         $roundVar = $_SESSION['roundVar'];
         $savingTotal = getSavingTotal($_SESSION['ID']);
         //$userConfig = getConfig($_SESSION['ID']);

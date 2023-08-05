@@ -26,8 +26,8 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
   //$echoTestText = 0;
   $echoTestText = $webSettingsAry[1][1];
   $trackCounter = [];
-  $coinPurchaseSettingsSize = count($coinPurchaseSettings);
-  $newTrackingCoinsSize = count($newTrackingCoins);
+  $coinPurchaseSettingsSize = newCount($coinPurchaseSettings);
+  $newTrackingCoinsSize = newCount($newTrackingCoins);
   for($a = 0; $a < $newTrackingCoinsSize; $a++) {
     $APIKey = $newTrackingCoins[$a][18];$APISecret = $newTrackingCoins[$a][19];$KEK = $newTrackingCoins[$a][20];
     $symbol = $newTrackingCoins[$a][3];$baseCurrency = $newTrackingCoins[$a][8];
@@ -81,7 +81,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       //reOpenBuySellProfitRule($ruleIDBuy,$userID,$coinID);
       continue;
     }
-    $delayCoinPurchaseSize = count($delayCoinPurchase);
+    $delayCoinPurchaseSize = newCount($delayCoinPurchase);
     for ($b=0; $b<$delayCoinPurchaseSize; $b++){
       $delayCoinPurchaseUserID = $delayCoinPurchase[$b][2]; $delayCoinPurchaseCoinID = $delayCoinPurchase[$b][1];
       echoText("Checking Coin: $coinID / $delayCoinPurchaseCoinID | $userID / $delayCoinPurchaseUserID",$echoTestText);
@@ -93,7 +93,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
 
     echoText("Tracking Buy Count 1 <BR>",$echoTestText);
 
-    $ruleProfitSize = count($ruleProfit);
+    $ruleProfitSize = newCount($ruleProfit);
     for ($h=0; $h<$ruleProfitSize; $h++){
         if ($limitBuyAmountEnabled == 1 and $overrideCoinAlloc == 0){
           //echoText("TEST limitBuyAmountEnabled: $limitBuyAmountEnabled | ".$ruleProfit[$h][4]." | $ruleIDBuy | ".$ruleProfit[$h][1]." | $limitBuyAmount";
@@ -127,7 +127,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
       $indexLookup = 2;
     }
   echoText("Tracking Buy Count 4 <BR>",$echoTestText);
-    $openTransactionsSize = count($openTransactions);
+    $openTransactionsSize = newCount($openTransactions);
     for ($h=0; $h<$openTransactionsSize; $h++){
       if ($openTransactions[$h][0] == $userID){
         $oldBTCAmount = $BTCAmount;
@@ -147,10 +147,10 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
     if ($readyToBuy == 1){
       $delayCoinPurchase = getDelayCoinPurchaseTimes();
       $totalCoinPurchases = getTotalCoinPurchases();
-      $totalCoinPurchasesSize = count($totalCoinPurchases);
+      $totalCoinPurchasesSize = newCount($totalCoinPurchases);
       $coinPurchasesPerCoin = getCoinPurchasesByCoin();
-      $coinPurchasesPerCoinSize = count($coinPurchasesPerCoin);
-      $clearCoinQueueSize = count($clearCoinQueue);
+      $coinPurchasesPerCoinSize = newCount($coinPurchasesPerCoin);
+      $clearCoinQueueSize = newCount($clearCoinQueue);
       for ($p=0; $p<$clearCoinQueueSize; $p++){
         if ($coinID == $clearCoinQueue[$p][1] AND $userID == $clearCoinQueue[$p][0] and $overrideCoinAlloc < 1){
           echoText("EXIT: CoinID and USERID in Clear Coin Queue: $coinID | $userID",$echoExitText);
@@ -244,7 +244,7 @@ function runNewTrackingCoins($newTrackingCoins,$marketStats,$baseMultiplier,$rul
           }
           clearTrackingCoinQueue($userID,$coinID);
           addCoinPurchaseDelay($coinID,$userID,1,1);
-          $aryCount = count($clearCoinQueue);
+          $aryCount = newCount($clearCoinQueue);
           //$clearCoinQueue[$aryCount] = Array($userID,$coinID);
           if (!empty($clearCoinQueue)) {
               array_push($clearCoinQueue,$userID,$coinID);

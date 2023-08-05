@@ -30,7 +30,7 @@ function showMain(){
 
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         $tracking = getNewTrackingCoins($_SESSION['ID']);
-        $newArrLength = count($tracking);
+        $newArrLength = newCount($tracking);
         //$buyRuleAry = getBuyRules($_SESSION['ID']);
         //$autoBuyPrice = getAutoBuyPrices();
         //$coinPricePatternList = getCoinPricePattenList();

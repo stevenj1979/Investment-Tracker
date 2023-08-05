@@ -339,17 +339,17 @@ echo "</table>";
 
 
 $userSettings = getRules($_SESSION['ID'],1);
-$userSettingsLen = count($userSettings);
+$userSettingsLen = newCount($userSettings);
 $userSettingsSB = getRules($_SESSION['ID'],3);
-$userSettingsSBLen = count($userSettingsSB);
+$userSettingsSBLen = newCount($userSettingsSB);
 $userSettingsDisabled = getRules($_SESSION['ID'],0);
 $userSettingsDisabledTotal = getRules($_SESSION['ID'],0,0);
-$userSettingsDisabledTotalLen = count($userSettingsDisabledTotal);
-$userSettingsDisabledLen = count($userSettingsDisabled);
+$userSettingsDisabledTotalLen = newCount($userSettingsDisabledTotal);
+$userSettingsDisabledLen = newCount($userSettingsDisabled);
 $userSettingsDisabledSB = getRules($_SESSION['ID'],2);
-$userSettingsDisabledSBLen = count($userSettingsDisabledSB);
+$userSettingsDisabledSBLen = newCount($userSettingsDisabledSB);
 $userSettingsDisabledSBTotal = getRules($_SESSION['ID'],2,0);
-$userSettingsDisabledSBTotalLen = count($userSettingsDisabledSBTotal);
+$userSettingsDisabledSBTotalLen = newCount($userSettingsDisabledSBTotal);
 //echo $userDetails[0][1];
 
 displayHeader(7);

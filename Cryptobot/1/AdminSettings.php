@@ -198,7 +198,7 @@ function endUserTbl(){
 
 $userSub = getSubscription();
 if (isset($userSub)){
-    $userSubSize = count($userSub);
+    $userSubSize = newCount($userSub);
 }else{
   $userSubSize = 0;
 }
@@ -240,7 +240,7 @@ if (isset($userSub)){
              <?php
              $coinAry = getCoins();
              $coinArySize = 0;
-             if (isset($coinAry)){ $coinArySize = count($coinAry);}
+             if (isset($coinAry)){ $coinArySize = newCount($coinAry);}
              startCoinTbl();
              for($x = 0; $x < $coinArySize; $x++) {
                coinTblRow($coinAry[$x][0],$coinAry[$x][1],$coinAry[$x][2],$coinAry[$x][3],$coinAry[$x][4],$coinAry[$x][5]);
@@ -252,7 +252,7 @@ if (isset($userSub)){
              <?php
              $userAry = getUsers();
              $userArySize = 0;
-             if (isset($userAry)){$userArySize = count($userAry);}
+             if (isset($userAry)){$userArySize = newCount($userAry);}
              startUserTbl();
              for($x = 0; $x < $userArySize; $x++) {
                userTblRow($userAry[$x][0],$userAry[$x][1],$userAry[$x][2],$userAry[$x][3],$userAry[$x][4],$userAry[$x][5],$userAry[$x][6]);

@@ -269,9 +269,9 @@ displayHeader(3);
 
       if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
       $tracking = getLiveMarketPrice(1);
-      $newArrLength = count($tracking);
+      $newArrLength = newCount($tracking);
       $trackingDisabled = getLiveMarketPrice(0);
-      $trackingDisabledSize = count($trackingDisabled);
+      $trackingDisabledSize = newCount($trackingDisabled);
       //echo $newArrLength;
       //$userConfig = getConfig($_SESSION['ID']);
       //$user = getUserIDs($_SESSION['ID']);

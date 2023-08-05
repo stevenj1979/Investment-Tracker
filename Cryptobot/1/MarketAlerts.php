@@ -118,7 +118,7 @@ function displayForm($id){
   $selected = "";$checked = "";
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-  $selectArraySize = count($selectArray);
+  $selectArraySize = newCount($selectArray);
   $temp = getMarketAlertsFormData($id);
   $category = $temp[0][3]; $price = $temp[0][2]; $action = $temp[0][1]; $reoccuring = $temp[0][4];
   ?> <h1>Market Alerts</h1>
@@ -161,7 +161,7 @@ function displayAddNewAlert(){
   $userID = $_SESSION['ID'];
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
   $selectArray = Array("Price","Pct Price in 1 Hour","Pct Price in 24 Hours","Pct Price in 7 Days","Market Cap Pct Change","Live Price Pct Change");
-  $selectArraySize = count($selectArray);
+  $selectArraySize = newCount($selectArray);
   //$temp = getSpreadBetAlertsFormData($id);
   $category = ""; $price = ""; $action = ""; $reoccuring = 0;
   ?> <h1>Market Alerts Alerts</h1>
@@ -258,7 +258,7 @@ Function showMain(){
   newEcho("<TH>&nbspUserName</th><TH>&nbspEmail</th>",$_SESSION['isMobile'] ,0);
   newEcho("<TH>&nbspliveCoinPrice</th><TH>&nbspCategory</th><th>Reocurring</th><TH>Price Pct Change</TH><TH>&nbspDelete Alert</th><tr>",$_SESSION['isMobile'] ,2);
   $coinAlerts = getMarketAlerts($userID);
-  $newArrLength = Count($coinAlerts);
+  $newArrLength = newCount($coinAlerts);
   $marketStats = getMarketstats();
   //echo "<BR> Array Len : $newArrLength";
   for($x = 0; $x < $newArrLength; $x++) {

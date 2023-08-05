@@ -217,7 +217,7 @@ function profitScore($profit){
 }
 
 function showSellCoins($trackingSell,$title){
-  $arrLengthSell = count($trackingSell);
+  $arrLengthSell = newCount($trackingSell);
   //$roundVar = $_SESSION['roundVar'];
   $roundVar = 8;
   //$userConfig = getConfig($_SESSION['ID']);

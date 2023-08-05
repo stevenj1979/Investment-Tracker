@@ -92,7 +92,7 @@ function getConsoleData($console, $userID, $consolsub, $searchtxt){
 }
 
 function displayDropDown($headers,$selected){
-  $headerCount = count($headers);
+  $headerCount = newCount($headers);
   //echo $headerCount;
   //var_dump($headers);
 
@@ -110,7 +110,7 @@ function main(){
   $subHeaders = getsubHeaders();
   $searchtxt = $_SESSION['ConsoleSearchTxt'];
   $consoleData = getConsoleData($_SESSION['ConsoleSelected'], $_SESSION['ID'],$_SESSION['ConsoleSubSelected'],$searchtxt);
-  $dataCount = count($consoleData);
+  $dataCount = newCount($consoleData);
 
   print_r("<h2>Console</h2>");
   echo "<form action='NotificationConsole.php?dropdown=Yes' method='post'>";

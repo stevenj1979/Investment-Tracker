@@ -314,7 +314,7 @@ function displaySubSectionEnd(){
 $userDetails = getUserIDs($_SESSION['ID']);
 //$userSettings = getConfig($_SESSION['ID']);
   $sequence = getSequence($_SESSION['ID']);
-  $sequenceCount = count($sequence);
+  $sequenceCount = newCount($sequence);
   displayHeader(7);
   $kek = $userDetails[0][13];
   $apisecret =Decrypt($kek,$userDetails[0][5]);

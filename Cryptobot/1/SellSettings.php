@@ -244,7 +244,7 @@ function showSellRules($userSettings, $title, $flag, $userSettingsLen, $findCat 
 
 
 $userSettings = getRules($_SESSION['ID']);
-$userSettingsLen = count($userSettings);
+$userSettingsLen = newCount($userSettings);
 //echo $userDetails[0][1];
 displayHeader(7);
 

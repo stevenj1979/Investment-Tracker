@@ -211,7 +211,7 @@ $date = date('Y/m/d H:i:s', time());
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $trackingSell = getTrackingSellCoinsLoc($_SESSION['ID']);
-        $arrLengthSell = count($trackingSell);
+        $arrLengthSell = newCount($trackingSell);
         $roundVar = $_SESSION['roundVar'];
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Sell Some Coins Now!</h2>");

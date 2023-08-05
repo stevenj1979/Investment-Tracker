@@ -63,7 +63,7 @@ if(isset($_GET['SellNow'])){
         if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
         displayHeader(4);
         $trackingSell = getNewTrackingSellCoins($_SESSION['ID']);
-        $arrLengthSell = count($trackingSell);
+        $arrLengthSell = newCount($trackingSell);
         //$userConfig = getConfig($_SESSION['ID']);
         print_r("<h2>Tracking Sell Coins</h2>");
         //echo "<h3><a href='SellCoins.php'>Sell Coins</a> &nbsp > &nbsp <a href='SellCoins_Tracking.php'>Tracking</a> &nbsp > &nbsp <a href='SellCoins_Saving.php'>Saving</a> &nbsp > &nbsp <a href='SellCoins_Spread.php'>Spread Bet</a> &nbsp > &nbsp <a href='SellCoins_SpreadCoin.php'>Spread Bet Coin</a>

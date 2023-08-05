@@ -295,7 +295,7 @@ function getCoinsLocal(){
 }
 
 function displayTrendSymbols($symbolList, $name, $enabled){
-  $symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -310,24 +310,24 @@ function displayTrendSymbols($symbolList, $name, $enabled){
 }
 
 $coinPriceMatchNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPriceMatchName`","");
-$coinPriceMatchNamesSize = count($coinPriceMatchNames);
+$coinPriceMatchNamesSize = newCount($coinPriceMatchNames);
 $coins = getCoinsLocal();
-$coinsSize = count($coins);
+$coinsSize = newCount($coins);
 $coinPriceMatch = getCoinPriceMatchSettingsLocal("Where `CoinPriceMatchNameID` = '".$_SESSION['coinPriceMatchNameSelected']."'");
-$coinPriceMatchSize = count($coinPriceMatch);
+$coinPriceMatchSize = newCount($coinPriceMatch);
 
 $coinPricePatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`CoinPricePatternName`","");
-$coinPricePatternNamesSize = count($coinPricePatternNames);
+$coinPricePatternNamesSize = newCount($coinPricePatternNames);
 $coinPricePattern = getCoinPricePatternSettingsLocal("Where `CoinPricePatternNameID` = '".$_SESSION['coinPricePatternNameSelected']."'");
-$coinPricePatternSize = count($coinPricePattern);
+$coinPricePatternSize = newCount($coinPricePattern);
 
 
 $coin1HrPatternNames = getCoinPriceMatchNames($_SESSION['ID'], "`Coin1HrPatternName`","");
-$coin1HrPatternNamesSize = count($coin1HrPatternNames);
+$coin1HrPatternNamesSize = newCount($coin1HrPatternNames);
 $coin1HrPattern = getCoin1HrPatternSettingsLocal("Where `Coin1HrPatternNameID` = '".$_SESSION['coin1HrPatternNameSelected']."'");
-$coin1HrPatternSize = count($coin1HrPattern);
+$coin1HrPatternSize = newCount($coin1HrPattern);
 //$coin1HrPattern = getCoin1HrPattenSettings();
-//$coin1HrPatternSize = count($coin1HrPattern);
+//$coin1HrPatternSize = newCount($coin1HrPattern);
 
 Echo "<BR> 1Hr pattern size : $coin1HrPatternSize";
 
@@ -338,7 +338,7 @@ $readOnly = " style='color:Gray' readonly ";
 $comboList = Array('-1','0','1','*');
   displayHeader(7);
   //<h3><a href='Settings.php'>User Settings</a> &nbsp > &nbsp <a href='BuySettings.php'>Buy Settings</a> &nbsp > &nbsp <a href='SellSettings.php'>Sell Settings</a> &nbsp > &nbsp <a href='Settings_Patterns.php'>Setting Patterns</a></h3>
-  displaySubHeader("Settings"); 
+  displaySubHeader("Settings");
   echo "<H3>Coin Price Match</H3>";
   echo "<div><form action='Settings_Patterns.php?changeNameSelection=Y' method='post'>";
   Echo "<select name='CoinPriceMatchNamesSelect'>";

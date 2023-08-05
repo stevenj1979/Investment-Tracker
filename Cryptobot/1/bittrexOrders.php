@@ -220,7 +220,7 @@ function displayOption($name){
 
         displayHeader(6);
 				$tracking = getBTTrackingCoins($_SESSION['ID']);
-				$newArrLength = count($tracking);
+				$newArrLength = newCount($tracking);
         //$userConfig = getConfig($_SESSION['ID']);
         //$user = getUserIDs($_SESSION['ID']);
 				//print_r("<HTML><Table><th>Coin</th><th>BuyPattern</th><th>MarketCapHigherThan5Pct</th><th>VolumeHigherThan5Pct</th><th>BuyOrdersHigherThan5Pct</th><th>PctChange</th><tr>");

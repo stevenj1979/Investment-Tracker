@@ -168,7 +168,7 @@ return $tempAry;
 }
 
 function displayMain($tracking, $title){
-  $newArrLength = count($tracking);
+  $newArrLength = newCount($tracking);
   echo "<H3>$title</H3>";
   for($x = 0; $x < $newArrLength; $x++) {
     //Variables

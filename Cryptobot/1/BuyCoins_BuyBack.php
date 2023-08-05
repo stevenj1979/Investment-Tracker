@@ -290,7 +290,7 @@ return $tempAry;
 
 function displayTable($tracking, $header, $linkName){
   if ($_SESSION['isMobile']){ $num = 2; $fontSize = "font-size:60px"; }else{$num = 8;$fontSize = "font-size:32px"; }
-  $newArrLength = count($tracking);
+  $newArrLength = newCount($tracking);
   echo "<h2>$header</H2><table id='t01'>";
   //Table
 

@@ -465,7 +465,7 @@ function getPriceTrendSell($id){
 }
 
 function displayListBox($tempAry, $name, $enabled){
-  $tempCount = count($tempAry);
+  $tempCount = newCount($tempAry);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -480,7 +480,7 @@ function displayListBox($tempAry, $name, $enabled){
 }
 
 function displayListBoxNormal($tempAry, $num, $name, $enabled){
-  $tempCount = count($tempAry);
+  $tempCount = newCount($tempAry);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -494,7 +494,7 @@ function displayListBoxNormal($tempAry, $num, $name, $enabled){
 }
 
 function displaySymbols($symbolList,$num, $name, $enabled){
-  $symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -507,7 +507,7 @@ function displaySymbols($symbolList,$num, $name, $enabled){
 }
 
 function displayTrendSymbols($symbolList, $name, $enabled){
-  $symbolListCount = count($symbolList);
+  $symbolListCount = newCount($symbolList);
   $readOnly = "";
   //echo "<BR> ENABLED: ".$enabled;
   if ($enabled == 0){$readOnly = " style='color:Gray' readonly ";}
@@ -541,7 +541,7 @@ function getSymbols(){
 }
 
 function displayAutoListBox($tempAry){
-  $tempCount = count($tempAry);
+  $tempCount = newCount($tempAry);
   for ($i=0; $i<$tempCount; $i++){
      $symbol = $tempAry[$i][3]; $topPrice = $tempAry[$i][1];
      $result = $symbol.":".$topPrice;
@@ -722,7 +722,7 @@ function displayEdit($id){
   addNewText('Sell Price Min: ','sellPriceMin',$formSettings[0][36],37, 'Eg 50', False,1);
 
   //addNewText('Limit To Coin: ','limitToCoin',$formSettings[0][37],38, 'Eg 50', False,1);
-  $coinListSize = Count($coinList);
+  $coinListSize = newCount($coinList);
     Echo "<select name='LimitToCoinID'>";
     for ($w=0; $w<$coinListSize;$w++){
       $limitCoinID = $coinList[$w][0];   $sym = $coinList[$w][1]; $base = $coinList[$w][2];

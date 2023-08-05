@@ -216,8 +216,8 @@ function tableEnd($sumUSDT, $sumUSD, $sumETH, $sumBTC){
 
         $date = date('d/m/Y h:i:s a', time());
         $percentGain = 2.0;
-        $arrlength = count($coins);
-        //$pricelength = count($CoinPrice);
+        $arrlength = newCount($coins);
+        //$pricelength = newCount($CoinPrice);
         //$btcPrice = getLiveCoinPriceUSDLoc("BTC");
         //echo "<br><h2>Profit</h2>";
         //echo "<h3><a href='Profit.php'>All Profit</a> &nbsp > &nbsp <a href='Profit_BuyBack.php'>BuyBack Profit</a> &nbsp > &nbsp <a href='Profit_SpreadBet.php'>SpreadBet Profit</a> &nbsp > &nbsp <a href='ProfitPerDay.php'>Profit Per Day</a> &nbsp > &nbsp <a href='ProfitPerMonth.php'>Profit Per Month</a> &nbsp > &nbsp <a href='ProfitTotal.php'>Total Profit</a></h3>";
