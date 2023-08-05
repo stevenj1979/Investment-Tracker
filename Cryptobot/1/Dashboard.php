@@ -314,7 +314,7 @@ displayHeader(0);
                  <!--<div id="visualization" style="width: 1200px; height: 400px;"></div>
                  <div id="visualization2" style="width: 1200px; height: 400px;"></div>-->
                  <div id="visualization" ></div>
-                 <div id="visualization2" ></div>
+                 <!--<div id="visualization2" ></div>-->
               </div><?php
               //$date = date('Y/m/d H:i:s', time());
               displaySideColumn();
