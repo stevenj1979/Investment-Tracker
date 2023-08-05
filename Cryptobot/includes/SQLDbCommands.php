@@ -66,11 +66,11 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
     $conn = getSQLConn(rand(1,3));
   }
   if($echo == 1){
-      print_r($sql);
+      print_r("<BR>".$sql);
   }
   if ($conn->connect_error) {
       if($echo == 1){
-        echo "Conn Error / Logging Error | $conn->connect_error";
+        echo "<BR>Conn Error / Logging Error | $conn->connect_error";
       }
       errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->connect_error,$daysToKeep);
       die("Connection failed: " . $conn->connect_error);
@@ -79,7 +79,7 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
     $result = $conn->query($sql);
   } catch (mysqli_sql_exception $e) {
     $error = $e->getMessage();
-    echo $error;
+    echo "<BR>".$error;
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$error,$daysToKeep);
   }
   if ($result){
@@ -89,7 +89,7 @@ function mySQLSelect($name,$sql,$UserID, $echo, $enabled, $history, $fileName, $
   }else{
     //error here
     if($echo == 1){
-      Echo "Result Error / Logging Error| errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);";
+      Echo "<BR>Result Error / Logging Error| errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);";
     }
     errorLogToSQL($name,$sql,$UserID,$enabled,$fileName,$conn->error,$daysToKeep);
   }
