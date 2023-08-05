@@ -4,6 +4,8 @@ ini_set('max_execution_time', 300);
 require('includes/newConfig.php');
 include_once ('/home/stevenj1979/SQLData.php');
 include_once ('/home/stevenj1979/Encrypt.php');
+include_once ('includes/SQLDbCommands.php');
+
 function getUserConfig(){
     $tempAry = [];
     $conn = getSQLConn(rand(1,3));
@@ -84,11 +86,11 @@ function DeleteHistory($hours){
 
 function userHistory($userID){
     $tempAry = [];
-    $conn = getSQLConn(rand(1,3));
+    /*$conn = getSQLConn(rand(1,3));
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
     $query = "SET time_zone = 'Asia/Dubai';";
-    $result = $conn->query($query);
+    $result = $conn->query($query);*/
     $sql = "SELECT `UserID` AS `UserID`
               ,Sum(Case When `BaseCurrency` = 'BTC'
                 Then `LivePrice` Else 0 End) as LiveBTC
@@ -99,10 +101,11 @@ function userHistory($userID){
               FROM `View5_SellCoins` where `UserID` = $userID
               and `Status` in ('Open','Pending')
               group by `UserID` ;";
-    print_r($sql);
+    $tempAry = mySQLSelect("userHistory: ",$sql,3,1,1,0,"Dashboard",90);
+    /*print_r($sql);
     $result = $conn->query($sql);
     while ($row = mysqli_fetch_assoc($result)){$tempAry[] = Array($row['UserID'],$row['LiveBTC'],$row['LiveUSDT'],$row['LiveETH']);}
-    $conn->close();
+    $conn->close();*/
     return $tempAry;
 }
 
