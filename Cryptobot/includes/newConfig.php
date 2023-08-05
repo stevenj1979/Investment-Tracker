@@ -4005,6 +4005,7 @@ function newerLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, 
 function errorLogToSQL($subject, $comments, $UserID, $enabled, $subTitle, $ref, $daysToKeep){
   if ($enabled == 1){
     $comments = str_replace("'","/",$comments);
+    $ref = str_replace("'","/",$ref);
     /*$conn = getSQLConn(rand(1,3));
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
     $sql = "call errorLogToSQL($UserID,'$subject','$comments',100,'$subTitle','$ref',$daysToKeep)";
