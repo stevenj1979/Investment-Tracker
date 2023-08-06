@@ -3630,7 +3630,7 @@ function copyCoinBuyHistoryStats($coinID,$bitPrice,$baseCurrency,$coinPriceHisto
   if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}*/
   $sql = "call writeCoinBuyHistoryStats($coinID,$bitPrice,'$baseCurrency','$coinPriceHistoryTime');";
   SQLInsertUpdateCall("copyCoinBuyHistoryStats: ",$sql,3, 1, 1, 0, "NewConfig", 90);
-  newLogToSQL("copyCoinBuyHistoryStats","$sql",3,1,"SQL CALL","CoinID:$coinID");
+  //newLogToSQL("copyCoinBuyHistoryStats","$sql",3,1,"SQL CALL","CoinID:$coinID");
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";

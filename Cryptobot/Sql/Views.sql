@@ -205,7 +205,7 @@ FROM `BittrexAction`  `Ba`
       ,`Caa`.`ID` as `CaaID`, `Caa`.`CoinID` as `CaaCoinID`, `Caa`.`Offset` as `CaaOffset`, `Caa`.`SellOffset` as `CaaSellOffset`, `Caa`.`MinsToCancelBuy` as `CaaMinsToCancelBuy`, `Caa`.`MinsToCancelSell`as `CaaMinsToCancelSell`
       ,((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live24HrChange`)/`Mcs`.`Live24HrChange`)*100  as `Market24HrPctChange`,((`Mcs`.`LiveCoinPrice`-`Mcs`.`Live7DChange`)/`Mcs`.`Live7DChange`)*100 as `Market7DPctChange`
       ,`Ba`.`ID` as `IDBa`, `Ba`.`CoinID`as `CoinID8`, `Ba`.`TransactionID` as `TransactionIDBa`, `Ba`.`UserID` AS `UserIDBa`, `Ba`.`Type` as `TypeBa`, `Ba`.`BittrexRef` as `BittrexRefBa`, `Ba`.`ActionDate`, `Ba`.`CompletionDate` as `CompletionDateBa`, `Ba`.`Status` as `StatusBa`, `Ba`.`SellPrice`, `Ba`.`RuleID`, `Ba`.`RuleIDSell`, `Ba`.`QuantityFilled`, `Ba`.`MultiplierPrice`, `Ba`.`BuyBack`, `Ba`.`OldBuyBackTransID`, `Ba`.`ResidualAmount`
-      ,`Csp`.`ID` as `IDCsp`, `Csp`.`TransactionID` as `TransactionIDCsp`, `Csp`.`SellPct` as `SellPctCsp`, `Csp`.`UserID` as `UserIDCsp`, `Csp`.`LastUpdated` as `LastUpdatedCsp`, `Csp`.`RuleID` as `RuleIDCsp`
+      , 'SellPct' as `SellPctCsp`
     from ((((((((`Transaction` `Tr`
       join `Coin` `Cn` on((`Cn`.`ID` = `Tr`.`CoinID`)))
       join `CoinPrice` `Cp` on((`Cp`.`CoinID` = `Tr`.`CoinID`)))
@@ -224,8 +224,7 @@ FROM `BittrexAction`  `Ba`
       left join `CoinPriceExtra` `Cpe` on `Cpe`.`CoinID` = `Tr`.`CoinID`
       left Join `CoinAutoActions` `Caa` on `Caa`.`CoinID` = `Cn`.`ID`
       join `MarketCoinStatsBaseCurr` `Mcs` on `Mcs`.`BaseCurrency` = `Cn`.`BaseCurrency`
-      Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`
-      left Join `CalculatedSellPct` `Csp` on `Csp`.`TransactionID` = `Tr`.`ID`;
+      Left Join `BittrexAction` `Ba` on `Ba`.`TransactionID` = `Tr`.`ID` and `Tr`.`Type` = `Ba`.`Type`;
 
     CREATE OR REPLACE VIEW `View6_TrackingSellCoins` as
     SELECT `Tsc`.`ID` as `IDTsc`, `Tsc`.`CoinPrice` as `CoinPriceTsc`, `Tsc`.`TrackDate`, `Tsc`.`UserID` as `UserIDTsc`, `Tsc`.`NoOfRisesInPrice`, `Tsc`.`TransactionID` as `TransactionIDTsc`, `Tsc`.`Status` as `StatusTsc`, `Tsc`.`SellCoin`, `Tsc`.`SendEmail`, `Tsc`.`CoinSellOffsetEnabled`, `Tsc`.`CoinSellOffsetPct`, `Tsc`.`TrackStartDate`, `Tsc`.`SellFallsInPrice` as `SellFallsInPriceSr`, `Tsc`.`BaseSellPrice`, `Tsc`.`LastPrice`, `Tsc`.`Type` as `TrackingType`, `Tsc`.`OriginalSellPrice`,`Tsc`.`TrackingCount`
