@@ -690,7 +690,7 @@ function runSpreadBet($spread,$SpreadBetUserSettings){
           echo "<BR> newSpreadTransactionID($UserID,$spreadBetRuleID); | $t";
           //newSpreadTransactionID($UserID,$spreadBetRuleID);
           LogToSQL("SpreadBetBuy","newSpreadTransactionID($UserID,$spreadBetRuleID);",3,$GLOBALS['logToSQLSetting']);
-          UpdateProfit();
+          //UpdateProfit();
           LogToSQL("SpreadBetBuy","UpdateProfit();",3,$GLOBALS['logToSQLSetting']);
         }
         //subUSDTBalance('USDT', $BTCAmount,$liveCoinPrice, $userID);
@@ -1662,7 +1662,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
           }
 
           clearBittrexRef($transactionID);
-          UpdateProfit();
+          //UpdateProfit();
           newLogToSQL("CheckOldTransID","$oldBuyBackTransID | $multiSellRuleTemplateID | $reduceLossBuy",3,1,"RunBittrex","TransID:$transactionID");
           //if ($oldBuyBackTransID <> 0){
             addBuyBackTransID($BittrexID,$transactionID);
@@ -1945,7 +1945,7 @@ function runBittrex($BittrexReqs,$apiVersion,$webSettingsAry){
                 ResidualCoinsToSaving($residualAmount,$OrderString ,$transactionID,$originalAmount);
                 newLogToSQL("BittrexSell","ResidualCoinsToSaving($newResidualAmount, $originalAmount, $amount, $OrderString, $transactionID, $realProfitPct);",3,1,"SaveResidualCoins3","TransactionID:$transactionID");
               }
-              UpdateProfit();
+              //UpdateProfit();
               addCoinPurchaseDelay($coinID,$userID,1,0);
               deleteMultiSellRuleConfig($transactionID);
               if ($holdCoinForBuyOut == 1 and $holdingAmount > 0){
