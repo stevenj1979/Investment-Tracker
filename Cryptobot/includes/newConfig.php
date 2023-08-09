@@ -6969,7 +6969,7 @@ function UpdateProfit(){
   }*/
 
   $sql = "call UpdateNewUserProfit();";
-  SQLInsertUpdateCall("UpdateProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
+  //SQLInsertUpdateCall("UpdateProfit: ",$sql,3, 1, 1, 0, "NewConfig", 90);
   /*print_r($sql);
   if ($conn->query($sql) === TRUE) {
       echo "New record created successfully";
